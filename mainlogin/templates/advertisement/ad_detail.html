@@ -1,0 +1,144 @@
+{% extends 'ad_detail_base.html' %}
+{% block content %}
+
+
+
+  <div class="row row_1">
+     {% for categories in category %}  
+        {% if forloop.counter0|divisibleby:4 %}
+      <div class="col-md-4">
+            <ul class="category2">
+        {% endif %}
+          <li class="{% if categories.name == 'Cars & Bikes' %} sub_category {% elif categories.name == 'Mobiles & Tablets' %} sub_category1
+            {% elif categories.name == 'Electronics & Appliances' %} sub_category2 {% elif categories.name == 'Real Estate' %} sub_category3
+            {% elif categories.name == 'Jobs' %} sub_category4 {% elif categories.name == 'Home & Lifestyle' %} sub_category5 
+            {% elif categories.name == 'Services' %} sub_category6 {% elif categories.name == 'Education & Learning' %} sub_category7
+            {% elif categories.name == 'Pets & Pet Care' %} sub_category8 {% elif categories.name == 'Entertainment' %} sub_category9
+            {% elif categories.name == 'Community & Events' %} sub_category10 {% elif categories.name == 'Matrimonial' %} sub_category11
+            {% endif %}">
+            <a href="/addproduct/" class=""><code></code></a>
+            <a href="/advertisement/{{categories.name}}/{{categories.id}}" class=""><h4>{{ categories.name }}</h4></a>
+            <span class="brand">{{categories.category_type}}</span>
+            </li>
+       {% if forloop.counter|divisibleby:4 %}     
+          </ul>
+        </div> <!-- row1 2nd col-md-4 -->
+       {% endif %}
+       {% endfor %} 
+      </div> <!-- row1 -->
+
+<div class="container third_part">
+    <div class="row row_2">
+        <div class="col-md-7">
+          <p class="post_ad">Sell or Advertise anything</p>
+          <a href class="#postbutton btn btn-lg btn-warning post_button">Post Free Ad</a>
+        </div> <!-- row2 1st col-md-7 -->
+        <div class="col-md-5">
+          <h4 class="sell"><i class="fa  fa-shield"></i> How to sell safely ?</h4>
+          <p>Try to take the full payment at the time of delivery.<br>Remember to use the safe location to meet <a href="#">Read more</a></p>
+        </div> <!-- row2 col-md-5 -->
+      </div> <!-- row2 -->
+
+</div><!-- third_part -->      
+
+
+<div class="container fourth_part">
+    <div class="row row_3">
+        <div class="col-md-7 column_style">
+          <h4 class="recent_add">Recently added</h4>
+          <ul class="products">
+            {% for recentads in recentad%}
+            <li class="product_lists">
+              <div class="product_image"><a href="/addproduct/" class=""><img src="{{ STATIC_ROOT }}/{{ recentads.photos }}"><i class="fa fa-camera camera"></i><span>12</span></a></div>
+              <h3 class="product_name"><a href="{% url ad_info recentads.id %}" class="span"> {{recentads.title}}</a>S${{ recentads.price }}</h3>
+              <span class="product_description">{{ recentads.description }} </span><br>
+              <span class="product_user"> used | in Anna nagar | By dealer</span>
+            </li>
+            {% endfor %}
+           </ul>
+    </div> <!-- row3 column style -->
+
+    <div class="col-md-5 column_style_1">
+          <h4 class="free_alert">Create free alert</h4>
+          <ul class="enquiry_form">
+            <li><form class="form">
+              <input type="text" class="form-control inputs" value="Tell us your need">
+            </form></li>
+            <li><form class="form">
+              <input type="text" class="form-control inputs">
+              <div class="custom_select1 fl">
+              <div class="select1">
+                <p>English</p>
+                <i class="fa fa-caret-down custom_drop_nav1"> </i>
+              </div>
+              <select class="custom_select_value_act1" name="language"> 
+                <option value="English">English</option>
+                <option value="Hindi">Hindi</option></select>
+            </div>
+            </form></li>
+            <li><form class="form">
+              <input type="text" class="form-control inputs" value="Your email">
+            </form></li>
+            <li><form class="form">
+            <input type="text" class="form-control inputs" value="Your mobile number">
+          </form></li>
+          </ul>
+          <div class="form form_alert"><button type="submit"class="btn btn-lg alert_button">Create alert</button></div>
+        </div> <!-- row3 column style 1 -->
+         
+</div><!-- fourth_part -->
+
+<div class="container img-responsive">
+    <div class="container hp_ad">
+            <a href="" class=""><code></code></a>
+    </div> <!-- container hp ad -->
+    </div> <!-- container img responsive -->
+    <div class="container contact_details">
+      <p class="contact">For site related issues,Check out our <a href=""><span class="span3">Help</span></a> section or email us at <a href=""><span class="span3">support@quikr.com</span>
+      </a><br>You can also call our support team@65-67119979S(M-F:10AM to 6PM)</p>
+    </div> <!-- container contact details -->
+    <div class="container background img-responsive">
+      <code></code>
+    </div> <!-- container background -->
+
+
+
+
+   
+      <div class="row row_1">
+      {%for subcategories in subcategory %}
+      {% if forloop.counter0|divisibleby:4 %}
+      <div class="col-md-4">
+      <ul class="category2">
+      {% endif %}
+          <li class="subcategory">
+            
+            <a href="/advertisement/{{subcategories.name}}/{{subcategories.id}}" class=""><h4>{{subcategories.name}}</h4></a>
+            
+            </li>
+       {% if forloop.counter|divisibleby:4 %}     
+        </ul>
+        </div> <!-- row1 2nd col-md-4 -->
+       {% endif %}
+       {% endfor %} 
+      </div> <!-- row1 -->
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+		
+         
+    
+    
+   
+        
+
+

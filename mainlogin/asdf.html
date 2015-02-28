@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="alert alert-success">You are successfully logged in...<p>Welcome {{ user.username }} !!!</p> </div>
+<a href="/categorypage/">Post Ad</a> <br>
+
+<a href="/logout/">Log out</a>
+
+{% if 'start' in path %}
+
+{% for categories in category %}
+        <div class="col-md-4">
+          <ul class="category1">
+            {% if 'Cars & Bikes' %}
+            <li class="sub_category"><a href="/addproduct/" class=""><code></code></a><a href="/category/{{categories.name}}/{{categories.id}}" class=""><h4>{{ categories.name }}</h4></a><span class="brand">Suzuki,Audi,BMW</span></li>
+            {% elif 'Mobiles & Tablets' %}
+            <li class="sub_category1"><a href="/addproduct/" class=""><code></code></a><a href="/category/{{categories.name}}/{{categories.id}}" class=""><h4>{{ categories.name }}</h4></a><span class="brand">Macbooks,Asus laptops</span></li>
+            {% elif 'Electronics & Appliances' %}
+            <li class="sub_category2"><a href="/addproduct/" class=""><code></code></a><a href="/category/{{categories.name}}/{{categories.id}}" class=""><h4>{{ categories.name }}</h4></a><span class="brand">Cordless,Electric cooker,Fridge</span></li>
+            {% elif 'Real Estate' %}
+            <li class="sub_category3"><a href="/addproduct/" class=""><code></code></a><a href="/category/{{categories.name}}/{{categories.id}}" class=""><h4>{{ categories.name }}</h4></a><span class="brand">Flats for sale,Space for rent</span></li>
+          </ul>
+        </div> <!-- row1 1st col-md-4 -->
+
+         <div class="col-md-4">
+          <ul class="category2">
+            <li class="sub_category4"><a href="" class=""><code></code></a><a href="" class=""><h4>Jobs</h4></a><span class="brand">Part timer,Freelancer</span></li>
+            <li class="sub_category5"><a href="" class=""><code></code></a><a href="" class=""><h4>Home & Lifestyle</h4></a><span class="brand">Light lamps,Luggage</span></li>
+            <li class="sub_category6"><a href="" class=""><code></code></a><a href="" class=""><h4>Services</h4></a><span class="brand">Architecture,advertising</span></li>
+            <li class="sub_category7"><a href="" class=""><code></code></a><a href="" class=""><h4>Education & Learning</h4></a><span class="brand">Tuition classes,Online coaching</span></li>
+          </ul>
+        </div> <!-- row1 2nd col-md-4 -->
+         <div class="col-md-4">
+          <ul class="category3">
+            <li class="sub_category8"><a href="" class=""><code></code></a><a href="" class=""><h4>Pets & Pet care</h4></a><span class="brand">SPet Adoption,Pet care</span></li>
+            <li class="sub_category9"><a href="" class=""><code></code></a><a href="" class=""><h4>Entertainment</h4></a><span class="brand">Gaming,Cameramen</span></li>
+            <li class="sub_category10"><a href="" class=""><code></code></a><a href="" class=""><h4>Community & Events</h4></a><span class="brand">Party, Event, Charity</span></li>
+            <li class="sub_category11"><a href="" class=""><code></code></a><a href="" class=""><h4>Matrimonial</h4></a><span class="brand">Grooms,bride,planner</span></li>
+          </ul>
+        </div> <!-- row1 3rd col-md-4 -->
+{% endfor %}
+
+	
+    
+    
+   
+        <p>Recently added</p>
+            <table>
+            
+            {% for recentads in recentad %}
+            <tr>
+                
+
+                <td><a href="/addproduct/">{% load thumbnail %}<img style="height: 100px; width:100px;" src="{{ STATIC_ROOT }}/{{ recentads.photos }}"></a></td>
+                <td>{{recentads.title}}</td>
+                <td>{{recentads.price}}</td>
+               
+                <td>{{productitem.description}}</td>
+            
+            </tr>
+            {% endfor %}    
+        </table>
+
+   
+    {% elif categoryname in path %}
+    
+    
+    	{%for subcategories in subcategory%}
+    	<table>
+    		<tr>
+    			<td>
+    				<a href="/subcategory/{{subcategories.name}}/{{subcategories.id}}" style="text-decoration: none;">{{subcategories.name}}</a>
+    			</td>
+    		</tr>
+    	</table>
+    		
+    	{% endfor %}
+    	
+  
+    {% elif subcategoryname in path %}
+    
+    	<table>
+    		<tr>
+				<th>Photos</th>
+                <th>Thumbnail</th>
+				<th>Title</th>
+				<th>Price</th>
+                <th>Description</th>
+			</tr>
+			{% for productitem in product %}
+			<tr>
+				<td><a href="/addproduct/"><img style="height: 200px; width:200px;" src="{{ STATIC_ROOT }}/{{ productitem.photos }}"></a></td>
+
+				<td><a href="/addproduct/">{% load thumbnail %}<img src="{{ STATIC_ROOT }}/{{ productitem.thumbnail }}"></a></td>
+				<td>{{productitem.title}}</td>
+    			<td>{{productitem.price}}</td>
+                {% if productitem.description.get_extension == 'gif'%}
+                <td><img style="height: 100px; width:153px;" src="{{ STATIC_ROOT }}/{{productitem.description}}"></td>
+                {% endif %}
+                <td>{{productitem.description}}</td>
+            
+			</tr>
+    		{% endfor %}	
+    	</table>
+
+    {% end if %}
+
+{% else %}
+<h1>Invalid User..</h1>
+<a href="/new_user/">Register Here</a><br />
+<a href="/">Login</a><br />
+{% endif %}
+{% endblock %}

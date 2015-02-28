@@ -1,0 +1,180 @@
+{% load static from staticfiles %}
+{% load i18n %}
+<!-- {% load seo %} -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE|default:"en-us" }}" xml:lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+<title>{% block title %}{% endblock %}</title>
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"> -->
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="">
+    <link href="{% static "css/font-awesome.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet"> 
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap-responsive.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/index.less" %}" rel="stylesheet/less" type="text/less">
+    <script src="{% static "js/jquery.js" %}"></script>  
+    <script src="{% static "js/jquery-migrate-1.2.1.js" %}"></script>
+    <script src="{% static "js/jquery-ui.min.js" %}"></script>
+    <script src="{% static "js/jquery.ui.slider.js" %}"></script>
+    <script src="{% static "js/jquery.easytabs.js" %}"></script>
+    <script src="{% static "js/jquery.switchButton.js" %}"></script>
+    <script src="{% static "js/base.js" %}"></script>
+    <script src="{% static "js/generate-phoneno.js" %}"></script>
+    <script src="{% static "js/form-actions.js" %}"></script>
+    <script src="{% static "js/html5shiv.js" %}"></script>
+    <script src="{% static "js/less.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/action.js" %}"></script>
+</head>
+
+
+
+<body class="{% block bodyclass %}{% endblock %}">
+<div class="top_header"> 
+      <div class="container">
+        <nav class="navbar navbar-inverse navigation_bar">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+            <span class="icon-bar"></span> 
+           </button>
+        </div> <!-- navbar header -->
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                
+                      <div class="custom_select language_custom_select">
+                        <div class="select">
+                          <p>English</p>
+                        </div><!-- select -->
+                        <i class="fa fa-caret-down"></i>
+
+
+                        <select class="custom_select_value_act" name="language"> 
+                          <option value="Select">Select</option>
+                          <option value="English">English</option>
+                          <option value="Hindi">Hindi</option>
+                        </select>
+                      </div><!-- custom_select -->
+                </li>
+             {% if user.is_authenticated %}
+          <li><a href="/logout/" class="btn btn-default button2">Logout</a></li>
+          
+          {% else %}
+          <li>
+            <a href="/" class="">Login</a>
+            <div class="login_holder" {% if error %} style="display:block;" {% endif %}>
+            <form id="login_form" method="post" action="/login/">
+              {% csrf_token %}
+               Username: <input type="text" name="username" value="" size="30" />
+              <br /><br />
+               Password: <input type="password" name="password" value="" size="30" />
+              <br /><br />
+              <input type="submit" value="submit" />
+                
+               <label>{{error}}</label>
+            </form>
+            
+            </div><!-- login_holder -->
+            
+          </li>
+          <li><a href="/new_user/" class="">Sign up</a></li>
+          {% endif %}
+            </ul>
+          </div> <!-- navbar collapse -->
+        </nav> <!-- navigation bar --> 
+      </div><!-- container -->
+    </div><!-- top_header -->
+    <div class="header_search">
+      <div class="container quikr_logo">
+        <code></code>
+        <h2 class="heading">Singapore's largest marketplace</h2>
+        <form class="form" action="/search/">
+            <div class="form">
+              <i class="fa fa-search"></i>
+              
+              <input type="text" class="form-control input-lg" value="" name="q" required="required">
+            </div> <!-- form -->
+          <!-- <input type="submit" class="#searchbutton btn btn-lg btn-success search_button" value="Search"> -->
+            <button type="submit"class="btn btn-lg btn-success">Search</button>
+        </form>
+      </div> <!-- container -->
+    </div> <!-- header_search -->
+    <div class="header_first_line">
+      <div class="container">
+        <h4 class="first_line">To Buy or Find anything select an option below:</h4>
+      </div> <!-- container -->
+    </div> <!-- header_first_line -->
+
+    <div class="container second_part">
+     
+      {% block content %} {% endblock %}
+      
+      
+    </div> <!-- container second part -->
+
+
+     <div class="container fifth_part">
+      <div class="hp_ad">
+            <a href="" class=""><code></code></a>
+            <script type="text/javascript">
+                <!--google_ad_client = "ca-pub-xxxxxxxxxxxxxxxxx";
+                /* Homepage - 728 x 90*/
+                google_ad_slot ="5346586730";
+                google_ad_width ="728";
+                google_ad_height="90";
+                //-->
+            </script>
+            <script type="text/javascript">
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js" 
+            </script>
+      </div> <!-- hp ad -->
+    </div> <!-- container fifth_part-->
+    <div class="container">
+      <p class="contact">For site related issues,Check out our <a href=""><span class="span3">Help</span></a> section or email us at <a href=""><span class="span3">support@quikr.com</span>
+      </a><br>You can also call our support team@65-67119979S(M-F:10AM to 6PM)</p>
+    </div> <!-- container -->
+    <div class="footer_image">
+      <code></code>
+    </div> <!-- footer_image -->
+    <div class=" final_part">
+      <div class="container">
+        <div class="row row_4">
+          <div class="col-md-2">
+                           <ul> 
+                            <li><a href="" class="footer">Help</a></li>
+                            <li><a href="" class="footer">Terms of use</a></li>
+                            <li><a href="" class="footer">How it works</a></li>
+                            </ul>
+          </div>
+          <div class="col-md-2">
+                           <ul> 
+                            <li><a href="" class="footer">Privacy policy</a></li>
+                            <li><a href="" class="footer">Locations map</a></li>
+                            <li><a href="" class="footer">Contact us</a></li>
+                            </ul>
+          </div>
+          <div class="col-md-2">
+                            <ul>
+                            <li><a href="" class="footer">Popular searches</a></li>
+                            <li><a href="" class="footer">who we are</a></li>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-4 foot"><span class="footer1">you can also call our support team<br>
+                            <span class="phone">phone:65-67119979</span><br>M-F:10AM to 6PM<br>
+                            <a href="#facebook"><i class="fa fa-facebook-official"></i></a>
+                            <a href="#linkedin"><i class="fa fa-linkedin-square"></i></a>
+                            <a href="#twitter"><i class="fa fa-twitter-square"></i></a>
+                            </span>
+          </div>
+        </div> <!-- row4 -->
+      </div> <!-- container-->
+    </div> <!-- final_part -->
+  </body>
+</html>
