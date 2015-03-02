@@ -181,12 +181,16 @@ PAYPAL_RECEIVER_EMAIL = "kalaimca.gs-facilitator@gmail.com"
 
 PAYPAL_TEST = True
 
+PAYPAL_WPP_USER="kalaimca.gs-facilitator_api1.gmail.com"
+PAYPAL_WPP_PASSWORD="E5K4SG8QVGCDNHCB"
+PAYPAL_WPP_SIGNATURE="An5ns1Kso7MWUdW4ErQKJJJ4qi4-AGHrwon-aVUnmGFr91HclSLKbD9i"
+
 # PAYPAL_NOTIFY_URL = "URL_ROOT/charge/difficult_to_guess"
 # PAYPAL_RETURN_URL = "URL_ROOT/charge/return/"
 # PAYPAL_CANCEL_URL = "URL_ROOT/charge/cancel/"
 
-PAYPAL_URL = 'https://www.paypal.com/cgi-bin/webscr'
-PAYPAL_BUSS_EMAIL = 'kalaimca.gs@gmail.com'
+# PAYPAL_URL = 'https://www.paypal.com/cgi-bin/webscr'
+# PAYPAL_BUSS_EMAIL = 'kalaimca.gs@gmail.com'
 
 SANDBOX_URL = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
 SANDBOX_BUSS_EMAIL = 'kalaimca.gs@gmail.com'

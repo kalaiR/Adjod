@@ -292,6 +292,14 @@ def add_product(request):
     product.adtype=request.POST.get('adtype')
     product.title=request.POST.get('title')
     product.photos=request.FILES['photos']
+
+    # product.photos = request.POST.getlist('photos', [])
+    # print product.photos
+    # imgs = [Product.objects.get(pk=photo) for photo in product.photos]
+
+    # print imgs
+
+
     # product.photos=request.FILES.getlist('photos')
     # print product.photos.name
     # print product.photos.name
