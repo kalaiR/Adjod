@@ -170,7 +170,6 @@ INSTALLED_APPS = (
     # 'smsverify'
 
     # 'hstest.apps.notes',
-    'test_project',
    'rollyourown.seo',
    'paypal_integration',
    'paypal.standard.ipn',
