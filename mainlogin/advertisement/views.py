@@ -348,18 +348,9 @@ def add_product(request):
 
     
 
-    product = Product.objects.all()
+    
 
-    product.you_email   = request.POST.get('you_email', '')
-    count = 0
-    for products in product:
-
-        if products.you_email == product.you_email:
-            count=count+1
-    print count
-    if count >3:
-        emailerror="You exceed the limit"
-        print emailerror
+    
 
 
     #  count=0
@@ -558,12 +549,23 @@ def add_product(request):
     product.city=City.objects.get(id=request.POST['city'])
     product.locality=Locality.objects.get(id=request.POST['locality'])
     product.description=request.POST.get('description','')
-    product.you_are  = request.POST.get('you_are', '')
-    product.you_name   = request.POST.get('you_name', '')
-    
-    
+    product.you_are = request.POST.get('you_are', '')
+    product.you_name = request.POST.get('you_name', '')
+
+    product.you_email   = request.POST.get('you_email', '')
+    print product.you_email
+    productresult=Product.objects.all()
+    count=0
+    for productresults in productresult:
+        if productresults.you_email == product.you_email:
+            count=count+1
+    print count
+    if count >3:
+        emailerror="You exceed the limit"
+        print emailerror
 
     product.you_phone   = request.POST.get('mobile_number', '')
+
     product.created_date   = request.POST.get('created_date', '')
     product.modified_date   = request.POST.get('created_date', '')
     product.save()
