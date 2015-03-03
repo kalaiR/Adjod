@@ -375,9 +375,8 @@ def add_product(request):
     success=False
     product=Product()
     
-    product.user=User.objects.get(id=request.POST['user'])
-    print "user id", product.user
-
+    product.user_id=request.POST.get('user')
+    print "user id", product.user_id
 
     
     product.category=Category.objects.get(id=request.POST['category'])

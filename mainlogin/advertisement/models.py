@@ -10,9 +10,9 @@ from paypal.standard.ipn.models import PayPalIPN
 from paypal.standard.models import ST_PP_COMPLETED
 from paypal.standard.ipn.signals import payment_was_successful
 
-from thumbnail_works.fields import EnhancedImageField
+# from thumbnail_works.fields import EnhancedImageField
 
-from easy_thumbnails.fields import ThumbnailerImageField
+# from easy_thumbnails.fields import ThumbnailerImageField
 TYPE = (
     ('buy', 'Buy'),
     ('sell', 'Sell'),
