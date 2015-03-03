@@ -24,23 +24,16 @@ asfasdf
 		<img src="{{ category.icon }}" style="height:27px; width:25px;">
 		<b>{{category.name}} --> {{subcategory.name}}</b>
 		<a href="/" style= "text-decoration: none;"> (Choose Another category)</a>
-
+		{{userid}}
 		<div style="display: none">
-		{% if user_is.authenticated %}
-			<input type="text" value="{{userid}}" name="user">
-		{% else %}
-			<input type="text" value="0" name="user">
-		{% endif %}
+			{% if user.is_authenticated %}
+				<input type="text" value="{{userid}}" name="user">
+			{% else %}
+				<input type="text" value="0" name="user">
+			{% endif %}
 			<input type="text" value="{{category.id}}" name="category">
 			<input type="text" value="{{subcategory.id}}" name="subcategory">
 		</div>
-
-		<div style="display: none">
-			<input type="text" value="{{thumbnail}}" name="thumbnail">
-			
-			
-		</div>
-
 		</p>
 		
 		<p>

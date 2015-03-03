@@ -345,26 +345,10 @@ def post_ad(request, name=None, subname=None):
 
 
 def add_product(request):
-
-    
-
-    
-
-    
-
-
-    #  count=0
-    # for productresults in productresult:
-    #     if productresults.you_email == product.you_email:
-    #         count=count+1
-    # print count
-    # if count >3:
-    #     emailerror="You exceed the limit"
-    #     print emailerror
-
-
     success=False
     product=Product()
+
+    print request.POST.get('user')
     
     product.user_id=request.POST.get('user')
     print "user id", product.user_id
