@@ -42,7 +42,8 @@ urlpatterns = patterns('',
     url(r'^addproduct/$', 'advertisement.views.add_product',name='add_product'),
     url(r'^paypal/$', 'mainlogin.views.view_that_asks_for_money', name='paypal'),
     url(r'^something/paypal/$', include('paypal.standard.ipn.urls')),
-    
+    url(r'^localities_for_city/$','advertisement.views.localities_for_city', name='localities_for_city'),
+    url(r'^models_for_brand/$','advertisement.views.models_for_brand', name='models_for_brand'),
         
     url(r'^logout/$', 'mainlogin.views.logout_view', name='logout_view'),
     

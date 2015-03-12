@@ -64,270 +64,71 @@ asfasdf
 		<label>Price:</label>
 		<input type="text" name="price" value="{{price}}">
 		</p>
-		
-		{% if subcategory.id == 1 %}
-		
+
+		{% if subcategory.id == 1 or  subcategory.id == 2  or subcategory.id == 3 or  subcategory.id == 7 %}
+
 		<p>
 		<label for="id_brand">Brand Name: *</label>
 		<select id="id_brand" name="brand" required="required">
 		<option selected="selected" value="">--Select Brand--</option>
-		<option value="" style="font-weight: bold;">Popular Brand Name</option>
-		{% for carbranditem in carbrand %} 
-     		<option value="{{ carbranditem.id }}">{{ carbranditem.carbrand }}</option>
+		{% for dropdown_groups in dropdown_group %} 
+     		<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.brand_name }}</option>
     	{% endfor %}
-    	<option value="" style="font-weight: bold;">Other Brand Name</option>
-    	{% for carbranditem in carbrand1 %} 
-     		<option value="{{ carbranditem.id }}">{{ carbranditem.carbrand }}</option>
-    	{% endfor %}
-		</select>
+    	</select>
 		</p>
-		
-		<p>
-		<label for="id_brand">Model:</label>
-		<select id="id_brand" name="model">
-		<option selected="selected" value="">--Select model--</option>
-		<option value="" style="font-weight: bold;">Honda</option>
-		{% for carmodelitem in carmodel %} 
-     		<option value="{{ carmodelitem.id }}">{{ carmodelitem.carmodel }}</option>
-    	{% endfor %}
-    	<option value="" style="font-weight: bold;">Hyundai</option>
-		{% for carmodelitem in carmodel1 %} 
-     		<option value="{{ carmodelitem.id }}">{{ carmodelitem.carmodel }}</option>
-    	{% endfor %}
-		</select>
-		</p>
-		
-		<p>
-		<label for="id_year">Year: *</label>
-		<select id="id_year" name="year" required="required">
-		<option selected="selected" value="">--Select Year--</option>
-		{% for yearitem in year %} 
-     		<option value="{{ yearitem.id }}">{{ yearitem.year }}</option>
-    	{% endfor %}
-		</select>
-		</p>
-		
-		<p>
-		<label>Kmsdriven:</label>
-		<input type="text" name="kmsdriven" value="">
-		</p>
-		
-		<p>
-		<label for="id_color">Color:</label>
-		<select id="id_color" name="color">
-		<option selected="selected" value="">--Select Color--</option>
-		{% for coloritem in color %} 
-     		<option value="{{ coloritem.id }}">{{ coloritem.color }}</option>
-    	{% endfor %}
-		</select>
-		</p>
-		
-		<p>
-		<label for="id_fueltype">Fuel Type:</label>
-		<select id="id_fueltype" name="fueltype">
-		<option selected="selected" value="">--Fuel Type--</option>
-		{% for fueltypeitem in fueltype %} 
-     		<option value="{{ fueltypeitem.id }}">{{ fueltypeitem.fueltype }}</option>
-    	{% endfor %}
-		</select>
-		</p>
-		
-		{% elif subcategory.id == 2 %}
-		
-		<p>
-		<label for="id_brand">Brand Name: *</label>
-		<select id="id_brand" name="motorcyclebrand" required="required">
-		<option selected="selected" value="">--Select Brand--</option>
-		<option value="" style="font-weight: bold;">Popular Brand Name</option>
-		{% for motorbranditem in motorbrand %} 
-     		<option value="{{ motorbranditem.id }}">{{ motorbranditem.motorbrand }}</option>
-    	{% endfor %}
-    	<option value="" style="font-weight: bold;">Other Brand Name</option>
-    	{% for motorbranditem in motorbrand1 %} 
-     		<option value="{{ motorbranditem.id }}">{{ motorbranditem.motorbrand }}</option>
-    	{% endfor %}
-		</select>
-		</p>
-		
-		<p>
-		<label for="id_brand">Model Name:</label>
-		<select id="id_brand" name="motorcyclemodel">
-		<option selected="selected" value="">--Select Model--</option>
-		{% for motormodelitem in motormodel %} 
-     		<option value="{{ motormodelitem.id }}">{{ motormodelitem.motormodel }}</option>
-    	{% endfor %}
-    	
-		</select>
-		</p>
-		
-		<p>
-		<label for="id_year">Year: *</label>
-		<select id="id_year" name="year" required="required">
-		<option selected="selected" value="">--Select Year--</option>
-		{% for yearitem in year %} 
-     		<option value="{{ yearitem.id }}">{{ yearitem.year }}</option>
-    	{% endfor %}
-		</select>
-		</p>
-		
-		<p>
-		<label>Kmsdriven:</label>
-		<input type="text" name="kmsdriven" value="">
-		</p>
-		
-		{% elif subcategory.id == 3 %}
-		
-		<p>
-		<label for="id_brand">Brand Name: *</label>
-		<select id="id_brand" name="scooterbrand" required="required">
-		<option selected="selected" value="">--Select Brand--</option>
-		<option value="" style="font-weight: bold;">Popular Brand Name</option>
-		{% for scooterbranditem in scooterbrand %} 
-     		<option value="{{ scooterbranditem.id }}">{{ scooterbranditem.scooterbrand }}</option>
-    	{% endfor %}
-    	<option value="" style="font-weight: bold;">Other Brand Name</option>
-    	{% for scooterbranditem in scooterbrand1 %} 
-     		<option value="{{ scooterbranditem.id }}">{{ scooterbranditem.scooterbrand }}</option>
-    	{% endfor %}
-		</select>
-		</p>
-		
-		<p>
-		<label for="id_brand">Model Name:</label>
-		<select id="id_brand" name="scootermodel">
-		<option selected="selected" value="">--Select model--</option>
-		<option value="" style="font-weight: bold;">Hero</option>
-		{% for scootermodelitem in scootermodel %} 
-     		<option value="{{ scootermodelitem.id }}">{{ scootermodelitem.scootermodel }}</option>
-    	{% endfor %}
-    	<option value="" style="font-weight: bold;">Lambretta</option>
-		{% for scootermodelitem in scootermodel1 %} 
-     		<option value="{{ scootermodelitem.id }}">{{ scootermodelitem.scootermodel }}</option>
-    	{% endfor %}
-		</select>
-		</p>
-		
-		<p>
-		<label for="id_year">Year: *</label>
-		<select id="id_year" name="year" required="required">
-		<option selected="selected" value="">--Select Year--</option>
-		{% for yearitem in year %} 
-     		<option value="{{ yearitem.id }}">{{ yearitem.year }}</option>
-    	{% endfor %}
-		</select>
-		</p>
-		
-		{% elif subcategory.id == 4 %}
-		
-		<p>
-		<label for="id_brand">Bicycle Type: *</label>
-		<select id="id_brand" name="bicycletype" required="required">
-		<option selected="selected" value="">--Select bicycletype--</option>
-		
-		{% for bicycletypeitem in bicycletype %} 
-     		<option value="{{ bicycletypeitem.id }}">{{ bicycletypeitem.bicycletype }}</option>
-    	{% endfor %}
-		</select>
-		</p>
-		
-		{% elif subcategory.id == 5 %}
-		
-		<p>
-		<label for="id_spare_producttype">Product Type: *</label>
-		<select id="id_spare_producttype" name="spareproducttype" required="required">
-		<option selected="selected" value="">--Select Producttype--</option>
-		<option value="" style="font-weight: bold;">Popular Product Type</option>
-		{% for spareproducttypeitem in spareproducttype %} 
-     		<option value="{{ spareproducttypeitem.id }}">{{ spareproducttypeitem.spare_producttype }}</option>
-    	{% endfor %}
-    	<option value="" style="font-weight: bold;">Other Product Type</option>
-		{% for spareproducttypeitem in spareproducttype1 %} 
-     		<option value="{{ spareproducttypeitem.id }}">{{ spareproducttypeitem.spare_producttype }}</option>
-    	{% endfor %}
-		</select>
-		</p>
-		
-		{% elif subcategory.id == 6 %}
-		
-		<p>
-		<label for="id_buses_vehicletype">Vehicle Type: *</label>
-		<select id="id_buses_vehicletype" name="busesvehicletype" required="required">
-		<option selected="selected" value="">--Select Vehicletype--</option>
-		
-		{% for busesvehicletypeitem in busesvehicletype %} 
-     		<option value="{{ busesvehicletypeitem.id }}">{{ busesvehicletypeitem.buses_vehicletype }}</option>
-    	{% endfor %}
-    	
-		</select>
-		</p>
-		
-		{% elif subcategory.id == 7 %}
-		
-		<p>
-		<label for="id_construction_vehicletype">Vehicle Type: *</label>
-		<select id="id_construction_vehicletype" name="constructionvehicletype" required="required">
-		<option selected="selected" value="">--Select Vehicletype--</option>
-		
-		{% for constructionvehicletypeitem in constructionvehicletype %} 
-     		<option value="{{ constructionvehicletypeitem.id }}">{{ constructionvehicletypeitem.construction_vehicletype }}</option>
-    	{% endfor %}
-    	
-		</select>
-		</p>
-		
-		{% elif subcategory.id == 8 %}
-		
-		<p>
-        <label for="id_mobilebrand">Brand Name*:</label>
-        <select id="id_mobilebrand" name="mobilebrandname" required="required">
-        <option selected="selected" >--Select Brand--</option>
-        <option  value="" style="font-weight: bold;">Popular Brand Name:</option>
-        {% for mobilebranditem in mobilebrand1 %} 
-     		<option value="{{ mobilebranditem.id }}">{{ mobilebranditem.mobilebrand }}</option>
-        {% endfor %}
-        <option  value="" style="font-weight: bold;">Other Brand Name:</option>
-        {% for mobilebranditem in mobilebrand2 %} 
-     		<option value="{{ mobilebranditem.id}}">{{ mobilebranditem.mobilebrand }}</option>
-        {% endfor %}     
-		</select>
-   		</p>
 
-     	<p>
-        <label for="id_mobilemodel">Model:</label>
-        <select id="id_mobilemodel" name="mobilemodelname">
-        <option selected="selected" >--Select Brand--</option>
-        <option  value="" style="font-weight: bold;">Apple</option>
-        {% for mobilemodelitem in mobilemodel1 %} 
-     		<option value="{{ mobilemodelitem.id }}">{{ mobilemodelitem.mobilemodel }}</option>
-        {% endfor %}
-        <option  value="" style="font-weight: bold;">Blackberry</option>
-        {% for mobilemodelitem in mobilemodel2 %} 
-     		<option value="{{ mobilemodelitem.id}}">{{ mobilemodelitem.mobilemodel }}</option>
-        {% endfor %}     
-        </select>
-   		</p>
-   		
-   		{% elif subcategory.id == 9 %}
-		
 		<p>
-        <label for="id_mobilebrand">Brand Name*:</label>
-        <select id="id_mobilebrand" name="mobilebrandname" required="required">
-        <option selected="selected" >--Select Brand--</option>
-        <option  value="" style="font-weight: bold;">Popular Brand Name:</option>
-        {% for tabletbranditem in tabletbrand %} 
-     		<option value="{{ tabletbranditem.id }}">{{ tabletbranditem.tabletbrand }}</option>
-        {% endfor %}
-        <option  value="" style="font-weight: bold;">Other Brand Name:</option>
-        {% for tabletbranditem in tabletbrand1 %} 
-     		<option value="{{ tabletbranditem.id}}">{{ tabletbranditem.tabletbrand1}}</option>
-        {% endfor %}     
-		</select>
-   		</p>
+		<label for="id_model">Model:</label>
+		<select id="id_model" name="model">
+		<option selected="selected" value="">--Select model--</option>
 		
+		{% for dropdown_groups in dropdown_group %} 
+     		<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.model_name }}</option>
+    	{% endfor %}
+    	
+		</select>
+		</p>
+
+		{% endif %}
+
+		{% if subcategory.id == 9 or subcategory.id == 10 %}
+
+		<p>
+		<label for="id_brand">Brand Name: *</label>
+		<select id="id_brand" name="brand" required="required">
+		<option selected="selected" value="">--Select Brand--</option>
+		{% for dropdown_groups in dropdown %} 
+     		<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.brand_name }}</option>
+    	{% endfor %}
+    	</select>
+		</p>
+
+		{% endif %}
+
+		{% if subcategory.id == 1 or  subcategory.id == 2 %}
+
+		<p>
+		<label>Kmsdriven:</label>
+		<input type="text" name="kmsdriven" value="">
+		</p>
+
 		{% endif %}
 		
+		{% if subcategory.id == 1 or  subcategory.id == 2 or subcategory.id == 3 %}
+
+		<p>
+		<label for="id_year">Year: *</label>
+		<select id="id_year" name="year" required="required">
+		<option selected="selected" value="">--Select Year--</option>
+		{% for dropdown_groups in dropdown %} 
+     		<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.year }}</option>
+    	{% endfor %}
+		</select>
+		</p>
 		
-    	<p>
+		{% endif %}
+
+		<p>
 		<label for="id_city">City: *</label>
 		<select id="id_city" name="city" required="required">
 		<option selected="selected" value="">--City--</option>
@@ -341,11 +142,8 @@ asfasdf
 		<label for="id_locality">Locality: *</label>
 		<select id="id_locality" name="locality" required="required">
 		<option selected="selected" value="">--Locality--</option>
-		<option value="" style="font-weight: bold;">Pondicherry</option>
-		{% for localityitem in pondicherrylocality %} 
-     		<option value="{{ localityitem.id }}">{{ localityitem.locality }}</option>
-    	{% endfor %}
-    	<option value="" style="font-weight: bold;">Chennai</option>
+		
+    	
 		{% for localityitem in chennailocality %} 
      		<option value="{{ localityitem.id }}">{{ localityitem.locality }}</option>
     	{% endfor %}

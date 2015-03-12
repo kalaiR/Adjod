@@ -49,10 +49,11 @@ def view_that_asks_for_money(request):
 def home(request):
       category=Category.objects.all()
       recentad=Product.objects.filter().order_by('-id')[:3]
-      print request.path
+      path = request.path
+      print path 
 
     # results = SearchQuerySet().models(Product).autocomplete(title_auto=q)
-      return render_to_response('mainlogin/userpage.html', {'category':category, 'recentad':recentad }, context_instance=RequestContext(request)) 
+      return render_to_response('mainlogin/userpage.html', {'category':category, 'path':path, 'recentad':recentad }, context_instance=RequestContext(request)) 
 
 
 
@@ -273,22 +274,22 @@ def start(request):
     )
 
 
-def sub_category1(request,categoryname,id=None):
-    print "sub_category1"
-    print id
-    subcategory = SubCategory.objects.filter(category_id=id)
-    path=request.path
-    print path
+# def sub_category1(request,categoryname,id=None):
+#     print "sub_category1"
+#     print id
+#     subcategory = SubCategory.objects.filter(category_id=id)
+#     path=request.path
+#     print path
     
     
-    ctx = {'subcategory':subcategory,'categoryname':categoryname,'path':path}
-    return render_to_response('mainlogin/userpage.html', ctx , context_instance=RequestContext(request))
+#     ctx = {'subcategory':subcategory,'categoryname':categoryname,'path':path}
+#     return render_to_response('mainlogin/userpage.html', ctx , context_instance=RequestContext(request))
 
 
-def view_ads(request,subcategoryname,subid=None):
-    print 'view_ads'
-    product=Product.objects.filter(subcategory_id=subid)
-    path=request.path
-    print path
-    ctx = {'subcategoryname':subcategoryname,'product':product,'path':path}
-    return render_to_response('mainlogin/userpage.html', ctx , context_instance=RequestContext(request))
+# def view_ads(request,subcategoryname,subid=None):
+#     print 'view_ads'
+#     product=Product.objects.filter(subcategory_id=subid)
+#     path=request.path
+#     print path
+#     ctx = {'subcategoryname':subcategoryname,'product':product,'path':path}
+#     return render_to_response('mainlogin/userpage.html', ctx , context_instance=RequestContext(request))

@@ -33,6 +33,35 @@ import os
 from urllib import unquote, urlencode, unquote_plus
 from haystack.inputs import AutoQuery, Exact, Clean
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import datetime
+
+from django.utils.encoding import smart_unicode
+from django.utils import simplejson
+
+import simplejson as json
+from haystack.query import SearchQuerySet
+
+
+class JSONResponse(HttpResponse):
+    def __init__(self, data):
+        super(JSONResponse, self).__init__(
+                simplejson.dumps(data), mimetype='application/json')
+
+def localities_for_city(request):
+    if request.is_ajax() and request.GET and 'city_id' in request.GET:
+        objs = Locality.objects.filter(city_refid=request.GET['city_id'])
+        return JSONResponse([{'id': o.id, 'name': smart_unicode(o)}
+            for o in objs])
+    else:
+        return JSONResponse({'error': 'Not Ajax or no GET'})
+
+def models_for_brand(request):
+    if request.is_ajax() and request.GET and 'brand_id' in request.GET:
+        objs = Dropdown.objects.filter(brand_refid=request.GET['brand_id'])
+        return JSONResponse([{'id': o.id, 'name': smart_unicode(o)}
+            for o in objs])
+    else:
+        return JSONResponse({'error': 'Not Ajax or no GET'})
 
 
 # from flask import Flask, render_template, request, redirect, url_for, send_from_directory
@@ -112,19 +141,19 @@ def ad_info(request, pk):
         carresult=Cars.objects.get(id=adinfo.cars_id)
         print "result",carresult.brand_id
 
-        carbrandname = Carbrand.objects.get(id=carresult.brand_id)
+        carbrandname = Dropdown_group.objects.get(id=carresult.brand_id)
         print "result1",carbrandname.carbrand
 
-        carmodelname = Carmodel.objects.get(id=carresult.model_id)
+        carmodelname = Dropdown_group.objects.get(id=carresult.model_id)
         print "result2",carmodelname.carmodel
 
-        caryear = Year.objects.get(id=carresult.year_id)
+        caryear = Dropdown_group.objects.get(id=carresult.caryear_id)
         print "result3",caryear.year
 
-        color = Color.objects.get(id=carresult.color_id)
+        color = Dropdown_group.objects.get(id=carresult.carcolor_id)
         print "result3",color.color
 
-        fuel= Fueltype.objects.get(id=carresult.fueltype_id)
+        fuel= Dropdown_group.objects.get(id=carresult.carfueltype_id)
 
 
         ctx1={'adinfo':adinfo, 'path':path, 'recentad':recentad, 
@@ -138,13 +167,13 @@ def ad_info(request, pk):
         motoresult=Motorcycle.objects.get(id=adinfo.motorcycle_id)
         print "result",motoresult.motorcyclebrand_id
 
-        motorbrandname = Motorbrand.objects.get(id=motoresult.motorcyclebrand_id)
+        motorbrandname = Dropdown_group.objects.get(id=motoresult.motorcyclebrand_id)
         print "result1",motorbrandname.motorbrand
 
-        motormodelname = Motormodel.objects.get(id=motoresult.motorcyclemodel_id)
+        motormodelname = Dropdown_group.objects.get(id=motoresult.motorcyclemodel_id)
         print "result2",motormodelname.motormodel
 
-        motoryear = Year.objects.get(id=motoresult.year_id)
+        motoryear = Dropdown_group.objects.get(id=motoresult.year_id)
 
         ctx1={'adinfo':adinfo, 'path':path, 'recentad':recentad, 
         'recommendresults':recommendresults,'motoresult':motoresult,
@@ -155,13 +184,13 @@ def ad_info(request, pk):
         scooterresult=Scooter.objects.get(id=adinfo.scooter_id)
         
 
-        scooterbrandname = Scooterbrand.objects.get(id=scooterresult.scooterbrand_id)
+        scooterbrandname = Dropdown_group.objects.get(id=scooterresult.scooterbrand_id)
         print "result1",scooterbrandname.scooterbrand
 
-        scootermodelname = Scootermodel.objects.get(id=scooterresult.scootermodel_id)
+        scootermodelname = Dropdown_group.objects.get(id=scooterresult.scootermodel_id)
         print "result2",scootermodelname.scootermodel
 
-        scootoryear = Year.objects.get(id=scooterresult.year_id)
+        scootoryear = Dropdown_group.objects.get(id=scooterresult.year_id)
 
         ctx1={'adinfo':adinfo, 'path':path, 'recentad':recentad, 
         'recommendresults':recommendresults,'scooterresult':scooterresult,
@@ -172,7 +201,7 @@ def ad_info(request, pk):
 
         bicycleresult=Bicycle.objects.get(id=adinfo.bicycle_id)
 
-        bicycletype = Bicycletype.objects.get(id=bicycleresult.bicycletype_id)
+        bicycletype = Dropdown_group.objects.get(id=bicycleresult.bicycletype_id)
 
         ctx1={'adinfo':adinfo, 'path':path, 'recentad':recentad, 
         'recommendresults':recommendresults,'bicycleresult':bicycleresult,
@@ -182,7 +211,7 @@ def ad_info(request, pk):
 
         sparesult = Sparepart.objects.get(id=adinfo.sparepart_id)
 
-        sparetype = Spare_Producttype.objects.get(id=sparesult.spareproducttype_id)
+        sparetype = Dropdown_group.objects.get(id=sparesult.spareproducttype_id)
 
         ctx1={'adinfo':adinfo, 'path':path, 'recentad':recentad, 
         'recommendresults':recommendresults,'sparesult':sparesult,
@@ -192,7 +221,7 @@ def ad_info(request, pk):
 
         busresult = Busespart.objects.get(id=adinfo.busespart_id)
 
-        bustype = Buses_Vehicletype.objects.get(id=busresult.busesvehicletype_id)
+        bustype = Dropdown_group.objects.get(id=busresult.busesvehicletype_id)
 
         ctx1={'adinfo':adinfo, 'path':path, 'recentad':recentad, 
         'recommendresults':recommendresults,'busresult':busresult,
@@ -202,7 +231,7 @@ def ad_info(request, pk):
 
 
         constresult=Construction.objects.get(id=adinfo.construction_id)
-        constructtype = Construction_Vehicletype.objects.get(id=constresult.constructionvehicletype_id)
+        constructtype = Dropdown_group.objects.get(id=constresult.constructionvehicletype_id)
 
         ctx1={'adinfo':adinfo, 'path':path, 'recentad':recentad, 
         'recommendresults':recommendresults,'constresult':constresult,
@@ -210,20 +239,50 @@ def ad_info(request, pk):
 
     if adinfo.mobile_id:
 
-        mobiletype = Mobiles.objects.get(id=adinfo.mobile_id)
+        mobileresult = Mobiles.objects.get(id=adinfo.mobile_id)
 
-        mobilebrandname = Mobilebrand.objects.get(id=mobiletype.mobilebrandname_id)
+        mobilebrandname = Dropdown_group.objects.get(id=mobileresult.mobilebrandname_id)
         
-        mobilemodelname = Mobilemodel.objects.get(id=mobiletype.mobilemodelname_id)
+        mobilemodelname = Dropdown_group.objects.get(id=mobileresult.mobilemodelname_id)
+        
+        mobileos = Dropdown_group.objects.get(id=mobileresult.mobile_os_id)
+
+        mobilesim = Dropdown_group.objects.get(id=mobileresult.mobile_sim_id)
+
+        mobileinclude= Dropdown_group.objects.get(id=mobileresult.mobile_include_id)
+
 
         ctx1={'adinfo':adinfo, 'path':path, 'recentad':recentad, 
-        'recommendresults':recommendresults,'mobiletype':mobiletype,
-        'mobilebrandname':mobilebrandname,'mobilemodelname':mobilemodelname}
+        'recommendresults':recommendresults,'mobileresult':mobileresult,
+        'mobilebrandname':mobilebrandname,
+        'mobilemodelname':mobilemodelname,'mobilesim':mobilesim,
+        'mobileos':mobileos,'mobileinclude':mobileinclude}
 
+
+
+    if adinfo.tablets_id:
+
+        tabletresult = Tablets.objects.get(id=adinfo.tablets_id)
+        
+        tabletbrandname = Dropdown_group.objects.get(id=tabletresult.tabletbrandname_id)
+        
+        ctx1={'adinfo':adinfo, 'path':path, 'recentad':recentad, 
+        'recommendresults':recommendresults,'tabletresult':tabletresult,
+        'tabletbrandname':tabletbrandname}
+
+    if adinfo.access_id:
+
+        accessresult=Access.objects.get(id=adinfo.access_id)
         
 
-
+        accesstypename = Dropdown_group.objects.get(id=accessresult.accesstypename_id)
+       
+        accessbrandname = Dropdown_group.objects.get(id=accessresult.accessbrandname_id)
         
+
+        ctx1={'adinfo':adinfo, 'path':path, 'recentad':recentad, 
+        'recommendresults':recommendresults,'accessresult':accessresult,
+        'accesstypename':accesstypename,'accessbrandname':accessbrandname}
 
 
 
@@ -268,6 +327,7 @@ def post_ad(request, name=None, subname=None):
     # print subid
     category=Category.objects.get(name=name)
     subcategory=SubCategory.objects.get(name=subname)
+    print subcategory.id
 
     # subcategory = SubCategory.objects.get(id=subid)
     # print subcategory.name
@@ -282,72 +342,51 @@ def post_ad(request, name=None, subname=None):
     # subcategorynew=SubCategory.objects.get(pk=subid)
     
 #     dropdown=Dropdown.objects.all()
-    carbrand=Carbrand.objects.all()[0:6]
-    carbrand1=Carbrand.objects.all()[6:11]
-    carmodel=Carmodel.objects.all()[0:3]
-    carmodel1=Carmodel.objects.all()[3:6]
-    year=Year.objects.all()
-    color=Color.objects.all()
-    fueltype=Fueltype.objects.all()
+    subid=subcategory.id
+    sub=Product.get_subcategory(subid)
     
-    motorbrand=Motorbrand.objects.all()[0:3]
-    motorbrand1=Motorbrand.objects.all()[3:6]
-    motormodel=Motormodel.objects.all()
+    dropdown=Dropdown.objects.all()
+
+    dropdown_group=Dropdown.objects.filter(subcat_refid=subcategory.id)
+
+    for dropdown_groups in dropdown_group:
+        print dropdown_groups.model_name
+
+    for dropdown_groups in dropdown_group:
+        
+        new_dict = {'cars': dropdown_groups["brand_name"], 'model': dropdown_groups["model_name"]
+
+        }
+
     
-    scooterbrand=Scooterbrand.objects.all()[0:4]
-    scooterbrand1=Scooterbrand.objects.all()[4:6]
+        
+
+
     
-    scootermodel=Scootermodel.objects.all()[0:4]
-    scootermodel1=Scootermodel.objects.all()[4:5]
+
+    # for dropdown_groups in dropdown_group:
+    #     if dropdown_groups.sim == '':
+    #         nullvalue = 0
+    #     else:
+    #         print dropdown_groups.carbrand
+    # carbrand=dropdown_group.carbrand
     
-    
-    bicycletype=Bicycletype.objects.all()
-    
-    spareproducttype=Spare_Producttype.objects.all()[0:3]
-    spareproducttype1=Spare_Producttype.objects.all()[3:5]
-    
-    busesvehicletype=Buses_Vehicletype.objects.all()
-    
-    constructionvehicletype=Construction_Vehicletype.objects.all()
-    
-    mobilebrand1 = Mobilebrand.objects.all()[0:4]
-    mobilebrand2 = Mobilebrand.objects.all()[4:6]
-    mobilemodel1 = Mobilemodel.objects.all()[0:4]
-    mobilemodel2 = Mobilemodel.objects.all()[4:6]
-    os = Os.objects.all()
-    sim = Sim.objects.all()
-    mobileinclude = Mobileinclude.objects.all()
-    
-    tabletbrand = Tabletbrand.objects.all()[0:3]
-    tabletbrand1 = Tabletbrand.objects.all()[3:6]
-    
-    accesstype =  Accesstype.objects.all()
-    accessbrand = Accessbrand.objects.all()
     
     
     city=City.objects.all()
     locality=Locality.objects.all()
-    pondicherrylocality=Locality.objects.all()[0:3]
-    for pl in pondicherrylocality:
-        print pl
-    chennailocality=Locality.objects.all()[3:5]
-    for cl in chennailocality:
-        print cl
+    
     # print "categoryid:", categoryid
     # print "subid:", subid
-    ctx = {'userid':userid,'subcategory':subcategory,'category':category,'carbrand':carbrand,'carbrand1':carbrand1,'carmodel':carmodel,
-           'carmodel1':carmodel1,'year':year,'color':color,'fueltype':fueltype,'city':city,'locality':locality,'pondicherrylocality':pondicherrylocality,
-           'chennailocality':chennailocality,'mobilebrand1':mobilebrand1,'mobilebrand2':mobilebrand2,'mobilemodel1':mobilemodel1,'mobilemodel2':mobilemodel2,'os':os,
-           'sim':sim,'mobileinclude':mobileinclude,'tabletbrand':tabletbrand,'tabletbrand1':tabletbrand1,'accesstype':accesstype,'accessbrand':accessbrand,
-           'spareproducttype':spareproducttype,'spareproducttype1':spareproducttype1,'busesvehicletype':busesvehicletype,'constructionvehicletype':constructionvehicletype,
-           'bicycletype':bicycletype,'motormodel':motormodel,'scooterbrand':scooterbrand,'scooterbrand1':scooterbrand1,'scootermodel':scootermodel,'scootermodel1':scootermodel1,'motorbrand':motorbrand,'motorbrand1':motorbrand1,'motormodel':motormodel}
+    ctx = {'userid':userid,'subcategory':subcategory,'category':category,'city':city,
+           'locality':locality,'dropdown':dropdown,'dropdown_group':dropdown_group}
     return render_to_response('advertisement/ad.html', ctx , context_instance=RequestContext(request))
 
 
 def add_product(request):
     success=False
     product=Product()
-
+    
     print request.POST.get('user')
     
     product.user_id=request.POST.get('user')
@@ -361,41 +400,43 @@ def add_product(request):
     print product.subcategory.id
     print "add_product"
     
+    
     if product.subcategory.id == 1:
         print "cars"
         cars=Cars()
-        cars.brand=Carbrand.objects.get(id=request.POST['brand'])
-        cars.model=Carmodel.objects.get(id=request.POST['model'])
-        cars.year=Year.objects.get(id=request.POST['year'])
+        cars.carbrand=Dropdown.objects.get(id=request.POST['brand'])
+        
+        cars.carmodel=Dropdown.objects.get(id=request.POST['model'])
+        cars.caryear=Dropdown.objects.get(id=request.POST['year'])
         cars.kmsdriven=request.POST.get('kmsdriven')
-        cars.color=Color.objects.get(id=request.POST['color'])
-        cars.fueltype=Fueltype.objects.get(id=request.POST['fueltype'])
+        cars.carcolor=Dropdown.objects.get(id=request.POST['color'])
+        cars.carfueltype=Dropdown.objects.get(id=request.POST['fueltype'])
         cars.save()
         product.cars=cars
         
     if product.subcategory.id == 2:
         print "Motorcycle"
         motorcycle=Motorcycle()
-        motorcycle.motorcyclebrand=Motorbrand.objects.get(id=request.POST['motorcyclebrand'])
-        motorcycle.motorcyclemodel=Motormodel.objects.get(id=request.POST['motorcyclemodel'])
-        motorcycle.year=Year.objects.get(id=request.POST['year'])
-        motorcycle.kmsdriven=request.POST.get('kmsdriven')
+        motorcycle.motorcyclebrand=Dropdown.objects.get(id=request.POST['motorcyclebrand'])
+        motorcycle.motorcyclemodel=Dropdown.objects.get(id=request.POST['motorcyclemodel'])
+        motorcycle.motoryear=Dropdown.objects.get(id=request.POST['year'])
+        motorcycle.motorkmsdriven=request.POST.get('kmsdriven')
         motorcycle.save()
         product.motorcycle=motorcycle
         
     if product.subcategory.id == 3:
         print "Scooter"
         scooter=Scooter()
-        scooter.scooterbrand=Scooterbrand.objects.get(id=request.POST['scooterbrand'])
-        scooter.scootermodel=Scootermodel.objects.get(id=request.POST['scootermodel'])
-        scooter.year=Year.objects.get(id=request.POST['year'])
+        scooter.scooterbrand=Dropdown.objects.get(id=request.POST['scooterbrand'])
+        scooter.scootermodel=Dropdown.objects.get(id=request.POST['scootermodel'])
+        scooter.scooteryear=Dropdown.objects.get(id=request.POST['year'])
         scooter.save()
         product.scooter=scooter
         
     if product.subcategory.id == 4:
         print "Bicycle"
         bicycle=Bicycle()
-        bicycle.bicycletype=Bicycletype.objects.get(id=request.POST['bicycletype'])
+        bicycle.bicycletype=Dropdown.objects.get(id=request.POST['bicycletype'])
         
         bicycle.save()
         product.bicycle=bicycle
@@ -403,7 +444,7 @@ def add_product(request):
     if product.subcategory.id == 5:
         print "Sparepart"
         sparepart=Sparepart()
-        sparepart.spareproducttype=Spare_Producttype.objects.get(id=request.POST['spareproducttype'])
+        sparepart.spareproducttype=Dropdown.objects.get(id=request.POST['spareproducttype'])
         
         sparepart.save()
         product.sparepart=sparepart
@@ -411,7 +452,7 @@ def add_product(request):
     if product.subcategory.id == 6:
         print "Buses"
         busespart=Busespart()
-        busespart.busesvehicletype=Buses_Vehicletype.objects.get(id=request.POST['busesvehicletype'])
+        busespart.busesvehicletype=Dropdown.objects.get(id=request.POST['busesvehicletype'])
         
         busespart.save()
         product.busespart=busespart
@@ -419,77 +460,55 @@ def add_product(request):
     if product.subcategory.id == 7:
         print "Construction"
         construction=Construction()
-        construction.constructionvehicletype=Construction_Vehicletype.objects.get(id=request.POST['constructionvehicletype'])
+        construction.constructionvehicletype=Dropdown.objects.get(id=request.POST['constructionvehicletype'])
         
         construction.save()
         product.construction=construction
     
+    # if product.subcategory.id == 8:
+    #     print "mobiles"
+    #     mobiles=Mobiles()
+    #     mobiles.mobilebrandname = Mobilebrand.objects.get(id=request.POST['mobilebrandname'])
+    #     mobiles.mobilemodelname = Mobilemodel.objects.get(id=request.POST['mobilemodelname'])
+    #     mobiles.save()
+    #     product.mobile=mobiles
+
+    # mobile phones    
     if product.subcategory.id == 8:
-        print "mobiles"
-        mobiles=Mobiles()
-        mobiles.mobilebrandname = Mobilebrand.objects.get(id=request.POST['mobilebrandname'])
-        mobiles.mobilemodelname = Mobilemodel.objects.get(id=request.POST['mobilemodelname'])
-        mobiles.save()
-        product.mobile=mobiles
+        print "mobile"
+        mobiles1=Mobiles()
+        mobiles1.mobilebrandname = Dropdown.objects.get(id=request.POST['mobilebrandname'])
+        mobiles1.mobilemodelname = Dropdown.objects.get(id=request.POST['mobilemodelname']) 
+        mobiles1.mobile_os = Dropdown.objects.get(id=request.POST['mobile_os']) 
+        mobiles1.mobile_sim = Dropdown.objects.get(id=request.POST['mobile_sim']) 
+        mobiles1.mobile_include = Dropdown.objects.get(id=request.POST['mobile_include']) 
+        mobiles1.save()
+        product.mobile=mobiles1
+
+# Tablets
+
+    if product.subcategory.id == 9:
+        
+        tablets1 = Tablets()
+        tablets1.tabletbrandname = Dropdown.objects.get(id=request.POST['tabletbrandname'])
+        tablets1.save()
+        product.tablets=tablets1
+        
+# Accessoties
+
+    if product.subcategory.id == 10:
+        
+        access1 = Access()
+        access1.accesstypename = Dropdown.objects.get(id=request.POST['accesstypename'])
+        access1.accessbrandname = Dropdown.objects.get(id=request.POST['accessbrandname'])
+        access1.save()
+        product.access=access1
     
     
     product.adtype=request.POST.get('adtype')
     product.title=request.POST.get('title')
     product.photos=request.FILES['photos']
-    # product.photos=request.FILES.getlist('photos')
-    # print product.photos.name
-    # print product.photos.name
-    # for f in product.photos:
-    #     print f.name
-    #     f.save()
-    # def handle_uploaded_file(f):
-    #     # destination = open('/static/img/%s'%f.name, 'wb+')
-    #     destination = open(settings.STATIC_ROOT'%s'%f.name, 'wb+')
-    #     for chunk in f.chunks():
-    #         destination.write(chunk)
-    #     destination.close()   
-
-    # for f in product.photos:    
-    #     handle_uploaded_file(f)
-
     
-        
-    # print "product.photos"
-    # filenames = []
-
-    # def allowed_file(filename):
-    #     return '.' in filename and \
-    #        filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
-
-    # for file in product.photos:
-    #     print "product.photos1"
-    #     # Check if the file is one of the allowed types/extensions
-    #     if file and allowed_file(file.name):
-    #         # Make the filename safe, remove unsupported chars
-    #         filename = secure_filename(file.name)
-    #         print filename
-    #         # Move the file form the temporal folder to the upload
-    #         # folder we setup
-    #         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    #         # Save the filename into a list, we'll use it later
-    #         filenames.append(filename)
-            # Redirect the user to the uploaded_file route, which
-            # will basicaly show on the browser the uploaded file
-    # Load an html page with a link to each uploaded file
-
-    
-    # for f in request.FILES.getlist('photos'):
-    #     print "photos"
-    #     handle_uploaded_file(f)
-
-    # def handle_uploaded_file(f):
-    #     destination = open('/tmp/upload/%s'%f.name, 'wb+')
-    #     print destination
-    #     for chunk in f.chunks():
-    #         destination.write(chunk)
-    #     destination.close()
-    
-    # product.thumbnail= profile.photo['avatar'].url
 
     if product.photos:
        from PIL import Image as ImageObj
@@ -550,8 +569,11 @@ def add_product(request):
 
     product.you_phone   = request.POST.get('mobile_number', '')
 
-    product.created_date   = request.POST.get('created_date', '')
-    product.modified_date   = request.POST.get('created_date', '')
+    product.created_date   = datetime.datetime.now()
+
+    print product.created_date
+
+    product.modified_date   = datetime.datetime.now()
     product.save()
 
 

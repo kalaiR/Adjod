@@ -1,3 +1,41 @@
+var response_cache = {};
+
+function fill_localities(city_id) {
+  if (response_cache[city_id]) {
+    $("#id_locality").html(response_cache[city_id]);
+  } else {
+    $.getJSON("/localities_for_city/", {city_id: city_id},
+      function(ret, textStatus) {
+        var options = '<option value="" selected="selected">---------</option>';
+        for (var i in ret) {
+          options += '<option value="' + ret[i].id + '">'
+            + ret[i].name + '</option>';
+        }
+        response_cache[city_id] = options;
+        $("#id_locality").html(options);
+      });
+  }
+}
+
+function fill_models(brand_id) {
+  if (response_cache[brand_id]) {
+    $("#id_model").html(response_cache[brand_id]);
+  } else {
+    $.getJSON("/models_for_brand/", {brand_id: brand_id},
+      function(ret, textStatus) {
+        var options = '<option value="" selected="selected">---------</option>';
+        for (var i in ret) {
+          options += '<option value="' + ret[i].id + '">'
+            + ret[i].name + '</option>';
+        }
+        response_cache[brand_id] = options;
+        $("#id_model").html(options);
+      });
+  }
+}
+
+
+
  $(document).ready( function ()
  {
   /* we are assigning change event handler for select box */
@@ -23,6 +61,9 @@
 				    }
 
 	});
+
+	$("#id_city").change(function() { fill_localities($(this).val()); });
+	$("#id_brand").change(function() { fill_models($(this).val()); });
 });
 
 

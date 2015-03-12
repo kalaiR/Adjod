@@ -91,6 +91,7 @@
         </nav> <!-- navigation bar --> 
       </div><!-- container -->
     </div><!-- top_header -->
+    {%  if path == '/' %}
     <div class="header_search">
       <div class="container quikr_logo">
         <code></code>
@@ -106,18 +107,43 @@
         </form>
       </div> <!-- container -->
     </div> <!-- header_search -->
+
     <div class="header_first_line">
       <div class="container">
         <h4 class="first_line">To Buy or Find anything select an option below:</h4>
       </div> <!-- container -->
     </div> <!-- header_first_line -->
+    {% else %}
+    
 
-    <div class="container second_part">
+    <div class="search_part">
+      <div class="container logo_part">
+        <code></code>
+            <form class="info_form">
+                    <div class="button">
+                        <i class="fa fa-search search_icon"></i>
+                      <input type="text" class="form-control input-lg" value="iPhone">
+                    </div>
+                      <button type="submit"class="btn btn-lg btn-success search_b">Search</button>
+                  <button type="submit"class="btn btn-lg post-button">Post free Ad</button>
+                  <button type="submit"class="btn btn-lg alert-button">Create free alert</button>
+            </form> <!-- info_form -->
+      </div> <!-- container logo_part -->
+    </div> <!-- search_part -->
+
+    {% endif %}
+
+
+   <div class=" {%  if path == '/' %} container second_part {% else %} {% endif %}">
      
       {% block content %} {% endblock %}
       
       
     </div> <!-- container second part -->
+
+    
+
+    
 
 
      <div class="container fifth_part">

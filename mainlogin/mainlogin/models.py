@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)

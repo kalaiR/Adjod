@@ -173,6 +173,7 @@ INSTALLED_APPS = (
    'rollyourown.seo',
    'paypal_integration',
    'paypal.standard.ipn',
+   'sample'
 
 )
 

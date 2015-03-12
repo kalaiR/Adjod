@@ -152,6 +152,35 @@
                    <label>Model: {{mobilemodelname.mobilemodel}}</label>
                    </p>
 
+                   <p>
+                   <label>Operating System: {{mobileos.os}}</label>
+                   </p>
+
+                   <p>
+                   <label>Sim: {{mobilesim.sim}}</label>
+                   </p>
+
+                   <p>
+                   <label>As include: {{mobileinclude.mobileinclude}}</label>
+                   </p>
+
+                   {% elif adinfo.subcategory_id == 9 %}
+
+                   <p>
+                   <label>Brand: {{tabletbrandname.tabletbrand}}</label>
+                   </p>
+
+                   {% elif adinfo.subcategory_id == 10 %}
+
+                   <p>
+                   <label>Brand: {{accessbrandname.accessbrand}}</label>
+                   </p>
+
+
+                   <p>
+                   <label>Type: {{accesstypename.accesstype}}</label>
+                   </p>
+
 
                    {% endif %}
              </div>
