@@ -60,21 +60,25 @@ class SubCategory(models.Model):
 
 class Dropdown(models.Model):
     
-    subcat_refid=models.ForeignKey(SubCategory,null=True, blank=True)
-    brand_name=models.CharField(max_length=50, null=True, blank =True)
-    brand_refid=models.ForeignKey('self',null=True, blank=True)
+    subcat_refid=models.ForeignKey(SubCategory, null=True, blank=True)
+    brand_name=models.CharField(max_length=50, blank =True,default='')
+    brand_refid=models.ForeignKey('self', blank=True, null=True)
 
-    model_name=models.CharField(max_length=50, null=True, blank =True)
+    model_name=models.CharField(max_length=50, blank =True, default='')
 
-    type_name=models.CharField(max_length=50, null=True, blank =True)
-    year=models.CharField(max_length=50, null=True, blank =True)
-    color=models.CharField(max_length=50, null=True, blank =True)
-    os=models.CharField(max_length=50, null=True, blank =True)
-    sim=models.CharField(max_length=50, null=True, blank =True)
-    alsoinclude=models.CharField(max_length=50, null=True, blank =True)
+    type_name=models.CharField(max_length=50, blank =True, default='')
+    year=models.CharField(max_length=50, blank =True,default='')
+    color=models.CharField(max_length=50, blank =True,default='')
+    os=models.CharField(max_length=50, blank =True,default='')
+    sim=models.CharField(max_length=50, blank =True,default='')
+    alsoinclude=models.CharField(max_length=50, blank =True,default='')
 
     def __unicode__(self):
         return self.brand_name
+
+   
+
+
 
 
 class City(models.Model):
@@ -98,21 +102,21 @@ class Product(models.Model):
     subcategory =models.ForeignKey(SubCategory,null=False)
     adtype= models.CharField(max_length=10, choices=TYPE)
     title = models.CharField(max_length=250)
-    photos = models.ImageField(upload_to='static/img/',null=True)
-    thumbnail = models.ImageField(upload_to="static/img/thumbs/", editable=False)
+    photos = models.FileField(upload_to='static/img/photos',null=True)
+    thumbnail = models.FileField(upload_to="static/img/thumbs/", editable=False)
     
     condition = models.CharField(max_length=10,choices=CONDITION)
     price = models.FloatField(default=0.0)
-
-    ad_brand=models.CharField(max_length=50, null=True, blank =True)
-    ad_model=models.CharField(max_length=50, null=True, blank =True)
-    ad_type=models.CharField(max_length=50, null=True, blank =True)
-    ad_year=models.CharField(max_length=50, null=True, blank =True)
-    ad_color=models.CharField(max_length=50, null=True, blank =True)
-    ad_kmsdriven=models.CharField(max_length=50, null=True, blank =True)
-    ad_os=models.CharField(max_length=50, null=True, blank =True)
-    ad_sim=models.CharField(max_length=50, null=True, blank =True)
-    ad_alsoinclude=models.CharField(max_length=50, null=True, blank =True)
+    ad_type=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_type")
+    ad_brand=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_brand")
+    ad_model=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_model")
+    
+    ad_year=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_year")
+    ad_color=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_color")
+    ad_kmsdriven=models.CharField(max_length=50, null=True, blank=True)
+    ad_os=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_os")
+    ad_sim=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_sim")
+    ad_alsoinclude=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_alsoinclude")
     
     city=models.ForeignKey(City)
     locality=models.ForeignKey(Locality)

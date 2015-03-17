@@ -1,4 +1,5 @@
 var response_cache = {};
+var response_cache1 = {};
 
 function fill_localities(city_id) {
   if (response_cache[city_id]) {
@@ -18,8 +19,8 @@ function fill_localities(city_id) {
 }
 
 function fill_models(brand_id) {
-  if (response_cache[brand_id]) {
-    $("#id_model").html(response_cache[brand_id]);
+  if (response_cache1[brand_id]) {
+    $("#id_model").html(response_cache1[brand_id]);
   } else {
     $.getJSON("/models_for_brand/", {brand_id: brand_id},
       function(ret, textStatus) {
@@ -28,7 +29,7 @@ function fill_models(brand_id) {
           options += '<option value="' + ret[i].id + '">'
             + ret[i].name + '</option>';
         }
-        response_cache[brand_id] = options;
+        response_cache1[brand_id] = options;
         $("#id_model").html(options);
       });
   }
@@ -63,6 +64,7 @@ function fill_models(brand_id) {
 	});
 
 	$("#id_city").change(function() { fill_localities($(this).val()); });
+
 	$("#id_brand").change(function() { fill_models($(this).val()); });
 });
 

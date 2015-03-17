@@ -50,7 +50,7 @@ asfasdf
 		<p>
 		
 		<label>Photos:</label>
-		<input type="file" name="photos" value="{{photos}}">
+		<input type="file" name="photos[]" value="{{photos}}" multiple>
 		</p>
 		
 		<p>
@@ -65,13 +65,14 @@ asfasdf
 		<input type="text" name="price" value="{{price}}">
 		</p>
 
-		{% if subcategory.id == 1 or  subcategory.id == 2  or subcategory.id == 3 or  subcategory.id == 7 %}
+		{% if subcategory.id == 1 or  subcategory.id == 2  or subcategory.id == 3 or  subcategory.id == 8 %}
 
 		<p>
 		<label for="id_brand">Brand Name: *</label>
 		<select id="id_brand" name="brand" required="required">
 		<option selected="selected" value="">--Select Brand--</option>
-		{% for dropdown_groups in dropdown_group %} 
+		{% for dropdown_groups in dropdown_group_brand %} 
+		
      		<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.brand_name }}</option>
     	{% endfor %}
     	</select>
@@ -80,24 +81,21 @@ asfasdf
 		<p>
 		<label for="id_model">Model:</label>
 		<select id="id_model" name="model">
-		<option selected="selected" value="">--Select model--</option>
-		
-		{% for dropdown_groups in dropdown_group %} 
-     		<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.model_name }}</option>
-    	{% endfor %}
-    	
-		</select>
+		<option selected="selected" value="{{ dropdown_group.id }}">--Select model--</option>
+			
+
+    	</select>
 		</p>
 
 		{% endif %}
-
-		{% if subcategory.id == 9 or subcategory.id == 10 %}
+		
+		{% if subcategory.id == 9  or subcategory.id == 10 %}
 
 		<p>
 		<label for="id_brand">Brand Name: *</label>
 		<select id="id_brand" name="brand" required="required">
 		<option selected="selected" value="">--Select Brand--</option>
-		{% for dropdown_groups in dropdown %} 
+		{% for dropdown_groups in dropdown_group_brand %} 
      		<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.brand_name }}</option>
     	{% endfor %}
     	</select>
@@ -105,15 +103,6 @@ asfasdf
 
 		{% endif %}
 
-		{% if subcategory.id == 1 or  subcategory.id == 2 %}
-
-		<p>
-		<label>Kmsdriven:</label>
-		<input type="text" name="kmsdriven" value="">
-		</p>
-
-		{% endif %}
-		
 		{% if subcategory.id == 1 or  subcategory.id == 2 or subcategory.id == 3 %}
 
 		<p>
@@ -127,6 +116,157 @@ asfasdf
 		</p>
 		
 		{% endif %}
+
+		{% if subcategory.id == 1 or  subcategory.id == 2 %}
+
+		<p>
+		<label>Kmsdriven:</label>
+		<input type="text" name="kmsdriven" value="">
+		</p>
+
+		{% endif %}
+
+		{% if subcategory.id == 1 %}
+
+		<p>
+		<label for="id_color">Color:</label>
+		<select id="id_color" name="color">
+		<option selected="selected" value="">--Select Color--</option>
+		{% for dropdown_groups in dropdown %} 
+     		<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.color }}</option>
+    	{% endfor %}
+		</select>
+		</p>
+
+		<p>
+		<label for="id_fueltype">Fuel Type:</label>
+		<select id="id_fueltype" name="fueltype">
+		<option selected="selected" value="">--Fuel Type--</option>
+		{% for dropdown_groups in dropdown_group_type %} 
+     		<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.type_name }}</option>
+    	{% endfor %}
+		</select>
+		</p>
+
+		{% endif %}
+
+		{% if subcategory.id == 4 %}
+		
+		<p>
+		<label for="id_spare_producttype">Product Type: *</label>
+		<select id="id_spare_producttype" name="spareproducttype" required="required">
+		<option selected="selected" value="">--Select Producttype--</option>
+		<option value="" style="font-weight: bold;">Popular Product Type</option>
+		{% for dropdown_groups in dropdown_group_type %} 
+     		<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.type_name}}</option>
+    	{% endfor %}
+    	
+		</select>
+		</p>
+
+		{% endif %}
+
+		
+		{% if subcategory.id == 5 %}
+		
+		<p>
+		<label for="id_bicycletype">Bicycle Type: *</label>
+		<select id="id_bicycletype" name="bicycletype" required="required">
+		<option selected="selected" value="">--Select Bicycletype--</option>
+		<option value="" style="font-weight: bold;">Popular Bicycle Type</option>
+		{% for dropdown_groups in dropdown_group_type %} 
+     		<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.type_name }}</option>
+    	{% endfor %}
+    	
+		</select>
+		</p>
+
+		{% endif %}
+
+		{% if subcategory.id == 6 %}
+		
+		<p>
+		<label for="id_buses_vehicletype">Vehicle Type: *</label>
+		<select id="id_buses_vehicletype" name="busesvehicletype" required="required">
+		<option selected="selected" value="">--Select Vehicletype--</option>
+		
+		{% for dropdown_groups in dropdown_group_type %} 
+			<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.type_name }}</option>
+		{% endfor %}
+    	
+		</select>
+		</p>
+
+		{% endif %}
+
+		{% if subcategory.id == 7 %}
+		
+		<p>
+		<label for="id_construction_vehicletype">Vehicle Type: *</label>
+		<select id="id_construction_vehicletype" name="constructionvehicletype" required="required">
+		<option selected="selected" value="">--Select Construction Vehicletype--</option>
+		
+		{% for dropdown_groups in dropdown_group_type %} 
+     		<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.type_name }}</option>
+    	{% endfor %}
+    	
+		</select>
+		</p>
+
+		{% endif %}
+		
+		
+		{% if subcategory.id == 8 %}
+
+		<p>
+        <label for="id_mobile_os">Operating System:</label>
+        <select id="id_mobile_os" name="mobile_os"  >
+        <option selected="selected" >--Select OS--</option>
+       	{% for dropdown_groups in dropdown_group_os %} 
+        	<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.os }}</option>
+        {% endfor %}
+        </select>
+        </p>
+        
+        <p>
+        <label for="id_mobile_sim">No of Sim:</label>
+        <select id="id_mobile_sim" name="mobile_sim">
+        <option selected="selected" >--Select sim type--</option>
+       	{% for dropdown_groups in dropdown_group_sim %} 
+       
+        	<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.sim }}</option>
+        
+        {% endfor %}
+        </select>
+        </p>
+        
+        <p>
+        <label for="id_mobile_include">Also include:</label>
+        <select id="id_mobile_include" name="mobile_include"  >
+        <option selected="selected" >--Select alsoinclude--</option>
+       	{% for dropdown_groups in dropdown_group_alsoinclude %} 
+        	<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.alsoinclude }}</option>
+        {% endfor %}
+        </select>
+        </p>
+
+        {% endif %}
+		
+		{% if subcategory.id == 10 %}
+    
+        <p>
+        <label for="id_accesstypename">Access Type: *</label>
+        <select id="id_accesstypename" name="accesstypename" required="required">
+        <option selected="selected" >--Select Access type--</option>
+        <option  value="" style="font-weight: bold;">Popular Accessory Type:</option>
+        {% for dropdown_groups in dropdown_group_type %} 
+        	<option value="{{ dropdown_groups.id }}">{{ dropdown_groups.type_name }}</option>
+        {% endfor %}
+    
+        </select>
+        </p>
+
+        {% endif %}
 
 		<p>
 		<label for="id_city">City: *</label>
