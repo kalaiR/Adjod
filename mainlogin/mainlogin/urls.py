@@ -3,6 +3,7 @@ from django.conf.urls import patterns, include, url
 from mainlogin.views import *
 from advertisement.views import *
 from paypal_integration.views import *
+from advertisement.forms import *
 
 # from methods import reverse
 
