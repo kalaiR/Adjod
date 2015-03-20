@@ -48,6 +48,7 @@ urlpatterns = patterns('',
         
     url(r'^logout/$', 'mainlogin.views.logout_view', name='logout_view'),
     
+    url(r'^v3/postad/$', 'advertisement.views.post_ad_v3', name='post_ad_v3'),
     
     
     

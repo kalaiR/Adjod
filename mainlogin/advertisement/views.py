@@ -45,7 +45,9 @@ import simplejson as json
 from haystack.query import SearchQuerySet
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-
+def post_ad_v3(request):
+    
+    return render_to_response('v3/advertisement/quikr_post_v3.html' , context_instance=RequestContext(request))
 
 class JSONResponse(HttpResponse):
     def __init__(self, data):
