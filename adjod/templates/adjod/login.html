@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+   {% if error %}
+   <p>{{ error }}</p>
+   {% endif %}
+   
+   {{request.path}}
+   {% block second_part_category %}
+   
+                    <form id="login_form" method="post" action="/login/">
+                    {% csrf_token %}
+                     Username: <input type="text" name="username" value="" size="30" />
+                    <br /><br />
+                     Password: <input type="password" name="password" value="" size="30" />
+                    <br /><br />
+
+                    <input type="submit" value="submit" />
+                    </form>
+                    <br />
+                     New User!!! <a href="/new_user/">Register Here</a><br />
+                     
+                     <a href="/elasticsearch/">Elastic Search</a>
+           
+   {% endblock second_part_category %}     
+ 
+{% endblock %}
+
+

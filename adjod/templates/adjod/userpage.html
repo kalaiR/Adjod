@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if 'postad' in path %}
+    
+
+
+<div class="row row_1">
+{% for subcategories in subcategory %}  
+        {% if forloop.counter0|divisibleby:4 %}
+        <div class="col-md-4">
+          <ul class="category">
+          {% endif %}
+            <li class="sub_category"><a href="" class=""></a>
+              <div>
+              <a href="{% url subcategory_name category, subcategories.name  %}" class=""><h4>{{subcategories.name}}</h4></a>
+             
+            </div>
+            </li>
+            {% if forloop.counter|divisibleby:4 %} 
+            
+          </ul>
+        </div> <!-- row1 1st col-md-4 -->
+         {% endif %}
+       {% endfor %}
+      </div> <!-- row1 -->
+
+
+
+
+
+{% else %} 
+<a href="/paypal/">Paypal</a>   
+<div class="row row_1">    
+
+ {% for categories in category %}  
+        {% if forloop.counter0|divisibleby:4 %}
+         <div class="col-md-4">
+          <ul class="category">
+          {% endif %}
+            <li class="{% if categories.id == 1 %} sub_category {% elif categories.id == 2 %} sub_category1
+            {% elif categories.id == 3 %} sub_category2 {% elif categories.id == 4 %} sub_category3
+            {% elif categories.id == 5 %} sub_category4 {% elif categories.id == 6 %} sub_category5 
+            {% elif categories.id == 7 %} sub_category6 {% elif categories.id == 8 %} sub_category7
+            {% elif categories.id == 9 %} sub_category8 {% elif categories.id == 10 %} sub_category9
+            {% elif categories.id == 11 %} sub_category10 {% elif categories.id == 12 %} sub_category11
+            {% endif %}">
+            <a href="/addproduct/" class=""><code></code></a>
+              <div>
+              <a href="{% url category_name categories.name %}" class=""><h4>{{ categories.name }}</h4></a>
+              <span class="brand">{{categories.category_type}}</span>
+              </div>
+            </li>
+            {% if forloop.counter|divisibleby:4 %}     
+              
+          </ul>
+        </div> <!-- row1 3rd col-md-4 -->
+        {% endif %}
+       {% endfor %} 
+      </div> <!-- row1 -->
+ {% endif %}
+
+
+
+
+
+<div class="container third_part">
+      <div class="row row_2">
+        <div class="col-md-7">
+          <h4 class="product_form">Sell or Advertise anything</h4>
+          <a href class="#postbutton btn btn-lg btn-warning post_button">Post Free Ad</a>
+        </div> <!--col-md-7 -->
+        <div class="col-md-5">
+          <h4 class="sell"><i class="fa  fa-shield"></i> How to sell safely ?</h4>
+          <p>Try to take the full payment at the time of delivery.<br>Remember to use the safe location to meet <a href="#">Read more</a></p>
+        </div> <!-- col-md-5 -->
+      </div> <!-- row2 -->
+      </div> <!-- third part -->
+
+      <div class="container fourth_part">
+        <div class="row row_3">
+        <div class="col-md-7">
+          <div class="recent_add">
+            <h4>Recently added</h4>
+          </div>
+          <ul class="products">
+          {% for recentads in recentad %}
+            <li class="product_lists">
+              <div class="product_image">
+                <a href="" class="">
+                <img src="{{ STATIC_ROOT }}/{{ recentads.photos }}">
+                  <div class="count_holder">
+                    <span>12</span>
+                    <i class="fa fa-camera"></i>
+                  </div><!-- count_holder -->
+                </a>
+              </div>
+              <div class="detail">
+                <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a><span>S{{recentads.price}}</span></div>
+                <span class="product_description"> {{ recentads.description }}</span>
+                <span class="product_user"> used | in Anna nagar | By dealer</span>
+              </div> <!-- detail -->
+            </li>
+            {% endfor %}
+            
+          </ul>
+        </div> <!-- col-md-7 -->
+        <div class="col-md-5">
+          <div class="free_alert">
+            <h4>Create free alert</h4>
+          </div>
+          <ul class="enquiry_form">
+            <li><form class="form1">
+                  <input type="text" class="form-control inputs" value="Tell us your need">
+                </form>
+            </li>
+            <li><form class="form1">
+                  <input type="text" class="form-control inputs">
+                  <div class="custom_select locality_custom_select">
+                    <div class="select">
+                      <p class="locality">Any locality</p>
+                    </div> <!-- select -->
+                    <i class="fa fa-caret-down"> </i>
+                    <select class="custom_select_value_act" name="language"> 
+                        <option value="chennai">Chennai</option>
+                        <option value="pondicherry">Pondicherry</option>
+                    </select>
+                  </div> <!-- custom_select -->
+                 </form>
+            </li>
+            <li><form class="form1">
+                  <input type="text" class="form-control inputs" value="Your email">
+                </form>
+            </li>
+            <li><form class="form1">
+                  <input type="text" class="form-control inputs" value="Your mobile number">
+                </form>
+            </li>
+          </ul>
+          <form class="form_alert">
+            <button type="submit"class="btn btn-lg alert_button">Create alert</button>
+          </form>
+        </div> <!-- col-md-5 -->
+      </div> <!-- row3 -->
+    </div> <!-- container fourth part -->
+
+
+{% endblock %}
+
