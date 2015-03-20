@@ -102,8 +102,8 @@ class Product(models.Model):
     subcategory =models.ForeignKey(SubCategory,null=False)
     adtype= models.CharField(max_length=10, choices=TYPE)
     title = models.CharField(max_length=250)
-    photos = models.FileField(upload_to='static/img/photos',null=True)
-    thumbnail = models.FileField(upload_to="static/img/thumbs/", editable=False)
+    photos = models.ImageField(upload_to='static/img/photos/',null=True)
+    thumbnail = models.ImageField(upload_to="static/img/thumbs/", editable=False)
     
     condition = models.CharField(max_length=10,choices=CONDITION)
     price = models.FloatField(default=0.0)

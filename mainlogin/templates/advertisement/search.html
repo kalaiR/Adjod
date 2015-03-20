@@ -22,17 +22,17 @@
        <div class="pagination">
        <ul>
        {% if searchresults.has_previous %}
-        <li><a href="?page={{ searchresults.previous_page_number }}">Previous</a></li>
+        <li><a href="?q={{ cquery }}&page={{ searchresults.previous_page_number }}">Previous</a></li>
        {% endif %}
        {% for pg in searchresults.paginator.page_range %}
        {% if searchresults.number == pg %}
-       <li class="active"><a href="?page={{ pg }}">{{ pg }}</a></li>
+       <li class="active"><a href="?q={{ cquery }}&page={{ pg }}">{{ pg }}</a></li>
        {% else %}
-       <li><a href="?page={{ pg }}">{{ pg }}</a></li>
+       <li><a href="?q={{ cquery }}&page={{ pg }}">{{ pg }}</a></li>
        {% endif %}
        {% endfor %}
        {% if searchresults.has_next %}
-        <li><a href="?page={{ searchresults.next_page_number }}">Next</a></li>
+        <li><a href="?q={{ cquery }}&page={{ searchresults.next_page_number }}">Next</a></li>
        {% endif %}
        </ul>
        </div>

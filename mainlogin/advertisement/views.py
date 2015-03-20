@@ -32,7 +32,7 @@ from django.core.files import File
 import os
 from urllib import unquote, urlencode, unquote_plus
 from haystack.inputs import AutoQuery, Exact, Clean
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 import datetime
 
 from django.utils.encoding import smart_unicode, force_unicode
@@ -43,7 +43,10 @@ from haystack.query import SearchQuerySet
 from django.db.models import Q
 import simplejson as json
 from haystack.query import SearchQuerySet
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
+
+from urlparse import urlparse
+from os.path import splitext, basename
 
 def post_ad_v3(request):
     
@@ -97,30 +100,27 @@ def search(request):
     results = SearchQuerySet().all()
 
     # sqs1 = SearchQuerySet().filter(content=AutoQuery(request.GET['q']), product_type=Exact('ancient book'))
-    
+    print "queryresult", request.GET['q']
     sqs = SearchQuerySet().filter(content=AutoQuery(request.GET['q']))
     sqsresults = [ r.pk for r in sqs ]
     searchresults = Product.objects.filter(pk__in=sqsresults)
     for searchresult in searchresults:
         print searchresult
     path=request.path
-
-    paginator = Paginator(searchresults, 1) # Show 25 contacts per page
+    cquery=request.GET['q']
+    paginator = Paginator(searchresults, 2) # Show 25 contacts per page
 
     
     try:
         page = int(request.GET.get('page', '1'))
-    except:
-        page=1
-
-    try:
         searchresults = paginator.page(page)
         
     except(EmptyPage, InvalidPage):
-        # If page is out of range (e.g. 9999), deliver last page of results.
+        page=1
+        # If page is out of range , deliver last page of results.
         searchresults = paginator.page(paginator.num_pages)
     
-    ctx = {'searchresults':searchresults, 'recentad':recentad, 'path':path,'page':page}
+    ctx = {'searchresults':searchresults, 'recentad':recentad, 'path':path,'page':page,'cquery':cquery}
     return render_to_response('advertisement/search.html', ctx , context_instance=RequestContext(request))
 
 def ad_info(request, pk):
@@ -222,6 +222,8 @@ def post_ad(request, name=None, subname=None):
 
 
 def add_product(request):
+    # str="hello,world"
+    # print str.split(',')
     success=False
     product=Product()
     
@@ -310,37 +312,19 @@ def add_product(request):
     
     product.adtype=request.POST.get('adtype')
     product.title=request.POST.get('title')
+
+    #single image upload process:
     # product.photos=request.FILES['photos']
-
-    product.photos=request.FILES.getlist('photos[]')
-    print product.photos
-    photosgroup=''
-    
-    # last_index = len(product.photos)
-    for index in range(len(product.photos)): 
-        print index      
-        # last_index =last_index+1
-        # print last_index
-        if index==len(product.photos) -1 :
-            photosgroup=photosgroup + settings.STATIC_ROOT + str(product.photos[index])
-        else:
-            photosgroup=photosgroup + settings.STATIC_ROOT + str(product.photos[index]) + ','
-        # photosgroup = photosgroup + ',' + str(photos)
-    print photosgroup
-    
-    product.photos =photosgroup
-    print product.photos
-    
-
+    # print product.photos
     # if product.photos:
     #    from PIL import Image as ImageObj
     #    from cStringIO import StringIO
     #    from django.core.files.uploadedfile import SimpleUploadedFile
     #    import os
-
     #    try:
     #        # thumbnail
     #        THUMBNAIL_SIZE = (100, 100)  # dimensions
+    #        print product.photos
 
     #        image = ImageObj.open(product.photos)
 
@@ -363,6 +347,67 @@ def add_product(request):
     #    except ImportError:
     #        pass
 
+    #Multiple image upload:
+
+    product.photos=request.FILES.getlist('photos[]')
+    print product.photos
+    photosgroup=''
+    
+    # last_index = len(product.photos)
+    for index in range(len(product.photos)): 
+        print index      
+        # last_index =last_index+1
+        # print last_index
+        if index==len(product.photos) -1 :
+            photosgroup=photosgroup + settings.STATIC_ROOT + str(product.photos[index])
+        else:
+            photosgroup=photosgroup + settings.STATIC_ROOT + str(product.photos[index]) + ','
+        # photosgroup = photosgroup + ',' + str(photos)
+    print photosgroup
+    
+    product.photos =photosgroup
+    print product.photos
+
+    photo=str(product.photos)
+    print photo.split(',')
+    
+    # print [str(x) for x in str(product.photos).split(",")]
+
+    if product.photos:
+       from PIL import Image as ImageObj
+       from cStringIO import StringIO
+       from django.core.files.uploadedfile import SimpleUploadedFile
+       import os
+
+       try:
+           # thumbnail
+           
+           for photo in photo.split(','):
+               print photo
+
+               THUMBNAIL_SIZE = (100, 100)  # dimensions
+
+
+               image = ImageObj.open(photo)
+
+               # Convert to RGB if necessary
+               if image.mode not in ('L', 'RGB'): image = image.convert('RGB')
+
+               # create a thumbnail + use antialiasing for a smoother thumbnail
+               image.thumbnail(THUMBNAIL_SIZE, ImageObj.ANTIALIAS)
+
+               # fetch image into memory
+               temp_handle = StringIO()
+               image.save(temp_handle, 'png')
+               temp_handle.seek(0)
+
+               # save it
+               file_name, file_ext = os.path.splitext(photo.name.rpartition('/')[-1])
+               suf = SimpleUploadedFile(file_name + file_ext, temp_handle.read(), content_type='image/png')
+
+               product.thumbnail.save(file_name + '_thumbnail' +'.png', suf, save=False)
+       except ImportError:
+           pass
 
 
     
