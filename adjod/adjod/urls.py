@@ -79,5 +79,5 @@ urlpatterns = patterns('',
 )
 
 # register_seo_admin(admin.site, MyMetadata)
->>>>>>> d2969e52858dc9f84de4f3b821caac1533216dc8:adjod/adjod/urls.py
+
    

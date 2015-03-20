@@ -240,4 +240,4 @@ def start(request):
     return render_to_response('adjod/userpage.html',{'category':category,'path':path,'recentad':recentad,'product':product},
         context_instance=RequestContext(request)
     )
->>>>>>> d2969e52858dc9f84de4f3b821caac1533216dc8:adjod/adjod/views.py
+

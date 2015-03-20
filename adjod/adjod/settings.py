@@ -376,5 +376,5 @@ EMAIL_PORT = 587
 
 SEO_MODEL_REGISTRY = (
     ('test_project.MyMetadata', ('template_test', )),
->>>>>>> d2969e52858dc9f84de4f3b821caac1533216dc8:adjod/adjod/settings.py
+
 )
