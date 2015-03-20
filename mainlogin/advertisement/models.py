@@ -143,6 +143,8 @@ class Product(models.Model):
             for datas in data:
                 field_dict[datas.subcat_refid] = {"brand":datas.brand_name, "model": datas.model_name}
                 print field_dict[datas.subcat_refid]
+
+    
                     
 
 

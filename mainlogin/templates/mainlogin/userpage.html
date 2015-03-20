@@ -2,8 +2,6 @@
 {% block content %}
 
 {% if 'postad' in path %}
-    
-
 
 <div class="row row_1">
 {% for subcategories in subcategory %}  
@@ -23,11 +21,7 @@
         </div> <!-- row1 1st col-md-4 -->
          {% endif %}
        {% endfor %}
-      </div> <!-- row1 -->
-
-
-
-
+</div> <!-- row1 -->
 
 {% else %} 
 <a href="/paypal/">Paypal</a>   
@@ -45,7 +39,7 @@
             {% elif categories.id == 9 %} sub_category8 {% elif categories.id == 10 %} sub_category9
             {% elif categories.id == 11 %} sub_category10 {% elif categories.id == 12 %} sub_category11
             {% endif %}">
-            <a href="/addproduct/" class=""><code></code></a>
+            <a href="{% url category_name categories.name %}" class=""><code></code></a>
               <div>
               <a href="{% url category_name categories.name %}" class=""><h4>{{ categories.name }}</h4></a>
               <span class="brand">{{categories.category_type}}</span>
@@ -68,7 +62,7 @@
       <div class="row row_2">
         <div class="col-md-7">
           <h4 class="post_ad">Sell or Advertise anything</h4>
-          <a href class="#postbutton btn btn-lg btn-warning post_button">Post Free Ad</a>
+          <a href="{% url postad%}" class="#postbutton btn btn-lg btn-warning post_button">Post Free Ad</a>
         </div> <!--col-md-7 -->
         <div class="col-md-5">
           <h4 class="sell"><i class="fa  fa-shield"></i> How to sell safely ?</h4>
@@ -84,13 +78,14 @@
             <h4>Recently added</h4>
           </div>
           <ul class="products">
+
           {% for recentads in recentad %}
             <li class="product_lists">
               <div class="product_image">
                 <a href="" class="">
                 <img src="{{ STATIC_ROOT }}/{{ recentads.photos }}">
                   <div class="count_holder">
-                    <span>12</span>
+                    <span>{{count}}</span>
                     <i class="fa fa-camera"></i>
                   </div><!-- count_holder -->
                 </a>

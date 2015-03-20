@@ -75,6 +75,16 @@ def models_for_brand(request):
     else:
         return JSONResponse({'error': 'Not Ajax or no GET'})
 
+def subcategory_for_category(request):
+    print "subcategory_for_category"
+    if request.is_ajax() and request.GET and 'category_id' in request.GET:
+        objs1 = Subcategory.objects.filter(category_id=request.GET['category_id']) 
+        print objs1
+        return JSONResponse([{'id': o1.id, 'name': smart_unicode(01)}
+            for o1 in objs1])
+    else:
+        return JSONResponse({'error': 'Not Ajax or no GET'})
+
 
 def sub_category(request, name=None):
     print name
@@ -313,66 +323,43 @@ def add_product(request):
     product.adtype=request.POST.get('adtype')
     product.title=request.POST.get('title')
 
-    #single image upload process:
-    # product.photos=request.FILES['photos']
-    # print product.photos
-    # if product.photos:
-    #    from PIL import Image as ImageObj
-    #    from cStringIO import StringIO
-    #    from django.core.files.uploadedfile import SimpleUploadedFile
-    #    import os
-    #    try:
-    #        # thumbnail
-    #        THUMBNAIL_SIZE = (100, 100)  # dimensions
-    #        print product.photos
-
-    #        image = ImageObj.open(product.photos)
-
-    #        # Convert to RGB if necessary
-    #        if image.mode not in ('L', 'RGB'): image = image.convert('RGB')
-
-    #        # create a thumbnail + use antialiasing for a smoother thumbnail
-    #        image.thumbnail(THUMBNAIL_SIZE, ImageObj.ANTIALIAS)
-
-    #        # fetch image into memory
-    #        temp_handle = StringIO()
-    #        image.save(temp_handle, 'png')
-    #        temp_handle.seek(0)
-
-    #        # save it
-    #        file_name, file_ext = os.path.splitext(product.photos.name.rpartition('/')[-1])
-    #        suf = SimpleUploadedFile(file_name + file_ext, temp_handle.read(), content_type='image/png')
-
-    #        product.thumbnail.save(file_name + '_thumbnail' +'.png', suf, save=False)
-    #    except ImportError:
-    #        pass
-
-    #Multiple image upload:
-
-    product.photos=request.FILES.getlist('photos[]')
-    print product.photos
-    photosgroup=''
     
-    # last_index = len(product.photos)
-    for index in range(len(product.photos)): 
-        print index      
-        # last_index =last_index+1
-        # print last_index
-        if index==len(product.photos) -1 :
-            photosgroup=photosgroup + settings.STATIC_ROOT + str(product.photos[index])
+
+    product.photos =request.FILES.getlist('photos[]')
+    print product.photos
+
+    def handle_uploaded_file(f):
+
+        # product.photos = open('/static/img/photos/%s' % f.name, 'wb+')
+        product.photos = open('static/img/photos/%s' % f.name, 'wb+')
+        
+        
+
+        for chunk in f.chunks():
+            product.photos.write(chunk)
+        product.photos.close()
+
+    photosgroup = ''
+
+    count=len(product.photos)
+    
+    for uploaded_file in product.photos:
+        count=count-1
+        handle_uploaded_file(uploaded_file)
+        if count==0:
+            photosgroup=photosgroup + settings.STATIC_ROOT + str(uploaded_file)
         else:
-            photosgroup=photosgroup + settings.STATIC_ROOT + str(product.photos[index]) + ','
-        # photosgroup = photosgroup + ',' + str(photos)
+            photosgroup=photosgroup + settings.STATIC_ROOT + str(uploaded_file) + ','
     print photosgroup
-    
-    product.photos =photosgroup
-    print product.photos
+
+    product.photos=photosgroup
 
     photo=str(product.photos)
+    print photo
     print photo.split(',')
+    photos=photo.split(',')
     
-    # print [str(x) for x in str(product.photos).split(",")]
-
+    thumbnail_group=''
     if product.photos:
        from PIL import Image as ImageObj
        from cStringIO import StringIO
@@ -381,14 +368,19 @@ def add_product(request):
 
        try:
            # thumbnail
-           
-           for photo in photo.split(','):
-               print photo
+           count =len(photos)
+           for photo in photos:
+               count=count-1
+               print "final photo",photo
+              
+               # photo=filename + file_ext
+               # print photo
 
                THUMBNAIL_SIZE = (100, 100)  # dimensions
 
 
                image = ImageObj.open(photo)
+               print image
 
                # Convert to RGB if necessary
                if image.mode not in ('L', 'RGB'): image = image.convert('RGB')
@@ -398,20 +390,41 @@ def add_product(request):
 
                # fetch image into memory
                temp_handle = StringIO()
+               print "temp", temp_handle
                image.save(temp_handle, 'png')
                temp_handle.seek(0)
 
                # save it
-               file_name, file_ext = os.path.splitext(photo.name.rpartition('/')[-1])
-               suf = SimpleUploadedFile(file_name + file_ext, temp_handle.read(), content_type='image/png')
+               # file_name, file_ext = os.path.splitext(photo.name.rpartition('/')[-1])
+               disassembled = urlparse(photo)
+               filename, file_ext = splitext(basename(disassembled.path))
+               suf = SimpleUploadedFile(filename + file_ext, temp_handle.read(), content_type='image/png')
 
-               product.thumbnail.save(file_name + '_thumbnail' +'.png', suf, save=False)
+
+               # product.thumbnail.save(filename + '_thumbnail' +'.png', suf, save=False)
+
+               # print product.thumbnail
+               # if count == 0:
+               #      thumbnail_group = thumbnail_group + str(product.thumbnail)
+               # else:
+               #      thumbnail_group = thumbnail_group + str(product.thumbnail) + ','
+
+               product.thumbnail.save(filename + '_thumbnail' +'.png', suf, save=False)
+
+               print product.thumbnail
+               if count == 0:
+                    thumbnail_group = thumbnail_group + str(product.thumbnail)
+               else:
+                    thumbnail_group = thumbnail_group + str(product.thumbnail) + ','
+
+           print thumbnail_group
+
        except ImportError:
            pass
+        
 
-
+    product.thumbnail = thumbnail_group
     
-
     product.condition=request.POST.get('condition')
     product.price=request.POST.get('price')
     
@@ -541,4 +554,10 @@ def autocomplete(request):
 def recent_ads(request):
     
     return render_to_response('mainlogin/userpage.html', { 'recentad': recentad ,'path': path }, context_instance=RequestContext(request)) 
+
+def post_ad1(request):
+    category=Category.objects.all()
+    ctx={'category':category}
+    
+    return render_to_response('advertisement/ad1.html',ctx, context_instance=RequestContext(request))
 

@@ -46,7 +46,7 @@ class DropdownAdmin(admin.ModelAdmin):
 
 
     
-    print "Hello DropdownAdmin"
+    
     list_display = ('id','subcat_refid', 'brand_name', 'brand_refid', 'model_name','type_name','year','color','os',
         'sim','alsoinclude')
     # list_filter = ['brand_name', 'model_name']
@@ -71,7 +71,7 @@ class DropdownAdmin(admin.ModelAdmin):
   
     list_per_page = 50
 
-    print "Hello DropdownAdmin1"
+    
 
     # def dg_brand_refid(self, instance):
     #   pprint.pprint("function called") 

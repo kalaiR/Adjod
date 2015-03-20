@@ -1,5 +1,58 @@
+
+
+ $(document).ready( function ()
+ {
+ 
+  /* we are assigning change event handler for select box */
+  /* it will run when selectbox options are changed */
+  $('.adtype').change(function()
+  {
+    /* setting currently changed option value to option variable */
+    var option = $(this).val();
+    /* setting input box value to selected option value */
+    if(option == "sell")
+            {
+              
+                $('#seller').show();
+                $('#buyer').hide();
+             
+            }
+            else
+            {
+
+                $('#buyer').show();
+                $('#seller').hide();
+               
+            }
+
+  });
+
+  $("#id_city").change(function() { fill_localities($(this).val()); });
+
+  $("#id_brand").change(function() { fill_models($(this).val()); });
+
+
+ 
+ $(".id_category").click(function() {
+
+
+        $(this).find('li').each(function(){
+            // cache jquery var
+            // var current =$('input[type="hidden"]', this).val();
+            
+            find_subcategory($('input[type="hidden"]').val());
+            
+            
+        });
+        
+    
+  });
+  // $("#id_category").on('click', function ()  { alert('find_subcategory function'); find_subcategory($('input#input_category').val()); });
+});
+
 var response_cache = {};
 var response_cache1 = {};
+var response_cache2 = {};
 
 function fill_localities(city_id) {
   if (response_cache[city_id]) {
@@ -35,38 +88,25 @@ function fill_models(brand_id) {
   }
 }
 
+function find_subcategory(category_id) {
+  if (response_cache2[category_id]) {
+    $("#id_subcategory").html(response_cache2[category_id]);
+  } else {
+    $.getJSON("/subcategory_for_category/", {category: category},
+      function(ret, textStatus) {
+        var options = '<option value="" selected="selected">---------</option>';
+        for (var i in ret) {
+          options += '<option value="' + ret[i].id + '">'
+            + ret[i].name + '</option>';
+        }
+        response_cache2[category_id] = options;
+        $("#id_subcategory").html(options);
+      });
+  }
+}
 
 
- $(document).ready( function ()
- {
-  /* we are assigning change event handler for select box */
-	/* it will run when selectbox options are changed */
-	$('.adtype').change(function()
-	{
-		/* setting currently changed option value to option variable */
-		var option = $(this).val();
-		/* setting input box value to selected option value */
-		if(option == "sell")
-				    {
-				    	
-				        $('#seller').show();
-				        $('#buyer').hide();
-				     
-				    }
-				    else
-				    {
 
-				        $('#buyer').show();
-				        $('#seller').hide();
-				       
-				    }
-
-	});
-
-	$("#id_city").change(function() { fill_localities($(this).val()); });
-
-	$("#id_brand").change(function() { fill_models($(this).val()); });
-});
 
 
 	

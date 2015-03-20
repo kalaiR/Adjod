@@ -50,10 +50,35 @@ def home(request):
       category=Category.objects.all()
       recentad=Product.objects.filter().order_by('-id')[:3]
       path = request.path
-      print path 
+      print path
+
+      
+      count = [ len(str(recentads.photos).split(',')) for recentads in recentad ]
+      print count
+
+      # recentad_group=[recentads;len(str(recentads.photos).split(',')); for recentads in recentad]
+                         
+                        
+
+      # print recentad_group
+      # print recentad_group.recentad1
+      # print recentad_group.imagecount
+
+      
+      # for recentads in recentad:
+      #   count = len(str(recentads.photos).split(','))
+      #   print count
+      
+      # photos=recentad.photos.split(',')
+      # count=0
+      # for photo in photos:
+      #   count=count+1
+      #   print photo
+
 
     # results = SearchQuerySet().models(Product).autocomplete(title_auto=q)
-      return render_to_response('mainlogin/userpage.html', {'category':category, 'path':path, 'recentad':recentad }, context_instance=RequestContext(request)) 
+      return render_to_response('mainlogin/userpage.html', {'category':category, 'path':path, 'recentad':recentad,
+      'count':count }, context_instance=RequestContext(request)) 
 
 
 
