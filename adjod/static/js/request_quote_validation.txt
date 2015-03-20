@@ -1,0 +1,91 @@
+// Place ID's of all required fields here.
+	required = ["company", "objectives"];
+	// If using an ID other than #email or #error then replace it here
+	company = jQuery("#company");
+	objectives = jQuery("#objectives");
+	// The text to show up within a field when it is incorrect
+	
+	jQuery("#quote_form_submit_act").click(function(){ 
+											
+		//Validate required fields
+		if(($('.form_input').val() == "")) 
+			{
+				$('.form_input').addClass('inputError');
+				
+		
+			} else {
+				$('.form_input').removeClass('inputError');
+				
+				
+			}
+			
+		if(($('#about_company').val() == " ")) 
+			{
+				$('#about_company').addClass('inputError');
+		
+			} else {
+				$('#about_company').removeClass('inputError');
+				
+			}
+		
+		if(($('#objectives').val() == " ")) 
+			{
+				$('#objectives').addClass('inputError');
+		
+			} else {
+				$('#objectives').removeClass('inputError');
+				
+			}		
+	
+		// diagnosis select field
+		
+		if ($('.country').html() == "select") {
+			$('.country_select').addClass('inputError');
+			
+			
+		}
+		else {
+			$('.country_select').removeClass('inputError');
+		}
+
+		if ($('.services').html() == "select") {
+			$('.service_select').addClass('inputError');
+			
+		}
+		else {
+			$('.service_select').removeClass('inputError');
+			}
+		
+		if ($('.startproject').html() == "select") {
+			$('.start_project_select').addClass('inputError');
+			
+		}
+		else {
+			$('.start_project_select').removeClass('inputError');
+			}
+			
+		if ($('.budget').html() == "select") {
+			$('.budget_select').addClass('inputError');
+			
+		}
+		else {
+			$('.budget_select').removeClass('inputError');
+			}		
+
+
+		//if any inputs on the page have the class 'error_input_field' the form will not submit
+		if (jQuery(".form_input, #about_company, #objectives").hasClass("inputError") || jQuery('.service_select, .country_select, .start_project_select, .budget_select').hasClass("inputError")) {
+			
+//				$('.form_head').addClass('error_form_header');
+//				$('.form_submit').addClass('form_error_submit');
+			
+			return false;
+		} else {
+//						$('.form_head').removeClass('error_form_header');
+//				$('.form_submit').removeClass('form_error_submit');
+			document.quote_form_submit.submit();
+			return true;	
+			
+		}
+	});	
+    	 
