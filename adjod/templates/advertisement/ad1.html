@@ -1,0 +1,37 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<!-- <ul>
+{% for categories in category %}
+<li><a id="id_category"><input type="hidden" value="{{categories.id}}" name="fruitId" id="fruitId">{{categories.name}}</a></li>
+
+{% endfor %}
+</ul> -->
+
+<ul>
+{% for categories in category %}
+<div class="category">
+<li><a><input type="hidden" value="{{categories.id}}" name="category">{{categories.name}}</a></li>
+</div>
+{% endfor %}
+</ul>
+
+
+<ul>
+<div class="subcategory">
+<li><a><input type="hidden" value="" name="subcategory" id="id_subcategory"></a></li>
+</div>
+
+</ul>
+
+<ul>
+<div class="brand">
+<li class="find_id_brand"><a><input type="hidden" value="" name="brand"></a></li>
+</div>
+
+</ul>
+
+
+
+{% endblock %}

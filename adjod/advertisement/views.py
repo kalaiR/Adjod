@@ -1,8 +1,7 @@
-# Create your views here.
 
 from advertisement.models import *
 from advertisement.forms import *
-from mainlogin.forms import *
+from adjod.forms import *
 from advertisement.views import *
 import logging
 import pprint
@@ -27,7 +26,7 @@ from django import template
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from advertisement.forms import ProductSearchForm
-# from easy_thumbnails.files import get_thumbnailer
+
 from django.core.files import File
 import os
 from urllib import unquote, urlencode, unquote_plus
@@ -60,6 +59,11 @@ def ad_detail_v3(request):
     
     return render_to_response('v3/advertisement/ad_detail_v3.html' , context_instance=RequestContext(request))
 
+
+def product_form_v3(request):
+    
+    return render_to_response('v3/advertisement/quikr_post_v3.html' , context_instance=RequestContext(request))
+
 class JSONResponse(HttpResponse):
     def __init__(self, data):
         super(JSONResponse, self).__init__(
@@ -86,12 +90,28 @@ def models_for_brand(request):
 def subcategory_for_category(request):
     print "subcategory_for_category"
     if request.is_ajax() and request.GET and 'category_id' in request.GET:
-        objs1 = Subcategory.objects.filter(category_id=request.GET['category_id']) 
-        print objs1
-        return JSONResponse([{'id': o1.id, 'name': smart_unicode(01)}
+        print request.GET['category_id'] 
+        
+        objs1 = SubCategory.objects.filter(category_id=request.GET['category_id']) 
+        
+        return JSONResponse([{'id': o1.id, 'name': smart_unicode(o1.name)}
             for o1 in objs1])
     else:
         return JSONResponse({'error': 'Not Ajax or no GET'})
+
+def brand_for_subcategory(request):
+    print "subcategory_for_category"
+    if request.is_ajax() and request.GET and 'subcategory_id' in request.GET:
+        print request.GET['subcategory_id'] 
+        
+        objs1 = SubCategory.objects.filter(subcat_ref_id=request.GET['subcategory_id']) 
+        for obj in objs1:
+            print obj.brand_name
+        return JSONResponse([{'id': o1.id, 'name': smart_unicode(o1.brand_name)}
+            for o1 in objs1])
+    else:
+        return JSONResponse({'error': 'Not Ajax or no GET'})
+        
 
 
 def sub_category(request, name=None):
@@ -105,7 +125,7 @@ def sub_category(request, name=None):
     print path
     recentad=Product.objects.filter().order_by('-id')[:3]
     ctx = {'subcategory':subcategory,'path':path,'recentad':recentad,'category':category}
-    return render_to_response('mainlogin/userpage.html', ctx , context_instance=RequestContext(request))
+    return render_to_response('adjod/userpage.html', ctx , context_instance=RequestContext(request))
 
 def search(request):
     recentad=Product.objects.filter().order_by('-id')[:3]
@@ -141,9 +161,7 @@ def search(request):
     ctx = {'searchresults':searchresults, 'recentad':recentad, 'path':path,'page':page,'cquery':cquery}
     return render_to_response('advertisement/search.html', ctx , context_instance=RequestContext(request))
 
-def ad_info(request, pk):
-    
-    
+def product_detail(request, pk):
     adinfo=Product.objects.get(pk=int(pk))
     print adinfo
     print "adbrand", adinfo.ad_brand
@@ -199,17 +217,16 @@ def ad_info(request, pk):
     
     recentad=Product.objects.filter().order_by('-id')[:3]
 
-    # ctx={'adinfo':adinfo}
-    # ctx={'adinfo':adinfo,'ad_type':ad_type,'ad_model':ad_model,'ad_os':ad_os,'ad_sim':ad_sim,'ad_alsoinclude':ad_alsoinclude}
+    
     return render_to_response('advertisement/adinfo.html',ctx,context_instance=RequestContext(request))
 
-def post_ad(request, name=None, subname=None):
+def product_form(request, name=None, subname=None):
 
     print request.path 
     userid=request.user.id
 
     print "userid", userid
-    # print subid
+    
     category=Category.objects.get(name=name)
     subcategory=SubCategory.objects.get(name=subname)
     print subcategory.id
@@ -226,22 +243,18 @@ def post_ad(request, name=None, subname=None):
     dropdown_group_sim=Dropdown.objects.filter(subcat_refid=subcategory.id).exclude(sim='')
     dropdown_group_alsoinclude=Dropdown.objects.filter(subcat_refid=subcategory.id).exclude(alsoinclude='')
     
-    
-    
     city=City.objects.all()
     locality=Locality.objects.all()
     
-    # print "categoryid:", categoryid
-    # print "subid:", subid
+    
     ctx = {'userid':userid,'subcategory':subcategory,'category':category,'city':city,
            'locality':locality,'dropdown':dropdown,'dropdown_group_os':dropdown_group_os,'dropdown_group_sim':dropdown_group_sim,
            'dropdown_group_alsoinclude':dropdown_group_alsoinclude,'dropdown_group_brand':dropdown_group_brand,'dropdown_group_type':dropdown_group_type}
     return render_to_response('advertisement/ad.html', ctx , context_instance=RequestContext(request))
 
 
-def add_product(request):
-    # str="hello,world"
-    # print str.split(',')
+def product_save(request):
+    
     success=False
     product=Product()
     
@@ -256,7 +269,7 @@ def add_product(request):
 
     product.subcategory=SubCategory.objects.get(id=request.POST['subcategory'])
     print product.subcategory.id
-    print "add_product"
+    print "product_save"
     
     if product.subcategory.id == 1:
         print "cars"
@@ -300,8 +313,6 @@ def add_product(request):
         
         product.ad_type=Dropdown.objects.get(id=request.POST['busesvehicletype'])
         
-        
-    
     if product.subcategory.id == 7:
         
         product.ad_type=Dropdown.objects.get(id=request.POST['constructionvehicletype'])
@@ -331,7 +342,41 @@ def add_product(request):
     product.adtype=request.POST.get('adtype')
     product.title=request.POST.get('title')
 
-    
+    #single image upload process:
+    # product.photos=request.FILES['photos']
+    # print product.photos
+    # if product.photos:
+    #    from PIL import Image as ImageObj
+    #    from cStringIO import StringIO
+    #    from django.core.files.uploadedfile import SimpleUploadedFile
+    #    import os
+    #    try:
+    #        # thumbnail
+    #        THUMBNAIL_SIZE = (100, 100)  # dimensions
+    #        print product.photos
+
+    #        image = ImageObj.open(product.photos)
+
+    #        # Convert to RGB if necessary
+    #        if image.mode not in ('L', 'RGB'): image = image.convert('RGB')
+
+    #        # create a thumbnail + use antialiasing for a smoother thumbnail
+    #        image.thumbnail(THUMBNAIL_SIZE, ImageObj.ANTIALIAS)
+
+    #        # fetch image into memory
+    #        temp_handle = StringIO()
+    #        image.save(temp_handle, 'png')
+    #        temp_handle.seek(0)
+
+    #        # save it
+    #        file_name, file_ext = os.path.splitext(product.photos.name.rpartition('/')[-1])
+    #        suf = SimpleUploadedFile(file_name + file_ext, temp_handle.read(), content_type='image/png')
+
+    #        product.thumbnail.save(file_name + '_thumbnail' +'.png', suf, save=False)
+    #    except ImportError:
+    #        pass
+
+    #Multiple image upload:
 
     product.photos =request.FILES.getlist('photos[]')
     print product.photos
@@ -432,7 +477,7 @@ def add_product(request):
         
 
     product.thumbnail = thumbnail_group
-    
+
     product.condition=request.POST.get('condition')
     product.price=request.POST.get('price')
     
@@ -463,50 +508,10 @@ def add_product(request):
 
     product.modified_date   = datetime.datetime.now()
     product.save()
-
-
-
-    # productsearch=Productsearch()
-    # productsearch.title=product.title
-    # productsearch.price=product.price
-    # productsearch.save()
-    
     success=True
     
     ctx = {'success':success}
     return render_to_response('advertisement/ad.html',{ } , context_instance=RequestContext(request))
-
-
-def category_page(request):
-    entries = Category.objects.all()[:10]
-    path=request.path
-    print path
-    return render_to_response('advertisement/category.html', {'category' : entries, 'path':path}, context_instance=RequestContext(request)) 
-
-def post_page(request):
-    
-    return render_to_response('advertisement/ad.html', { }, context_instance=RequestContext(request)) 
-   
-def notes(request):
-    form = ProductSearchForm(request.GET)
-    products = form.search()
-    results = [ r.pk for r in products ]
-    docs = Product.objects.filter(pk__in=results)
-    for doc in docs:
-        print doc
-
-    # results = SearchQuerySet().models(Product).autocomplete(title_auto=q)
-    return render_to_response('advertisement/notes.html', {'products': products,'docs':docs})
-
-def autocomplete(request):
-    sqs = SearchQuerySet().autocomplete(content_auto=request.GET.get('q', ''))[:5]
-    suggestions = [result.title for result in sqs]
-    # Make sure you return a JSON object, not a bare list.
-    # Otherwise, you could be vulnerable to an XSS attack.
-    the_data = json.dumps({
-        'results': suggestions
-    })
-    return HttpResponse(the_data, content_type='application/json')
 
 # def _get_pin(length=5):
 #     """ Return a numeric PIN with length digits """
@@ -559,13 +564,10 @@ def autocomplete(request):
 #                     }
 #                 )
 
-def recent_ads(request):
-    
-    return render_to_response('mainlogin/userpage.html', { 'recentad': recentad ,'path': path }, context_instance=RequestContext(request)) 
-
 def post_ad1(request):
     category=Category.objects.all()
+    
+
     ctx={'category':category}
     
     return render_to_response('advertisement/ad1.html',ctx, context_instance=RequestContext(request))
-
