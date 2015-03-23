@@ -47,6 +47,10 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from urlparse import urlparse
 from os.path import splitext, basename
 
+def product_form_v3(request):
+    
+    return render_to_response('v3/advertisement/quikr_post_v3.html' , context_instance=RequestContext(request))
+
 def post_ad_v3(request):
     
     return render_to_response('v3/advertisement/quikr_post_v3.html' , context_instance=RequestContext(request))
@@ -58,11 +62,6 @@ def post_ad_v2(request):
 def ad_detail_v3(request):
     
     return render_to_response('v3/advertisement/ad_detail_v3.html' , context_instance=RequestContext(request))
-
-
-def product_form_v3(request):
-    
-    return render_to_response('v3/advertisement/quikr_post_v3.html' , context_instance=RequestContext(request))
 
 class JSONResponse(HttpResponse):
     def __init__(self, data):
@@ -111,8 +110,6 @@ def brand_for_subcategory(request):
             for o1 in objs1])
     else:
         return JSONResponse({'error': 'Not Ajax or no GET'})
-        
-
 
 def sub_category(request, name=None):
     print name
@@ -566,8 +563,6 @@ def product_save(request):
 
 def post_ad1(request):
     category=Category.objects.all()
-    
-
     ctx={'category':category}
     
     return render_to_response('advertisement/ad1.html',ctx, context_instance=RequestContext(request))

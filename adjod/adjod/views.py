@@ -101,7 +101,7 @@ def user_login(request):
                 # starturl=reverse('start',kwargs={ 'user_id': user.id })
                 return HttpResponseRedirect('/start/?user_id=' + str(user.id))
                 
-                # return HttpResponseRedirect(starturl)
+                return HttpResponseRedirect(starturl)
             else:
                 # An inactive account was used - no logging in!
                 
