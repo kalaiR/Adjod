@@ -34,26 +34,85 @@
 
 
  
- $(".id_category").click(function() {
-
+ $(".category").click(function() {
 
         $(this).find('li').each(function(){
             // cache jquery var
-            // var current =$('input[type="hidden"]', this).val();
+            var category_id =$('input[type="hidden"]', this).val();
             
-            find_subcategory($('input[type="hidden"]').val());
+            
+            find_subcategory(category_id);
+             $('#display_category').text(category_id);
+
             
             
         });
         
     
   });
+
+ // $(".subcategory").click(function() {
+
+           
+ //            // cache jquery var
+ //            var subcategory_id =$(this).find('li > a > ').val();
+            
+            
+ //            alert(subcategory_id);
+
+            
+            
+       
+        
+    
+ //  });
+ // $(".subcategory").click(function() {
+  
+  
+ //            // cache jquery var
+ //            var subcategory_id =$('li > a .id_subcategory', this).val();
+ //            alert(subcategory_id);
+            
+            
+ //            // find_subcategory(category_id);
+            
+            
+       
+
+ //    //      alert(this.id); // id of clicked li by directly accessing DOMElement property
+ //    // alert($(this).attr('id')); // jQuery's .attr() method, same but more verbose
+ //    // alert($(this).html()); // gets innerHTML of clicked li
+ //    // alert($(this).text()); // gets text contents of clicked li
+
+
+ //        // var subcategory_id = $(this).attr('#id_subcategory');
+       
+
+ //        // alert($(this).html());
+ //        // alert("enter")
+ //        // $(this).find('li').each(function(){
+ //        //     // cache jquery var
+ //        //     var subcategory_id =$('input[type="hidden"]', this).val();
+            
+            
+            
+
+ //        //     find_model(subcategory_id);
+            
+            
+ //        // });
+        
+    
+ //  });
+
+
   // $("#id_category").on('click', function ()  { alert('find_subcategory function'); find_subcategory($('input#input_category').val()); });
 });
 
 var response_cache = {};
 var response_cache1 = {};
 var response_cache2 = {};
+var response_cache3 = {};
 
 function fill_localities(city_id) {
   if (response_cache[city_id]) {
@@ -90,27 +149,62 @@ function fill_models(brand_id) {
 }
 
 function find_subcategory(category_id) {
+  
   if (response_cache2[category_id]) {
-    $("#id_subcategory").html(response_cache2[category_id]);
+
+    $(".subcategory").html(response_cache2[category_id]);
   } else {
-    $.getJSON("/subcategory_for_category/", {category: category},
+    
+    $.getJSON("/subcategory_for_category/", {category_id: category_id},
       function(ret, textStatus) {
-        var options = '<option value="" selected="selected">---------</option>';
+
+        var options = '';
         for (var i in ret) {
-          options += '<option value="' + ret[i].id + '">'
-            + ret[i].name + '</option>';
+          
+          options += '<li><a><input type="hidden" class="id_subcategory" value="' + ret[i].id + '">'
+            + ret[i].name + '</a></li>';
+          
+
+            
         }
+
         response_cache2[category_id] = options;
-        $("#id_subcategory").html(options);
+        $(".subcategory").html(options);
+
+        
       });
   }
 }
 
+// function find_model(subcategory_id) {
+  
+//   if (response_cache3[subcategory_id]) {
+
+//     $(".brand").html(response_cache3[subcategory_id]);
+//   } else {
+    
+//     $.getJSON("/brand_for_subcategory/", {subcategory_id: subcategory_id},
+//       function(ret, textStatus) {
+
+//         var options = '';
+//         for (var i in ret) {
+          
+//           options += '<li><a><input type="hidden" value="' + ret[i].id + '">'
+//             + ret[i].name + '</a></li>';
+
+            
+//         }
+
+//         response_cache2[category_id] = options;
+
+//         $(".subcategory").html(options);
 
 
+        
+//       });
+//   }
+// }
 
-
-	
 	// $("#register-form").validate({
     
  //        // Specify the validation rules
