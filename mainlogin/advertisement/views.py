@@ -52,6 +52,14 @@ def post_ad_v3(request):
     
     return render_to_response('v3/advertisement/quikr_post_v3.html' , context_instance=RequestContext(request))
 
+def post_ad_v2(request):
+    
+    return render_to_response('v2/advertisement/quikr_post_v2.html' , context_instance=RequestContext(request))
+
+def ad_detail_v3(request):
+    
+    return render_to_response('v3/advertisement/ad_detail_v3.html' , context_instance=RequestContext(request))
+
 class JSONResponse(HttpResponse):
     def __init__(self, data):
         super(JSONResponse, self).__init__(

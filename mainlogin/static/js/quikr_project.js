@@ -56,18 +56,45 @@ function isValidEmailAddress(emailAddress) {
 };
 
 function isValidMobileNo(){
-    if($('#mobile_no').val().length > 9) {
-        $('#mobile_no').val($('#mobile_no').val().slice(0, 9));
+    if($('#your_mobile_no').val().length > 9) {
+        $('#your_mobile_no').val($('#your_mobile_no').val().slice(0, 9));
         return false;
     }
 }
+function updateCountdownTitle() {
+    var remaining = 70 - $('.ad_title').val().length;
+    $('#ad_title_count').text(remaining);
+}
+function updateCountdownDesc() {
+	var remaining = 4000 - $('#your_description').val().length;
+	$('#desc_count').text(remaining);
+    		
+}
+
 //********** End Functions **********
 
 
 
 ( function( $ ) {
 $( document ).ready(function() {
-
+	
+	// updateCountdown();
+    // $('.ad_title').onkeypress(updateCountdown);
+    // $('.ad_title').keyup(updateCountdown);
+	
+	//================= Fancy Box popup for choose category ======================
+	$('.fancybox').fancybox({
+		helpers : {
+			overlay : {
+				css : {
+					'background' : 'rgba(127,127,127,0.85)'
+				}
+			}
+		}
+	});
+	
+	
+	
     $('#highlightchk1').click(function(){
         if($("#highlightchk1").is(':checked')) {
             $('#premium_ad_hidden_part1').show();
@@ -168,9 +195,115 @@ var no_of_owners  =   ["One","Two","Three"];
 // ********** Validation Add Post **********
 ( function( $ ) {
 $( document ).ready(function() {
+		var category = "Cars & Bikes";
+		var sub_category = "Cars";
+		var brand = "Audi";
+		// $('input[type=radio]').change(function() { 
+			// var radio_name = this.name;
+			// $('input[name='+radio_name+']').removeAttr('checked');
+			// $(this).attr('checked','checked');
+		// });
+		
+		//============= SIGN UP VALIDATION ===========
+		$('#create').click(function(){
+			//Email
+     	 	if ($('#email_id').val() == '') {
+          		$('#email_required').removeClass('hide_error_message');
+          		$('#valid_signup_email_required').addClass('hide_error_message');
+      		} else {
+          		if (!$('#email_required').hasClass('hide_error_message'))
+              		$('#email_required').addClass('hide_error_message');
+              	
+          		if( !isValidEmailAddress( $('#email_id').val() ) ) { 
+              		$('#valid_signup_email_required').removeClass('hide_error_message');
+          		} else {
+              		if (!$('#valid_signup_email_required').hasClass('hide_error_message'))
+                  		$('#valid_signup_email_required').addClass('hide_error_message');
+          		}
+      		};
+      		//PASSWORD
+      		if ($('#password').val() == '') {
+          		$('#signup_password_required').removeClass('hide_error_message');
+      		} else{
+          		if (!$('#signup_password_required').hasClass('hide_error_message'))
+              		$('#signup_password_required').addClass('hide_error_message');
+     	 	};
+		});
+		
+		//============= SIGN IN VALIDATION ===========
+		$('#signin').click(function(){
+			//EMAIL
+			if ($('#emailid_signup').val() == '') {
+          		$('#emailid_required').removeClass('hide_error_message');
+      		} else{
+          		if (!$('#emailid_required').hasClass('hide_error_message'))
+              		$('#emailid_required').addClass('hide_error_message');
+     	 	};
+     	 	//PASSWORD
+     	 	if ($('#password_signup').val() == '') {
+          		$('#password_required').removeClass('hide_error_message');
+      		} else{
+          		if (!$('#password_required').hasClass('hide_error_message'))
+              		$('#password_required').addClass('hide_error_message');
+     	 	};
+		});
+	   
+	   //============= POST AD VALIDATION ===========
+	   $('#post').click(function(){
+	   		
+	   		//Type of ad
+	   		if ($('input[name=condition]').is(":checked")){
+          		if (!$('#condition_required').hasClass('hide_error_message'))
+              		$('#condition_required').addClass('hide_error_message');
+      		} else{
+          		$('#condition_required').removeClass('hide_error_message');
+      		};
+      		
+      		//Category
+      		if ($('#category').val() == '') {
+          		$('#category_required').removeClass('hide_error_message');
+      		} else{
+          		if (!$('#category_required').hasClass('hide_error_message'))
+              		$('#category_required').addClass('hide_error_message');
+     	 	};
+	   		
+	   		//Ad title
+      		if ($('#ad_title').val() == '') {
+      			$('#ad_title_required').removeClass('hide_error_message');
+      		} else{
+          		if (!$('#ad_title_required').hasClass('hide_error_message'))
+              		$('#ad_title_required').addClass('hide_error_message');
+   	  		};
+   	  		
+   	  		//Description
+   	  		if ($('#your_description').val() == '') {
+          		$('#desc_required').removeClass('hide_error_message');
+      		} else{
+          		if (!$('#desc_required').hasClass('hide_error_message'))
+              		$('#desc_required').addClass('hide_error_message');
+   	  		};
+   	  		
+   	  		//You are
+	   		if ($('input[name=you_are_radio]').is(":checked")){
+          		if (!$('#you_are_required').hasClass('hide_error_message'))
+              		$('#you_are_required').addClass('hide_error_message');
+      		} else{
+          		$('#you_are_required').removeClass('hide_error_message');
+      		};
+      		
+      		//email
+      		if($('#your_email').val() != ''){
+      			 if( !isValidEmailAddress( $('#your_email').val() ) ) { 
+              		$('#valid_email_required').removeClass('hide_error_message');
+          		 } else {
+              		if (!$('#valid_email_required').hasClass('hide_error_message'))
+                  		$('#valid_email_required').addClass('hide_error_message');
+          		}
+      		}
+   		});
 
+  //============= EX POST AD VALIDATION ===========
   $('#post_button').click(function(){
-
       //Ad type
       if ($('input[name=Ad_Type]').is(":checked")){
           if (!$('#ad_type_required').hasClass('hide_error_message'))
@@ -262,6 +395,7 @@ $( document ).ready(function() {
       //Email
       if ($('#email').val() == '') {
           $('#email_required').removeClass('hide_error_message');
+          $('#valid_email_required').addClass('hide_error_message');
       } else {
           if (!$('#email_required').hasClass('hide_error_message'))
               $('#email_required').addClass('hide_error_message');
@@ -274,7 +408,53 @@ $( document ).ready(function() {
       };
 
   });
-  // ********** End Validation Add Post **********
+  //============= END EX POST AD VALIDATION ===========
+  	
+  	//============= CHOOSE PAYMENT METHOD DROPDOWN ===========
+ 	$( ".select_payment" ).change(function () {
+ 		var selected_option = $( ".select_payment option:selected" ).val();
+ 		$('#payment_method').html(selected_option);
+	});
+	
+	//============= CHOOSE CITY DROPDOWN ===========
+	$( ".select_city" ).change(function () {
+ 		var selected_option = $( ".select_city option:selected" ).val();
+ 		$('#select_city').html(selected_option);
+	});
+  	
+  	//============= CHOOSE CATEGORY POPUP ===========
+  	//CATEGORY
+  	$('.category_list > li').click(function () {
+  		$( ".category_list > li" ).each(function( index ) {
+			$( this ).removeClass('orange_text');
+		});
+  		$(this).addClass('orange_text');
+  		category = $(this).text();
+  	});
+	
+	//SUB CATEGORY
+	$('.subcategory_list > li').click(function () {
+  		$( ".subcategory_list > li" ).each(function( index ) {
+			$( this ).removeClass('orange_text');
+		});
+  		$(this).addClass('orange_text');
+  		sub_category = $(this).text();
+  		$('.brand_list').show();
+  		$('#brand').show();
+  	});
+  	
+  	//BRAND
+  	$('.brand_list > li').click(function () {
+  		$( ".brand_list > li" ).each(function( index ) {
+			$( this ).removeClass('orange_text');
+		});
+  		$(this).addClass('orange_text');
+  		brand = $(this).text();
+  		$('.fancybox-close').click();
+  		$('#category').val(category + " »  " + sub_category + " »  " + brand);
+  		$('.choose_button').text('change');
+  	});
+  //============= END CHOOSE CATEGORY POPUP ===========
 
 });
 } )( jQuery );
