@@ -322,37 +322,20 @@
       		<div class="row content_row">
   				<div class="category_list_div col-md-4">
 					<ul class="category_list">
-						<li class="orange_text"><img height="30" width="30" src="{% static "img/car.png" %}" />Cars & Bikes</li>
-						<li><img height="30" width="30" src="{% static "img/mobile.png" %}" />Mobiles and Tablets</li>
-						<li><img height="30" width="30" src="{% static "img/plug.png" %}" />Electronic & Appliance</li>
-						<li><img height="30" width="30" src="{% static "img/home.png" %}" />Real estate</li>
-						<li><img height="30" width="30" src="{% static "img/car.png" %}" />Jobs</li>
-						<li><img height="30" width="30" src="{% static "img/car.png" %}" />Home & Lifestyle</li>
-						<li><img height="30" width="30" src="{% static "img/car.png" %}" />Services</li>
-						<li><img height="30" width="30" src="{% static "img/car.png" %}" />Education & Learning</li>
-						<li><img height="30" width="30" src="{% static "img/car.png" %}" />Pets & Pet care</li>
-						<li><img height="30" width="30" src="{% static "img/car.png" %}" />Entertainment</li>
-						<li><img height="30" width="30" src="{% static "img/car.png" %}" />Community & Events</li>
-						<li><img height="30" width="30" src="{% static "img/car.png" %}" />Matrimonial</li>
+            {% for categories in category %}
+						<li class=""><img height="30" width="30" src="{{ STATIC_ROOT }}/{{ categories.icon }}" />
+            <input type="hidden" value="{{categories.id}}" name="category">{{categories.name}}</li>
+						{% endfor %}
 					</ul>
 				</div> <!-- category_list_div -->
   				<div class="col-md-4 subcategory_list_div">
   					<ul class="subcategory_list">	<!-- style="display:none" -->
-  						<li class="orange_text">Cars</li>
-  						<li>Motorcycles</li>
-  						<li>Scooters</li>
-  						<li>Bicycles</li>
-  						<li>Commercial Vehicles</li>
+  						<li class=""><input type="hidden" value="" name="subcategory"></li>
   					</ul>
   				</div> <!-- subcategory_list_div -->
   				<div class="col-md-4 brand_list_div">
   					<ul style="display: none;" class="brand_list">	<!-- style="display:none" -->
-  						<li class="orange_text">Audi</li>
-  						<li>BMW</li>
-  						<li>Fiat</li>
-  						<li>Ford</li>
-  						<li>Honda</li>
-  						<li>Tata</li>
+  						<li class=""><input type="hidden" value="" name="brand"></li>
   					</ul>
   				</div>
 			</div> <!-- row -->
