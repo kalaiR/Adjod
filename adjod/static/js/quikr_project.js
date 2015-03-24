@@ -194,6 +194,7 @@ var no_of_owners  =   ["One","Two","Three"];
 
 var response_cache = {};
 var response_cache1 = {};
+
 function find_subcategory(category_id) {
   
   if (response_cache[category_id]) {
@@ -218,16 +219,16 @@ function find_subcategory(category_id) {
 }
 
 function find_brand(sub_category_id) {
-  alert(sub_category_id);
+  
   
   if (response_cache1[sub_category_id]) {
 
     $(".brand_list").html(response_cache1[sub_category_id]);
   } else {
-    
+   
     $.getJSON("/brand_for_subcategory/", {sub_category_id: sub_category_id},
       function(ret, textStatus) {
-
+        
         var options = '';
         for (var i in ret) {
           
@@ -478,7 +479,7 @@ $( document ).ready(function() {
   	//============= CHOOSE CATEGORY POPUP ===========
   	//CATEGORY
   	$('.category_list > li').click(function () {
-      alert("clicked category");
+      
   		$( ".category_list > li" ).each(function( index ) {
 			$( this ).removeClass('orange_text');
 		});
@@ -487,31 +488,35 @@ $( document ).ready(function() {
       category_id=$('input[type="hidden"]', this).val();
       
       find_subcategory(category_id);
+      $('.brand_list').hide();
   	});
 	
 	//SUB CATEGORY
-	$('.subcategory_list').click(function () {
-      alert("clicked subcategory");
+	$(".subcategory_list").on("click", ">li", function(){
+      
   		$( ".subcategory_list > li" ).each(function( index ) {
 			$( this ).removeClass('orange_text');
 		});
   		$(this).addClass('orange_text');
   		sub_category = $(this).text();
+      
       sub_category_id = $('input[type="hidden"]', this).val();
 
-      
+      $('#brand').html(sub_category);
       find_brand(sub_category_id);
   		$('.brand_list').show();
   		$('#brand').show();
   	});
   	
   	//BRAND
-  	$('.brand_list > li').click(function () {
+  	$('.brand_list').on("click", ">li", function(){
+      
   		$( ".brand_list > li" ).each(function( index ) {
 			$( this ).removeClass('orange_text');
 		});
   		$(this).addClass('orange_text');
   		brand = $(this).text();
+      
   		$('.fancybox-close').click();
   		$('#category').val(category + " »  " + sub_category + " »  " + brand);
   		$('.choose_button').text('change');

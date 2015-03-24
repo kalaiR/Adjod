@@ -44,6 +44,7 @@ urlpatterns = patterns('',
     url(r'^v3/addetail/$', 'advertisement.views.ad_detail_v3', name='ad_detail_v3'),
     url(r'^v3/postad/$', 'advertisement.views.product_form_v3', name='product_form_v3'),
     url(r'^subcategory_for_category/$', 'advertisement.views.subcategory_for_category',name='subcategory'),
+    url(r'^brand_for_subcategory/$', 'advertisement.views.brand_for_subcategory',name='brand'),
     
     url(r'^postad/$', 'advertisement.views.post_ad1',name='postad'),
 
