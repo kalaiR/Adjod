@@ -433,11 +433,12 @@ $( document ).ready(function() {
   	});
 	
 	//SUB CATEGORY
-	$('.subcategory_list > li').click(function () {
+	$('.subcategory_list').click(function () {	// > li
   		$( ".subcategory_list > li" ).each(function( index ) {
 			$( this ).removeClass('orange_text');
 		});
-  		$(this).addClass('orange_text');
+		alert($(this).html());
+  		//$(this).addClass('orange_text');
   		sub_category = $(this).text();
   		$('.brand_list').show();
   		$('#brand').show();
