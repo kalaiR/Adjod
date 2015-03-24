@@ -52,8 +52,10 @@ def product_form_v3(request):
     return render_to_response('v3/advertisement/quikr_post_v3.html' , context_instance=RequestContext(request))
 
 def post_ad_v3(request):
+    category=Category.objects.all()
+    ctx={'category':category}
     
-    return render_to_response('v3/advertisement/quikr_post_v3.html' , context_instance=RequestContext(request))
+    return render_to_response('v3/advertisement/quikr_post_v3.html' ,ctx, context_instance=RequestContext(request))
 
 def post_ad_v2(request):
     
@@ -91,7 +93,8 @@ def subcategory_for_category(request):
     if request.is_ajax() and request.GET and 'category_id' in request.GET:
         print request.GET['category_id'] 
         
-        objs1 = SubCategory.objects.filter(category_id=request.GET['category_id']) 
+        objs1 = SubCategory.objects.filter(category_id=request.GET['category_id'])
+         
         
         return JSONResponse([{'id': o1.id, 'name': smart_unicode(o1.name)}
             for o1 in objs1])
@@ -99,11 +102,11 @@ def subcategory_for_category(request):
         return JSONResponse({'error': 'Not Ajax or no GET'})
 
 def brand_for_subcategory(request):
-    print "subcategory_for_category"
-    if request.is_ajax() and request.GET and 'subcategory_id' in request.GET:
-        print request.GET['subcategory_id'] 
+    print "brand_for_subcategory"
+    if request.is_ajax() and request.GET and 'sub_category_id' in request.GET:
+        print request.GET['sub_category_id'] 
         
-        objs1 = SubCategory.objects.filter(subcat_ref_id=request.GET['subcategory_id']) 
+        objs1 = SubCategory.objects.filter(subcat_ref_id=request.GET['sub_category_id']) 
         for obj in objs1:
             print obj.brand_name
         return JSONResponse([{'id': o1.id, 'name': smart_unicode(o1.brand_name)}

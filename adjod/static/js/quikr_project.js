@@ -190,14 +190,67 @@ var no_of_owners  =   ["One","Two","Three"];
 } )( jQuery );
 //********** End Autocomplete and Datepicker **********
 
+//********** Start Ajax Function **********
 
+var response_cache = {};
+var response_cache1 = {};
+function find_subcategory(category_id) {
+  
+  if (response_cache[category_id]) {
+
+    $(".subcategory_list").html(response_cache[category_id]);
+  } else {
+    
+    $.getJSON("/subcategory_for_category/", {category_id: category_id},
+      function(ret, textStatus) {
+
+        var options = '';
+        for (var i in ret) {
+          
+          options += '<li><input type="hidden" name="subcategory" value="' + ret[i].id + '">'
+            + ret[i].name + '</li>';
+        }
+
+        response_cache[category_id] = options;
+        $(".subcategory_list").html(options);
+      });
+  }
+}
+
+function find_brand(sub_category_id) {
+  alert(sub_category_id);
+  
+  if (response_cache1[sub_category_id]) {
+
+    $(".brand_list").html(response_cache1[sub_category_id]);
+  } else {
+    
+    $.getJSON("/brand_for_subcategory/", {sub_category_id: sub_category_id},
+      function(ret, textStatus) {
+
+        var options = '';
+        for (var i in ret) {
+          
+          options += '<li><input type="hidden" name="brand" value="' + ret[i].id + '">'
+            + ret[i].name + '</li>';
+        }
+
+        response_cache1[sub_category_id] = options;
+        $(".brand_list").html(options);
+      });
+  }
+}
+
+//********** End Ajax Function **********
 
 // ********** Validation Add Post **********
 ( function( $ ) {
 $( document ).ready(function() {
 		var category = "Cars & Bikes";
+    var category_id = '';
 		var sub_category = "Cars";
 		var brand = "Audi";
+    var sub_category_id= "";
 		// $('input[type=radio]').change(function() { 
 			// var radio_name = this.name;
 			// $('input[name='+radio_name+']').removeAttr('checked');
@@ -425,20 +478,29 @@ $( document ).ready(function() {
   	//============= CHOOSE CATEGORY POPUP ===========
   	//CATEGORY
   	$('.category_list > li').click(function () {
+      alert("clicked category");
   		$( ".category_list > li" ).each(function( index ) {
 			$( this ).removeClass('orange_text');
 		});
   		$(this).addClass('orange_text');
   		category = $(this).text();
+      category_id=$('input[type="hidden"]', this).val();
+      
+      find_subcategory(category_id);
   	});
 	
 	//SUB CATEGORY
-	$('.subcategory_list > li').click(function () {
+	$('.subcategory_list').click(function () {
+      alert("clicked subcategory");
   		$( ".subcategory_list > li" ).each(function( index ) {
 			$( this ).removeClass('orange_text');
 		});
   		$(this).addClass('orange_text');
   		sub_category = $(this).text();
+      sub_category_id = $('input[type="hidden"]', this).val();
+
+      
+      find_brand(sub_category_id);
   		$('.brand_list').show();
   		$('#brand').show();
   	});
