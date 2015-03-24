@@ -753,6 +753,9 @@ hr {
     top: 20px;
 }
 .price {
+  color: #8991c0;
+}
+.price {
 	@media (min-width: @grid-float-breakpoint){
     	left: 230px;
     	position: relative;
@@ -816,7 +819,7 @@ hr {
     }
 }
 .fa-check-circle {
-    color: lightgreen;
+    color: #37b748;
 }
 .owner_contact {
 	@media (min-width: @grid-float-breakpoint){
@@ -989,6 +992,7 @@ hr {
 }
 .number_verify1{
 	float:none;
+	color: #929292;
 	@media (min-width: @grid-float-breakpoint){
 		float:left;
 		padding-left:14px;
@@ -1012,7 +1016,6 @@ hr {
     display: block;
 }
 .year {
-    color: gray;
     @media (min-width: @grid-float-breakpoint){
     	position: relative;
     	left: 70px;
@@ -1045,7 +1048,7 @@ hr {
     }
 }
 .product_images1 {
-    border: 1px solid gray;
+    border-right: 1px solid gray;
     color: black;
     display: block;
     margin: 0 auto;
@@ -1146,7 +1149,7 @@ hr {
 }
 
 .product_list1 {
-    border: 1px solid gray;
+    border: 1px solid #828282;
     margin-bottom: 10px;
     width:100%;
     height:380px;
@@ -1199,11 +1202,12 @@ hr {
 	color:white;
 	background:#fc891e;
 	border-radius:0px;
+	border: 0px;
 	@media (min-width: @grid-float-breakpoint){
 		float:left;
         padding: 9px 0;
     	position: relative;
-    	width: 123px;
+    	width: 120px !important;
     	top: 6px;
 	}
 }
@@ -2219,13 +2223,14 @@ sup , .view_example{
     width: 530px;
     padding: 10px;
 }
-.category{
+.choose_category{
     font-size:16px;
-    //border: 1px solid #d8d8d8;
+    border: 1px solid #d8d8d8;
     height: 50px;
     width: 430px;
     padding: 10px;
 }
+
 .choose_button{
   height: 50px;
   width: 90px;
@@ -2306,8 +2311,8 @@ sup , .view_example{
   color: #858585;
   margin-bottom: 20px;
 }
-.row{
-  //border: 1px solid #e2e0e0;
+.premium_row{
+  border: 1px solid #e2e0e0;
   border-collapse: collapse;
 }
 .premium_col_1, .premium_col_2, .premium_col_3{
@@ -2702,76 +2707,42 @@ sup , .view_example{
 .error_class{
   border: 1px solid red;
 }
-
-
 // ===========================
-//     checkbox and radio
+// checkbox and radio
 // ===========================
-//input[type=checkbox]:not(old),
-input[type=radio   ]:not(old){
-  width     : 2em;
-  margin    : 0;
-  padding   : 0;
-  font-size : 1em;
-  opacity   : 0;
+input[name=condition ]:not(old),
+input[name=you_are_radio ]:not(old){
+width : 2em;
+margin : 0;
+padding : 0;
+font-size : 1em;
+opacity : 0;
 }
-
-//input[type=checkbox]:not(old) + label,
-input[type=radio   ]:not(old) + label{
-  display      : inline-block;
-  margin-left  : -0.3em;
-  line-height  : 1.5em;
+input[name=condition ]:not(old) + label,
+input[name=you_are_radio ]:not(old) + label{
+display : inline-block;
+margin-left : -0.3em;
+line-height : 1.5em;
 }
-
-//input[type=checkbox]:not(old) + label > span,
-input[type=radio   ]:not(old) + label > span{
-  display          : inline-block;
-  width            : 22px; //0.875em;
-  height           : 22px; //0.875em;
-  margin           : 0.25em 0.5em 0.25em 0.25em;
-  //border           : 0.0625em solid rgb(192,192,192);
-  border-radius    : 22px; //0.875em;
-  background       : rgb(224,224,224);
-  background-image :    -moz-linear-gradient(rgb(228,228,228),rgb(228,228,228));
-  background-image :     -ms-linear-gradient(rgb(228,228,228),rgb(228,228,228));
-  background-image :      -o-linear-gradient(rgb(228,228,228),rgb(228,228,228));
-  background-image : -webkit-linear-gradient(rgb(228,228,228),rgb(228,228,228));
-  background-image :         linear-gradient(rgb(228,228,228),rgb(228,228,228));
-  vertical-align   : bottom;
+input[name=condition ]:not(old) + label > span,
+input[name=you_are_radio ]:not(old) + label > span{
+display : inline-block;
+width : 22px; //0.875em;
+height : 22px; //0.875em;
+margin : 0.25em 0.5em 0.25em 0.25em;
+border-radius : 22px; //0.875em;
+background : rgb(224,224,224);
+vertical-align : bottom;
 }
-
-//input[type=checkbox]:not(old):checked + label > span,
-input[type=radio   ]:not(old):checked + label > span{
-  background-image :    -moz-linear-gradient(rgb(228,228,228),rgb(228,228,228));
-  background-image :     -ms-linear-gradient(rgb(228,228,228),rgb(228,228,228));
-  background-image :      -o-linear-gradient(rgb(228,228,228),rgb(228,228,228));
-  background-image : -webkit-linear-gradient(rgb(228,228,228),rgb(228,228,228));
-  background-image :         linear-gradient(rgb(228,228,228),rgb(228,228,228));
+input[name=condition]:not(old):checked + label > span > span,
+input[name=you_are_radio]:not(old):checked + label > span > span{
+display : block;
+width : 0.5em;
+height : 0.5em;
+margin : 0.355em; //0.125em;
+border-radius : 0.5em;
+background : rgb(137,137,137);
 }
-
-// input[type=checkbox]:not(old):checked + label > span:before{
-  // content     : 'âœ“';
-  // display     : block;
-  // width       : 1em;
-  // color       : rgb(153,204,102);
-  // font-size   : 0.875em;
-  // line-height : 1em;
-  // text-align  : center;
-  // text-shadow : 0 0 0.0714em rgb(115,153,77);
-  // font-weight : bold;
-// }
-
-input[type=radio]:not(old):checked +  label > span > span{
-  display          : block;
-  width            : 0.5em;
-  height           : 0.5em;
-  margin           : 0.355em; //0.125em;
-  //border           : 0.0625em solid rgb(115,153,77);
-  border-radius    : 0.5em;
-  background       : rgb(137,137,137);
-  background-image :    -moz-linear-gradient(rgb(137,137,137),rgb(137,137,137));
-  background-image :     -ms-linear-gradient(rgb(137,137,137),rgb(137,137,137));
-  background-image :      -o-linear-gradient(rgb(137,137,137),rgb(137,137,137));
-  background-image : -webkit-linear-gradient(rgb(137,137,137),rgb(137,137,137));
-  background-image :         linear-gradient(rgb(137,137,137),rgb(137,137,137));
+.Ad-ID{
+color: #858585;
 }

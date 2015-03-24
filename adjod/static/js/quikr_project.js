@@ -492,12 +492,14 @@ $( document ).ready(function() {
   	});
 	
 	//SUB CATEGORY
+
 	$(".subcategory_list").on("click", ">li", function(){
-      
+
   		$( ".subcategory_list > li" ).each(function( index ) {
 			$( this ).removeClass('orange_text');
 		});
-  		$(this).addClass('orange_text');
+		alert($(this).html());
+  		//$(this).addClass('orange_text');
   		sub_category = $(this).text();
       
       sub_category_id = $('input[type="hidden"]', this).val();
