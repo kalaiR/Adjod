@@ -1,0 +1,65 @@
+{% load i18n fixido_tags %}
+    <div class="module trans-id" id="changelist">
+        <span id="changelist-form">
+          <div class="results">
+            <legend>{% trans "Transactions" %}
+              <a href="javascript:void(0);" onclick="javascript:get_page('trans', 1)">All</a>
+              <a href="javascript:void(0);" onclick="javascript:get_page('trans', 1, 'order')">Order</a>
+            </legend>
+            <table id="result_list">
+              <thead>
+                <tr>
+                  <th scope="col">
+                     <div class="text"><span>Order</span>{% csrf_token %}</div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Reference</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Transaction type</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Base amount</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Payment reference</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Payment method</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Transaction date</span></div>
+                     <div class="clear"></div>
+                  </th>
+                </tr>
+              </thead>
+              {% for txn in orders %}
+                  <tr class="{% cycle 'row1' 'row2' %}">                    
+                      <td>{{txn.order}}</td>
+                      <td><a href="/admin/commerce/transaction/{{txn.reference}}" target="_blank">{{txn.reference}}</a></td>
+                      <td>{{txn.transaction_type}}</td>
+                      <td>{{txn.base_amount}}</td>
+                      <td>{{txn.payment_reference}}</td>
+                      <td>{{txn.payment_method}}</td>
+                      <td>{{txn.transaction_date}}</td>
+                  </tr>
+              {% empty %}
+                  <tr class="{% cycle 'row1' 'row2' %}">
+                      <td colspan='7'>No transactions available.</td>
+                  </tr>
+              {% endfor%}
+            </table>
+          </div>
+          {% if orders %}
+          {% with pagi=orders tab='trans' ttype=txn_type %}
+          {% include "card/pagination.html" %}
+          {% endwith %}
+          {% endif %}
+        </span>
+    </div>

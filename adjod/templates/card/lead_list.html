@@ -1,0 +1,28 @@
+{% if leads %}
+<table>
+	<tr>
+		<th>ID</th>
+		<th>Title</th>
+		<th>Seller name</th>
+		<th>Total</th>
+		<th>Price</th>
+		<th>Currency</th>
+		<th>Active</th>
+	</tr>
+	{% for i in leads %}
+	<tr class="{% cycle 'row1' 'row2' %}" onclick='javascript:get_lead({{i.id}});'>
+		<td>{{ i.id }}</td>
+		<td>{{ i.title }}</td>
+		<td>{{ i.seller }}</td>
+		<td>{{ i.sale }}</td>
+		<td>{{ i.price }}</td>
+		<td>{{ i.price_currency }}</td>
+		<td>{{ i.active }}</td>
+	</tr>
+        {% endfor %}
+</table>
+{%else%}
+	{% if no_match %}	
+	<p style="margin-left: 82px !important">No Match</p>
+	{% endif %}
+{% endif %}

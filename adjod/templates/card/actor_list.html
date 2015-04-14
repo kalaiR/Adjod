@@ -1,0 +1,28 @@
+{% if actors %}
+<table>
+	<tr>
+		<th>ID</th>
+		<th>Email</th>
+		<th>Full name</th>
+		<th>Actor key</th>
+		<th>Address</th>
+		<th>Phone</th>
+		<th>Company</th>
+	</tr>
+	{% for a in actors %}
+	<tr class="{% cycle 'row1' 'row2' %}" onclick='javascript:get_actor({{a.id}});'>
+		<td>{{ a.id }}</td>
+		<td>{{ a.email }}</td>
+		<td>{{ a.get_full_name }}</td>
+		<td>{{ a.actor_key }}</td>
+		<td>{{ a.address }}</td>
+		<td>{{ a.phone_number }}</td>
+		<td>{{ a.company }}</td>
+	</tr>
+        {% endfor %}
+</table>
+{%else%}
+	{% if no_match %}	
+	<p style="margin-left: 82px !important">No Match</p>
+	{% endif %}
+{% endif %}

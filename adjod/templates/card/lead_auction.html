@@ -1,0 +1,53 @@
+{% load i18n fixido_tags %}
+    <div class="module trans-id" id="changelist">
+        <span id="changelist-form">
+          <div class="results">
+            <legend>{% trans "Auction" %}
+            </legend>
+            <table id="result_list">
+              <thead>
+                <tr>
+                  <th scope="col">
+                     <div class="text"><span>Lead</span>{% csrf_token %}</div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Auction Starts at</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Auction status</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Total bids</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Lowest bid</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Highest bid</span></div>
+                     <div class="clear"></div>
+                  </th>
+                </tr>
+              </thead>
+              {% if lead_auction.auction %}
+                  <tr class="{% cycle 'row1' 'row2' %}">                    
+                      <td>{{lead_auction.title}}</td>
+                      <td>{{lead_auction.auction.auction_starts_at}}</td>
+                      <td>{{lead_auction.auction.status}}</td>
+                      <td>{{lead_auction.auction.total_bids}}</td>
+                      <td>{{lead_auction.auction.lowest_bid}}</td>
+                      <td>{{lead_auction.auction.highest_bid}}</td>
+                  </tr>
+              {% else %}
+                  <tr class="{% cycle 'row1' 'row2' %}">
+                      <td colspan='7'>No Auction available.</td>
+                  </tr>
+              {% endif %}
+            </table>
+          </div>
+        </span>
+    </div>

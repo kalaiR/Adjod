@@ -1,0 +1,65 @@
+{% load i18n fixido_tags %}
+    <div class="module bid-id" id="changelist">
+        <span id="changelist-form">
+          <div class="results">
+            <legend>{% trans "Bids" %}
+            </legend>
+            <table id="result_list">
+              <thead>
+                <tr>
+                  <th scope="col">
+                     <div class="text"><span>Bid amount</span>{% csrf_token %}</div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Lead id</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Lead title</span></div>
+                     <div class="clear"></div>
+                  </th>                  
+                  <th scope="col">
+                     <div class="text"><span>Bid method</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Bid result</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Status</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Auction date</span></div>
+                     <div class="clear"></div>
+                  </th>
+                </tr>
+              </thead>
+              {% for bd in bids %}
+                  <tr class="{% cycle 'row1' 'row2' %}">                    
+                      <td><a href="/admin/leads/bid/{{bd.id}}" target="_blank">
+                        {{bd.bid_amount}} {{bd.bid_currency}}</a>
+                      </td>
+                      <td>{{bd.lead.id}}</td>
+                      <td>{{bd.lead.title}}</td>
+                      <td>{{bd.bid_method}}</td>
+                      <td>{{bd.bid_result_status}}</td>
+                      <td>{{bd.status}}</td>
+                      <td>{{bd.auction_datetime}}</td>
+                  </tr>
+              {% empty %}
+                  <tr class="{% cycle 'row1' 'row2' %}">
+                      <td colspan='7'>No bids available.</td>
+                  </tr>
+              {% endfor%}
+            </table>
+          </div>
+          {% if bids %}
+          {% with pagi=bids tab='bid' %}
+          {% include "card/pagination.html" %}
+          {% endwith %}
+          {% endif %}
+        </span>
+    </div>

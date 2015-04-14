@@ -1,0 +1,63 @@
+{% load i18n fixido_tags %}
+    <div class="module subsc-id" id="changelist">
+        <span id="changelist-form">
+          <div class="results">
+            <legend>{% trans "Subscriptions" %}
+            </legend>
+            <table id="result_list">
+              <thead>
+                <tr>
+                  <th scope="col">
+                     <div class="text"><span>Name</span>{% csrf_token %}</div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Bid amount</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Budget</span></div>
+                     <div class="clear"></div>
+                  </th>                  
+                  <th scope="col">
+                     <div class="text"><span>Leads</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Status</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Method</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Email address</span></div>
+                     <div class="clear"></div>
+                  </th>
+                </tr>
+              </thead>
+              {% for sub in subscriptions %}
+                  <tr class="{% cycle 'row1' 'row2' %}">                    
+                      <td><a href="/admin/control/subscription/{{sub.id}}" target="_blank">{{sub.name}}</a></td>
+                      <td>{{sub.bid_amount}} {{sub.bid_currency}}</td>
+                      <td>{{sub.bid_budget}} / {{sub.bid_budget_unit}}</td>
+                      <td>{{sub.bid_max_leads}} / {{sub.bid_max_leads_unit}}</td>
+                      <td>{{sub.status}}</td>
+                      <td>{{sub.subscription_method}}</td>
+                      <td>{{sub.subscription_address}}</td>
+                  </tr>
+              {% empty %}
+                  <tr class="{% cycle 'row1' 'row2' %}">
+                      <td colspan='7'>No subscription available.</td>
+                  </tr>
+              {% endfor%}
+            </table>
+          </div>
+          {% if subscriptions %}
+          {% with pagi=subscriptions tab='subsc' %}
+          {% include "card/pagination.html" %}
+          {% endwith %}
+          {% endif %}
+        </span>
+    </div>

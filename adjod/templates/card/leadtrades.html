@@ -1,0 +1,87 @@
+{% load i18n fixido_tags %}
+    <div class="module bought-id" id="changelist">
+        <span id="changelist-form">
+          <div class="results">
+            <legend>{% trans "Leads Trade" %}</legend>
+            <table id="result_list">
+              <thead>
+                <tr>
+                  <th scope="col">
+                     <div class="text"><span>ID</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Buyer</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Buyer Amount</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Buyer Currency</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>seller</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>seller Amount</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><spa n>sellerCurrency</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Partner</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Partner commission</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Partner Currency</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Commission</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Transaction Date</span></div>
+                     <div class="clear"></div>
+                  </th>
+                </tr>
+              </thead>
+              {% for trade in trades %}
+                  <tr class="{% cycle 'row1' 'row2' %}">                    
+                      <td><a href="/admin/commerce/trade/{{trade.id}}" target="_blank">{{trade.id}}</a></td>
+                      <td>{{trade.buyer.email}}</td>
+                      <td>{{trade.price}}</td>
+                      <td>{{trade.price_currency}}</td>
+                      <td>{{trade.seller.email}}</td>
+                      <td>{{trade.seller_sales_total}}</td>
+                      <td>{{trade.seller.currency}}</td>
+                      <td>{{trade.partner.email}}</td>
+                      <td>{{trade.partner_kickback_total}}</td>
+                      <td>{{trade.partner.currency}}</td>
+                      <td>{{trade.commission_total}}</td>
+                      <td>{{trade.transaction_date}}</td>
+                  </tr>
+              {% empty %}
+                  <tr class="{% cycle 'row1' 'row2' %}">
+                      <td colspan='7'>No lead trades.</td>
+                  </tr>
+              {% endfor%}
+            </table>
+          </div>
+          {% if trades %}
+          {% with pagi=trades tab='trade' %}
+          {% include "card/pagination.html" %}
+          {% endwith %}
+          {% endif %}
+        </span>
+    </div>

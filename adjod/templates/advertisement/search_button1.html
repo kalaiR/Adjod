@@ -1,0 +1,28 @@
+<div class="fl filter_result_wrapper" id="search_result" style="position:relative;">
+
+      {% for productsss in page.object_list %}
+          {{productsss.object.title}}
+      {% endfor %}
+
+</div>  
+
+<div class="pagination" id="pagination_filter">
+            <span class="step-links fl"> 
+            {% if page.has_previous %} 
+                <a data-ajaxlink="true" data-ajaxpage="{{ page.previous_page_number }}" href="?q={{request.REQUEST.q}}&page={{ page.previous_page_number }}">Previous</a> 
+            {% endif %}
+            
+            {% for p in page.paginator.page_range %}
+            {% if p|add:5 >= page.number and p|add:-5 <= page.number %}
+                <li {% if p == page.number %} class="active"{% endif %}>
+                 <a href="?q={{request.REQUEST.q}}&page={{ p }}" data-ajaxlink="true" data-ajaxpage="{{ p }}" >{{ p }}</a>
+                </li> 
+            {% endif %}
+            {% endfor %}
+            
+            {% if page.has_next %} 
+                <a data-ajaxlink="true" data-ajaxpage="{{ page.next_page_number }}" href="?q={{request.REQUEST.q}}&page={{ page.next_page_number }}">Next</a> 
+            {% endif %} 
+            </span>
+            
+</div>

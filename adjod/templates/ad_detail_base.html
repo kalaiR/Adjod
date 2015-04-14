@@ -1,0 +1,73 @@
+{% load static from staticfiles %}
+{% load i18n %}
+<!-- {% load seo %} -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE|default:"en-us" }}" xml:lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+<title>{% block title %}{% endblock %}</title>
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"> -->
+
+
+	<link rel="shortcut icon" href="">
+  
+  
+
+
+    <link href="{% static "css/quikr_search.less" %}" rel="stylesheet/less" type="text/less">
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "css/jquery-ui.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "css/font-awesome.css" %}" rel="stylesheet" type="text/css">
+    
+    <script src="{% static "js/jquery.js" %}"></script>
+
+    <script src="{% static "js/jquery-migrate-1.2.1.js" %}"></script>
+    <script src="{% static "js/jquery-ui.min.js" %}"></script>
+    <script src="{% static "js/jquery.ui.slider.js" %}"></script>
+    <script src="{% static "js/jquery.easytabs.js" %}"></script>
+    <script src="{% static "js/jquery.switchButton.js" %}"></script>
+    <!-- <script src="{% static "js/base.js" %}"></script>-->
+    <script src="{% static "js/generate-phoneno..js" %}"></script>
+    <script src="{% static "js/form-actions.js" %}"></script>
+    <script src="{% static "js/html5shiv.js" %}"></script>
+    <script src="{% static "js/less.js" %}"></script>
+    <script src="{% static "js/respond.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+
+
+    
+  </head>
+
+
+
+<body class="">
+    <div class="navigation_part">
+      <div class="container top1">
+      <nav class="navbar navbar-default navigation_bar">
+      <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span> 
+      <span class="icon-bar"></span> 
+    </button>
+    </div> <!-- navbar header -->
+    <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><div class="custom_select fl">
+              <div class="select">
+                <p>English</p>
+                <i class="fa fa-caret-down custom_drop_nav"> </i>
+              </div>
+              <select class="custom_select_value_act" name="language"> 
+                <option value="English">English</option>
+                <option value="Hindi">Hindi</option></select>
+            </div></li>
+          <li><a href="#" class="btn btn-default button2">Login</a></li>
+          <li><a href="#" class="btn btn-default button3">Sign up</a></li>
+        </ul>
+      </div> <!-- navbar collapse -->
+      </nav>
+      </div>
+    </div>
+  </body>
+</html>

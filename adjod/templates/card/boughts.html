@@ -1,0 +1,47 @@
+{% load i18n fixido_tags %}
+    <div class="module bought-id" id="changelist">
+        <span id="changelist-form">
+          <div class="results">
+            <legend>{% trans "Leads bought" %}</legend>
+            <table id="result_list">
+              <thead>
+                <tr>
+                  <th scope="col">
+                     <div class="text"><span>ID</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Buyer</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Base amount</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Transaction date</span></div>
+                     <div class="clear"></div>
+                  </th>
+                </tr>
+              </thead>
+              {% for bl in boughts %}
+                  <tr class="{% cycle 'row1' 'row2' %}">                    
+                      <td><a href="/admin/control/actorboughtlead/{{bl.id}}" target="_blank">{{bl.id}}</a></td>
+                      <td>{{bl.actor}}</td>
+                      <td>{{bl.lead.base_price}}</td>
+                      <td>{{bl.created}}</td>
+                  </tr>
+              {% empty %}
+                  <tr class="{% cycle 'row1' 'row2' %}">
+                      <td colspan='7'>No leads bought.</td>
+                  </tr>
+              {% endfor%}
+            </table>
+          </div>
+          {% if boughts %}
+          {% with pagi=boughts tab='bought' %}
+          {% include "card/pagination.html" %}
+          {% endwith %}
+          {% endif %}
+        </span>
+    </div>

@@ -1,0 +1,524 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="">
+    <link href="{% static "css/font-awesome.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet"> 
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap-responsive.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/index.less" %}" rel="stylesheet/less" type="text/less">
+    <link href="{% static "css/jquery-ui.css" %}" rel="stylesheet">
+    <link href="{% static "css/jquery.fancybox.css" %}" rel="stylesheet">
+    <link href="{% static "css/dropzone.min.css" %}" rel="stylesheet">
+
+    <script src="{% static "js/jquery.js" %}"></script>  
+    <script src="{% static "js/jquery-migrate-1.2.1.js" %}"></script>
+    <script src="{% static "js/jquery-ui.min.js" %}"></script>
+    <script src="{% static "js/jquery.ui.slider.js" %}"></script>
+    <script src="{% static "js/jquery.easytabs.js" %}"></script>
+    <script src="{% static "js/jquery.switchButton.js" %}"></script>
+    <script src="{% static "js/base.js" %}"></script>
+    <script src="{% static "js/generate-phoneno.js" %}"></script>
+    <script src="{% static "js/form-actions.js" %}"></script>
+    <script src="{% static "js/html5shiv.js" %}"></script>
+    <script src="{% static "js/less.js" %}"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="{% static "js/quikr_project.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery-ui.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/dropzone.min.js" %}"></script>
+    
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <script type="text/javascript">
+    	function updateCountdownTitle() {
+    		var remaining = 70 - $('.ad_title').val().length;
+    		$('#ad_title_count').text(remaining);
+		}
+		function updateCountdownDesc() {
+    		var remaining = 4000 - $('#your_description').val().length;
+    		$('#desc_count').text(remaining);
+		}
+    </script>
+  </head>
+  <body>
+    <div class="top_header"> 
+      <div class="container">
+        <nav class="navbar navbar-inverse navigation_bar logo_contain">
+          	<div class="navbar-header">
+            	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
+            		<span class="icon-bar"></span>
+            		<span class="icon-bar"></span> 
+            		<span class="icon-bar"></span> 
+           		</button>
+        	</div> <!-- navbar header -->
+        	<div id="navbar" class="collapse navbar-collapse">
+            	<ul class="nav navbar-nav navbar-right">
+              		<li>
+                        <div class="custom_select language_custom_select">
+                        	<div class="select">
+                          		<p>English</p>
+                        	</div><!-- select -->
+                        	<i class="fa fa-caret-down">
+                        		
+                        	</i>
+							<select class="custom_select_value_act" name="language"> 
+                          		<option value="Select">Select</option>
+                          		<option value="English">English</option>
+                          		<option value="Hindi">Hindi</option>
+                        	</select>
+                      	</div><!-- custom_select -->
+              		</li>
+              		<li><a href="#" class="">Login</a></li>
+              		<li><a href="#sign_up_div" class="fancybox">Sign up</a></li></a>
+            	</ul>
+          	</div> <!-- navbar collapse -->
+        </nav> <!-- navigation bar --> 
+      </div><!-- container -->
+    </div><!-- top_header -->
+    <div class="search_part">
+      	<div class="container logo_part">
+        	<code></code>
+            	<form class="info_form">
+                    <div class="button">
+                        <i class="fa fa-search search_icon">
+                        	
+                        </i>
+                      	<input type="text" class="form-control input-lg" placeholder="iPhone">
+                    </div>
+                    <button type="submit"class="btn btn-lg btn-success search_b">Search</button>
+                  	<button type="submit"class="btn btn-lg post-button">Post free Ad</button>
+                  	<button type="submit"class="btn btn-lg alert-button">Create free alert</button>
+            	</form> <!-- info_form -->
+            	
+      	</div> <!-- container logo_part -->
+      	
+      	<div class="container">
+      		<div class="post_ad_first">Post an Ad in just 30 seconds</div>
+            <div class="post_ad_second">DO NOT post multiple ads for the same items or service. All duplicate, spam and wrongly categorized ads will be deleted.</div>
+      	</div>
+    </div> <!-- search_part -->
+    
+    
+    <!--======================
+      	 Post form content 
+    ========================-->
+    <div class="container center">
+      	<div class="inner_container">
+      <form method="post" action="{% url product_save %}" name="post_ad" id="post_ad" enctype="multipart/form-data">
+      {% csrf_token %}
+     	
+     		<div class="field_title form-group" id="type_of_ad_title">
+     				<span class="title">Type of ad</span>
+     				<span class="mandatory">*</span>
+     		</div> <!-- type_of_ad_title -->
+     		
+     		<div class="field_div form-group" id="type_of_ad_content">
+     			<input checked="checked" type="radio" id="sell" value="sell" name="condition" class="ad_type_choice"><label for="sell" class="ad_type"><span><span>
+     				
+     			</span></span>I want to sell</label>
+     			<input type="radio" id="buy" value="buy" name="condition" class="ad_type_choice"><label for="buy" class="ad_type"><span><span>
+     				
+     			</span></span>I want to buy</label>
+     			
+     			<span id="condition_required" class="hide_error_message error_message">Please select Type of ad.</span>
+              	<div class="clear_both">
+              		
+              	</div>
+           </div> <!-- type_of_ad_content -->
+           
+           	<div class="field_div form-group" id="category_div">
+                <div style="display: none">
+                {% if user.is_authenticated %}
+                <input type="text" value="{{userid}}" name="user">
+                {% else %}
+                <input type="text" value="0" name="user">
+                {% endif %}
+                <input type="hidden" name="category_name" id="category_name" value="">
+                <input type="hidden" name="subcategory_name" id="subcategory_name" value="">
+                <input type="hidden" name="brand_name" id="brand_name" value="">
+                </div>
+             
+           		<input class="choose_category" disabled="disabled" name="category" id="category" placeholder="Choose a category" />
+           		<a class="fancybox" href="#category_popup"><button class="btn choose_button">Choose</button></a>
+           		<span id="category_required" class="hide_error_message error_message">Please choose category.</span>
+           	</div> <!-- category_div -->
+           	
+           	<div class="field_div form-group" id="ad_title_div">
+           		<input class="ad_title" maxlength="70" onchange="updateCountdownTitle()" onkeyup="updateCountdownTitle()" name="ad_title" id="ad_title" placeholder="Give a title to your Ad*" value=""/>
+           		<br />
+           		<div class="char_left"><span id="ad_title_count">70</span> characters left</div>
+           		<span id="ad_title_required" class="hide_error_message error_message">Please enter title to your ad.</span>
+           	</div> <!-- ad_title_div -->
+           	
+           	<div class="field_div form-group" id="description_div">
+           		<textarea onkeyup="updateCountdownDesc()" onchange="updateCountdownDesc()" placeholder="Give description to your Ad*"  class="description" id="your_description" name="description">
+           			
+           		</textarea>
+           		<br />
+           		<div class="char_left"><span id="desc_count">4000</span> characters left</div>
+           		<span id="desc_required" class="hide_error_message error_message">Please enter description.</span>
+           	</div> <!-- description_div -->
+           	
+           	<div class="field_title form-group">
+           		<span class="title">Upload Photos</span>
+           	</div> <!-- field_title -->
+           	<div class="field_div form-group" id="upload_photos_div">
+           		<div class="form_ad_photos_block" id="dropzone">	
+					<form action="/file-upload" class="dropzone" method="post" enctype="multipart/form-data">
+						<div class="image_upload fl">
+							<i class="fa fa-plus-circle"></i>
+						</div>
+						<div class="image_upload fl">
+							<i class="fa fa-plus-circle"></i>
+						</div>
+						<div class="image_upload fl">
+							<i class="fa fa-plus-circle"></i>
+						</div>
+						<div class="image_upload fl">
+							<i class="fa fa-plus-circle"></i>
+						</div>
+						<div class="add_more_photos fl">
+							<i class="fa fa-plus-circle fa_small"></i> Add more photos
+						</div>
+						<div class="clear_both">
+							
+						</div>
+  						<div class="fallback">
+    						<!-- <input name="file" type="file" multiple /> -->
+  						</div> <!-- fallback -->
+					</form>
+					
+				</div> <!-- dropzone -->
+				<div class="photos_text" >
+					Ads with photos sell faster
+				</div> <!-- photos_text -->
+           	</div> <!-- upload_photos_div -->
+           	<hr noshade="noshade" class="photos_line" />
+           	<div class="field_div seller_info_div" >
+           		Seller Information
+           	</div>
+            <div class="field_div buyer_info_div" style="display:none;">
+              Buyer Information
+            </div>
+           	
+           	<div class="field_title form-group" id="you_are_title">
+     			<span class="title">You are</span>
+     			<span class="mandatory">*</span>
+     		</div> <!-- you_are_title -->
+     		
+     		<div class="field_div form-group" id="you_are_content">
+     			<input checked="checked" type="radio" id="individual" value="individual" name="you_are_radio"><label for="individual" class="you_are"><span><span>
+     				
+     			</span></span>Individual</label>
+     			<input type="radio" id="dealer" value="dealer" name="you_are_radio"><label for="dealer" class="you_are"><span><span>
+     				
+     			</span></span>Delear</label>
+     			<span id="you_are_required" class="hide_error_message error_message">Please select you are.</span>
+     			<!-- <label class="you_are">
+                	<input type="radio" value="individual" name="you_are_radio">
+                	Individual
+              	</label>
+              	<label class="you_are">
+                	<input type="radio" value="buy" name="you_are_radio">
+                	Delear
+              	</label> -->
+              	<div class="clear_both">
+              		
+              	</div>
+           </div> <!-- type_of_ad_content -->
+           
+           <div class="field_div form-group" id="name_div">
+           		<input class="your_name" name="your_name" id="your_name" placeholder="Your name" />
+           		<input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" placeholder="Your mobile number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
+           	</div> <!-- name_div -->
+           	
+           	<div class="field_div form-group" id="email_div">
+           		<input class="your_email" name="your_email" id="your_email" placeholder="Your email" />
+           		<span id="valid_email_required" class="hide_error_message error_message">Please enter valid email address.</span>
+           	</div> <!-- email_div -->
+           	
+           	<div class="field_div form-group" id="privacy_div">
+           		
+           		<input type="checkbox" name="privacy" id="privacy" />
+           		<span class="privacy_text">Maintain my Privacy (Buyers will first contact you via reply, you can decide when to reveal your phone number to them)</span>
+           	</div> <!-- privacy -->
+           	
+           	<div class="field_div form-group" id="premium_ad">
+           		
+           		<div class="row premium_row">
+           			<div class="premium_title col-md-12">
+           				<span>Make your Ad Premium</span>
+           			</div> <!-- premium_title -->
+           		</div> <!-- row -->
+           		<div class="row premium_row">
+  					<div id="premium_col_1" class="col-md-4">
+						<span class="premium_row_1">Urgent Ad</span>
+						<span class="premium_row_2"><a href="#">View Example</a></span>
+						<span class="premium_row_3">Rs.422 per ad</a></span>
+						<span class="premium_row_4"><input class="btn btn-default" type="button" value="Select"></span>
+					</div> <!-- premium_col_1 -->
+  					<div id="premium_col_2" class="col-md-4">
+						<span class="premium_row_1">Top of the page Ad</span>
+						<span class="premium_row_2"><a href="#">View Example</a></span>
+						<span class="premium_row_3">Rs.599 per ad</a></span>
+						<span class="premium_row_4"><input class="btn btn-default" type="button" value="Select"></span>
+					</div> <!-- premium_col_2 -->
+  					<div id="premium_col_3" class="col-md-4">
+						<span class="premium_row_1">Top of the page Ad + Urgent Ad</span>
+						<span class="premium_row_2"><a href="#">View Example</a></span>
+						<span class="premium_row_3">Rs.817 per ad</a></span>
+						<span class="premium_row_4"><input class="btn btn-default" type="button" value="Select"></span>
+					</div> <!-- premium_col_3 -->
+				</div> <!-- row -->
+				<div class="row premium_row">
+           			<div class="payable_amount col-md-12">
+           				<span class="payable_row_1">Payable amount: Rs 817</span>
+           				<span class="payable_row_2"># Price is exclusive of 12.36% service tax.</span>
+           				<span class="payable_row_3">
+           					
+           					
+           		<div class="select_container_payment fl">
+           			<div class="select_div">
+           				<p id="payment_method">Choose payment method</p>
+           				<i class="city_fa fa fa-caret-down">
+           					
+           				</i>
+           			</div> <!-- select_div -->
+           			<select class="select_payment">
+           				<option value="Online payment method">Online payment method</option>
+           				<option value="Offline payment method">Offline payment method</option>
+           			</select>
+           		</div> <!-- select_container -->
+           					
+           					<!-- <select class="payment_method">
+           						<option>Choose payment method</option>
+           						<option>Online payment method</option>
+           					</select> <!-- payment_method -->
+           				</span>
+           			</div> <!-- payable_amount -->
+           		</div> <!-- row -->
+           		
+           		
+           	</div> <!-- premium_ad -->
+           	
+           	<div class="field_div form-group privacy_div" id="terms_of_use_div">
+           		<input type="checkbox" name="terms_of_use" id="terms_of_use" />
+           		<span class="privacy_text">By clicking "Post", you agree to our <a>Terms of Use</a> & <a>Privacy Policy</a></span>
+           	</div> <!-- terms_of_use_div -->
+           	
+           	<div class="field_div form-group" id="post_button_div">
+           		<input class="btn post_ad_button" type="submit" value="Post the Ad" id="post" name="post" />
+           	</div> <!-- post_button_div -->
+           	
+     	</form> <!-- post_ad -->
+     </div> <!-- inner_container -->
+    </div> <!-- container center -->
+    <!--======================
+      End Post ad form content 
+    ========================-->
+      
+      
+      <!--======================
+      		Category popup
+      ========================-->
+      
+      
+      <div style="display: none;" class="container">
+      	<div id="category_popup" class="choose_category_div">
+      		<div class="row title_row">
+  				<div class="col-md-4">Category</div>
+  				<div class="col-md-4">Sub Category</div>
+  				<div style="display: none;" id="brand" class="col-md-4"></div>
+			</div>
+      		<div class="row content_row">
+  				<div class="category_list_div col-md-4">
+					<ul class="category_list">
+            {% for categories in category %}
+						<li class=""><img height="30" width="30" src="{{ STATIC_ROOT }}/{{ categories.icon }}" />
+            <input type="hidden" value="{{categories.id}}" name="category">{{categories.name}}</li>
+						{% endfor %}
+					</ul>
+				</div> <!-- category_list_div -->
+  				<div class="col-md-4 subcategory_list_div">
+  					<ul class="subcategory_list">	<!-- style="display:none" -->
+  						<li class=""><input type="hidden" value="" name="subcategory"></li>
+  					</ul>
+  				</div> <!-- subcategory_list_div -->
+  				<div class="col-md-4 brand_list_div">
+  					<ul style="display: none;" class="brand_list">	<!-- style="display:none" -->
+  						<li class=""><input type="hidden" value="" name="brand"></li>
+  					</ul>
+  				</div>
+			</div> <!-- row -->
+           	
+      	</div> <!-- choose_category_div -->
+      </div> <!-- container -->
+      <!--======================
+      	   End Category popup
+      ========================-->
+      
+      
+      
+      <!--======================
+      			Sign up 
+      ========================-->
+      <div style="display: none;" class="container">
+      	<div id="sign_up_div" class="sign_up_div">
+      		<div class="sign_up_title">
+      			<span>Sign up</span>
+      		</div> <!-- sign_up_title -->
+      		
+      		<div id="register_now" class="form-group">
+           		<span>Register now for free</span>
+           	</div> <!-- register_now -->
+      		
+      		<div id="email_id_div" class="form-group">
+           		<input class="email_id" name="email_id" id="email_id" placeholder="Email ID*" />
+           		<span id="email_required" class="hide_error_message error_message">Please enter Email.</span>
+           		<span id="valid_signup_email_required" class="hide_error_message error_message">Please enter valid Email.</span>
+           	</div> <!-- email_id_div -->
+           	
+           	<div id="password_div" class="form-group">
+           		<input class="password" type="password" name="password" id="password" placeholder="Password*" />
+           		<span id="signup_password_required" class="hide_error_message error_message">Please enter Password.</span>
+           	</div> <!-- password_div -->
+           	
+           	<div id="select_city_div" class="form-group">
+           		
+           		<div class="select_container fl">
+           			<div class="select_div">
+           				<p id="select_city">Select city</p>
+           				<i class="city_fa fa fa-caret-down">
+           					
+           				</i>
+           			</div> <!-- select_div -->
+           			<select class="select_city" name="city">
+           				<option>Chennai</option>
+           				<option>Mumbai</option>
+           				<option>Delhi</option>
+           			</select>
+           		</div> <!-- select_container -->
+           		
+           		<div class="fl">
+           			<input class="mobile_number" name="your_mobile_number" id="mobile_number" placeholder="Your mobile number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
+           		</div>
+           		<div class="clear_both">
+           			
+           		</div>
+           		<span>(We will verify this number for privacy protection)</span>
+           	</div> <!-- description_div -->
+           	
+           	<div id="confirm_div" class="form-group">
+           		<input class="confirm" type="checkbox" name="confirm" />
+           		<span>I confirm that i am 18 yrs or older</span>
+           		<input class="btn confirm_button" type="submit" value="Create" name="create" id="create" />
+           	</div> <!-- password_div -->
+           	
+           	<div id="hr_div" class="form-group">
+           		<hr class="photos_line" noshade="noshade">
+           	</div> <!-- hr_div -->
+           	
+           	<div id="signin_div" class="form-group">
+           		<span class="signin">I have a account already <a href="#sign_in_div" class="fancybox orange_text">Sign in</a> </span>
+           	</div> <!-- signin_div -->
+           	
+      	</div> <!-- sign_up_div -->
+      </div> <!-- container -->
+       <!--======================
+      		End Sign up 
+      ========================-->
+      
+      
+      <!--======================
+      			Sign in 
+      ========================-->
+      <div style="display: none;" class="container">
+      		<div id="sign_in_div" class="sign_in_div">
+      			<div class="sign_in_title">
+      				<span>Sign in</span>
+      			</div> <!-- sign_in_title -->
+      			
+      			<div id="account" class="form-group">
+           			<span>I have a account already</span>
+           		</div> <!-- account -->
+           		
+      			<div id="email_userid_div" class="form-group">
+           			<input class="email_id" name="email_id" id="emailid_signup" placeholder="Email / User ID*" />
+           			<span id="emailid_required" class="hide_error_message error_message">Please enter Email or User ID.</span>
+           		</div> <!-- email_id_div -->
+           		
+           		<div id="password_signup_div" class="form-group">
+           			<input class="password" type="password" name="password" id="password_signup" placeholder="Password*" />
+           			<span id="password_required" class="hide_error_message error_message">Please enter Password.</span>
+           		</div> <!-- password_div -->
+           	
+           	
+           	
+           	<div id="forgot_div" class="form-group">
+           		<span>Forgot you password?</span>
+           		<input class="btn confirm_button" type="submit" value="Sign in" name="create" id="signin" />
+           	</div> <!-- forgot_div -->
+           	
+           	<div id="" class="form-group">
+           		<hr class="photos_line" noshade="noshade">
+           	</div> <!-- hr_div -->
+           	
+           	<div  class="form-group">
+           		<span class="signin">I don't have a account</span>
+           	</div> <!-- signin_div -->
+           	
+           	<div id="free_signup_div" class="form-group">
+           		<button class="free_button btn-lg"><a href="#sign_up_div" class="fancybox orange_text">Sign up for free</a></button>
+           	</div> <!-- free_signup_div -->
+           	
+      	</div> <!-- sign_in_div -->
+      </div> <!-- container -->
+       <!--======================
+      		End Sign in 
+      ========================-->
+      
+      
+        
+    <div class="footer_image f_img">
+      <code></code>
+    </div> <!-- footer_image -->
+    <div class=" final_part f_part">
+      <div class="container">
+        <div class="row row_4">
+          <div class="col-md-2">
+                           <ul> 
+                            <li><a href="" class="footer">Help</a></li>
+                            <li><a href="" class="footer">Terms of use</a></li>
+                            <li><a href="" class="footer">How it works</a></li>
+                            </ul>
+          </div>
+          <div class="col-md-2">
+                           <ul> 
+                            <li><a href="" class="footer">Privacy policy</a></li>
+                            <li><a href="" class="footer">Locations map</a></li>
+                            <li><a href="" class="footer">Contact us</a></li>
+                            </ul>
+          </div>
+          <div class="col-md-2">
+                            <ul>
+                            <li><a href="" class="footer">Popular searches</a></li>
+                            <li><a href="" class="footer">who we are</a></li>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-4 foot"><span class="footer1">you can also call our support team<br>
+                            <span class="phone">phone:65-67119979</span><br>M-F:10AM to 6PM<br>
+                            <a href="#facebook"><i class="fa fa-facebook-official"></i></a>
+                            <a href="#linkedin"><i class="fa fa-linkedin-square"></i></a>
+                            <a href="#twitter"><i class="fa fa-twitter-square"></i></a>
+                            </span>
+          </div>
+        </div> <!-- row4 -->
+      </div> <!-- container-->
+    </div> <!-- final_part -->
+  </body>
+ </html> 

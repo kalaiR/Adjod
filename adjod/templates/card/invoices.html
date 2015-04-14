@@ -1,0 +1,68 @@
+{% load i18n fixido_tags %}
+    <div class="module invoice-id" id="changelist">
+        <span id="changelist-form">
+          <div class="results">
+            <legend>{% trans "Invoices" %}
+            </legend>
+            <table id="result_list">
+              <thead>
+                <tr>
+                  <th scope="col">
+                     <div class="text"><span>Invoice number</span>{% csrf_token %}</div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Amount</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Invoice status</span></div>
+                     <div class="clear"></div>
+                  </th>                  
+                  <th scope="col">
+                     <div class="text"><span>Payment method</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Payment reference</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Invoice date</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Due date</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Period of Invoice</span></div>
+                     <div class="clear"></div>
+                  </th>
+                </tr>
+              </thead>
+              {% for inv in invoices %}
+                  <tr class="{% cycle 'row1' 'row2' %}">                    
+                      <td><a href="/admin/commerce/invoice/{{inv.id}}" target="_blank">{{inv.invoice_number}}</a></td>
+                      <td>{{inv.amount}} {{inv.currency}}</td>
+                      <td>{{inv.get_invoice_flag_display}}</td>
+                      <td>{{inv.payment_method}}</td>
+                      <td>{{inv.payment_reference}}</td>
+                      <td>{{inv.invoice_date}}</td>
+                      <td>{{inv.due_date}}</td>
+                      <td>{{inv.period_of_invoice}}</td>
+                  </tr>
+              {% empty %}
+                  <tr class="{% cycle 'row1' 'row2' %}">
+                      <td colspan='8'>No invoices available.</td>
+                  </tr>
+              {% endfor%}
+            </table>
+          </div>
+          {% if invoices %}
+          {% with pagi=invoices tab='invoice' %}
+          {% include "card/pagination.html" %}
+          {% endwith %}
+          {% endif %}
+        </span>
+    </div>

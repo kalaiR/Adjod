@@ -1,0 +1,161 @@
+{% extends "report/base.html" %}
+{% load i18n admin_static admin_list %}
+{% load url from future %}
+{% load admin_urls fixido_tags %}
+
+{% block title %}Admin lead card - {% endblock %}
+
+{% block header %}
+<link rel="stylesheet" href="{% static "css/jquery-ui.css" %}">
+<link rel="stylesheet" href="{% static "css/jquery.ui.datepicker.css" %}">
+<link rel="stylesheet" href="{% static "admin/css/base.css" %}?version={{version}}" >
+<link rel="stylesheet" href="{% static "admin/css/changelists.css" %}?version={{version}}" >
+<link rel="stylesheet" href="{% static "admin/css/custom-changelists-report.css" %}?version={{version}}" >
+<style>
+.span3{width:31.077% !important;}    
+</style>    
+{% endblock %}
+
+{% block script %}
+<script>
+var token = $('[name=csrfmiddlewaretoken]:first').val();
+function get_lead(aid){
+    $('[name=filter_lead]').val(aid);
+    $.ajax({
+        url: '{{ request.path }}basic/',
+        type: 'post',
+        data: {
+            csrfmiddlewaretoken: token,
+            filter_lead: aid
+        },
+        success: function(data, txtStatus, jqXHR){
+            $('#lead_card').html(data)
+        },
+    });
+}
+function get_page(tab, page, tType){
+    if(typeof(tType)==='undefined') tType = '';
+    var aid = $('[name=filter_actor]').val();
+    $.ajax({
+        url: '{{ request.path }}' + tab + '/',
+        type: 'post',
+        data: {
+            page: page, 
+            txn_type: tType, 
+            filter_actor: aid,
+            csrfmiddlewaretoken: token
+        },
+        success: function(data, txtStatus, jqXHR){
+            $(data).replaceAll('.' + tab + '-id')
+        },
+    });
+}
+$('#custom_filter').live('submit', function(){
+    $('#loading_msg').text('Loading Leads...')
+    $.ajax({
+        url: '{{ request.path }}search/',
+        type: 'post',
+        data: {
+            csrfmiddlewaretoken: token,
+            search_lead: $('#search_lead').val()
+        },
+        success: function(data, txtStatus, jqXHR){
+            $('#loading_msg').text('')
+            $('#lead_set').html(data)
+        },
+    });
+    return false;
+})
+
+$(document).on('click', '#edit_address', function(){
+    var lead_id = $('#lead_id').val()
+    if (lead_id != ''){ 
+    $('#save_address').show()
+    $('#cancel_address').show()
+    $(".span6 input").each(function() {
+        if ($(this).attr('name') === 'consumer_fname' ||
+            $(this).attr('name') === 'consumer_lname' ||
+            $(this).attr('name') === 'consumer_email' ||
+            $(this).attr('name') === 'consumer_phoneno' ||
+            $(this).attr('name') === 'consumer_street' ||
+            $(this).attr('name') === 'consumer_city' ||
+            $(this).attr('name') === 'consumer_postalcode' ||
+            $(this).attr('name') === 'title' ||
+            $(this).attr('name') === 'description' ||
+            $(this).attr('name') === 'keywords' )
+        {
+            $(this).attr('readonly',false)
+        }
+    });
+    $(".span8 textarea").each(function() {
+        $(this).attr('readonly',false)
+    });
+    $(".span4 input").each(function() {
+        if ($(this).attr('name') === 'lead_deal_starts' ||
+            $(this).attr('name') === 'lead_deal_ends')
+        {
+            $(this).attr('readonly',false)
+        }
+    });
+    }
+    else{
+        alert('Please select a lead to edit')
+    }
+});
+
+$(document).on('click', '#cancel_address', function(){
+    $('#save_address').hide()
+    $('#cancel_address').hide()
+    $(".span6 input").each(function() {
+        $(this).attr('readonly',true)
+    });
+    $(".span8 textarea").each(function() {
+            $(this).attr('readonly',true)
+    });
+    $(".span4 input:checkbox").each(function() {
+            $(this).attr('readonly',true)
+    });
+});
+
+$(document).on('click', '#save_address', function(){
+    var load_data = $('.lead_details').serialize()
+    $.ajax({
+        url:'/lead_edit/',
+        type:'post',
+        data:load_data,
+        success: function(response_data){
+            $('#lead_card').html(response_data)
+            var aid = $('[name=filter_lead]').val();
+            get_lead(aid);
+        },
+    });
+});    
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container bottom-space">
+  {% if not is_popup %}
+  {% block breadcrumbs %}
+  <div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+  &rsaquo; <a href="{% url 'admin:app_list' app_label='report' %}">Report</a>
+  &rsaquo; Lead card
+  </div>
+  {% endblock %}
+  {% endif %}
+
+    <form method="POST" action='{{ request.path }}' class="report-filter" id="custom_filter">
+        {% csrf_token %}
+        <label class="need-space" for='search_lead'>Search</label>
+        <input class="span6 need-space" type="Search" name="search_lead" id="search_lead" autocomplete="off" autofocus />
+        <input class="btn" type="submit" name="change_list" value="Get lead" />
+        <input type="hidden" name="filter_lead" value="{{ lead.id }}" id="filter_lead" />
+    </form>
+    <div id='lead_set'>
+        <span id="loading_msg" style="margin-left:410px!important;color:red;"></span>
+        {% include "card/lead_list.html" %}
+    </div>
+    {% include "card/lead_basic.html" %}
+</div>
+{% endblock %}

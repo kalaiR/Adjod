@@ -1,0 +1,179 @@
+{% load i18n fixido_tags %}
+<div id='lead_card'>
+    <div class="row-fluid">
+        <div class="span8">
+            <br>
+            <input type="button" value="edit" id="edit_address" style="background:#559FD9 !important;"/>
+            <input type="button" value="save" id="save_address" style="display:none;background:#559FD9 !important;" />
+            <input type="button" value="cancel" id="cancel_address" style="display:none;background:#559FD9 !important;" />
+            <legend>{% trans "Details" %} <span class='error'>{{error}}</span></legend>
+            <div class="row-fluid span12">
+                <form method="post" action="." class="address_form lead_details">
+                    {% csrf_token %}
+
+                <div class="span6" style="width:100% !important;">
+                    <label></label>
+                    <label class="span3">Lead ID</label> <input type="text" value="{{ lead.id }}" name="id" readonly=readonly style="margin-left:-150px !important;"/></br>
+                    <label class="span3">Title</label> <input type="text" value="{{ lead.title }}" name="title" readonly=readonly style="margin-left:-150px !important;width:78% !important;"/></br>
+                    <label class="span3">Description</label> <textarea style="height: 191px;width:719px !important"name="description" readonly=readonly>{{ lead.description }} </textarea></br>
+ 
+                </div>
+
+                <div class="span6" style="width:51% !important;">
+                    <label></label>
+                    <label class="span3">Category</label> <input type="text" value="{{ lead.category }}" name ="category" readonly=readonly /></br>
+                    <label class="span3">Keyword</label> <input type="text" value="{% for keyword in lead.keywords.all %}{{keyword.name}}{% if not forloop.last %},{% endif %} {% endfor %}" name="keywords" readonly=readonly /></br>
+
+                    <label class="span3">Budget</label> <input type="text" value="{{ lead.budget }}" name= "lead_budget" readonly=readonly /></br>
+                    <label class="span3">Budget Currency</label> <input type="text" value="{{ lead.budget_currency }}" name="lead_budget_currency" readonly=readonly /></br>
+
+                    <label class="span3">Price</label> <input type="text" value="{{ lead.price }}" name= "lead_price" readonly=readonly /></br>
+                    <label class="span3">Currency</label> <input type="text" value="{{ lead.price_currency }}" name="lead_price_currency" readonly=readonly /></br>
+                    <label class="span3">Base Price</label> <input type="text" value="{{ lead.base_price }}" name="lead_base_price" readonly=readonly /></br>
+                    <label class="span3">Base currency</label> <input type="text" value="{{ lead.base_currency }}" name="lead_base_currency" readonly=readonly /></br>
+                    <h3 style="text-align: center !important;">{% trans "Auction Details"%}</h3>
+                    <label class="span3">Min price</label> <input type="text" value="{% if lead.auction.minimum_price %}{{ lead.auction.minimum_price }}{% endif %}" name="lead_min_price" readonly=readonly /></br>
+                    <label class="span3">Minutes to start</label> <input type="text" value="{% if lead.auction.minutes_to_auction_start %}{{ lead.auction.minutes_to_auction_start }}{% endif %}" name="lead_auction_start" readonly=readonly /></br> 
+                    <label class="span3">Auction starts</label> <input type="text" value="{% if lead.auction.auction_starts_at %}{{ lead.auction.auction_starts_at }}{% endif %}" name="lead_auction_starts_at" readonly=readonly /></br>
+                    <label class="span3">Auction status</label> <input type="text" value="{% if lead.auction.auction_starts_at %}{{ lead.auction.status }}{% endif %}" name="lead_status" readonly=readonly /></br> 
+                </div>
+                <div class="span6" style="float:right;margin-top: -558px;">
+                    <label></label>
+                    <label class="span3">First name</label> <input type="text" value="{{ lead.consumer.first_name }}" name="consumer_fname" readonly=readonly /></br>
+                    <label class="span3">Last name</label> <input type="text" value="{{ lead.consumer.last_name }}" name="consumer_lname" readonly=readonly /></br>
+                    <label class="span3">Email</label> <input type="text" value="{{ lead.consumer.email }}" name="consumer_email" readonly=readonly /></br>
+                    <label class="span3">Phone number</label> <input type="text" value="{{ lead.consumer.phone_number }}" name="consumer_phoneno" readonly=readonly /></br>
+                    <label class="span3">Street</label> <input type="text" value="{{ lead.consumer.address.street }}" name="consumer_street" readonly=readonly /></br>
+                    <label class="span3">City</label> <input type="text" value="{{ lead.consumer.address.city }}" name="consumer_city" readonly=readonly /></br>
+                    <label class="span3">Postal Code</label> <input type="text" value="{{ lead.consumer.address.postal_code }}" name="consumer_postalcode" readonly=readonly /></br>
+                    <label class="span3">Country</label> <input type="text" value="{% if lead.consumer.address.country %}{{ lead.consumer.address.country|country_name }}{% endif %}" name="consumer_country" readonly=readonly /></br>
+
+                    {% if lead.consumer.company.name %}
+                    <h3 style="text-align: center !important;">{% trans "Company Details"%}</h3>
+                    <label class="span3">Company Name</label> <input type="text" value="{% if lead.consumer.company.name %}{{ lead.consumer.company.name }}{% endif %}" name="company_name" readonly=readonly /></br>
+                    <label class="span3">Phone Number</label> <input type="text" value="{% if lead.consumer.company.phone_number %}{{ lead.consumer.company.phone_number }}{% endif %}" name="company_phone" readonly=readonly /></br> 
+                    <label class="span3">Email</label> <input type="text" value="{% if lead.consumer.company.email %}{{ lead.consumer.company.email }}{% endif %}" name="company_email" readonly=readonly /></br>
+                    <label class="span3">CIN</label> <input type="text" value="{% if lead.consumer.company.cin %}{{ lead.consumer.company.cin }}{% endif %}" name="company_cin" readonly=readonly /></br> 
+                    {% endif %}
+
+                </div>
+                <input type="hidden" name="lead_id" id="lead_id" value="{{ lead.id }}" /> 
+                </form>
+            </div>
+        </div>
+        <br>
+        <div class="span4">
+            <form method="post" action="." class="address_form lead_details">
+            <legend>{% trans "Info" %}</legend>
+            <label class="span3">Created date</label> <input type="text" value="{{ lead.created }}" name="lead_created" readonly=readonly /></br>
+            <label class="span3">Modified date</label> <input type="text" value="{{ lead.modified }}" name="lead_modified" readonly=readonly /></br>
+            <label class="span3">Deal starts</label> <input type="text" value="{{ lead.deal_starts|date:'Y-m-d H:i' }}" name="lead_deal_starts" readonly=readonly /></br>
+            <label class="span3">Deal ends</label> <input type="text" value="{{ lead.deal_ends|date:'Y-m-d H:i' }}" name="lead_deal_ends" readonly=readonly /></br>
+            <select name="lead_status">
+                <option {% if lead.active %}selected=selected{% endif %} value="active">Active</option>
+                <option {% if not lead.active %}selected=selected{% endif %} value="inactive">Inactive</option>
+            </select></br>
+            {% if lead.language %}
+            <select name="actor_language">
+                <!--<option>{% if actor.language %}{{ actor.language|language_name }}{% else %}Language{% endif %}</option>-->
+                <option {% if lead.language == 'sv'%}selected=selected{% endif %} value="sv">{{ 'sv'|language_name }}</option>
+                <option {% if lead.language == 'en'%}selected=selected{% endif %} value="en">{{ 'en'|language_name }}</option>
+                <option {% if lead.language == 'de'%}selected=selected{% endif %} value="de">{{ 'de'|language_name }}</option>
+            </select>
+            {% else %}
+            <select >
+                <option>Language</option>
+                <!--<option>English</option>
+                <option>German</option>-->
+            </select>    
+            {% endif %}    
+            </br><br>
+            <input type="checkbox" {% if lead.email_verified %}checked="checked" {% endif %}readonly=readonly name="email_subscribed"/>&nbsp;<label>Email verified</label>
+            {% if not lead.email_verified %}{% endif %}</br>
+            <input type="checkbox" {% if lead.phone_verified %}checked="checked" {% endif %}readonly=readonly name="is_seller"/>&nbsp;<label>Phone verified</label>
+            {% if lead.phone_verified %}<i class="fa fa-flag" style="font-size: 15px; color:green;" ></i>{% endif %}</br>
+            <input type="checkbox" {% if lead.accept_campaign %}checked="checked" {% endif %}readonly=readonly name="sales_email" />&nbsp;<label>Accept Campaign</label><br>
+            <input type="checkbox" {% if lead.reinquire %}checked="checked" {% endif %}readonly=readonly name="reinquire" />&nbsp;<label>RE</label><br><br>
+            <!--<label class="span5">Date joined</label> <input class="span6" type="text" value="{{ actor.date_joined }}" readonly=readonly /></br>
+            <label class="span5">Last login</label> <input class="span6" type="text" value="{{ actor.last_login }}" readonly=readonly /></br>
+            <label class="span5">Account balance</label> <input class="span6" type="text" value="{{ account.balance|floatdot:0|format_thousands }}  {{actor.currency}}" readonly=readonly /></br>
+            <label class="span5">Base balance</label> <input class="span6" type="text" value="{{ account.base_balance|floatdot:0|format_thousands }} {{ account.base_currency}}" readonly=readonly /></br>
+            <label class="span5">Invoice limit</label> <input class="span6" type="text" value="{{ actor_invoice.invoice_limit|default:-1 }}" readonly=readonly />-->
+
+
+            <label class="span3">Available Leads</label> <input type="text" value="{% if lead.available %}{{ lead.available }}{% endif %}" name="" readonly=readonly /></br>
+            <label class="span3">Sale</label> <input type="text" value="{% if lead.sale %}{{ lead.sale }}{% endif %}" name="" readonly=readonly /></br>
+            <label class="span3">Sold</label> <input type="text" value="{% if lead.sold %}{{ lead.sold }}{% endif %}" name="" readonly=readonly /></br>
+            <label class="span3" >Pre-Sold</label> <input type="text" value="{% if lead.pre_sold %}{{ lead.pre_sold }}{% endif %}" name="" readonly=readonly /></br>
+            <label class="span3" style="margin-right:1px;">Total Viewed</label> <input type="text" value="{% if lead.leadstatistics.viewed %}{{ lead.leadstatistics.viewed }}{% endif %}" name="" readonly=readonly /></br>
+            <label class="span3">Email Sent</label> <input type="text" value="{% if nemail %}{{ nemail }}{% endif %}" name="" readonly=readonly /></br>
+
+
+
+            <legend>{% trans "Seller" %}</legend>
+            <label class="span3">Seller</label> <input type="text" value="{% if lead.seller %}{{lead.seller}}{% endif %}" name="" readonly=readonly /></br>
+            <label class="span3">Reference</label> <input type="text" value="{% if lead.reference %}{{ lead.reference }}{% endif %}" name="" readonly=readonly /></br>
+            <label class="span3">Gen source</label> <input type="text" value="{% if lead.generation_source %}{{ lead.generation_source }}{% endif %}" name="" readonly=readonly /></br>
+            <label class="span3">Gen method</label> <input type="text" value="{% if lead.generation_method %}{{ lead.generation_method }}{% endif %}" name="" readonly=readonly /></br>
+            <label class="span3">Gen date</label> <input type="text" value="{% if lead.generation_date %}{{ lead.generation_date }}{% endif %}" name="" readonly=readonly /></br>
+            <label class="span3">Actor status</label> <input type="text" {% if lead.seller.is_active == 1 %} value="Active" {% else %} value="Inactive" {% endif %} name="" readonly=readonly /></br>
+            </form>
+        </div>
+        <div class="clear"> </div>
+    </div>
+    <br/>
+    {% include "card/leadbids.html" %}
+    <br/>
+    {% include "card/leadorders.html" %}
+    <br/>
+    {% include "card/leadtrades.html" %}
+    <br/>
+    {% include "card/boughts.html" %}
+    <br/>
+    {% include "card/viewedleads_user.html" %}
+    <br/>
+    {% include "card/notice.html" %}
+    <br/>
+    {% include "card/lead_basket.html" %}
+     <br/>
+    {% include "card/lead_auction.html" %}
+    <br/>
+    {% include "card/campaign_statistics.html" %}
+    {% comment %}    
+    <div class="row-fluid">
+        <form method="post" action="." class="address_form">
+        <div class="span8">
+            <legend>Note</legend>
+            <textarea class="span12" rows="4" disabled="disabled" placeholder="No admin notes available">{{ notes }}</textarea>
+            <textarea class="span12" rows="4" name="admin_note" readonly="readonly" placeholder="Enter new admin note"></textarea>
+        </div>
+        <div class="span4">
+            <legend>{% trans "Statistics" %}</legend>
+            <label class="span5">Orders</label> <input class="span6" type="text" value="{{ order_count }}" readonly=readonly /></br>
+            <label class="span5">Notice e-mail</label> <input class="span6" type="text" value="{{ email_count }}" readonly=readonly /></br>
+            <label class="span5">Customer rank</label> <input class="span6" type="text" value="{{ customer_rank }}" readonly=readonly /></br>
+            <label class="span5">Customer value</label> <input class="span6" type="text" value="{{ customer_value }}" readonly=readonly />
+        </div>
+        <div class="clear"> </div>
+        </form>
+    </div>
+    <br/>
+    {% include "card/invoices.html" %}
+    <br/>
+    {% include "card/orders.html" %}
+    <br/>
+    {% include "card/boughts.html" %}
+    <br/>
+    {% include "card/viewedleads.html" %}
+    <br/>
+    {% include "card/latestsearches.html" %}
+    <br/>
+    {% include "card/filters.html" %}
+    <br/>
+    {% include "card/subscriptions.html" %}
+    <br/>
+    {% include "card/bids.html" %}
+    <br/>
+    {% include "card/notice.html" %}
+    {% endcomment %}
+</div>

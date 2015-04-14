@@ -1,0 +1,44 @@
+{% extends request.is_ajax|yesno:"popup.html,base.html" %}
+{% block content %}
+{%if not request.is_ajax%}
+{{page.number}}
+{{query}}
+<form id="form_search_filter" class="form_search_filter" style="position:relative;">
+       
+        <input id="search_form"type="hidden" name="{{form.q.html_name}}"  value="{{form.q.value|default:''}}"/>
+        <input type="hidden" name="page"  value="{{page.number}}"/>
+        <input type="hidden" name="newsearch"  value="new"/>
+       
+</form>
+{% endif %}
+
+<div class="fl filter_result_wrapper" id="search_result" style="position:relative;">
+      {% for product in page.object_list %}
+          {{product.object.title}}
+      {% endfor %}
+</div>        
+
+
+ <div class="pagination" id="pagination_filter">
+            <span class="step-links fl"> 
+            {% if page.has_previous %} 
+                <a data-ajaxlink="true" data-ajaxpage="{{ page.previous_page_number }}" href="?q={{request.REQUEST.q}}&page={{ page.previous_page_number }}">Previous</a> 
+            {% endif %}
+            
+            {% for p in page.paginator.page_range %}
+            {% if p|add:5 >= page.number and p|add:-5 <= page.number %}
+                <li {% if p == page.number %} class="active"{% endif %}>
+                 <a href="?q={{request.REQUEST.q}}&page={{ p }}" data-ajaxlink="true" data-ajaxpage="{{ p }}" >{{ p }}</a>
+                </li> 
+            {% endif %}
+            {% endfor %}
+            
+            {% if page.has_next %} 
+                <a data-ajaxlink="true" data-ajaxpage="{{ page.next_page_number }}" href="?q={{request.REQUEST.q}}&page={{ page.next_page_number }}">Next</a> 
+            {% endif %} 
+            </span>
+            
+</div>     
+
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% load i18n fixido_tags %}
+    <div class="module trans-id" id="changelist">
+        <span id="changelist-form">
+          <div class="results">
+            <legend>{% trans "Basket" %}
+            </legend>
+            <table id="result_list">
+              <thead>
+                <tr>
+                  <th scope="col">
+                     <div class="text"><span>Actor</span>{% csrf_token %}</div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Total</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Total currency</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Total quantity</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Status</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Created</span></div>
+                     <div class="clear"></div>
+                  </th>
+                  <th scope="col">
+                     <div class="text"><span>Transaction date</span></div>
+                     <div class="clear"></div>
+                  </th>
+                </tr>
+              </thead>
+              {% for basket in lead_basket %}
+                  <tr class="{% cycle 'row1' 'row2' %}">                    
+                      <td>{{basket.actor.email}}</td>
+                      <td>{{basket.total}}</td>
+                      <td>{{basket.total_currency}}</td>
+                      <td>{{basket.total_quantity}}</td>
+                      <td>{{basket.status}}</td>
+                      <td>{{basket.created}}</td>
+                  </tr>
+              {% empty %}
+                  <tr class="{% cycle 'row1' 'row2' %}">
+                      <td colspan='7'>No basket available.</td>
+                  </tr>
+              {% endfor%}
+            </table>
+          </div>
+          {% if lead_basket %}
+          {% with pagi=lead_basket tab='trans' ttype=txn_type %}
+          {% include "card/pagination.html" %}
+          {% endwith %}
+          {% endif %}
+        </span>
+    </div>
