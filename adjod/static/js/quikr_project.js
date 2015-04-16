@@ -18,6 +18,8 @@ $('#cssmenu > ul > li > a').click(function() {
         return false;	
     }		
   });
+
+ 
 });
 } )( jQuery );
 
@@ -246,9 +248,36 @@ function find_brand(sub_category_id) {
 
 //********** End Ajax Function **********
 
+var response_cache = {};
+function fill_localities(city_id) {
+  if (response_cache[city_id]) {
+    $("#id_locality").html(response_cache[city_id]);
+  } else {
+    $.getJSON("/localities_for_city/", {city_id: city_id},
+      function(ret, textStatus) {
+        var options = '';
+        for (var i in ret) {
+          options += '<option value="' + ret[i].id + '">'
+            + ret[i].name + '</option>';
+        }
+        response_cache[city_id] = options;
+        $("#id_locality").html(options);
+      });
+  }
+  response_cache = {}
+}
+
 // ********** Validation Add Post **********
 ( function( $ ) {
 $( document ).ready(function() {
+
+
+    $('input[type=file]').simpleFilePreview({
+    'buttonContent': '<i class="fa fa-plus-circle fa_small"></i>',
+    'shiftLeft': '',
+        'shiftRight': '',
+        'removeContent': 'Remove'
+     });
 
     //=====AD_TYPE label change====
 
@@ -354,6 +383,28 @@ $( document ).ready(function() {
           		if (!$('#ad_title_required').hasClass('hide_error_message'))
               		$('#ad_title_required').addClass('hide_error_message');
    	  		};
+
+          //Price
+          if ($('#your_price').val() == '') {
+            $('#price_required').removeClass('hide_error_message');
+            $('#price_required').css('display','inline');
+            temp = 1;
+          } else{
+              if (!$('#price_required').hasClass('hide_error_message'))
+                  $('#price_required').addClass('hide_error_message');
+                  $('#year_required').css('display','none');
+          };
+          
+          //Year
+          if ($('#your_year').val() == '') {
+            $('#year_required').removeClass('hide_error_message');
+            $('#year_required').css('display','inline');
+            temp = 1;
+          } else{
+              if (!$('#year_required').hasClass('hide_error_message'))
+                  $('#year_required').addClass('hide_error_message');
+                  $('#year_required').css('display','none');
+          };
    	  		
    	  		//Description
    	  		if ($('#your_description').val() == '') {
@@ -505,7 +556,33 @@ $( document ).ready(function() {
 	$( ".select_city" ).change(function () {
  		var selected_option = $( ".select_city option:selected" ).val();
  		$('#select_city').html(selected_option);
+
 	});
+
+  //============= CHOOSE LANGUAGE DROPDOWN ===========
+  $( ".custom_select_value_act" ).change(function () {
+    
+    var selected_option = $( ".custom_select_value_act option:selected" ).val();
+    
+    $('#custom_select_value_act').html(selected_option);
+    
+    
+  });
+
+  //============= CHOOSE POST CITY DROPDOWN ===========
+  $( ".select_post_city" ).change(function () {
+    
+    var selected_option = $( ".select_post_city option:selected" ).text();
+    $('#select_post_city').html(selected_option);
+    
+    fill_localities($(this).val());
+  });
+  
+  //============= CHOOSE POST LOCALITY DROPDOWN ===========
+  $( ".select_post_locality" ).change(function () {
+    var selected_option = $( ".select_post_locality option:selected" ).text();
+    $('#select_post_locality').html(selected_option);
+  });
   	
   	//============= CHOOSE CATEGORY POPUP ===========
   	//CATEGORY
@@ -565,5 +642,8 @@ $( document ).ready(function() {
   	});
   //============= END CHOOSE CATEGORY POPUP ===========
 
+ 
+
 });
+
 } )( jQuery );

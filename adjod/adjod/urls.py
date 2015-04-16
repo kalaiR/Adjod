@@ -96,7 +96,7 @@ urlpatterns = patterns('',
     # url(r'^search/category/$', 'advertisement.views.search',name='search_by_categoryid'),
 
     url(r'^(?i)search/', AdjodSearchView(
-      template='advertisement/search_button.html', 
+      template='advertisement/quikr_search_v2.html', 
       form_class=ProductSearchFilter, 
       # results_per_page=settings.SEARCH_PAGE_NUMBER_OF_LEADS
     ), name='searchPageV2'),

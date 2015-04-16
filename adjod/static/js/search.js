@@ -1,10 +1,3 @@
-$(document).ready(function() {
-            
-            
-            attach_pagination_events();
-            
-});
-
 function attach_pagination_events(){
     // pagination_filter_align();
             $('[data-ajaxlink=true]').click(function(ele){
@@ -14,6 +7,14 @@ function attach_pagination_events(){
                         return false;
             });
 }
+$(document).ready(function() {
+            
+            
+            attach_pagination_events();
+            
+});
+
+
 
 function perform_search(){
                         // $.cookie('keywords', $('input[name=keywords]').val(),{ path: "/" });
@@ -21,12 +22,12 @@ function perform_search(){
                         // left_dyanmic_height();  
                         // $(".infield").inFieldLabels();
                         // $(".infield_p").inFieldLabels();
-                        // show_searching(true);
+                           // show_searching(true);
                         // $('[name=rating_start]').val('')
                         // $('[name=rating_end]').val('')
                         var q = $('#form_search_filter').serialize();
                         q=decodeURIComponent(q);
-                        q = q.replace(/filtersearch/g,'q');
+                        // q = q.replace(/filtersearch/g,'q');
                         alert(q);
                         // var qsort = $("#sortdata").val();
                         // q = q +'&sortdata='+$.trim(qsort);
@@ -35,10 +36,12 @@ function perform_search(){
                         
                         {
                             alert('if');
-                            $.get('search/?'+ q, function(data){
+                            $.get('/search/?'+ q, function(data){
+                               
                                 alert(data);
-                                    show_searching(false);
+                                    // show_searching(false);
                                     $('#search_result').html(data);
+                                    attach_pagination_events();
                                     // leadfound= $('.founded_no').text().trim();
                                     // if (leadfound == '')
                                     //     $('[name=search_founded_no]').val ('0 ' + gettext("Leads found"));
@@ -54,78 +57,77 @@ function perform_search(){
                             });
                         }else{
                             alert('else');
-                            $.get('/search/?'+ q, function(data){                 
-                                show_searching(false);                                
-                                $('#search_result').html(data);
-                                leadfound= $('.founded_no').text().trim();
-                                if (leadfound == '')
-                                    $('[name=search_founded_no]').val ('0 ' + gettext("Leads found"));
-                                 else
-                                     $('[name=search_founded_no]').val($('.founded_no').text().trim());
-                                attach_pagination_events();
-                               
-                                if($('[name=keywords]').val() == '')
-                                    $('#keyword_highlight').hide();
+                            $.get('/search/?'+ q, function(data){ 
                                 
-                                if($('[name=locations]').val() == '')
-                                    $('#location_highlight').hide();
-                                left_dyanmic_height();
+                                alert(data);
+                                $('#search_result').html(data);
+                                attach_pagination_events();
+                                // show_searching(false);                                
+                                
+                                // leadfound= $('.founded_no').text().trim();
+                                // if (leadfound == '')
+                                //     $('[name=search_founded_no]').val ('0 ' + gettext("Leads found"));
+                                //  else
+                                //      $('[name=search_founded_no]').val($('.founded_no').text().trim());
+                                // attach_pagination_events();
+                               
+                                // if($('[name=keywords]').val() == '')
+                                //     $('#keyword_highlight').hide();
+                                
+                                // if($('[name=locations]').val() == '')
+                                //     $('#location_highlight').hide();
+                                // left_dyanmic_height();
                                         
                             });
                         }
-                        $(document).ready(function() {
-                        $('#showHiddenBlock').click(function() {
-                        $('#form_search_filter').show();
-                        left_dyanmic_height();
-                        });
-    });
+                       
 
 }
 
 
-function show_searching(show) {
+// function show_searching(show) {
 
-    if(show){
+//     if(show){
 
-        $('.loding_icon').show();
-        $('.founded_no').hide();
+//         $('.loding_icon').show();
+//         $('.founded_no').hide();
 
-    }else{
+//     }else{
 
-        $('.loding_icon').hide();
-        $('.founded_no').show();
+//         $('.loding_icon').hide();
+//         $('.founded_no').show();
 
-    }
+//     }
 
-}
+// }
 
 
-function left_dyanmic_height() {
+// function left_dyanmic_height() {
 
-            var profile_sidebar = $('.right_content_holder, .v2_dashboard_wrapper, .right_content_wrapper, .dashboard_content_wrapper, .filter_result_wrapper').height();
+//             var profile_sidebar = $('.right_content_holder, .v2_dashboard_wrapper, .right_content_wrapper, .dashboard_content_wrapper, .filter_result_wrapper').height();
 
-            profile_sidebar_height = profile_sidebar + 180;
-            profile_sidebar_height_2 = profile_sidebar;
+//             profile_sidebar_height = profile_sidebar + 180;
+//             profile_sidebar_height_2 = profile_sidebar;
             
-            $('.profile_sidebar').height(profile_sidebar_height);
+//             $('.profile_sidebar').height(profile_sidebar_height);
             
-            var shouldShow = $.cookie('show_desc') == 'yep';
-				if( shouldShow ) {
-					if(profile_sidebar_height_2 > 700){
-						$('.filter_wrapper').height(profile_sidebar_height_2 + 120);
-					}
-					else{
-						$('.filter_wrapper').height(profile_sidebar_height_2 + 830);
-					} 
+//             var shouldShow = $.cookie('show_desc') == 'yep';
+// 				if( shouldShow ) {
+// 					if(profile_sidebar_height_2 > 700){
+// 						$('.filter_wrapper').height(profile_sidebar_height_2 + 120);
+// 					}
+// 					else{
+// 						$('.filter_wrapper').height(profile_sidebar_height_2 + 830);
+// 					} 
 					 
-				}
-				else {
-					$('.filter_wrapper').height(profile_sidebar_height_2 + 120); 
-				}
+// 				}
+// 				else {
+// 					$('.filter_wrapper').height(profile_sidebar_height_2 + 120); 
+// 				}
             
            
 
-}
+// }
 
 function validateSearch() {
    left_dyanmic_height();

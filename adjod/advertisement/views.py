@@ -77,6 +77,7 @@ class JSONResponse(HttpResponse):
 
 def localities_for_city(request):
     if request.is_ajax() and request.GET and 'city_id' in request.GET:
+        print "request.GET['city_id']", request.GET['city_id']
         objs = Locality.objects.filter(city_refid=request.GET['city_id'])
         print objs
         return JSONResponse([{'id': o.id, 'name': smart_unicode(o)}
@@ -167,43 +168,44 @@ def sub_category(request, name=None):
 
 def product_detail(request, pk):
     adinfo=Product.objects.get(pk=int(pk))
-    print adinfo
-    print "adbrand", adinfo.ad_brand
-    print "adtype", adinfo.ad_type_id
 
-    if adinfo.subcategory_id==1:
-        ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
+    # print adinfo
+    # print "adbrand", adinfo.ad_brand
+    # print "adtype", adinfo.ad_type_id
 
-        ad_model=Dropdown.objects.get(id=adinfo.ad_model_id)
-        ctx={'adinfo':adinfo,'ad_type':ad_type,'ad_model':ad_model}
-    if adinfo.subcategory_id==2 or adinfo.subcategory_id==3:
-        ad_model=Dropdown.objects.get(id=adinfo.ad_model_id)
-        ctx={'adinfo':adinfo,'ad_model':ad_model}
+    # if adinfo.subcategory_id==1:
+    #     ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
+
+    #     ad_model=Dropdown.objects.get(id=adinfo.ad_model_id)
+    #     ctx={'adinfo':adinfo,'ad_type':ad_type,'ad_model':ad_model}
+    # if adinfo.subcategory_id==2 or adinfo.subcategory_id==3:
+    #     ad_model=Dropdown.objects.get(id=adinfo.ad_model_id)
+    #     ctx={'adinfo':adinfo,'ad_model':ad_model}
     
-    if adinfo.subcategory_id==4:
-        ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
-        ctx={'adinfo':adinfo,'ad_type':ad_type}
-    if adinfo.subcategory_id==5:
-        ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
-        ctx={'adinfo':adinfo,'ad_type':ad_type}
-    if adinfo.subcategory_id==6:
-        ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
-        ctx={'adinfo':adinfo,'ad_type':ad_type}
-    if adinfo.subcategory_id==7:
-        ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
-        ctx={'adinfo':adinfo,'ad_type':ad_type}
-    if adinfo.subcategory_id==8:
-        ad_model=Dropdown.objects.get(id=adinfo.ad_model_id)
-        ad_os=Dropdown.objects.get(id=adinfo.ad_os_id)
-        ad_sim=Dropdown.objects.get(id=adinfo.ad_sim_id)
-        ad_alsoinclude=Dropdown.objects.get(id=adinfo.ad_alsoinclude_id)
-        ctx={'adinfo':adinfo,'ad_model':ad_model,'ad_os':ad_os,'ad_sim':ad_sim,'ad_alsoinclude':ad_alsoinclude}
-    if adinfo.subcategory_id==9:
-        ctx={'adinfo':adinfo}
-    if adinfo.subcategory_id==10:
-        ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
-        print ad_type.type_name
-        ctx={'adinfo':adinfo,'ad_type':ad_type}
+    # if adinfo.subcategory_id==4:
+    #     ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
+    #     ctx={'adinfo':adinfo,'ad_type':ad_type}
+    # if adinfo.subcategory_id==5:
+    #     ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
+    #     ctx={'adinfo':adinfo,'ad_type':ad_type}
+    # if adinfo.subcategory_id==6:
+    #     ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
+    #     ctx={'adinfo':adinfo,'ad_type':ad_type}
+    # if adinfo.subcategory_id==7:
+    #     ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
+    #     ctx={'adinfo':adinfo,'ad_type':ad_type}
+    # if adinfo.subcategory_id==8:
+    #     ad_model=Dropdown.objects.get(id=adinfo.ad_model_id)
+    #     ad_os=Dropdown.objects.get(id=adinfo.ad_os_id)
+    #     ad_sim=Dropdown.objects.get(id=adinfo.ad_sim_id)
+    #     ad_alsoinclude=Dropdown.objects.get(id=adinfo.ad_alsoinclude_id)
+    #     ctx={'adinfo':adinfo,'ad_model':ad_model,'ad_os':ad_os,'ad_sim':ad_sim,'ad_alsoinclude':ad_alsoinclude}
+    # if adinfo.subcategory_id==9:
+    #     ctx={'adinfo':adinfo}
+    # if adinfo.subcategory_id==10:
+    #     ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
+    #     print ad_type.type_name
+    #     ctx={'adinfo':adinfo,'ad_type':ad_type}
  
     results = SearchQuerySet().all()
     sqs = SearchQuerySet().filter(content=adinfo)
@@ -220,9 +222,9 @@ def product_detail(request, pk):
     print path
     
     recentad=Product.objects.filter().order_by('-id')[:3]
-
+    ctx={'adinfo':adinfo}
     
-    return render_to_response('advertisement/adinfo.html',ctx,context_instance=RequestContext(request))
+    return render_to_response('v3/advertisement/ad_detail_v3.html',ctx,context_instance=RequestContext(request))
 
 def product_form(request, name=None, subname=None):
 
@@ -236,7 +238,7 @@ def product_form(request, name=None, subname=None):
     
     
     
-    # dropdown=Dropdown.objects.all().exclude(year='', color='')
+    dropdown=Dropdown.objects.all().exclude(year='', color='')
 
     # dropdown_group=Dropdown.objects.filter(subcat_refid=subcategory.id).exclude(Q(brand_name='') | Q(type_name=''))
     # dropdown_group_brand=Dropdown.objects.filter(subcat_refid=subcategory.id).exclude(brand_name='')
@@ -245,7 +247,7 @@ def product_form(request, name=None, subname=None):
     # dropdown_group_sim=Dropdown.objects.filter(subcat_refid=subcategory.id).exclude(sim='')
     # dropdown_group_alsoinclude=Dropdown.objects.filter(subcat_refid=subcategory.id).exclude(alsoinclude='')
     
-    # city=City.objects.all()
+    city=City.objects.all()
     # locality=Locality.objects.all()
     
     
@@ -253,7 +255,7 @@ def product_form(request, name=None, subname=None):
     #        'locality':locality,'dropdown':dropdown,'dropdown_group_os':dropdown_group_os,'dropdown_group_sim':dropdown_group_sim,
     #        'dropdown_group_alsoinclude':dropdown_group_alsoinclude,'dropdown_group_brand':dropdown_group_brand,'dropdown_group_type':dropdown_group_type}
 
-    ctx = {'userid':userid, 'category':category}
+    ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
     return render_to_response('v3/advertisement/quikr_post_v3.html', ctx , context_instance=RequestContext(request))
 
 
@@ -261,35 +263,133 @@ def product_save(request):
     
     success=False
     product=Product()
-    product.user_id=request.POST.get('user')
-    
-    product.category=Category.objects.get(id=request.POST['category_name'])
-    print product.category.id
-    
-    product.subcategory=SubCategory.objects.get(id=request.POST['subcategory_name'])
-    print product.subcategory.id
 
-    product.ad_brand=Dropdown.objects.get(id=request.POST['brand_name'])
-    print product.ad_brand.id
-
-    product.adtype=request.POST.get('condition')
-    product.title=request.POST.get('ad_title')
-    product.description=request.POST.get('description','')
-    product.you_are = request.POST.get('you_are_radio', '')
-    product.you_name = request.POST.get('your_name', '')
-    product.you_phone = request.POST.get('your_mobile_no', '')   
     product.you_email = request.POST.get('your_email', '')
 
-    product.created_date   = datetime.datetime.now()
-    product.modified_date   = datetime.datetime.now()
-    product.save()
+    print product.you_email
+    productresult=Product.objects.all()
+    count=0
+    for productresults in productresult:
+        if productresults.you_email == product.you_email:
+            count=count+1
+        
+    if count >3:
+        emailerror=True
+        print emailerror
+    else:
+        emailerror=False
+        print emailerror
+    
+    if emailerror==False:
+        product.user_id=request.POST.get('user')
+        
+        product.category=Category.objects.get(id=request.POST['category_name'])
+        print product.category.id
+        
+        product.subcategory=SubCategory.objects.get(id=request.POST['subcategory_name'])
+        print product.subcategory.id
+
+        product.ad_brand=Dropdown.objects.get(id=request.POST['brand_name'])
+        print product.ad_brand.id
+
+        product.adtype=request.POST.get('condition')
+        product.title=request.POST.get('ad_title')
+        product.price=request.POST.get('your_price')
+        # product.year=request.POST.get('your_year')
+        product.description=request.POST.get('description','')
+        product.you_are = request.POST.get('you_are_radio', '')
+        product.you_name = request.POST.get('your_name', '')
+        product.you_phone = request.POST.get('your_mobile_no', '')   
+        
+
+        product.city=City.objects.get(id=request.POST['your_city'])
+        product.locality=Locality.objects.get(id=request.POST['your_locality'])
+
+        # product.photos=request.FILES['photos']
+        product.photos =request.FILES.getlist('photos[]')
+        print product.photos
+        
+        def handle_uploaded_file(f):
+            # product.photos = open('/static/img/photos/%s' % f.name, 'wb+')
+            product.photos = open('static/img/photos/%s' % f.name, 'wb+')
+            for chunk in f.chunks():
+                product.photos.write(chunk)
+            product.photos.close()
+        photosgroup = ''
+        
+        count=len(product.photos)
+        for uploaded_file in product.photos:
+            count=count-1
+            handle_uploaded_file(uploaded_file)
+            if count==0:
+                photosgroup=photosgroup + settings.STATIC_ROOT + str(uploaded_file)
+            else:
+                photosgroup=photosgroup + settings.STATIC_ROOT + str(uploaded_file) + ','
+        print photosgroup
+        
+        product.photos=photosgroup
+        photo=str(product.photos)
+        print photo
+        print photo.split(',')
+        photos=photo.split(',')
+        
+        thumbnail_group=''
+        if product.photos:
+            from PIL import Image as ImageObj
+            from cStringIO import StringIO
+            from django.core.files.uploadedfile import SimpleUploadedFile
+            import os
+            try:
+                count =len(photos)
+                for photo in photos:
+                    count=count-1
+                    print "final photo",photo
+                    # photo=filename + file_ext
+                    # print photo
+                    THUMBNAIL_SIZE = (100, 100) # dimensions
+                    image = ImageObj.open(photo)
+                    print image
+                    # Convert to RGB if necessary
+                    if image.mode not in ('L', 'RGB'): image = image.convert('RGB')
+                    # create a thumbnail + use antialiasing for a smoother thumbnail
+                    image.thumbnail(THUMBNAIL_SIZE, ImageObj.ANTIALIAS)
+                    # fetch image into memory
+                    temp_handle = StringIO()
+                    print "temp", temp_handle
+                    image.save(temp_handle, 'png')
+                    temp_handle.seek(0)
+                    # save it
+                    # file_name, file_ext = os.path.splitext(photo.name.rpartition('/')[-1])
+                    disassembled = urlparse(photo)
+                    filename, file_ext = splitext(basename(disassembled.path))
+                    suf = SimpleUploadedFile(filename + file_ext, temp_handle.read(), content_type='image/png')
+                    # product.thumbnail.save(filename + '_thumbnail' +'.png', suf, save=False)
+                    # print product.thumbnail
+                    # if count == 0:
+                    # thumbnail_group = thumbnail_group + str(product.thumbnail)
+                    # else:
+                    # thumbnail_group = thumbnail_group + str(product.thumbnail) + ','
+                    product.thumbnail.save(filename + '_thumbnail' +'.png', suf, save=False)
+                    print product.thumbnail
+                    if count == 0:
+                        thumbnail_group = thumbnail_group + str(product.thumbnail)
+                    else:
+                        thumbnail_group = thumbnail_group + str(product.thumbnail) + ','
+                print thumbnail_group
+            except ImportError:
+                pass
+        product.thumbnail = thumbnail_group
+
+        product.created_date   = datetime.datetime.now()
+        product.modified_date   = datetime.datetime.now()
+        product.save()
     
 
 
-    success=True
+        success=True
     
-    ctx = {'success':success}
-    return render_to_response('advertisement/ad1.html',ctx , context_instance=RequestContext(request))
+    ctx = {'success':success,'emailerror':emailerror}
+    return render_to_response('v3/advertisement/quikr_post_v3.html',ctx , context_instance=RequestContext(request))
 
 # def _get_pin(length=5):
 #     """ Return a numeric PIN with length digits """

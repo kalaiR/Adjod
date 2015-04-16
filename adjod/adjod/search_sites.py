@@ -22,7 +22,7 @@ from haystack.forms import ModelSearchForm, FacetedSearchForm
 from haystack.query import EmptySearchQuerySet
 
 
-RESULTS_PER_PAGE = getattr(settings, 'HAYSTACK_SEARCH_RESULTS_PER_PAGE', 10)
+RESULTS_PER_PAGE = getattr(settings, 'HAYSTACK_SEARCH_RESULTS_PER_PAGE', 5)
 
 
 # class Highlighter(object):
@@ -301,7 +301,7 @@ class FixidoSearchEngine(ElasticsearchSearchEngine):
 
 
 class SearchView(object):
-    template = 'advertisement/search_button.html'
+    template = 'advertisement/quikr_search_v2.html'
     extra_context = {}
     query = ''
     results = EmptySearchQuerySet()
@@ -335,7 +335,7 @@ class SearchView(object):
         self.form = self.build_form()
         self.query = self.get_query()
         self.results = self.get_results()
-        print "self.create_response()", self.create_response()
+        # print "self.create_response()", self.create_response()
         return self.create_response()
 
     def build_form(self, form_kwargs=None):
@@ -351,7 +351,6 @@ class SearchView(object):
 
         if len(self.request.GET):
             data = self.request.GET
-            print "data", data
 
         if self.searchqueryset is not None:
             kwargs['searchqueryset'] = self.searchqueryset
@@ -402,9 +401,9 @@ class SearchView(object):
             if result_display >  1 :
                 result_display = int(self.request.GET.get('result_per_page'))
             else:
-                result_display = RESULTS_PER_PAGE 
+                result_display = 5 
         else:
-            result_display = RESULTS_PER_PAGE 
+            result_display = 5
 
         
         start_offset = (page_no - 1) * result_display

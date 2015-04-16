@@ -33,20 +33,6 @@
 {% else %} 
 <a href="/apidocs/">API</a>   
 <a href="/paypal/">Paypal</a>   
-
-<div class="">
-            <form id="login_form" method="post" action="/login/">
-              {% csrf_token %}
-               Username: <input type="text" name="username" value="" size="30" />
-              <br /><br />
-               Password: <input type="password" name="password" value="" size="30" />
-              <br /><br />
-              <input type="submit" value="submit" />
-                
-               <label>{{error}}</label>
-            </form>
-            
-            </div><!-- login_holder -->
 <div class="row row_1">    
 
  {% for categories in category %}  
@@ -64,11 +50,7 @@
             <a href="/addproduct/" class=""><code></code></a>
               <div>
               
-              <a href="" class="">
-              
-              
-
-              <h4>{{ categories.name }}</h4></a>
+              <a href="/search/?q={{ categories.name }}" class=""><h4>{{ categories.name }}</h4></a>
 
               <span class="brand">{{categories.category_type}}</span>
               </div>

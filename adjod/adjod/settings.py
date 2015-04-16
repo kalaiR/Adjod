@@ -102,6 +102,9 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'pagination.middleware.PaginationMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -110,7 +113,24 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+
 )
+
+TEMPLATE_CONTEXT_PROCESSORS += (
+     'social_auth.context_processors.social_auth_by_name_backends',
+     'social_auth.context_processors.social_auth_backends',
+     'social_auth.context_processors.social_auth_by_type_backends',
+     'social_auth.context_processors.social_auth_login_redirect',
+     'django.core.context_processors.request',
+     'django.core.context_processors.i18n',
+     'django.core.context_processors.csrf',  
+     'django.core.context_processors.media',
+     'django.core.context_processors.debug',
+)
+
+
+
 
 
 
@@ -126,27 +146,6 @@ TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), '../templates'),
 )
 
-TEMPLATE_CONTEXT_PROCESSOR = {
-  'django.contrib.auth.context_processors.auth'
- 
-  'django.core.context_processors.media'
-  'django.core.context_proecessors.csrf',
-  'social_auth.context_processors.social_auth_by_name_backends',
-  'social_auth.context_processors.social_auth_backends',
-  'social_auth.context_processors.social_auth_by_type_backends',
-  'social_auth.context_processors.social_auth_login_redirect',
-  
-  'django.core.context_processors.request',
-  'django.core.context_processors.media',  
-  'django.core.context_processors.debug',
-  # 'django.templatetags.rollyourown.seo',
-  # 'django.contrib.staticfiles.templatetags.rollyourown.seo',
-  # 'django.contrib.admin.templatetags.rollyourown.seo',
-  # 'haystack.templatetags.rollyourown.seo',
-  # 'easy_thumbnails.templatetags.rollyourown.seo',
-  # 'rollyourown.seo.templatetags.rollyourown.seo'
-
-} 
 
 INSTALLED_APPS = (
     'django.contrib.auth',

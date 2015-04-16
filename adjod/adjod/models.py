@@ -6,8 +6,10 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
     # The additional attributes we wish to include.
-    website = models.URLField(blank=True)
-    picture = models.ImageField(upload_to='static/img/', blank=True)
+    # website = models.URLField(blank=True)
+    # picture = models.ImageField(upload_to='static/img/', blank=True)
+    city=models.CharField(max_length=50)
+    mobile=models.CharField(max_length=50)
     confirmation_code=models.CharField(max_length=500)
 
     # Override the __unicode__() method to return out something meaningful!

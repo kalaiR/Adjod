@@ -84,13 +84,14 @@ class ProductSearchFilter(FacetedSearchForm):
 
     def searchv2(self):
       if not hasattr(self, 'cleaned_data'):
-
-        return productsearch(model_cls=self.get_model_class()) 
-          # default_filters=self.get_default_filters())
+        return productsearch(model_cls=self.get_model_class(), 
+          default_filters=self.get_default_filters())
         
       _params = [
         'locality',
+        
         'category',
+        
         
       ]
 
@@ -102,7 +103,9 @@ class ProductSearchFilter(FacetedSearchForm):
           params[p] =  None
 
       
+
       
+
       if params['locality']:
         params['locality'] = params['locality'].split(',')
 
@@ -111,127 +114,69 @@ class ProductSearchFilter(FacetedSearchForm):
       orderby = None
 
       orderby_mappings = {
-        'createddate': '-created_date',
-        'modifieddate': '-modified_date',
-        # 'pricelow': 'base_price',
-        # 'pricehigh': '-base_price'
+        'createddate': '-created',
+        'modifieddate': '-modified',
+        'pricelow': 'base_price',
+        'pricehigh': '-base_price'
       }
 
-      
+      # if self.cleaned_data['groupby']:
+      #   groupby = self.cleaned_data['groupby']
+      if not orderby:
+        orderby = orderby_mappings['createddate']        
 
-      # if not orderby:
-      #   orderby = orderby_mappings['createddate']        
-      print "not in if searchv2"
-      return productsearch(q, params, orderby, model_cls=self.get_model_class(), 
+      return productsearch(q, params, orderby, groupby, model_cls=self.get_model_class(), 
         default_filters=self.get_default_filters(), 
         default_search_field=self.get_default_search_field())
 
     def search(self):
         print "search"
         # return self.searchv2()
-        print "search1"
+
         sqs = self.get_default_queryset()
-        print "search sqs", sqs
+        print "sqs1", sqs
         search_field = self.get_default_search_field()
-        print search_field
+        
         if hasattr(self, 'cleaned_data'):
           original_query = self.cleaned_data['q']
 
           # Split by special character and space
           query = re.sub(r'[^\w]', ' ', original_query, 
             flags=re.UNICODE).split(' ')
-          print "query", query
-
+          print "search query", query
           # Remove empty and special characters
           query = [q for q in query \
             if q and (not re.match(r'[^\w]', q, flags=re.UNICODE))]
-          print "query", query
-          # if query:
-          #   # For some reason, if the query has '/' character, haystack gives
-          #   # empty result and throws exception in elastic. "Clean" does not
-          #   # clean this character. So remove this character manually with
-          #   # space  
-          #   original_query = original_query.replace('/', ' ')
+          print "search query1", query
+          if query:
+            # For some reason, if the query has '/' character, haystack gives
+            # empty result and throws exception in elastic. "Clean" does not
+            # clean this character. So remove this character manually with
+            # space  
+            original_query = original_query.replace('/', ' ')
 
-          #   cleand = Clean(original_query)
-          #   qs = SQ(**{search_field:cleand})
-          #   qs = qs | SQ(**{search_field + '__startswith': cleand})
+            cleand = Clean(original_query)
+            qs = SQ(**{search_field:cleand})
+            qs = qs | SQ(**{search_field + '__startswith': cleand})
 
-          #   cleand_q = ' '.join(query)
-          #   if original_query != cleand_q:
-          #     qs = qs | SQ(**{search_field:cleand_q})
+            cleand_q = ' '.join(query)
+            if original_query != cleand_q:
+              qs = qs | SQ(**{search_field:cleand_q})
 
-          #   # if len(query) > 1:
-          #   #   for q in query:
-          #   #     qs = qs | SQ(**{search_field + '__startswith':Clean(q)})
+            # if len(query) > 1:
+            #   for q in query:
+            #     qs = qs | SQ(**{search_field + '__startswith':Clean(q)})
 
-          #   sqs = sqs.filter(qs)
+            sqs = sqs.filter(qs)
 
         if hasattr(self, 'cleaned_data'):
 
           save_object = None
           
-          # if self.cleaned_data['save_search']:
-          #   save_object = LeadFilter()
-  
-          # if self.cleaned_data['lang']:
-          #     selLang = self.cleaned_data['lang']
-          #     if selLang =='en':
-          #         sqs = sqs.filter(language__in=['en','sv'])
-          #     else:
-          #         sqs = sqs.filter(language=self.cleaned_data['lang'])
-                  
-                
-          # if self.cleaned_data['budget_start']:
-          #     sqs = sqs.filter(budget__gte=self.cleaned_data['budget_start'])
-          #     if save_object:
-          #       save_object.budget_from = self.cleaned_data['budget_start']
-  
-          # if self.cleaned_data['budget_end']:
-          #     sqs = sqs.filter(budget__lte=self.cleaned_data['budget_end'])
-          #     if save_object:
-          #       save_object.budget_to = self.cleaned_data['budget_end']
-  
-          # if self.cleaned_data['deal_start']:
-          #     sqs = sqs.filter(deal_starts__gte=self.cleaned_data['deal_start'])
-          #     if save_object:
-          #       save_object.deal_time_from = self.cleaned_data['deal_start']
-  
-          # if self.cleaned_data['deal_end']:
-          #     sqs = sqs.filter(deal_ends__lte=self.cleaned_data['deal_end'])
-          #     if save_object:
-          #       save_object.deal_time_to = self.cleaned_data['deal_end']  
-  
-          # if self.cleaned_data['price_start']:
-          #     sqs = sqs.filter(price__gte=self.cleaned_data['price_start'])
-          #     if save_object:
-          #       save_object.price_from = self.cleaned_data['price_start']  
-                  
-          # if self.cleaned_data['price_end']:
-          #     sqs = sqs.filter(price__lte=self.cleaned_data['price_end'])
-          #     if save_object:
-          #       save_object.price_to = self.cleaned_data['price_end']  
-  
-          if self.cleaned_data['locality']:
-              sqs = sqs.filter(locations__in=self.cleaned_data['locality'].split(','))
-              if save_object:
-                save_object.location = self.cleaned_data['locality']  
-                
-                    
-          
-   
-          # if self.cleaned_data['sortdata']:
-          #     if (self.cleaned_data['sortdata'] == "createddate"):
-          #       sqs = sqs.all().order_by('-created_date')
-              
-          #     if (self.cleaned_data['sortdata'] == "modifieddate"):
-          #      sqs = sqs.all().order_by('-modified_date')
-              
-          
           # if self.cleaned_data['groupby']:
           #   groupby = self.cleaned_data['groupby']
           #   sqs = sqs.facet(groupby)
-        # print "sqs value", sqs
+          
         return sqs#sqs.models(self.model)
 
 
