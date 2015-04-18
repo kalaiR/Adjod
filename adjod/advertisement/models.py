@@ -6,11 +6,13 @@ from django.contrib.auth.models import User
 from adjod.models import *
 
 
-from thumbnailfield.fields import ThumbnailField
+# from thumbnailfield.fields import ThumbnailField
 from paypal.standard.ipn.models import PayPalIPN
 from paypal.standard.models import ST_PP_COMPLETED
 from paypal.standard.ipn.signals import payment_was_successful
 import datetime
+from django import template
+register = template.Library()
 
 # from thumbnail_works.fields import EnhancedImageField
 
@@ -126,8 +128,9 @@ class Product(models.Model):
     you_name = models.CharField(max_length=20)
     you_email = models.CharField(max_length=30)
     you_phone = models.CharField(max_length=12)
-    created_date =models.DateTimeField(default=datetime.datetime.now)
-    modified_date =models.DateTimeField(default=datetime.datetime.now)
+    created_date =models.DateField(default=datetime.datetime.now)
+    modified_date =models.DateField(default=datetime.datetime.now)
+    imagecount=models.IntegerField(null=True, blank=True)
 
     class Admin:
         pass
@@ -135,6 +138,7 @@ class Product(models.Model):
     def __unicode__(self):
         return self.title
 
+   
     @classmethod
     def get_subcategory(cls, subid):
         data=Dropdown.objects.filter(subcat_refid=subid)
@@ -153,4 +157,13 @@ class Product(models.Model):
             #     "cars": "datas.brand_name,datas.brand_model",
             #     }
             # print field_dict.cars.datas.brand_name
+
+    @register.filter()
+    def get_photos(photo):
+        print "get_photos"
+        photo=str(photo).split(',')
+        return photo[0]
+
+    
+    
 

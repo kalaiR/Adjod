@@ -124,15 +124,15 @@ def brand_for_subcategory(request):
 
 def sub_category(request, name=None):
     print name
-    category=Category.objects.get(name=name)
-    print category.id
-    subcategory = SubCategory.objects.filter(category_id=category.id)
-    # for subcategory1 in subcategory:
-    #     print subcategory1.name
+    cat=Category.objects.get(name=name)
+    print cat.id
+    subcategory = SubCategory.objects.filter(category_id=cat.id)
+    for subcategory1 in subcategory:
+        print subcategory1.name
     path=request.path
     print path
     recentad=Product.objects.filter().order_by('-id')[:3]
-    ctx = {'subcategory':subcategory,'path':path,'recentad':recentad,'category':category}
+    ctx = {'subcategory':subcategory,'path':path,'recentad':recentad,'cat':cat}
     return render_to_response('adjod/userpage.html', ctx , context_instance=RequestContext(request))
 
 # def search(request):
@@ -168,49 +168,22 @@ def sub_category(request, name=None):
 
 def product_detail(request, pk):
     adinfo=Product.objects.get(pk=int(pk))
-
-    # print adinfo
-    # print "adbrand", adinfo.ad_brand
-    # print "adtype", adinfo.ad_type_id
-
-    # if adinfo.subcategory_id==1:
-    #     ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
-
-    #     ad_model=Dropdown.objects.get(id=adinfo.ad_model_id)
-    #     ctx={'adinfo':adinfo,'ad_type':ad_type,'ad_model':ad_model}
-    # if adinfo.subcategory_id==2 or adinfo.subcategory_id==3:
-    #     ad_model=Dropdown.objects.get(id=adinfo.ad_model_id)
-    #     ctx={'adinfo':adinfo,'ad_model':ad_model}
+    print adinfo
+    print "adinfo.photos", adinfo.photos
+    photosgroup=adinfo.thumbnail
+    photo=str(photosgroup)
+    print "photo", photo
+    print "photosplit", photo.split(',')
+    photos=photo.split(',')
     
-    # if adinfo.subcategory_id==4:
-    #     ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
-    #     ctx={'adinfo':adinfo,'ad_type':ad_type}
-    # if adinfo.subcategory_id==5:
-    #     ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
-    #     ctx={'adinfo':adinfo,'ad_type':ad_type}
-    # if adinfo.subcategory_id==6:
-    #     ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
-    #     ctx={'adinfo':adinfo,'ad_type':ad_type}
-    # if adinfo.subcategory_id==7:
-    #     ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
-    #     ctx={'adinfo':adinfo,'ad_type':ad_type}
-    # if adinfo.subcategory_id==8:
-    #     ad_model=Dropdown.objects.get(id=adinfo.ad_model_id)
-    #     ad_os=Dropdown.objects.get(id=adinfo.ad_os_id)
-    #     ad_sim=Dropdown.objects.get(id=adinfo.ad_sim_id)
-    #     ad_alsoinclude=Dropdown.objects.get(id=adinfo.ad_alsoinclude_id)
-    #     ctx={'adinfo':adinfo,'ad_model':ad_model,'ad_os':ad_os,'ad_sim':ad_sim,'ad_alsoinclude':ad_alsoinclude}
-    # if adinfo.subcategory_id==9:
-    #     ctx={'adinfo':adinfo}
-    # if adinfo.subcategory_id==10:
-    #     ad_type=Dropdown.objects.get(id=adinfo.ad_type_id)
-    #     print ad_type.type_name
-    #     ctx={'adinfo':adinfo,'ad_type':ad_type}
+    large=str(adinfo.photos).split(',')
+    largephoto=large[0]
  
     results = SearchQuerySet().all()
     sqs = SearchQuerySet().filter(content=adinfo)
     sqsresults = [ r.pk for r in sqs ]
     recommendresults = Product.objects.exclude(pk=int(pk)).filter(pk__in=sqsresults)
+    print recommendresults
     for recommendresult in recommendresults:
         print "searchresults:", recommendresult
     # print "adinfo subcategory id:", adinfo.subcategory_id
@@ -222,7 +195,7 @@ def product_detail(request, pk):
     print path
     
     recentad=Product.objects.filter().order_by('-id')[:3]
-    ctx={'adinfo':adinfo}
+    ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto}
     
     return render_to_response('v3/advertisement/ad_detail_v3.html',ctx,context_instance=RequestContext(request))
 
@@ -332,7 +305,8 @@ def product_save(request):
         print photo
         print photo.split(',')
         photos=photo.split(',')
-        
+        # print "photocount", len(photos)
+        product.imagecount= len(photos)
         thumbnail_group=''
         if product.photos:
             from PIL import Image as ImageObj

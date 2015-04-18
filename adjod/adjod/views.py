@@ -46,13 +46,14 @@ def view_that_asks_for_money(request):
     return render_to_response("paypal_integration/payment.html", context)
 
 def home(request):
-      category=Category.objects.all()
-      recentad=Product.objects.filter().order_by('-id')[:3]
-      path = request.path
-      print path 
+    category=Category.objects.all()
+    recentad=Product.objects.filter().order_by('-id')[:3]
+
+    path = request.path
+    print "path", path 
 
     # results = SearchQuerySet().models(Product).autocomplete(title_auto=q)
-      return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad }, context_instance=RequestContext(request)) 
+    return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad }, context_instance=RequestContext(request)) 
 
 
 
@@ -390,9 +391,16 @@ def start(request):
     print path
     product =Product.objects.all()
     recentad=Product.objects.filter().order_by('-id')[:3]
+    # print "adinfo.photos", recentad.photos
+    # photosgroup=recentad.photos
+    # photo=str(photosgroup)
+    # print "photo", photo
+    # print "photosplit", photo.split(',')
+    # photos=photo.split(',')
+    
+
+
     for recentads in recentad:  
         print recentads.title
-    return render_to_response('adjod/userpage.html',{'category':category,'path':path,'recentad':recentad,'product':product},
-        context_instance=RequestContext(request)
-    )
+    return render_to_response('adjod/userpage.html',{'category':category,'path':path,'recentad':recentad,'product':product},context_instance=RequestContext(request))
 

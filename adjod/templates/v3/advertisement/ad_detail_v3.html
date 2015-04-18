@@ -14,6 +14,7 @@
     <link href="{% static "css/font-awesome.css" %}" rel="stylesheet">
     <link href="{% static "css/index.less" %}" rel="stylesheet/less" type="text/less">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,500,400italic,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link href="{% static "css/jquery.fancybox.css" %}" rel="stylesheet">
     
     
   
@@ -28,6 +29,7 @@
   <script src="{% static "js/form-actions.js" %}"></script>
   <script src="{% static "js/html5shiv.js" %}"></script>
   <script src="{% static "js/less.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script>
   
   <script src="{% static "js/bootstrap.min.js" %}"></script>
   </head>
@@ -60,8 +62,8 @@
                         </select>
                       </div><!-- custom_select -->
                 </li>
-              <li><a href="#" class="">Login</a></li>
-              <li><a href="#" class="">Sign up</a></li>
+              <li><a href="#sign_in_div" class="fancybox orange_text">Login</a></li>
+              <li><a href="#sign_up_div" class="fancybox">Sign up</a></li>
             </ul>
           </div> <!-- navbar collapse -->
         </nav> <!-- navigation bar --> 
@@ -70,14 +72,15 @@
     <div class="search_part">
     	<div class="container logo_part">
     		<code></code>
-    		    <form class="info_form">
+        <form class="info_form" method="get" action="/search/?q=">
+    		    
     		  	       	<div class="button">
                   			<i class="fa fa-search search_icon"></i>
             	    		<input type="text" class="form-control input-lg" placeholder="iPhone">
             	    	</div>
                   		<button type="submit"class="btn btn-lg btn-success search_b">Search</button>
-            			<button type="submit"class="btn btn-lg post-button">Post free Ad</button>
-            			<button type="submit"class="btn btn-lg alert-button">Create free alert</button>
+            			  <a href="{% url product_form %}" class="btn btn-lg post-button">Post free Ad</a>
+                    <a href="/" class="btn btn-lg alert-button">Create free alert</a>
             </form> <!-- info_form -->
       </div> <!-- container logo_part -->
     </div> <!-- search_part -->
@@ -148,14 +151,20 @@
     		</div>
     		<div class="product-image">
           <div class="thumbnails">
-            <a href="" ><img class="img" src="img/Product.png"></a>
+            <a href="" ><img class="img" src="{{ STATIC_ROOT }}/{{ largephoto }}"></a>
           </div>
-            <div class="thumbnails1">
+           <div class="thumbnails1">
+           	{%for photo in photos%}
+              <a href=""><img class="img1" src="{{ STATIC_ROOT }}/{{ photo }}"></a>
+            {%endfor%}
+            </div>
+            
+            <!-- <div class="thumbnails1">
               <a href=""><img class="img1"src="img/Product_pic1.png"></a>
             </div>
             <div class="thumbnails2">
               <a href=""><img class="img2"src="img/Product_pic2.png"></a>
-            </div>
+            </div> -->
             <div class="div">
                <a href=""><i class="fa fa-camera"></i><span>12</span></a>
             </div>
@@ -363,5 +372,127 @@
         </div> <!-- row4 -->
       </div> <!-- container-->
     </div> <!-- final_part -->
+    <!--======================
+            Sign in 
+      ========================-->
+      <div style="display: none;" class="container">
+          <div id="sign_in_div" class="sign_in_div">
+            <div class="sign_in_title">
+              <span>Sign in</span>
+            </div> <!-- sign_in_title -->
+            
+            <div id="account" class="form-group">
+                <span>I have a account already</span>
+              </div> <!-- account -->
+           <form id="login_form" method="post" action="/login/">  
+           {% csrf_token %}
+
+            <div id="email_userid_div" class="form-group">
+                <input class="email_id" name="email_id" id="emailid_signup" placeholder="Email / User ID*" />
+                <span id="emailid_required" class="hide_error_message error_message">Please enter Email or User ID.</span>
+              </div> <!-- email_id_div -->
+              
+              <div id="password_signup_div" class="form-group">
+                <input class="password" type="password" name="password" id="password_signup" placeholder="Password*" />
+                <span id="password_required" class="hide_error_message error_message">Please enter Password.</span>
+              </div> <!-- password_div -->
+            
+            
+            
+            <div id="forgot_div" class="form-group">
+              <span>Forgot you password?</span>
+              <input class="btn confirm_button" type="submit" value="Sign in" name="create" id="signin" />
+            </div> <!-- forgot_div -->
+           </form>  
+            <div id="" class="form-group">
+              <hr class="photos_line" noshade="noshade">
+            </div> <!-- hr_div -->
+            
+            <div  class="form-group">
+              <span class="signin">I don't have a account</span>
+            </div> <!-- signin_div -->
+            
+            <div id="free_signup_div" class="form-group">
+              <button class="free_button btn-lg"><a href="#sign_up_div" class="fancybox orange_text">Sign up for free</a></button>
+            </div> <!-- free_signup_div -->
+            
+        </div> <!-- sign_in_div -->
+      </div> <!-- container -->
+       <!--======================
+          End Sign in 
+      ========================-->
+
+      <!--======================
+            Sign up 
+      ========================-->
+      <div style="display: none;" class="container">
+        <div id="sign_up_div" class="sign_up_div">
+          <div class="sign_up_title">
+            <span>Sign up</span>
+          </div> <!-- sign_up_title -->
+          {% if registered %}
+          <h5>Successfully registered</h5>
+          {% endif %}
+        <form id="user_form" method="post" action="/new_user/" enctype="multipart/form-data"> 
+        {% csrf_token %}
+          <div id="register_now" class="form-group">
+              <span>Register now for free</span>
+            </div> <!-- register_now -->
+          
+          <div id="email_id_div" class="form-group">
+              <input class="email_id" name="email_id" id="email_id" placeholder="Email ID*" />
+              <span id="email_required" class="hide_error_message error_message">Please enter Email.</span>
+              <span id="valid_signup_email_required" class="hide_error_message error_message">Please enter valid Email.</span>
+            </div> <!-- email_id_div -->
+            
+            <div id="password_div" class="form-group">
+              <input class="password" type="password" name="password" id="password" placeholder="Password*" />
+              <span id="signup_password_required" class="hide_error_message error_message">Please enter Password.</span>
+            </div> <!-- password_div -->
+            
+            <div id="select_city_div" class="form-group">
+              
+              <div class="select_container fl">
+                <div class="select_div">
+                  <p id="select_city">Select city</p>
+                  <i class="city_fa fa fa-caret-down">
+                    
+                  </i>
+                </div> <!-- select_div -->
+                <select class="select_city" name="city">
+                  <option>Chennai</option>
+                  <option>Mumbai</option>
+                  <option>Delhi</option>
+                </select>
+              </div> <!-- select_container -->
+              
+              <div class="fl">
+                <input class="mobile_number" name="your_mobile_number" id="mobile_number" placeholder="Your mobile number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
+              </div>
+              <div class="clear_both">
+                
+              </div>
+              <span>(We will verify this number for privacy protection)</span>
+            </div> <!-- description_div -->
+            
+            <div id="confirm_div" class="form-group">
+              <input class="confirm" type="checkbox" name="confirm" />
+              <span>I confirm that i am 18 yrs or older</span>
+              <input class="btn confirm_button" type="submit" value="Create" name="create" id="create" />
+            </div> <!-- password_div -->
+            
+            <div id="hr_div" class="form-group">
+              <hr class="photos_line" noshade="noshade">
+            </div> <!-- hr_div -->
+            
+            <div id="signin_div" class="form-group">
+              <span class="signin">I have a account already <a href="#sign_in_div" class="fancybox orange_text">Sign in</a> </span>
+            </div> <!-- signin_div -->
+       </form>      
+        </div> <!-- sign_up_div -->
+      </div> <!-- container -->
+       <!--======================
+          End Sign up 
+      ========================-->
 </body>
 </html> 

@@ -13,6 +13,9 @@ from advertisement.models import Product
 from advertisement.searchform import ProductSearchFilter
 from advertisement.fixido_search import AdjodSearchView
 
+from django.template.loader import add_to_builtins
+add_to_builtins('advertisement.templatetags.app_filters')
+
 admin.autodiscover()
 # from rest_framework import routers
 # from services.views import MessageViewSet
@@ -83,7 +86,7 @@ urlpatterns = patterns('',
     # url(r'^categorypage/$', 'advertisement.views.category_page',name='category_page'),
     # url(r'^postad/(?P<subid>\d+)$', 'advertisement.views.product_form',name='product_form'),
     
-    # url(r'^subcategory/(?P<id>\d+)$', 'advertisement.views.sub_category',name='sub_category'),
+    url(r'^(?P<name>.*)$', 'advertisement.views.sub_category',name='sub_category'),
     # url(r'^sample/$', 'sample.views.sample_home',name='sample_home'),
     # url(r'^samplesave/$', 'sample.views.sample_save',name='sample_save'),
     # # url(r'^advertisement/(?P<categoryname>.*)/(?P<id>\d+)$', 'adjod.views.sub_category1',name='sub_category1'),
@@ -100,6 +103,8 @@ urlpatterns = patterns('',
       form_class=ProductSearchFilter, 
       # results_per_page=settings.SEARCH_PAGE_NUMBER_OF_LEADS
     ), name='searchPageV2'),
+
+  
   
     # url(r'^(?i)debugsearch/', FacetedSearchView(
     #   template='fixido/debugsearch.html', 

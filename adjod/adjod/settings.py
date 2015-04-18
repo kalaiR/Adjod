@@ -111,6 +111,7 @@ MIDDLEWARE_CLASSES = (
     
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    # 'templatetags.app_filters.get_photos',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
@@ -170,12 +171,13 @@ INSTALLED_APPS = (
     # 'smsverify'
 
     # 'hstest.apps.notes',
-   'rollyourown.seo',
+#    'rollyourown.seo',
    'paypal_integration',
    'paypal.standard.ipn',
    'services',
-   'rest_framework',
-   'fxapi'
+#    'rest_framework',
+   'fxapi',
+   # 'templatetags',
   
 
 )

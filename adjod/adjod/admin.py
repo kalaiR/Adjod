@@ -1,11 +1,11 @@
 # Import the UserProfile model individually.
 from adjod.models import *
 from django.contrib import admin
-from rollyourown.seo.admin import register_seo_admin
-
-
-from rollyourown.seo.admin import get_inline
-from rollyourown.seo.admin import auto_register_inlines
+# from rollyourown.seo.admin import register_seo_admin
+# 
+# 
+# from rollyourown.seo.admin import get_inline
+# from rollyourown.seo.admin import auto_register_inlines
 
 
 # Import the UserProfile model with Category and Page.

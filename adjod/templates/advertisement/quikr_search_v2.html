@@ -1,14 +1,26 @@
 {% extends request.is_ajax|yesno:"base_ajax.html,base_search.html" %}
 
+{%if not request.is_ajax%}
 {%block page_swap%}   
   <span>
     <a href="/" class="previous_page2">Back to my search results</a>
     <i class="fa fa-angle-right right"></i>
-    <a href="" class="previous_page1">Mobile phones</a>
-    <a href="" class="previous_page1">{{product.category_id}}</a>
+    {%if query%}
+    <!-- {% for product in page.object_list%}
+    <a href="" class="previous_page1">{{product.category}}</a>
+    {% endfor %} -->
+    
     <i class="fa fa-angle-right right"></i>
-    <a href="" class="current_page">iPhone</a>
+    <a href="" class="current_page">{{query}}</a>
+    {%else%}
+    <a href="" class="current_page">All Results</a>
+    {%endif%}
   </span>
+  <form id="form_search_filter" class="form_search_filter" style="position:relative;">
+        <input id="search_form" type="hidden" name="{{form.q.html_name}}"  value="{{form.q.value|default:''}}"/>
+        <input type="hidden" name="page"  value="{{page.number}}"/>
+        <input type="hidden" name="newsearch"  value="new"/>
+</form>
 {%endblock%}   
 
 {%block search_results%}
@@ -116,49 +128,62 @@
             </ul>
             </div>
       </div> <!-- left_part -->
+
+{%endblock%}
+{%endif%}
+{%block search_results1%}
+<div class="fl filter_result_wrapper" id="search_result" style="position:relative;">      
       <div class="right_part">
+      	{% if page and page.object_list %}
         <div class="top_part">
           <!-- <p>{{ page.number }} - {{page.paginator.num_pages}} of {{ page.object_list.count }} Results</p> -->
           <p>{{ page.number }} of {{page.paginator.num_pages}} Results</p>
           <div class="sort_part">
               <span>Sort by</span>
               <div class="custom_select sorting_custom_select">
-                        <div class="select">
+                          <div class="select">
                             <p id="custom_select_value_act">Popularity</p>
-                        </div><!-- select -->
-                        <i class="fa fa-caret-down new_icon"></i>
-                        
-                        <select class="custom_select_value_act option_color" name="popularity"> 
-                            
-                            <option value="English">English</option>
-                            <option value="Hindi">Hindi</option>
-                        </select>
+                            <i class="fa fa-caret-down new_icon"></i>
+                          </div> <!-- select -->
+                          <select class="custom_select_value_act option_color" name="popularity">
+                          <option value="English">Price</option>
+                          <option value="Hindi">Date</option>
+                          </select>
               </div><!-- custom_select -->
+              
           </div> <!-- sort_part -->
         </div> <!-- top_part -->
         <div class="">
           <ul class="product1">
+          	{% for product in page.object_list %}
+                {% if product.object %}
+               
+                
             <li class="product_list1">
               <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
+                    {% if product.object.photos = '' %}
+                    <a href="{% url product_detail product.object.id %}"></a>
+                    {% else %}
+                    <a href="{% url product_detail product.object.id %}"><img src="{{ STATIC_ROOT }}/{{ product.object.photos|get_photos }}"></a>
+                    {% endif %}
                     <div class="count_holder1">
-                        <span>12</span>
+                        <span>{{product.object.imagecount}}</span>
                         <i class="fa fa-camera"></i>
                     </div>
                     </a>
               </div>
               <div class="details">
                   <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
+                      <a href="{% url product_detail product.object.id %}" class="spans"> {{product.object.title}}</a>
+                      
+                      <span class="product_description1">{{product.object.description}}</span>
+                      <!-- <span class="additional_description">{{product.object.description}}</span> -->
+                      
                       <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
+                      <span class="year">{{product.object.created_date}}</span>
                   </div>
                   <div class="additional_details">
-                    <h3>S$1040.00</h3>
+                    <h3>{{product.object.price}}</h3>
                     <div class="number_verify_control">
                       <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
                       </i></span>
@@ -167,545 +192,48 @@
                   </div>
               </div>
             </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-           <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
-            <li class="product_list1">
-              <div class="product_images1 bg-img">
-                    <a href="" class="">
-                    <img>
-                    <div class="count_holder1">
-                        <span>12</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
-                    </a>
-              </div>
-              <div class="details">
-                  <div class="product_name1">
-                      <a href="" class="spans"> Apple iphone 4s white...</a>
-                      <span class="product_description1"> Apple iphone 2011 model,iphone software,camera...
-                      </span>
-                      <span class="additional_description">Camera internet</span>
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
-                      <span class="year">25-Dec-14</span>
-                  </div>
-                  <div class="additional_details">
-                    <h3>S$1040.00</h3>
-                    <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
-                      </i></span>
-                    </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
-                  </div>
-              </div>
-            </li>
+            {%endif%}
+            {% endfor %}
           </ul>
         </div>
         <div class="bottom_part">
            <p>{{ page.number }} of {{page.paginator.num_pages}} Results</p>
-          <div>
+          <div class="pagination" id="pagination_filter">
             <ul class="pagination">
-              <li><a href="#"><i class="fa  fa-angle-double-left"></i></a></li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#"><i class="fa  fa-angle-double-right"></i></a></li>
+            
+              <li>
+              {% if page.has_previous %} 
+              <a data-ajaxlink="true" data-ajaxpage="{{ page.previous_page_number }}" href="?q={{request.REQUEST.q}}&page={{ page.previous_page_number }}">
+              <i class="fa  fa-angle-double-left"></i></a> 
+              {% endif %}
+              </li>
+              {% for p in page.paginator.page_range %}
+              {% if p|add:5 >= page.number and p|add:-5 <= page.number %}
+              <li {% if p == page.number %} class="active"{% endif %}>
+              <a data-ajaxlink="true" data-ajaxpage="{{ p }}" href="?q={{request.REQUEST.q}}&page={{ p }}">
+              {{ p }}
+              </a>
+              </li> 
+              {% endif %}
+              {% endfor %}
+              
+              <li>
+              {% if page.has_next %} 
+              <a data-ajaxlink="true" data-ajaxpage="{{ page.next_page_number }}" href="?q={{request.REQUEST.q}}&page={{ page.next_page_number }}">
+              <i class="fa  fa-angle-double-right"></i>
+              </a> 
+              {% endif %}
+              </li> 
+            
             </ul>
           </div>
         </div> <!-- bottom_part -->
+        {%endif%}
       </div> <!-- right_part -->
+{%if not request.is_ajax%}
+</div><!--filter_result_wrapper-->
+<div class="clear_both"> </div> 
+{%endif%}
 {%endblock%}
 
     

@@ -1,7 +1,7 @@
 function attach_pagination_events(){
     // pagination_filter_align();
             $('[data-ajaxlink=true]').click(function(ele){
-            // $("html, body").animate({ scrollTop: 0 }, "slow");
+            $("html, body").animate({ scrollTop: 0 }, "slow");
                         $('[name=page]').val($(ele.currentTarget).attr('data-ajaxpage'));
                         perform_search();
                         return false;
@@ -28,17 +28,17 @@ function perform_search(){
                         var q = $('#form_search_filter').serialize();
                         q=decodeURIComponent(q);
                         // q = q.replace(/filtersearch/g,'q');
-                        alert(q);
+                       
                         // var qsort = $("#sortdata").val();
                         // q = q +'&sortdata='+$.trim(qsort);
                         // var qlang = $("#currentlanguage").val();
                         if ($('[name=newsearch]').val() == "new")
                         
                         {
-                            alert('if');
+                            
                             $.get('/search/?'+ q, function(data){
                                
-                                alert(data);
+                                
                                     // show_searching(false);
                                     $('#search_result').html(data);
                                     attach_pagination_events();
@@ -56,10 +56,10 @@ function perform_search(){
                                     //     $('#location_highlight').hide();
                             });
                         }else{
-                            alert('else');
+                            
                             $.get('/search/?'+ q, function(data){ 
                                 
-                                alert(data);
+                                
                                 $('#search_result').html(data);
                                 attach_pagination_events();
                                 // show_searching(false);                                

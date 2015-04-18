@@ -168,6 +168,7 @@ class ProductSearchFilter(FacetedSearchForm):
             #     qs = qs | SQ(**{search_field + '__startswith':Clean(q)})
 
             sqs = sqs.filter(qs)
+            print "filter sqs", sqs
 
         if hasattr(self, 'cleaned_data'):
 
