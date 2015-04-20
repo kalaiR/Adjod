@@ -8,8 +8,9 @@ from django.http import HttpResponse, Http404
 from advertisement.search import search as productsearch
 
 from haystack.query import SearchQuerySet
-from haystack.inputs import Clean, Raw
+from haystack.inputs import Clean, Raw, AutoQuery, Exact
 from haystack.query import SQ
+
 
 from models import Product
 
@@ -72,6 +73,14 @@ class ProductSearchFilter(FacetedSearchForm):
       sqs = sqs.models(Product)
       return sqs.all().order_by('-created_date')
 
+    def get_category_queryset(self, request):
+      sqs = SearchQuerySet().all()
+      
+      sqs = sqs.models(Product)
+      sqs1= sqs.filter(subcategoryid=request.GET['q'])
+      print "get_category_queryset sqs1", sqs1
+      return sqs.filter(subcategoryid=request.GET['q']).order_by('-created_date')
+
     def get_default_filters(self):
       return None
 
@@ -129,13 +138,21 @@ class ProductSearchFilter(FacetedSearchForm):
         default_filters=self.get_default_filters(), 
         default_search_field=self.get_default_search_field())
 
-    def search(self):
+    def search(self, request):
         print "search"
         # return self.searchv2()
 
         sqs = self.get_default_queryset()
         print "sqs1", sqs
         search_field = self.get_default_search_field()
+
+        # query=unicode(request.REQUEST['q'])
+        # print "query", query
+
+
+        if 'q' in request.REQUEST and unicode(request.REQUEST['q']).isdigit():
+          sqs=self.get_category_queryset(request)
+          return sqs
         
         if hasattr(self, 'cleaned_data'):
           original_query = self.cleaned_data['q']

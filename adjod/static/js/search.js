@@ -6,14 +6,31 @@ function attach_pagination_events(){
                         perform_search();
                         return false;
             });
+            
 }
 $(document).ready(function() {
             
             
             attach_pagination_events();
+
+            var url = window.location.href;
+            alert(url);
+
+            // var pageURL = $(location).attr("href");
+            url1=url.split('/')[3]
+            alert(url1);
+            url2=url.split('/')[4]
+            alert(url2);
+            // alert(url.split('/')[3].'+'.pageURL.split('/')[4]);
+
+            // var pageURL=window.location.hash.split('/')[2];
+            // alert(page);
+
+            // var pageURL=window.location.hash.split('/')[2];
+            // alert(page);
+            
             
 });
-
 
 
 function perform_search(){
@@ -27,6 +44,9 @@ function perform_search(){
                         // $('[name=rating_end]').val('')
                         var q = $('#form_search_filter').serialize();
                         q=decodeURIComponent(q);
+
+                        var pageURL = $(location).attr("href");
+                        alert(pageURL);
                         // q = q.replace(/filtersearch/g,'q');
                        
                         // var qsort = $("#sortdata").val();
@@ -55,6 +75,8 @@ function perform_search(){
                                     // if($('[name=locations]').val() == '')
                                     //     $('#location_highlight').hide();
                             });
+
+                            
                         }else{
                             
                             $.get('/search/?'+ q, function(data){ 

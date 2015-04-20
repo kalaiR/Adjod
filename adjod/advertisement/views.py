@@ -135,6 +135,14 @@ def sub_category(request, name=None):
     ctx = {'subcategory':subcategory,'path':path,'recentad':recentad,'cat':cat}
     return render_to_response('adjod/userpage.html', ctx , context_instance=RequestContext(request))
 
+def sub_category_ads(request, categoryname=None, subcategoryname=None):
+    print categoryname
+    print subcategoryname
+    ctx={}
+    return render_to_response('adjod/userpage.html', ctx , context_instance=RequestContext(request))
+
+
+
 # def search(request):
 #     print request.GET['q']
 #     recentad=Product.objects.filter().order_by('-id')[:3]

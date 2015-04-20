@@ -11,7 +11,8 @@ from django.contrib import admin
 from haystack.views import SearchView, FacetedSearchView
 from advertisement.models import Product
 from advertisement.searchform import ProductSearchFilter
-from advertisement.fixido_search import AdjodSearchView
+from advertisement.fixido_search import AdjodSearchView, AdjodSearchViewCategory
+# from advertisement.fixido_search import AdjodSearchView
 
 from django.template.loader import add_to_builtins
 add_to_builtins('advertisement.templatetags.app_filters')
@@ -85,8 +86,26 @@ urlpatterns = patterns('',
     
     # url(r'^categorypage/$', 'advertisement.views.category_page',name='category_page'),
     # url(r'^postad/(?P<subid>\d+)$', 'advertisement.views.product_form',name='product_form'),
+
+    # url(r'^(?i)(?P<categoryname>.*)/(?P<subcategoryname>.*)/', 'advertisement.views.sub_category_ads', name='sub_category_ads'),
+
+
+    url(r'^(?i)search/', AdjodSearchView(
+      template='advertisement/quikr_search_v2.html', 
+      form_class=ProductSearchFilter, 
+      # results_per_page=settings.SEARCH_PAGE_NUMBER_OF_LEADS
+    ), name='searchPageV2'),
+
+
+    url(r'^(?i)(?P<categoryname>.*)/(?P<subcategoryname>.*)/', AdjodSearchViewCategory(
+      template='advertisement/quikr_search_v2.html', 
+      form_class=ProductSearchFilter, 
+      # results_per_page=settings.SEARCH_PAGE_NUMBER_OF_LEADS
+    ), name='searchPageV2'),
     
-    url(r'^(?P<name>.*)$', 'advertisement.views.sub_category',name='sub_category'),
+    # url(r'^(?P<pk>\d+)/', 'advertisement.views.detail_v2', name='productDetail'),
+
+    
     # url(r'^sample/$', 'sample.views.sample_home',name='sample_home'),
     # url(r'^samplesave/$', 'sample.views.sample_save',name='sample_save'),
     # # url(r'^advertisement/(?P<categoryname>.*)/(?P<id>\d+)$', 'adjod.views.sub_category1',name='sub_category1'),
@@ -98,13 +117,8 @@ urlpatterns = patterns('',
 
     # url(r'^search/category/$', 'advertisement.views.search',name='search_by_categoryid'),
 
-    url(r'^(?i)search/', AdjodSearchView(
-      template='advertisement/quikr_search_v2.html', 
-      form_class=ProductSearchFilter, 
-      # results_per_page=settings.SEARCH_PAGE_NUMBER_OF_LEADS
-    ), name='searchPageV2'),
+    
 
-  
   
     # url(r'^(?i)debugsearch/', FacetedSearchView(
     #   template='fixido/debugsearch.html', 
@@ -115,6 +129,7 @@ urlpatterns = patterns('',
     
     url(r'^(?i)apidocs/', include('fxapi.urls')),
     url(r'^searchnew/$', 'advertisement.views.searchnew',name='searchnew'),
+    url(r'^(?P<name>.*)$', 'advertisement.views.sub_category',name='sub_category'),
     
 )
 
