@@ -65,6 +65,7 @@ class AdjodSearchView(SearchView):
 
 
 
+
 class AdjodSearchViewSubCategory(SearchView):
     print "AdjodSearchViewCategory"
     def __call__(self, request, subcategoryname, categoryname):
@@ -83,3 +84,4 @@ class AdjodSearchViewSubCategory(SearchView):
             # if Product.objects.filter(subcategory=productid).exists():
             #     return redirect('productDetail', productid)
         return super(AdjodSearchViewSubCategory, self).__call__(request)
+
