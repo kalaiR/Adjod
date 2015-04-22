@@ -3,7 +3,7 @@
 {% block content %}
 <a href="/apidocs/">API</a>   
 <a href="/paypal/">Paypal</a>  
-{{cat}}
+<a href="">{{cat}}</a>
 <div class="row row_1">  
 {% if '/' in path %} 
 {% for categories in category %}  
@@ -41,7 +41,8 @@
           {% endif %}
             <li class="sub_category"><a href="" class=""></a>
               <div>
-              <a href="" class=""><h4>{{subcategories.name}}</h4></a> 
+              <a href="/{{cat}}/{{subcategories.name}}/?q={{subcategories.id}}" class=""><h4>{{subcategories.name}}</h4></a> 
+              <!-- <input type="hidden" value="{{subcategories.id}}" name="q"> -->
             </div>
             </li>
             {% if forloop.counter|divisibleby:4 %}             

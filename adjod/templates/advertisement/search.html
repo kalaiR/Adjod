@@ -38,7 +38,8 @@
                     {% if p|add:5 >= page.number and p|add:-5 <= page.number %}
                     <li {% if p == page.number %} class="active"{% endif %}>
                         <a data-ajaxlink="true" data-ajaxpage="{{ p }}" href="?q={{request.REQUEST.q}}&page={{ p }}">{{ p }}</a>
-                    </li> {% endif %}
+                    </li> 
+                    {% endif %}
                     {% endfor %}
 
                     {% if page.has_next %} <a data-ajaxlink="true" data-ajaxpage="{{ page.next_page_number }}" href="?q={{request.REQUEST.q}}&page={{ page.next_page_number }}">Next</a> {% endif %} </span>

@@ -3,17 +3,36 @@ function attach_pagination_events(){
             $('[data-ajaxlink=true]').click(function(ele){
             $("html, body").animate({ scrollTop: 0 }, "slow");
                         $('[name=page]').val($(ele.currentTarget).attr('data-ajaxpage'));
-                        perform_search();
-                        return false;
+            // var url = window.location.href;
+            // alert(url);
+
+            // // var pageURL = $(location).attr("href");
+            // url1=url.split('/')[3]
+            // alert(url1);
+            // url2=url.split('/')[4]
+            // alert(url2);
+            // alert(url1+'/'+url2);
+            perform_search();
+            return false;
             });
+            
 }
 $(document).ready(function() {
             
             
             attach_pagination_events();
+
+
+            // alert(url.split('/')[3].'+'.pageURL.split('/')[4]);
+
+            // var pageURL=window.location.hash.split('/')[2];
+            // alert(page);
+
+            // var pageURL=window.location.hash.split('/')[2];
+            // alert(page);
+            
             
 });
-
 
 
 function perform_search(){
@@ -27,6 +46,13 @@ function perform_search(){
                         // $('[name=rating_end]').val('')
                         var q = $('#form_search_filter').serialize();
                         q=decodeURIComponent(q);
+                        var pageurl = window.location.href;
+                        // alert(pageurl);
+                        var url=pageurl.split('/')[3] + '/' + pageurl.split('/')[4]
+                        // alert(url);
+
+                        // var pageURL = $(location).attr("href");
+                        // alert(pageURL);
                         // q = q.replace(/filtersearch/g,'q');
                        
                         // var qsort = $("#sortdata").val();
@@ -55,6 +81,15 @@ function perform_search(){
                                     // if($('[name=locations]').val() == '')
                                     //     $('#location_highlight').hide();
                             });
+                            $.get(url+'/?'+ q, function(data){
+
+                                // alert("enter url")
+                                // alert(data);
+                                $('#search_result').html(data);
+                                attach_pagination_events();
+
+                             });
+                            
                         }else{
                             
                             $.get('/search/?'+ q, function(data){ 

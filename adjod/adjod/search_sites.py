@@ -334,7 +334,7 @@ class SearchView(object):
 
         self.form = self.build_form()
         self.query = self.get_query()
-        self.results = self.get_results()
+        self.results = self.get_results(request)
         # print "self.create_response()", self.create_response()
         return self.create_response()
 
@@ -368,13 +368,13 @@ class SearchView(object):
 
         return ''
 
-    def get_results(self):
+    def get_results(self, request):
         """
         Fetches the results via the form.
 
         Returns an empty list if there's no query to search with.
         """
-        return self.form.search()
+        return self.form.search(request)
 
     def build_page(self):
         """
@@ -384,7 +384,7 @@ class SearchView(object):
         should be a simple matter to override this method to do what they would
         like.
         """
-       
+        print "enter build_page"
        
         if self.request.GET.get('page'):
             page_no = self.request.GET.get('page')
@@ -430,6 +430,7 @@ class SearchView(object):
         """
         Generates the actual HttpResponse to send back to the user.
         """
+        print "enter create_response"
         (paginator, page) = self.build_page()
 
         context = {

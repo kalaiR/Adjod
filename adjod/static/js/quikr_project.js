@@ -630,10 +630,11 @@ $( document ).ready(function() {
   		$(this).addClass('orange_text');
   		brand = $(this).text();
       brand_id = $('input[type="hidden"]', this).val();
+      
   		$('.fancybox-close').click();
-      // alert(category_id);
-      // alert(sub_category_id);
-      // alert(brand_id);
+      alert(category_id);
+      alert(sub_category_id);
+      alert(brand_id);
       $('#category_name').val(category_id);
       $('#subcategory_name').val(sub_category_id);
       $('#brand_name').val(brand_id);

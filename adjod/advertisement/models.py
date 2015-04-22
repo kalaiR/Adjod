@@ -4,19 +4,13 @@ from django.db import models
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from adjod.models import *
-
-
-# from thumbnailfield.fields import ThumbnailField
 from paypal.standard.ipn.models import PayPalIPN
 from paypal.standard.models import ST_PP_COMPLETED
 from paypal.standard.ipn.signals import payment_was_successful
 import datetime
-from django import template
-register = template.Library()
+from haystack.query import SearchQuerySet
 
-# from thumbnail_works.fields import EnhancedImageField
 
-# from easy_thumbnails.fields import ThumbnailerImageField
 TYPE = (
     ('buy', 'Buy'),
     ('sell', 'Sell'),
@@ -63,26 +57,28 @@ class SubCategory(models.Model):
 
 class Dropdown(models.Model):
     
-    subcat_refid=models.ForeignKey(SubCategory, null=True, blank=True)
+    subcat=models.ManyToManyField(SubCategory, null=True, blank=True)
     brand_name=models.CharField(max_length=50, blank =True,default='')
-    brand_refid=models.ForeignKey('self', blank=True, null=True)
-
-    model_name=models.CharField(max_length=50, blank =True, default='')
-
-    type_name=models.CharField(max_length=50, blank =True, default='')
-    year=models.CharField(max_length=50, blank =True,default='')
-    color=models.CharField(max_length=50, blank =True,default='')
-    os=models.CharField(max_length=50, blank =True,default='')
-    sim=models.CharField(max_length=50, blank =True,default='')
-    alsoinclude=models.CharField(max_length=50, blank =True,default='')
+    # brand_refid=models.ForeignKey('self', blank=True, null=True)
+    # model_name=models.CharField(max_length=50, blank =True, default='')
+    # type_name=models.CharField(max_length=50, blank =True, default='')
+    # year=models.CharField(max_length=50, blank =True,default='')
+    # color=models.CharField(max_length=50, blank =True,default='')
+    # os=models.CharField(max_length=50, blank =True,default='')
+    # sim=models.CharField(max_length=50, blank =True,default='')
+    # alsoinclude=models.CharField(max_length=50, blank =True,default='')
 
     def __unicode__(self):
         return self.brand_name
 
    
+# class Brand(models.Model):
+#     brand_name= models.CharField(max_length=50)
+#     brand_subcategory=models.ManyToManyField(SubCategory)
+#     model_name
 
-
-
+#     def __unicode__(self):
+#         return self.brand_name
 
 class City(models.Model):
     city=models.CharField(max_length=50)
@@ -97,7 +93,6 @@ class Locality(models.Model):
     def __unicode__(self):
         return self.locality
 
-   
 class Product(models.Model):
     # user=models.ForeignKey(User, null=True, blank=True)
     user_id=models.IntegerField(null=True, blank=True)
@@ -105,22 +100,13 @@ class Product(models.Model):
     subcategory =models.ForeignKey(SubCategory,null=False)
     adtype= models.CharField(max_length=10, choices=TYPE)
     title = models.CharField(max_length=250)
-    photos = models.ImageField(upload_to='static/img/photos/',null=True)
-    thumbnail = models.ImageField(upload_to="static/img/thumbs/", editable=False)
-    
+    photos = models.ImageField(upload_to='static/img/photos/',null=True, max_length=500)
+    thumbnail = models.ImageField(upload_to="static/img/thumbs/", editable=False, max_length=500)
+    imagecount=models.IntegerField(null=True, blank=True)
     condition = models.CharField(max_length=10,choices=CONDITION)
     price = models.FloatField(default=0.0)
-    ad_type=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_type")
     ad_brand=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_brand")
-    ad_model=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_model")
-    
-    ad_year=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_year")
-    ad_color=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_color")
-    ad_kmsdriven=models.CharField(max_length=50, null=True, blank=True)
-    ad_os=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_os")
-    ad_sim=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_sim")
-    ad_alsoinclude=models.ForeignKey(Dropdown,null=True, blank=True, related_name="ad_alsoinclude")
-    
+    ad_year=models.CharField(max_length=10)
     city=models.ForeignKey(City)
     locality=models.ForeignKey(Locality)
     description = models.TextField(max_length=100, verbose_name="Description")
@@ -130,7 +116,7 @@ class Product(models.Model):
     you_phone = models.CharField(max_length=12)
     created_date =models.DateField(default=datetime.datetime.now)
     modified_date =models.DateField(default=datetime.datetime.now)
-    imagecount=models.IntegerField(null=True, blank=True)
+    
 
     class Admin:
         pass
@@ -139,31 +125,75 @@ class Product(models.Model):
         return self.title
 
    
-    @classmethod
-    def get_subcategory(cls, subid):
-        data=Dropdown.objects.filter(subcat_refid=subid)
-        for datas in data:
-            print datas.subcat_refid
-            field_dict={}
-            for datas in data:
-                field_dict[datas.subcat_refid] = {"brand":datas.brand_name, "model": datas.model_name}
-                print field_dict[datas.subcat_refid]
+    # @classmethod
+    # def get_subcategory(cls, subid):
+    #     data=Dropdown.objects.filter(subcat_refid=subid)
+    #     for datas in data:
+    #         print datas.subcat_refid
+    #         field_dict={}
+    #         for datas in data:
+    #             field_dict[datas.subcat_refid] = {"brand":datas.brand_name, "model": datas.model_name}
+    #             print field_dict[datas.subcat_refid]
                     
 
 
-                    # field_dict[datas.subcat_refid] = datas.brand_name
-                    # print field_dict[datas.subcat_refid]
-            # field_dict={
-            #     "cars": "datas.brand_name,datas.brand_model",
-            #     }
-            # print field_dict.cars.datas.brand_name
-
-    @register.filter()
-    def get_photos(photo):
-        print "get_photos"
-        photo=str(photo).split(',')
-        return photo[0]
+    #                 # field_dict[datas.subcat_refid] = datas.brand_name
+    #                 # print field_dict[datas.subcat_refid]
+    #         # field_dict={
+    #         #     "cars": "datas.brand_name,datas.brand_model",
+    #         #     }
+    #         # print field_dict.cars.datas.brand_name
 
     
+
+    @classmethod
+    def get_related(cls, adinfo):
+
+        # base_query = dict(active = 1, status="active")
+        qs =  SearchQuerySet().exclude(id=adinfo.id)
+
+        # if lead.title:
+        #   title = re.sub(r'[^\w]', ' ', \
+        #     adinfo.title, flags=re.UNICODE).split(' ')
+        #   qs = qs.filter_or(title__in=title, **base_query)
+        #   if title_boost != 0:
+        #     qs = qs.boost('title', title_boost)  
+
+        qs.models(Product)
+        qs.query.backend.default_operator = 'OR'
+
+        # if debug:
+        #   print unicode(qs.query)
+
+        # if by_recent:
+        #   related_ads = []
+        
+        i = 0
+        # for adinfo in qs:
+        #   if adinfo.object:
+        #     if adinfo.score > minscore:
+        #       i += 1
+        #       if by_recent:
+        #         related_ads.append(adinfo)
+        #       elif fullobject:
+        #         yield adinfo
+        #       else:
+        #         yield (adinfo.object.id, adinfo.object)
+        #     elif debug:
+        #       print "ignored because of low score", adinfo.object.id, adinfo.score
+
+        #     if i == count:
+        #       break
+
+        # if related_ads:
+        #   related_ads.sort(cmp=lambda x, y: cmp(y.created, x.created))
+        #   for adinfo in related_ads:
+        #     if fullobject:
+        #       yield adinfo    
+        #     else:
+        #       yield (adinfo.object.id, adinfo.object)
+
+        return qs
+
     
 

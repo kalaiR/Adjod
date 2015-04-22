@@ -40,7 +40,9 @@ class ProductIndex(SearchIndex, Indexable):
     
     locality = MultiValueField(null=True)
     # keywords = MultiValueField(null=True)
-    category = CharField(model_attr='category', null=True)
+    # category = CharField(model_attr='category', null=True)
+    category = IntegerField()
+    subcategoryid = IntegerField(model_attr='subcategory__id') 
 
     created_date = DateTimeField(model_attr='created_date')
     modified_date = DateTimeField(model_attr='modified_date') 
