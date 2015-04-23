@@ -138,11 +138,17 @@
     			</div>
     			</div>
     		</div>
-        {% if adinfo.you_phone %}
+        
     		<div class="contact-seller">
     			<h3 class="seller">Contact Seller</h3>
     			<div class="owner_contact">
-    			<p class="owner_name">{{adinfo.user}}<span class="number_verify_1"><i class="fa fa-check-circle"></i> Number verified</span></p>
+    			<p class="owner_name">
+          {% if adinfo.userprofile %}
+          {{adinfo.userprofile}}
+          {% else %}
+          Anonymous
+          {% endif %}
+          <span class="number_verify_1"><i class="fa fa-check-circle"></i> Number verified</span></p>
     			<p>{{adinfo.you_phone}}<span class="reply"><a href="" class="btn btn-default replybutton">REPLY</a></span></p>
     			</div>
     			<span>Send free SMS <i class="fa fa-caret-down caret-down"></i>
@@ -155,7 +161,7 @@
             </div><!-- login_holder -->
           </span>
     		</div>
-        {% endif %}
+        
     		<div class="description_box">
     			<h3>Description</h3>
     			<p>{{adinfo.description}}

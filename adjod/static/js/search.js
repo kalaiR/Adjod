@@ -47,6 +47,7 @@ function perform_search(){
                         if ($('[name=newsearch]').val() == "new")
                         
                         {
+                            // alert(q);
                             
                             $.get('/search/?'+ q, function(data){
                                
@@ -67,14 +68,15 @@ function perform_search(){
                                     // if($('[name=locations]').val() == '')
                                     //     $('#location_highlight').hide();
                             });
-                            $.get(url+'/?'+ q, function(data){
+                            // $.get(url+'/?'+ q, function(data){
 
-                                // alert("enter url")
-                                // alert(data);
-                                $('#search_result').html(data);
-                                attach_pagination_events();
+                            //     // alert("enter url")
+                            //     // alert(data);
+                            //     $('#search_result').html(data);
+                            //     attach_pagination_events();
 
-                             });                            
+                            //  });         
+                                              
                         }else{
                             
                             $.get('/search/?'+ q, function(data){ 

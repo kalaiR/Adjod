@@ -128,7 +128,8 @@ def sub_category_ads(request, categoryname=None, subcategoryname=None):
 
 def product_detail(request, pk):
     adinfo=Product.objects.get(pk=int(pk))
-    print adinfo
+    print 'adinfo.user', adinfo.userprofile
+
     print "adinfo.photos", adinfo.photos
 
     related_ads = Product.get_related(adinfo)
@@ -158,6 +159,7 @@ def product_detail(request, pk):
     return render_to_response('v3/advertisement/ad_detail_v3.html',ctx,context_instance=RequestContext(request))
 
 def product_form(request, name=None, subname=None):
+    print "product_form"
     print request.path 
     userid=request.user.id
     print "userid", userid
@@ -165,6 +167,11 @@ def product_form(request, name=None, subname=None):
     # dropdown=Dropdown.objects.all().exclude(year='', color='')
     dropdown=Dropdown.objects.all()
     city=City.objects.all()
+
+    if 'st' in request.REQUEST:
+        print "success"
+
+
     ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
     return render_to_response('v3/advertisement/quikr_post_v3.html', ctx , context_instance=RequestContext(request))
 
@@ -186,7 +193,12 @@ def product_save(request):
         print emailerror
     
     if emailerror==False:
-        product.user_id=request.POST.get('user')
+        # product.user_id=request.POST.get('user')
+        print "request.user", request.user.id
+        if request.user.is_authenticated():
+            product.userprofile = UserProfile.objects.get(user_id=request.user.id)
+        else:
+            product.userprofile = None 
         
         product.category=Category.objects.get(id=request.POST['category_name'])
         print product.category.id
@@ -282,4 +294,5 @@ def product_save(request):
         success=True
     
     ctx = {'success':success,'emailerror':emailerror}
-    return render_to_response('v3/advertisement/quikr_post_v3.html',ctx , context_instance=RequestContext(request))
+    # return render_to_response('v3/advertisement/quikr_post_v3.html',ctx , context_instance=RequestContext(request))
+    return HttpResponseRedirect('/postad/?st=3')

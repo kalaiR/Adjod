@@ -15,7 +15,9 @@ add_to_builtins('advertisement.templatetags.app_filters')
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # url(r'^adjod/', include('adjod.foo.urls')),url(r'^admin/', include(admin.site.urls)),
+    # url(r'^adjod/', include('adjod.foo.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'adjod.views.home', name='home'),
     
     # Home page URL

@@ -16,6 +16,7 @@ from adjod.search_sites import *
 
 from django.contrib.auth.models import User
 from advertisement.models import *
+from haystack.management.commands import update_index
 
  
 # from control.models import *
@@ -50,6 +51,10 @@ class ProductIndex(SearchIndex, Indexable):
 
     # geolocation = LocationField(model_attr='get_geolocation', null=True)
     city = CharField(null=True, faceted=True)
+
+    def autoUpdateRebuild_index(self):
+        update_index.Command().handle()
+        rebuild_index.Command().handle()
 
 
     def prepare_searchtext(self, obj):
