@@ -8,7 +8,7 @@ from models import Product
 
 from models import *
 
-from core.config import COUNTRIES_DICT
+# from core.config import COUNTRIES_DICT
 
 from django.db.models import F
 

@@ -10,9 +10,18 @@ from haystack.views import SearchView, FacetedSearchView
 from advertisement.models import Product
 from advertisement.searchform import ProductSearchFilter
 from advertisement.fixido_search import AdjodSearchView, AdjodSearchViewSubCategory
+
+from django.conf.urls.i18n import i18n_patterns
+from django.utils.translation import ugettext_lazy as _
+
+
 from django.template.loader import add_to_builtins
 add_to_builtins('advertisement.templatetags.app_filters')
 admin.autodiscover()
+
+js_info_dict = {
+    'packages': ('adjod',),
+}
 
 urlpatterns = patterns('',
     # url(r'^adjod/', include('adjod.foo.urls')),
@@ -72,18 +81,27 @@ urlpatterns = patterns('',
     url(r'^(?i)search/', AdjodSearchView(
       template='advertisement/quikr_search_v2.html', 
       form_class=ProductSearchFilter), name='searchPageV2'),
+
+    # Find Subcategory with pass category dynamically in url
+    url(r'^(?i)search_subcategory/(?P<pname>.*)/$', 'advertisement.views.sub_category',name='sub_category'),
+
+    # url(r'^product/(?P<name>[\w\+]+)/$', 'crunch.views.product_by_name', name='preview_by_name'),
     
     # Search By Category URL
-    url(r'^(?i)(?P<categoryname>.*)/(?P<subcategoryname>.*)/', AdjodSearchViewSubCategory(
+    url(r'^(?i)search_by_category/(?P<categoryname>.*)/(?P<subcategoryname>.*)/', AdjodSearchViewSubCategory(
       template='advertisement/quikr_search_v2.html', 
       form_class=ProductSearchFilter), name='searchPageV2'),
-    
-    # Find Subcategory with pass category dynamically in url
-    url(r'^(?i)(?P<pname>.*)/$', 'advertisement.views.sub_category',name='sub_category'),
+
+    url(r'^(?i)i18n/', include('django.conf.urls.i18n')),
+    url(r'^(?i)jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
+    # url(_(r'^dual_language/$'), landing, name='duallang_landing'),
 
     # url(r'^postad/(?P<name>.*)/$', 'advertisement.views.sub_category',name='category_name'),
     
 )
 
-
+urlpatterns += i18n_patterns('',
+    # (_(r'^dual-lang/'), include('duallang.urls')),
+    # (r'^', include('home.urls')),
+)
    

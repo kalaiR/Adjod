@@ -36,18 +36,19 @@
     <script type="text/javascript" src="{% static "js/jquery-ui.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script>   
-        
-    
-   
     <script type="text/javascript">
-    {%if success%}
-      alert("Successfully added post");
-    {%endif%}
-    {%if emailerror%}
-      alert("Your email already exists 3 time....U have to make the account as premium");
-    {%endif%}
     
-    	function updateCountdownTitle() {
+
+
+    {% if 'su' in request.REQUEST %}
+      alert("Successfully added post");
+    {% endif %}
+    {% if 'er' in request.REQUEST %}
+      alert("Your email already exists 3 time....U have to make the account as premium");
+    {% endif %}
+    
+    
+    function updateCountdownTitle() {
     		var remaining = 70 - $('.ad_title').val().length;
     		$('#ad_title_count').text(remaining);
     }
@@ -252,8 +253,14 @@
            	</div> <!-- name_div -->
            	
            	<div class="field_div form-group" id="email_div">
-           		<input class="your_email" name="your_email" id="your_email" placeholder="Your email" />
+
+           		
+              {% if user.is_authenticated %}
+              <input class="your_email" name="your_email" id="your_email" placeholder="Your email" value="{{request.user}}"/>
            		<span id="valid_email_required" class="hide_error_message error_message">Please enter valid email address.</span>
+              {% else %}
+              <input class="your_email" name="your_email" id="your_email" placeholder="Your email" value=""/>
+              {% endif %}
            	</div> <!-- email_div -->
 
             <div class="field_div form-group" id="city_div">
@@ -456,7 +463,7 @@
            		</div> <!-- select_container -->
            		
            		<div class="fl">
-           			<input class="mobile_number" name="your_mobile_number" id="mobile_number" placeholder="Your mobile number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
+           			<input class="mobile_number" name="your_mobile_number" id="mobile_number" placeholder="Your mobile number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();"/>
            		</div>
            		<div class="clear_both">
            			

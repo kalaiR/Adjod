@@ -4,6 +4,7 @@ import os
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 from django.conf.urls import patterns, include, url
 import smtplib
+from django.utils.translation import ugettext_lazy, ugettext as _
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -32,13 +33,37 @@ TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
+
+
+# gettext = lambda s: s
+# LANGUAGES = (
+#     # ('he-il', gettext('Hebrew')),
+#     ('en-us', gettext('English')),
+# )
+
+
+LANGUAGES = (
+  ('en', _('English')),
+  ('en-UK', _('English - United Kingdom')),
+  ('sv', _('Swedish')),
+  ('da', _('Danish')),
+  ('fi', _('Finish')),
+  ('fr', _('French')),
+  ('de', _('German')),
+  ('it', _('Italian')),
+  ('nn', _('Norwegian')),
+  ('pl', _('Polish')),
+  ('pt', _('Portuguese')),
+  ('ru', _('Russian')),
+  ('se', _('Spanish')), 
+)
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -111,6 +136,7 @@ MIDDLEWARE_CLASSES = (
     
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     # 'templatetags.app_filters.get_photos',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -132,8 +158,13 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 
 
 
+LOCALE_PATHS = (
+    os.path.join(os.path.dirname(__file__), '../locale'),
+)
 
+LANGUAGE_CODE='pl'
 
+USE_I18N = True
 
 ROOT_URLCONF = 'adjod.urls'
 

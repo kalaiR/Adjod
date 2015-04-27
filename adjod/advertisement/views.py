@@ -167,11 +167,6 @@ def product_form(request, name=None, subname=None):
     # dropdown=Dropdown.objects.all().exclude(year='', color='')
     dropdown=Dropdown.objects.all()
     city=City.objects.all()
-
-    if 'st' in request.REQUEST:
-        print "success"
-
-
     ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
     return render_to_response('v3/advertisement/quikr_post_v3.html', ctx , context_instance=RequestContext(request))
 
@@ -295,4 +290,11 @@ def product_save(request):
     
     ctx = {'success':success,'emailerror':emailerror}
     # return render_to_response('v3/advertisement/quikr_post_v3.html',ctx , context_instance=RequestContext(request))
-    return HttpResponseRedirect('/postad/?st=3')
+    if emailerror:
+        print "emailerror"
+        return HttpResponseRedirect('/postad/?er=emailerror')
+        
+    else:
+        return HttpResponseRedirect('/postad/?su=success')
+        
+        

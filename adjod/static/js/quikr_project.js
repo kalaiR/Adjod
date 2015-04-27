@@ -1,5 +1,7 @@
 ( function( $ ) {
 $( document ).ready(function() {
+
+
 $('#cssmenu > ul > li > a').click(function() {
     $('#cssmenu li').removeClass('active');
     $(this).closest('li').addClass('active');	
@@ -22,8 +24,6 @@ $('#cssmenu > ul > li > a').click(function() {
  
 });
 } )( jQuery );
-
-
 
 
 ( function( $ ) {
@@ -560,14 +560,11 @@ $( document ).ready(function() {
 	});
 
   //============= CHOOSE LANGUAGE DROPDOWN ===========
-  $( ".custom_select_value_act" ).change(function () {
-    
-    var selected_option = $( ".custom_select_value_act option:selected" ).val();
-    
-    $('#custom_select_value_act').html(selected_option);
-    
-    
+    $( ".custom_select_value_act" ).change(function () {
+      var selected_option = $( ".custom_select_value_act option:selected" ).val();
+      $('#custom_select_value_act').html(selected_option);    
   });
+
 
   //============= CHOOSE POST CITY DROPDOWN ===========
   $( ".select_post_city" ).change(function () {
@@ -641,8 +638,14 @@ $( document ).ready(function() {
   		$('#category').val(category + " » " + sub_category + " » " + brand);
   		$('.choose_button').text('change');
   	});
-  //============= END CHOOSE CATEGORY POPUP ===========
 
+
+  //============= END CHOOSE CATEGORY POPUP ===========
+  $('#button_click').click(function () {
+      
+      var string =gettext('hello');
+      alert(string);
+    });
  
 
 });

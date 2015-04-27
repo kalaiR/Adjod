@@ -40,7 +40,7 @@
     <script type="text/javascript" src="{% static "js/jquery-ui.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script>   
-
+    <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
     
 
 </head>
@@ -63,17 +63,38 @@
             <li><a href="/">{{request.user}}</a></li>
             {% endif %}
               <li>
-                
-                     <div class="custom_select language_custom_select">
-                          <div class="select">
-                            <p id="custom_select_value_act">English</p>
-                            <i class="fa fa-caret-down"></i>
-                          </div> <!-- select -->
-                          <select class="custom_select_value_act" name="language">
-                          <option value="English">English</option>
-                          <option value="Hindi">Hindi</option>
-                          </select>
-                   </div><!-- custom_select -->
+                  <div class="custom_select language_custom_select">
+                      <div class="select">
+                        <p>  
+                            
+                            {% if request.LANGUAGE_CODE == 'en' or request.REQUEST.la == 'en' %}
+                              {% trans "English" %}
+                            {% endif %}
+                            
+                            {% if request.LANGUAGE_CODE == 'de' or request.REQUEST.la == 'de' %}
+                              {% trans "German" %}
+                            {% endif %}
+
+                            {% if request.LANGUAGE_CODE == 'sv' or request.REQUEST.la == 'sv' %}
+                              {% trans "Swedish" %}
+                            {% endif %}
+                        </p>
+                        
+                        <i class="fa fa-caret-down"></i>
+                        </div><!-- select -->                
+                        <form action="/i18n/setlang/" method="post" id="language_selector">
+                          {% csrf_token %}  
+                            <input name="next" type="hidden" value="{{request.path}}{% if request.GET.urlencode %}?{{request.GET.urlencode}}{% endif %}" />
+                            <select name="language" onchange="this.form.submit();">
+                                <option value="" style="display: none;"> </option>                      
+                                
+                                <option value="en">{% trans "English" %}</option>
+                                <option value="de">{% trans "German" %}</option>
+                                <option value="sv">{% trans "Swedish" %}</option>
+                            </select>
+                          </form>
+                      </div><!-- custom_select -->
+                        
                 </li>
               <li>
                   {% if user.is_authenticated %}

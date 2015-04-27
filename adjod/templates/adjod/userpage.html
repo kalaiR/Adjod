@@ -1,8 +1,11 @@
 
 {% extends 'base.html' %}
+{% load i18n %}
 {% block content %}
-<a href="/apidocs/">API</a>   
-<a href="/paypal/">Paypal</a>  
+<a href="/apidocs/">{% trans "API" %}</a>   
+<a href="/paypal/">{% trans "Paypal" %}</a>  
+
+<button name="button" id="button_click">{% trans "Submit" %}</button>
 <a href="">{{cat}}</a>
 <div class="row row_1">  
 {% if '/' in path %} 
@@ -21,7 +24,7 @@
             <a href="/addproduct/" class=""><code></code></a>
               <div>
               
-              <a href="{% url sub_category categories.name %}" class=""><h4>{{ categories.name }}</h4></a>
+              <a href="{%url sub_category categories.name%}" class=""><h4>{% trans categories.name %}</h4></a>
 
               <span class="brand">{{categories.category_type}}</span>
               </div>
@@ -41,7 +44,7 @@
           {% endif %}
             <li class="sub_category"><a href="" class=""></a>
               <div>
-              <a href="/{{cat}}/{{subcategories.name}}/?q={{subcategories.id}}" class=""><h4>{{subcategories.name}}</h4></a> 
+              <a href="{%url searchPageV2 cat subcategories.name%}?q={{subcategories.id}}" class=""><h4>{{subcategories.name}}</h4></a> 
               <!-- <input type="hidden" value="{{subcategories.id}}" name="q"> -->
             </div>
             </li>
