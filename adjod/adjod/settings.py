@@ -192,7 +192,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'adjod',
     'advertisement',
-    # 'sample'
+    'searchflow',
     # 'south',
     'haystack',
     # 'thumbnailfield',
@@ -259,7 +259,7 @@ THUMBNAIL_ALIASES = {
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 HAYSTACK_CONNECTIONS = dict(
   default = dict(
-    ENGINE = 'adjod.search_sites.FixidoSearchEngine',
+    ENGINE = 'searchflow.newsearchsites.FixidoSearchEngine',
     URL = 'http://127.0.0.1:9200/',
     INDEX_NAME = 'adjod'
   )

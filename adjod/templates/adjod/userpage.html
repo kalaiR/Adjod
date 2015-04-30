@@ -44,8 +44,7 @@
           {% endif %}
             <li class="sub_category"><a href="" class=""></a>
               <div>
-              <a href="{%url searchPageV2 cat subcategories.name%}?q={{subcategories.id}}" class=""><h4>{{subcategories.name}}</h4></a> 
-              <!-- <input type="hidden" value="{{subcategories.id}}" name="q"> -->
+             <a href="{%url searchPageV2 cat subcategories.name%}?q={{subcategories.id}}" class=""><h4>{{subcategories.name}}</h4></a>
             </div>
             </li>
             {% if forloop.counter|divisibleby:4 %}             

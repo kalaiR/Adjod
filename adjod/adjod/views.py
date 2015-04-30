@@ -24,6 +24,11 @@ from urllib import unquote, urlencode, unquote_plus
 from paypal_integration.views import *
 from django.conf import settings
 
+from django.utils.encoding import smart_unicode, force_unicode
+from django.utils import simplejson
+import simplejson as json
+
+
 from paypal.standard.forms import PayPalPaymentsForm
 
 def view_that_asks_for_money(request):
@@ -254,4 +259,50 @@ def start(request):
     for recentads in recentad:  
         print recentads.title
     return render_to_response('adjod/userpage.html',{'category':category,'path':path,'recentad':recentad,'product':product},context_instance=RequestContext(request))
+
+# /*  Auto Complete for Category based Brands */
+def autocomplete_keyword(request):     
+  from collections import OrderedDict
+  val = OrderedDict() 
+  results = []  
+  keyterm = request.GET.get('term')   
+  if keyterm:
+    unsort_dict = {}    
+    lead_keywords = Category.objects.filter(name__istartswith=keyterm)    
+    print 'lead_keywords',lead_keywords
+    for lead_keyword in lead_keywords:      
+      keyword_strip = lead_keyword.name.strip()
+      keyword_title = keyword_strip.title()      
+      unsort_dict[keyword_title] = {'id':lead_keyword.id, 'label':keyword_title, 'value':keyword_title}
+    sorted_dic = OrderedDict(sorted(unsort_dict.iteritems(), key=lambda v: v[0])) 
+    for k, v in sorted_dic.iteritems():  
+      results.append(v)
+  return HttpResponse(simplejson.dumps(results), mimetype='application/json')
+
+# /*  Auto Complete for Category based Brands , subCatId='none'*/
+def autocomplete_brandlist(request):  
+  from collections import OrderedDict
+  val = OrderedDict()    
+  results = [] 
+  keyterm = request.GET.get('term')   
+  if keyterm:
+    unsort_dict = {}    
+    # lead_keywords = Category.objects.filter(name__istartswith=keyterm)    
+    # print 'lead_keywords',lead_keywords
+    # if subCatId
+    #     lead_keywords = Category.objects.filter(name__istartswith=keyterm)   
+    # else
+
+    lead_keywords = Dropdown.objects.filter(name__istartswith=keyterm) 
+    for lead_keyword in lead_keywords:      
+      keyword_strip = lead_keyword.name.strip()
+      keyword_title = keyword_strip.title()      
+      unsort_dict[keyword_title] = {'id':lead_keyword.id, 'label':keyword_title, 'value':keyword_title}
+    sorted_dic = OrderedDict(sorted(unsort_dict.iteritems(), key=lambda v: v[0])) 
+    for k, v in sorted_dic.iteritems():  
+      results.append(v)
+  return HttpResponse(simplejson.dumps(results), mimetype='application/json')
+
+
+
 

@@ -57,6 +57,10 @@ class JSONResponse(HttpResponse):
         super(JSONResponse, self).__init__(
                 simplejson.dumps(data), mimetype='application/json')
 
+def getcategorieslist():
+    category=Category.objects.all()
+    return category
+
 def localities_for_city(request):
     if request.is_ajax() and request.GET and 'city_id' in request.GET:
         print "request.GET['city_id']", request.GET['city_id']
@@ -161,7 +165,6 @@ def product_form(request, name=None, subname=None):
     # dropdown=Dropdown.objects.all().exclude(year='', color='')
     dropdown=Dropdown.objects.all()
     city=City.objects.all()
-    
     ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
     return render_to_response('v3/advertisement/quikr_post_v3.html', ctx , context_instance=RequestContext(request))
 
@@ -292,5 +295,3 @@ def product_save(request):
         
     else:
         return HttpResponseRedirect('/postad/?su=success')
-        
-        

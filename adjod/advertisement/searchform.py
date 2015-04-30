@@ -10,8 +10,6 @@ from advertisement.search import search as productsearch
 from haystack.query import SearchQuerySet
 from haystack.inputs import Clean, Raw, AutoQuery, Exact
 from haystack.query import SQ
-
-
 from models import Product
 
 class Partial(Clean):
@@ -34,51 +32,46 @@ class Partial(Clean):
         return 
 
 class ProductSearchFilter(FacetedSearchForm):
-
-#Code included by Ramu
+    print "advalue-3"
     model = None
 
-    # def __init__ (self,request=None, using=None):
-    #     from models import Lead
-    #     self.model= Lead#kwargs.pop('models')        
-    #     super(LeadSearchFilter,self).__init__(request, using=using, **kwargs)
+    #  Advance Search Options #
+    subcategoryid = forms.CharField(required=False)
+    # brands      = forms.CharField(required=False)
+    # price_start = forms.FloatField(required=False)
+    # price_end   = forms.FloatField(required=False)
+    #keywords    = forms.CharField(required=False)
+    #User/New Include #    
 
-    
-   
-
+    #   Basic Search Options #
     locality = forms.CharField(required=False)
     category = forms.CharField(required=False)
+   
+    def no_query_found(self):      
 
-    
-
-    def no_query_found(self):
-        
-      data = self.searchqueryset.all()  
-        
+      data = self.searchqueryset.all()        
       if hasattr(self, 'cleaned_data'):
           save_object = None
 
-          # if self.cleaned_data['sortdata']:
-          #     if (self.cleaned_data['sortdata'] == "created_date"):
-          #       data = data.all().order_by('-created_date')
+          # if (self.cleaned_data['sortdata'] == "pricelow"):
+          #     data = data.filter(active=1).filter(status='active').filter(available__gt=0).order_by('price')
               
-          #     if (self.cleaned_data['sortdata'] == "modified_date"):
-          #      data = data.all().order_by('-modified_date')
-              
+          # if (self.cleaned_data['sortdata'] == "pricehigh"):  
+          #     data = data.filter(active=1).filter(status='active').filter(available__gt=0).order_by('-price')  
               
       return data
 
     def get_default_queryset(self):
       sqs = SearchQuerySet().all()
       sqs = sqs.models(Product)
+      print "get_default_queryset", sqs
       return sqs.all().order_by('-created_date')
 
     def get_category_queryset(self, request):
       sqs = SearchQuerySet().all()
-      
       sqs = sqs.models(Product)
       sqs1= sqs.filter(subcategoryid=request.GET['q'])
-      print "get_category_queryset sqs1", sqs1
+      #print "get_category_queryset sqs1", sqs1
       return sqs.filter(subcategoryid=request.GET['q']).order_by('-created_date')
 
     def get_default_filters(self):
@@ -92,16 +85,19 @@ class ProductSearchFilter(FacetedSearchForm):
 
 
     def searchv2(self):
+     
       if not hasattr(self, 'cleaned_data'):
         return productsearch(model_cls=self.get_model_class(), 
           default_filters=self.get_default_filters())
         
       _params = [
         'locality',
-        
-        'category',
-        
-        
+        # 'keywords',
+          'category',
+        # 'price_start',
+        # 'price_end',
+          'subcategoryid',
+        # 'brands',
       ]
 
       params = OrderedDict()
@@ -111,16 +107,16 @@ class ProductSearchFilter(FacetedSearchForm):
         else:
           params[p] =  None
 
+      print "searchv21"
       
-
-      
-
       if params['locality']:
         params['locality'] = params['locality'].split(',')
 
       q = self.cleaned_data['q'] if 'q' in self.cleaned_data else None
       groupby = None
       orderby = None
+      
+      print "searchv22"
 
       orderby_mappings = {
         'createddate': '-created',
@@ -134,21 +130,16 @@ class ProductSearchFilter(FacetedSearchForm):
       if not orderby:
         orderby = orderby_mappings['createddate']        
 
+      print "searchv23", q  
+      
       return productsearch(q, params, orderby, groupby, model_cls=self.get_model_class(), 
         default_filters=self.get_default_filters(), 
         default_search_field=self.get_default_search_field())
 
-    def search(self, request):
-        print "search"
-        # return self.searchv2()
-
+    def search(self, request):   
+        return self.searchv2()           
         sqs = self.get_default_queryset()
-        print "sqs1", sqs
         search_field = self.get_default_search_field()
-
-        # query=unicode(request.REQUEST['q'])
-        # print "query", query
-
 
         if 'q' in request.REQUEST and unicode(request.REQUEST['q']).isdigit():
           sqs=self.get_category_queryset(request)
@@ -160,12 +151,13 @@ class ProductSearchFilter(FacetedSearchForm):
           # Split by special character and space
           query = re.sub(r'[^\w]', ' ', original_query, 
             flags=re.UNICODE).split(' ')
-          print "search query", query
+          
           # Remove empty and special characters
           query = [q for q in query \
             if q and (not re.match(r'[^\w]', q, flags=re.UNICODE))]
-          print "search query1", query
+          print "advance query", query
           if query:
+            print 'eneter query'
             # For some reason, if the query has '/' character, haystack gives
             # empty result and throws exception in elastic. "Clean" does not
             # clean this character. So remove this character manually with
@@ -183,9 +175,8 @@ class ProductSearchFilter(FacetedSearchForm):
             # if len(query) > 1:
             #   for q in query:
             #     qs = qs | SQ(**{search_field + '__startswith':Clean(q)})
-
             sqs = sqs.filter(qs)
-            print "filter sqs", sqs
+
 
         if hasattr(self, 'cleaned_data'):
 

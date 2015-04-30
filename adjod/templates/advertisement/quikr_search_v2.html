@@ -26,7 +26,7 @@
 {%block search_results%}
 <div class="left_part">
         <div class="refine_results">
-          <h4>Refine Your Results</h4>
+          <h4>Refine Your Results 456</h4>
         </div> <!-- refine_results -->
         <div id="cssmenu">
             <ul>
@@ -67,24 +67,33 @@
                 <ul>
                     <li>
             <form>
-              <input type="text" class="form-control type_field" placeholder="Type any brand"> 
-            </form>           
-            <form class="check_box">
-                  <input type="checkbox" class="css-checkbox sme" id="checkbox1" checked="checked" />
-                  <label for="checkbox1" name="checkbox1_lbl" class="css-label sme depressed">
-                  <a href="">Apple</a></label>
-                  <input type="checkbox" class="css-checkbox sme" id="checkbox2" checked="checked" />
-                  <label for="checkbox2" name="checkbox2_lbl" class="css-label sme depressed">
-                  <a href="">Karbonn</a></label>
-                  <input type="checkbox" class="css-checkbox sme" id="checkbox3" checked="checked" />
-                  <label for="checkbox3" name="checkbox3_lbl" class="css-label sme depressed">
-                  <a href="">Micromax</a></label>
-                  <input type="checkbox" class="css-checkbox sme" id="checkbox4" checked="checked" />
-                  <label for="checkbox4" name="checkbox4_lbl" class="css-label sme depressed">
-                  <a href="">Nokia</a></label>
-                  <input type="checkbox" class="css-checkbox sme" id="checkbox5" checked="checked" />
-                  <label for="checkbox5" name="checkbox5_lbl" class="css-label sme depressed">
-                  <a href="">Samsung</a></label>
+                <div class="location_holder">                  
+                  <input type="text" class="location" style="size: 12" id="typeandbrandtxt" name= "typeandbrandtxt" value="{{form.name.value|default:''}}" placeholder="Type any brand"/>
+                  <input type="hidden" class="location" style="size: 12" id="typeandbrand" name="{{form.name.html_name}}"value="{{form.name.value|default:''}}" placeholder="Type any brand"/>                  
+                </div>
+                  
+                <label for="checkbox1" name="checkbox1_lbl" class="css-label sme depressed">
+                  <input type="checkbox" value="football" name="sport" class="css-checkbox sme" id="checkbox1" > Apple
+                </label>
+
+                <input type="checkbox" class="css-checkbox sme" id="checkbox1" checked="checked" />
+                <label for="checkbox1" name="checkbox1_lbl" class="css-label sme depressed">
+                <a href="">Apple</a></label>
+                
+                <input type="checkbox" class="css-checkbox sme" id="checkbox2" checked="checked" />
+                <label for="checkbox2" name="checkbox2_lbl" class="css-label sme depressed">
+                <a href="">Karbonn</a></label>
+                
+                <input type="checkbox" class="css-checkbox sme" id="checkbox3" checked="checked" />
+                <label for="checkbox3" name="checkbox3_lbl" class="css-label sme depressed">
+                <a href="">Micromax</a></label>
+                <input type="checkbox" class="css-checkbox sme" id="checkbox4" checked="checked" />
+                <label for="checkbox4" name="checkbox4_lbl" class="css-label sme depressed">
+                <a href="">Nokia</a></label>
+                <input type="checkbox" class="css-checkbox sme" id="checkbox5" checked="checked" />
+                <label for="checkbox5" name="checkbox5_lbl" class="css-label sme depressed">
+                <a href="">Samsung</a></label>
+
             </form>
             
             </li>
@@ -132,12 +141,15 @@
 {%endblock%}
 {%endif%}
 {%block search_results1%}
-<div class="fl filter_result_wrapper" id="search_result" style="position:relative;">      
+<div class="fl filter_result_wrapper" id="search_result" style="position:relative;">            
       <div class="right_part">
       	{% if page and page.object_list %}
         <div class="top_part">
           <!-- <p>{{ page.number }} - {{page.paginator.num_pages}} of {{ page.object_list.count }} Results</p> -->
           <p>{{ page.number }} of {{page.paginator.num_pages}} Results</p>
+          <div class="founded_no">
+          </div>
+
           <div class="sort_part">
               <span>Sort by</span>
               <div class="custom_select sorting_custom_select">

@@ -3,18 +3,16 @@ Module to handle all search related tasks
 """
 import re
 from collections import OrderedDict
-
+from advertisement.models import Product
 from haystack.query import SearchQuerySet
 # from haystack.utils.geo import Point, D
 from haystack.inputs import Clean, Raw
 from haystack.query import SQ
-from models import Product
-
 
 default_param_mappings = OrderedDict(
   locations = 'locality__in',
   category = 'category',
-  
+  subcategoryid = 'subcategoryid',
 )
 
 default_geo_params = {
@@ -79,6 +77,7 @@ def search(
   default_search_field='searchtext'):
   
   print "search function"
+
   """Perform search leads using haystack"""
 
   if not model_cls:
@@ -97,52 +96,67 @@ def search(
   #   default_filters = default_lead_filters
 
   mappings = param_mappings or default_param_mappings
+  
+  print "advalue-41"
 
   sqs = SearchQuerySet().all()
+
+  print "advalue-42"
+
   if q:
+    print "advalue-43"
     qs = prepare_search_query(q, default_search_field)
     if qs:
+      print "advalue-44"
       sqs = SearchQuerySet().filter(qs)
 
   sqs = sqs.models(model_cls)
+  print "advalue-45", sqs
   # sqs = sqs.filter(**default_filters)
+  
+
   if params:
     sq_params = OrderedDict()
     for given_param, search_param in mappings.iteritems():
+      print 'given_param', given_param
       if has(params, given_param):
+        print "params-451", sqs
         sq_params[search_param] =  params[given_param]
     
-    
+    print "advalue-46", params  
     if sq_params:
       sqs = sqs.filter(**sq_params)
 
-  if orderby:
-    sqs = sqs.order_by(orderby)
+  # if orderby:
+  #   print "advalue-47", params  
+  #   sqs = sqs.order_by(orderby)
+  #   print "sqs", sqs  
 
-  if groupby:
-    sqs = sqs.facet(groupby)
+  # if groupby:
+  #   print "advalue-48", params  
+  #   sqs = sqs.facet(groupby)
 
-  if geo_location:
+  # if geo_location:
+  #   print "advalue-47-geo"
+  #   if isinstance(geo_location, (str, unicode)):
+  #     location = geo_location.split(',')
+  #     location = Point(float(location[0]), float(location[1]))
+  #   elif isinstance(geo_location, (list, tuple)):
+  #     location = Point(float(geo_location[0]), float(geo_location[1]))      
+  #   else:
+  #     location = geo_location
 
-    if isinstance(geo_location, (str, unicode)):
-      location = geo_location.split(',')
-      location = Point(float(location[0]), float(location[1]))
-    elif isinstance(geo_location, (list, tuple)):
-      location = Point(float(geo_location[0]), float(geo_location[1]))      
-    else:
-      location = geo_location
-
-    if geo_params['method'] == 'bydistance':
-      radius = D(km=geo_params['radius'])
+  #   if geo_params['method'] == 'bydistance':
+  #     radius = D(km=geo_params['radius'])
       
-      sqs = sqs.dwithin('geolocation', location, radius)\
-        .distance('geolocation', location)
+  #     sqs = sqs.dwithin('geolocation', location, radius)\
+  #       .distance('geolocation', location)
 
-    if geo_orderby:
-      sqs = sqs.order_by('distance')
+  #   if geo_orderby:
+  #     sqs = sqs.order_by('distance')
 
   #print "Created query", unicode(sqs.query), geo_location, geo_params
-  print "Sqs", sqs
+  print "advalue-4-final", sqs
   return sqs
 
 def suggestion_with_count(field, q=None, limit=10, 

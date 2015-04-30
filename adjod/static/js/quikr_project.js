@@ -1,61 +1,16 @@
 ( function( $ ) {
-$( document ).ready(function() {
-      $('input[type=text], textarea').focus(function() {
-      if( this.value == this.defaultValue ) {
-       this.value = "";
-      }
-      }).blur(function() {
-       if( !this.value.length ) {
-      this.value = this.defaultValue;
-      }
-    }); 
-
-$('#cssmenu > ul > li > a').click(function() {
-    $('#cssmenu li').removeClass('active');
-    $(this).closest('li').addClass('active');	
-    var checkElement = $(this).next();
-    if((checkElement.is('ul')) && (checkElement.is(':visible'))) {
-        $(this).closest('li').removeClass('active');
-        checkElement.slideUp('normal');
-    }
-    if((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
-        $('#cssmenu ul ul:visible').slideUp('normal');
-        checkElement.slideDown('normal');
-    }
-    if($(this).closest('li').find('ul').children().length == 0) {
-        return true;
-    } else {
-        return false;	
-    }		
-  });
-
- 
-});
+		$( document ).ready(function() {
+		      $('input[type=text], textarea').focus(function() {
+		      if( this.value == this.defaultValue ) {
+		       this.value = "";
+		      }
+		      }).blur(function() {
+		       if( !this.value.length ) {
+		      this.value = this.defaultValue;
+		      }
+		    });  
+		});
 } )( jQuery );
-
-( function( $ ) {
-$( document ).ready(function() {
-$('.css_menu > ul > li > a').click(function() {
-    $('.css_menu li').removeClass('active');
-    $(this).closest('li').addClass('active');	
-    var checkElement = $(this).next();
-    if((checkElement.is('ul')) && (checkElement.is(':visible'))) {
-        $(this).closest('li').removeClass('active');
-        checkElement.slideUp('normal');
-    }
-    if((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
-        $('.css_menu ul ul:visible').slideUp('normal');
-        checkElement.slideDown('normal');
-    }
-    if($(this).closest('li').find('ul').children().length == 0) {
-        return true;
-    } else {
-        return false;	
-    }		
-});
-});
-} )( jQuery );
-
 
 
 //********** Functions **********

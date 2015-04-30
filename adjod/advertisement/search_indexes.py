@@ -28,27 +28,20 @@ from haystack.management.commands import update_index
 
 class ProductIndex(SearchIndex, Indexable):
     
-
     text = CharField(document=True, use_template=True)
     searchtext = CharField()
     title = CharField(model_attr='title')
-
     description = CharField(model_attr='description')
-
-
     price = FloatField(model_attr='price')
-    
-    
-    locality = MultiValueField(null=True)
+    #locality = MultiValueField(null=True)
     # keywords = MultiValueField(null=True)
     # category = CharField(model_attr='category', null=True)
-    category = IntegerField()
-    subcategoryid = IntegerField(model_attr='subcategory__id') 
-
+    category = CharField(model_attr='category__id')
+    brandtype = CharField(model_attr='ad_brand__id')
+    locality = CharField(model_attr='locality__id')
+    subcategoryid = CharField(model_attr='subcategory__id') 
     created_date = DateTimeField(model_attr='created_date')
     modified_date = DateTimeField(model_attr='modified_date') 
-    
-
     # geolocation = LocationField(model_attr='get_geolocation', null=True)
     city = CharField(null=True, faceted=True)
 

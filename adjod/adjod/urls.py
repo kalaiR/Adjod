@@ -1,19 +1,23 @@
-
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from adjod.views import *
 from advertisement.views import *
+from searchflow.views import *
 from paypal_integration.views import *
 from advertisement.forms import *
 from django.contrib import admin
 from haystack.views import SearchView, FacetedSearchView
+
+# Cusomt Search View
+from searchflow.newadjodsearch import NewAdjodSearchView
+from searchflow.newsearchform import NewProductSearchFilter
+
 from advertisement.models import Product
 from advertisement.searchform import ProductSearchFilter
 from advertisement.fixido_search import AdjodSearchView, AdjodSearchViewSubCategory
 
 from django.conf.urls.i18n import i18n_patterns
 from django.utils.translation import ugettext_lazy as _
-
 
 from django.template.loader import add_to_builtins
 add_to_builtins('advertisement.templatetags.app_filters')
@@ -34,8 +38,7 @@ urlpatterns = patterns('',
 
     # URL for enter post form page
     url(r'^postad/$', 'advertisement.views.product_form',name='product_form'),
-    
-    
+        
     # User login verfication
     url(r'^login/$', 'adjod.views.user_login', name='user_login'),
 
@@ -47,7 +50,7 @@ urlpatterns = patterns('',
 
     # Email confirmation URL, it calls when user click the URL from their mail for user verification
     url(r'^confirm/(?P<confirmation_code>.*)/(?P<username>.*)/', 'adjod.views.confirm',name='confirm' ),
-    
+
     # For view full detail of particular product with their id
     url(r'^ads/(?P<pk>\d+)/$', 'advertisement.views.product_detail',name='product_detail'),
     
@@ -61,6 +64,16 @@ urlpatterns = patterns('',
     # Find locality for city when ajax call
     url(r'^localities_for_city/$','advertisement.views.localities_for_city', name='localities_for_city'),
 
+    # AutoComplete for Keywords
+    url(r'^(?i)autocomplete_keyword/$', 'adjod.views.autocomplete_keyword', name='autocomplete_keyword'),
+    
+    # Search & Advance Search     
+    url(r'^(?i)search/', NewAdjodSearchView(
+      template='searchflow/newquikr_search_v2.html', 
+      form_class=NewProductSearchFilter, 
+      #results_per_page=settings.SEARCH_PAGE_NUMBER_OF_LEADS
+    ), name='newsearchPageV2'),
+     
     # Logout URL
     url(r'^logout/$', 'adjod.views.logout_view', name='logout_view'),
     
@@ -78,9 +91,9 @@ urlpatterns = patterns('',
     url(r'^(?i)apidocs/', include('fxapi.urls')),
     
     # Default search URL
-    url(r'^(?i)search/', AdjodSearchView(
-      template='advertisement/quikr_search_v2.html', 
-      form_class=ProductSearchFilter), name='searchPageV2'),
+    #     url(r'^(?i)search/', AdjodSearchView(
+    #     template='advertisement/quikr_search_v2.html', 
+    #     form_class=ProductSearchFilter), name='searchPageV2'),
 
     # Find Subcategory with pass category dynamically in url
     url(r'^(?i)search_subcategory/(?P<pname>.*)/$', 'advertisement.views.sub_category',name='sub_category'),
@@ -104,4 +117,3 @@ urlpatterns += i18n_patterns('',
     # (_(r'^dual-lang/'), include('duallang.urls')),
     # (r'^', include('home.urls')),
 )
-   

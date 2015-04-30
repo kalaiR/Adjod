@@ -301,6 +301,7 @@ class FixidoSearchEngine(ElasticsearchSearchEngine):
 
 
 class SearchView(object):
+    print "advalue-2"
     template = 'advertisement/quikr_search_v2.html'
     extra_context = {}
     query = ''
@@ -310,6 +311,7 @@ class SearchView(object):
     results_per_page = RESULTS_PER_PAGE
 
     def __init__(self, template=None, load_all=True, form_class=None, searchqueryset=None, context_class=RequestContext, results_per_page=None):
+        print "searchview-21"
         self.load_all = load_all
         self.form_class = form_class
         self.context_class = context_class
@@ -325,6 +327,7 @@ class SearchView(object):
             self.template = template
 
     def __call__(self, request):
+        print "searchview-22"
         """
         Generates the actual response to the search.
 
@@ -339,6 +342,7 @@ class SearchView(object):
         return self.create_response()
 
     def build_form(self, form_kwargs=None):
+        print "searchview-23"
         """
         Instantiates the form the class should use to process the search query.
         """
@@ -358,6 +362,7 @@ class SearchView(object):
         return self.form_class(data, **kwargs)
 
     def get_query(self):
+        print "searchview-24"
         """
         Returns the query provided by the user.
 
@@ -369,6 +374,7 @@ class SearchView(object):
         return ''
 
     def get_results(self, request):
+        print "searchview-25"
         """
         Fetches the results via the form.
 
