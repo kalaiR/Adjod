@@ -120,12 +120,6 @@ def sub_category(request, pname=None):
     ctx = {'subcategory':subcategory,'path':path,'recentad':recentad,'cat':cat}
     return render_to_response('adjod/userpage.html', ctx , context_instance=RequestContext(request))
 
-def sub_category_ads(request, categoryname=None, subcategoryname=None):
-    print categoryname
-    print subcategoryname
-    ctx={}
-    return render_to_response('adjod/userpage.html', ctx , context_instance=RequestContext(request))
-
 def product_detail(request, pk):
     adinfo=Product.objects.get(pk=int(pk))
     print 'adinfo.user', adinfo.userprofile
@@ -167,10 +161,12 @@ def product_form(request, name=None, subname=None):
     # dropdown=Dropdown.objects.all().exclude(year='', color='')
     dropdown=Dropdown.objects.all()
     city=City.objects.all()
+    
     ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
     return render_to_response('v3/advertisement/quikr_post_v3.html', ctx , context_instance=RequestContext(request))
 
-def product_save(request):   
+def product_save(request):
+    print "product_save"   
     success=False
     product=Product()
     product.you_email = request.POST.get('your_email', '')

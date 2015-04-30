@@ -1,6 +1,14 @@
 ( function( $ ) {
 $( document ).ready(function() {
-
+      $('input[type=text], textarea').focus(function() {
+      if( this.value == this.defaultValue ) {
+       this.value = "";
+      }
+      }).blur(function() {
+       if( !this.value.length ) {
+      this.value = this.defaultValue;
+      }
+    }); 
 
 $('#cssmenu > ul > li > a').click(function() {
     $('#cssmenu li').removeClass('active');
@@ -24,7 +32,6 @@ $('#cssmenu > ul > li > a').click(function() {
  
 });
 } )( jQuery );
-
 
 ( function( $ ) {
 $( document ).ready(function() {
@@ -68,7 +75,7 @@ function updateCountdownTitle() {
     $('#ad_title_count').text(remaining);
 }
 function updateCountdownDesc() {
-	var remaining = 4000 - $('#your_description').val().length;
+	var remaining = 500 - $('#your_description').val().length;
 	$('#desc_count').text(remaining);
     		
 }
@@ -135,14 +142,23 @@ $( document ).ready(function() {
 
 
 //********** Autocomplete and Datepicker **********
-var your_city     =   ["Chennai","Mumbai","Delhi","Kolkata","ahmedabad","Nagpur","Aarani","Abohar","Achalpur","Adilabad","Adityapur"];
-var your_locality =   ["Chennai","Mumbai","Delhi","Kolkata","ahmedabad","Nagpur","Aarani","Abohar","Achalpur","Adilabad","Adityapur"];
-var your_brand    =   ["Honda","Hyundai","Mahindra","Maruti Suzuki","Tata"," Toyota","Aston Martin","Audi","Bentley","BMW","Chevrolet"];
-var your_model    =   ["Accord","Amaze","Brio","City ZX","Tata","Jazz","Mobilio","civic","New City","Elantra","i10"];
-var year          =   ["2015","2014","2013","2012","2011","2010","2009","2008","2007","2006","2005"];
-var color         =   ["Beige","Black","Golden","Green","Orange","Purple","Red","Silver","White","Yellow","Other"];
-var fuel_type     =   ["CNG","Diesel","Electric","Hybrid","LPG","Petrol"];
-var no_of_owners  =   ["One","Two","Three"];
+// var your_city     =   ["Chennai","Mumbai","Delhi","Kolkata","ahmedabad","Nagpur","Aarani","Abohar","Achalpur","Adilabad","Adityapur"];
+// var your_locality =   ["Chennai","Mumbai","Delhi","Kolkata","ahmedabad","Nagpur","Aarani","Abohar","Achalpur","Adilabad","Adityapur"];
+// var your_brand    =   ["Honda","Hyundai","Mahindra","Maruti Suzuki","Tata"," Toyota","Aston Martin","Audi","Bentley","BMW","Chevrolet"];
+// var your_model    =   ["Accord","Amaze","Brio","City ZX","Tata","Jazz","Mobilio","civic","New City","Elantra","i10"];
+// var year          =   ["2015","2014","2013","2012","2011","2010","2009","2008","2007","2006","2005"];
+// var color         =   ["Beige","Black","Golden","Green","Orange","Purple","Red","Silver","White","Yellow","Other"];
+// var fuel_type     =   ["CNG","Diesel","Electric","Hybrid","LPG","Petrol"];
+// var no_of_owners  =   ["One","Two","Three"];
+
+var your_city     =   '';
+var your_locality =   '';
+var your_brand    =   '';
+var your_model    =   '';
+var year          =   '';
+var color         =   '';
+var fuel_type     =   '';
+var no_of_owners  =   '';
 
 ( function( $ ) {
   $( document ).ready(function() {
@@ -196,10 +212,10 @@ var no_of_owners  =   ["One","Two","Three"];
 
 var response_cache = {};
 var response_cache1 = {};
+var response_cache2 = {};
 
 function find_subcategory(category_id) {
-  
-  
+   
   if (response_cache[category_id]) {
 
     $(".subcategory_list").html(response_cache[category_id]);
@@ -246,12 +262,10 @@ function find_brand(sub_category_id) {
   }
 }
 
-//********** End Ajax Function **********
 
-var response_cache = {};
 function fill_localities(city_id) {
-  if (response_cache[city_id]) {
-    $("#id_locality").html(response_cache[city_id]);
+  if (response_cache2[city_id]) {
+    $("#id_locality").html(response_cache2[city_id]);
   } else {
     $.getJSON("/localities_for_city/", {city_id: city_id},
       function(ret, textStatus) {
@@ -260,12 +274,14 @@ function fill_localities(city_id) {
           options += '<option value="' + ret[i].id + '">'
             + ret[i].name + '</option>';
         }
-        response_cache[city_id] = options;
+        response_cache2[city_id] = options;
         $("#id_locality").html(options);
       });
   }
-  response_cache = {}
+  response_cache2 = {}
 }
+
+//********** End Ajax Function **********
 
 // ********** Validation Add Post **********
 ( function( $ ) {
@@ -298,11 +314,11 @@ $( document ).ready(function() {
 
   });
 
-		var category = "Cars & Bikes";
-    var category_id = '';
-		var sub_category = "Cars";
-		var brand = "Audi";
-    var sub_category_id= "";
+		// var category = "Cars & Bikes";
+  //   var category_id = '';
+		// var sub_category = "Cars";
+		// var brand = "Audi";
+  //   var sub_category_id= "";
 		// $('input[type=radio]').change(function() { 
 			// var radio_name = this.name;
 			// $('input[name='+radio_name+']').removeAttr('checked');
@@ -353,93 +369,106 @@ $( document ).ready(function() {
      	 	};
 		});
 	   
-	   //============= POST AD VALIDATION ===========
-	   $('#post').click(function(){
-        var temp = 0;
-	   		
-	   		//Type of ad
-	   		if ($('input[name=condition]').is(":checked")){
-          		if (!$('#condition_required').hasClass('hide_error_message'))
-              		$('#condition_required').addClass('hide_error_message');
-      		} else{
-          		$('#condition_required').removeClass('hide_error_message');
-              temp = 1;
-      		};
-      		
-      		//Category
-      		if ($('#category').val() == '') {
-          		$('#category_required').removeClass('hide_error_message');
-              temp = 1;
-      		} else{
-          		if (!$('#category_required').hasClass('hide_error_message'))
-              		$('#category_required').addClass('hide_error_message');
-     	 	};
-	   		
-	   		//Ad title
-      		if ($('#ad_title').val() == '') {
-      			$('#ad_title_required').removeClass('hide_error_message');
-            temp = 1;
-      		} else{
-          		if (!$('#ad_title_required').hasClass('hide_error_message'))
-              		$('#ad_title_required').addClass('hide_error_message');
-   	  		};
+	    //============= POST AD VALIDATION ===========
 
-          //Price
-          if ($('#your_price').val() == '') {
-            $('#price_required').removeClass('hide_error_message');
-            $('#price_required').css('display','inline');
-            temp = 1;
-          } else{
-              if (!$('#price_required').hasClass('hide_error_message'))
-                  $('#price_required').addClass('hide_error_message');
-                  $('#year_required').css('display','none');
-          };
-          
-          //Year
-          if ($('#your_year').val() == '') {
-            $('#year_required').removeClass('hide_error_message');
-            $('#year_required').css('display','inline');
-            temp = 1;
-          } else{
-              if (!$('#year_required').hasClass('hide_error_message'))
-                  $('#year_required').addClass('hide_error_message');
-                  $('#year_required').css('display','none');
-          };
-   	  		
-   	  		//Description
-   	  		if ($('#your_description').val() == '') {
-          		$('#desc_required').removeClass('hide_error_message');
-              temp = 1;
-      		} else{
-          		if (!$('#desc_required').hasClass('hide_error_message'))
-              		$('#desc_required').addClass('hide_error_message');
-   	  		};
-   	  		
-   	  		//You are
-	   		if ($('input[name=you_are_radio]').is(":checked")){
-          		if (!$('#you_are_required').hasClass('hide_error_message'))
-              		$('#you_are_required').addClass('hide_error_message');
-      		} else{
-          		$('#you_are_required').removeClass('hide_error_message');
-              temp = 1;
-      		};
-      		
-      		//email
-      		if($('#your_email').val() != ''){
-      			 if( !isValidEmailAddress( $('#your_email').val() ) ) { 
-              		$('#valid_email_required').removeClass('hide_error_message');
-                  temp = 1;
-          		 } else {
-              		if (!$('#valid_email_required').hasClass('hide_error_message'))
-                  		$('#valid_email_required').addClass('hide_error_message');
-          		}
-      		}
-          if(temp == 0)
-            $('#post_ad').submit();
-   		});
+    jQuery(document).ready(function(){
+    // Place ID's of all required fields here.
+    // required = ["category", "ad_title", "your_price", "your_description", "your_email", "select_container_city", "select_container_locality"];
+    required = ["category", "ad_title", "your_price", "your_description", "your_email"];
+    // emailerror = "Invalid Email";
+    // phoneerror = "Invalid Phone"
+  
+    jQuery("#post_ad").submit(function(){ 
+    for (i=0;i<required.length;i++) {
+      var input = jQuery('#'+required[i]);
+      if (input.val() == "")  {
+        input.addClass("error_input_field");
+        input.siblings('.labelError').show();    
+        
+      } else {
+        input.removeClass("error_input_field");
+        input.siblings('.labelError').hide();        
+      }
+    }
 
-  //============= EX POST AD VALIDATION ===========
-  $('#post_button').click(function(){
+    // Buy and Sell Radio
+    if($('#buy').attr('checked') || $('#sell').attr('checked')){
+      $('#buy,#sell').siblings('.labelError').hide();
+    }
+    else {
+      $('#buy,#sell').siblings('.labelError').show();
+  
+    }
+
+    // Dealer and Individual Radio
+    if($('#individual').attr('checked') || $('#dealer').attr('checked')){
+      $('#individual,#dealer').siblings('.labelError').hide();
+    }
+    else {
+      $('#individual,#dealer').siblings('.labelError').show();
+  
+    }
+
+    // Dropdown city
+    if ($('#select_post_city').text() == "Your city *") {
+      $('.select_container_city').addClass("error_input_field");
+      $('.select_container_city').find('.labelError').show();
+    }
+    else{
+      $('.select_container_city').removeClass("error_input_field");
+      $('.select_container_city').find('.labelError').hide();
+    }
+
+    // Dropdown locality
+    if ($('#select_post_locality').text() == "Your locality *") {
+      $('.select_container_locality').addClass("error_input_field");  
+      $('.select_container_locality').find('.labelError').show();
+    }
+    else{
+      $('.select_container_locality').removeClass("error_input_field");
+      $('.select_container_locality').find('.labelError').hide(); 
+    }
+
+    // //Validate the e-mail.
+    // if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#your_email').val())) {
+    //   alert("test email");
+    //   $('#your_email').addClass("error_input_field");
+    //   $('#your_email').siblings('.labelError1').show();
+    //   //email.val(emailerror);
+    // }
+    // else
+    // {
+    //   $('#your_email').removeClass("error_input_field");
+    //   $('#your_email').siblings('.labelError1').hide();
+    // }
+
+    //Validate the e-mail.
+    if($('#your_email').val() != ''){
+    if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#your_email').val())) {
+      alert("test email");
+      $('#your_email').addClass("error_input_field");
+      $('#your_email').siblings('.labelError').text("Please enter valid email address");
+      $('.labelError').show();
+      //email.val(emailerror);
+    }
+    else
+    {
+      $('#your_email').removeClass("error_input_field");
+      $('#your_email').siblings('.labelError').hide();
+    }
+    }
+
+    if ($(":input").hasClass("error_input_field") || $(".select_container_city").hasClass("error_input_field") || $(".select_container_locality").hasClass("error_input_field")){
+    return false;
+    }
+    else{
+      return true;
+    }
+    });
+  });
+
+      //============= EX POST AD VALIDATION ===========
+      $('#post_button').click(function(){
       //Ad type
       if ($('input[name=Ad_Type]').is(":checked")){
           if (!$('#ad_type_required').hasClass('hide_error_message'))

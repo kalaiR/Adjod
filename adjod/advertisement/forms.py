@@ -23,6 +23,40 @@ from haystack.forms import SearchForm
 #     def no_query_found(self):
 #         return self.searchqueryset.all()
 
+
+# class ProductForm(forms.ModelForm):
+#   """
+#   Form for NeedHelp model
+#   """
+#   def __init__(self, *args, **kwargs):
+#     super(Product, self).__init__(*args, **kwargs)
+#     self.fields['you_email'].widget.attrs['class'] = 'required'
+
+#   class Meta:
+#     model = Product
+#     fields = ['category', 'adtype', 'title', 'price', 'description', 'you_email',]
+#     error_messages = {
+#       'category': {
+#         'required': "Please choose category"
+#       },
+#       'adtype': {
+#         'required': "Please choose adtype"
+#       },
+#       'title': {
+#         'required': "Please enter title."
+#       },
+#       'price': {
+#         'required': "Please enter price."
+#       },
+#       'description': {
+#         'required': "Please enter description."
+#       },
+#       'you_email': {
+#         'required': "Please enter valid email address"
+#       }
+#     }
+
+
 class ProductSearchForm(SearchForm):
 
     def no_query_found(self):
