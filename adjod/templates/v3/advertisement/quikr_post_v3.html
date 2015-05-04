@@ -35,6 +35,16 @@
     <script type="text/javascript" src="{% static "js/jquery-ui.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script>   
+   
+
+    <script src="assets/js/jquery.knob.js"></script>
+
+    <!-- jQuery File Upload Dependencies -->
+    <script src="{% static "js/jquery.ui.widget.js" %}"></script>
+    <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
+    <script src="{% static "js/jquery.fileupload.js" %}"></script>
+     <script src="{% static "js/script.js" %}"></script>
+
 
     <script type="text/javascript">
 
@@ -44,6 +54,8 @@
     {% if 'er' in request.REQUEST %}
       alert("Your email already exists 3 time....U have to make the account as premium");
     {% endif %}
+
+
     
     
     function updateCountdownTitle() {
@@ -221,6 +233,26 @@
                   Ads with photos sell faster
                 </div> <!-- photos_text -->
             </div> <!-- upload_photos_div -->
+
+            <div class="field_title form-group">
+              <span class="title">Upload Videos</span>
+            </div> <!-- field_title -->
+            <div class="field_div form-group" id="upload_photos_div">
+              
+                <input type='file' id='videos' name='videos[]' multiple='multiple' />
+                
+                <div class="photos_text" >
+                  Ads with videos sell faster
+                </div> <!-- photos_text -->
+            </div> <!-- upload_photos_div -->
+
+            <div class="field_div form-group" id="upload_photos_div">
+              <textarea class="videos" name="videos1" id="videos1" Placeholder="Embed online video URL"></textarea>              
+              <br />              
+            </div> <!-- description_div -->
+      
+
+
            	<hr noshade="noshade" class="photos_line" />
            	<div class="field_div seller_info_div" >
            		Seller Information

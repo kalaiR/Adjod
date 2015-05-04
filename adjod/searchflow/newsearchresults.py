@@ -5,7 +5,7 @@ import re
 from collections import OrderedDict
 
 from haystack.query import SearchQuerySet
-from haystack.utils.geo import Point, D
+# from haystack.utils.geo import Point, D
 from haystack.inputs import Clean, Raw
 from haystack.query import SQ
 

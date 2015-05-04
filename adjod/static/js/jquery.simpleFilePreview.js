@@ -378,8 +378,8 @@
         'pjpeg': 'preview_png.png',
         'tif': 'preview_png.png',
         'tiff': 'preview_png.png',
-        'mp3': 'preview_mp3.png',
-        'mp4': 'preview_mp3.png',
+        'mp3': '../static/img/preview_mp3.png',
+        'mp4': '../static/img/preview_mp3.png',
         'wav': 'preview_mp3.png',
         'wma': 'preview_mp3.png',
         'pdf': 'preview_pdf.png',
@@ -410,7 +410,8 @@
     },
     uid: 0,
     init: false,
-    previewFileTypes: 'p?jpe?g|png|gif|bmp|svg'
+    // previewFileTypes: 'p?jpe?g|png|gif|bmp|svg|mp4'
+    previewFileTypes:'p?jpe?g|png|gif|bmp|svg|mp4|mp3'
   };
   
 })(jQuery);

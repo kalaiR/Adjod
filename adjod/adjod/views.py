@@ -53,7 +53,10 @@ def home(request):
     recentad=Product.objects.filter().order_by('-id')[:3]
     path = request.path
     print "path", path 
-    return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad }, context_instance=RequestContext(request)) 
+    locality =Locality.objects.all()
+    banner=SiteBanner.objects.all()[0]
+    
+    return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad, 'locality':locality,'banner':banner }, context_instance=RequestContext(request)) 
 
 def logout_view(request):
     logout(request)

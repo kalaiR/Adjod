@@ -96,20 +96,23 @@ urlpatterns = patterns('',
     #     form_class=ProductSearchFilter), name='searchPageV2'),
 
     # Find Subcategory with pass category dynamically in url
-    url(r'^(?i)search_subcategory/(?P<pname>.*)/$', 'advertisement.views.sub_category',name='sub_category'),
+    url(r'^(?i)categories/(?P<pname>.*)/$', 'advertisement.views.sub_category',name='sub_category'),
 
     # url(r'^product/(?P<name>[\w\+]+)/$', 'crunch.views.product_by_name', name='preview_by_name'),
     
     # Search By Category URL
-    url(r'^(?i)search_by_category/(?P<categoryname>.*)/(?P<subcategoryname>.*)/', AdjodSearchViewSubCategory(
-      template='advertisement/quikr_search_v2.html', 
-      form_class=ProductSearchFilter), name='searchPageV2'),
+    # url(r'^(?i)search_by_category/(?P<categoryname>.*)/(?P<subcategoryname>.*)/', AdjodSearchViewSubCategory(
+    #   template='advertisement/quikr_search_v2.html', 
+    #   form_class=ProductSearchFilter), name='searchPageV2'),
 
     url(r'^(?i)i18n/', include('django.conf.urls.i18n')),
     url(r'^(?i)jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
     # url(_(r'^dual_language/$'), landing, name='duallang_landing'),
 
     # url(r'^postad/(?P<name>.*)/$', 'advertisement.views.sub_category',name='category_name'),
+
+    #save free alert url
+    url(r'^create_free_alert/$', 'advertisement.views.freealert_save',name='free_alert'),
     
 )
 

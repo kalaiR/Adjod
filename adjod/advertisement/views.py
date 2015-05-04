@@ -216,11 +216,14 @@ def product_save(request):
         product.locality=Locality.objects.get(id=request.POST['your_locality'])
 
         # product.photos=request.FILES['photos']
+        
+        #photos
         product.photos =request.FILES.getlist('photos[]')
-        print product.photos
+        print product.photos       
         
         def handle_uploaded_file(f):
             # product.photos = open('/static/img/photos/%s' % f.name, 'wb+')
+            print "settings.STATIC_ROOT", settings.STATIC_ROOT
             product.photos = open('static/img/photos/%s' % f.name, 'wb+')
             for chunk in f.chunks():
                 product.photos.write(chunk)
@@ -232,12 +235,12 @@ def product_save(request):
             count=count-1
             handle_uploaded_file(uploaded_file)
             if count==0:
-                photosgroup=photosgroup + settings.STATIC_ROOT + str(uploaded_file)
+                photosgroup=photosgroup  + 'static/img/photos/' + str(uploaded_file)
             else:
-                photosgroup=photosgroup + settings.STATIC_ROOT + str(uploaded_file) + ','
-        print photosgroup
-        
+                photosgroup=photosgroup  +  'static/img/photos/' +str(uploaded_file) + ','
+        print photosgroup        
         product.photos=photosgroup
+
         photo=str(product.photos)
         print photo
         print photo.split(',')
@@ -282,6 +285,39 @@ def product_save(request):
             except ImportError:
                 pass
         product.thumbnail = thumbnail_group
+        if request.FILES.getlist('videos[]'):
+            print "files if part"
+            #videos
+            product.video =request.FILES.getlist('videos[]')
+            print product.video
+
+            def handle_uploaded_file(f):
+                # product.photos = open('/static/img/photos/%s' % f.name, 'wb+')
+                product.video = open('static/videos/%s' % f.name, 'wb+')
+                for chunk in f.chunks():
+                    product.video.write(chunk)
+                product.video.close()
+            videosgroup = ''
+            
+            count=len(product.video)
+            for uploaded_file in product.video:
+                count=count-1
+                handle_uploaded_file(uploaded_file)
+                if count==0:
+                    videosgroup=videosgroup + 'static/videos/' + str(uploaded_file)
+                else:
+                    videosgroup=videosgroup + 'static/videos/' +str(uploaded_file) + ','
+            print videosgroup        
+            product.video=videosgroup
+        else:
+            print "files else part"
+            print request.POST.get('videos1')
+            product.video = request.POST.get('videos1')
+            print product.video
+
+
+
+       
         product.created_date   = datetime.datetime.now()
         product.modified_date   = datetime.datetime.now()
         product.save()
@@ -295,3 +331,17 @@ def product_save(request):
         
     else:
         return HttpResponseRedirect('/postad/?su=success')
+
+def freealert_save(request):
+    print "freealert_save"
+    freealert=FreeAlert()
+
+    freealert.productneed=request.POST.get('productneed')
+    print request.POST['locality']
+    freealert.locality=Locality.objects.get(id=request.POST['locality'])
+    freealert.email=request.POST.get('email')
+    freealert.mobilenumber=request.POST.get('mobilenumber')
+    freealert.save()
+    return HttpResponseRedirect("/?falert=success")
+
+

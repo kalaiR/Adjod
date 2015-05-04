@@ -9,6 +9,8 @@
 		      this.value = this.defaultValue;
 		      }
 		    });  
+
+
 		});
 } )( jQuery );
 
@@ -242,13 +244,15 @@ function fill_localities(city_id) {
 ( function( $ ) {
 $( document ).ready(function() {
 
-
+    //Image file upload
     $('input[type=file]').simpleFilePreview({
     'buttonContent': '<i class="fa fa-plus-circle fa_small"></i>',
     'shiftLeft': '',
         'shiftRight': '',
         'removeContent': 'Remove'
      });
+
+    //Video File upload
 
     //=====AD_TYPE label change====
 
@@ -348,18 +352,24 @@ $( document ).ready(function() {
 
     // Buy and Sell Radio
     if($('#buy').attr('checked') || $('#sell').attr('checked')){
+      $('#buy,#sell').removeClass("error_input_field");
       $('#buy,#sell').siblings('.labelError').hide();
     }
     else {
+      $('#buy,#sell').addClass("error_input_field");
+      
       $('#buy,#sell').siblings('.labelError').show();
   
     }
 
     // Dealer and Individual Radio
     if($('#individual').attr('checked') || $('#dealer').attr('checked')){
+      $('#individual,#dealer').removeClass("error_input_field");
       $('#individual,#dealer').siblings('.labelError').hide();
     }
     else {
+      $('#individual,#dealer').addClass("error_input_field");
+      
       $('#individual,#dealer').siblings('.labelError').show();
   
     }
@@ -413,7 +423,7 @@ $( document ).ready(function() {
     }
     }
 
-    if ($(":input").hasClass("error_input_field") || $(".select_container_city").hasClass("error_input_field") || $(".select_container_locality").hasClass("error_input_field")){
+    if ($(":input").hasClass("error_input_field") || $(".select_container_city").hasClass("error_input_field") || $(".select_container_locality").hasClass("error_input_field") || $("#buy,#sell").hasClass("error_input_field") || $("#individual,#dealer").hasClass("error_input_field")){
     return false;
     }
     else{
@@ -545,7 +555,7 @@ $( document ).ready(function() {
 
   //============= CHOOSE LANGUAGE DROPDOWN ===========
     $( ".custom_select_value_act" ).change(function () {
-      var selected_option = $( ".custom_select_value_act option:selected" ).val();
+      var selected_option = $( ".custom_select_value_act option:selected" ).text();
       $('#custom_select_value_act').html(selected_option);    
   });
 

@@ -100,6 +100,7 @@ class Product(models.Model):
     photos = models.ImageField(upload_to='static/img/photos/',null=True, max_length=500)
     thumbnail = models.ImageField(upload_to="static/img/thumbs/", null=True, editable=False, max_length=500)
     imagecount=models.IntegerField(null=True, blank=True)
+    video=models.FileField(upload_to='/static/videos/',null=True, blank=True)
     condition = models.CharField(max_length=10,choices=CONDITION)
     price = models.FloatField(null=True, default=0.0)
     ad_brand=models.ForeignKey(Dropdown,null=False, related_name="ad_brand")
@@ -191,3 +192,13 @@ class Product(models.Model):
         #       yield (adinfo.object.id, adinfo.object)
 
         return qs
+
+
+class FreeAlert(models.Model):
+    productneed=models.CharField(max_length=50, null=False)
+    locality=models.ForeignKey(Locality, null=False)
+    email=models.CharField(max_length=50, null=False)
+    mobilenumber=models.CharField(max_length=50, null=False)
+
+    def __unicode__(self):
+        return self.productneed

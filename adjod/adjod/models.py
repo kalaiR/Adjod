@@ -17,10 +17,12 @@ class UserProfile(models.Model):
         return self.user.username
 
 
-        
-    
+class SiteBanner( models.Model ):
+   banner = models.FileField(upload_to = 'static/banners/', null=True, blank=True)
+   link= models.CharField(max_length=200, null=True, blank=True)
 
-    
+   def __unicode__(self):
+    return self.link
     
     
     

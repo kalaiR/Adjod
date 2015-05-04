@@ -13,6 +13,7 @@ from django.contrib import admin
 # from logininew.models import Category, Page, UserProfile
 
 admin.site.register(UserProfile)
+admin.site.register(SiteBanner)
 # admin.site.register(Advertisement.Advertisementadmin)
 
 

@@ -41,7 +41,13 @@
     <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script>   
     <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
-    
+    <script type="text/javascript">
+
+    {% if 'falert'  in request.REQUEST%}
+      alert("Free alert created Successfully");
+    {% endif %}
+    </script>
+
 
 </head>
 
@@ -156,25 +162,11 @@
       
     </div> <!-- container second part -->
 
-    
-
-    
-
-
      <div class="container fifth_part">
       <div class="hp_ad">
-            <a href="" class=""><code></code></a>
-            <script type="text/javascript">
-                <!--google_ad_client = "ca-pub-xxxxxxxxxxxxxxxxx";
-                /* Homepage - 728 x 90*/
-                google_ad_slot ="5346586730";
-                google_ad_width ="728";
-                google_ad_height="90";
-                //-->
-            </script>
-            <script type="text/javascript">
-            src="http://pagead2.googlesyndication.com/pagead/show_ads.js" 
-            </script>
+            {% if banner %}
+           <a href="{{banner.link}}" class=""><img src="{{banner.banner}}" style="height:120px;width:970px;"></a>
+           {% endif %}
       </div> <!-- hp ad -->
     </div> <!-- container fifth_part-->
     <div class="container">
