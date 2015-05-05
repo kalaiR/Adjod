@@ -109,7 +109,7 @@ function perform_search(){
                         // $('[name=rating_end]').val('')                                              
                         // q = q.replace(/filtersearch/g,'q'); 
                         var q = $('#form_search_filter').serialize();
-                        q=decodeURIComponent(q);
+                        //q=decodeURIComponent(q);
                         var pageurl = window.location.href;
                         // alert(pageurl);
                         var url=pageurl.split('/')[3] + '/' + pageurl.split('/')[4]
@@ -124,29 +124,29 @@ function perform_search(){
                                     $.get('v2/search/?'+ q, function(data){                                                           
                                     show_searching(false);
                                     $('#search_result').html(data);                                    
-                                    leadfound= $('.founded_no').text().trim();
-                                    if (leadfound == '')
-                                        $('[name=search_founded_no]').val ('0 ' + gettext("Leads found"));
-                                    else
-                                         $('[name=search_founded_no]').val($('.founded_no').text().trim());
-                            
-                            		$.get('/search/?'+ q, function(data){
-                                    // show_searching(false);
-                                    $('#search_result').html(data);
-                                    attach_pagination_events();
-                                    // if($('[name=keywords]').val() == '')
-                                    //     $('#keyword_highlight').hide();                                    
-                                    // if($('[name=locations]').val() == '')
-                                    //     $('#location_highlight').hide();
-                            		});
-		                            // $.get(url+'/?'+ q, function(data){
+                                    // leadfound= $('.founded_no').text().trim();
+                                    // if (leadfound == '')
+                                    //     $('[name=search_founded_no]').val ('0 ' + gettext("Leads found"));
+                                    // else
+                                    //      $('[name=search_founded_no]').val($('.founded_no').text().trim());
+
+                                    // $.get('/search/?'+ q, function(data){
+                                    //       // show_searching(false);
+                                    //       $('#search_result').html(data);
+                                    //       attach_pagination_events();
+                                    //       // if($('[name=keywords]').val() == '')
+                                    //       //     $('#keyword_highlight').hide();                                    
+                                    //       // if($('[name=locations]').val() == '')
+                                    //       //     $('#location_highlight').hide();
+                                    // });
+                                    // $.get(url+'/?'+ q, function(data){
+
+                                    //     // alert("enter url")
+                                    //     // alert(data);
+                                    //     $('#search_result').html(data);
+		                            attach_pagination_events();
 		
-		                            //     // alert("enter url")
-		                            //     // alert(data);
-		                            //     $('#search_result').html(data);
-		                            //     attach_pagination_events();
-		
-		                            //  });         
+		                            });         
                                               
                         }else{
                                 $.get('/search/?'+ q, function(data){                                                                                             

@@ -29,7 +29,7 @@ def get_subcategoriesCount(subCategoryId):
 
 @register.filter
 def get_brandforsubcategory(subCategoryId):  	
-	brandforsubcategory = Dropdown.objects.filter(subcat_refid=subCategoryId).exclude(brand_name='')
+	brandforsubcategory = Dropdown.objects.filter(subcat__id=subCategoryId).exclude(brand_name='')
 	return brandforsubcategory				
 
 
