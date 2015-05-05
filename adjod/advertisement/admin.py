@@ -203,4 +203,5 @@ admin.site.register(City)
 admin.site.register(Locality)
 admin.site.register(Dropdown, DropdownAdmin)
 admin.site.register(Product)
+admin.site.register(FreeAlert)
 

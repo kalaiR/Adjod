@@ -44,7 +44,9 @@
           {% endif %}
             <li class="sub_category"><a href="" class=""></a>
               <div>
-             <a href="{%url searchPageV2 cat subcategories.name%}?q={{subcategories.id}}" class=""><h4>{{subcategories.name}}</h4></a>
+             <a href="/search/?q=&subcategoryid={{subcategories.id}}" class=""><h4>{{subcategories.name}}</h4></a>
+
+             
             </div>
             </li>
             {% if forloop.counter|divisibleby:4 %}             
@@ -107,35 +109,40 @@
             <h4>Create free alert</h4>
           </div>
           <ul class="enquiry_form">
-            <li><form class="form1">
-                  <input type="text" class="form-control inputs" value="Tell us your need">
-                </form>
+            <li>
+            <form method="post" action="{% url free_alert %}">
+            {% csrf_token %}
+            <div class="form1">
+                  <input type="text" class="form-control inputs" value="Tell us your need" name="productneed">
+                </div>
             </li>
-            <li><form class="form1">
+            <li><div class="form1">
                   <input type="text" class="form-control inputs">
                   <div class="custom_select locality_custom_select">
                     <div class="select">
-                      <p class="locality">Any locality</p>
+                      <p id="custom_select_value_act">Any locality</p>
                     </div> <!-- select -->
                     <i class="fa fa-caret-down"> </i>
-                    <select class="custom_select_value_act" name="language"> 
-                        <option value="chennai">Chennai</option>
-                        <option value="pondicherry">Pondicherry</option>
+                    <select class="custom_select_value_act" name="locality">
+                    {% for localities in locality %} 
+                        <option value="{{localities.id}}">{{localities.locality}}</option>
+                    {% endfor %}
                     </select>
                   </div> <!-- custom_select -->
-                 </form>
+                 </div>
             </li>
-            <li><form class="form1">
-                  <input type="text" class="form-control inputs" value="Your email">
-                </form>
+            <li><div class="form1">
+                  <input type="text" class="form-control inputs" value="Your email" name="email">
+                </div>
             </li>
-            <li><form class="form1">
-                  <input type="text" class="form-control inputs" value="Your mobile number">
-                </form>
+            <li><div class="form1">
+                  <input type="text" class="form-control inputs" value="Your mobile number" name="mobilenumber">
+                </div>
             </li>
           </ul>
-          <form class="form_alert">
+          <div class="form_alert">
             <button type="submit"class="btn btn-lg alert_button">Create alert</button>
+          </div>
           </form>
         </div> <!-- col-md-5 -->
       </div> <!-- row3 -->

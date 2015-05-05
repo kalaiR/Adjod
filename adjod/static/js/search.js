@@ -71,8 +71,8 @@ $(document).ready(function() {
 
             var url = window.location.href;
             // var pageURL = $(location).attr("href");
-            url1=url.split('/')[3]            
-            url2=url.split('/')[4]            
+            url1=url.split('/')[3];            
+            url2=url.split('/')[4];            
             
             // Toggle for Categories and SubCategories in Advance Menu 
             $('.list_folder').on('click',function(e){
@@ -82,6 +82,7 @@ $(document).ready(function() {
 
             // BrandType checkbox Options in Advance Search
             $('input.brandtype').on('change', function() {
+                alert("brandtype");
                     $('input.brandtype').not(this).prop('checked', false); 
                     $('#brandtype').val($(this).val());                    
                     perform_search();  
@@ -89,6 +90,7 @@ $(document).ready(function() {
 
             // BrandType checkbox Options in Advance Search
             $('input.pricerange').on('change', function() {
+                 alert("price");
                     $('input.pricerange').not(this).prop('checked', false); 
                     var splitprice = [];
                     var splitprice = $(this).val().split("#");                    
@@ -110,9 +112,9 @@ function perform_search(){
                         // q = q.replace(/filtersearch/g,'q'); 
                         var q = $('#form_search_filter').serialize();
                         //q=decodeURIComponent(q);
-                        var pageurl = window.location.href;
-                        // alert(pageurl);
-                        var url=pageurl.split('/')[3] + '/' + pageurl.split('/')[4]
+                        //var pageurl = window.location.href;
+                        //alert(pageurl);
+                        //var url=pageurl.split('/')[3] + '/' + pageurl.split('/')[4]
                         // alert(url);
                         // q = q.replace(/filtersearch/g,'q'); 
                         // var qsort = $("#sortdata").val();
@@ -122,31 +124,36 @@ function perform_search(){
                         {
                                     alert('top');
                                     $.get('v2/search/?'+ q, function(data){                                                           
-                                    show_searching(false);
-                                    $('#search_result').html(data);                                    
-                                    // leadfound= $('.founded_no').text().trim();
-                                    // if (leadfound == '')
-                                    //     $('[name=search_founded_no]').val ('0 ' + gettext("Leads found"));
-                                    // else
-                                    //      $('[name=search_founded_no]').val($('.founded_no').text().trim());
-
-                                    // $.get('/search/?'+ q, function(data){
-                                    //       // show_searching(false);
-                                    //       $('#search_result').html(data);
-                                    //       attach_pagination_events();
-                                    //       // if($('[name=keywords]').val() == '')
-                                    //       //     $('#keyword_highlight').hide();                                    
-                                    //       // if($('[name=locations]').val() == '')
-                                    //       //     $('#location_highlight').hide();
-                                    // });
-                                    // $.get(url+'/?'+ q, function(data){
-
-                                    //     // alert("enter url")
-                                    //     // alert(data);
-                                    //     $('#search_result').html(data);
-		                            attach_pagination_events();
-		
-		                            });         
+	                                    show_searching(false);
+	                                    $('#search_result').html(data);
+	                                    
+	                                    // leadfound= $('.founded_no').text().trim();
+	                                    // if (leadfound == '')
+	                                    //     $('[name=search_founded_no]').val ('0 ' + gettext("Leads found"));
+	                                    // else
+	                                    //      $('[name=search_founded_no]').val($('.founded_no').text().trim());
+	                                    // 		$.get('/search/?'+ q, function(data){
+	                                    //       // show_searching(false);
+	                                    //       $('#search_result').html(data);
+	                                    //       attach_pagination_events();
+	                                    //       // if($('[name=keywords]').val() == '')
+	                                    //       //     $('#keyword_highlight').hide();                                    
+	                                    //       // if($('[name=locations]').val() == '')
+	                                    //       //     $('#location_highlight').hide();
+	                                    // });
+	                                    // $.get(url+'/?'+ q, function(data){	
+	                                    //     // alert("enter url")
+	                                    //     // alert(data);
+	                                    //     $('#search_result').html(data);
+			                            attach_pagination_events();
+		                            }); 
+                                    //  $.get(url+'/?'+ q, function(data){
+                                    //  alert("enter url")
+                                    //  alert(data);
+                                    //  $('#search_result').html(data);                                         
+                                    // }); 
+                                    // $('#search_result').html(data); 
+                                    // attach_pagination_events();
                                               
                         }else{
                                 $.get('/search/?'+ q, function(data){                                                                                             
@@ -219,7 +226,7 @@ function show_searching(show) {
 function validateSearch() {
    left_dyanmic_height();
    // code by Karthikesh on 30/10/2013, for search ajax issue
-   var is_search_page = window.location.href.indexOf('/search')
+   var is_search_page = window.location.href.indexOf('/search');
    if(is_search_page > 1)
    {
     
