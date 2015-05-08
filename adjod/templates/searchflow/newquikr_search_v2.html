@@ -63,7 +63,7 @@
                             <input type="hidden" class="location" style="size: 12" id="typeandbrand" name="{{form.name.html_name}}"value="{{form.name.value|default:''}}" placeholder="Type any brand"/>                  
                             </div> -->
                             <div id="listbrandtypes">
-                               {% for brandsubcategory in request.GET.subcategoryid|get_brandforsubcategory %}  
+                      {% for brandsubcategory in request.GET.subcategoryid|get_brandforsubcategory %}  
                                  <li class="list_folder">
                                     <input type="checkbox" class="css-checkbox sme brandtype" id="{{brandsubcategory.id}}" name = "brandtype" value ="{{brandsubcategory.id}}"/>
                                     <label for="checkbox1" name="checkbox1_lbl" class="css-label sme depressed">
