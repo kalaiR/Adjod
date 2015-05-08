@@ -43,7 +43,7 @@
     <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
     <script type="text/javascript">
 
-    {% if 'falert'  in request.REQUEST%}
+    {% if 'falert'  in request.REQUEST %}
       alert("Free alert created Successfully");
     {% endif %}
     </script>
@@ -155,18 +155,19 @@
 
     {% endif %}
 
-   <div class=" {%  if path == '/' %} container second_part {% else %} {% endif %}">
-     
-      {% block content %} {% endblock %}
-      
-      
+    <div class=" {%  if path == '/' %} container second_part {% else %} {% endif %}">     
+      {% block content %} {% endblock %}     
     </div> <!-- container second part -->
 
-     <div class="container fifth_part">
-      <div class="hp_ad">
-            {% if banner %}
-           <a href="{{banner.link}}" class=""><img src="{{banner.banner}}" style="height:120px;width:970px;"></a>
-           {% endif %}
+    <div class="container fifth_part">
+      <div class="hp_ad banner_ad">
+      <ul>
+      {% for banners in banner %}
+      {% if banners.pageurl == '/' and banners.position == 'bottom' %}
+        <li><a class="bannerlink" href="{{banners.link}}" class=""><img class="bannerimage" src="{{banners.banner}}" style="height:120px;width:970px;"></a></li>
+      {% endif %}
+      {% endfor %}
+      </ul>
       </div> <!-- hp ad -->
     </div> <!-- container fifth_part-->
     <div class="container">

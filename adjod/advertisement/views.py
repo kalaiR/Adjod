@@ -38,7 +38,17 @@ import simplejson as json
 from haystack.query import SearchQuerySet
 from urlparse import urlparse
 from os.path import splitext, basename
-
+import random
+def getImages(request): 
+    print "getImages"
+    LAST_INDEX = -1
+    NUMBER_OF_ADS = 1
+    slide_show = SiteBanner.objects.all()
+    print "slide_show", slide_show
+    slide_show_randomIMG = [random.choice(slide_show).banner.name.split(',')[LAST_INDEX] for i in range(NUMBER_OF_ADS)]  
+    print "slide_show_randomIMG", slide_show_randomIMG
+    json = simplejson.dumps(slide_show_randomIMG)
+    return HttpResponse(json, mimetype='application/javascript')
 
 def product_form_v3(request):
     

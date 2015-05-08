@@ -54,7 +54,8 @@ def home(request):
     path = request.path
     print "path", path 
     locality =Locality.objects.all()
-    banner=SiteBanner.objects.all()[0]
+    banner=SiteBanner.objects.all()
+
     
     return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad, 'locality':locality,'banner':banner }, context_instance=RequestContext(request)) 
 

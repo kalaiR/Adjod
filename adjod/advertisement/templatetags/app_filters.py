@@ -37,12 +37,9 @@ def get_brandforsubcategory(subCategoryId):
 	brandforsubcategory = Dropdown.objects.filter(subcat__id=subCategoryId).exclude(brand_name='')
 	return brandforsubcategory		
 
-@register.filter
-def get_banner(banner):	
-	banner=SiteBanner.objects.all().order_by('?')
-	print "get_banner"
-	print banner.link
-	return banner
+
+	
+
 
 
 

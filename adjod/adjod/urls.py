@@ -18,6 +18,8 @@ from advertisement.fixido_search import AdjodSearchView, AdjodSearchViewSubCateg
 
 from django.conf.urls.i18n import i18n_patterns
 from django.utils.translation import ugettext_lazy as _
+# from adworks import views
+# from adworks import models
 
 from django.template.loader import add_to_builtins
 add_to_builtins('advertisement.templatetags.app_filters')
@@ -111,8 +113,23 @@ urlpatterns = patterns('',
 
     # url(r'^postad/(?P<name>.*)/$', 'advertisement.views.sub_category',name='category_name'),
 
-    #save free alert url
+    # save free alert url
     url(r'^create_free_alert/$', 'advertisement.views.freealert_save',name='free_alert'),
+
+
+    # url(r'^client/(?P<pk>\d+)/(?P<token>[-\w]+)/','adworks.views.ClientDetail.as_view()', name='client_detail'),
+
+    # url(r'^campaign/(?P<pk>\d+)/(?P<token>[-\w]+)/',
+    #     'adworks.views.CampaignDetail', name='campaign_detail'),
+
+    # url(r'^banner/(?P<pk>\d+)/(?P<token>[-\w]+)/(?P<revision>\d+)/',
+    #     'adworks.views.BannerDetail', name='version_detail'),
+
+    # url(r'^banner/(?P<pk>\d+)/(?P<token>[-\w]+)/',
+    #     'adworks.views.BannerDetail', name='banner_detail'),
+
+    url(r'^getImages/$', 'advertisement.views.getImages',name='getImages'),
+
     
 )
 
