@@ -35,18 +35,18 @@ def view_that_asks_for_money(request):
     # What you want the button to do.
     paypal_dict = {
         "business": settings.PAYPAL_RECEIVER_EMAIL,
-        "amount": "100.00",
+        "amount": "10.00",
         "item_name": "Advertisement Merchant",
-        "invoice": "unique-invoice-id",
-        "notify_url": "https://www.example.com" + reverse('paypal-ipn'),
-        "return_url": "https://www.example.com/your-return-location/",
-        "cancel_return": "https://www.example.com/your-cancel-location/",
+        # "invoice": "unique-invoice-id",
+        "notify_url": 'http://192.168.1.43:8000/something/paypal',
+        "return_url": "http://192.168.1.43:8000/",
+        "cancel_return": "http://192.168.1.43:8000/",
 
     }
     # Create the instance.
     form = PayPalPaymentsForm(initial=paypal_dict)
-    context = {"form": form}
-    return render_to_response("paypal_integration/payment.html", context)
+    context = {"form": form, "paypal_dict" : paypal_dict}
+    return render_to_response("paypal_integration/payment.html", context )
 
 def home(request):
     category=Category.objects.all()

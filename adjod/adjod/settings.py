@@ -206,6 +206,7 @@ INSTALLED_APPS = (
 #    'rest_framework',
    'fxapi',
    # 'templatetags',
+   'gcm',
 
 )
 
@@ -232,8 +233,11 @@ PAYPAL_RECEIVER_EMAIL = "deepak-facilitator@globalensolutions.com"
 PAYPAL_TEST = True
 
 PAYPAL_WPP_USER="deepak-facilitator_api1.globalensolutions.com"
-PAYPAL_WPP_PASSWORD="E5K4SG8QVGCDNHCB"
-PAYPAL_WPP_SIGNATURE="An5ns1Kso7MWUdW4ErQKJJJ4qi4-AGHrwon-aVUnmGFr91HclSLKbD9i"
+PAYPAL_WPP_PASSWORD="N8KF6XRCWDTFX3CH"
+PAYPAL_WPP_SIGNATURE="AHjFCJOkN4nEDA-3b66bqM6jxwYNAojYb8ViEpgFsP98n0KqZ3rvnAUM"
+
+# PAYPAL_URL = 'https://www.sandbox.paypal.com/au/cgi-bin/webscr'
+# PAYPAL_BUSS_EMAIL = 'deepak-facilitator@globalensolutions.com'
 
 # PAYPAL_NOTIFY_URL = "URL_ROOT/charge/difficult_to_guess"
 # PAYPAL_RETURN_URL = "URL_ROOT/charge/return/"
@@ -242,8 +246,10 @@ PAYPAL_WPP_SIGNATURE="An5ns1Kso7MWUdW4ErQKJJJ4qi4-AGHrwon-aVUnmGFr91HclSLKbD9i"
 # PAYPAL_URL = 'https://www.paypal.com/cgi-bin/webscr'
 # PAYPAL_BUSS_EMAIL = 'kalaimca.gs@gmail.com'
 
+# 
+
 SANDBOX_URL = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
-SANDBOX_BUSS_EMAIL = 'deepak-buyer@globalensolutions.com'
+SANDBOX_BUSS_EMAIL = 'deepak-facilitator@globalensolutions.com'
 
 THUMBNAIL_ALIASES = {
     '': {
