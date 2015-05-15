@@ -196,19 +196,18 @@ INSTALLED_APPS = (
     # 'thumbnail_works'
     # 'easy_thumbnails',
     # 'communication',
-    # 'smsverify'
-
+    # 'smsverify',
     # 'hstest.apps.notes',
-#    'rollyourown.seo',
+    # 'rollyourown.seo',
    'paypal_integration',
    'paypal.standard.ipn',
    'services',
-#    'rest_framework',
+    # 'rest_framework',
    'fxapi',
-   # 'templatetags',
-   'gcm',
-
+   'django_nose',
 )
+
+TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
 
 # PAYPAL_RECEIVER_EMAIL = "kalaimca.gs-facilitator@gmail.com"
 
