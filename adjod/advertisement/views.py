@@ -146,7 +146,8 @@ def sub_category(request, pname=None):
     recentad=Product.objects.filter().order_by('-id')[:3]
     ctx = {'subcategory':subcategory,'path':path,'recentad':recentad,'cat':cat}
     return render_to_response('adjod/userpage.html', ctx , context_instance=RequestContext(request))
-
+    
+# this is for pjax testing
 @pjax("pjax.html")
 def product_detail(request, pk):
     adinfo=Product.objects.get(pk=int(pk))
