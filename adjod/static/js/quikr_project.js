@@ -10,9 +10,53 @@
 		      }
 		    });  
 
+          // setTimer();
+
+    // $('.hp_ad ul li:first').show();
+    $('.banner_ad ul li:first').addClass('banneractive');
+    toggleSlide = function() {
+    var active = $(".banner_ad ul li.banneractive");
+    var next   = active.next();
+    if (next.length === 0) {
+        next = $('.banner_ad ul li:first');
+    }
+    
+    active.removeClass('banneractive');
+    next.addClass('banneractive');
+}
+setInterval(toggleSlide, 4000);
 
 		});
-} )( jQuery );
+} )( jQuery );  
+
+
+
+
+// function setTimer() {
+//     //Call the gallery function to run the slideshow, 7000 = change to next image after 7 seconds
+    
+//     setInterval('changeImage()', 7000);
+// }
+
+// function changeImage() {  
+//     // alert("changeImage");
+//     $.getJSON("/getImages/",
+//     function(json) {  
+//             // alert(json);
+//             $('#bannerimage').attr('src',json);
+
+
+//             // for (j = json.length - 1; j >= 0; j--) {
+//             //     // alert("changeImage function");
+//             //     imagID = "addImg" + (j + 1); 
+//             //     // alert(imagID);   
+//             //     alert(json[j]);
+//             //     document.getElementById(imagID).src = json[j];            
+//             //     // $('#imagID').html(json[j]);
+//             // }        
+//         }
+//     );
+// }
 
 
 //********** Functions **********

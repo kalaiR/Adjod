@@ -150,6 +150,7 @@ TEMPLATE_CONTEXT_PROCESSORS += (
      'django.core.context_processors.csrf',  
      'django.core.context_processors.media',
      'django.core.context_processors.debug',
+     
 )
 
 
@@ -195,18 +196,16 @@ INSTALLED_APPS = (
     # 'thumbnail_works'
     # 'easy_thumbnails',
     # 'communication',
-    # 'smsverify'
-
+    # 'smsverify',
     # 'hstest.apps.notes',
-#    'rollyourown.seo',
+    # 'rollyourown.seo',
    'paypal_integration',
    'paypal.standard.ipn',
    'services',
-#    'rest_framework',
+    # 'rest_framework',
    'fxapi',
    'django_nose',
-  
-
+    # 'templatetags',
 )
 
 TEST_RUNNER = "django_nose.NoseTestSuiteRunner"

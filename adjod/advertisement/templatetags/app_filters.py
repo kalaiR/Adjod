@@ -7,7 +7,7 @@ register = template.Library()
 @register.filter
 def get_photos(photo): 
     photo=str(photo).split(',')
-    print "get_photos"
+    # print "get_photos"
     return photo[0]
 
 @register.filter
@@ -36,10 +36,3 @@ def get_brandforsubcategory(subCategoryId):
 	# brandforsubcategory = Dropdown.objects.filter(subcat_refid=subCategoryId).exclude(brand_name='')
 	brandforsubcategory = Dropdown.objects.filter(subcat__id=subCategoryId).exclude(brand_name='')
 	return brandforsubcategory		
-
-@register.filter
-def get_banner(banner):	
-	banner=SiteBanner.objects.all().order_by('?')
-	print "get_banner"
-	print banner.link
-	return banner
