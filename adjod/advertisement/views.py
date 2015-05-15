@@ -40,6 +40,18 @@ from urlparse import urlparse
 from os.path import splitext, basename
 
 
+# from django.conf import settings; settings.configure()
+from djpjax import pjax
+from django.template.response import TemplateResponse
+from django.test.client import RequestFactory
+from django.views.generic import View
+# A couple of request objects - one PJAX, one not.
+rf = RequestFactory()
+regular_request = rf.get('/')
+pjax_request = rf.get('/', HTTP_X_PJAX=True)
+
+
+
 def product_form_v3(request):
     
     return render_to_response('v3/advertisement/quikr_post_v3.html' , context_instance=RequestContext(request))
@@ -109,6 +121,7 @@ def brand_for_subcategory(request):
     else:
         return JSONResponse({'error': 'Not Ajax or no GET'})
 
+
 def sub_category(request, pname=None):
     print pname
     cat=Category.objects.get(name=pname)
@@ -124,10 +137,10 @@ def sub_category(request, pname=None):
     ctx = {'subcategory':subcategory,'path':path,'recentad':recentad,'cat':cat}
     return render_to_response('adjod/userpage.html', ctx , context_instance=RequestContext(request))
 
+@pjax("pjax.html")
 def product_detail(request, pk):
     adinfo=Product.objects.get(pk=int(pk))
     print 'adinfo.user', adinfo.userprofile
-
     print "adinfo.photos", adinfo.photos
 
     related_ads = Product.get_related(adinfo)
@@ -152,10 +165,11 @@ def product_detail(request, pk):
     path=request.path
     print path
     recentad=Product.objects.filter().order_by('-id')[:3]
-    ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto, 'path':path,'recommendresults':recommendresults}
-    
-    return render_to_response('v3/advertisement/ad_detail_v3.html',ctx,context_instance=RequestContext(request))
+    ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto, 'path':path,'recommendresults':recommendresults}    
+    # return render_to_response('v3/advertisement/ad_detail_v3.html',ctx, context_instance=RequestContext(request))
+    return TemplateResponse(request, 'v3/advertisement/ad_detail_v3.html', ctx)
 
+@pjax("pjax.html")
 def product_form(request, name=None, subname=None):
     print "product_form"
     print request.path 
@@ -166,7 +180,8 @@ def product_form(request, name=None, subname=None):
     dropdown=Dropdown.objects.all()
     city=City.objects.all()
     ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
-    return render_to_response('v3/advertisement/quikr_post_v3.html', ctx , context_instance=RequestContext(request))
+    # return render_to_response('v3/advertisement/quikr_post_v3.html', ctx , context_instance=RequestContext(request))
+    return TemplateResponse(request, 'v3/advertisement/quikr_post_v3.html', ctx)
 
 def product_save(request):
     print "product_save"   

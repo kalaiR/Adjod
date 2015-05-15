@@ -204,10 +204,12 @@ INSTALLED_APPS = (
    'services',
 #    'rest_framework',
    'fxapi',
-   # 'templatetags',
+   'django_nose',
   
 
 )
+
+TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
 
 # PAYPAL_RECEIVER_EMAIL = "kalaimca.gs-facilitator@gmail.com"
 
