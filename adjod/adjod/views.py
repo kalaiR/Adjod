@@ -28,9 +28,10 @@ from django.utils.encoding import smart_unicode, force_unicode
 from django.utils import simplejson
 import simplejson as json
 
-
 from paypal.standard.forms import PayPalPaymentsForm
+from templated_email import send_templated_mail
 
+@csrf_protect
 def view_that_asks_for_money(request):
     # What you want the button to do.
     paypal_dict = {
@@ -38,15 +39,17 @@ def view_that_asks_for_money(request):
         "amount": "10.00",
         "item_name": "Advertisement Merchant",
         # "invoice": "unique-invoice-id",
-        "notify_url": 'http://192.168.1.43:8000/something/paypal',
-        "return_url": "http://192.168.1.43:8000/",
-        "cancel_return": "http://192.168.1.43:8000/",
+        "notify_url": 'http://192.168.1.34:8000/show_me_the_money',
+        "return_url": "http://192.168.1.34:8000/",
+        "cancel_return": "http://192.168.1.34:8000/?transactionfail=error",
+
 
     }
     # Create the instance.
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form, "paypal_dict" : paypal_dict}
-    return render_to_response("paypal_integration/payment.html", context )
+    return render_to_response("paypal_integration/payment.html", context, context_instance=RequestContext(request))
+
 
 def home(request):
     category=Category.objects.all()

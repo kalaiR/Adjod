@@ -61,7 +61,7 @@ urlpatterns = patterns('',
     
     # Paypal
     url(r'^paypal/$', 'adjod.views.view_that_asks_for_money', name='paypal'),
-    url(r'^something/paypal/$', include('paypal.standard.ipn.urls')),
+    url(r'^show_me_the_money/$', include('paypal.standard.ipn.urls')),
     
     # Find locality for city when ajax call
     url(r'^localities_for_city/$','advertisement.views.localities_for_city', name='localities_for_city'),

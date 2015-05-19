@@ -227,13 +227,13 @@ TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
 # SANDBOX_URL = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
 # SANDBOX_BUSS_EMAIL = 'kalaimca.gs@gmail.com'
 
-PAYPAL_RECEIVER_EMAIL = "deepak-facilitator@globalensolutions.com"
+PAYPAL_RECEIVER_EMAIL = "deepakkuppusamy.gs@gmail.com"
 
 PAYPAL_TEST = True
 
-PAYPAL_WPP_USER="deepak-facilitator_api1.globalensolutions.com"
-PAYPAL_WPP_PASSWORD="N8KF6XRCWDTFX3CH"
-PAYPAL_WPP_SIGNATURE="AHjFCJOkN4nEDA-3b66bqM6jxwYNAojYb8ViEpgFsP98n0KqZ3rvnAUM"
+PAYPAL_WPP_USER="deepakkuppusamy.gs_api1.gmail.com"
+PAYPAL_WPP_PASSWORD="B4EZQAD7HB9YSPZK"
+PAYPAL_WPP_SIGNATURE="AHh0-xqrPaS38e0xjX6pRc5LW9xJAYFajBsE0WXyhc-6KBtFDJ1VHlP7"
 
 # PAYPAL_URL = 'https://www.sandbox.paypal.com/au/cgi-bin/webscr'
 # PAYPAL_BUSS_EMAIL = 'deepak-facilitator@globalensolutions.com'
@@ -248,7 +248,7 @@ PAYPAL_WPP_SIGNATURE="AHjFCJOkN4nEDA-3b66bqM6jxwYNAojYb8ViEpgFsP98n0KqZ3rvnAUM"
 # 
 
 SANDBOX_URL = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
-SANDBOX_BUSS_EMAIL = 'deepak-facilitator@globalensolutions.com'
+SANDBOX_BUSS_EMAIL = 'deepakkuppusamy.gs@gmail.com'
 
 THUMBNAIL_ALIASES = {
     '': {
@@ -261,7 +261,7 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 HAYSTACK_CONNECTIONS = dict(
   default = dict(
     ENGINE = 'searchflow.newsearchsites.FixidoSearchEngine',
-    URL = 'http://127.0.0.1:9200/',
+    URL = 'http://46.4.81.207:9200/',
     INDEX_NAME = 'adjod'
   )
 )

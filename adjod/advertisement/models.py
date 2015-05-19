@@ -8,6 +8,7 @@ from paypal.standard.models import ST_PP_COMPLETED
 from paypal.standard.ipn.signals import payment_was_successful
 import datetime
 from haystack.query import SearchQuerySet
+from django.views.decorators.csrf import csrf_exempt
 
 TYPE = (
     ('buy', 'Buy'),
@@ -22,7 +23,7 @@ CONDITION = (
 )
 
 YOU=( ('individual','Individual'),('dealer','Dealer'))
-
+@csrf_exempt
 def show_me_the_money(sender, **kwargs):
     ipn_obj = sender
     # You need to check 'payment_status' of the IPN
