@@ -39,11 +39,12 @@ def view_that_asks_for_money(request):
         "amount": "10.00",
         "item_name": "Advertisement Merchant",
         # "invoice": "unique-invoice-id",
-        "notify_url": 'http://192.168.1.34:8000/show_me_the_money',
-        "return_url": "http://192.168.1.34:8000/",
-        "cancel_return": "http://192.168.1.34:8000/?transactionfail=error",
-
-
+        # "notify_url": 'http://192.168.1.34:8000/show_me_the_money',
+        # "return_url": "http://192.168.1.34:8000/",
+        # "cancel_return": "http://192.168.1.34:8000/?transactionfail=error",
+        "notify_url": 'http://46.4.81.207:8000/show_me_the_money',
+        "return_url": "http://46.4.81.207:8000/",
+        "cancel_return": "http://46.4.81.207:8000/?transactionfail=error",
     }
     # Create the instance.
     form = PayPalPaymentsForm(initial=paypal_dict)
