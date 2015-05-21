@@ -1,7 +1,7 @@
 
 
-<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" id="payment_details">
-{% csrf_token %}
+<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" id="payment_details" enctype="multipart/form-data">
+
     <input type="hidden" name="cmd" value="_xclick">
     <input type="hidden" name="business" value="{{paypal_dict.business}}">
     <input type="hidden" name="receiver_email" value="{{request.user.email}}">

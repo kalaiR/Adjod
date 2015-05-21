@@ -129,6 +129,7 @@ urlpatterns = patterns('',
     #     'adworks.views.BannerDetail', name='banner_detail'),
 
     url(r'^getImages/$', 'advertisement.views.getImages',name='getImages'),
+    url(r'^freealert/$', 'advertisement.views.freealert',name='freealert'),
 
     
 )

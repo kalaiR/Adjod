@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.core.context_processors import csrf 
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.shortcuts import render_to_response, render, redirect
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
@@ -31,7 +31,7 @@ import simplejson as json
 from paypal.standard.forms import PayPalPaymentsForm
 from templated_email import send_templated_mail
 
-@csrf_protect
+@csrf_exempt
 def view_that_asks_for_money(request):
     # What you want the button to do.
     paypal_dict = {
@@ -39,12 +39,12 @@ def view_that_asks_for_money(request):
         "amount": "10.00",
         "item_name": "Advertisement Merchant",
         # "invoice": "unique-invoice-id",
-        # "notify_url": 'http://192.168.1.34:8000/show_me_the_money',
-        # "return_url": "http://192.168.1.34:8000/",
-        # "cancel_return": "http://192.168.1.34:8000/?transactionfail=error",
-        "notify_url": 'http://46.4.81.207:9000/show_me_the_money',
-        "return_url": "http://46.4.81.207:9000/",
-        "cancel_return": "http://46.4.81.207:9000/?transactionfail=error",
+        "notify_url": 'http://192.168.1.34:8000/show_me_the_money',
+        "return_url": "http://192.168.1.34:8000/",
+        "cancel_return": "http://192.168.1.34:8000/?transactionfail=error",
+        # "notify_url": 'http://46.4.81.207:9000/show_me_the_money',
+        # "return_url": "http://46.4.81.207:9000/",
+        # "cancel_return": "http://46.4.81.207:9000/?transactionfail=error",
     }
     # Create the instance.
     form = PayPalPaymentsForm(initial=paypal_dict)

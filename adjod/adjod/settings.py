@@ -133,9 +133,12 @@ MIDDLEWARE_CLASSES = (
     'pagination.middleware.PaginationMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    
     # 'templatetags.app_filters.get_photos',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    
 
 
 )
@@ -205,6 +208,7 @@ INSTALLED_APPS = (
     # 'rest_framework',
    'fxapi',
    'django_nose',
+   'worker',
 )
 
 TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
@@ -261,7 +265,8 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 HAYSTACK_CONNECTIONS = dict(
   default = dict(
     ENGINE = 'searchflow.newsearchsites.FixidoSearchEngine',
-    URL = 'http://46.4.81.207:9200/',
+    # URL = 'http://46.4.81.207:9200/',
+    URL = 'http://127.0.0.1:9200/',
     INDEX_NAME = 'adjod'
   )
 )

@@ -17,6 +17,8 @@ pip install elasticstack
 pip install django-nose==1.4
 pip install django-templated-email==0.4.7
 
+python-dateutil==2.4.2
+
  
 
 
@@ -37,4 +39,3 @@ pip install django-templated-email==0.4.7
 
 
 
-PIL

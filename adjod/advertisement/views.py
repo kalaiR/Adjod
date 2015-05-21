@@ -353,21 +353,29 @@ def product_save(request):
     # return render_to_response('v3/advertisement/quikr_post_v3.html',ctx , context_instance=RequestContext(request))
     if emailerror:
         print "emailerror"
-        return HttpResponseRedirect('/postad/?er=emailerror')
-        
+        return HttpResponseRedirect('/postad/?er=emailerror')       
     else:
         return HttpResponseRedirect('/postad/?su=success')
 
 def freealert_save(request):
     print "freealert_save"
+    user=request.user.id
+    print "user", user
+    userprofile=UserProfile.objects.get(user_id=request.user.id)
+    print "userprofile.id", userprofile.id
     freealert=FreeAlert()
-
-    freealert.productneed=request.POST.get('productneed')
-    print request.POST['locality']
-    freealert.locality=Locality.objects.get(id=request.POST['locality'])
-    freealert.email=request.POST.get('email')
-    freealert.mobilenumber=request.POST.get('mobilenumber')
+    freealert.alert_user=UserProfile.objects.get(id=userprofile.id)
+    freealert.alert_category=Category.objects.get(id=request.POST['your_category'])
+    freealert.alert_subcategory=SubCategory.objects.get(id=request.POST['your_subcategory'])
+    freealert.alert_brand=Dropdown.objects.get(id=request.POST['your_brand'])
+    freealert.alert_city=City.objects.get(id=request.POST['your_city'])
+    freealert.alert_email = request.POST.get('email')
+    freealert.alert_mobile = request.POST.get('mobilenumber')
     freealert.save()
     return HttpResponseRedirect("/?falert=success")
 
-
+def freealert(request):
+    category = Category.objects.all()
+    city=City.objects.all()
+    ctx={'category':category, 'city':city}
+    return render_to_response('v3/advertisement/freealert.html',ctx,context_instance=RequestContext(request))

@@ -214,7 +214,8 @@ var no_of_owners  =   '';
 var response_cache = {};
 var response_cache1 = {};
 var response_cache2 = {};
-
+var response_cache3 = {};
+var response_cache4 = {};
 function find_subcategory(category_id) {
    
   if (response_cache[category_id]) {
@@ -281,6 +282,51 @@ function fill_localities(city_id) {
   }
   response_cache2 = {}
 }
+
+function fill_subcategories(category_id) {
+  if (response_cache3[category_id]) {
+
+    $("#id_subcategory").html(response_cache3[category_id]);
+  } else {
+    
+    $.getJSON("/subcategory_for_category/", {category_id: category_id},
+      function(ret, textStatus) {
+        var options = '';
+        for (var i in ret) {
+          options += '<option value="' + ret[i].id + '">'
+            + ret[i].name + '</option>';
+        }
+        response_cache3[category_id] = options;
+        
+        $("#id_subcategory").html(options);
+      });
+  }
+  response_cache3 = {}
+}
+
+function fill_brands(sub_category_id) {
+  if (response_cache4[sub_category_id]) {
+
+    $("#id_brand").html(response_cache4[sub_category_id]);
+  } else {
+    alert(sub_category_id);
+    $.getJSON("/brand_for_subcategory/", {sub_category_id: sub_category_id},
+      function(ret, textStatus) {
+        var options = '';
+        for (var i in ret) {
+          options += '<option value="' + ret[i].id + '">'
+            + ret[i].name + '</option>';
+        }
+        response_cache4[sub_category_id] = options;
+        
+        $("#id_brand").html(options);
+      });
+  }
+  response_cache4 = {}
+}
+
+
+
 
 //********** End Ajax Function **********
 
@@ -437,6 +483,7 @@ $( document ).ready(function() {
       $('.select_container_locality').removeClass("error_input_field");
       $('.select_container_locality').find('.labelError').hide(); 
     }
+
 
     // //Validate the e-mail.
     // if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#your_email').val())) {
@@ -617,6 +664,31 @@ $( document ).ready(function() {
   $( ".select_post_locality" ).change(function () {
     var selected_option = $( ".select_post_locality option:selected" ).text();
     $('#select_post_locality').html(selected_option);
+  });
+
+  //============= CHOOSE CATEGORY DROPDOWN ===========
+  $( ".select_post_category" ).change(function () {
+    
+    var selected_option = $( ".select_post_category option:selected" ).text();
+    $('#select_post_category').html(selected_option);
+    
+    fill_subcategories($(this).val());
+    
+  });
+
+   //============= CHOOSE SUBCATEGORY DROPDOWN ===========
+  $( ".select_post_subcategory" ).change(function () {
+    
+    var selected_option = $( ".select_post_subcategory option:selected" ).text();
+    $('#select_post_subcategory').html(selected_option);
+    fill_brands($(this).val());
+    
+  });
+  $( ".select_post_brand" ).change(function () {
+    
+    var selected_option = $( ".select_post_brand option:selected" ).text();
+    $('#select_post_brand').html(selected_option);
+    
   });
   	
   	//============= CHOOSE CATEGORY POPUP ===========

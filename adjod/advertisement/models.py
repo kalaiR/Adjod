@@ -196,10 +196,12 @@ class Product(models.Model):
 
 
 class FreeAlert(models.Model):
-    productneed=models.CharField(max_length=50, null=False)
-    locality=models.ForeignKey(Locality, null=False)
-    email=models.CharField(max_length=50, null=False)
-    mobilenumber=models.CharField(max_length=50, null=False)
-
+    alert_user=models.ForeignKey(UserProfile)
+    alert_category = models.ForeignKey(Category, verbose_name='Chosen Category', null=False)
+    alert_subcategory =models.ForeignKey(SubCategory,null=False)
+    alert_brand=models.ForeignKey(Dropdown,null=False)
+    alert_city=models.ForeignKey(City, null=False)
+    alert_email=models.CharField(max_length=30, null=False)
+    alert_mobile=models.CharField(max_length=30, null=False)
     def __unicode__(self):
-        return self.productneed
+        return self.alert_email
