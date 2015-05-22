@@ -1,7 +1,7 @@
 from django import template
 from django.db.models import *
 from advertisement.models import *
-
+from banner.models import *
 register = template.Library()
 
 @register.filter
@@ -35,4 +35,9 @@ def get_subcategoriesCount(subCategoryId):
 def get_brandforsubcategory(subCategoryId):  	
 	# brandforsubcategory = Dropdown.objects.filter(subcat_refid=subCategoryId).exclude(brand_name='')
 	brandforsubcategory = Dropdown.objects.filter(subcat__id=subCategoryId).exclude(brand_name='')
-	return brandforsubcategory		
+	return brandforsubcategory	
+
+@register.filter
+def get_banner(banner):
+	banner=SiteBanner.objects.all()
+	return banner

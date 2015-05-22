@@ -9,34 +9,6 @@
 #     ('pl', ugettext('Polish')),
 # )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # COUNTRIES = (           
 # ('','Select'), 
 # ('AF',_('Afghanistan')),

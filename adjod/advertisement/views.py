@@ -2,14 +2,14 @@
 from advertisement.models import *
 from advertisement.forms import *
 from adjod.forms import *
+from adjod.models import *
 from advertisement.views import *
 import logging
 import pprint
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from django.core.context_processors import csrf
-from django.core.context_processors import request
+from django.core.context_processors import csrf, request 
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render_to_response, render
 from django.core.urlresolvers import reverse
@@ -31,7 +31,6 @@ from haystack.inputs import AutoQuery, Exact, Clean
 import datetime
 from django.utils.encoding import smart_unicode, force_unicode
 from django.utils import simplejson
-import simplejson as json
 from haystack.query import SearchQuerySet
 from django.db.models import Q
 import simplejson as json
@@ -39,18 +38,7 @@ from haystack.query import SearchQuerySet
 from urlparse import urlparse
 from os.path import splitext, basename
 import random
-def getImages(request): 
-    print "getImages"
-    LAST_INDEX = -1
-    NUMBER_OF_ADS = 1
-    slide_show = SiteBanner.objects.all()
-    print "slide_show", slide_show
-    slide_show_randomIMG = [random.choice(slide_show).banner.name.split(',')[LAST_INDEX] for i in range(NUMBER_OF_ADS)]  
-    print "slide_show_randomIMG", slide_show_randomIMG
-    json = simplejson.dumps(slide_show_randomIMG)
-    return HttpResponse(json, mimetype='application/javascript')
-
-# from django.conf import settings; settings.configure()
+from banner.models import *
 from djpjax import pjax
 from django.template.response import TemplateResponse
 from django.test.client import RequestFactory
@@ -60,7 +48,18 @@ rf = RequestFactory()
 regular_request = rf.get('/')
 pjax_request = rf.get('/', HTTP_X_PJAX=True)
 
+# def getImages(request): 
+#     print "getImages"
+#     LAST_INDEX = -1
+#     NUMBER_OF_ADS = 1
+#     slide_show = SiteBanner.objects.all()
+#     print "slide_show", slide_show
+#     slide_show_randomIMG = [random.choice(slide_show).banner.name.split(',')[LAST_INDEX] for i in range(NUMBER_OF_ADS)]  
+#     print "slide_show_randomIMG", slide_show_randomIMG
+#     json = simplejson.dumps(slide_show_randomIMG)
+#     return HttpResponse(json, mimetype='application/javascript')
 
+# from django.conf import settings; settings.configure()
 
 def product_form_v3(request):
     
@@ -131,7 +130,6 @@ def brand_for_subcategory(request):
     else:
         return JSONResponse({'error': 'Not Ajax or no GET'})
 
-
 def sub_category(request, pname=None):
     print pname
     cat=Category.objects.get(name=pname)
@@ -175,9 +173,11 @@ def product_detail(request, pk):
         print "searchresults:", recommendresult
     path=request.path
     print path
+    
     recentad=Product.objects.filter().order_by('-id')[:3]
-    ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto, 'path':path,'recommendresults':recommendresults}    
+    ctx={'adinfo':adinfo, 'photos':photos,'largephoto':largephoto, 'path':path,'recommendresults':recommendresults}    
     # return render_to_response('v3/advertisement/ad_detail_v3.html',ctx, context_instance=RequestContext(request))
+    
     return TemplateResponse(request, 'v3/advertisement/ad_detail_v3.html', ctx)
 
 @pjax("pjax.html")
@@ -340,9 +340,6 @@ def product_save(request):
             print request.POST.get('videos1')
             product.video = request.POST.get('videos1')
             print product.video
-
-
-
        
         product.created_date   = datetime.datetime.now()
         product.modified_date   = datetime.datetime.now()

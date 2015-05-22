@@ -3,7 +3,6 @@ from django.conf.urls import patterns, include, url
 from adjod.views import *
 from advertisement.views import *
 from searchflow.views import *
-from paypal_integration.views import *
 from advertisement.forms import *
 from django.contrib import admin
 from haystack.views import SearchView, FacetedSearchView
@@ -109,32 +108,17 @@ urlpatterns = patterns('',
 
     url(r'^(?i)i18n/', include('django.conf.urls.i18n')),
     url(r'^(?i)jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
-    # url(_(r'^dual_language/$'), landing, name='duallang_landing'),
 
     # url(r'^postad/(?P<name>.*)/$', 'advertisement.views.sub_category',name='category_name'),
 
     # save free alert url
     url(r'^create_free_alert/$', 'advertisement.views.freealert_save',name='free_alert'),
-
-
-    # url(r'^client/(?P<pk>\d+)/(?P<token>[-\w]+)/','adworks.views.ClientDetail.as_view()', name='client_detail'),
-
-    # url(r'^campaign/(?P<pk>\d+)/(?P<token>[-\w]+)/',
-    #     'adworks.views.CampaignDetail', name='campaign_detail'),
-
-    # url(r'^banner/(?P<pk>\d+)/(?P<token>[-\w]+)/(?P<revision>\d+)/',
-    #     'adworks.views.BannerDetail', name='version_detail'),
-
-    # url(r'^banner/(?P<pk>\d+)/(?P<token>[-\w]+)/',
-    #     'adworks.views.BannerDetail', name='banner_detail'),
-
-    url(r'^getImages/$', 'advertisement.views.getImages',name='getImages'),
     url(r'^freealert/$', 'advertisement.views.freealert',name='freealert'),
 
     
 )
 
-urlpatterns += i18n_patterns('',
-    # (_(r'^dual-lang/'), include('duallang.urls')),
-    # (r'^', include('home.urls')),
-)
+# urlpatterns += i18n_patterns('',
+#     # (_(r'^dual-lang/'), include('duallang.urls')),
+#     # (r'^', include('home.urls')),
+# )

@@ -1,25 +1,24 @@
 
 
-<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" id="payment_details" enctype="multipart/form-data">
+<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" id="payment_details" enctype="multipart/form-data"> {% csrf_token %}
 
     <input type="hidden" name="cmd" value="_xclick">
-    <input type="hidden" name="business" value="{{paypal_dict.business}}">
-    <input type="hidden" name="receiver_email" value="{{request.user.email}}">
+    <input type="hidden" name="business" value="deepakkuppusamy.gs@gmail.com">
+    <input type="hidden" name="receiver_email" value="{{settings.PAYPAL_RECEIVER_EMAIL}}">
     
     <input type="hidden" name="rm" value="2"/>
-   <!--  <input type="hidden" name="lc" value="{% if request.LANGUAGE_CODE == 'sv' %}sv_SE{% endif %}{% if request.LANGUAGE_CODE == 'de' %}DE{% endif %}{% if request.LANGUAGE_CODE == 'en' %}US{% endif %}" />
-    <input type="hidden" name="country" value="{% if request.LANGUAGE_CODE == 'sv' %}SE{% endif %}{% if request.LANGUAGE_CODE == 'de' %}DE{% endif %}{% if request.LANGUAGE_CODE == 'en' %}US{% endif %}"/> -->
+  
     <input type="hidden" name="charset" value="utf-8" id="id_charset">
     <input type="hidden" name="currency_code" value="USD" id="id_currency_code">
     <input type="hidden" name="no_shipping" value="1" id="id_no_shipping">
-    <input type="hidden" name="item_name" value="{{paypal_dict.item_name}}">
-    <input type="hidden" name="custom" value="{{request.user.id}}"/>
-    <input type="hidden" class="fl large" name="first_name" value="{{request.user.first_name}}" >
-    <input type="hidden" name="last_name" value="{{request.user.last_name}}"/>
+    <input type="hidden" name="item_name" value="add1">
+    <input type="hidden" name="custom" value="deepak"/>
+    <input type="hidden" class="fl large" name="first_name" value="{{deepak}}" >
+    <input type="hidden" name="last_name" value="deepak"/>
     <!-- <input type="hidden" name="cancel_return" value="{{current_site}}/dashboard/deposit/?transactionfail=error"/> -->
-    <input type="hidden" name="cancel_return" value="{{paypal_dict.cancel_return}}"/>
+    <input type="hidden" name="cancel_return" value="http://192.168.1.35:8000"/>
     <!-- <input type="hidden" name="return" value="{{current_site}}/dashboard/deposit_success/?deposit=1"> -->
-    <input type="hidden" name="return" value="{{paypal_dict.return_url}}">
-    <input type="hidden" name="notify_url" id="id_notify_url" value="{{paypal_dict.notify_url}}"/>
+    <input type="hidden" name="return" value="http://192.168.1.35:8000/paypal/">
+    <input type="hidden" name="notify_url" id="id_notify_url" value="http://192.168.1.35:8000/show_me_the_money"/>
     <input border="0" type="image" alt="Buy it Now" name="submit" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif">
 </form>                            

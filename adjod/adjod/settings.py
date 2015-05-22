@@ -202,13 +202,13 @@ INSTALLED_APPS = (
     # 'smsverify',
     # 'hstest.apps.notes',
     # 'rollyourown.seo',
-   'paypal_integration',
    'paypal.standard.ipn',
    'services',
     # 'rest_framework',
    'fxapi',
    'django_nose',
    'worker',
+   'banner'
 )
 
 TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
@@ -231,8 +231,6 @@ TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
 # SANDBOX_URL = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
 # SANDBOX_BUSS_EMAIL = 'kalaimca.gs@gmail.com'
 
-PAYPAL_RECEIVER_EMAIL = "deepakkuppusamy.gs@gmail.com"
-
 PAYPAL_TEST = True
 
 PAYPAL_WPP_USER="deepakkuppusamy.gs_api1.gmail.com"
@@ -250,6 +248,8 @@ PAYPAL_WPP_SIGNATURE="AHh0-xqrPaS38e0xjX6pRc5LW9xJAYFajBsE0WXyhc-6KBtFDJ1VHlP7"
 # PAYPAL_BUSS_EMAIL = 'kalaimca.gs@gmail.com'
 
 # 
+
+PAYPAL_RECEIVER_EMAIL = "deepakkuppusamy.gs@gmail.com"
 
 SANDBOX_URL = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
 SANDBOX_BUSS_EMAIL = 'deepakkuppusamy.gs@gmail.com'

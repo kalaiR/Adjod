@@ -21,7 +21,6 @@ from advertisement import *
 import random
 import string
 from urllib import unquote, urlencode, unquote_plus
-from paypal_integration.views import *
 from django.conf import settings
 
 from django.utils.encoding import smart_unicode, force_unicode
@@ -31,25 +30,38 @@ import simplejson as json
 from paypal.standard.forms import PayPalPaymentsForm
 from templated_email import send_templated_mail
 
+from django.views.decorators.csrf import csrf_exempt
+from paypal.standard.ipn.signals import payment_was_successful
+from banner.models import *
+
+@csrf_exempt
+def show_me_the_money(sender, **kwargs):
+    ipn_obj = sender
+    # Undertake some action depending upon `ipn_obj`.
+    if ipn_obj.custom == "Upgrade all users!":
+        User.objects.update(paid=True)        
+
+payment_was_successful.connect(show_me_the_money)
+
 @csrf_exempt
 def view_that_asks_for_money(request):
     # What you want the button to do.
-    paypal_dict = {
-        "business": settings.PAYPAL_RECEIVER_EMAIL,
-        "amount": "10.00",
-        "item_name": "Advertisement Merchant",
-        # "invoice": "unique-invoice-id",
-        "notify_url": 'http://192.168.1.34:8000/show_me_the_money',
-        "return_url": "http://192.168.1.34:8000/",
-        "cancel_return": "http://192.168.1.34:8000/?transactionfail=error",
-        # "notify_url": 'http://46.4.81.207:9000/show_me_the_money',
-        # "return_url": "http://46.4.81.207:9000/",
-        # "cancel_return": "http://46.4.81.207:9000/?transactionfail=error",
-    }
+    # paypal_dict = {
+    #     # "business": settings.PAYPAL_RECEIVER_EMAIL,
+    #     # "amount": "10.00",
+    #     # "item_name": "Advertisement Merchant",
+    #     # "invoice": "unique-invoice-id",
+    #     # "notify_url": 'http://192.168.1.35:8000/show_me_the_money',
+    #     # "return_url": "http://192.168.1.35:8000/",
+    #     "cancel_return": "http://192.168.1.35:8000/?transactionfail=error",
+    #     # "notify_url": 'http://46.4.81.207:9000/show_me_the_money',
+    #     # "return_url": "http://46.4.81.207:9000/",
+    #     # "cancel_return": "http://46.4.81.207:9000/?transactionfail=error",
+    # }
     # Create the instance.
-    form = PayPalPaymentsForm(initial=paypal_dict)
-    context = {"form": form, "paypal_dict" : paypal_dict}
-    return render_to_response("paypal_integration/payment.html", context, context_instance=RequestContext(request))
+   
+    return render_to_response("paypal_integration/payment.html", context_instance=RequestContext(request))
+    
 
 
 def home(request):
@@ -58,8 +70,8 @@ def home(request):
     path = request.path
     print "path", path 
     locality =Locality.objects.all()
-    banner=SiteBanner.objects.all()    
-    return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad, 'locality':locality,'banner':banner }, context_instance=RequestContext(request)) 
+    # banner=SiteBanner.objects.all()    
+    return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad, 'locality':locality }, context_instance=RequestContext(request)) 
 
 def logout_view(request):
     logout(request)

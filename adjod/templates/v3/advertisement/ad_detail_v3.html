@@ -194,25 +194,36 @@
             <div class="div">
                <a href=""><i class="fa fa-camera"></i><span>12</span></a>
             </div>
+
+
             </div>
-    		<div class="safety_tips">
-    			<h3>Safety Tips for Buyers</h3><br>
-    			<span>Meet seller at safe location</span><br>
-    			<span>Check the item before you buy</span><br>
-    			<span>Pay only after collecting items</span><br>
-    			<i class="fa fa-shield shield"></i>
-    		</div>
+    	
     	</div>
     </div>
+    </div>
+
+    <div class="container">
+      <iframe class="fl" width="500" height="315" src="{{adinfo.video|get_videos}}" frameborder="0" allowfullscreen></iframe>
+        <div class="safety_tips fl">
+          <h3>Safety Tips for Buyers</h3><br>
+          <span>Meet seller at safe location</span><br>
+          <span>Check the item before you buy</span><br>
+          <span>Pay only after collecting items</span><br>
+          <i class="fa fa-shield shield"></i>
+        </div>
+        <div class="clear_both"></div>
     </div>   
-    <iframe width="560" height="315" src="{{adinfo.video|get_videos}}" frameborder="0" allowfullscreen></iframe>
+    
 
     <div class="container recommend1">
+     {% if recommendresults %}
       <div class="recommended">
           <span>Recommended</span>
         </div>
+      {% endif %}   
       <div class="row row2">
         <div class="col-md-8">
+        {% if recommendresults %}
         <ul class="product1">
         	
         	{% for recommendresult in recommendresults|slice:":5" %}
@@ -249,15 +260,36 @@
               </div>
             </li>
             {% endfor %}
+          
+          
           </ul>
+            
+             {% endif %}
         </div>
+
+      
+      {% if recommendresults %}
         <div class="col-md-4 column-ad">
           <div class="adv_part">
             <a href="" class=""><code></code></a>
           </div>
         </div>
+      {% else %}
+      <div class="container fifth_part">
+        <div class="hp_ad banner_ad">
+          <ul>
+            {% for banners in banner|get_banner %}
+            {% if banners.pageurl == '/' and banners.position == 'bottom' %}
+              <li><a class="bannerlink" href="{{banners.link}}" class=""><img class="bannerimage" src="../../{{banners.banner}}" style="height:120px;width:970px;"></a></li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </div> <!-- hp ad -->
+      </div> <!-- container fifth_part-->
+      {% endif %}  
       </div>
     </div>
+
     <div class="footer_image f_img">
       <code></code>
     </div> <!-- footer_image -->

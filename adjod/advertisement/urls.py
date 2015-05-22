@@ -8,16 +8,5 @@ admin.autodiscover()
 
 urlpatterns = patterns('advertisement.views',
         url(r'^admin/', include(admin.site.urls)),
-      	
-         
-        
-                       
-                       )
+)
 
-# urlpatterns = patterns('fxapi.views',
-# 	(r'playground/$', 'playground'),
-# 	(r'clients/$', 'clients'),
-# 	(r'docs/$', 'docs'),
-# 	(r'faq/$', 'faq'),
-# 	(r'$', 'index'),
-# )
