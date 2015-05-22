@@ -151,10 +151,6 @@ def product_detail(request, pk):
     adinfo=Product.objects.get(pk=int(pk))
     print 'adinfo.user', adinfo.userprofile
     print "adinfo.photos", adinfo.photos
-
-    related_ads = Product.get_related(adinfo)
-    print "related_ads", related_ads
-
     photosgroup=adinfo.thumbnail
     photo=str(photosgroup)
     print "photo", photo
