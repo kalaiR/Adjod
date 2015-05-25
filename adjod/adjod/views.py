@@ -43,8 +43,9 @@ def show_me_the_money(sender, **kwargs):
 
 payment_was_successful.connect(show_me_the_money)
 
-@csrf_exempt
+
 def view_that_asks_for_money(request):
+
     # What you want the button to do.
     # paypal_dict = {
     #     # "business": settings.PAYPAL_RECEIVER_EMAIL,
@@ -59,7 +60,8 @@ def view_that_asks_for_money(request):
     #     # "cancel_return": "http://46.4.81.207:9000/?transactionfail=error",
     # }
     # Create the instance.
-   
+    vi = settings.LANGUAGE_CODE
+    print 'test', vi
     return render_to_response("paypal_integration/payment.html", context_instance=RequestContext(request))
     
 

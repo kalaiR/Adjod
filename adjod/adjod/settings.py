@@ -162,8 +162,6 @@ LOCALE_PATHS = (
     os.path.join(os.path.dirname(__file__), '../locale'),
 )
 
-LANGUAGE_CODE='pl'
-
 USE_I18N = True
 
 ROOT_URLCONF = 'adjod.urls'
@@ -233,9 +231,9 @@ TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
 
 PAYPAL_TEST = True
 
-PAYPAL_WPP_USER="deepakkuppusamy.gs_api1.gmail.com"
-PAYPAL_WPP_PASSWORD="B4EZQAD7HB9YSPZK"
-PAYPAL_WPP_SIGNATURE="AHh0-xqrPaS38e0xjX6pRc5LW9xJAYFajBsE0WXyhc-6KBtFDJ1VHlP7"
+# PAYPAL_WPP_USER="deepakkuppusamy.gs_api1.gmail.com"
+# PAYPAL_WPP_PASSWORD="B4EZQAD7HB9YSPZK"
+# PAYPAL_WPP_SIGNATURE="AHh0-xqrPaS38e0xjX6pRc5LW9xJAYFajBsE0WXyhc-6KBtFDJ1VHlP7"
 
 # PAYPAL_URL = 'https://www.sandbox.paypal.com/au/cgi-bin/webscr'
 # PAYPAL_BUSS_EMAIL = 'deepak-facilitator@globalensolutions.com'
