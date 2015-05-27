@@ -130,5 +130,16 @@ class FreeAlert(models.Model):
     alert_city=models.ForeignKey(City, null=False)
     alert_email=models.CharField(max_length=30, null=False)
     alert_mobile=models.CharField(max_length=30, null=False)
+    mail_is_sent=models.BooleanField(default=False)
+    last_email_sent = models.DateTimeField(null=True)
     def __unicode__(self):
         return self.alert_email
+
+    def get_matching_filters(cls, product):
+        ## STEP 1: Match by users search filter
+        print "product.category", product.category
+        print "product.subcategory", product.subcategory
+        print "product.subcategory", product.subcategory
+        qs = FreeAlert.objects.filter(product=product)
+        print "qs", qs
+        return qs

@@ -26,4 +26,9 @@ class WorkerTaskAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Worker, WorkerAdmin)
 admin.site.register(models.WorkerTask, WorkerTaskAdmin)
+admin.site.register(models.UserTracking)
+# admin.site.register(models.NoticeEmailConfig)
+admin.site.register(models.WorkerNoticeEmailTask)
+# admin.site.register(models.ProductEmailTracking)
+
 

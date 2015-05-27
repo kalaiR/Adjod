@@ -4,7 +4,7 @@
 {% block content %}
 <a href="/apidocs/">{% trans "API" %}</a>   
 <a href="/paypal/">{% trans "Paypal" %}</a>  
-
+{{settings.STATIC_ROOT}}
 <button name="button" id="button_click">{% trans "Submit" %}</button>
 <a href="">{{cat}}</a>
 <div class="row row_1">  
@@ -84,7 +84,7 @@
             
             <li class="product_lists">
               <div class="product_image">
-
+                {{settings.STATIC_ROOT}}
                 
                 <a href="" class="">
                 <img src="{{STATIC_ROOT}}/{{recentads.photos|get_photos}}">

@@ -46,7 +46,13 @@ def ipn(request, item_check_callable=None):
         if request.is_secure() and 'secret' in request.GET:
             ipn_obj.verify_secret(form, request.GET['secret'])
         else:
-            ipn_obj.verify(item_check_callable)
+            try:
+                print "try"
+                ipn_obj.verify(item_check_callable)
+            except:
+                print "except"
+                import sys, traceback
+                traceback.print_exc(file=sys.stdout)
 
     ipn_obj.save()
     return HttpResponse("OKAY")

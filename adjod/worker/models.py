@@ -1,6 +1,7 @@
 from django.db import models
 from advertisement.models import *
 from adjod.models import *
+from core import helper
 
 WorkerTaskStatus = (
   ('init', 'Initialized'),
@@ -42,40 +43,42 @@ class WorkerTask(models.Model):
   notes = models.TextField(null=True, blank=True)
   worker_options = models.TextField(null=True, blank=True)
   status = models.CharField(max_length=64, choices=WorkerTaskStatus, default='init')
-
-
   scheduled = models.DateTimeField(blank=True, null=True)
   started = models.DateTimeField(blank=True, null=True)
   completed = models.DateTimeField(blank=True, null=True)
-
   modified = models.DateTimeField(auto_now_add=True, auto_now=True)
 
-# class ProductEmailTracking(models.Model):
-#   product = models.ForeignKey(Product)
-#   # campaign = models.CharField(max_length=256, blank=True, null=True)
-
-#   read_count = models.PositiveIntegerField(default=0, help_text="Number of people opened the email")
-#   view_count = models.PositiveIntegerField(default=0, help_text="Number of people opened the link")
-#   # bounce_count = models.PositiveIntegerField(default=0, help_text="Number of people opened the link but didn't buy")
-#   # success_count = models.PositiveIntegerField(default=0, help_text="Number of people bought the lead")
 
 class UserTracking(models.Model):
-  track_user = models.ForeignKey(UserProfile)
+  track_alert = models.ForeignKey(FreeAlert)
   email_sent_count = models.PositiveIntegerField(default=0, help_text="Total number of email sent to this user")
   email_read_count = models.PositiveIntegerField(default=0, help_text="Number of times user have read an email")
   email_view_count = models.PositiveIntegerField(default=0, help_text="Number of times user have clicked the link")
-
-  # number_of_search = models.PositiveIntegerField(default=0)
-  # number_of_brought = models.PositiveIntegerField(default=0)
-
-  # latest_unread_count = models.PositiveIntegerField(default=0)
-  # latest_visit = models.DateTimeField(null=True)
-  # lastest_email_response = models.DateTimeField(null=True)
-
-  recent_email_fail_count = models.PositiveIntegerField(default=0)
+  recent_email_fail_count = models.PositiveIntegerField(default=0)  
   last_email_sent = models.DateTimeField(null=True)
-  # notice_email_q = models.ManyToManyField(WorkerNoticeEmailTask, blank=True, null=True )
 
-  # rank = models.FloatField(default=0.0, help_text="System generated rank for the user based on his activity")
 
-  
+class WorkerNoticeEmailTask(models.Model):
+
+  task = models.ForeignKey(WorkerTask)
+  created_alert=models.ForeignKey(FreeAlert)
+  product = models.ManyToManyField(Product, null=True, blank=True)  
+  tracking_code = models.CharField(max_length=256, blank=True, null=True)
+  iteration_count = models.PositiveIntegerField(default=0)
+
+
+  # @classmethod
+  # def create(cls, created_alert):
+  #   task = WorkerNoticeEmailTask.objects.filter(created_alert=created_alert)
+  #   if task.count() == 0:
+  #     worker = Worker.objects.get(pk='freealert_notice_email')
+  #     wtask = WorkerTask(worker=worker)
+  #     wtask.save()
+
+  #     task = WorkerNoticeEmailTask(task=wtask, created_alert=created_alert, 
+  #       tracking_code=helper.randomkey(26))
+  #     task.save()
+   
+  def __unicode__(self):
+    return str(self.created_alert.id)
+
