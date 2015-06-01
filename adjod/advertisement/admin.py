@@ -254,11 +254,19 @@ class ProductAdmin(admin.ModelAdmin):
     # readonly_fields =['id']
     list_per_page = 50
 
-admin.site.register(Category,CategoryAdmin)
-admin.site.register(SubCategory, SubCategoryAdmin)
-admin.site.register(City, CityAdmin)
-admin.site.register(Locality, LocalityAdmin)
-admin.site.register(Dropdown, DropdownAdmin)
-admin.site.register(Product, ProductAdmin)
+class PremiumPriceInfoAdmin(admin.ModelAdmin):
+    fields=['premium_price','currency','purpose','month']
+    list_display = ('id', 'premium_price','currency','purpose','month')
+    list_filter = ['premium_price','currency','purpose']
+    search_fields = ['premium_price','currency','purpose']
+    # readonly_fields =['id']
+    list_per_page = 50
+    
+admin.site.register(PremiumPriceInfo, PremiumPriceInfoAdmin)
 admin.site.register(FreeAlert, FreeAlertAdmin)
-
+admin.site.register(Product, ProductAdmin)
+admin.site.register(Dropdown, DropdownAdmin)
+admin.site.register(Locality, LocalityAdmin)
+admin.site.register(City, CityAdmin)
+admin.site.register(SubCategory, SubCategoryAdmin)
+admin.site.register(Category,CategoryAdmin)

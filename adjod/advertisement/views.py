@@ -213,6 +213,7 @@ def product_save(request):
         print "request.user", request.user.id
         if request.user.is_authenticated():
             product.userprofile = UserProfile.objects.get(user_id=request.user.id)
+            product.isregistered_user = True
         else:
             product.userprofile = None 
         
@@ -337,8 +338,18 @@ def product_save(request):
             product.video = request.POST.get('videos1')
             print product.video
        
-        product.created_date   = datetime.datetime.now()
-        product.modified_date   = datetime.datetime.now()
+        product.created_date  = datetime.datetime.now()
+        product.expired_date = product.created_date + datetime.timedelta(days=30)
+        product.modified_date  = datetime.datetime.now()
+        product.status_isactive  = True  
+        # if request.POST['user_subscription']:
+            
+        if product.ispremium_ad == True:
+            product.premium_plan=PremiumPriceInfo.objects.get(id='1') # here 1 replaced with some other value after paypal has complete
+        else:
+            product.premium_plan=None
+
+
         product.save()
         success=True
     
@@ -372,3 +383,21 @@ def freealert(request):
     city=City.objects.all()
     ctx={'category':category, 'city':city}
     return render_to_response('v3/advertisement/freealert.html',ctx,context_instance=RequestContext(request))
+
+def expired_ad_conformation(request):
+    print "expired_ad_conformation"
+    ad_id = request.REQUEST['ad_id']
+    user_id = request.REQUEST['user_id']
+    ad_active = request.REQUEST['ads_active']
+    print ad_id
+    print user_id
+    print ad_active
+    user_and_product = Product.objects.get(id=ad_id,userprofile=user_id)
+    if ad_active == "active":
+        user_and_product.status_isactive= True
+    else:
+        user_and_product.status_isactive= False
+    user_and_product.save()
+
+    return HttpResponseRedirect("/ads/" +ad_id)
+

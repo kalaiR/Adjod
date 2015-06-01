@@ -427,7 +427,7 @@ $( document ).ready(function() {
     // emailerror = "Invalid Email";
     // phoneerror = "Invalid Phone"
   
-    jQuery("#post_ad").submit(function(){ 
+    jQuery("#post").click(function(){ 
     for (i=0;i<required.length;i++) {
       var input = jQuery('#'+required[i]);
       if (input.val() == "")  {
@@ -501,7 +501,6 @@ $( document ).ready(function() {
     //Validate the e-mail.
     if($('#your_email').val() != ''){
     if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#your_email').val())) {
-      alert("test email");
       $('#your_email').addClass("error_input_field");
       $('#your_email').siblings('.labelError').text("Please enter valid email address");
       $('.labelError').show();
@@ -519,9 +518,40 @@ $( document ).ready(function() {
     }
     else{
       return true;
+      $('form[name="post_ad"]').submit();
     }
     });
   });
+    // $("#payment_details").click(function(){
+
+    //     // $.post('https://www.sandbox.paypal.com/cgi-bin/webscr', {value : $('input[name=hidden]').val() });
+
+    //     // var value = $('input[name=hidden]').val();
+    //     // window.location.href = "https://www.sandbox.paypal.com/cgi-bin/webscr" + value;
+    //     var paypalurl="https://www.sandbox.paypal.com/cgi-bin/webscr"+ value;
+    //     $.ajax({
+    //     url: paypalurl,
+    //     data: "message",
+    //     type: 'POST',
+    //     success: function (resp) {
+    //         alert(resp);
+    //     },
+    //     // error: function(e) {
+    //     //     alert('Error: '+e);
+    //     // }  
+    //     });
+    //     return false;
+    // });
+
+    $("#premium_plan1").click(function(){
+      $('form[name="payment_form"]').submit();
+    });
+    
+    function premium_plan(premium_plan_value){
+
+    alert("The premium_plan_value is "+premium_plan_value);
+    }
+
 
       //============= EX POST AD VALIDATION ===========
       $('#post_button').click(function(){

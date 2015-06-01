@@ -30,5 +30,6 @@ admin.site.register(models.UserTracking)
 # admin.site.register(models.NoticeEmailConfig)
 admin.site.register(models.WorkerNoticeEmailTask)
 # admin.site.register(models.ProductEmailTracking)
+admin.site.register(models.ProductExpiredAdTracking)
 
 

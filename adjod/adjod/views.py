@@ -46,6 +46,13 @@ payment_was_successful.connect(show_me_the_money)
 
 def view_that_asks_for_money(request):
 
+    userprofile = UserProfile.objects.get(user_id=request.user.id)
+    if 'transaction=success' in request.REQUEST:
+        userprofile.is_subscribed=True
+    elif 'transaction=error' in request.REQUEST:
+        userprofile.is_subscribed=False
+
+
     # What you want the button to do.
     # paypal_dict = {
     #     # "business": settings.PAYPAL_RECEIVER_EMAIL,
@@ -322,6 +329,8 @@ def autocomplete_brandlist(request):
     for k, v in sorted_dic.iteritems():  
       results.append(v)
   return HttpResponse(simplejson.dumps(results), mimetype='application/json')
+
+
 
 
 

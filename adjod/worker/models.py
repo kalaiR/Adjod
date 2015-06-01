@@ -57,7 +57,6 @@ class UserTracking(models.Model):
   recent_email_fail_count = models.PositiveIntegerField(default=0)  
   last_email_sent = models.DateTimeField(null=True)
 
-
 class WorkerNoticeEmailTask(models.Model):
 
   task = models.ForeignKey(WorkerTask)
@@ -81,4 +80,13 @@ class WorkerNoticeEmailTask(models.Model):
    
   def __unicode__(self):
     return str(self.created_alert.id)
+
+
+class ProductExpiredAdTracking(models.Model):
+  product=models.ForeignKey(Product)
+  email_sent_count=models.PositiveIntegerField(default=0, help_text="Total number of email sent")
+  last_email_sent = models.DateTimeField(null=True)
+
+
+
 

@@ -91,6 +91,15 @@ class Locality(models.Model):
     def __unicode__(self):
         return self.locality
 
+class PremiumPriceInfo(models.Model):
+    premium_price = models.FloatField(null=True, default=0.0)
+    currency=models.CharField(max_length=10)
+    purpose=models.CharField(max_length=30)
+    month=models.IntegerField(null=True, blank=True)
+
+    def __unicode__(self):
+        return self.purpose
+
 class Product(models.Model):
     userprofile=models.ForeignKey(UserProfile, null=True, blank=True)
     # user_id=models.IntegerField(null=True, blank=True)
@@ -115,6 +124,11 @@ class Product(models.Model):
     you_phone = models.CharField(max_length=12, null=True)
     created_date =models.DateField(default=datetime.datetime.now)
     modified_date =models.DateField(default=datetime.datetime.now)
+    isregistered_user=models.BooleanField(default=False)
+    ispremium_ad=models.BooleanField(default=False)
+    premium_plan=models.ForeignKey(PremiumPriceInfo, null=True, blank=True)
+    expired_date=models.DateField(null=True,blank=True)
+    status_isactive=models.BooleanField(default=False)
     
     class Admin:
         pass
@@ -143,3 +157,6 @@ class FreeAlert(models.Model):
         qs = FreeAlert.objects.filter(product=product)
         print "qs", qs
         return qs
+
+
+

@@ -115,6 +115,9 @@ urlpatterns = patterns('',
     url(r'^create_free_alert/$', 'advertisement.views.freealert_save',name='free_alert'),
     url(r'^freealert/$', 'advertisement.views.freealert',name='freealert'),
 
+    # expired_ad_conformation
+    url(r'^expired_ad_conformation/$', 'advertisement.views.expired_ad_conformation',name='expired_ad_conformation'),
+
     
 )
 

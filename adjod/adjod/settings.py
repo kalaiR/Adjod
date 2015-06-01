@@ -263,8 +263,8 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 HAYSTACK_CONNECTIONS = dict(
   default = dict(
     ENGINE = 'searchflow.newsearchsites.FixidoSearchEngine',
-    # URL = 'http://46.4.81.207:9200/',
-    URL = 'http://127.0.0.1:9200/',
+    URL = 'http://46.4.81.207:9200/',
+    # URL = 'http://127.0.0.1:9200/',
     INDEX_NAME = 'adjod'
   )
 )
