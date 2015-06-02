@@ -522,37 +522,21 @@ $( document ).ready(function() {
     }
     });
   });
-    // $("#payment_details").click(function(){
 
-    //     // $.post('https://www.sandbox.paypal.com/cgi-bin/webscr', {value : $('input[name=hidden]').val() });
+  //============= FOR SET PREMIUM PLAN AMOUNT ===========
 
-    //     // var value = $('input[name=hidden]').val();
-    //     // window.location.href = "https://www.sandbox.paypal.com/cgi-bin/webscr" + value;
-    //     var paypalurl="https://www.sandbox.paypal.com/cgi-bin/webscr"+ value;
-    //     $.ajax({
-    //     url: paypalurl,
-    //     data: "message",
-    //     type: 'POST',
-    //     success: function (resp) {
-    //         alert(resp);
-    //     },
-    //     // error: function(e) {
-    //     //     alert('Error: '+e);
-    //     // }  
-    //     });
-    //     return false;
-    // });
-
-    $("#premium_plan1").click(function(){
-      $('form[name="payment_form"]').submit();
+    $('input[name=premium_plan]').click(function(){
+      var premium_id=this.id;    
+      if (premium_id == "premium_plan1")   
+        $('input[name=amount]').val("9.99"); 
+      else if (premium_id == "premium_plan2")   
+        $('input[name=amount]').val("14.99");  
+      else if (premium_id == "premium_plan3")   
+        $('input[name=amount]').val("19.99"); 
+      $('form[name="payment_form"]').submit();    
     });
     
-    function premium_plan(premium_plan_value){
-
-    alert("The premium_plan_value is "+premium_plan_value);
-    }
-
-
+   
       //============= EX POST AD VALIDATION ===========
       $('#post_button').click(function(){
       //Ad type

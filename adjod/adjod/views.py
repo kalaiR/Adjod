@@ -43,14 +43,14 @@ def show_me_the_money(sender, **kwargs):
 
 payment_was_successful.connect(show_me_the_money)
 
-
+@csrf_exempt
 def view_that_asks_for_money(request):
 
-    userprofile = UserProfile.objects.get(user_id=request.user.id)
-    if 'transaction=success' in request.REQUEST:
-        userprofile.is_subscribed=True
-    elif 'transaction=error' in request.REQUEST:
-        userprofile.is_subscribed=False
+    # userprofile = UserProfile.objects.get(user_id=request.user.id)
+    # if 'transaction=success' in request.REQUEST:
+    #     userprofile.is_subscribed=True
+    # elif 'transaction=error' in request.REQUEST:
+    #     userprofile.is_subscribed=False
 
 
     # What you want the button to do.
@@ -72,7 +72,7 @@ def view_that_asks_for_money(request):
     return render_to_response("paypal_integration/payment.html", context_instance=RequestContext(request))
     
 
-
+@csrf_exempt
 def home(request):
     category=Category.objects.all()
     recentad=Product.objects.filter().order_by('-id')[:3]
