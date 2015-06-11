@@ -19,6 +19,7 @@ pip install django-templated-email==0.4.7
 
 python-dateutil==2.4.2
 
+
  
 
 
