@@ -1,9 +1,7 @@
 from django.contrib import admin
 from banner.models import *
 
-
 class SiteBannerAdmin(admin.ModelAdmin):
-
     fields=['banner','link', 'pageurl', 'position']
     list_display = ('id', 'banner','link', 'pageurl', 'position')
     list_filter = ['pageurl', 'position']

@@ -2,60 +2,41 @@ from django.contrib.auth.models import *
 from django.db import models
 from django.forms import ModelForm
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+from haystack.query import SearchQuerySet
+import datetime
 from adjod.models import *
+
 from paypal.standard.ipn.models import PayPalIPN
 from paypal.standard.models import ST_PP_COMPLETED
 from paypal.standard.ipn.signals import payment_was_successful
-import datetime
-from haystack.query import SearchQuerySet
-from django.views.decorators.csrf import csrf_exempt
 
 TYPE = (
     ('buy', 'Buy'),
-    ('sell', 'Sell'),
-   
+    ('sell', 'Sell'),   
 )
 
 CONDITION = (
     ('used', 'Used'),
-    ('new', 'New'),
-   
+    ('new', 'New'),   
 )
 
 YOU=( ('individual','Individual'),('dealer','Dealer'))
-@csrf_exempt
-def show_me_the_money(sender, **kwargs):
-    ipn_obj = sender
-    # You need to check 'payment_status' of the IPN
-
-    if ipn_obj.payment_status == "Completed":
-        # Undertake some action depending upon `ipn_obj`.
-        if ipn_obj.custom == "Upgrade all users!":
-            Users.objects.update(paid=True)
-    
-
-payment_was_successful.connect(show_me_the_money)
-
     
 class Category(models.Model):
-    icon = models.ImageField(upload_to='static/img/', blank=True)
-    
+    icon = models.ImageField(upload_to='static/img/', blank=True)    
     name = models.CharField(max_length=250)
     category_type = models.CharField(max_length=250)
-    
     def __unicode__(self):
         return self.name
 
 class SubCategory(models.Model):
     category = models.ForeignKey(Category) 
     name = models.CharField(max_length=50) 
-    
-    
     def __unicode__(self):
         return self.name
 
-class Dropdown(models.Model):
-    
+class Dropdown(models.Model):    
     subcat=models.ManyToManyField(SubCategory, null=True, blank=True)
     brand_name=models.CharField(max_length=50, blank =True,default='')
     # brand_refid=models.ForeignKey('self', blank=True, null=True)
@@ -66,7 +47,6 @@ class Dropdown(models.Model):
     # os=models.CharField(max_length=50, blank =True,default='')
     # sim=models.CharField(max_length=50, blank =True,default='')
     # alsoinclude=models.CharField(max_length=50, blank =True,default='')
-
     def __unicode__(self):
         return self.brand_name
 
@@ -78,16 +58,21 @@ class Dropdown(models.Model):
 #     def __unicode__(self):
 #         return self.brand_name
 
+class Country(models.Model):
+    code=models.CharField(max_length=50)
+    country=models.CharField(max_length=50)
+    def __unicode__(self):
+        return self.code
+
 class City(models.Model):
     city=models.CharField(max_length=50)
-    
+    country=models.ForeignKey(Country)    
     def __unicode__(self):
         return self.city
 
 class Locality(models.Model):
     city_refid=models.ForeignKey(City,null=True)
     locality=models.CharField(max_length=50)
-    
     def __unicode__(self):
         return self.locality
 
@@ -96,7 +81,6 @@ class PremiumPriceInfo(models.Model):
     currency=models.CharField(max_length=10)
     purpose=models.CharField(max_length=30)
     month=models.IntegerField(null=True, blank=True)
-
     def __unicode__(self):
         return self.purpose
 
@@ -125,14 +109,14 @@ class Product(models.Model):
     created_date =models.DateField(default=datetime.datetime.now)
     modified_date =models.DateField(default=datetime.datetime.now)
     isregistered_user=models.BooleanField(default=False)
-    ispremium_ad=models.BooleanField(default=False)
+    # ispremium=models.BooleanField(default=False)
+    ispremium=models.CharField(max_length=12, null=False)
     premium_plan=models.ForeignKey(PremiumPriceInfo, null=True, blank=True)
     expired_date=models.DateField(null=True,blank=True)
     status_isactive=models.BooleanField(default=False)
-    
+    country=models.ForeignKey(Country, null=True, blank=True)   
     class Admin:
         pass
-  
     def __unicode__(self):
         return self.title
 

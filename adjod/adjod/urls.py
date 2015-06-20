@@ -2,35 +2,31 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from adjod.views import *
 from advertisement.views import *
-from searchflow.views import *
+from search.views import *
 from advertisement.forms import *
 from django.contrib import admin
-from haystack.views import SearchView, FacetedSearchView
-
-# Cusomt Search View
-from searchflow.newadjodsearch import NewAdjodSearchView
-from searchflow.newsearchform import NewProductSearchFilter
-
 from advertisement.models import Product
-from advertisement.searchform import ProductSearchFilter
-from advertisement.fixido_search import AdjodSearchView, AdjodSearchViewSubCategory
+# from haystack.views import SearchView, FacetedSearchView
 
+# Custom Search View
+from search.newadjodsearch import NewAdjodSearchView
+from search.newsearchform import NewProductSearchFilter
+# from advertisement.searchform import ProductSearchFilter
+
+#For language translation
 from django.conf.urls.i18n import i18n_patterns
 from django.utils.translation import ugettext_lazy as _
-# from adworks import views
-# from adworks import models
-
-from django.template.loader import add_to_builtins
-add_to_builtins('advertisement.templatetags.app_filters')
-admin.autodiscover()
-
 js_info_dict = {
     'packages': ('adjod',),
 }
 
-urlpatterns = patterns('',
-    # url(r'^adjod/', include('adjod.foo.urls')),
+#For loading global functions
+from django.template.loader import add_to_builtins
+add_to_builtins('advertisement.templatetags.app_filters')
 
+admin.autodiscover()
+
+urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'adjod.views.home', name='home'),
     
@@ -61,6 +57,7 @@ urlpatterns = patterns('',
     # Paypal
     url(r'^paypal/$', 'adjod.views.view_that_asks_for_money', name='paypal'),
     url(r'^show_me_the_money/$', include('paypal.standard.ipn.urls')),
+    url(r'^notify/$', 'adjod.views.notify', name='notify'),
     
     # Find locality for city when ajax call
     url(r'^localities_for_city/$','advertisement.views.localities_for_city', name='localities_for_city'),
@@ -70,7 +67,7 @@ urlpatterns = patterns('',
     
     # Search & Advance Search     
     url(r'^(?i)search/', NewAdjodSearchView(
-      template='searchflow/newquikr_search_v2.html', 
+      template='search/search.html', 
       form_class=NewProductSearchFilter, 
       #results_per_page=settings.SEARCH_PAGE_NUMBER_OF_LEADS
     ), name='newsearchPageV2'),
@@ -87,29 +84,13 @@ urlpatterns = patterns('',
     
     # Find Brand when ajax call
     url(r'^brand_for_subcategory/$', 'advertisement.views.brand_for_subcategory',name='brand'),
-    
-    # API
-    url(r'^(?i)apidocs/', include('fxapi.urls')),
-    
-    # Default search URL
-    #     url(r'^(?i)search/', AdjodSearchView(
-    #     template='advertisement/quikr_search_v2.html', 
-    #     form_class=ProductSearchFilter), name='searchPageV2'),
 
     # Find Subcategory with pass category dynamically in url
     url(r'^(?i)categories/(?P<pname>.*)/$', 'advertisement.views.sub_category',name='sub_category'),
 
-    # url(r'^product/(?P<name>[\w\+]+)/$', 'crunch.views.product_by_name', name='preview_by_name'),
-    
-    # Search By Category URL
-    # url(r'^(?i)search_by_category/(?P<categoryname>.*)/(?P<subcategoryname>.*)/', AdjodSearchViewSubCategory(
-    #   template='advertisement/quikr_search_v2.html', 
-    #   form_class=ProductSearchFilter), name='searchPageV2'),
-
+    #For language translation
     url(r'^(?i)i18n/', include('django.conf.urls.i18n')),
     url(r'^(?i)jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
-
-    # url(r'^postad/(?P<name>.*)/$', 'advertisement.views.sub_category',name='category_name'),
 
     # save free alert url
     url(r'^create_free_alert/$', 'advertisement.views.freealert_save',name='free_alert'),
@@ -117,11 +98,4 @@ urlpatterns = patterns('',
 
     # expired_ad_conformation
     url(r'^expired_ad_conformation/$', 'advertisement.views.expired_ad_conformation',name='expired_ad_conformation'),
-
-    
 )
-
-# urlpatterns += i18n_patterns('',
-#     # (_(r'^dual-lang/'), include('duallang.urls')),
-#     # (r'^', include('home.urls')),
-# )

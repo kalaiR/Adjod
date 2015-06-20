@@ -1144,25 +1144,16 @@ hr {
     width: 111px;
 }
 .product_image img {
-    height:auto;
-    left:50%;
-    margin-left:6%;
-    margin-top:30%;
-    max-height:100px;
-    max-width:100px;
-    top:50%;
-    width:auto;
-
-
-   /* height: 55px;
-    left: 50%;
+    height: 55px;
+    
     margin-left: -47px;
     margin-top: -29px;
     max-height: 100px;
     max-width: 100px;
     position: absolute;
-    top: 50%;
-    width: auto; */
+    top: 59%;
+    width: auto; 
+    left: 54px;
 }
 .count_holder {
     border-left: 1px solid;
@@ -1306,7 +1297,7 @@ hr {
 		display:inline-block;
 		float:left;
 		margin-right:14px;
-		margin-top: 70px;
+		margin-top: 115px;
 	}
 }
 .refine_results{
@@ -1385,6 +1376,7 @@ input[type="checkbox"] {
   	color:#000;
   	border:1px solid gray;
   	display: inline-block;
+  	top:10px;
 }
 .top_part > p {
 	float: left;
@@ -2232,9 +2224,9 @@ sup , .view_example{
       border-bottom: 1px solid #e2e0e0 !important;
     }
 }
-.btn.btn-default{
+/*.btn.btn-default{
   width: 90px;  
-}
+}*/
 .post_ad_first{
   font-size:25px;
   width:100%;
@@ -2767,4 +2759,63 @@ label >.error { color:red; }
 
 .banner_ad ul li.banneractive {
 	display:block;
+}
+
+/* Banner Ads css */
+
+.left_sidead{
+	 		padding: 11px;
+            width: 145px;
+            /*border:1px solid #29216d;*/
+            position:absolute;
+            right:-50px;
+            text-align:center;
+            top:468px;
+            transform:rotate(270deg);
+}
+.leftslide{
+	/*border: 1px solid #ccc;*/
+    height: 221px;
+    position: absolute;
+    right: 0;
+    top: 481px;
+    width: 165px;
+    display:none;
+    
+}
+.closeimg{
+	background: url("/static/banners/close.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    display: block;
+    height: 10px;
+    position: absolute;
+    right: 6px;
+    top: 10px;
+    width: 10px;
+}
+.leftslide1{
+	/*border: 1px solid #ccc;*/
+    height: 221px;
+    position: absolute;
+    left: -22px;
+    top: 481px;
+    width: 188px;
+    display:none;
+    
+}
+/* set Premium images */
+
+.premium-img{
+	background: url("/static/banners/premium_urgent.jpeg") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+.premium-img1{
+	background: url("/static/banners/premium_urgent.jpeg") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	width:61px;
+	height:65px;
+	position:absolute;
+}
+
+#richmedia_6{
+	margin-top:10px;
 }

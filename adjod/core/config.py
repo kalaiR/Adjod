@@ -1,14 +1,6 @@
 # from django.utils.translation import ugettext_lazy, ugettext as _ 
 # from collections import OrderedDict
 
-
-# ugettext = lambda s: s
-# LANGUAGES = (
-#     ('en', ugettext('English')),
-#     ('fr', ugettext('French')),
-#     ('pl', ugettext('Polish')),
-# )
-
 # COUNTRIES = (           
 # ('','Select'), 
 # ('AF',_('Afghanistan')),

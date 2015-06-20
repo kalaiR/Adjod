@@ -1,47 +1,68 @@
-
-# from adjod.forms import UserForm, UserProfileForm
-from adjod.forms import UserForm
-import logging
+#User verification and token generation when user login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.core.context_processors import csrf 
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
-from django.shortcuts import render_to_response, render, redirect
-from django.core.urlresolvers import reverse
-from django.template import RequestContext
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect, HttpResponse
-from django import forms
 from django.contrib.auth.tokens import default_token_generator
+
+#Different ways of rendering HTML page
+from django.shortcuts import render_to_response, render, redirect
+from django.template import RequestContext
+from django.http import HttpResponseRedirect, HttpResponse
+
+#For text conversion
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext, string_concat
+from django.core.urlresolvers import reverse
+
+#calling local apps such as models, forms, etc..
+from adjod.forms import UserForm
+from django import forms
 from advertisement.models import *
-from advertisement import *
+from banner.models import *
+from templated_email import send_templated_mail
+from adjod.util import *
+
+#Others
+import logging
 import random
 import string
 from urllib import unquote, urlencode, unquote_plus
 from django.conf import settings
-
 from django.utils.encoding import smart_unicode, force_unicode
+from time import time
+
+#Generate JSON documents
 from django.utils import simplejson
 import simplejson as json
 
+#Paypal transaction
 from paypal.standard.forms import PayPalPaymentsForm
-from templated_email import send_templated_mail
-
-from django.views.decorators.csrf import csrf_exempt
 from paypal.standard.ipn.signals import payment_was_successful
-from banner.models import *
 
+# For GEO
+# from django.contrib.gis.geoip import GeoIP
+
+#Paypal transaction definition
 @csrf_exempt
 def show_me_the_money(sender, **kwargs):
+    print "show_me_the_money"
     ipn_obj = sender
+    payStatus=ipn_obj.POST.get('payment_status','')
+    if payStatus=='Completed':
+        print "show_me_the_money1"
     # Undertake some action depending upon `ipn_obj`.
-    if ipn_obj.custom == "Upgrade all users!":
-        User.objects.update(paid=True)        
-
+    # if ipn_obj.custom == "Upgrade all users!":
+    #     User.objects.update(paid=True)        
+print "show_me_the_money2"
 payment_was_successful.connect(show_me_the_money)
+
+def notify(request):
+    print "notify"
+    print "request", request.REQUEST['business']
+    return HttpResponseRedirect("/")
 
 @csrf_exempt
 def view_that_asks_for_money(request):
@@ -51,8 +72,7 @@ def view_that_asks_for_money(request):
     #     userprofile.is_subscribed=True
     # elif 'transaction=error' in request.REQUEST:
     #     userprofile.is_subscribed=False
-
-
+    
     # What you want the button to do.
     # paypal_dict = {
     #     # "business": settings.PAYPAL_RECEIVER_EMAIL,
@@ -66,26 +86,23 @@ def view_that_asks_for_money(request):
     #     # "return_url": "http://46.4.81.207:9000/",
     #     # "cancel_return": "http://46.4.81.207:9000/?transactionfail=error",
     # }
-    # Create the instance.
-    vi = settings.LANGUAGE_CODE
-    print 'test', vi
+
+    # form = PayPalPaymentsForm(initial=paypal_dict)
+    # context = {"form": form}
+    # return render(request, "payment.html", context)
     return render_to_response("paypal_integration/payment.html", context_instance=RequestContext(request))
     
-
+#Home page defintion    
 @csrf_exempt
 def home(request):
     category=Category.objects.all()
     recentad=Product.objects.filter().order_by('-id')[:3]
     path = request.path
     print "path", path 
-    locality =Locality.objects.all()
-    # banner=SiteBanner.objects.all()    
+    locality =Locality.objects.all() 
     return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad, 'locality':locality }, context_instance=RequestContext(request)) 
 
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect("/")
-
+#User login defintion
 @csrf_protect 
 def user_login(request):
     print "user_login"
@@ -115,34 +132,26 @@ def user_login(request):
         # If we have a User object, the details are correct.
         # If None (Python's way of representing the absence of a value), no user
         # with matching credentials was found.
-        if user:
-           
+        if user:           
             # Is the account active? It could have been disabled.
-            if user.is_active:
-                
+            if user.is_active:                
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
                 login(request, user)
                 print user.id
                 user_id=user.id
                 # starturl=reverse('start',kwargs={ 'user_id': user.id })
-                return HttpResponseRedirect('/start/?user_id=' + str(user.id))
-                
+                return HttpResponseRedirect('/start/?user_id=' + str(user.id))               
                 # return HttpResponseRedirect(starturl)
             else:
-                # An inactive account was used - no logging in!
-                
+                # An inactive account was used - no logging in!                
                 error = ugettext('Account disable')
-                return errorHandle(error)
-                
+                return errorHandle(error)               
         else:
-            # Bad login details were provided. So we can't log the user in.
-            
+            # Bad login details were provided. So we can't log the user in.            
             error = ugettext('Invalid user')
             print "error", error
-            return errorHandle(error)
-            
- 
+            return errorHandle(error) 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
     else:
@@ -156,7 +165,7 @@ def user_login(request):
       category=Category.objects.all()
       return render_to_response('adjod/userpage.html', {'category':category}, context_instance=RequestContext(request))
 
-
+#User registration definition
 @csrf_protect
 def register(request):
     # Like before, get the request's context.
@@ -197,10 +206,14 @@ def register(request):
         userprofile.user=user
         userprofile.city=request.POST['city']
         userprofile.mobile=request.POST['your_mobile_number']
+        print "request.COOKIES.get('adjod_language')", request.COOKIES.get('adjod_language')
+        userprofile.language=request.COOKIES.get('adjod_language')
+        print "request.COOKIES.get('country')", request.COOKIES.get('country')
+        userprofile.country=request.COOKIES.get('country')
         
         confirmation_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for x in range(33))
         print confirmation_code
-        p = UserProfile(user=user, city=userprofile.city, mobile=userprofile.mobile, confirmation_code=confirmation_code)
+        p = UserProfile(user=user, city=userprofile.city, mobile=userprofile.mobile, confirmation_code=confirmation_code, language=userprofile.language, country=userprofile.country)
         
         # Now sort out the UserProfile instance.
         # Since we need to set the user attribute ourselves, we set commit=False.
@@ -240,10 +253,9 @@ def register(request):
     #     profile_form = UserProfileForm()
  
     # Render the template depending on the context.
-    return render_to_response('v3/advertisement/quikr_post_v3.html', {'registered': registered},
+    return render_to_response('advertisement/ad_post.html', {'registered': registered},
                                 context_instance=RequestContext(request))
      
-
 def send_registration_confirmation(user):
     p = user.get_profile()
     title = "Adjod account confirmation"
@@ -251,8 +263,7 @@ def send_registration_confirmation(user):
     # content = "http://localhost:8000/confirm/" + str(p.confirmation_code) + "/" + user.username
     send_mail(title, content, 'no-reply@gsick.com', [user.email], fail_silently=False)
 
-def confirm(request, confirmation_code, username):
-    
+def confirm(request, confirmation_code, username):    
     try:
         user = User.objects.get(username=username)
         print user.id
@@ -265,8 +276,7 @@ def confirm(request, confirmation_code, username):
             user.backend='django.contrib.auth.backends.ModelBackend'
             login(request, user)
             print "confirm7"
-        return HttpResponseRedirect('/start/?user_id=' + str(user.id))
-    
+        return HttpResponseRedirect('/start/?user_id=' + str(user.id))    
     except:
         return HttpResponseRedirect('../../../../../')
     
@@ -277,14 +287,6 @@ def start(request):
     print path
     product =Product.objects.all()
     recentad=Product.objects.filter().order_by('-id')[:3]
-    # print "adinfo.photos", recentad.photos
-    # photosgroup=recentad.photos
-    # photo=str(photosgroup)
-    # print "photo", photo
-    # print "photosplit", photo.split(',')
-    # photos=photo.split(',')
-    for recentads in recentad:  
-        print recentads.title
     return render_to_response('adjod/userpage.html',{'category':category,'path':path,'recentad':recentad,'product':product},context_instance=RequestContext(request))
 
 # /*  Auto Complete for Category based Brands */
@@ -305,6 +307,11 @@ def autocomplete_keyword(request):
     for k, v in sorted_dic.iteritems():  
       results.append(v)
   return HttpResponse(simplejson.dumps(results), mimetype='application/json')
+
+#User Logout definition
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect("/")
 
 # /*  Auto Complete for Category based Brands , subCatId='none'*/
 def autocomplete_brandlist(request):  
@@ -329,9 +336,3 @@ def autocomplete_brandlist(request):
     for k, v in sorted_dic.iteritems():  
       results.append(v)
   return HttpResponse(simplejson.dumps(results), mimetype='application/json')
-
-
-
-
-
-

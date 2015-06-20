@@ -1,13 +1,11 @@
 from django.db import models
-
-# Create your models here.
-
-
 POSITION = (
     ('top', 'Top'),
     ('bottom', 'Bottom'),
     ('left', 'Left'),
-    ('right', 'Right'),   
+    ('right', 'Right'), 
+    ('bleft', 'Background-left'),
+    ('bright', 'Background-right'),
 )
 
 class SiteBanner( models.Model ):
@@ -15,6 +13,5 @@ class SiteBanner( models.Model ):
    link= models.CharField(max_length=200, null=True, blank=True)
    pageurl= models.CharField(max_length=50, null=True, blank=True)
    position=models.CharField(max_length=50, null=True, blank=True, choices=POSITION)
-
    def __unicode__(self):
     return self.link

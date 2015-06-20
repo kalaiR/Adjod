@@ -157,9 +157,9 @@
       {% for banners in banner|get_banner %}
       {% if banners.pageurl == '/' and banners.position == 'bottom' %}
       {% if 'start' in request.path %}
-      <li><a class="bannerlink" href="{{banners.link}}" class=""><img class="bannerimage" src="../{{banners.banner}}" style="height:120px;width:970px;"></a></li>
+      <li><a class="bannerlink" href="{{banners.link}}"><img class="bannerimage" src="../{{banners.banner}}" style="height:120px;width:970px;"></a></li>
       {% else %}
-        <li><a class="bannerlink" href="{{banners.link}}" class=""><img class="bannerimage" src="{{banners.banner}}" style="height:120px;width:970px;"></a></li>
+      <li><a class="bannerlink" href="{{banners.link}}"><img class="bannerimage" src="{{banners.banner}}" style="height:120px;width:970px;"></a></li>
       {% endif %}
       {% endif %}
       {% endfor %}

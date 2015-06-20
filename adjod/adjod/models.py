@@ -1,10 +1,11 @@
 from django.contrib.auth.models import User
 from django.db import models
+from advertisement.models import *
 
+#Model for storing user personal details
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)
-
     # The additional attributes we wish to include.
     # website = models.URLField(blank=True)
     # picture = models.ImageField(upload_to='static/img/', blank=True)
@@ -12,12 +13,10 @@ class UserProfile(models.Model):
     mobile=models.CharField(max_length=50)
     confirmation_code=models.CharField(max_length=500)
     is_subscribed=models.BooleanField(default=False)
+    country=models.ForeignKey('advertisement.Country')
+    language=models.CharField(max_length=5)
+    # address=models.OneToOneField(Address)
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
-        return self.user.username
-
-
-    
-    
-    
+        return self.user.username      

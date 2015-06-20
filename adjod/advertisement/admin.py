@@ -1,5 +1,4 @@
 from django import forms
-# from advertisement.forms import DropdownForm
 from django.forms import widgets
 from django.forms.util import flatatt
 from django.utils.encoding import smart_unicode
@@ -17,8 +16,6 @@ from django.http import HttpResponse, Http404
 #         model = Dropdown   
 #     brand_refid = forms.ModelChoiceField(queryset=Dropdown.objects.exclude(brand_name=''), required=False)
 #     # brand_refid = forms.ModelChoiceField(queryset=Dropdown.objects.exclude(brand_name=''), empty_label=None)
-
-    
 
 # class NoteInline(admin.StackedInline):
 #     brand_refid = forms.ModelChoiceField(queryset=Dropdown.objects, empty_label=None)
@@ -111,70 +108,65 @@ from django.http import HttpResponse, Http404
         
 #     actions = [export_csv]
 
-    
+# class LocalityChoiceWidget(widgets.Select):
+#     def render(self, name, value, attrs=None, choices=()):
+#         self.choices = [(u"", u"---------")]
+#         if value is None:
+#             # if no municipality has been previously selected,
+#             # render either an empty list or, if a county has
+#             # been selected, render its municipalities
+#             value = ''
+#             model_obj = self.form_instance.instance
+#             if model_obj and model_obj.city:
+#                 for m in model_obj.city.locality_set.all():
+#                     self.choices.append((m.id, smart_unicode(m)))
+#         else:
+#             # if a municipality X has been selected,
+#             # render only these municipalities, that belong
+#             # to X's county
+#             obj = Locality.objects.get(id=value)
+# 
+#             for m in Locality.objects.filter(city=obj.city):
+# 
+#                 self.choices.append((m.id, smart_unicode(m)))
+# 
+#         # copy-paste from widgets.Select.render
+#         final_attrs = self.build_attrs(attrs, name=name)
+#         output = [u'<select%s>' % flatatt(final_attrs)]
+#         options = self.render_options(choices, [value])
+#         if options:
+#             output.append(options)
+#         output.append('</select>')
+#         return mark_safe(u'\n'.join(output))
 
-
-class LocalityChoiceWidget(widgets.Select):
-    def render(self, name, value, attrs=None, choices=()):
-        self.choices = [(u"", u"---------")]
-        if value is None:
-            # if no municipality has been previously selected,
-            # render either an empty list or, if a county has
-            # been selected, render its municipalities
-            value = ''
-            model_obj = self.form_instance.instance
-            if model_obj and model_obj.city:
-                for m in model_obj.city.locality_set.all():
-                    self.choices.append((m.id, smart_unicode(m)))
-        else:
-            # if a municipality X has been selected,
-            # render only these municipalities, that belong
-            # to X's county
-            obj = Locality.objects.get(id=value)
-
-            for m in Locality.objects.filter(city=obj.city):
-
-                self.choices.append((m.id, smart_unicode(m)))
-
-        # copy-paste from widgets.Select.render
-        final_attrs = self.build_attrs(attrs, name=name)
-        output = [u'<select%s>' % flatatt(final_attrs)]
-        options = self.render_options(choices, [value])
-        if options:
-            output.append(options)
-        output.append('</select>')
-        return mark_safe(u'\n'.join(output))
-
-
-
-class ModelChoiceWidget(widgets.Select):
-    def render(self, name, value, attrs=None, choices=()):
-        self.choices = [(u"", u"---------")]
-        if value is None:
-            # if no municipality has been previously selected,
-            # render either an empty list or, if a county has
-            # been selected, render its municipalities
-            value = ''
-            model_obj = self.form_instance.instance
-            if model_obj and model_obj.brand_name:
-                for m in model_obj.brand_name.model_set.all():
-                    self.choices.append((m.id, smart_unicode(m)))
-        else:
-            # if a municipality X has been selected,
-            # render only these municipalities, that belong
-            # to X's county
-            obj = Dropdown.objects.get(id=value)
-            for m in Dropdown.objects.filter(brand_name=obj.brand):
-                self.choices.append((m.id, smart_unicode(m)))
-
-        # copy-paste from widgets.Select.render
-        final_attrs = self.build_attrs(attrs, name=name)
-        output = [u'<select%s>' % flatatt(final_attrs)]
-        options = self.render_options(choices, [value])
-        if options:
-            output.append(options)
-        output.append('</select>')
-        return mark_safe(u'\n'.join(output))
+# class ModelChoiceWidget(widgets.Select):
+#     def render(self, name, value, attrs=None, choices=()):
+#         self.choices = [(u"", u"---------")]
+#         if value is None:
+#             # if no municipality has been previously selected,
+#             # render either an empty list or, if a county has
+#             # been selected, render its municipalities
+#             value = ''
+#             model_obj = self.form_instance.instance
+#             if model_obj and model_obj.brand_name:
+#                 for m in model_obj.brand_name.model_set.all():
+#                     self.choices.append((m.id, smart_unicode(m)))
+#         else:
+#             # if a municipality X has been selected,
+#             # render only these municipalities, that belong
+#             # to X's county
+#             obj = Dropdown.objects.get(id=value)
+#             for m in Dropdown.objects.filter(brand_name=obj.brand):
+#                 self.choices.append((m.id, smart_unicode(m)))
+# 
+#         # copy-paste from widgets.Select.render
+#         final_attrs = self.build_attrs(attrs, name=name)
+#         output = [u'<select%s>' % flatatt(final_attrs)]
+#         options = self.render_options(choices, [value])
+#         if options:
+#             output.append(options)
+#         output.append('</select>')
+#         return mark_safe(u'\n'.join(output))
 
 # class ProductAdmin(admin.ModelAdmin):
 #     form = ProductForm
@@ -182,12 +174,7 @@ class ModelChoiceWidget(widgets.Select):
 #         js = ('http://ajax.googleapis.com/ajax/libs/jquery/1.4.0/jquery.min.js',
 #                 '/static/js/action.js')
 
-
-
-# BrandAdmin Class is used to set fields which we display in admin and also set search and filter fields
-
 class CategoryAdmin(admin.ModelAdmin):
-
     fields=['icon','name','category_type']
     list_display = ('id', 'icon','name','category_type')
     list_filter = ['name','category_type']
@@ -196,7 +183,6 @@ class CategoryAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 class SubCategoryAdmin(admin.ModelAdmin):
-
     fields=['category','name']
     list_display = ('id', 'category','name')
     list_filter = ['name']
@@ -205,8 +191,7 @@ class SubCategoryAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 class CityAdmin(admin.ModelAdmin):
-
-    fields=['city']
+    fields=['city','country']
     list_display = ('id', 'city')
     list_filter = ['city']
     search_fields = ['id', 'city']
@@ -214,7 +199,6 @@ class CityAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 class LocalityAdmin(admin.ModelAdmin):
-
     fields=['city_refid','locality']
     list_display = ('id', 'city_refid','locality')
     list_filter = ['locality']
@@ -223,7 +207,6 @@ class LocalityAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 class DropdownAdmin(admin.ModelAdmin):
-
     fields=['brand_name','subcat']
     list_display = ('id', 'brand_name','get_brand_subcategory' )
     list_filter = ['brand_name']
@@ -235,7 +218,6 @@ class DropdownAdmin(admin.ModelAdmin):
         return "\n".join([p.subcategory for p in obj.brand_subcategory.all()])
 
 class FreeAlertAdmin(admin.ModelAdmin):
-
     fields=['alert_user','alert_category', 'alert_subcategory', 'alert_brand', 'alert_city', 'alert_email', 'alert_mobile']
     list_display = ('id', 'alert_user','alert_category', 'alert_subcategory', 'alert_brand', 'alert_city', 'alert_email', 'alert_mobile')
     list_filter = ['alert_email', 'alert_mobile']
@@ -244,7 +226,6 @@ class FreeAlertAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 class ProductAdmin(admin.ModelAdmin):
-
     fields=['userprofile','category', 'subcategory', 'adtype', 'title', 'photos', 'video','condition', 'price', 
             'ad_brand','ad_year','city', 'locality', 'description', 'you_are', 'you_email','you_phone','created_date','modified_date']
     list_display = ('id', 'userprofile','category', 'subcategory', 'adtype', 'title', 'photos', 'thumbnail', 'imagecount', 'video','condition', 'price', 
@@ -270,3 +251,4 @@ admin.site.register(Locality, LocalityAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(SubCategory, SubCategoryAdmin)
 admin.site.register(Category,CategoryAdmin)
+admin.site.register(Country)

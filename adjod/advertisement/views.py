@@ -1,48 +1,56 @@
+#User verification and token generation when user login
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, logout
+from django.core.context_processors import csrf, request 
+from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.tokens import default_token_generator
 
+#Project apps functionalities
 from advertisement.models import *
 from advertisement.forms import *
 from adjod.forms import *
 from adjod.models import *
 from advertisement.views import *
+from advertisement.forms import ProductSearchForm
+from banner.models import *
+from djpjax import pjax
+
+#Others
 import logging
 import pprint
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
-from django.core.context_processors import csrf, request 
-from django.views.decorators.csrf import csrf_protect
-from django.shortcuts import render_to_response, render
 from django.core.urlresolvers import reverse
 from django.template import *
-from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect, HttpResponse
-from django import forms
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext, string_concat
 from django import template
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from advertisement.forms import ProductSearchForm
+from django import forms
 from django.core.files import File
 import os
 from urllib import unquote, urlencode, unquote_plus
 from haystack.inputs import AutoQuery, Exact, Clean
 import datetime
-from django.utils.encoding import smart_unicode, force_unicode
-from django.utils import simplejson
 from haystack.query import SearchQuerySet
 from django.db.models import Q
-import simplejson as json
-from haystack.query import SearchQuerySet
-from urlparse import urlparse
-from os.path import splitext, basename
 import random
-from banner.models import *
-from djpjax import pjax
-from django.template.response import TemplateResponse
 from django.test.client import RequestFactory
 from django.views.generic import View
+
+#Different ways of rendering HTML page
+from django.shortcuts import render_to_response, render
+from django.http import HttpResponseRedirect, HttpResponse
+from django.template.response import TemplateResponse
+
+#Language and text Translation
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext, string_concat
+from django.utils.encoding import smart_unicode, force_unicode
+from urlparse import urlparse
+from os.path import splitext, basename
+
+from django.utils import simplejson
+import simplejson as json
+
 # A couple of request objects - one PJAX, one not.
 rf = RequestFactory()
 regular_request = rf.get('/')
@@ -59,19 +67,15 @@ pjax_request = rf.get('/', HTTP_X_PJAX=True)
 #     json = simplejson.dumps(slide_show_randomIMG)
 #     return HttpResponse(json, mimetype='application/javascript')
 
-# from django.conf import settings; settings.configure()
-
+# Definition for view front end design
 def product_form_v3(request):
-    
     return render_to_response('v3/advertisement/quikr_post_v3.html' , context_instance=RequestContext(request))
 
 def post_ad_v2(request):
-    
     return render_to_response('v2/advertisement/quikr_post_v2.html' , context_instance=RequestContext(request))
 
 def ad_detail_v3(request):
-    
-    return render_to_response('v3/advertisement/ad_detail_v3.html' , context_instance=RequestContext(request))
+    return render_to_response('advertisement/ad_detail_v3.html' , context_instance=RequestContext(request))
 
 class JSONResponse(HttpResponse):
     def __init__(self, data):
@@ -104,11 +108,8 @@ def localities_for_city(request):
 def subcategory_for_category(request):
     print "subcategory_for_category"
     if request.is_ajax() and request.GET and 'category_id' in request.GET:
-        print request.GET['category_id'] 
-        
+        print request.GET['category_id']         
         objs1 = SubCategory.objects.filter(category_id=request.GET['category_id'])
-
-        
         return JSONResponse([{'id': o1.id, 'name': smart_unicode(o1.name)}
             for o1 in objs1])
     else:
@@ -118,13 +119,10 @@ def brand_for_subcategory(request):
     print "brand_for_subcategory"
     if request.is_ajax() and request.GET and 'sub_category_id' in request.GET:
         print request.GET['sub_category_id'] 
-        
         # objs1 = Dropdown.objects.filter(subcat_refid=request.GET['sub_category_id']).exclude(brand_name='')
         objs1 = Dropdown.objects.filter(subcat__id=request.GET['sub_category_id'])
         for obj in objs1:
-            print obj.brand_name
-
-        
+            print obj.brand_name        
         return JSONResponse([{'id': o1.id, 'name': smart_unicode(o1.brand_name)}
             for o1 in objs1])
     else:
@@ -134,8 +132,6 @@ def sub_category(request, pname=None):
     print pname
     cat=Category.objects.get(name=pname)
     print cat.id
-    # if 'q' in request.REQUEST and unicode(request.REQUEST['q']).isdigit():
-    #     return AdjodSearchViewCategory()
     subcategory = SubCategory.objects.filter(category_id=cat.id)
     for subcategory1 in subcategory:
         print subcategory1.name
@@ -163,8 +159,9 @@ def product_detail(request, pk):
     results = SearchQuerySet().all()
     sqs = SearchQuerySet().filter(content=adinfo)
     sqsresults = [ r.pk for r in sqs ]
+    print "sqsresults", sqsresults
     recommendresults = Product.objects.exclude(pk=int(pk)).filter(pk__in=sqsresults)
-    print recommendresults
+    print "recommendresults", recommendresults
     for recommendresult in recommendresults:
         print "searchresults:", recommendresult
     path=request.path
@@ -172,9 +169,9 @@ def product_detail(request, pk):
     
     recentad=Product.objects.filter().order_by('-id')[:3]
     ctx={'adinfo':adinfo, 'photos':photos,'largephoto':largephoto, 'path':path,'recommendresults':recommendresults}    
-    # return render_to_response('v3/advertisement/ad_detail_v3.html',ctx, context_instance=RequestContext(request))
+    # return render_to_response('advertisement/ad_detail.html',ctx, context_instance=RequestContext(request))
     
-    return TemplateResponse(request, 'v3/advertisement/ad_detail_v3.html', ctx)
+    return TemplateResponse(request, 'advertisement/ad_detail.html', ctx)
 
 @pjax("pjax.html")
 def product_form(request, name=None, subname=None):
@@ -187,8 +184,8 @@ def product_form(request, name=None, subname=None):
     dropdown=Dropdown.objects.all()
     city=City.objects.all()
     ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
-    # return render_to_response('v3/advertisement/quikr_post_v3.html', ctx , context_instance=RequestContext(request))
-    return TemplateResponse(request, 'v3/advertisement/quikr_post_v3.html', ctx)
+    # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
+    return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
 
 def product_save(request):
     print "product_save"   
@@ -344,17 +341,17 @@ def product_save(request):
         product.status_isactive  = True  
         # if request.POST['user_subscription']:
             
-        if product.ispremium_ad == True:
+        if product.ispremium == True:
             product.premium_plan=PremiumPriceInfo.objects.get(id='1') # here 1 replaced with some other value after paypal has complete
         else:
             product.premium_plan=None
 
-
+        product.country=Country.objects.get(id=1)
         product.save()
         success=True
     
     ctx = {'success':success,'emailerror':emailerror}
-    # return render_to_response('v3/advertisement/quikr_post_v3.html',ctx , context_instance=RequestContext(request))
+    # return render_to_response('advertisement/ad_post.html',ctx , context_instance=RequestContext(request))
     if emailerror:
         print "emailerror"
         return HttpResponseRedirect('/postad/?er=emailerror')       
@@ -382,7 +379,7 @@ def freealert(request):
     category = Category.objects.all()
     city=City.objects.all()
     ctx={'category':category, 'city':city}
-    return render_to_response('v3/advertisement/freealert.html',ctx,context_instance=RequestContext(request))
+    return render_to_response('advertisement/ad_freealert.html',ctx,context_instance=RequestContext(request))
 
 def expired_ad_conformation(request):
     print "expired_ad_conformation"
@@ -400,4 +397,3 @@ def expired_ad_conformation(request):
     user_and_product.save()
 
     return HttpResponseRedirect("/ads/" +ad_id)
-

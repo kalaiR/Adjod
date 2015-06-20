@@ -1,0 +1,33 @@
+
+.upperimg img {
+    height: 282px;
+    left: 24px;
+    position: relative;
+    top: 24px;
+    width: 302px;
+}
+.thumbs img {
+    border: 1px solid;
+    height: 61px;
+    left: 35px;
+    position: relative;
+    width: 64px;
+}
+.container1 {
+    border: 1px solid;
+    height: 350px;
+    width: 350px;
+    margin-top: 26px;
+}
+.thumbs img:hover {
+    border: 1px solid blue;
+}
+.img {
+    background: url("http://teja1.kuikr.com/images/Quikr_Sprite.1432102322.png") no-repeat scroll 0 0 transparent;
+    height: 75px;
+
+    position: absolute;
+
+    width: 79px;
+    z-index: 2;
+}

@@ -770,7 +770,24 @@ $( document ).ready(function() {
       var string =gettext('hello');
       alert(string);
     });
- 
+
+  $(".left_sidead").click(function(){
+    $(".left_sidead").hide();
+    $(".leftslide").show();
+    $(".leftslide1").show();
+  });
+  
+  $(".closeimg").click(function(){
+    $(".leftslide").hide();
+    $(".left_sidead").show();
+    $(".leftslide1").hide();
+  });
+
+  // image align center//
+  // var theHeight = $(".product_image img").height();//image center
+  // var theWidth = $(".product_image img").width();
+  // $(".product_image img").css({'margin-top': -theHeight / 2 + "px", 'margin-left': -theWidth / 2 + "px"});
+      /*End*/
 
 });
 

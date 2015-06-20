@@ -5,6 +5,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from paypal.standard.ipn.forms import PayPalIPNForm
 from paypal.standard.ipn.models import PayPalIPN
+from adjod.views import show_me_the_money
  
  
 @require_POST
@@ -51,10 +52,12 @@ def ipn(request, item_check_callable=None):
             try:
                 print "try"
                 ipn_obj.verify(item_check_callable)
+                print "ipn_obj", ipn_obj
             except:
                 print "except"
                 import sys, traceback
                 traceback.print_exc(file=sys.stdout)
 
     ipn_obj.save()
+    s_m_t_m=show_me_the_money(request, item_check_callable=None)
     return HttpResponseRedirect("/")

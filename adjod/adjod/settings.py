@@ -1,10 +1,10 @@
-
 # Django settings for adjod project.
 import os
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 from django.conf.urls import patterns, include, url
 import smtplib
 from django.utils.translation import ugettext_lazy, ugettext as _
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -34,13 +34,13 @@ TIME_ZONE = 'America/Chicago'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en'
+LANGUAGE_COOKIE_NAME = 'adjod_language'
 
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
-
 
 # gettext = lambda s: s
 # LANGUAGES = (
@@ -49,21 +49,21 @@ USE_I18N = True
 # )
 
 
-LANGUAGES = (
-  ('en', _('English')),
-  ('en-UK', _('English - United Kingdom')),
-  ('sv', _('Swedish')),
-  ('da', _('Danish')),
-  ('fi', _('Finish')),
-  ('fr', _('French')),
-  ('de', _('German')),
-  ('it', _('Italian')),
-  ('nn', _('Norwegian')),
-  ('pl', _('Polish')),
-  ('pt', _('Portuguese')),
-  ('ru', _('Russian')),
-  ('se', _('Spanish')), 
-)
+# LANGUAGES = (
+#   ('en', _('English')),
+#   ('en-UK', _('English - United Kingdom')),
+#   ('sv', _('Swedish')),
+#   ('da', _('Danish')),
+#   ('fi', _('Finish')),
+#   ('fr', _('French')),
+#   ('de', _('German')),
+#   ('it', _('Italian')),
+#   ('nn', _('Norwegian')),
+#   ('pl', _('Polish')),
+#   ('pt', _('Portuguese')),
+#   ('ru', _('Russian')),
+#   ('se', _('Spanish')), 
+# )
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -104,8 +104,6 @@ STATICFILES_DIRS = (
     os.path.join(os.path.dirname(__file__), '../static'),
 )
 
-
-
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
@@ -133,14 +131,11 @@ MIDDLEWARE_CLASSES = (
     'pagination.middleware.PaginationMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+#     'adjod.middleware.Global',
     
     # 'templatetags.app_filters.get_photos',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    
-
-
 )
 
 TEMPLATE_CONTEXT_PROCESSORS += (
@@ -152,12 +147,10 @@ TEMPLATE_CONTEXT_PROCESSORS += (
      'django.core.context_processors.i18n',
      'django.core.context_processors.csrf',  
      'django.core.context_processors.media',
-     'django.core.context_processors.debug',
-     
+     'django.core.context_processors.debug',     
 )
 
-
-
+#set the Language tranlation path for accessing .po file
 LOCALE_PATHS = (
     os.path.join(os.path.dirname(__file__), '../locale'),
 )
@@ -176,7 +169,6 @@ TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), '../templates'),
 )
 
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -190,21 +182,13 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'adjod',
     'advertisement',
-    'searchflow',
-    # 'south',
+    'search',
     'haystack',
-    # 'thumbnailfield',
-    # 'thumbnail_works'
-    # 'easy_thumbnails',
     # 'communication',
     # 'smsverify',
-    # 'hstest.apps.notes',
     # 'rollyourown.seo',
    'paypal.standard.ipn',
-   'services',
-    # 'rest_framework',
-   'fxapi',
-   'django_nose',
+   #  'django_nose',
    'worker',
    'banner'
 )
@@ -212,67 +196,44 @@ INSTALLED_APPS = (
 TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
 
 # PAYPAL_RECEIVER_EMAIL = "kalaimca.gs-facilitator@gmail.com"
-
 # PAYPAL_TEST = True
-
 # PAYPAL_WPP_USER="kalaimca.gs-facilitator_api1.gmail.com"
 # PAYPAL_WPP_PASSWORD="E5K4SG8QVGCDNHCB"
 # PAYPAL_WPP_SIGNATURE="An5ns1Kso7MWUdW4ErQKJJJ4qi4-AGHrwon-aVUnmGFr91HclSLKbD9i"
-
 # # PAYPAL_NOTIFY_URL = "URL_ROOT/charge/difficult_to_guess"
 # # PAYPAL_RETURN_URL = "URL_ROOT/charge/return/"
 # # PAYPAL_CANCEL_URL = "URL_ROOT/charge/cancel/"
-
 # # PAYPAL_URL = 'https://www.paypal.com/cgi-bin/webscr'
 # # PAYPAL_BUSS_EMAIL = 'kalaimca.gs@gmail.com'
-
 # SANDBOX_URL = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
 # SANDBOX_BUSS_EMAIL = 'kalaimca.gs@gmail.com'
 
 PAYPAL_TEST = True
 
-# PAYPAL_WPP_USER="deepakkuppusamy.gs_api1.gmail.com"
-# PAYPAL_WPP_PASSWORD="B4EZQAD7HB9YSPZK"
-# PAYPAL_WPP_SIGNATURE="AHh0-xqrPaS38e0xjX6pRc5LW9xJAYFajBsE0WXyhc-6KBtFDJ1VHlP7"
-
-# PAYPAL_URL = 'https://www.sandbox.paypal.com/au/cgi-bin/webscr'
-# PAYPAL_BUSS_EMAIL = 'deepak-facilitator@globalensolutions.com'
-
-# PAYPAL_NOTIFY_URL = "URL_ROOT/charge/difficult_to_guess"
-# PAYPAL_RETURN_URL = "URL_ROOT/charge/return/"
-# PAYPAL_CANCEL_URL = "URL_ROOT/charge/cancel/"
-
-# PAYPAL_URL = 'https://www.paypal.com/cgi-bin/webscr'
-# PAYPAL_BUSS_EMAIL = 'kalaimca.gs@gmail.com'
-
-# 
-
 PAYPAL_RECEIVER_EMAIL = "deepakkuppusamy.gs@gmail.com"
 
+#Sandbox url For testing
 SANDBOX_URL = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
 SANDBOX_BUSS_EMAIL = 'deepakkuppusamy.gs@gmail.com'
 
-THUMBNAIL_ALIASES = {
-    '': {
-        'avatar': {'size': (50, 50), 'crop': True},
-    },
-}
-
+#Paypal URL for Live
+# PAYPAL_URL = 'https://www.paypal.com/cgi-bin/webscr'
+# PAYPAL_BUSS_EMAIL = 'kalaimca.gs@gmail.com'
 
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 HAYSTACK_CONNECTIONS = dict(
   default = dict(
-    ENGINE = 'searchflow.newsearchsites.FixidoSearchEngine',
-    URL = 'http://46.4.81.207:9200/',
-    # URL = 'http://127.0.0.1:9200/',
+    ENGINE = 'search.searchsites.AdjodSearchEngine',
+    # URL = 'http://46.4.81.207:9200/',
+    URL = 'http://127.0.0.1:9200/',
     INDEX_NAME = 'adjod'
   )
 )
 
-# HAYSTACK_CUSTOM_HIGHLIGHTER ='fixido.haystack.utils.Highlighter'
 HAYSTACK_CUSTOM_HIGHLIGHTER ='adjod.search_sites.SearchHighlighter'
 
 # SEARCH_PAGE_NUMBER_OF_LEADS = 70
+
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL = '/login_error/'
@@ -311,14 +272,11 @@ LOGGING = {
     }
 }
 
+# settings for SMS verification
 TWILIO_ACCOUNT_SID = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 TWILIO_AUTH_TOKEN = 'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY'
 
 AUTH_PROFILE_MODULE = 'adjod.UserProfile'
-
-# LOGIN_REDIRECT_URL = '/registration/welcome/'
-# LOGIN_URL = '/registration/login/'
-# LOGOUT_URL = '/registration/logout/'
 
 ACCOUNT_ACTIVATION_DAYS = 1
 
@@ -329,111 +287,8 @@ EMAIL_HOST_USER = 'testmail123sample@gmail.com'
 EMAIL_HOST_PASSWORD = 'testmail123'
 EMAIL_PORT = 587
 
-# ELASTICSEARCH_INDEX_SETTINGS = {
-#     'settings': {
-#         "analysis": {
-#             "analyzer": {
-#                 "synonym_analyzer" : {
-#                     "type": "custom",
-#                     "tokenizer" : "standard",
-#                     "filter" : ["synonym"]
-#                 },
-#                 "ngram_analyzer": {
-#                     "type": "custom",
-#                     "tokenizer": "lowercase",
-#                     "filter": ["haystack_ngram", "synonym"]
-#                 },
-#                 "edgengram_analyzer": {
-#                     "type": "custom",
-#                     "tokenizer": "lowercase",
-#                     "filter": ["haystack_edgengram"]
-#                 }
-#             },
-#             "tokenizer": {
-#                 "haystack_ngram_tokenizer": {
-#                     "type": "nGram",
-#                     "min_gram": 2,
-#                     "max_gram": 15,
-#                 },
-#                 "haystack_edgengram_tokenizer": {
-#                     "type": "edgeNGram",
-#                     "min_gram": 2,
-#                     "max_gram": 15,
-#                     "side": "front"
-#                 }
-#             },
-#             "filter": {
-#                 "haystack_ngram": {
-#                     "type": "nGram",
-#                     "min_gram": 2,
-#                     "max_gram": 15
-#                 },
-#                 "haystack_edgengram": {
-#                     "type": "edgeNGram",
-#                     "min_gram": 2,
-#                     "max_gram": 15
-#                 },
-#                 "synonym" : {
-#                     "type" : "synonym",
-#                     "ignore_case": "true",
-#                     "synonyms_path" : "synonyms.txt"
-#                 }
-#             }
-#         }
-#     }
-# }
-
-# ELASTICSEARCH_DEFAULT_ANALYZER = 'synonym_analyzer'
-
-# ELASTICSEARCH_INDEX_SETTINGS={
-# "index":{
-# "analysis":{
-#     "analyzer":{
-#         "default_index":{
-#             "tokenizer": "standard"
-#             "filter": ["standard", "stop", "edgeNGram"]
-#         }
-#         "default_search":{
-#             "tokenizer": "standard"
-#             "filter": ["standard", "stop"]
-#         }   
-#     },   
-#     "filter":{
-#         "edgeNGram":
-#             "type": "nGram"
-#             "min_gram": 1
-#             "max_gram": 10
-#     }
-# }
-# }
-# }
-
-
-# ELASTICSEARCH_INDEX_SETTINGS = {
-#         "settings" : {
-#             "analysis" : {
-#                 "analyzer" : {
-#                     "my_ngram_analyzer" : {
-#                         "tokenizer" : "my_ngram_tokenizer"
-#                     }
-#                 },
-#                 "tokenizer" : {
-#                     "my_ngram_tokenizer" : {
-#                         "type" : "nGram",
-#                         "min_gram" : 1,
-#                         "max_gram" : 100,
-#                         "token_chars": [ "letter", "digit" ]
-#                     }
-#                 }
-#             }
-#         }
-#     }
-
-# ELASTICSEARCH_DEFAULT_ANALYZER = 'my_ngram_analyzer'
-
-# ELASTICSEARCH_DEFAULT_TOKENIZER = 'my_ngram_tokenizer'
-
 SEO_MODEL_REGISTRY = (
     ('test_project.MyMetadata', ('template_test', )),
-
 )
+
+# GEOIP_PATH = os.path.join(os.path.dirname(__file__), '../static/geoip/')
