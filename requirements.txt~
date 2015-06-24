@@ -3,6 +3,7 @@ pip install MySQL-python==1.2.3
 pip install django-social-auth==0.7.17
 pip install pyelasticsearch==0.5
 pip install django-haystack==2.0.0
+pip install django-gination==1.0.5
 pip install django-thumbnailfield
 pip install curl 
 pip install django-pagination==1.0.7
@@ -21,6 +22,7 @@ python-dateutil==2.4.2
 pip install ipsetter
 
 pip install BeautifulSoup==3.2.0
+pip install django-nose==1.4
 
  
 

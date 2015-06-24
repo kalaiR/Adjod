@@ -5,7 +5,7 @@ from models import Product
 from models import *
 # from core.config import COUNTRIES_DICT
 from django.db.models import F
-from adjod.search_sites import *
+from search.searchsites import *
 from django.contrib.auth.models import User
 from advertisement.models import *
 from haystack.management.commands import update_index

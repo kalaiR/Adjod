@@ -9,8 +9,8 @@ from advertisement.models import Product
 # from haystack.views import SearchView, FacetedSearchView
 
 # Custom Search View
-from search.newadjodsearch import NewAdjodSearchView
-from search.newsearchform import NewProductSearchFilter
+from search.adjodsearch import AdjodSearchView
+from search.searchform import ProductSearchFilter
 # from advertisement.searchform import ProductSearchFilter
 
 #For language translation
@@ -66,9 +66,9 @@ urlpatterns = patterns('',
     url(r'^(?i)autocomplete_keyword/$', 'adjod.views.autocomplete_keyword', name='autocomplete_keyword'),
     
     # Search & Advance Search     
-    url(r'^(?i)search/', NewAdjodSearchView(
+    url(r'^(?i)search/', AdjodSearchView(
       template='search/search.html', 
-      form_class=NewProductSearchFilter, 
+      form_class=ProductSearchFilter, 
       #results_per_page=settings.SEARCH_PAGE_NUMBER_OF_LEADS
     ), name='newsearchPageV2'),
      

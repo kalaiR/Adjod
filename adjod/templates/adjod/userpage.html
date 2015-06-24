@@ -25,52 +25,36 @@
   </a>
 </div>      
 <div class="row row_1">  
-{% if '/' in path %} 
-{% for categories in category %}  
-        {% if forloop.counter0|divisibleby:4 %}
-         <div class="col-md-4">
-          <ul class="category">
-          {% endif %}
-            <li class="{% if categories.id == 1 %} sub_category {% elif categories.id == 2 %} sub_category1
-            {% elif categories.id == 3 %} sub_category2 {% elif categories.id == 4 %} sub_category3
-            {% elif categories.id == 5 %} sub_category4 {% elif categories.id == 6 %} sub_category5 
-            {% elif categories.id == 7 %} sub_category6 {% elif categories.id == 8 %} sub_category7
-            {% elif categories.id == 9 %} sub_category8 {% elif categories.id == 10 %} sub_category9
-            {% elif categories.id == 11 %} sub_category10 {% elif categories.id == 12 %} sub_category11
-            {% endif %}">
-            <a href="/addproduct/" class=""><code></code></a>
-              <div>
-              
-              <a href="{%url sub_category categories.name%}" class=""><h4>{% trans categories.name %}</h4></a>
+    
+        {% if '/' in path %} 
+        {% for categories in category %}  
+                {% if forloop.counter0|divisibleby:4 %}
+                <div class="col-md-4">
+                        <ul class="category">
+                        {% endif %}
+                          <li class="{% if categories.id == 1 %} sub_category {% elif categories.id == 2 %} sub_category1
+                          {% elif categories.id == 3 %} sub_category2 {% elif categories.id == 4 %} sub_category3
+                          {% elif categories.id == 5 %} sub_category4 {% elif categories.id == 6 %} sub_category5 
+                          {% elif categories.id == 7 %} sub_category6 {% elif categories.id == 8 %} sub_category7
+                          {% elif categories.id == 9 %} sub_category8 {% elif categories.id == 10 %} sub_category9
+                          {% elif categories.id == 11 %} sub_category10 {% elif categories.id == 12 %} sub_category11
+                          {% endif %}">
+                          <a href="/addproduct/" class=""><code></code></a>
+                            <div>
+                            
+                            <a href="{%url sub_category categories.name%}" class=""><h4>{% trans categories.name %}</h4></a>
 
-              <span class="brand">{{categories.category_type}}</span>
-              </div>
-            </li>
-            {% if forloop.counter|divisibleby:4 %}     
-              
-          </ul>
-        </div> <!-- row1 3rd col-md-4 -->
+                            <span class="brand">{{categories.category_type}}</span>
+                            </div>
+                          </li>
+                          {% if forloop.counter|divisibleby:4 %}     
+                            
+                        </ul>
+              </div> <!-- row1 3rd col-md-4 -->
         {% endif %}
        {% endfor %} 
 {% endif %}
 
-{% for subcategories in subcategory %}  
-        {% if forloop.counter0|divisibleby:4 %}
-        <div class="col-md-4">
-          <ul class="category">
-          {% endif %}
-            <li class="sub_category"><a href="" class=""></a>
-              <div>
-             <a href="/search/?q=&subcategoryid={{subcategories.id}}" class=""><h4>{{subcategories.name}}</h4></a>
-
-             
-            </div>
-            </li>
-            {% if forloop.counter|divisibleby:4 %}             
-          </ul>
-        </div> <!-- row1 1st col-md-4 -->
-        {% endif %}
-{% endfor %}
 </div> <!-- row1 -->
 
 
@@ -133,10 +117,11 @@
           <div class="free_alert">
             <h4>Create free alert</h4>
           </div>
+      <form method="post" action="{% url free_alert %}">
+            {% csrf_token %}     
           <ul class="enquiry_form">
             <li>
-            <form method="post" action="{% url free_alert %}">
-            {% csrf_token %}
+            
             <div class="form1">
                   <input type="text" class="form-control inputs" value="Tell us your need" name="productneed">
                 </div>

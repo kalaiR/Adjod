@@ -27,7 +27,7 @@ def get_subcategories(categoryId):
 
 @register.filter
 def get_subcategoriesCount(subCategoryId):  
-	subcategoriescounts = Product.objects.filter(subcategory_id=subCategoryId).count()          		
+	subcategoriescounts = Product.objects.filter(subcategory_id=subCategoryId, status_isactive=1).count()          		
 	# subcategoriescounts = Product.objects.filter(subcategory_id=subCategoryId).annotate(Count('subcategory'))			
 	return subcategoriescounts
 
