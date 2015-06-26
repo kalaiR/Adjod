@@ -4,12 +4,14 @@ from django.conf import settings
 from django.utils import translation
 from adjod.util import get_client_ip
 from adjod.util import get_global_language, get_global_country, get_global_city
+from advertisement.models import *
 
 #Middleware class for finding global_lanugage, global_country, global_ip when user enter into the website
 class Global(object):
     global_language = ''
     global_country=''
     global_ip=''
+    global_city=''
     
     def process_request(self, request):
         print "enter process_request"
@@ -25,14 +27,15 @@ class Global(object):
         if not (request.user.is_superuser or request.user.is_staff):
             if request.user.is_authenticated():
                 # self.global_language = request.user.actor.language
-                self.global_language = request.user.language
+                user_id=UserProfile.objects.get(user=request.user.id)
+                self.global_language = user_id.language
                 
             else:
                 self.global_language = get_global_language(request)
 
-            request.session['django_language'] = self.global_language
-            translation.activate(self.global_language)
-            request.LANGUAGE_CODE = translation.get_language()
+            # request.session['django_language'] = self.global_language
+            # # translation.activate(self.global_language)
+            # request.LANGUAGE_CODE = translation.get_language()
         
         self.global_country=get_global_country(request)
         self.global_city=get_global_city(request)
@@ -49,7 +52,7 @@ class Global(object):
         print "self.global_language", self.global_language
         print "self.global_country", self.global_country
         print "self.global_ip", self.global_ip
-        print "self.global_ip", self.global_city
+        print "self.global_city", self.global_city
         if self.global_language:
             print "enter self.global_language"
             language=self.global_language

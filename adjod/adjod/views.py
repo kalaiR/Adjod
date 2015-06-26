@@ -43,7 +43,7 @@ from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.ipn.signals import payment_was_successful
 
 # For GEO
-# from django.contrib.gis.geoip import GeoIP
+from django.contrib.gis.geoip import GeoIP
 
 #Paypal transaction definition
 @csrf_exempt
@@ -100,13 +100,15 @@ def home(request):
     path = request.path
     print "path", path 
     locality =Locality.objects.all() 
-    return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad, 'locality':locality }, context_instance=RequestContext(request)) 
+    city=City.objects.all()
+    return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad, 'locality':locality,'city':city }, context_instance=RequestContext(request)) 
 
 #User login defintion
 @csrf_protect 
 def user_login(request):
     print "user_login"
     def errorHandle(error):
+        print "enter errorHandle"
         form = UserForm()
         category=Category.objects.all()
         recentad=Product.objects.filter().order_by('-id')[:3]
@@ -209,7 +211,9 @@ def register(request):
         print "request.COOKIES.get('adjod_language')", request.COOKIES.get('adjod_language')
         userprofile.language=request.COOKIES.get('adjod_language')
         print "request.COOKIES.get('country')", request.COOKIES.get('country')
-        userprofile.country=request.COOKIES.get('country')
+        country_id=Country.objects.get(code=request.COOKIES.get('country'))
+        print "country_id", country_id.id
+        userprofile.country=Country.objects.get(id=country_id.id)
         
         confirmation_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for x in range(33))
         print confirmation_code
@@ -259,7 +263,7 @@ def register(request):
 def send_registration_confirmation(user):
     p = user.get_profile()
     title = "Adjod account confirmation"
-    content = "http://localhost:8000/confirm/" + str(p.confirmation_code) + "/" + user.username
+    content = "http://192.168.1.43:8000/confirm/" + str(p.confirmation_code) + "/" + user.username
     # content = "http://localhost:8000/confirm/" + str(p.confirmation_code) + "/" + user.username
     send_mail(title, content, 'no-reply@gsick.com', [user.email], fail_silently=False)
 

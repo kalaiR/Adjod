@@ -783,11 +783,23 @@ $( document ).ready(function() {
     $(".leftslide1").hide();
   });
 
-  // image align center//
-  // var theHeight = $(".product_image img").height();//image center
-  // var theWidth = $(".product_image img").width();
-  // $(".product_image img").css({'margin-top': -theHeight / 2 + "px", 'margin-left': -theWidth / 2 + "px"});
-      /*End*/
+
+    var $upperimg = $('.upperimg img');
+    $('.thumbs img').click(function () {
+        $upperimg.attr('src', this.src);
+    });
+    
+    $('.product_image img').load(function(){
+      var height = $(this).height();
+      var width = $(this).width();
+      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+    });
+
+    $('.product_images1 img').load(function(){
+      var height = $(this).height();
+      var width = $(this).width();
+      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+    });
 
 });
 

@@ -131,7 +131,7 @@ MIDDLEWARE_CLASSES = (
     'pagination.middleware.PaginationMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-#     'adjod.middleware.Global',
+    'adjod.middleware.Global',
     
     # 'templatetags.app_filters.get_photos',
     # Uncomment the next line for simple clickjacking protection:
@@ -291,4 +291,4 @@ SEO_MODEL_REGISTRY = (
     ('test_project.MyMetadata', ('template_test', )),
 )
 
-# GEOIP_PATH = os.path.join(os.path.dirname(__file__), '../static/geoip/')
+GEOIP_PATH = os.path.join(os.path.dirname(__file__), '../static/geoip/')

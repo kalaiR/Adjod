@@ -1089,9 +1089,15 @@ hr {
     position: relative;
     width: 100%;
 }
+
 .product_images1 img {
-    width:100%;
-	height:100%;
+    width:auto;
+	height:auto;
+	max-height:100px;
+	max-width:100px;
+	position:absolute;
+	top:50%;
+	left:50%;
 	display:block;
 	float:none;
 	border:2px;
@@ -1099,6 +1105,7 @@ hr {
 		float:left;
 	}
 }
+
 .count_holder1 {
     border-left: 1px solid;
     border-top: 1px solid;
@@ -1144,16 +1151,15 @@ hr {
     width: 111px;
 }
 .product_image img {
-    height: 55px;
+    height: auto;
     
-    margin-left: -47px;
-    margin-top: -29px;
+    
     max-height: 100px;
     max-width: 100px;
     position: absolute;
-    top: 59%;
+    top: 50%;
     width: auto; 
-    left: 54px;
+    left: 50%;
 }
 .count_holder {
     border-left: 1px solid;
@@ -1469,7 +1475,7 @@ input[type="checkbox"] {
  	top:2px !important;
  }
  .bg-img{
- 	background:url("../img/bg-img1.png") 0px 0px no-repeat;
+ 	
  	display:block;
  	height: 125px;
     right: 1px;
@@ -2822,3 +2828,43 @@ label >.error { color:red; }
 #richmedia_6{
 	margin-top:10px;
 }
+
+/* view large image */
+
+.upperimg img {
+    height: 282px;
+    left: 24px;
+    position: relative;
+    top: 24px;
+    width: 302px;
+}
+
+.thumbs img {
+   
+    height: auto;
+    left: 35px;
+    position: relative;
+    width: auto;
+    max-height:100px;
+    max-width:100px;
+
+}
+.container1 {
+    border: 1px solid;
+    height: 350px;
+    width: 350px;
+    margin-top: 26px;
+}
+.thumbs img:hover {
+    border: 1px solid blue;
+}
+.img {
+    background: url("http://teja1.kuikr.com/images/Quikr_Sprite.1432102322.png") no-repeat scroll 0 0 transparent;
+    height: 75px;
+
+    position: absolute;
+
+    width: 79px;
+    z-index: 2;
+}
+

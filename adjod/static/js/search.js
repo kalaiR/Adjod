@@ -82,7 +82,7 @@ $(document).ready(function() {
 
             // BrandType checkbox Options in Advance Search
             $('input.brandtype').on('change', function() {
-                alert("brandtype");
+                // alert("brandtype");
                     $('input.brandtype').not(this).prop('checked', false); 
                     $('#brandtype').val($(this).val());                    
                     perform_search();  
@@ -90,7 +90,7 @@ $(document).ready(function() {
 
             // BrandType checkbox Options in Advance Search
             $('input.pricerange').on('change', function() {
-                 alert("price");
+                 // alert("price");
                     $('input.pricerange').not(this).prop('checked', false); 
                     var splitprice = [];
                     var splitprice = $(this).val().split("#");                    
@@ -122,7 +122,7 @@ function perform_search(){
                         // var qlang = $("#currentlanguage").val();
                         if ($('[name=newsearch]').val() == "new")
                         {
-                                    alert('top');
+                                    // alert('top');
                                     $.get('v2/search/?'+ q, function(data){                                                           
 	                                    show_searching(false);
 	                                    $('#search_result').html(data);

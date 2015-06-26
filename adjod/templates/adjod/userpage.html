@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
- 
-{{settings.STATIC_ROOT}}
+
 <!-- {{ipaddress}}
 {{country}}
 {{language}}
@@ -17,16 +16,14 @@
 {{request.COOKIES.country}}
 {{request.COOKIES.language}}
 {{request.COOKIES.city}}
-
+{{error}}
 <a href="">{{cat}}</a>
 <div align="center" id="richmedia_6">
   <a href="http://a.tribalfusion.com/h.click/agmP8qpTB45FM5VrfZaW671Pqf0QV3pStZbM1WZbxVPbw3Vv1XUUDUmPq5mQ9P6MC2HBq1HQAndEn5PvQ3sUeTGQ8WcngR6FmTWFRWrjP3F2oVa7tTT39QTrZaQVZbCQUiwRHY7UVv55Fquodyq0qmp2HbGSGbA26rEptiyTtZb6XFbcYUF6XqarPbJstnXsdv/http://download.mywebface.com/index.jhtml?partner=GRxdm059&amp;offer_id=869&amp;a=302&amp;oc=1204&amp;c=3440&amp;dm=1&amp;s1=225556&amp;s2=&amp;s3=&amp;s4=&amp;s5=" target="_blank">
   <img width="800" height="90" border="0" src="http://cdnx.tribalfusion.com/media/3794856.gif">
   </a>
 </div>      
-<div class="row row_1">  
-    
-        {% if '/' in path %} 
+<div class="row row_1">     
         {% for categories in category %}  
                 {% if forloop.counter0|divisibleby:4 %}
                 <div class="col-md-4">
@@ -40,10 +37,8 @@
                           {% elif categories.id == 11 %} sub_category10 {% elif categories.id == 12 %} sub_category11
                           {% endif %}">
                           <a href="/addproduct/" class=""><code></code></a>
-                            <div>
-                            
+                            <div>                         
                             <a href="{%url sub_category categories.name%}" class=""><h4>{% trans categories.name %}</h4></a>
-
                             <span class="brand">{{categories.category_type}}</span>
                             </div>
                           </li>
@@ -53,11 +48,7 @@
               </div> <!-- row1 3rd col-md-4 -->
         {% endif %}
        {% endfor %} 
-{% endif %}
-
 </div> <!-- row1 -->
-
-
 
 <div class="left_sidead">
         <a class="handle" >Ads</a>
@@ -96,7 +87,11 @@
               <div class="product_image">
               <code class="premium-img"></code>              
                 <a href="" class="">
+                {% if recentads.photos = '' %}
+                <img src="/static/img/bg-img1.png">
+                {% else %}
                 <img src="{{STATIC_ROOT}}/{{recentads.photos|get_photos}}">
+                {% endif %}
                   <div class="count_holder">
                     <span>{{recentads.imagecount}}</span>
                     <i class="fa fa-camera"></i>

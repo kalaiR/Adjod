@@ -147,14 +147,16 @@ def product_detail(request, pk):
     adinfo=Product.objects.get(pk=int(pk))
     print 'adinfo.user', adinfo.userprofile
     print "adinfo.photos", adinfo.photos
-    photosgroup=adinfo.thumbnail
-    photo=str(photosgroup)
-    print "photo", photo
-    print "photosplit", photo.split(',')
-    photos=photo.split(',')
+    # photosgroup=adinfo.thumbnail
+    # photo=str(photosgroup)
+    # print "photo", photo
+    # print "photosplit", photo.split(',')
+    # photos=photo.split(',')
     
     large=str(adinfo.photos).split(',')
     largephoto=large[0]
+    photos=[n for n in str(adinfo.photos).split(',')]
+    print photos
  
     results = SearchQuerySet().all()
     sqs = SearchQuerySet().filter(content=adinfo)
@@ -168,7 +170,8 @@ def product_detail(request, pk):
     print path
     
     recentad=Product.objects.filter().order_by('-id')[:3]
-    ctx={'adinfo':adinfo, 'photos':photos,'largephoto':largephoto, 'path':path,'recommendresults':recommendresults}    
+    # ctx={'adinfo':adinfo, 'photos':photos,'largephoto':largephoto, 'path':path,'recommendresults':recommendresults}    
+    ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto,'path':path,'recommendresults':recommendresults}  
     # return render_to_response('advertisement/ad_detail.html',ctx, context_instance=RequestContext(request))
     
     return TemplateResponse(request, 'advertisement/ad_detail.html', ctx)

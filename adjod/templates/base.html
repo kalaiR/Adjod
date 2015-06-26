@@ -291,9 +291,9 @@
                   </i>
                 </div> <!-- select_div -->
                 <select class="select_city" name="city">
-                  <option>Chennai</option>
-                  <option>Mumbai</option>
-                  <option>Delhi</option>
+                {% for cityitem in city %} 
+                <option value="{{ cityitem.city }}">{{ cityitem.city }}</option>
+                {% endfor %}
                 </select>
               </div> <!-- select_container -->
               
