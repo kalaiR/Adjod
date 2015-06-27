@@ -130,6 +130,8 @@ def brand_for_subcategory(request):
 
 def sub_category(request, pname=None):
     print pname
+    category=Category.objects.all()
+    city=City.objects.all()
     cat=Category.objects.get(name=pname)
     print cat.id
     subcategory = SubCategory.objects.filter(category_id=cat.id)
@@ -138,43 +140,38 @@ def sub_category(request, pname=None):
     path=request.path
     print path
     recentad=Product.objects.filter().order_by('-id')[:3]
-    ctx = {'subcategory':subcategory,'path':path,'recentad':recentad,'cat':cat}
+    ctx = {'subcategory':subcategory,'path':path,'recentad':recentad,'cat':cat,'category':category,'city':city}
     return render_to_response('adjod/subcategory.html', ctx , context_instance=RequestContext(request))
     
 # this is for pjax testing
-@pjax("pjax.html")
+# @pjax("pjax.html")
 def product_detail(request, pk):
     adinfo=Product.objects.get(pk=int(pk))
-    print 'adinfo.user', adinfo.userprofile
-    print "adinfo.photos", adinfo.photos
-    # photosgroup=adinfo.thumbnail
-    # photo=str(photosgroup)
-    # print "photo", photo
-    # print "photosplit", photo.split(',')
-    # photos=photo.split(',')
-    
     large=str(adinfo.photos).split(',')
     largephoto=large[0]
     photos=[n for n in str(adinfo.photos).split(',')]
     print photos
  
-    results = SearchQuerySet().all()
-    sqs = SearchQuerySet().filter(content=adinfo)
-    sqsresults = [ r.pk for r in sqs ]
-    print "sqsresults", sqsresults
-    recommendresults = Product.objects.exclude(pk=int(pk)).filter(pk__in=sqsresults)
-    print "recommendresults", recommendresults
-    for recommendresult in recommendresults:
-        print "searchresults:", recommendresult
+    # results = SearchQuerySet().all()
+    # sqs = SearchQuerySet().filter(content=adinfo.title)
+    # print "sqs",sqs
+    # sqsresults = [ r.pk for r in sqs ]
+    # print "sqsresults", sqsresults
+    # recommendresults = Product.objects.exclude(pk=int(pk)).filter(pk__in=sqsresults)
+    # print "recommendresults", recommendresults
+    # for recommendresult in recommendresults:
+    #     print "searchresults:", recommendresult
+
+    related_product=Product.get_related(str(adinfo))
+    print "related_product", related_product
+
+    
     path=request.path
-    print path
-    
-    recentad=Product.objects.filter().order_by('-id')[:3]
-    # ctx={'adinfo':adinfo, 'photos':photos,'largephoto':largephoto, 'path':path,'recommendresults':recommendresults}    
-    ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto,'path':path,'recommendresults':recommendresults}  
-    # return render_to_response('advertisement/ad_detail.html',ctx, context_instance=RequestContext(request))
-    
-    return TemplateResponse(request, 'advertisement/ad_detail.html', ctx)
+    print path  
+    recentad=Product.objects.filter().order_by('-id')[:3]    
+    ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto,'path':path,'related_product':related_product}  
+    return render_to_response('advertisement/ad_detail.html',ctx, context_instance=RequestContext(request))    
+    # return TemplateResponse(request, 'advertisement/ad_detail.html', ctx)
 
 @pjax("pjax.html")
 def product_form(request, name=None, subname=None):
@@ -365,18 +362,22 @@ def freealert_save(request):
     print "freealert_save"
     user=request.user.id
     print "user", user
-    userprofile=UserProfile.objects.get(user_id=request.user.id)
-    print "userprofile.id", userprofile.id
     freealert=FreeAlert()
-    freealert.alert_user=UserProfile.objects.get(id=userprofile.id)
-    freealert.alert_category=Category.objects.get(id=request.POST['your_category'])
-    freealert.alert_subcategory=SubCategory.objects.get(id=request.POST['your_subcategory'])
-    freealert.alert_brand=Dropdown.objects.get(id=request.POST['your_brand'])
-    freealert.alert_city=City.objects.get(id=request.POST['your_city'])
-    freealert.alert_email = request.POST.get('email')
-    freealert.alert_mobile = request.POST.get('mobilenumber')
-    freealert.save()
-    return HttpResponseRedirect("/?falert=success")
+    if user:
+        userprofile=User.objects.get(id=user)
+        print "userprofile.id", userprofile.id     
+        freealert.alert_user=UserProfile.objects.get(user=userprofile.id)
+        freealert.alert_category=Category.objects.get(id=request.POST['your_category'])
+        freealert.alert_subcategory=SubCategory.objects.get(id=request.POST['your_subcategory'])
+        freealert.alert_brand=Dropdown.objects.get(id=request.POST['your_brand'])
+        freealert.alert_city=City.objects.get(id=request.POST['your_city'])
+        freealert.alert_email = request.POST.get('email')
+        freealert.alert_mobile = request.POST.get('mobilenumber')
+        freealert.save()
+        return HttpResponseRedirect("/?falert=success")
+    else:
+        print "else part"
+        return HttpResponseRedirect("/?alert=failure")
 
 def freealert(request):
     category = Category.objects.all()

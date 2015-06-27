@@ -286,12 +286,13 @@ def confirm(request, confirmation_code, username):
     
 def start(request):
     print 'start'
+    city=City.objects.all()
     category=Category.objects.all()
     path=request.path
     print path
     product =Product.objects.all()
     recentad=Product.objects.filter().order_by('-id')[:3]
-    return render_to_response('adjod/userpage.html',{'category':category,'path':path,'recentad':recentad,'product':product},context_instance=RequestContext(request))
+    return render_to_response('adjod/userpage.html',{'category':category,'path':path,'recentad':recentad,'product':product,'city':city},context_instance=RequestContext(request))
 
 # /*  Auto Complete for Category based Brands */
 def autocomplete_keyword(request):     

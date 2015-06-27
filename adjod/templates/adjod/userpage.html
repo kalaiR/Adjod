@@ -18,11 +18,11 @@
 {{request.COOKIES.city}}
 {{error}}
 <a href="">{{cat}}</a>
-<div align="center" id="richmedia_6">
+<!-- <div align="center" id="richmedia_6">
   <a href="http://a.tribalfusion.com/h.click/agmP8qpTB45FM5VrfZaW671Pqf0QV3pStZbM1WZbxVPbw3Vv1XUUDUmPq5mQ9P6MC2HBq1HQAndEn5PvQ3sUeTGQ8WcngR6FmTWFRWrjP3F2oVa7tTT39QTrZaQVZbCQUiwRHY7UVv55Fquodyq0qmp2HbGSGbA26rEptiyTtZb6XFbcYUF6XqarPbJstnXsdv/http://download.mywebface.com/index.jhtml?partner=GRxdm059&amp;offer_id=869&amp;a=302&amp;oc=1204&amp;c=3440&amp;dm=1&amp;s1=225556&amp;s2=&amp;s3=&amp;s4=&amp;s5=" target="_blank">
   <img width="800" height="90" border="0" src="http://cdnx.tribalfusion.com/media/3794856.gif">
   </a>
-</div>      
+</div>   -->    
 <div class="row row_1">     
         {% for categories in category %}  
                 {% if forloop.counter0|divisibleby:4 %}
@@ -82,10 +82,14 @@
             <h4>Recently added</h4>
           </div>
           <ul class="products">        
-          {% for recentads in recentad %}          
+          {% for recentads in recentad %}   
+          
             <li class="product_lists">
               <div class="product_image">
-              <code class="premium-img"></code>              
+              
+              
+              <p class="{% if recentads.premium_plan_id = None %} premium-img {% elif recentads.premium_plan_id = 1 %} premium-img1 {% elif recentads.premium_plan_id = 2 %} premium-img2 {% elif recentads.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>       
+                  
                 <a href="" class="">
                 {% if recentads.photos = '' %}
                 <img src="/static/img/bg-img1.png">
@@ -108,35 +112,78 @@
             
           </ul>
         </div> <!-- col-md-7 -->
-        <div class="col-md-5">
+   <div class="col-md-5">
           <div class="free_alert">
             <h4>Create free alert</h4>
           </div>
-      <form method="post" action="{% url free_alert %}">
-            {% csrf_token %}     
-          <ul class="enquiry_form">
-            <li>
-            
-            <div class="form1">
-                  <input type="text" class="form-control inputs" value="Tell us your need" name="productneed">
-                </div>
-            </li>
-            <li><div class="form1">
-                  <input type="text" class="form-control inputs">
-                  <div class="custom_select locality_custom_select">
-                    <div class="select">
-                      <p id="custom_select_value_act">Any locality</p>
-                    </div> <!-- select -->
-                    <i class="fa fa-caret-down"> </i>
-                    <select class="custom_select_value_act" name="locality">
-                    {% for localities in locality %} 
-                        <option value="{{localities.id}}">{{localities.locality}}</option>
-                    {% endfor %}
-                    </select>
-                  </div> <!-- custom_select -->
-                 </div>
-            </li>
-            <li><div class="form1">
+         <form method="post" action="{% url free_alert %}">
+            {% csrf_token %}
+            <ul class="enquiry_form">
+              <li>
+              <div class="select_container_category" id="select_container_category">
+                <div class="select_div">
+                  <p id="select_post_category">Select Category</p>
+                  <i class="city_fa fa fa-caret-down">
+                    
+                  </i>
+                </div> <!-- select_div -->
+                <select id="id_category" class="select_post_category" name="your_category">
+                {% for categories in category %} 
+                <option value="{{ categories.id }}">{{ categories.name }}</option>
+                {% endfor %}
+                </select>
+                <label id="city_required" class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
+              </div> <!-- select_container_city -->
+              </li>
+              <li>  
+              <div class="select_container_subcategory" id="select_container_subcategory">
+                <div class="select_div">
+                  <p id="select_post_subcategory">Select SubCategory</p>
+                  <i class="city_fa fa fa-caret-down">
+                    
+                  </i>
+                </div> <!-- select_div -->
+                <select id="id_subcategory" class="select_post_subcategory" name="your_subcategory">
+                
+                <option value=""></option>
+                
+                </select>
+               <label id="locality_required" class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
+              </div> <!-- select_container_city -->
+              </li>
+              <li>
+              <div class="select_container_brand" id="select_container_brand">
+                <div class="select_div">
+                  <p id="select_post_brand">Select Brand</p>
+                  <i class="city_fa fa fa-caret-down">                    
+                  </i>
+                </div> <!-- select_div -->
+                <select id="id_brand" class="select_post_brand" name="your_brand">
+                
+                <option value=""></option>
+                
+                </select>
+               <label id="locality_required" class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
+              </div> <!-- select_container_city -->
+              </li>
+              <li>
+              <div class="select_container_city" id="select_container_city">
+                <div class="select_div">
+                  <p id="select_post_city">Select City</p>
+                  <i class="city_fa fa fa-caret-down">
+                    
+                  </i>
+                </div> <!-- select_div -->
+                <select id="id_city" class="select_post_city" name="your_city">
+                {% for cityitem in city %} 
+                <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
+                {% endfor %}
+                </select>
+             <label id="city_required" class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
+              </div> <!-- select_container_city -->
+              </li>
+
+              <li><div class="form1">
                   <input type="text" class="form-control inputs" value="Your email" name="email">
                 </div>
             </li>
@@ -144,11 +191,12 @@
                   <input type="text" class="form-control inputs" value="Your mobile number" name="mobilenumber">
                 </div>
             </li>
-          </ul>
-          <div class="form_alert">
+            </ul>
+            <div class="form_alert">
             <button type="submit"class="btn btn-lg alert_button">Create alert</button>
           </div>
-          </form>
+    </form>
+         
         </div> <!-- col-md-5 -->
       </div> <!-- row3 -->
     </div> <!-- container fourth part -->

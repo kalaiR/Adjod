@@ -309,7 +309,7 @@ function fill_brands(sub_category_id) {
 
     $("#id_brand").html(response_cache4[sub_category_id]);
   } else {
-    alert(sub_category_id);
+    // alert(sub_category_id);
     $.getJSON("/brand_for_subcategory/", {sub_category_id: sub_category_id},
       function(ret, textStatus) {
         var options = '';
@@ -801,6 +801,17 @@ $( document ).ready(function() {
       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
     });
 
+    $('.upperimg img').load(function(){
+      var height = $(this).height();
+      var width = $(this).width();
+      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+    });
+
+    $('.thumbs img ').load(function(){
+      var height = $(this).height();
+      var width = $(this).width();
+      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+    });
 });
 
 } )( jQuery );

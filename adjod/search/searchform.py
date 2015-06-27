@@ -50,6 +50,7 @@ class ProductSearchFilter(FacetedSearchForm):
     sortdata = forms.CharField(required=False)
     country=forms.CharField(required=False)
     ispremium=forms.CharField(required=False)
+    premium_plan_id=forms.CharField(required=False)
     # lang = forms.CharField(required=False)
     # groupby = forms.CharField(required=False)
     
@@ -105,6 +106,7 @@ class ProductSearchFilter(FacetedSearchForm):
         'price_end',
         'country',
         'ispremium',
+        'premium_plan_id'
       ]
       params = OrderedDict()
       print 'params', params
@@ -140,7 +142,8 @@ class ProductSearchFilter(FacetedSearchForm):
         'modifieddate': '-modified',
         'pricelow': 'base_price',
         'pricehigh': '-base_price',
-        'ispremium': '-ispremium'
+        'ispremium': '-ispremium',
+        'premium_plan_id': 'premium_plan_id',
       }
       
       # if self.cleaned_data['groupby']:
@@ -153,7 +156,7 @@ class ProductSearchFilter(FacetedSearchForm):
 
       if not orderby:
         print "not orderby"
-        orderby = orderby_mappings['ispremium']        
+        orderby = orderby_mappings['premium_plan_id']
 
       return productsearch(q, params, orderby, groupby, model_cls=self.get_model_class(), 
         default_filters=self.get_default_filters(), 

@@ -177,12 +177,16 @@
           <div class="upperimg">
             <img src="{{ STATIC_ROOT }}/{{ largephoto }}">
           </div><!--upperimg-->
+            
+            <div class="thumb_holder">
+              {%for photo in photos %}
+                <div class="thumbs nb col-md-2">         
+                  <img src="{{ STATIC_ROOT }}/{{ photo }}">
+                </div><!--thumbs-->
+              {%endfor%}
+            </div><!-- thumb_holder -->
           
-          <div class="thumbs">         
-          {%for photo in photos %}
-            <img src="{{ STATIC_ROOT }}/{{ photo }}">
-          {%endfor%}
-          </div><!--thumbs-->
+          <div class=""></div>
             <!-- <div class="thumbnails1">
               <a href=""><img class="img1"src="img/Product_pic1.png"></a>
             </div>
@@ -214,24 +218,24 @@
     
 
     <div class="container recommend1">
-     {% if recommendresults %}
+     {% if related_product %}
       <div class="recommended">
           <span>Recommended</span>
         </div>
       {% endif %}   
       <div class="row row2">
         <div class="col-md-8">
-        {% if recommendresults %}
+        {% if related_product %}
         <ul class="product1">
           
-          {% for recommendresult in recommendresults|slice:":5" %}
+          {% for related_products in related_product|slice:":5" %}
           <li class="product_list1">
              <div class="product_images1">
                 <a href="" class="">
                 <img src="{{STATIC_ROOT}}/{{recommendresult.photos|get_photos}}">
                 
                   <div class="count_holder1">
-                    <span>{{recommendresult.imagecount}}</span>
+                    <span>{{related_products.imagecount}}</span>
                     <i class="fa fa-camera"></i>
                   </div>
                 </a>
@@ -241,16 +245,16 @@
               
                   <div class="product_name1">
                   
-                      <a href="" class="spans"> {{recommendresult.title}}</a>
-                      <span class="product_description1">{{recommendresult.description}}
+                      <a href="" class="spans"> {{related_products.title}}</a>
+                      <span class="product_description1">{{related_products.description}}
                       </span>
-                      <span class="additional_description">{{recommendresult.description}}</span>
-                      <span class="model_year1"> {{recommendresult.condition}} | in {{recommendresult.city}} | By {{recommendresult.you_are}}</span>
-                      <span class="year">{{recommendresult.created_date}}</span>
+                      <span class="additional_description">{{related_products.description}}</span>
+                      <span class="model_year1"> {{related_products.condition}} | in {{related_products.city}} | By {{related_products.you_are}}</span>
+                      <span class="year">{{related_products.created_date}}</span>
 
                   </div>
                   <div class="additional_details">
-                    <h3>$ {{recommendresult.price}}</h3>
+                    <h3>$ {{related_products.price}}</h3>
                     <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle"></i></span>
                     <a href="" class="btn btn-default contact_button">Contact</a>
                   </div>
@@ -275,7 +279,7 @@
       {% else %}
       <div class="container fifth_part">
         <div class="hp_ad banner_ad">
-          <ul>
+          <ul class="fifth_part">
             {% for banners in banner|get_banner %}
             {% if banners.pageurl == '/' and banners.position == 'bottom' %}
               <li><a class="bannerlink" href="{{banners.link}}" class=""><img class="bannerimage" src="../../{{banners.banner}}" style="height:120px;width:970px;"></a></li>

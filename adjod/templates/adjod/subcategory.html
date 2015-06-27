@@ -34,8 +34,7 @@
             <li class="sub_category"><a href="" class=""></a>
               <div>
                <a href="/search/?q=&subcategoryid={{subcategories.id}}" class=""><h4>{{subcategories.name}}</h4></a>
-
-             
+            
             </div>
             </li>
             {% if forloop.counter|divisibleby:4 %}             
@@ -73,19 +72,27 @@
       </div> <!-- row2 -->
       </div> <!-- third part -->
 
-      <div class="container fourth_part">
+     <div class="container fourth_part">
         <div class="row row_3">
         <div class="col-md-7">
           <div class="recent_add">
             <h4>Recently added</h4>
           </div>
           <ul class="products">        
-          {% for recentads in recentad %}          
+          {% for recentads in recentad %}   
+          
             <li class="product_lists">
               <div class="product_image">
-              <code class="premium-img"></code>              
+              
+              
+              <p class="{% if recentads.premium_plan_id = None %} premium-img {% elif recentads.premium_plan_id = 1 %} premium-img1 {% elif recentads.premium_plan_id = 2 %} premium-img2 {% elif recentads.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>       
+                  
                 <a href="" class="">
+                {% if recentads.photos = '' %}
+                <img src="/static/img/bg-img1.png">
+                {% else %}
                 <img src="{{STATIC_ROOT}}/{{recentads.photos|get_photos}}">
+                {% endif %}
                   <div class="count_holder">
                     <span>{{recentads.imagecount}}</span>
                     <i class="fa fa-camera"></i>
@@ -101,48 +108,92 @@
             {% endfor %}
             
           </ul>
-       </div> <!-- col-md-7 -->
-  <div class="col-md-5">
-              <div class="free_alert">
-                <h4>Create free alert</h4>
-              </div>
-              <form method="post" action="{% url free_alert %}">
-                        {% csrf_token %}
-                <ul class="enquiry_form">
-                        <li>
-                            <div class="form1">
-                              <input type="text" class="form-control inputs" value="Tell us your need" name="productneed">
-                            </div>
-                        </li>
-                        <li><div class="form1">
-                              <input type="text" class="form-control inputs">
-                              <div class="custom_select locality_custom_select">
-                                <div class="select">
-                                  <p id="custom_select_value_act">Any locality</p>
-                                </div> <!-- select -->
-                                <i class="fa fa-caret-down"> </i>
-                                <select class="custom_select_value_act" name="locality">
-                                {% for localities in locality %} 
-                                    <option value="{{localities.id}}">{{localities.locality}}</option>
-                                {% endfor %}
-                                </select>
-                              </div> <!-- custom_select -->
-                             </div>
-                        </li>
-                        <li><div class="form1">
-                              <input type="text" class="form-control inputs" value="Your email" name="email">
-                            </div>
-                        </li>
-                        <li><div class="form1">
-                              <input type="text" class="form-control inputs" value="Your mobile number" name="mobilenumber">
-                            </div>
-                        </li>
-                  </ul>
+        </div> <!-- col-md-7 -->
+   <div class="col-md-5">
+          <div class="free_alert">
+            <h4>Create free alert</h4>
+          </div>
+         <form method="post" action="{% url free_alert %}">
+            {% csrf_token %}
+            <ul class="enquiry_form">
+              <li>
+              <div class="select_container_category" id="select_container_category">
+                <div class="select_div">
+                  <p id="select_post_category">Select Category</p>
+                  <i class="city_fa fa fa-caret-down">
+                    
+                  </i>
+                </div> <!-- select_div -->
+                <select id="id_category" class="select_post_category" name="your_category">
+                {% for categories in category %} 
+                <option value="{{ categories.id }}">{{ categories.name }}</option>
+                {% endfor %}
+                </select>
+                <label id="city_required" class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
+              </div> <!-- select_container_city -->
+              </li>
+              <li>  
+              <div class="select_container_subcategory" id="select_container_subcategory">
+                <div class="select_div">
+                  <p id="select_post_subcategory">Select SubCategory</p>
+                  <i class="city_fa fa fa-caret-down">
+                    
+                  </i>
+                </div> <!-- select_div -->
+                <select id="id_subcategory" class="select_post_subcategory" name="your_subcategory">
+                
+                <option value=""></option>
+                
+                </select>
+               <label id="locality_required" class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
+              </div> <!-- select_container_city -->
+              </li>
+              <li>
+              <div class="select_container_brand" id="select_container_brand">
+                <div class="select_div">
+                  <p id="select_post_brand">Select Brand</p>
+                  <i class="city_fa fa fa-caret-down">                    
+                  </i>
+                </div> <!-- select_div -->
+                <select id="id_brand" class="select_post_brand" name="your_brand">
+                
+                <option value=""></option>
+                
+                </select>
+               <label id="locality_required" class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
+              </div> <!-- select_container_city -->
+              </li>
+              <li>
+              <div class="select_container_city" id="select_container_city">
+                <div class="select_div">
+                  <p id="select_post_city">Select City</p>
+                  <i class="city_fa fa fa-caret-down">
+                    
+                  </i>
+                </div> <!-- select_div -->
+                <select id="id_city" class="select_post_city" name="your_city">
+                {% for cityitem in city %} 
+                <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
+                {% endfor %}
+                </select>
+             <label id="city_required" class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
+              </div> <!-- select_container_city -->
+              </li>
 
+              <li><div class="form1">
+                  <input type="text" class="form-control inputs" value="Your email" name="email">
+                </div>
+            </li>
+            <li><div class="form1">
+                  <input type="text" class="form-control inputs" value="Your mobile number" name="mobilenumber">
+                </div>
+            </li>
+            </ul>
             <div class="form_alert">
-                <button type="submit"class="btn btn-lg alert_button">Create alert</button>
-            </div>
-      </form>
+            <button type="submit"class="btn btn-lg alert_button">Create alert</button>
+          </div>
+    </form>
+         
         </div> <!-- col-md-5 -->
       </div> <!-- row3 -->
     </div> <!-- container fourth part -->

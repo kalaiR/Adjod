@@ -3,7 +3,7 @@
 {%if not request.is_ajax%}
 {{page.number}}
 {{query}}
-<form id="form_search_filter" class="form_search_filter" style="position:relative;">
+<form id="form_search_filter" class="form_search_filter" style="position:absolute;">
        
         <input id="search_form"type="hidden" name="{{form.q.html_name}}"  value="{{form.q.value|default:''}}"/>
         <input type="hidden" name="page"  value="{{page.number}}"/>

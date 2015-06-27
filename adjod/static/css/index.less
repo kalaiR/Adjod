@@ -342,6 +342,7 @@ body {
 	padding-left:0px;
 	@media (min-width: @grid-float-breakpoint) {
 		padding-left:25px;
+		margin-top: 12px;
 	}
 }
 .product_name{
@@ -448,13 +449,13 @@ body {
 	width:100%;
 	height:50px;
 	@media (min-width: @grid-float-breakpoint) { 
-    	width:350px;
-		height:62px;
-		margin-bottom:12px; 
+    	width:344px;
+		height:50px;
+		margin-bottom:7px; 
   	}	
 }
 .form1 {
-    margin-top: 15px;
+    margin-top: 6px;
 }
 .locality_custom_select {
 	width:100%;
@@ -508,12 +509,12 @@ body {
     left:0px;
     position: relative;
     @media (min-width: @grid-float-breakpoint) { 
-   		left: 247px; 
+   		left: 240px; 
   }
 }
 .form_alert {
-    margin-bottom: 20px;
-    margin-top:18px;
+    margin-bottom: 10px;
+    margin-top:10px;
 }
 .fifth_part{
 	padding-left:0px !important;
@@ -588,7 +589,7 @@ body {
 	background:#8991c0;
 	color:white;
 	@media (min-width: @grid-float-breakpoint) { 
-		height:100% ;
+		
 	}
 }
 .logo_part{
@@ -771,7 +772,7 @@ hr {
 	@media (min-width: @grid-float-breakpoint){
 		height:207px;
 		position: relative;
-    	top: 11px;
+    	top: 0px;
 	}
 }
 .seller{
@@ -894,9 +895,10 @@ hr {
     right: 127px;
 }
 .product-image {
-    height: 400px;
+    height: 444px;
     border: 1px solid lightgray;
     position:relative;
+    margin-top:50px;
 }
 
 .thumbnails img{
@@ -1101,6 +1103,8 @@ hr {
 	display:block;
 	float:none;
 	border:2px;
+	margin-left: -34px;
+    margin-top: -50px;
 	@media (min-width: @grid-float-breakpoint){
 		float:left;
 	}
@@ -1126,13 +1130,13 @@ hr {
     margin-top: 10px;
     @media (min-width: @grid-float-breakpoint){
     	width: 520px;
-    	height: 117px;
+    	height: 124px;
     	margin-left: -12px;
     }
 }
 .product_image {
     float: none;
-    height: 115px;
+    height: 120px;
     width: 112px;
     @media (min-width: @grid-float-breakpoint){
     	float: left;
@@ -1146,7 +1150,7 @@ hr {
 }
 .product_image a {
     display: block;
-    height: 115px;
+    height: 120px;
     position: relative;
     width: 111px;
 }
@@ -1171,7 +1175,7 @@ hr {
     right:0px;
     @media (min-width: @grid-float-breakpoint){
     	left: 73px;
-        top: 93px;
+        top: 99px;
     }
 }
 .product_image span {
@@ -2569,6 +2573,7 @@ sup , .view_example{
     font-family:"Droid Sans";    font-size: 12px;    font-weight: normal; color: #2a2a2a;
     cursor:pointer;
     border:1px solid #dedede;
+    border-radius:4px;
 }
 .select_div > p{
     width:100%;  height:55px;
@@ -2590,6 +2595,11 @@ sup , .view_example{
     cursor: pointer;
     background: none;
     opacity: 0;
+
+}
+.enquiry_form .select_container_category,.enquiry_form .select_container_subcategory, .enquiry_form .select_container_city, .enquiry_form .select_container_locality, .enquiry_form .select_container_brand {
+	margin-bottom:6px;
+	width:344px;
 }
 #free_signup_div > button{
     background-color: #ffffff;
@@ -2815,11 +2825,26 @@ label >.error { color:red; }
 /* set Premium images */
 
 .premium-img{
-	background: url("/static/banners/premium_urgent.jpeg") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	margin-top:-10px;
+
 }
 
 .premium-img1{
 	background: url("/static/banners/premium_urgent.jpeg") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	width:61px;
+	height:65px;
+	position:absolute;
+}
+
+.premium-img2{
+	background: url("/static/banners/urgent.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	width:61px;
+	height:65px;
+	position:absolute;
+}
+
+.premium-img3{
+	background: url("/static/banners/premium.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 	width:61px;
 	height:65px;
 	position:absolute;
@@ -2832,22 +2857,39 @@ label >.error { color:red; }
 /* view large image */
 
 .upperimg img {
-    height: 282px;
-    left: 24px;
-    position: relative;
-    top: 24px;
-    width: 302px;
+   height:auto;
+   width:auto;
+   top:50%;
+   left:50%;
+   position:absolute;
+   max-height:80%;
+   max-width:100%;
 }
 
+.thumb_holder {
+	bottom:0px;
+	position:absolute;
+	left:0px;
+}
 .thumbs img {
    
     height: auto;
-    left: 35px;
-    position: relative;
+    border:1px solid #fff;
+    position: absolute;
     width: auto;
-    max-height:100px;
-    max-width:100px;
+    max-height:80px;
+    max-width:80px;
+    top:50%;
+    left:50%;
 
+
+}
+.thumbs {
+	height:80px;
+	width:80px;
+	overflow:hidden;
+	position:relative;
+	padding:0px;
 }
 .container1 {
     border: 1px solid;
