@@ -3,7 +3,7 @@ from adjod import globals
 from django.conf import settings
 from django.utils import translation
 from adjod.util import get_client_ip
-from adjod.util import get_global_language, get_global_country, get_global_city
+from adjod.util import *
 from advertisement.models import *
 
 #Middleware class for finding global_lanugage, global_country, global_ip when user enter into the website
@@ -38,7 +38,7 @@ class Global(object):
             # request.LANGUAGE_CODE = translation.get_language()
         
         self.global_country=get_global_country(request)
-        self.global_city=get_global_city(request)
+        # self.global_city=get_global_city(request)
         self.global_ip= globals.ip
         if request.user.is_authenticated():
             try:
@@ -71,11 +71,11 @@ class Global(object):
             response.set_cookie("ip", 
                 ip, max_age = 365 * 24 * 60 * 60)
         
-        if self.global_city:
-            print "enter self.global_city"
-            city=self.global_city
-            response.set_cookie("city", 
-                city, max_age = 365 * 24 * 60 * 60)
+        # if self.global_city:
+        #     print "enter self.global_city"
+        #     city=self.global_city
+        #     response.set_cookie("city", 
+        #         city, max_age = 365 * 24 * 60 * 60)
             
         return response
 

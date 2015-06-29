@@ -127,21 +127,21 @@ def get_global_country(request):
     print "country", country
     return country
 
-def get_global_city(request):
-    """ This function get global language based on following assets
+# def get_global_city(request):
+#     """ This function get global language based on following assets
         
-        1. authenticated user's language
-        2. cookie
-        2. fixido select language
-        3. query string
-        4. brower setting
-        5. default sweden
-    """ 
-    user_ip = globals.ip
-    if user_ip.startswith('127.0.0'):
-        user_ip = '106.51.234.149'
-    g = GeoIP()
-    city=g.city(user_ip)
-    print "city", city
-    city=city['city']
-    return city
+#         1. authenticated user's language
+#         2. cookie
+#         2. fixido select language
+#         3. query string
+#         4. brower setting
+#         5. default sweden
+#     """ 
+#     user_ip = globals.ip
+#     if user_ip.startswith('127.0.0'):
+#         user_ip = '106.51.234.149'
+#     g = GeoIP()
+#     city=g.city(user_ip)
+#     print "city", city
+#     city=city['city']
+#     return city
