@@ -190,7 +190,8 @@ INSTALLED_APPS = (
    'paypal.standard.ipn',
    #  'django_nose',
    'worker',
-   'banner'
+   'banner',
+   'chat',
 )
 
 TEST_RUNNER = "django_nose.NoseTestSuiteRunner"

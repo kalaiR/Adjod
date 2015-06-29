@@ -20,6 +20,9 @@ js_info_dict = {
     'packages': ('adjod',),
 }
 
+#For Django chat
+from chat.views import *
+
 #For loading global functions
 from django.template.loader import add_to_builtins
 add_to_builtins('advertisement.templatetags.app_filters')
@@ -98,4 +101,8 @@ urlpatterns = patterns('',
 
     # expired_ad_conformation
     url(r'^expired_ad_conformation/$', 'advertisement.views.expired_ad_conformation',name='expired_ad_conformation'),
+
+    #Django chat
+    url(r'^get/$', 'chat.views.get'),
+    url(r'^get_product/$', 'chat.views.get_product'),
 )
