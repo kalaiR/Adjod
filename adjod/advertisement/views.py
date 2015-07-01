@@ -106,7 +106,7 @@ def localities_for_city(request):
 #         return JSONResponse({'error': 'Not Ajax or no GET'})
 
 def subcategory_for_category(request):
-    print "subcategory_for_category"
+    # print "subcategory_for_category"
     if request.is_ajax() and request.GET and 'category_id' in request.GET:
         print request.GET['category_id']         
         objs1 = SubCategory.objects.filter(category_id=request.GET['category_id'])
@@ -116,7 +116,7 @@ def subcategory_for_category(request):
         return JSONResponse({'error': 'Not Ajax or no GET'})
 
 def brand_for_subcategory(request):
-    print "brand_for_subcategory"
+    # print "brand_for_subcategory"
     if request.is_ajax() and request.GET and 'sub_category_id' in request.GET:
         print request.GET['sub_category_id'] 
         # objs1 = Dropdown.objects.filter(subcat_refid=request.GET['sub_category_id']).exclude(brand_name='')
@@ -129,16 +129,16 @@ def brand_for_subcategory(request):
         return JSONResponse({'error': 'Not Ajax or no GET'})
 
 def sub_category(request, pname=None):
-    print pname
+    # print pname
     category=Category.objects.all()
     city=City.objects.all()
     cat=Category.objects.get(name=pname)
-    print cat.id
+    # print cat.id
     subcategory = SubCategory.objects.filter(category_id=cat.id)
-    for subcategory1 in subcategory:
-        print subcategory1.name
+    # for subcategory1 in subcategory:
+    #     print subcategory1.name
     path=request.path
-    print path
+    # print path
     recentad=Product.objects.filter().order_by('-id')[:3]
     ctx = {'subcategory':subcategory,'path':path,'recentad':recentad,'cat':cat,'category':category,'city':city}
     return render_to_response('adjod/subcategory.html', ctx , context_instance=RequestContext(request))
@@ -150,7 +150,7 @@ def product_detail(request, pk):
     large=str(adinfo.photos).split(',')
     largephoto=large[0]
     photos=[n for n in str(adinfo.photos).split(',')]
-    print photos
+    # print photos
  
     # results = SearchQuerySet().all()
     # sqs = SearchQuerySet().filter(content=adinfo.title)
@@ -162,12 +162,12 @@ def product_detail(request, pk):
     # for recommendresult in recommendresults:
     #     print "searchresults:", recommendresult
 
-    related_product=Product.get_related(str(adinfo))
+    related_product=Product.get_related(adinfo)
     print "related_product", related_product
 
     
     path=request.path
-    print path  
+    # print path  
     recentad=Product.objects.filter().order_by('-id')[:3]    
     ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto,'path':path,'related_product':related_product}  
     return render_to_response('advertisement/ad_detail.html',ctx, context_instance=RequestContext(request))    
@@ -175,10 +175,10 @@ def product_detail(request, pk):
 
 @pjax("pjax.html")
 def product_form(request, name=None, subname=None):
-    print "product_form"
-    print request.path 
+    # print "product_form"
+    # print request.path 
     userid=request.user.id
-    print "userid", userid
+    # print "userid", userid
     category=Category.objects.all()
     # dropdown=Dropdown.objects.all().exclude(year='', color='')
     dropdown=Dropdown.objects.all()
@@ -188,11 +188,11 @@ def product_form(request, name=None, subname=None):
     return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
 
 def product_save(request):
-    print "product_save"   
+    # print "product_save"   
     success=False
     product=Product()
     product.you_email = request.POST.get('your_email', '')
-    print product.you_email
+    # print product.you_email
     productresult=Product.objects.all()
     count=0
     for productresults in productresult:
@@ -215,13 +215,13 @@ def product_save(request):
             product.userprofile = None 
         
         product.category=Category.objects.get(id=request.POST['category_name'])
-        print product.category.id
+        # print product.category.id
         
         product.subcategory=SubCategory.objects.get(id=request.POST['subcategory_name'])
-        print product.subcategory.id
+        # print product.subcategory.id
 
         product.ad_brand=Dropdown.objects.get(id=request.POST['brand_name'])
-        print product.ad_brand.id
+        # print product.ad_brand.id
 
         product.adtype=request.POST.get('condition')
         product.title=request.POST.get('ad_title')
@@ -239,11 +239,11 @@ def product_save(request):
         
         #photos
         product.photos =request.FILES.getlist('photos[]')
-        print product.photos       
+        # print product.photos       
         
         def handle_uploaded_file(f):
             # product.photos = open('/static/img/photos/%s' % f.name, 'wb+')
-            print "settings.STATIC_ROOT", settings.STATIC_ROOT
+            # print "settings.STATIC_ROOT", settings.STATIC_ROOT
             product.photos = open('static/img/photos/%s' % f.name, 'wb+')
             for chunk in f.chunks():
                 product.photos.write(chunk)
@@ -258,12 +258,12 @@ def product_save(request):
                 photosgroup=photosgroup  + 'static/img/photos/' + str(uploaded_file)
             else:
                 photosgroup=photosgroup  +  'static/img/photos/' +str(uploaded_file) + ','
-        print photosgroup        
+        # print photosgroup        
         product.photos=photosgroup
 
         photo=str(product.photos)
-        print photo
-        print photo.split(',')
+        # print photo
+        # print photo.split(',')
         photos=photo.split(',')
         # print "photocount", len(photos)
         product.imagecount= len(photos)
@@ -277,39 +277,39 @@ def product_save(request):
                 count =len(photos)
                 for photo in photos:
                     count=count-1
-                    print "final photo",photo
+                    # print "final photo",photo
                     # photo=filename + file_ext
                     # print photo
                     THUMBNAIL_SIZE = (100, 100) # dimensions
                     image = ImageObj.open(photo)
-                    print image
+                    # print image
                     # Convert to RGB if necessary
                     if image.mode not in ('L', 'RGB'): image = image.convert('RGB')
                     # create a thumbnail + use antialiasing for a smoother thumbnail
                     image.thumbnail(THUMBNAIL_SIZE, ImageObj.ANTIALIAS)
                     # fetch image into memory
                     temp_handle = StringIO()
-                    print "temp", temp_handle
+                    # print "temp", temp_handle
                     image.save(temp_handle, 'png')
                     temp_handle.seek(0)                   
                     disassembled = urlparse(photo)
                     filename, file_ext = splitext(basename(disassembled.path))
                     suf = SimpleUploadedFile(filename + file_ext, temp_handle.read(), content_type='image/png')                    
                     product.thumbnail.save(filename + '_thumbnail' +'.png', suf, save=False)
-                    print product.thumbnail
+                    # print product.thumbnail
                     if count == 0:
                         thumbnail_group = thumbnail_group + str(product.thumbnail)
                     else:
                         thumbnail_group = thumbnail_group + str(product.thumbnail) + ','
-                print thumbnail_group
+                # print thumbnail_group
             except ImportError:
                 pass
         product.thumbnail = thumbnail_group
         if request.FILES.getlist('videos[]'):
-            print "files if part"
+            # print "files if part"
             #videos
             product.video =request.FILES.getlist('videos[]')
-            print product.video
+            # print product.video
 
             def handle_uploaded_file(f):
                 # product.photos = open('/static/img/photos/%s' % f.name, 'wb+')
@@ -327,13 +327,13 @@ def product_save(request):
                     videosgroup=videosgroup + 'static/videos/' + str(uploaded_file)
                 else:
                     videosgroup=videosgroup + 'static/videos/' +str(uploaded_file) + ','
-            print videosgroup        
+            # print videosgroup        
             product.video=videosgroup
         else:
-            print "files else part"
-            print request.POST.get('videos1')
+            # print "files else part"
+            # print request.POST.get('videos1')
             product.video = request.POST.get('videos1')
-            print product.video
+            # print product.video
        
         product.created_date  = datetime.datetime.now()
         product.expired_date = product.created_date + datetime.timedelta(days=30)
@@ -353,19 +353,19 @@ def product_save(request):
     ctx = {'success':success,'emailerror':emailerror}
     # return render_to_response('advertisement/ad_post.html',ctx , context_instance=RequestContext(request))
     if emailerror:
-        print "emailerror"
+        # print "emailerror"
         return HttpResponseRedirect('/postad/?er=emailerror')       
     else:
         return HttpResponseRedirect('/postad/?su=success')
 
 def freealert_save(request):
-    print "freealert_save"
+    # print "freealert_save"
     user=request.user.id
-    print "user", user
+    # print "user", user
     freealert=FreeAlert()
     if user:
         userprofile=User.objects.get(id=user)
-        print "userprofile.id", userprofile.id     
+        # print "userprofile.id", userprofile.id     
         freealert.alert_user=UserProfile.objects.get(user=userprofile.id)
         freealert.alert_category=Category.objects.get(id=request.POST['your_category'])
         freealert.alert_subcategory=SubCategory.objects.get(id=request.POST['your_subcategory'])
@@ -376,7 +376,7 @@ def freealert_save(request):
         freealert.save()
         return HttpResponseRedirect("/?falert=success")
     else:
-        print "else part"
+        # print "else part"
         return HttpResponseRedirect("/?alert=failure")
 
 def freealert(request):
@@ -386,13 +386,13 @@ def freealert(request):
     return render_to_response('advertisement/ad_freealert.html',ctx,context_instance=RequestContext(request))
 
 def expired_ad_conformation(request):
-    print "expired_ad_conformation"
+    # print "expired_ad_conformation"
     ad_id = request.REQUEST['ad_id']
     user_id = request.REQUEST['user_id']
     ad_active = request.REQUEST['ads_active']
-    print ad_id
-    print user_id
-    print ad_active
+    # print ad_id
+    # print user_id
+    # print ad_active
     user_and_product = Product.objects.get(id=ad_id,userprofile=user_id)
     if ad_active == "active":
         user_and_product.status_isactive= True

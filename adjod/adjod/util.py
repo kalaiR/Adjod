@@ -45,7 +45,7 @@ def get_global_language(request):
                     user_ip = '106.51.234.149'
                 g = GeoIP()
                 country = g.country_code(user_ip)
-                print "country", country
+                # print "country", country
                 language_list = ['en','sv','de']
                 country_language_dict = {
                     'AU':'en','IN':'en','SE':'sv','DE':'de',
@@ -124,7 +124,7 @@ def get_global_country(request):
         user_ip = '106.51.234.149'
     g = GeoIP()
     country = g.country_code(user_ip)
-    print "country", country
+    # print "country", country
     return country
 
 # def get_global_city(request):

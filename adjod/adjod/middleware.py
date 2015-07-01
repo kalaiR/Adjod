@@ -14,14 +14,14 @@ class Global(object):
     global_city=''
     
     def process_request(self, request):
-        print "enter process_request"
+        # print "enter process_request"
         globals.request = request
         globals.user = getattr(request, 'user', None)
         globals.ip = get_client_ip(request)
-        print "globals.ip", globals.ip
+        # print "globals.ip", globals.ip
         if ',' in globals.ip:
             globals.ip = globals.ip.split(',')[0].strip()
-            print "globals.ip", globals.ip
+            # print "globals.ip", globals.ip
         globals.sess = request.session.session_key
         
         if not (request.user.is_superuser or request.user.is_staff):
@@ -49,24 +49,24 @@ class Global(object):
     
     def process_response(self, request, response):
         """while response set cookie for language"""
-        print "self.global_language", self.global_language
-        print "self.global_country", self.global_country
-        print "self.global_ip", self.global_ip
-        print "self.global_city", self.global_city
+        # print "self.global_language", self.global_language
+        # print "self.global_country", self.global_country
+        # print "self.global_ip", self.global_ip
+        # print "self.global_city", self.global_city
         if self.global_language:
-            print "enter self.global_language"
+            # print "enter self.global_language"
             language=self.global_language
             response.set_cookie(settings.LANGUAGE_COOKIE_NAME, 
                 language, max_age = 365 * 24 * 60 * 60)        
 
         if self.global_country:
-            print "enter self.global_country"
+            # print "enter self.global_country"
             country=self.global_country
             response.set_cookie("country", 
                 country, max_age = 365 * 24 * 60 * 60)
 
         if self.global_ip:
-            print "enter self.global_ip"
+            # print "enter self.global_ip"
             ip=self.global_ip
             response.set_cookie("ip", 
                 ip, max_age = 365 * 24 * 60 * 60)

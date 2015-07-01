@@ -186,10 +186,10 @@
                   <div class="additional_details">
                     <h3>{{product.object.price}}</h3>
                     <div class="number_verify_control">
-                      <span class="number_verify1">Number verified<i class="fa fa-check-circle checkcircle">
+                      <span class="number_verify1">Online<i class="fa fa-check-circle checkcircle">
                       </i></span>
                     </div>
-                    <a href="" class="btn btn-default contact_button contact-button"> contact</a>
+                    <a class="btn btn-default contact_button contact-button" href="javascript:openChatBox('{{product.object.userprofile.user.first_name}}', '', false)"> Chat Now</a>
                   </div>
                 </div>
                 </li>
@@ -232,10 +232,13 @@
               </a> 
               {% endif %}
               </li> 
-            
+           
             </ul>
           </div>
         </div> <!-- bottom_part -->
+        
+        <div id="chat_div"></div>
+        
         {%endif%}
       </div> <!-- right_part -->
 {%if not request.is_ajax%}

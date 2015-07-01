@@ -121,63 +121,25 @@ class Product(models.Model):
         return self.title
 
     @classmethod
+    # def get_related(cls,product):
+    #     print "get_related"
+    #     print "product", product
+    #     qs =  SearchQuerySet().exclude(id=product.id)
+    #     qs.models(Product)
+    #     qs.query.backend.default_operator = 'OR'
+    #     related_product=[]
+    #     for product in qs:
+    #         if product.object:
+    #             related_product.append(product)
+    #     return related_product
+
     def get_related(cls,product):
         print "get_related"
         print "product", product
-        qs =  SearchQuerySet().exclude(id=product)
-        qs.models(Product)
-        qs.query.backend.default_operator = 'OR'
-        related_leads=[]
-        for product in qs:
-            if product.object:
-                related_leads.append(product)
-        return related_leads
-
-    # def get_related(cls, product,pk):
-    #     import re
-    #     base_query = dict(status_isactive = 1)
-    #     qs =  SearchQuerySet().exclude(id=product.id)
-    #     if product.title:
-    #       title = re.sub(r'[^\w]', ' ', \
-    #         product.title, flags=re.UNICODE).split(' ')
-    #       qs = qs.filter_or(title__in=title, **base_query)
-    #       print "qs", qs
-    #     qs.models(Product)
-    #     qs.query.backend.default_operator = 'OR'
-    #     return qs  
-
-    # def get_related(cls,product):
-    #     # from haystack.query import RelatedSearchQuerySet
-    #     # sqs = RelatedSearchQuerySet().filter(content=product).load_all()
-    #     # print "sqs",sqs
-    #     # sqs = sqs.load_all_queryset(Product, Product.objects.all().select_related(depth=1))
-    #     # print "sqs", sqs
-    #     # return sqs
-    #     sqs=SearchQuerySet().auto_query(product)
-    #     related_product=[]
-    #     for r in sqs:
-    #         related_product.append(r.object)
-    #     print "related_product", related_product
-    #     return related_product
-
-   
-
-    # def get_related(cls, product):
-    #     base_query = dict(status_isactive = 1)
-    #     qs =  SearchQuerySet().exclude(id=product.id)     
-    #     if product.title:
-    #       title = re.sub(r'[^\w]', ' ', \
-    #         product.title, flags=re.UNICODE).split(' ')
-    #       qs = qs.filter_or(title__in=title, **base_query)
-    #       if title_boost != 0:
-    #         qs = qs.boost('title', title_boost)  
-    #     qs.models(Product)
-    #     qs.query.backend.default_operator = 'OR'
-    #     if debug:
-    #       print unicode(qs.query)
-    #     for product in qs:
-    #       if product.object:
-    #             yield (product.object.id, product.object)
+        qs =  SearchQuerySet().exclude(id=product.id).filter(subcategory=product.subcategory)
+        print qs
+        return qs
+        
             
 class FreeAlert(models.Model):
     alert_user=models.ForeignKey(UserProfile)

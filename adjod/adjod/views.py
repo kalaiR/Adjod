@@ -48,7 +48,7 @@ from django.contrib.gis.geoip import GeoIP
 #Paypal transaction definition
 @csrf_exempt
 def show_me_the_money(sender, **kwargs):
-    print "show_me_the_money"
+    # print "show_me_the_money"
     ipn_obj = sender
     payStatus=ipn_obj.POST.get('payment_status','')
     if payStatus=='Completed':
@@ -56,12 +56,12 @@ def show_me_the_money(sender, **kwargs):
     # Undertake some action depending upon `ipn_obj`.
     # if ipn_obj.custom == "Upgrade all users!":
     #     User.objects.update(paid=True)        
-print "show_me_the_money2"
+# print "show_me_the_money2"
 payment_was_successful.connect(show_me_the_money)
 
 def notify(request):
-    print "notify"
-    print "request", request.REQUEST['business']
+    # print "notify"
+    # print "request", request.REQUEST['business']
     return HttpResponseRedirect("/")
 
 @csrf_exempt
@@ -106,7 +106,7 @@ def home(request):
 #User login defintion
 @csrf_protect 
 def user_login(request):
-    print "user_login"
+    # print "user_login"
     def errorHandle(error):
         print "enter errorHandle"
         form = UserForm()
@@ -195,10 +195,10 @@ def register(request):
             # Once hashed, we can update the user object.
             # user.set_password(user.password)
             # user = User.objects.create_user(user.username, user.email, user.password)
-        print request.POST['email_id']
-        print request.POST['password']
-        print request.POST['city']
-        print request.POST['your_mobile_number']
+        # print request.POST['email_id']
+        # print request.POST['password']
+        # print request.POST['city']
+        # print request.POST['your_mobile_number']
         user.is_active = False
         user.username=request.POST['email_id']
         user.email=request.POST['email_id']
@@ -208,15 +208,15 @@ def register(request):
         userprofile.user=user
         userprofile.city=request.POST['city']
         userprofile.mobile=request.POST['your_mobile_number']
-        print "request.COOKIES.get('adjod_language')", request.COOKIES.get('adjod_language')
+        # print "request.COOKIES.get('adjod_language')", request.COOKIES.get('adjod_language')
         userprofile.language=request.COOKIES.get('adjod_language')
-        print "request.COOKIES.get('country')", request.COOKIES.get('country')
+        # print "request.COOKIES.get('country')", request.COOKIES.get('country')
         country_id=Country.objects.get(code=request.COOKIES.get('country'))
-        print "country_id", country_id.id
+        # print "country_id", country_id.id
         userprofile.country=Country.objects.get(id=country_id.id)
         
         confirmation_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for x in range(33))
-        print confirmation_code
+        # print confirmation_code
         p = UserProfile(user=user, city=userprofile.city, mobile=userprofile.mobile, confirmation_code=confirmation_code, language=userprofile.language, country=userprofile.country)
         
         # Now sort out the UserProfile instance.
@@ -236,9 +236,9 @@ def register(request):
         # profile.p.save()
         
         send_registration_confirmation(user)
-        print "send mail" 
+        # print "send mail" 
         # confirm(user,confirmation_code, user.username)
-        print "send confirmation"
+        # print "send confirmation"
         return HttpResponseRedirect('../../../../../')
 
         # Update our variable to tell the template registration was successful.
@@ -285,7 +285,7 @@ def confirm(request, confirmation_code, username):
         return HttpResponseRedirect('../../../../../')
     
 def start(request):
-    print 'start'
+    # print 'start'
     city=City.objects.all()
     category=Category.objects.all()
     path=request.path
@@ -303,7 +303,7 @@ def autocomplete_keyword(request):
   if keyterm:
     unsort_dict = {}    
     lead_keywords = Category.objects.filter(name__istartswith=keyterm)    
-    print 'lead_keywords',lead_keywords
+    # print 'lead_keywords',lead_keywords
     for lead_keyword in lead_keywords:      
       keyword_strip = lead_keyword.name.strip()
       keyword_title = keyword_strip.title()      
