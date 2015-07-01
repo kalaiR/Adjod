@@ -19,17 +19,19 @@ from advertisement.models import *
 
 @csrf_exempt
 def find_online_users(userid):
-    # last_active_list = LastActive.objects.filter(received_at__gt = datetime.datetime.now() - datetime.timedelta(seconds=15))
-    # users_list = []
-    # for last_active in last_active_list:
-    #     users_list.append(int(last_active.user.id)) 
-    #     print "users_list", users_list
-    # users_list.remove(userid)
-    # print "users_list after remove", users_list
-    # return ",".join(str(n) for n in users_list)
-
-    users_list=[49,53,65]
+    print "userid", userid
+    # last_active_list = LastActive.objects.filter(received_at__gt = datetime.datetime.now() - datetime.timedelta(seconds=5))
+    last_active_list = LastActive.objects.filter(received_at__gt = datetime.datetime.now() - datetime.timedelta(seconds=15))
+    users_list = []
+    for last_active in last_active_list:
+        users_list.append(int(last_active.user.id)) 
+        print "users_list", users_list
+    users_list.remove(userid)
+    print "users_list after remove", users_list
     return ",".join(str(n) for n in users_list)
+
+    # users_list=[49,53,65]
+    # return ",".join(str(n) for n in users_list)
 
 def get(request):
     if not request.is_ajax():
@@ -55,7 +57,7 @@ def get(request):
     return HttpResponse('ACTIVE:' + find_online_users(request.user.id))
 
 def get_product(request):
-    # print "users_list", request.GET.get('users_list')
+    print "users_list", request.GET.get('users_list')
     user_group=[]
 
     #only users
@@ -67,14 +69,19 @@ def get_product(request):
     # return HttpResponse(",".join(str(n) for n in user_group))
 
     #User with products
-    for users_lists in request.GET.get('users_list').split(','):
-        # print "users_list split", users_lists
-        userprofile=UserProfile.objects.get(user=users_lists)
-        user_group.append(int(userprofile.id))
-    # print "userprofile", user_group
-    user_product=Product.objects.filter(userprofile__in=user_group)
-    # print "user_product", user_product
-    return HttpResponse(",".join(str(n) for n in user_product))
+    if request.GET.get('users_list') == []:
+        user_product=None  
+        return HttpResponse(user_product)     
+    else:
+        for users_lists in request.GET.get('users_list').split(','):
+            print "users_list split", users_lists
+            userprofile=UserProfile.objects.get(user=users_lists)
+            print "userprofile", userprofile
+            user_group.append(int(userprofile.id))
+        print "userprofile", user_group
+        user_product=Product.objects.filter(userprofile__in=user_group)
+        print "user_product", user_product
+        return HttpResponse(",".join(str(n) for n in user_product))
 
 @csrf_exempt
 def post(request):

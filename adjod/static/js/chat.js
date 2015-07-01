@@ -27,7 +27,7 @@
 				// update_chat_message(username, check_vchat_req(message, username));
 				update_chat_message(username, message);
 			}
-			setTimeout(doPoll, 10000);
+			setTimeout(doPoll, 5000);
 		});
 	}
 	
@@ -83,12 +83,12 @@
 		var offset = $(div_id).chatbox("option", "offset");
 		if (typeof $("#chat_" + username).html() == 'undefined') {
 			$('body').append(
-					"<div id = " + div_name + ">" + username + "  </div>");
+					"<div id = " + div_name + "></div>");
 			$(div_id).chatbox(
 					{
 						id : div_name,
 						user : username,
-						title : '<a  target="_blank" href="/vchat_req?to=' + username + '"> Start Video Chat </a>',
+						title : '<a  target="_blank" href="/vchat_req?to=' + username + '"> chat with ' + username + '</a>',
 						offset : offset_val,
 						boxClosed : function(id) {
 							offset_val -= 250;
@@ -96,28 +96,28 @@
 						messageSent : function(id, user, msg) {
 							$("#log").append(id + " said: " + msg + "<br/>");
 							server_update(msg, id.replace('chat_', ''));
-							// $(div_id).chatbox("option", "boxManager").addMsg('me', msg);
+							$(div_id).chatbox("option", "boxManager").addMsg('me', msg);
 						}
 					});
 			offset_val += 250;
 			$(div_id).chatbox("option", "boxManager").addMsg('', '');
-			alert("enter if");
-			alert("auto" + auto + "  in if");
+			// alert("enter if");
+			// alert("auto" + auto + "  in if");
 		} else {
-			alert("enter else with not equal to auto");
-			alert("auto" + auto + "  in else");
+			// alert("enter else with not equal to auto");
+			// alert("auto" + auto + "  in else");
 			if (!auto) {
 				$(div_id).chatbox("option", "boxManager").toggleBox();
 			}
 		}
 
 		if (auto) {
-			alert("enter if with auto");
-			alert("auto" + auto + "  in last if");
+			// alert("enter if with auto");
+			// alert("auto" + auto + "  in last if");
 			$(div_id).chatbox("option", "boxManager").addMsg(username, message);
 		}
-		else{
-			alert("enter else");
-			alert("auto" + auto + "  in last else");
-		}
+		// else{
+		// 	alert("enter else");
+		// 	alert("auto" + auto + "  in last else");
+		// }
 	}
