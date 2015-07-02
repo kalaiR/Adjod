@@ -50,7 +50,9 @@
 				var text=$(this).text().trim();
 				if ($.inArray(text, array_result1)!= -1){
 					// alert(text);
-					$(this).parents('.product_name1').parents('.details').children('.additional_details').children().children().children('.checkcircle').show();					
+					$(this).parents('.product_name1').parents('.details').children('.additional_details').children().children().children('.checkcircle').show();
+					$(this).parents('.product_name1').parents('.details').children('.additional_details').children('.contact_button').css({"cursor":"pointer","pointer-events":"auto"});										
+
 				}
 			});
 			// var users = users_list.split(',');

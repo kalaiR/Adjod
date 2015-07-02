@@ -400,32 +400,40 @@ $( document ).ready(function() {
      	 	};
 		});
 		
-		//============= SIGN IN VALIDATION ===========
-		$('#signin').click(function(){
-			//EMAIL
-			if ($('#emailid_signup').val() == '') {
-          		$('#emailid_required').removeClass('hide_error_message');
-      		} else{
-          		if (!$('#emailid_required').hasClass('hide_error_message'))
-              		$('#emailid_required').addClass('hide_error_message');
-     	 	};
-     	 	//PASSWORD
-     	 	if ($('#password_signup').val() == '') {
-          		$('#password_required').removeClass('hide_error_message');
-      		} else{
-          		if (!$('#password_required').hasClass('hide_error_message'))
-              		$('#password_required').addClass('hide_error_message');
-     	 	};
-		});
+		
+	
 	   
 	    //============= POST AD VALIDATION ===========
 
     jQuery(document).ready(function(){
+    sign_in_required =["emailid_signup", "password_signup"];
     // Place ID's of all required fields here.
     // required = ["category", "ad_title", "your_price", "your_description", "your_email", "select_container_city", "select_container_locality"];
     required = ["category", "ad_title", "your_price", "your_description", "your_email"];
     // emailerror = "Invalid Email";
     // phoneerror = "Invalid Phone"
+
+    //============= SIGN IN VALIDATION ===========
+
+   jQuery('#signin').click(function(){     
+      for (i=0;i<sign_in_required.length;i++) {
+      var input = jQuery('#'+sign_in_required[i]);
+      if (input.val() == "")  {   
+        input.addClass("error_input_field");
+        input.siblings('.labelError').show();         
+      } else {    
+        input.removeClass("error_input_field");
+        input.siblings('.labelError').hide();        
+      }
+    }
+     if ($(":input").hasClass("error_input_field")){
+    return false;
+    }
+    else{
+      return true;
+      $('form[name="sign_in"]').submit();
+    }
+    });
   
     jQuery("#post").click(function(){ 
     for (i=0;i<required.length;i++) {

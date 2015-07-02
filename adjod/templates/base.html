@@ -212,17 +212,17 @@
             <div id="account" class="form-group">
                 <span>I have a account already</span>
               </div> <!-- account -->
-           <form id="login_form" method="post" action="/login/">  
+           <form id="login_form" method="post" action="/login/" name="sign_in">  
            {% csrf_token %}
 
             <div id="email_userid_div" class="form-group">
                 <input class="email_id" name="email_id" id="emailid_signup" placeholder="Email / User ID*" />
-                <span id="emailid_required" class="hide_error_message error_message">Please enter Email or User ID.</span>
+                <label for="emailid_signup" id="emailid_required" class="labelError" style="display:none;">Please enter Email or User ID</label>
               </div> <!-- email_id_div -->
               
               <div id="password_signup_div" class="form-group">
                 <input class="password" type="password" name="password" id="password_signup" placeholder="Password*" />
-                <span id="password_required" class="hide_error_message error_message">Please enter Password.</span>
+                <label for="password" id="password_required" class="labelError" style="display:none;">Please enter Password</label>
               </div> <!-- password_div -->
             
             
@@ -230,6 +230,7 @@
             <div id="forgot_div" class="form-group">
               <span>Forgot you password?</span>
               <input class="btn confirm_button" type="submit" value="Sign in" name="create" id="signin" />
+           
             </div> <!-- forgot_div -->
            </form>  
             <div id="" class="form-group">
@@ -266,6 +267,7 @@
           <div id="register_now" class="form-group">
               <span>Register now for free</span>
             </div> <!-- register_now -->
+
           
           <div id="email_id_div" class="form-group">
               <input class="email_id" name="email_id" id="email_id" placeholder="Email ID*" />
