@@ -2,7 +2,8 @@
 {% load i18n %}
 {% load app_filters %}
 <!DOCTYPE>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE|default:"en-us" }}" xml:lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<!-- <html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE|default:"en-us" }}" xml:lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}> -->
+<html>
 <head>
 <title>{% block title %}{% endblock %}</title>
 <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +28,6 @@
     <script src="{% static "js/less.js" %}"></script>
     <script src="{% static "js/action.js" %}"></script>    
     <script type="text/javascript" src="{% static "js/quikr_project.js" %}"></script>   
-    <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script>   
     <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
     <script type="text/javascript">
@@ -37,6 +37,28 @@
     {% if 'alert' in request.REQUEST %}
       alert("Alert Created failed...You are not registered users");
     {% endif %}
+
+    // {% if 'st' in request.REQUEST %}
+    //   var height=$('.sign_up_div').height();
+    //   var width=$('.sign_up_div').width();
+    //   $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+    //   $('.popup_fade').show();
+    //   $('.sign_up_div, .close_btn').show();
+    // {% endif %}
+
+    // function get(name){
+    // if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(window.location.href))
+    //   return decodeURIComponent(name[1]);
+    // }
+    // if (get('st')){
+    //   alert(get);
+    //   var height=$('.sign_up_div').height();
+    //   var width=$('.sign_up_div').width();
+    //   $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+    //   $('.popup_fade').show();
+    //   $('.sign_up_div, .close_btn').show();
+    //   // document.body.style.overflow = 'hidden';
+    // }
     </script>
 </head>
 
@@ -55,7 +77,7 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
-            <li><a href="/">{{request.user}}</a></li>
+            <li><a href="/">{{request.user.email}}</a></li>
             {% endif %}
               <li>
                   <div class="custom_select language_custom_select">
@@ -81,8 +103,7 @@
                           {% csrf_token %}  
                             <input name="next" type="hidden" value="{{request.path}}{% if request.GET.urlencode %}?{{request.GET.urlencode}}{% endif %}" />
                             <select name="language" onchange="this.form.submit();">
-                                <option value="" style="display: none;"> </option>                      
-                                
+                                <option value="" style="display: none;"> </option>                                  
                                 <option value="en">{% trans "English" %}</option>
                                 <option value="de">{% trans "German" %}</option>
                                 <option value="sv">{% trans "Swedish" %}</option>
@@ -95,8 +116,8 @@
                   {% if user.is_authenticated %}
                   <a href="/logout/" class="fancybox orange_text">Logout</a>
                   {% else %}
-                  <a href="#sign_in_div" class="fancybox orange_text">Login</a>
-                  <li><a href="#sign_up_div" class="fancybox">Sign up</a></li></a>
+                  <a class="popup_sign_in">Login</a>
+                  <li><a class="popup_sign_up">Sign up</a></li></a>
                   {% endif %}
               </li>
             </ul>
@@ -203,8 +224,10 @@
   <!--======================
             Sign in 
       ========================-->
-      <div style="display: none;" class="container">
+      <div class="popup_fade cancel_btn" style="display: none;"></div>
+      <div class="container">
           <div id="sign_in_div" class="sign_in_div">
+          <code class="close_btn cancel_btn"> </code>
             <div class="sign_in_title">
               <span>Sign in</span>
             </div> <!-- sign_in_title -->
@@ -214,6 +237,8 @@
               </div> <!-- account -->
            <form id="login_form" method="post" action="/login/" name="sign_in">  
            {% csrf_token %}
+
+          
 
             <div id="email_userid_div" class="form-group">
                 <input class="email_id" name="email_id" id="emailid_signup" placeholder="Email / User ID*" />
@@ -254,15 +279,17 @@
       <!--======================
             Sign up 
       ========================-->
-      <div style="display: none;" class="container">
-        <div id="sign_up_div" class="sign_up_div">
+      <div class="popup_fade cancel_btn" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}"></div>
+      <div class="container">
+      
+        <div id="sign_up_div" class="sign_up_div" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}">
+        <code class="close_btn cancel_btn" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}"> </code>
           <div class="sign_up_title">
             <span>Sign up</span>
           </div> <!-- sign_up_title -->
-          {% if registered %}
-          <h5>Successfully registered</h5>
-          {% endif %}
-        <form id="user_form" method="post" action="/new_user/" enctype="multipart/form-data"> 
+          <span class="signup_error" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}">
+          {%for message in messages%}{{message}}{% endfor %}</span>
+        <form id="user_form" method="post" action="/new_user/" name="sign_up" enctype="multipart/form-data"> 
         {% csrf_token %}
           <div id="register_now" class="form-group">
               <span>Register now for free</span>
@@ -271,44 +298,35 @@
           
           <div id="email_id_div" class="form-group">
               <input class="email_id" name="email_id" id="email_id" placeholder="Email ID*" />
-              <span id="email_required" class="hide_error_message error_message">Please enter Email.</span>
+              <label id="email_required" class="signup_labelError" style="display:none;">Please enter Email</span>
               <span id="valid_signup_email_required" class="hide_error_message error_message">Please enter valid Email.</span>
             </div> <!-- email_id_div -->
             
             <div id="password_div" class="form-group">
               <input class="password" type="password" name="password" id="password" placeholder="Password*" />
-              <span id="signup_password_required" class="hide_error_message error_message">Please enter Password.</span>
-            </div> <!-- password_div -->
-            
-            <div id="select_city_div" class="form-group">
+              <label for="password" id="signup_password_required" class="signup_labelError" style="display:none;">Please enter Password</label>
+            </div> <!-- password_div -->    
               
-              <div class="select_container fl">
-                <div class="select_div">
-                  <p id="select_city">Select city</p>
-                  <i class="city_fa fa fa-caret-down">
-                    
-                  </i>
-                </div> <!-- select_div -->
-                <select class="select_city" name="city">
-                {% for cityitem in city %} 
-                <option value="{{ cityitem.city }}">{{ cityitem.city }}</option>
-                {% endfor %}
-                </select>
-              </div> <!-- select_container -->
+             <div id="user_id_div" class="form-group fl">
+              <input class="user_id" name="user_id" id="user_id" placeholder="Username*" />
+              <label for="user_id" id="user_required" class="signup_labelError" style="display:none;">Please enter Username</label>
+            </div> <!--user _id_div -->
+
               
-              <div class="fl">
+              <div id="mobile_number_div" class="form-group">
                 <input class="mobile_number" name="your_mobile_number" id="mobile_number" placeholder="Your mobile number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
               </div>
               <div class="clear_both">
                 
-              </div>
+              <!-- <div class="sign_up_span">
               <span>(We will verify this number for privacy protection)</span>
-            </div> <!-- description_div -->
+              </div> -->
+            
             
             <div id="confirm_div" class="form-group">
               <input class="confirm" type="checkbox" name="confirm" />
               <span>I confirm that i am 18 yrs or older</span>
-              <input class="btn confirm_button" type="submit" value="Create" name="create" id="create" />
+              <input class="btn signup_confirm_button" type="submit" value="Create" name="create" id="create"/>
             </div> <!-- password_div -->
             
             <div id="hr_div" class="form-group">
@@ -316,7 +334,7 @@
             </div> <!-- hr_div -->
             
             <div id="signin_div" class="form-group">
-              <span class="signin">I have a account already <a href="#sign_in_div" class="fancybox orange_text">Sign in</a> </span>
+              <span class="signin">I have a account already <a href="#sign_in_div">Sign in</a> </span>
             </div> <!-- signin_div -->
        </form>      
         </div> <!-- sign_up_div -->

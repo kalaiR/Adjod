@@ -176,7 +176,7 @@
                 </div>
              
               <input type="text" class="choose_category" name="category1" id="category" placeholder="Choose a category" value="" disabled="disabled" />
-           		<a class="fancybox" href="#category_popup"><button class="btn choose_button">Choose</button></a>
+           		<a class="btn choose_button">Choose</a>
            		<label for="category" id="category_required" class="labelError" style="display:none;">Please choose category, Subcategory and Brand.</label>  
               <div class="clear_both"></div>
            	</div> <!-- category_div -->
@@ -425,9 +425,10 @@
       		Category popup
       ========================-->
       
-      
-      <div style="display: none;" class="container">
-      	<div id="category_popup" class="choose_category_div">
+      <div class="popup_fade cancel_btn" style="display: none;"></div>
+      <div class="container">
+      	<div id="category_popup" class="choose_category_div" style="display:none;">
+        <code class="close_btn cancel_btn" style="display: none;"> </code>
       		<div class="row title_row">
   				<div class="col-md-4">Category</div>
   				<div class="col-md-4">Sub Category</div>
@@ -465,6 +466,7 @@
       <!--======================
       			Sign up 
       ========================-->
+
       <div style="display: none;" class="container">
       	<div id="sign_up_div" class="sign_up_div">
       		<div class="sign_up_title">

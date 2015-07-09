@@ -293,3 +293,5 @@ SEO_MODEL_REGISTRY = (
 )
 
 GEOIP_PATH = os.path.join(os.path.dirname(__file__), '../static/geoip/')
+
+LOGIN_ERROR_URL = '/login_error/'

@@ -2287,6 +2287,8 @@ sup , .view_example{
   color: #ffffff;
   position: relative;
   bottom: 2px;
+  line-height: 33px;
+  cursor:pointer;
 }
 .description, .videos{
     font-size:16px;
@@ -2443,11 +2445,7 @@ sup , .view_example{
 //      SIGN UP POPUP
 // ===========================
 
-.sign_up_div, #sign_in_div{
-  height: 500px;
-  width: 600px;
-  border: 1px solid #d7d7d7;
-}
+
 .sign_up_title, .sign_in_title{
   height: 55px;
   background-color:#7880a7;
@@ -2458,6 +2456,38 @@ sup , .view_example{
   display:block;
   padding:10px;
   font-weight: normal;
+}
+
+#sign_up_div .email_id{
+	font-size:16px;
+    border: 1px solid #d8d8d8;
+    height: 55px;
+    width: 399px;
+    padding: 10px;
+    border-radius:4px;
+    margin-right:20px;
+}
+#sign_up_div .password{
+	font-size:16px;
+    border: 1px solid #d8d8d8;
+    height: 55px;
+    width: 399px;
+    padding: 10px;
+    border-radius:4px;
+}
+
+#sign_up_div .user_id{
+	font-size:16px;
+    border: 1px solid #d8d8d8;
+    height: 55px;
+    width: 190px;
+    padding: 10px;
+    border-radius:4px;
+    margin-right:20px;
+}
+
+.sign_up_span span{
+	margin-left:121px;
 }
 .email_id, .password{
     font-size:16px;
@@ -2472,8 +2502,9 @@ sup , .view_example{
     height: 55px;
     width: 190px;
     padding: 10px;
+    border-radius:4px;
 }
-#register_now, #email_id_div, #password_div, #select_city_div, #confirm_div, #account, #email_userid_div, #password_signup_div, #forgot_div{
+#register_now, #email_id_div, #password_div, #select_city_div, #confirm_div, #account, #email_userid_div, #password_signup_div, #forgot_div, #user_id{
   //text-align:center;
   margin-left: 120px;
 }
@@ -2512,7 +2543,20 @@ sup , .view_example{
   background-color: #fc891e;
   color: #ffffff;
   font-size: 18px;
-  margin-left : 40px;
+  margin-left : 54px;
+  
+
+}
+.signup_confirm_button{
+  height: 40px;
+  width: 130px;
+  background-color: #fc891e;
+  color: #ffffff;
+  font-size: 18px;
+  margin-left : 54px;
+  cursor:default;
+  pointer-events:none;
+
 }
 .confirm{
   margin-top : 13px !important;
@@ -2770,6 +2814,20 @@ label >.error { color:red; }
 	display:block;
 	width:270px;
 }
+.signup_labelError{	
+	color:red;
+	font-size:12px;
+	display:block;
+	width:178px;
+}
+.signup_error{	
+	color:red;
+	font-size:15px;
+	display:block;
+	width:178px;
+	margin-left:50px;
+	margin:10px 0 0 118px;
+}
 
 
 .banner_ad ul li {
@@ -2869,6 +2927,29 @@ label >.error { color:red; }
    max-width:100%;
 }
 
+.sign_up_div, .sign_in_div{
+   border: 1px solid #d7d7d7;
+   height: 500px;
+   width: 600px;
+   top:50%;
+   left:50%;
+   position:fixed;
+   z-index:9999;
+   background:white;
+   display:none;
+}
+.choose_category_div{
+   border: 1px solid #d7d7d7;
+   height: 550px;
+   width: 1000px;
+   top:50%;
+   left:50%;
+   position:fixed;
+   z-index:9999;
+   background:white;
+   display:none;
+}
+
 .thumb_holder {
 	bottom:0px;
 	position:absolute;
@@ -2906,10 +2987,45 @@ label >.error { color:red; }
 .img {
     background: url("http://teja1.kuikr.com/images/Quikr_Sprite.1432102322.png") no-repeat scroll 0 0 transparent;
     height: 75px;
-
     position: absolute;
-
     width: 79px;
     z-index: 2;
 }
 
+.popup_sign_up,.popup_sign_in{
+	cursor:pointer;
+}
+
+.popup_fade {
+    background:#4b576f; 
+    filter:0;
+    -moz-opacity:0.7;    -khtml-opacity: 0.7;
+    opacity: 0.7;       filter: alpha(opacity=70);  
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70); 
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=70)"; 
+    zoom: 1;    display: none;
+    width: 100%;    height: 100%;
+    position: absolute;    top: 0;    z-index: 1100;
+    overflow: hidden; 
+}
+.close_btn {
+    position:absolute;
+    display:none;
+    background: url("/static/img/close_btn.png") no-repeat 0px 0px;
+    width:28px;
+    height:29px;
+    top:-10px;
+    right:-10px;
+    z-index: 99999;
+    border:none;
+    cursor:pointer;
+    padding:0px;
+    background-color:transparent;
+} 
+#user_id_div .signup_labelError{
+	margin-left:131px;
+}
+
+#mobile_number_div{
+	display:block;
+}

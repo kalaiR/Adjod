@@ -244,6 +244,8 @@ def product_save(request):
         def handle_uploaded_file(f):
             # product.photos = open('/static/img/photos/%s' % f.name, 'wb+')
             # print "settings.STATIC_ROOT", settings.STATIC_ROOT
+            print "f", f
+            print "f.name", f.name
             product.photos = open('static/img/photos/%s' % f.name, 'wb+')
             for chunk in f.chunks():
                 product.photos.write(chunk)

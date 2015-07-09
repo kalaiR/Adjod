@@ -45,6 +45,12 @@ from paypal.standard.ipn.signals import payment_was_successful
 # For GEO
 from django.contrib.gis.geoip import GeoIP
 
+# from django.contrib.sites.models import get_current_site
+
+from adjod.util import format_redirect_url
+from django.core.exceptions import ValidationError
+from django.contrib import messages
+
 #Paypal transaction definition
 @csrf_exempt
 def show_me_the_money(sender, **kwargs):
@@ -101,36 +107,70 @@ def home(request):
     print "path", path 
     locality =Locality.objects.all() 
     city=City.objects.all()
-    return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad, 'locality':locality,'city':city }, context_instance=RequestContext(request)) 
+    country=Country.objects.all()
+    # current_site =get_current_site(request)
+    # print "current_site", current_site
+    return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad, 'locality':locality,'city':city, 'country':country }, context_instance=RequestContext(request)) 
+
+# def login_error(request):
+#     messages = get_messages(request)
+#     return render_to_response('error.html', { 'messages': messages })
+
+    # if request.is_ajax():
+    #     template = page_template
+    # return render_to_response(template, {
+    #         'leads':leads, 'error_message':error_message,
+    #         'form': DocumentForm(), 'formdata':{},
+    #         'page_template': page_template,
+    #         'home_paginate': settings.HOME_PAGE_PAGINATION
+    #     }, context_instance=RequestContext(request))
 
 #User login defintion
 @csrf_protect 
 def user_login(request):
     # print "user_login"
-    def errorHandle(error):
-        print "enter errorHandle"
-        form = UserForm()
-        category=Category.objects.all()
-        recentad=Product.objects.filter().order_by('-id')[:3]
-        print request.path
-        return render_to_response('adjod/userpage.html', {
-                'error' : error,
-                'form' : form,'category':category,'recentad':recentad
-        },context_instance=RequestContext(request))
+    # def errorHandle(error):
+    #     print "enter errorHandle"
+    #     form = UserForm()
+    #     category=Category.objects.all()
+    #     recentad=Product.objects.filter().order_by('-id')[:3]
+    #     print request.path
+    #     return render_to_response('adjod/userpage.html', {
+    #             'error' : error,
+    #             'form' : form,'category':category,'recentad':recentad
+    #     },context_instance=RequestContext(request))
     # Like before, obtain the context for the user's request.
     context = RequestContext(request)
     form = UserForm(request.POST) # A form bound to the POST data
     # If the request is a HTTP POST, try to pull out the relevant information.
+    error={}
     if request.method == 'POST':
         # Gather the username and password provided by the user.
         # This information is obtained from the login form.
         username = request.POST['email_id']
         password = request.POST['password']
+
+        # try:
+        #     error={}
+        #     if User.objects.filter(email=email).exists():
+        #         error['email_exists'] = ugettext('Email already exists')
+        #         print "error['email_exists']",error['email_exists']
+        #         raise ValidationError(error['email_exists'], 1)
+        #     if User.objects.filter(username=username).exists():
+        #         error['username_exists'] = ugettext('Username already exists')
+        #         print "error['username_exists']",error['username_exists']
+        #         raise ValidationError(error['username_exists'], 2)
+        # except ValidationError as e:
+        #     messages.add_message(request, messages.ERROR, e.messages[-1]) 
+        #     redirect_path = "/start/"
+        #     query_string = 'st=%d' % e.code
+        #     redirect_url = format_redirect_url(redirect_path, query_string)
+        #     return HttpResponseRedirect(redirect_url)
  
         # Use Django's machinery to attempt to see if the username/password
         # combination is valid - a User object is returned if it is.
         user = authenticate(username=username, password=password)
- 
+        
         # If we have a User object, the details are correct.
         # If None (Python's way of representing the absence of a value), no user
         # with matching credentials was found.
@@ -147,25 +187,28 @@ def user_login(request):
                 # return HttpResponseRedirect(starturl)
             else:
                 # An inactive account was used - no logging in!                
-                error = ugettext('Account disable')
-                return errorHandle(error)               
+                error['account_disable'] = ugettext('Account disable')
+               
+                raise ValidationError(error['account_disable'], 1)              
         else:
             # Bad login details were provided. So we can't log the user in.            
-            error = ugettext('Invalid user')
-            print "error", error
-            return errorHandle(error) 
+            # error = ugettext('Invalid user')
+            # print "error", error
+            
+            error['invalid_user'] = ugettext('Account disable')
+            raise ValidationError(error['invalid_user'], 2)     
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
-    else:
-        # No context variables to pass to the template system, hence the
-        # blank dictionary object...
-#          print'successfull'
-#          return HttpResponse("login.")
-#     return render(request, 'adjod/userpage.html', {}) 
-      form = UserForm() # An unbound form
-      print "5"
-      category=Category.objects.all()
-      return render_to_response('adjod/userpage.html', {'category':category}, context_instance=RequestContext(request))
+    
+        if error:        
+            messages.add_message(request, messages.ERROR, ValidationError.messages[-1]) 
+            redirect_path = "/start/"
+            query_string = 'st=%d' % ValidationError.code
+            redirect_url = format_redirect_url(redirect_path, query_string)
+            return HttpResponseRedirect(redirect_url)
+        else:    
+            category=Category.objects.all()
+            return render_to_response('adjod/userpage.html', {'category':category,'messages':messages}, context_instance=RequestContext(request))
 
 #User registration definition
 @csrf_protect
@@ -199,66 +242,99 @@ def register(request):
         # print request.POST['password']
         # print request.POST['city']
         # print request.POST['your_mobile_number']
-        user.is_active = False
-        user.username=request.POST['email_id']
-        user.email=request.POST['email_id']
-        user.password=request.POST['password']
-        user.set_password(user.password)
-        user.save()
-        userprofile.user=user
-        userprofile.city=request.POST['city']
-        userprofile.mobile=request.POST['your_mobile_number']
-        # print "request.COOKIES.get('adjod_language')", request.COOKIES.get('adjod_language')
-        userprofile.language=request.COOKIES.get('adjod_language')
-        # print "request.COOKIES.get('country')", request.COOKIES.get('country')
-        country_id=Country.objects.get(code=request.COOKIES.get('country'))
-        # print "country_id", country_id.id
-        userprofile.country=Country.objects.get(id=country_id.id)
-        
-        confirmation_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for x in range(33))
-        # print confirmation_code
-        p = UserProfile(user=user, city=userprofile.city, mobile=userprofile.mobile, confirmation_code=confirmation_code, language=userprofile.language, country=userprofile.country)
-        
-        # Now sort out the UserProfile instance.
-        # Since we need to set the user attribute ourselves, we set commit=False.
-        # This delays saving the model until we're ready to avoid integrity problems.
-        # profile = profile_form.save(commit=False)
-        # profile.user = user
 
-        # Did the user provide a profile picture?
-        # If so, we need to get it from the input form and put it in the UserProfile model.
-        # if 'picture' in request.FILES:
-        #     # profile.picture = request.FILES['picture']
-        #     p.picture = request.FILES['picture']
+        email=request.POST['email_id']
+        username=request.POST['user_id']
 
-        # Now we save the UserProfile model instance.
-        p.save()
-        # profile.p.save()
-        
-        send_registration_confirmation(user)
-        # print "send mail" 
-        # confirm(user,confirmation_code, user.username)
-        # print "send confirmation"
-        return HttpResponseRedirect('../../../../../')
+        try:
+            error={}
+            if User.objects.filter(email=email).exists():
+                error['email_exists'] = ugettext('Email already exists')
+                print "error['email_exists']",error['email_exists']
+                raise ValidationError(error['email_exists'], 1)
+            if User.objects.filter(username=username).exists():
+                error['username_exists'] = ugettext('Username already exists')
+                print "error['username_exists']",error['username_exists']
+                raise ValidationError(error['username_exists'], 2)
+        except ValidationError as e:
+            messages.add_message(request, messages.ERROR, e.messages[-1]) 
+            redirect_path = "/start/"
+            query_string = 'st=%d' % e.code
+            redirect_url = format_redirect_url(redirect_path, query_string)
+            return HttpResponseRedirect(redirect_url)
 
-        # Update our variable to tell the template registration was successful.
-        registered = True
- 
-        # Invalid form or forms - mistakes or something else?
-        # Print problems to the terminal.
-        # They'll also be shown to the user.
+        if not error:
+            user.is_active = False
+            user.username=request.POST['user_id']
+            user.email=request.POST['email_id']
+            user.password=request.POST['password']
+            user.set_password(user.password)
+            user.first_name=request.POST['user_id']
+            user.save()
+            userprofile.user=user       
+            userprofile.mobile=request.POST['your_mobile_number']
+            userprofile.city=request.COOKIES.get('city')
+            # print "request.COOKIES.get('adjod_language')", request.COOKIES.get('adjod_language')
+            userprofile.language=request.COOKIES.get('adjod_language')
+            # print "request.COOKIES.get('country')", request.COOKIES.get('country')
+            country_id=Country.objects.get(code=request.COOKIES.get('country'))
+            # print "country_id", country_id.id
+            userprofile.country=Country.objects.get(id=country_id.id)
+            userprofile.age_status=request.POST.get('confirm')
+            
+            confirmation_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for x in range(33))
+            # print confirmation_code
+            p = UserProfile(user=user, city=userprofile.city, mobile=userprofile.mobile, confirmation_code=confirmation_code, language=userprofile.language, country=userprofile.country, age_status=userprofile.age_status)
+            
+            # Now sort out the UserProfile instance.
+            # Since we need to set the user attribute ourselves, we set commit=False.
+            # This delays saving the model until we're ready to avoid integrity problems.
+            # profile = profile_form.save(commit=False)
+            # profile.user = user
+
+            # Did the user provide a profile picture?
+            # If so, we need to get it from the input form and put it in the UserProfile model.
+            # if 'picture' in request.FILES:
+            #     # profile.picture = request.FILES['picture']
+            #     p.picture = request.FILES['picture']
+
+            # Now we save the UserProfile model instance.
+            p.save()
+            # profile.p.save()
+            
+            send_registration_confirmation(user)
+            # print "send mail" 
+            # confirm(user,confirmation_code, user.username)
+            # print "send confirmation"
+            # return HttpResponseRedirect('../../../../../')
+            registered = True
+            user = User.objects.get(username=user.username)
+            user.backend='django.contrib.auth.backends.ModelBackend'
+            login(request, user)
+            return HttpResponseRedirect('/start/?user_id=' + str(user.id)) 
+
+            # Update our variable to tell the template registration was successful.
+            
+     
+            # Invalid form or forms - mistakes or something else?
+            # Print problems to the terminal.
+            # They'll also be shown to the user.
+            # else:
+            #     print user_form.errors, profile_form.errors
+     
+        # Not a HTTP POST, so we render our form using two ModelForm instances.
+        # These forms will be blank, ready for user input.
         # else:
-        #     print user_form.errors, profile_form.errors
- 
-    # Not a HTTP POST, so we render our form using two ModelForm instances.
-    # These forms will be blank, ready for user input.
-    # else:
-    #     user_form = UserForm()
-    #     profile_form = UserProfileForm()
- 
-    # Render the template depending on the context.
-    return render_to_response('advertisement/ad_post.html', {'registered': registered},
-                                context_instance=RequestContext(request))
+        #     user_form = UserForm()
+        #     profile_form = UserProfileForm()
+     
+        # Render the template depending on the context.
+        # return render_to_response('advertisement/ad_post.html', {'registered': registered},
+        #                             context_instance=RequestContext(request))
+            
+            # messages.add_message(request, "successfully registered")            
+            # return HttpResponseRedirect('/?st=success')
+
      
 def send_registration_confirmation(user):
     p = user.get_profile()

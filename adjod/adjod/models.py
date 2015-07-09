@@ -9,13 +9,15 @@ class UserProfile(models.Model):
     # The additional attributes we wish to include.
     # website = models.URLField(blank=True)
     # picture = models.ImageField(upload_to='static/img/', blank=True)
-    city=models.CharField(max_length=50)
+    # city=models.CharField(max_length=50, null=True, blank=True)
+    city=models.ForeignKey('advertisement.City', null=True, blank=True)
     mobile=models.CharField(max_length=50)
     confirmation_code=models.CharField(max_length=500)
     is_subscribed=models.BooleanField(default=False)
-    country=models.ForeignKey('advertisement.Country')
+    country=models.ForeignKey('advertisement.Country',null=True, blank=True)
     language=models.CharField(max_length=5)
     # address=models.OneToOneField(Address)
+    age_status=models.BooleanField(default=False)
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):

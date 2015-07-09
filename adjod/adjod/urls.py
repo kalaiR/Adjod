@@ -106,4 +106,8 @@ urlpatterns = patterns('',
     url(r'^get/$', 'chat.views.get'),
     url(r'^get_product/$', 'chat.views.get_product'),
     url(r'^post/$', 'chat.views.post'),
+
+    # url(r'^(?i)login_error/$', 'adjod.views.login_error', name='login-error'),
+
+
 )

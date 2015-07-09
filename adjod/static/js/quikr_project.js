@@ -1,5 +1,27 @@
+function sign_in_center_align(){
+      var height=$('.sign_in_div').height();
+      var width=$('.sign_in_div').width();
+      $('.sign_in_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+      
+}
+
+function sign_up_center_align(){
+      var height=$('.sign_up_div').height();
+      var width=$('.sign_up_div').width();
+      $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+      
+}
+
+function category_popup_center_align(){
+      var height=$('.choose_category_div').height();
+      var width=$('.choose_category_div').width();
+      $('.choose_category_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+      
+}
+
 ( function( $ ) {
 		$( document ).ready(function() {
+      
 		      $('input[type=text], textarea').focus(function() {
 		      if( this.value == this.defaultValue ) {
 		       this.value = "";
@@ -23,11 +45,12 @@
     
     active.removeClass('banneractive');
     next.addClass('banneractive');
-}
-setInterval(toggleSlide, 4000);
+    }
+    setInterval(toggleSlide, 4000);
+		});  
+} )( jQuery ); 
 
-		});
-} )( jQuery );  
+ 
 
 
 
@@ -93,17 +116,16 @@ $( document ).ready(function() {
     // $('.ad_title').keyup(updateCountdown);
 	
 	//================= Fancy Box popup for choose category ======================
-	$('.fancybox').fancybox({
-		helpers : {
-			overlay : {
-				css : {
-					'background' : 'rgba(127,127,127,0.85)'
-				}
-			}
-		}
-	});
-	
-	
+	// $('.fancybox').fancybox({
+	// 	helpers : {
+	// 		overlay : {
+	// 			css : {
+	// 				'background' : 'rgba(127,127,127,0.85)'
+	// 			}
+	// 		}
+	// 	}
+	// });
+
 	
     $('#highlightchk1').click(function(){
         if($("#highlightchk1").is(':checked')) {
@@ -375,30 +397,30 @@ $( document ).ready(function() {
 		// });
 		
 		//============= SIGN UP VALIDATION ===========
-		$('#create').click(function(){
-			//Email
-     	 	if ($('#email_id').val() == '') {
-          		$('#email_required').removeClass('hide_error_message');
-          		$('#valid_signup_email_required').addClass('hide_error_message');
-      		} else {
-          		if (!$('#email_required').hasClass('hide_error_message'))
-              		$('#email_required').addClass('hide_error_message');
+		// $('#create').click(function(){
+		// 	//Email
+  //    	 	if ($('#email_id').val() == '') {
+  //         		$('#email_required').removeClass('hide_error_message');
+  //         		$('#valid_signup_email_required').addClass('hide_error_message');
+  //     		} else {
+  //         		if (!$('#email_required').hasClass('hide_error_message'))
+  //             		$('#email_required').addClass('hide_error_message');
               	
-          		if( !isValidEmailAddress( $('#email_id').val() ) ) { 
-              		$('#valid_signup_email_required').removeClass('hide_error_message');
-          		} else {
-              		if (!$('#valid_signup_email_required').hasClass('hide_error_message'))
-                  		$('#valid_signup_email_required').addClass('hide_error_message');
-          		}
-      		};
-      		//PASSWORD
-      		if ($('#password').val() == '') {
-          		$('#signup_password_required').removeClass('hide_error_message');
-      		} else{
-          		if (!$('#signup_password_required').hasClass('hide_error_message'))
-              		$('#signup_password_required').addClass('hide_error_message');
-     	 	};
-		});
+  //         		if( !isValidEmailAddress( $('#email_id').val() ) ) { 
+  //             		$('#valid_signup_email_required').removeClass('hide_error_message');
+  //         		} else {
+  //             		if (!$('#valid_signup_email_required').hasClass('hide_error_message'))
+  //                 		$('#valid_signup_email_required').addClass('hide_error_message');
+  //         		}
+  //     		};
+  //     		//PASSWORD
+  //     		if ($('#password').val() == '') {
+  //         		$('#signup_password_required').removeClass('hide_error_message');
+  //     		} else{
+  //         		if (!$('#signup_password_required').hasClass('hide_error_message'))
+  //             		$('#signup_password_required').addClass('hide_error_message');
+  //    	 	};
+		// });
 		
 		
 	
@@ -406,7 +428,10 @@ $( document ).ready(function() {
 	    //============= POST AD VALIDATION ===========
 
     jQuery(document).ready(function(){
+    sign_in_center_align();
+    sign_up_center_align();
     sign_in_required =["emailid_signup", "password_signup"];
+    sign_up_required=["email_id", "password","user_id"];
     // Place ID's of all required fields here.
     // required = ["category", "ad_title", "your_price", "your_description", "your_email", "select_container_city", "select_container_locality"];
     required = ["category", "ad_title", "your_price", "your_description", "your_email"];
@@ -425,6 +450,54 @@ $( document ).ready(function() {
         input.removeClass("error_input_field");
         input.siblings('.labelError').hide();        
       }
+    }
+    //Validate the e-mail.
+    if($('#email_id').val() != ''){
+    if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#email_id').val())) {
+      $('#email_id').addClass("error_input_field");
+      $('#email_id').siblings('.signup_labelError').text("Please enter valid email address");
+      $('.signup_labelError').show();
+      //email.val(emailerror);
+    }
+    else
+    {
+      $('#email_id').removeClass("error_input_field");
+      $('#email_id').siblings('.signup_labelError').hide();
+    }
+    }
+     if ($(":input").hasClass("error_input_field")){
+    return false;
+    }
+    else{
+      return true;
+      $('form[name="sign_in"]').submit();
+    }
+    });
+
+    jQuery('#create').click(function(){     
+      for (i=0;i<sign_up_required.length;i++) {
+      var input = jQuery('#'+sign_up_required[i]);
+      if (input.val() == "")  {   
+        input.addClass("error_input_field");
+        input.siblings('.signup_labelError').show();         
+      } else {    
+        input.removeClass("error_input_field");
+        input.siblings('.signup_labelError').hide();        
+      }
+    }
+    //Validate the e-mail.
+    if($('#email_id').val() != ''){
+    if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#email_id').val())) {
+      $('#email_id').addClass("error_input_field");
+      $('#email_id').siblings('.signup_labelError').text("Please enter valid email address");
+      $('.signup_labelError').show();
+      //email.val(emailerror);
+    }
+    else
+    {
+      $('#email_id').removeClass("error_input_field");
+      $('#email_id').siblings('.signup_labelError').hide();
+    }
     }
      if ($(":input").hasClass("error_input_field")){
     return false;
@@ -666,6 +739,12 @@ $( document ).ready(function() {
 
 	});
 
+  $( ".select_country" ).change(function () {
+    var selected_option = $( ".select_country option:selected" ).val();
+    $('#select_country').html(selected_option);
+
+  });
+
   //============= CHOOSE LANGUAGE DROPDOWN ===========
     $( ".custom_select_value_act" ).change(function () {
       var selected_option = $( ".custom_select_value_act option:selected" ).text();
@@ -728,11 +807,9 @@ $( document ).ready(function() {
       $('.brand_list').hide();
   	});
 
-   
-	
 	//SUB CATEGORY
 
-	$(".subcategory_list").on("click", ">li", function(){
+	   $(".subcategory_list").on("click", ">li", function(){
 
   		$( ".subcategory_list > li" ).each(function( index ) {
 			$( this ).removeClass('orange_text');
@@ -751,8 +828,7 @@ $( document ).ready(function() {
   
   	
   	//BRAND
-  	$('.brand_list').on("click", ">li", function(){
-      
+  	$('.brand_list').on("click", ">li", function(){  
   		$( ".brand_list > li" ).each(function( index ) {
 			$( this ).removeClass('orange_text');
 		});
@@ -760,10 +836,14 @@ $( document ).ready(function() {
   		brand = $(this).text();
       brand_id = $('input[type="hidden"]', this).val();
       
-  		$('.fancybox-close').click();
+  		// $('.fancybox-close').click();
       // alert(category_id);
       // alert(sub_category_id);
       // alert(brand_id);
+      $('.popup_fade').hide();
+      $('.close_btn').hide();
+      $('.choose_category_div').hide();
+      document.body.style.overflow = 'auto';
       $('#category_name').val(category_id);
       $('#subcategory_name').val(sub_category_id);
       $('#brand_name').val(brand_id);
@@ -798,6 +878,7 @@ $( document ).ready(function() {
     });
     
     $('.product_image img').load(function(){
+      // alert("product_image");
       var height = $(this).height();
       var width = $(this).width();
       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
@@ -815,11 +896,70 @@ $( document ).ready(function() {
       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
     });
 
-    $('.thumbs img ').load(function(){
+    $('.thumbs img').load(function(){
       var height = $(this).height();
       var width = $(this).width();
       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
     });
+
+    $('.popup_sign_up').click(function(){
+      // alert("popup");
+      
+      // var height=$('.sign_up_div').height();
+      // var width=$('.sign_up_div').width();
+      // $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+      sign_up_center_align();
+      
+      $('.popup_fade').show();
+      $('.sign_up_div, .close_btn').show();   
+      document.body.style.overflow = 'hidden';
+    });
+
+    $('.popup_sign_in').click(function(){
+      // alert("popup");
+     
+      // var height=$('.sign_in_div').height();
+      // var width=$('.sign_in_div').width();
+      // $('.sign_in_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+      sign_in_center_align();
+      $('.popup_fade').show();
+      $('.sign_in_div, .close_btn').show();
+       
+      document.body.style.overflow = 'hidden';
+    });
+
+    $('.choose_button').click(function(){
+      // alert("popup");     
+      // var height=$('.sign_up_div').height();
+      // var width=$('.sign_up_div').width();
+      // $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+      category_popup_center_align();      
+      $('.popup_fade').show();
+      $('.choose_category_div, .close_btn').show();   
+      document.body.style.overflow = 'hidden';
+    });
+
+    
+    // $('.container .sign_up_div').load(function(){
+    //   alert("sign_up_div");
+    //   var height = $(this).height();
+    //   var width = $(this).width();
+    //   $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+    // });
+    $('.cancel_btn').click(function(){
+      $('.popup_fade').hide();
+      $('.sign_up_div,.sign_in_div, .close_btn, .choose_category_div').hide();
+      document.body.style.overflow = 'auto';
+  });
+
+    $(".confirm").click(function() {
+    var checked_status = this.checked;
+    if (checked_status == true) {
+       $(".signup_confirm_button").css({"cursor":"pointer","pointer-events":"auto"});
+    } else {
+       $(".signup_confirm_button").css({"cursor":"default","pointer-events":"none"});
+    }
+});
 });
 
 } )( jQuery );
