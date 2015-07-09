@@ -128,49 +128,30 @@ def home(request):
 #User login defintion
 @csrf_protect 
 def user_login(request):
-    # print "user_login"
-    # def errorHandle(error):
-    #     print "enter errorHandle"
-    #     form = UserForm()
-    #     category=Category.objects.all()
-    #     recentad=Product.objects.filter().order_by('-id')[:3]
-    #     print request.path
-    #     return render_to_response('adjod/userpage.html', {
-    #             'error' : error,
-    #             'form' : form,'category':category,'recentad':recentad
-    #     },context_instance=RequestContext(request))
+    print "user_login"
+    def errorHandle(error):
+        form = UserForm()
+        category=Category.objects.all()
+        recentad=Product.objects.filter().order_by('-id')[:3]
+        print request.path
+        return render_to_response('adjod/userpage.html', {
+                'error' : error,
+                'form' : form,'category':category,'recentad':recentad
+        },context_instance=RequestContext(request))
     # Like before, obtain the context for the user's request.
     context = RequestContext(request)
     form = UserForm(request.POST) # A form bound to the POST data
     # If the request is a HTTP POST, try to pull out the relevant information.
-    error={}
     if request.method == 'POST':
         # Gather the username and password provided by the user.
         # This information is obtained from the login form.
         username = request.POST['email_id']
         password = request.POST['password']
-
-        # try:
-        #     error={}
-        #     if User.objects.filter(email=email).exists():
-        #         error['email_exists'] = ugettext('Email already exists')
-        #         print "error['email_exists']",error['email_exists']
-        #         raise ValidationError(error['email_exists'], 1)
-        #     if User.objects.filter(username=username).exists():
-        #         error['username_exists'] = ugettext('Username already exists')
-        #         print "error['username_exists']",error['username_exists']
-        #         raise ValidationError(error['username_exists'], 2)
-        # except ValidationError as e:
-        #     messages.add_message(request, messages.ERROR, e.messages[-1]) 
-        #     redirect_path = "/start/"
-        #     query_string = 'st=%d' % e.code
-        #     redirect_url = format_redirect_url(redirect_path, query_string)
-        #     return HttpResponseRedirect(redirect_url)
  
         # Use Django's machinery to attempt to see if the username/password
         # combination is valid - a User object is returned if it is.
         user = authenticate(username=username, password=password)
-        
+ 
         # If we have a User object, the details are correct.
         # If None (Python's way of representing the absence of a value), no user
         # with matching credentials was found.
@@ -187,28 +168,25 @@ def user_login(request):
                 # return HttpResponseRedirect(starturl)
             else:
                 # An inactive account was used - no logging in!                
-                error['account_disable'] = ugettext('Account disable')
-               
-                raise ValidationError(error['account_disable'], 1)              
+                error = ugettext('Account disable')
+                return errorHandle(error)               
         else:
             # Bad login details were provided. So we can't log the user in.            
-            # error = ugettext('Invalid user')
-            # print "error", error
-            
-            error['invalid_user'] = ugettext('Account disable')
-            raise ValidationError(error['invalid_user'], 2)     
+            error = ugettext('Invalid user')
+            print "error", error
+            return errorHandle(error) 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
-    
-        if error:        
-            messages.add_message(request, messages.ERROR, ValidationError.messages[-1]) 
-            redirect_path = "/start/"
-            query_string = 'st=%d' % ValidationError.code
-            redirect_url = format_redirect_url(redirect_path, query_string)
-            return HttpResponseRedirect(redirect_url)
-        else:    
-            category=Category.objects.all()
-            return render_to_response('adjod/userpage.html', {'category':category,'messages':messages}, context_instance=RequestContext(request))
+    else:
+        # No context variables to pass to the template system, hence the
+        # blank dictionary object...
+#          print'successfull'
+#          return HttpResponse("login.")
+#     return render(request, 'adjod/userpage.html', {}) 
+      form = UserForm() # An unbound form
+      print "5"
+      category=Category.objects.all()
+      return render_to_response('adjod/userpage.html', {'category':category}, context_instance=RequestContext(request))
 
 #User registration definition
 @csrf_protect
