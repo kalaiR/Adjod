@@ -156,7 +156,7 @@
                       {% endif %}
                       </div>
                     <button type="submit"class="btn btn-lg btn-success search_b">Search</button>
-                    <a href="{% url product_form %}" class="btn btn-lg post-button">Post free Ad</a>
+                    <a href="{% url product_form %}" class="btn btn-lg post-button" style="{% if request.user.is_active == True %} cursor:default;pointer-events:none; {%else%} cursor:pointer;pointer-events:auto; {% endif %}">Post free Ad</a>
                     <a href="/" class="btn btn-lg alert-button">Create free alert</a>
               </form> <!-- info_form -->
               

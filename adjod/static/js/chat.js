@@ -1,14 +1,12 @@
 	var offset_val = 0;
 	$(document).ready(function() {
-		// alert("test");
+		alert("test");
 		$.ajaxSetup({
 			cache : false,
 			timeout : 1000 * 60
 		//set a global ajax timeout of a minute
 		});
-
 		doPoll(); // do the first poll
-
 	});
 
 	// For every 5 seconds get poll the message for the users. If no messages available, server will return the online users list
@@ -16,14 +14,14 @@
 		// alert("doPoll");
 		$.get('/get/', function(data) {
 			// alert(data);
-			if (data.indexOf('ACTIVE:') != -1) {
-				users_list = data.split('ACTIVE:')[1];
-				build_chat_links(users_list);
+			if (data.indexOf('ACTIVE:') != -1) {				
+				users_product = data.split('ACTIVE:')[1];
+				// alert(users_list);
+				build_chat_links(users_product);
 			} 
 			else {
 				username = data.split(':')[0];
-				message = data.split(':')[1];
-				
+				message = data.split(':')[1];				
 				// update_chat_message(username, check_vchat_req(message, username));
 				update_chat_message(username, message);
 			}
@@ -36,11 +34,10 @@
 	}
 
 	// For the list of Online Users
-	function build_chat_links(users_list) {
+	function build_chat_links(users_product) {
 		var array_result =[];
-		var array_result1=[];
-		$.get('/get_product/',{users_list:users_list}, function(data) {				
-			array_result=data.split(',');			
+		var array_result1=[];			
+			array_result=users_product.split(',');			
 			for (i=0;i<array_result.length;i++)
 			{		
 				array_result1.push(array_result[i]);				
@@ -54,16 +51,11 @@
 					$(this).parents('.product_name1').parents('.details').children('.additional_details').children('.contact_button').css({"cursor":"pointer","pointer-events":"auto"});										
 
 				}
-			});
-			// var users = users_list.split(',');
-			// var html_str = "";
-
-			// for ( var i = 0; i < users.length; i++) {
-			// 	html_str += "<a href=\"javascript:openChatBox('" + users[i]
-			// 			+ "', '', false)\">" + users[i] + " </a> <br>";
-			// }
-			// $("#online_users").html(html_str);
-		});
+				else{
+					$(this).parents('.product_name1').parents('.details').children('.additional_details').children().children().children('.checkcircle').hide();
+					$(this).parents('.product_name1').parents('.details').children('.additional_details').children('.contact_button').css({"cursor":"default","pointer-events":"none"});
+				}
+			});		
 	}
 
 	// Update the Chat Message to DB
@@ -78,10 +70,8 @@
 
 	// Open the chat box when someone pings (or) Users want to ping others
 	function openChatBox(username, message, auto) {
-
 		var div_name = "chat_" + username;
 		var div_id = "#chat_" + username;
-
 		var offset = $(div_id).chatbox("option", "offset");
 		if (typeof $("#chat_" + username).html() == 'undefined') {
 			$('body').append(
@@ -112,7 +102,6 @@
 				$(div_id).chatbox("option", "boxManager").toggleBox();
 			}
 		}
-
 		if (auto) {
 			// alert("enter if with auto");
 			// alert("auto" + auto + "  in last if");

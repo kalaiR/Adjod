@@ -17,7 +17,7 @@ import base64
 import random
 
 
-TIMEOUT = 10
+TIMEOUT = 30
 
 
 class OpenTokException(BaseException):

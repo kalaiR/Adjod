@@ -242,7 +242,7 @@ def register(request):
             return HttpResponseRedirect(redirect_url)
 
         if not error:
-            user.is_active = False
+            user.is_active = True
             user.username=request.POST['user_id']
             user.email=request.POST['email_id']
             user.password=request.POST['password']
@@ -324,6 +324,7 @@ def send_registration_confirmation(user):
 def confirm(request, confirmation_code, username):    
     try:
         user = User.objects.get(username=username)
+        
         print user.id
         profile = user.get_profile()
        
@@ -395,3 +396,9 @@ def autocomplete_brandlist(request):
     for k, v in sorted_dic.iteritems():  
       results.append(v)
   return HttpResponse(simplejson.dumps(results), mimetype='application/json')
+
+def search_new(request):
+    print "search_new"
+    products=Product.objects.all()
+    print 'pro', products
+    return render_to_response('adjod/new_search.html', {'products':products}, context_instance=RequestContext(request))

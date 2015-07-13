@@ -18,6 +18,7 @@ class UserProfile(models.Model):
     language=models.CharField(max_length=5)
     # address=models.OneToOneField(Address)
     age_status=models.BooleanField(default=False)
+    is_emailverified=models.BooleanField(default=False)
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):

@@ -74,6 +74,8 @@ urlpatterns = patterns('',
       form_class=ProductSearchFilter, 
       #results_per_page=settings.SEARCH_PAGE_NUMBER_OF_LEADS
     ), name='newsearchPageV2'),
+    url(r'^search_new/$', 'adjod.views.search_new', name='search_new'),
+    # url(r'^search_new/$', 'adjod.views.search_new', name='search_new'),
      
     # Logout URL
     url(r'^logout/$', 'adjod.views.logout_view', name='logout_view'),
@@ -104,7 +106,7 @@ urlpatterns = patterns('',
 
     #Django chat
     url(r'^get/$', 'chat.views.get'),
-    url(r'^get_product/$', 'chat.views.get_product'),
+    # url(r'^get_product/$', 'chat.views.get_product'),
     url(r'^post/$', 'chat.views.post'),
 
     # url(r'^(?i)login_error/$', 'adjod.views.login_error', name='login-error'),
