@@ -16,7 +16,12 @@
         <h2 class="heading">Singapore's largest marketplace</h2>
         <form class="form" method="get" action="/search/?q=" id="f_search" name="f_search">
             <div class="form">
-            
+                <!-- <select>
+                <option>{{ current_city }}</option>
+                {% for cities in current_country_cities %}
+                <option>{{ cities }}</option>
+                {% endfor%}
+                </select> -->
               <i class="fa fa-search"></i>
                 {% if query or request.REQUEST.q or request.REQUEST.q == '' %}
                 <!-- <label class="infield" for="q">What do you want to sell?</label>

@@ -2,6 +2,7 @@ from django import template
 from django.db.models import *
 from advertisement.models import *
 from banner.models import *
+from adjod.views import *
 register = template.Library()
 
 @register.filter
@@ -41,3 +42,7 @@ def get_brandforsubcategory(subCategoryId):
 def get_banner(banner):
 	banner=SiteBanner.objects.all()
 	return banner
+
+@register.filter
+def conversion(price):
+	return convert(price)

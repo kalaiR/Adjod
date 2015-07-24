@@ -19,6 +19,8 @@
     <link href="{% static "css/jquery-ui.css" %}" rel="stylesheet">
     <link href="{% static "css/simpleFilePreview.css" %}" rel="stylesheet">
     <link href="{% static "css/jquery.fancybox.css" %}" rel="stylesheet">
+    <link href="{% static "css/intlTelInput.css" %}" rel="stylesheet">
+
     <script src="{% static "js/jquery-1.9.1.js" %}"></script> 
     <script src="{% static "js/bootstrap.min.js" %}"></script>    
     <script src="{% static "js/jquery-ui.min.js" %}"></script>
@@ -27,9 +29,39 @@
     <script src="{% static "js/html5shiv.js" %}"></script>
     <script src="{% static "js/less.js" %}"></script>
     <script src="{% static "js/action.js" %}"></script>    
-    <script type="text/javascript" src="{% static "js/quikr_project.js" %}"></script>   
-    <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script>   
     <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
+
+  <!--  <link href="{% static "AdminLTE/dist/css/AdminLTE.css" %}" rel="stylesheet" type="text/css" />
+    <link id='theme' rel='stylesheet' />
+    <link rel='stylesheet' href="{% static "css/tipsy.css" %}" />
+    <link rel='stylesheet' href="{% static "css/chat.css" %}" />
+    <script src="{% static "js/jquery-1.11.3.min.js" %}"></script>
+    <script src="{% static "js/jquery-ui-1.10.4.custom.min.js" %}"></script>
+    <script src="{% static "js/jquery.cookie.js" %}"></script>
+    <script src='http://localhost:<port>/socket.io/socket.io.js'></script>
+    <script src="{% static "js/socket.io.js" %}"></script>
+    <script src="{% static "js/jquery.slimscroll.min.js" %}"></script>
+    <script src="{% static "js/jquery.tipsy.js" %}"></script>
+    <script src="{% static "js/jquery.main.js" %}"></script>
+    <script src="{% static "js/config.js" %}"></script>
+    <script src="{% static "js/i18n_en.js" %}"></script> -->
+
+
+    <script src="{% static "js/jquery-1.11.3.min.js" %}"></script>
+    <script src="{% static "js/jquery-ui-1.10.4.custom.min.js" %}"></script>
+    <script src="{% static "js/jquery.cookie.js" %}"></script>
+    <script src='http://localhost:<port>/socket.io/socket.io.js'></script>
+    <script src="{% static "js/socket.io.js" %}"></script>
+    <script src="{% static "js/jquery.main1.js" %}"></script>
+    <script src="{% static "js/config.js" %}"></script>
+    <script src="{% static "js/i18n_en.js" %}"></script>
+
+
+    <script type="text/javascript" src="{% static "js/quikr_project.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script> 
+    <script src="{% static "js/intlTelInput.min.js" %}"></script> 
+
+
     <script type="text/javascript">
     {% if 'falert' in request.REQUEST %}
       alert("Free alert created Successfully");
@@ -224,10 +256,11 @@
   <!--======================
             Sign in 
       ========================-->
-      <div class="popup_fade cancel_btn" style="display: none;"></div>
+      <div class="popup_fade cancel_btn" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}"></div>
       <div class="container">
-          <div id="sign_in_div" class="sign_in_div">
-          <code class="close_btn cancel_btn"> </code>
+            <div id="sign_in_div" class="sign_in_div" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}">
+          <code class="close_btn cancel_btn" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}"> </code>
+
             <div class="sign_in_title">
               <span>Sign in</span>
             </div> <!-- sign_in_title -->
@@ -235,11 +268,10 @@
             <div id="account" class="form-group">
                 <span>I have a account already</span>
               </div> <!-- account -->
+               <span class="signup_error" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}">
+                {%for message in messages%}{{message}}{% endfor %}</span>
            <form id="login_form" method="post" action="/login/" name="sign_in">  
            {% csrf_token %}
-
-          
-
             <div id="email_userid_div" class="form-group">
                 <input class="email_id" name="email_id" id="emailid_signup" placeholder="Username" />
                 <label for="emailid_signup" id="emailid_required" class="labelError" style="display:none;">Please enter Email or User ID</label>
@@ -249,7 +281,7 @@
                 <input class="password" type="password" name="password" id="password_signup" placeholder="Password*" />
                 <label for="password" id="password_required" class="labelError" style="display:none;">Please enter Password</label>
               </div> <!-- password_div -->
-            
+            </form> 
             
             
             <div id="forgot_div" class="form-group">
@@ -257,7 +289,7 @@
               <input class="btn confirm_button" type="submit" value="Sign in" name="create" id="signin" />
            
             </div> <!-- forgot_div -->
-           </form>  
+            
             <div id="" class="form-group">
               <hr class="photos_line" noshade="noshade">
             </div> <!-- hr_div -->

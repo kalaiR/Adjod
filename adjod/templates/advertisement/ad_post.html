@@ -13,6 +13,7 @@
     <link href="{% static "css/jquery-ui.css" %}" rel="stylesheet">
     <link href="{% static "css/simpleFilePreview.css" %}" rel="stylesheet">
     <link href="{% static "css/jquery.fancybox.css" %}" rel="stylesheet">
+    <link href="{% static "css/intlTelInput.css" %}" rel="stylesheet">
     <script src="{% static "js/jquery-1.9.1.js" %}" type="text/javascript"></script>             
     <script src="{% static "js/jquery-migrate-1.2.1.js" %}"></script>
     <script src="{% static "js/jquery-ui.min.js" %}"></script>
@@ -31,6 +32,9 @@
     <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
     <script src="{% static "js/jquery.fileupload.js" %}"></script>
     <script src="{% static "js/script.js" %}"></script>
+    <script src="{% static "js/intlTelInput.min.js" %}"></script> 
+
+
 
     <script type="text/javascript">
 
@@ -261,10 +265,16 @@
                 <div class="clear_both"></div>
            </div> <!-- type_of_ad_content -->
            
-           <div class="field_div form-group" id="name_div">
+          <!-- <div class="field_div form-group" id="name_div">
            		<input class="your_name" name="your_name" id="your_name" placeholder="Your name" />
            		<input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" placeholder="Your mobile number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
-           	</div> <!-- name_div -->
+           	</div> --><!-- name_div -->
+
+            <div class="field_div form-group" id="name_div">
+              <input class="your_name" name="your_name" id="your_name" placeholder="Your name" />
+              <input type="hidden" class="country" name="country" id="country" value="{{country}}" />
+              <input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" type="tel"  onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
+            </div> <!-- name_div -->
            	
            	<div class="field_div form-group" id="email_div">
               {% if user.is_authenticated %}
@@ -410,10 +420,10 @@
           <input type="hidden" class="fl large" name="first_name" value="deepak">
           <input type="hidden" name="last_name" value="deepak"/>
           <!-- <input type="hidden" name="cancel_return" value="{{current_site}}/dashboard/deposit/?transactionfail=error"/> -->
-          <input type="hidden" name="cancel_return" value="http://192.168.1.37:8000"/>
+          <input type="hidden" name="cancel_return" value="http://{{SITE_NAME}}"/>
           <!-- <input type="hidden" name="return" value="{{current_site}}/dashboard/deposit_success/?deposit=1"> -->
-          <input type="hidden" name="return" value="http://192.168.1.37:8000/show_me_the_money"/>
-          <input type="hidden" name="notify_url" id="id_notify_url" value="https://192.168.1.37:8000"/>
+          <input type="hidden" name="return" value="http://{{SITE_NAME}}/show_me_the_money"/>
+          <input type="hidden" name="notify_url" id="id_notify_url" value="https://{{SITE_NAME}}"/>
           <input border="0" type="image" alt="Buy it Now" name="submit" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif">
     </form>
     <!--======================

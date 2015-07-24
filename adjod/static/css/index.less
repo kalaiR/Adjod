@@ -59,7 +59,7 @@ body {
 .nav.navbar-nav.navbar-right a {
     color: white;
 }
-.custom_select {
+.custom_select, .choose_select {
   position:relative;
   background:none;
   padding:0px 10px 0px 10px;	
@@ -69,7 +69,7 @@ body {
   height:50px;
   color:#fff;	
 }
-.select {
+.select, .choose {
 	width:100%;
 	height:100%
 	position:relative;
@@ -82,7 +82,7 @@ body {
     	width: 71px;
     }
 }
-.select p {
+.select p, .choose p{
 	text-align:center;
 	width:100%;
 	height:100%;
@@ -94,7 +94,7 @@ body {
 		margin:0px;
     }
 }
-.custom_select select {
+.custom_select select, .choose_select select {
 	border: 0 none;
 	outline: 0 none;
     color:#fff;
@@ -110,7 +110,7 @@ body {
     filter: alpha(opacity=0);
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 }
-.custom_select i {
+.custom_select i, .choose_select i {
 	position:absolute;
 	font-size:14px;
 	top:18px;
@@ -1251,12 +1251,12 @@ hr {
         padding: 9px 0;
     	position: relative;
     	width: 120px !important;
-    	top: 6px; 	
-    	cursor:default;
-    	pointer-events:none;
+    	top: 6px; 	   	
+    	//display:none;
 	}
 }
-
+//cursor:default;
+//pointer-events:none;
 .checkcircle {
 	@media (min-width: @grid-float-breakpoint){
     	left: -114px;
@@ -3028,4 +3028,17 @@ label >.error { color:red; }
 
 #mobile_number_div{
 	display:block;
+}
+
+.hidelist1{
+	display:none;
+}
+
+.mobile{
+	font-size:16px;
+    border: 1px solid #d8d8d8;
+    height: 50px;
+    width: 346px;
+    
+    margin-left:0px;
 }

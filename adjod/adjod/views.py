@@ -51,6 +51,15 @@ from adjod.util import format_redirect_url
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 
+# For Chat
+from chat.models import *
+
+#For Currency
+from moneyed import Money
+from djmoney_rates.utils import convert_money
+from djmoney_rates.data import CURRENCIES_BY_COUNTRY_CODE
+from adjod import globals
+
 #Paypal transaction definition
 @csrf_exempt
 def show_me_the_money(sender, **kwargs):
@@ -108,9 +117,15 @@ def home(request):
     locality =Locality.objects.all() 
     city=City.objects.all()
     country=Country.objects.all()
+    user_ip = globals.ip
+    g = GeoIP()
+    current_city=g.city(user_ip)['city']
+    print g.city(user_ip)
+    current_country_cities=City.objects.filter(country_id=Country.objects.filter(code=g.country_code(user_ip))[0].id)
+
     # current_site =get_current_site(request)
     # print "current_site", current_site
-    return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad, 'locality':locality,'city':city, 'country':country }, context_instance=RequestContext(request)) 
+    return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad, 'locality':locality,'city':city, 'country':country,'current_city':current_city,'current_country_cities':current_country_cities }, context_instance=RequestContext(request)) 
 
 # def login_error(request):
 #     messages = get_messages(request)
@@ -125,7 +140,6 @@ def home(request):
     #         'home_paginate': settings.HOME_PAGE_PAGINATION
     #     }, context_instance=RequestContext(request))
 
-#User login defintion
 @csrf_protect 
 def user_login(request):
     print "user_login"
@@ -147,34 +161,77 @@ def user_login(request):
         # This information is obtained from the login form.
         username = request.POST['email_id']
         password = request.POST['password']
- 
+        try:
+            error={}
+            if '@' in username:
+                if not User.objects.filter(email=username).exists():
+                    error['email_exists'] = ugettext('Email Doesnot exists')
+                    print "error['email_exists']",error['email_exists']
+                    raise ValidationError(error['email_exists'], 1)
+            else:
+                if not User.objects.filter(username=username).exists():
+                    error['username_exists'] = ugettext('Username Doesnot exists')
+                    print "error['username_exists']",error['username_exists']
+                    raise ValidationError(error['username_exists'], 2)
+        except ValidationError as e:
+            messages.add_message(request, messages.ERROR, e.messages[-1]) 
+            redirect_path = "/login/"
+            query_string = 'si=%d' % e.code
+            redirect_url = format_redirect_url(redirect_path, query_string)
+            return HttpResponseRedirect(redirect_url)
+
         # Use Django's machinery to attempt to see if the username/password
         # combination is valid - a User object is returned if it is.
-        user = authenticate(username=username, password=password)
+        if not error:
+            if not '@' in username:
+                user = User.objects.get(username=username)
+            else:
+                user = User.objects.get(email=username)
+            user.backend='django.contrib.auth.backends.ModelBackend'
+            try:
+                error={}
+                if user.check_password(password):
+                    print user
+                else:
+                    error['password'] = ugettext('Wrong password')
+                    raise ValidationError(error['password'], 3)
+            except ValidationError as e:
+                messages.add_message(request, messages.ERROR, e.messages[-1]) 
+                redirect_path = "/login/"
+                query_string = 'si=%d' % e.code
+                redirect_url = format_redirect_url(redirect_path, query_string)
+                return HttpResponseRedirect(redirect_url)
  
         # If we have a User object, the details are correct.
         # If None (Python's way of representing the absence of a value), no user
         # with matching credentials was found.
-        if user:           
-            # Is the account active? It could have been disabled.
-            if user.is_active:                
-                # If the account is valid and active, we can log the user in.
-                # We'll send the user back to the homepage.
-                login(request, user)
-                print user.id
-                user_id=user.id
-                # starturl=reverse('start',kwargs={ 'user_id': user.id })
-                return HttpResponseRedirect('/start/?user_id=' + str(user.id))               
-                # return HttpResponseRedirect(starturl)
+            if user:           
+                # Is the account active? It could have been disabled.
+                if user.is_active:                
+                    # If the account is valid and active, we can log the user in.
+                    # We'll send the user back to the homepage.
+                    login(request, user)
+                    print user.id
+                    user_id=user.id
+                    # starturl=reverse('start',kwargs={ 'user_id': user.id })
+                    response=HttpResponseRedirect('/start/?user_id=' + str(user.id)) 
+                    # response.set_cookie("chat_email", request.POST['email_id'])  
+                    # response.set_cookie("chat_password", request.POST['password'])  
+
+                    response.set_cookie("chat_email", user.email)  
+                    response.set_cookie("chat_user", user.username)  
+                    response.set_cookie("chat_userid", user_id)
+                    return response               
+                    # return HttpResponseRedirect(starturl)
+                else:
+                    # An inactive account was used - no logging in!                
+                    error = ugettext('Account disable')
+                    return errorHandle(error)               
             else:
-                # An inactive account was used - no logging in!                
-                error = ugettext('Account disable')
-                return errorHandle(error)               
-        else:
-            # Bad login details were provided. So we can't log the user in.            
-            error = ugettext('Invalid user')
-            print "error", error
-            return errorHandle(error) 
+                # Bad login details were provided. So we can't log the user in.            
+                error = ugettext('Invalid user')
+                print "error", error
+                return errorHandle(error) 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
     else:
@@ -183,8 +240,7 @@ def user_login(request):
 #          print'successfull'
 #          return HttpResponse("login.")
 #     return render(request, 'adjod/userpage.html', {}) 
-      form = UserForm() # An unbound form
-      print "5"
+      form = UserForm() # An unbound for
       category=Category.objects.all()
       return render_to_response('adjod/userpage.html', {'category':category}, context_instance=RequestContext(request))
 
@@ -347,6 +403,15 @@ def start(request):
     print path
     product =Product.objects.all()
     recentad=Product.objects.filter().order_by('-id')[:3]
+    user=UserProfile.objects.get(user=request.user.id)
+    print "user", user.id
+    #Chat Store Active users
+    last_active = None
+    try:
+        last_active = LastActive.objects.get(user = UserProfile.objects.get(id=user.id))
+    except:         
+        last_active = LastActive.objects.create(user = UserProfile.objects.get(id=user.id), session = Session.objects.get(session_key = request.session.session_key))
+    last_active.save()
     return render_to_response('adjod/userpage.html',{'category':category,'path':path,'recentad':recentad,'product':product,'city':city},context_instance=RequestContext(request))
 
 # /*  Auto Complete for Category based Brands */
@@ -370,8 +435,15 @@ def autocomplete_keyword(request):
 
 #User Logout definition
 def logout_view(request):
+#     user=UserProfile.objects.get(user=request.user.id)
+#     if LastActive.objects.filter(user = user.id):
+#         last_active = LastActive.objects.get(user = user.id)
+#         last_active.delete()
     logout(request)
-    return HttpResponseRedirect("/")
+    response = HttpResponseRedirect("/")
+    response.delete_cookie('chat_email')
+    response.delete_cookie('chat_user')
+    return response
 
 # /*  Auto Complete for Category based Brands , subCatId='none'*/
 def autocomplete_brandlist(request):  
@@ -402,3 +474,30 @@ def search_new(request):
     products=Product.objects.all()
     print 'pro', products
     return render_to_response('adjod/new_search.html', {'products':products}, context_instance=RequestContext(request))
+
+def chat(request):
+    return render_to_response('chat_index.html', context_instance=RequestContext(request))
+
+def dialog_login(request):
+    return render_to_response('views/dialog-login.html', context_instance=RequestContext(request))   
+    
+def toolbar(request):
+    return render_to_response('views/toolbar.html', context_instance=RequestContext(request))    
+
+def main_chat(request):
+    return render_to_response('views/main-chat.html', context_instance=RequestContext(request))    
+
+def options(request):
+    return render_to_response('views/options.html', context_instance=RequestContext(request))     
+
+def convert(price):
+    user_ip = globals.ip
+    g = GeoIP()
+    country_id = g.country_code(user_ip)
+    for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
+        if str(key) == str(country_id):
+            isocode=value
+    current_country = isocode
+    base_currency= settings.BASE_CURRENCY
+    exchange_rate = convert_money(price,base_currency,current_country)
+    return exchange_rate

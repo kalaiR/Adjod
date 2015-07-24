@@ -117,7 +117,7 @@
           <div class="free_alert">
             <h4>Create free alert</h4>
           </div>
-         <form method="post" action="{% url free_alert %}">
+         <form method="post" action="{% url free_alert %}" name="alert_button">
             {% csrf_token %}
             <ul class="enquiry_form">
               <li>
@@ -133,8 +133,9 @@
                 <option value="{{ categories.id }}">{{ categories.name }}</option>
                 {% endfor %}
                 </select>
-                <label id="city_required" class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
+                 
               </div> <!-- select_container_city -->
+              <span id="id_category_required" class="labelError" style="font-size:12px;display:none;">Please Choose category</span>
               </li>
               <li>  
               <div class="select_container_subcategory" id="select_container_subcategory">
@@ -149,8 +150,9 @@
                 <option value=""></option>
                 
                 </select>
-               <label id="locality_required" class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
+               <span id="id_subcategory_required" class="labelError" style="font-size:12px;display:none;">Please Choose sub category</span>
               </div> <!-- select_container_city -->
+               
               </li>
               <li>
               <div class="select_container_brand" id="select_container_brand">
@@ -164,15 +166,15 @@
                 <option value=""></option>
                 
                 </select>
-               <label id="locality_required" class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
+               <span id="id_brand_required" class="labelError" style="font-size:12px;display:none;">Please Choose brand</span>
               </div> <!-- select_container_city -->
+              
               </li>
               <li>
               <div class="select_container_city" id="select_container_city">
                 <div class="select_div">
                   <p id="select_post_city">Select City</p>
-                  <i class="city_fa fa fa-caret-down">
-                    
+                  <i class="city_fa fa fa-caret-down">                    
                   </i>
                 </div> <!-- select_div -->
                 <select id="id_city" class="select_post_city" name="your_city">
@@ -180,16 +182,19 @@
                 <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
                 {% endfor %}
                 </select>
-             <label id="city_required" class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
+                <span id="id_city_required" class="labelError" style="font-size:12px;display:none;">Please Choose city</span>
               </div> <!-- select_container_city -->
+               
               </li>
 
               <li><div class="form1">
-                  <input type="text" class="form-control inputs" value="Your email" name="email">
+                  <input type="text" class="form-control inputs" value="Your email" name="email" id="email">
+                   <span id="email_required" class="labelError" style="font-size:12px;display:none;">Please enter the valid mail</span>
                 </div>
             </li>
             <li><div class="form1">
-                  <input type="text" class="form-control inputs" value="Your mobile number" name="mobilenumber">
+                  <input type="text" class="form-control inputs mobile" value="Your mobile number" name="mobilenumber" id="mobilenumber">
+                  <span id="mobilenumber_required" class="labelError" style="font-size:12px;display:none;">Please enter the mobile number</span>
                 </div>
             </li>
             </ul>
@@ -201,7 +206,5 @@
         </div> <!-- col-md-5 -->
       </div> <!-- row3 -->
     </div> <!-- container fourth part -->
-
-
 {% endblock %}
 

@@ -47,7 +47,7 @@ class ProductSearchFilter(FacetedSearchForm):
     category    = forms.CharField(required=False)
     brandtype   = forms.CharField(required=False)
     subcategoryid = forms.CharField(required=False)
-    sortdata = forms.CharField(required=False)
+    sorteddata = forms.CharField(required=False)
     country=forms.CharField(required=False)
     ispremium=forms.CharField(required=False)
     premium_plan_id=forms.CharField(required=False)
@@ -61,17 +61,17 @@ class ProductSearchFilter(FacetedSearchForm):
       if hasattr(self, 'cleaned_data'):
           save_object = None
 
-          if self.cleaned_data['sortdata']:
-              if (self.cleaned_data['sortdata'] == "createddate"):
+          if self.cleaned_data['sorteddata']:
+              if (self.cleaned_data['sorteddata'] == "createddate"):
                 data = data.filter(active=1).filter(status='active').filter(available__gt=0).order_by('-created')
               
-              if (self.cleaned_data['sortdata'] == "modifieddate"):
+              if (self.cleaned_data['sorteddata'] == "modifieddate"):
                data = data.filter(active=1).filter(status='active').filter(available__gt=0).order_by('-modified')
               
-              if (self.cleaned_data['sortdata'] == "pricelow"):
+              if (self.cleaned_data['sorteddata'] == "pricelow"):
                 data = data.filter(active=1).filter(status='active').filter(available__gt=0).order_by('price')
               
-              if (self.cleaned_data['sortdata'] == "pricehigh"):  
+              if (self.cleaned_data['sorteddata'] == "pricehigh"):  
                 data = data.filter(active=1).filter(status='active').filter(available__gt=0).order_by('-price')
        
       return data
@@ -149,8 +149,8 @@ class ProductSearchFilter(FacetedSearchForm):
       # if self.cleaned_data['groupby']:
       #   groupby = self.cleaned_data['groupby']
 
-      if self.cleaned_data['sortdata']:
-        orderby = self.cleaned_data['sortdata']
+      if self.cleaned_data['sorteddata']:
+        orderby = self.cleaned_data['sorteddata']
         if orderby in orderby_mappings:
           orderby = orderby_mappings[groupby]
 

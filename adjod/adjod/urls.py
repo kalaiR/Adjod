@@ -109,7 +109,24 @@ urlpatterns = patterns('',
     # url(r'^get_product/$', 'chat.views.get_product'),
     url(r'^post/$', 'chat.views.post'),
 
+    #Node.js chat
+    url(r'^chat/$', 'adjod.views.chat'),
+    url(r'^dialog_login/$', 'adjod.views.dialog_login'),
+    url(r'^toolbar/$', 'adjod.views.toolbar'),
+    url(r'^main_chat/$', 'adjod.views.main_chat'),
+    url(r'^options/$', 'adjod.views.options'),
+    url(r'^store_user_active_list/$', 'chat.views.store_user_active_list'),
+
+    url(r'^store_chat_record/$', 'chat.views.store_chat_record'),
+
+    
+
+
+
+
     # url(r'^(?i)login_error/$', 'adjod.views.login_error', name='login-error'),
+
+
 
 
 )

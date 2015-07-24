@@ -117,3 +117,25 @@ def post(request):
             # ChatMessage.objects.create(sender = request.user.id, receiver = User.objects.get(username = to_user), message = message,  session = Session.objects.get(session_key = request.session.session_key))
             ChatMessage.objects.create(sender = User.objects.get(id = sender.id), receiver = User.objects.get(id = receiver.id), message = message,  session = Session.objects.get(session_key = request.session.session_key))    
     return HttpResponse ("POST request ")
+
+def store_user_active_list(request):
+    print "request.GET.get('user_id')", request.GET.get('user_id')
+
+@csrf_exempt
+def store_chat_record(request):
+    import json
+    print "request.POST['data']", request.POST['data']
+    data = json.loads(request.POST['data'])  
+    print "data" , len(data.keys())
+    if len(data.keys()) <= 1:
+        return HttpResponse('chat record not stored successfully')
+    else:
+        print "data['sender']", data['sender']
+        print "data['receiver']", data['receiver']
+        print "data['message']", data['message']
+        sender=User.objects.get(username=data['sender'])
+        print "sender", sender
+        receiver=User.objects.get(username=data['receiver'])
+        print "receiver", receiver
+        ChatMessage.objects.create(sender = UserProfile.objects.get(user=sender.id), receiver = UserProfile.objects.get(user=receiver.id), message = data['message'])
+        return HttpResponse('chat record stored successfully')

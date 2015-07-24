@@ -1,6 +1,6 @@
 	var offset_val = 0;
 	$(document).ready(function() {
-		alert("test");
+		// alert("test");
 		$.ajaxSetup({
 			cache : false,
 			timeout : 1000 * 60

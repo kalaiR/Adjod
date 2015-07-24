@@ -100,7 +100,7 @@
                 </a>
               </div>
               <div class="detail">
-                <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a><span>${{recentads.price}}</span></div>
+                <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a><span>${{recentads.price|conversion}}</span></div>
                 <span class="product_description"> {{ recentads.description }}</span>
                 <span class="product_user"> used | in Anna nagar | By dealer</span>
               </div> <!-- detail -->

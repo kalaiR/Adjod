@@ -110,7 +110,64 @@ function updateCountdownDesc() {
 
 ( function( $ ) {
 $( document ).ready(function() {
-	
+
+  // ************* start country wise mobile number validation in post ad page
+
+        // get the country data from the plugin
+        var countryData = $.fn.intlTelInput.getCountryData(),
+          telInput = $("#your_mobile_no"),
+          addressDropdown = $("#country");
+    
+        // init plugin
+          telInput.intlTelInput({
+          utilsScript: "../../static/lib/libphonenumber/build/utils.js"  
+        });
+
+          telInput.change(function() {
+          var countryCode = telInput.intlTelInput("getSelectedCountryData").iso2;
+          addressDropdown.val(countryCode);
+        });
+
+        // trigger a fake "change" event now, to trigger an initial sync
+          telInput.change();
+
+        // listen to the address dropdown for changes
+          addressDropdown.change(function() {
+          var countryCode = $(this).val();
+          telInput.intlTelInput("selectCountry", countryCode);
+        });
+
+       // ************* end country wise mobile number validation
+
+  // ************* start country wise mobile number validation in free alert page
+
+      // get the country data from the plugin
+      var countryData = $.fn.intlTelInput.getCountryData(),
+        telInput = $("#mobilenumber"),
+        addressDropdown = $("#country");      
+
+      // init plugin
+        telInput.intlTelInput({
+        utilsScript: "../../static/lib/libphonenumber/build/utils.js"  
+      });
+
+        telInput.change(function() {
+        var countryCode = telInput.intlTelInput("getSelectedCountryData").iso2;
+        addressDropdown.val(countryCode);
+      });
+
+      // trigger a fake "change" event now, to trigger an initial sync
+        telInput.change();
+
+      // listen to the address dropdown for changes
+        addressDropdown.change(function() {
+        var countryCode = $(this).val();
+        telInput.intlTelInput("selectCountry", countryCode);
+      });
+
+    // ************* end country wise mobile number validation
+
+        	
 	// updateCountdown();
     // $('.ad_title').onkeypress(updateCountdown);
     // $('.ad_title').keyup(updateCountdown);
@@ -286,7 +343,6 @@ function find_brand(sub_category_id) {
   }
 }
 
-
 function fill_localities(city_id) {
   if (response_cache2[city_id]) {
     $("#id_locality").html(response_cache2[city_id]);
@@ -294,6 +350,7 @@ function fill_localities(city_id) {
     $.getJSON("/localities_for_city/", {city_id: city_id},
       function(ret, textStatus) {
         var options = '';
+        options +='<option>Select City</option>';
         for (var i in ret) {
           options += '<option value="' + ret[i].id + '">'
             + ret[i].name + '</option>';
@@ -314,6 +371,7 @@ function fill_subcategories(category_id) {
     $.getJSON("/subcategory_for_category/", {category_id: category_id},
       function(ret, textStatus) {
         var options = '';
+        options +='<option>Select Subcategory</option>';
         for (var i in ret) {
           options += '<option value="' + ret[i].id + '">'
             + ret[i].name + '</option>';
@@ -335,6 +393,7 @@ function fill_brands(sub_category_id) {
     $.getJSON("/brand_for_subcategory/", {sub_category_id: sub_category_id},
       function(ret, textStatus) {
         var options = '';
+        options +='<option>Select Brand</option>';
         for (var i in ret) {
           options += '<option value="' + ret[i].id + '">'
             + ret[i].name + '</option>';
@@ -440,39 +499,44 @@ $( document ).ready(function() {
 
     //============= SIGN IN VALIDATION ===========
 
-   jQuery('#signin').click(function(){     
-      for (i=0;i<sign_in_required.length;i++) {
-      var input = jQuery('#'+sign_in_required[i]);
-      if (input.val() == "")  {   
-        input.addClass("error_input_field");
-        input.siblings('.labelError').show();         
-      } else {    
-        input.removeClass("error_input_field");
-        input.siblings('.labelError').hide();        
-      }
-    }
-    //Validate the e-mail.
-    if($('#email_id').val() != ''){
-    if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#email_id').val())) {
-      $('#email_id').addClass("error_input_field");
-      $('#email_id').siblings('.signup_labelError').text("Please enter valid email address");
-      $('.signup_labelError').show();
-      //email.val(emailerror);
-    }
-    else
-    {
-      $('#email_id').removeClass("error_input_field");
-      $('#email_id').siblings('.signup_labelError').hide();
-    }
-    }
-     if ($(":input").hasClass("error_input_field")){
-    return false;
-    }
-    else{
-      return true;
-      $('form[name="sign_in"]').submit();
-    }
-    });
+     
+   // jQuery('#signin').click(function(){     
+   //    for (i=0;i<sign_in_required.length;i++) {
+   //    var input = jQuery('#'+sign_in_required[i]);
+   //    if (input.val() == "")  {   
+   //      input.addClass("error_input_field");
+   //      input.siblings('.labelError').show();         
+   //    } else {    
+   //      input.removeClass("error_input_field");
+   //      input.siblings('.labelError').hide();        
+   //    }
+   //  }
+   //  //Validate the e-mail.
+   //  if($('#email_id').val() != ''){
+   //  if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#email_id').val())) {
+   //    $('#email_id').addClass("error_input_field");
+   //    $('#email_id').siblings('.signup_labelError').text("Please enter valid email address");
+   //    $('.signup_labelError').show();
+   //    //email.val(emailerror);
+   //  }
+   //  else
+   //  {
+   //    $('#email_id').removeClass("error_input_field");
+   //    $('#email_id').siblings('.signup_labelError').hide();
+   //  }
+   //  }
+   //   if ($(":input").hasClass("error_input_field")){
+   //  return false;
+   //  }
+   //  else{
+   //    alert("else");
+   //    signin();
+   //    return true;
+   //    // $('form[name="sign_in"]').submit();      
+   //  }
+   //  });
+
+    
 
     jQuery('#create').click(function(){     
       for (i=0;i<sign_up_required.length;i++) {
@@ -961,5 +1025,7 @@ $( document ).ready(function() {
     }
 });
 });
+
+
 
 } )( jQuery );

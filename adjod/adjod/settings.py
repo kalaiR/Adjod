@@ -96,6 +96,8 @@ STATIC_URL = '/static/'
 # SITE_NAME = 'alpha.login.com'
 # SITE_SASH = STATIC_URL + 'img/car.png'
 
+SITE_NAME = '192.168.1.45:8000'
+
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
@@ -192,6 +194,8 @@ INSTALLED_APPS = (
    'worker',
    'banner',
    'chat',
+   'djmoney_rates',
+
 )
 
 TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
@@ -295,3 +299,12 @@ SEO_MODEL_REGISTRY = (
 GEOIP_PATH = os.path.join(os.path.dirname(__file__), '../static/geoip/')
 
 LOGIN_ERROR_URL = '/login_error/'
+
+DJANGO_MONEY_RATES = {
+                'DEFAULT_BACKEND': 'djmoney_rates.backends.OpenExchangeBackend',
+                'OPENEXCHANGE_URL': 'http://openexchangerates.org/api/latest.json',
+                'OPENEXCHANGE_APP_ID': 'd4260d5caac9454996445fd14eb58591',
+                'OPENEXCHANGE_BASE_CURRENCY': 'USD',
+}
+
+BASE_CURRENCY = 'USD'

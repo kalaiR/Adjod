@@ -56,6 +56,12 @@ rf = RequestFactory()
 regular_request = rf.get('/')
 pjax_request = rf.get('/', HTTP_X_PJAX=True)
 
+#For Currency
+from moneyed import Money
+from djmoney_rates.utils import convert_money_without_symbol
+from djmoney_rates.data import CURRENCIES_BY_COUNTRY_CODE
+
+
 # def getImages(request): 
 #     print "getImages"
 #     LAST_INDEX = -1
@@ -182,7 +188,11 @@ def product_form(request, name=None, subname=None):
     category=Category.objects.all()
     # dropdown=Dropdown.objects.all().exclude(year='', color='')
     dropdown=Dropdown.objects.all()
-    city=City.objects.all()
+    # city=City.objects.all()
+    country=request.COOKIES.get("country")
+    country=Country.objects.get(code=request.COOKIES.get('country'))
+    city=City.objects.filter(country_id=country.id)
+    print city
     ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
     # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
     return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
@@ -225,7 +235,20 @@ def product_save(request):
 
         product.adtype=request.POST.get('condition')
         product.title=request.POST.get('ad_title')
-        product.price=request.POST.get('your_price')
+        # product.price=request.POST.get('your_price')
+
+        price=request.POST.get('your_price')
+        country_id=Country.objects.get(code=request.COOKIES.get('country'))
+        for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
+            if str(key) == str(country_id):
+                isocode=value
+        current_country = isocode
+        print 'current_country', current_country
+        base_currency= settings.BASE_CURRENCY
+        convert_price = convert_money_without_symbol(float(price),current_country,base_currency)      
+        print "convert_price",convert_price
+        product.price=convert_price
+
         product.ad_year=request.POST.get('your_year')
         product.description=request.POST.get('description','')
         product.you_are = request.POST.get('you_are_radio', '')
@@ -403,3 +426,4 @@ def expired_ad_conformation(request):
     user_and_product.save()
 
     return HttpResponseRedirect("/ads/" +ad_id)
+

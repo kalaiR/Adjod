@@ -1,4 +1,5 @@
 {% extends request.is_ajax|yesno:"base_ajax.html,base_search.html" %}
+{% load i18n %}
 {%if not request.is_ajax%}
   {%block page_swap%}   
       <span>
@@ -37,35 +38,60 @@
                            {% for categories in initial_load|get_categories %}
                               <li class="list_folder">
                               <a class="has_sub">
-                              <span>{{categories}}<span class="product_quantity"></span>{{ categories.count }}</span>
+
+                                <span>{{categories}}<span class="product_quantity"></span>{{ categories.count }}</span>
                               </a>
-                                  <ul class="hide_list">
+                                  <ul class="hide_list hidelist1  subclick ">
                                   {% for subcategories in categories.id|get_subcategories %}
                                       <li class="list_folder">
-                                       <a href="/search/?q=&subcategoryid={{subcategories.id}}" class="has_sub">{{subcategories}}
+
+                                      <span class="has_sub subcategory_choose">{{subcategories}}                                  
+                                      </span>
+                                     <!--  <input type="hidden" id="sub_cate_gory"  value="{{subcategories}}" name="sub_cate_gory"/>  -->
+
+                                      <!-- <span class="has_sub">
+                                      {{subcategories.id}}                                  
+                                      </span> -->
+                                      <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="{{subcategories.id}} " name="subcategoryid"/> 
+
+                                      <span class="product_quantity">{{subcategories.id|get_subcategoriesCount}} 
+                                        </span>
+                                      
+
+                                       <!-- <a href="/search/?q=&subcategoryid={{subcategories.id}}" class="has_sub">{{subcategories}}
                                <span class="product_quantity">( {{subcategories.id|get_subcategoriesCount}} )
                                           </span>
-                                         </a>
-                                        </li>
-                                  {% endfor %}       
+                                          <input type="hidden"    class="subcategory_choose" name="subcategoryid" value="{{subcategories.id}}"/>
+                                         </a> -->
+
+                                        </li> 
+                                  {% endfor %}
+                                  <!-- <input type="hidden" id="sub_cate_gory"  value="{{subcategories}}" name="sub_cate_gory"/>  -->
+                                  <!-- <input type="hidden" id="sub_cate_gory_id"  value="{{subcategories.id}} " name="sub_cate_gory_id"/>  -->
+                                  
+                                   <!-- <input type="hidden" class="subcategory_choose" value="" name="subcategoryid"/>    -->    
                                   </ul>
                               </li>
                           {% endfor %}      
                           </ul>
                       </li>
 
-                  <!--  All Brands Type to Display in Advance Search-->    
+                 <!--  All Brands Type to Display in Advance Search-->    
                       <li class="list_folder"> <b>Brands </b>
-                          <ul class="hide_list">
+                          <ul class="hide_list hidelist1">
                             <!-- Location Auto complete -->
-                            <!-- <div class="location_holder">                  
-                            <input type="text" class="location" style="size: 12" id="typeandbrandtxt" name= "typeandbrandtxt" value="{{form.name.value|default:''}}" placeholder="Type any brand"/>
-                            <input type="hidden" class="location" style="size: 12" id="typeandbrand" name="{{form.name.html_name}}"value="{{form.name.value|default:''}}" placeholder="Type any brand"/>                  
-                            </div> -->
+                           <!--  <div class="location_holder">     -->              
+                                <!-- <input type="text" class="location" style="size: 12" id="typeandbrandtxt" name= "typeandbrandtxt" value="{{form.name.value|default:''}}" placeholder="Type any brand"/> -->
+
+                                <!-- <input type="hidden" class="location" style="size: 12" id="typeandbrand" name="{{form.name.html_name}}"value="{{form.name.value|default:''}}" placeholder="Type any brand"/> -->                  
+                           <!--  </div> -->
                             <div id="listbrandtypes">
-                      {% for brandsubcategory in request.GET.subcategoryid|get_brandforsubcategory %}  
-                                 <li class="list_folder">
-                                    <input type="checkbox" class="css-checkbox sme brandtype" id="{{brandsubcategory.id}}" name = "brandtype" value ="{{brandsubcategory.id}}"/>
+                            <!-- get_brandforsubcategory{{request.COOKIES.subcatcookie}} -->
+                            get_brand: {{request.COOKIES.subcatcookie}}
+
+                            {% for brandsubcategory in request.GET.subcategoryid|get_brandforsubcategory %}  
+                                <li class="list_folder">
+                                     <input type="checkbox" class="css-checkbox sme brandtype" id="{{brandsubcategory.id}}" name ="brandtype" value ="{{brandsubcategory.id}}"/>
                                     <label for="checkbox1" name="checkbox1_lbl" class="css-label sme depressed">
                                     {{brandsubcategory}}
                                     </label>  
@@ -75,12 +101,12 @@
                             </div>
                           </ul>
                       </li>
-                      <!--  All PriceOptions to Display in Advance Search-->   
+                       <!--  All PriceOptions to Display in Advance Search-->   
                       <li class="list_folder"><b>Price</b> 
-                          <ul class="hide_list">                            
+                          <ul class="hide_list hidelist1">                            
                                <li class="list_folder">
                                <input type="checkbox" class="css-checkbox sme pricerange" name="pricerange" value ="0.0#1000.0" />
-                               <label for="checkbox1">Rs1000 & Below</label>  
+                               <label for="checkbox1">Rs1000 &amp; Below</label>  
                                </li>
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="1000.0#5000.0"/>
@@ -105,7 +131,8 @@
                                </li>
                                                                   
                                <input type="hidden" id="price_start" value="" name="price_start"/>
-                               <input type="hidden" id="price_end" value="" name="price_end"/>                          
+                               <input type="hidden" id="price_end" value="" name="price_end"/>
+
                           </ul>
                       </li>
             </ul>
@@ -137,7 +164,7 @@
                             <p id="custom_select_value_act">Popularity</p>
                             <i class="fa fa-caret-down new_icon"></i>
                           </div> <!-- select -->
-                          <select class="custom_select_value_act option_color" name="sortdata">
+                          <select class="custom_select_value_act option_color" name="sorteddata">
                           <option value="createddate">createddate</option>
                           <option value="modifieddate">modifieddate</option>
                           <option value="pricelow">pricelow</option>
@@ -184,12 +211,16 @@
                       <span class="year">{{product.object.created_date}}</span>
                   </div>
                   <div class="additional_details">
-                    <h3>{{product.object.price}}</h3>
+                    <h3>{{product.object.price|conversion}}</h3>
                     <div class="number_verify_control">
                       <span class="number_verify1">Online<i class="fa fa-check-circle checkcircle">
                       </i></span>
                     </div>
-                    <a class="btn btn-default contact_button contact-button" href="javascript:openChatBox('{{product.object.userprofile.user.first_name}}', '', false)"> Chat Now</a>
+                    <div class="product_users" style="display:none;">{{product.object.userprofile.user.username}}</div>
+                    <!-- <a class="btn btn-default contact_button contact-button" href="javascript:openChatBox('{{product.object.userprofile.user.first_name}}', '', false)"> Chat Now</a> -->
+                    <div id='main-sort-chat' class='main-chat-window'>
+                    <!-- <a class="btn btn-default contact_button contact-button" href="#"> Chat Now</a> -->
+                    </div>
                   </div>
                 </div>
                 </li>
@@ -238,7 +269,9 @@
         </div> <!-- bottom_part -->
         
         <div id="chat_div"></div>
-        
+      
+        {% else %}
+             <div class="right_align"><span>{% trans "No Results Found" %}</span></div>       
         {%endif%}
       </div> <!-- right_part -->
 {%if not request.is_ajax%}

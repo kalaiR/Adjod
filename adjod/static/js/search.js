@@ -84,20 +84,104 @@ $(document).ready(function() {
             $('input.brandtype').on('change', function() {
                 // alert("brandtype");
                     $('input.brandtype').not(this).prop('checked', false); 
-                    $('#brandtype').val($(this).val());                    
+                    $('#brandtype').val($(this).val());       
+                    // var cookies_subcategory = request.COOKIES.get('subcatcookie');             
                     perform_search();  
             });
 
-            // BrandType checkbox Options in Advance Search
-            $('input.pricerange').on('change', function() {
-                 // alert("price");
-                    $('input.pricerange').not(this).prop('checked', false); 
-                    var splitprice = [];
-                    var splitprice = $(this).val().split("#");                    
-                    $('#price_start').val(splitprice[0]); 
-                    $('#price_end').val(splitprice[1]);
-                    perform_search();                                          
+            //subcategory list choose
+            $('.subclick > li .subcategory_choose').click(function () {
+                  
+
+                $('.subclick > li .subcategory_choose').each(function( index ) {
+                    $(this).removeClass('orange_text');
+                });
+                    
+                    $(this).addClass('orange_text');
+                    var subid =  $(this).next('input[type="hidden"]').val();
+                    $('[name=subcategoryid]').val(subid);
+
+                    // $('#brandtype').val($(this).val()); 
+                     $.cookie('subcatcookie',JSON.stringify(subid));
+                    
+                    // alert(JSON.stringify(subcookie));
+                    perform_search(); 
+                    // alert(subid);
+                    // var subcat = $(this).val(subid);
+                     
+                    // $('[name=subcategoryid]').val(subcat);
+                    // alert(JSON.stringify(subcat));
+                    //  perform_search();
+                    // alert(subcat);
+
+                    // var subid = $(this).next().$('input[type="hidden"]').val();
+                    // var subid =  $('input[type="hidden"]'.subcategory_chooseid').$(this).val();
+                   
+                    // var subid = siblings(".subcategory_choose").attr('input[type="hidden"]').val();          
+                    // alert('subid[$(this)]');
+                    // $('[name=subcategoryid]').val($(this).subid[]);
+                   
+              
+                    // var subcategories = [];
+                    // var subcategories = $('input[type="hidden"]', this).val();
+                    // $('subcategoryid').val();
+                    });
+
+            // // BrandType checkbox Options in Advance Search
+            // $('input.pricerange').on('change', function() {
+            //      // alert("price");
+            //         $('input.pricerange').not(this).prop('checked', false); 
+            //         var splitprice = [];
+            //         var splitprice = $(this).val().split("#");                    
+            //         $('#price_start').val(splitprice[0]); 
+            //         $('#price_end').val(splitprice[1]);
+            //         perform_search();                                          
+            // });
+
+            //price range selection
+            $('input.pricerange').on('change', function(){
+
+                            $('input.pricerange').not(this).prop('checked', false);
+                            if ($(this).prop('checked') == true){
+                            var splitprice = [];
+                            var splitprice = $(this).val().split("#");  
+                            alert(splitprice);                  
+                            $('#price_start').val(splitprice[0]); 
+                            $('#price_end').val(splitprice[1]);
+                            perform_search();    
+                    }
+                  if ($(this).prop('checked') == false){
+                    $('[name=price_start]').val('');
+                    $('[name=price_end]').val('');
+                    var subid =  $('.subclick > li .subcategory_choose').next('input[type="hidden"]').val();
+                    $('[name=subcategoryid]').val(subid);
+                    // $('[name=subcategoryid]').val($(subcategoryid).val());
+                    alert(subcategoryid);
+                     perform_search();  
+                    }                       
+                });   
+
+            //sort data dropdown
+            $('.prov_custom_sort_value_act').change(function(){
+                    var str = "";
+                    // alert('strtext');
+                    var strtext = "";
+                    // alert('strtext');
+                     // alert(strtext);
+                    $("select.prov_custom_sort_value_act option:selected").each(function () {
+                    
+                    str += $(this).val();
+                    strtext = $(this).text();
+                    alert(strtext); 
+                
+              });
+             
+             $("#sorteddata").val(str);
+              alert($("#sorteddata").val(str));
+              perform_search();
+
             });
+
 });
 
 function perform_search(){
@@ -117,8 +201,8 @@ function perform_search(){
                         //var url=pageurl.split('/')[3] + '/' + pageurl.split('/')[4]
                         // alert(url);
                         // q = q.replace(/filtersearch/g,'q'); 
-                        // var qsort = $("#sortdata").val();
-                        // q = q +'&sortdata='+$.trim(qsort);
+                        var qsort = $("#sorteddata").val();
+                        q = q +'&sorteddata='+$.trim(qsort);
                         // var qlang = $("#currentlanguage").val();
                         if ($('[name=newsearch]').val() == "new")
                         {
