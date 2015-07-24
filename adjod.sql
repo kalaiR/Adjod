@@ -96,7 +96,7 @@ CREATE TABLE `advertisement_city` (
   PRIMARY KEY (`id`),
   KEY `country_id` (`country_id`),
   CONSTRAINT `advertisement_city_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `advertisement_country` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +105,7 @@ CREATE TABLE `advertisement_city` (
 
 LOCK TABLES `advertisement_city` WRITE;
 /*!40000 ALTER TABLE `advertisement_city` DISABLE KEYS */;
-INSERT INTO `advertisement_city` VALUES (1,'Pondicherry',1),(2,'Chennai',1),(3,'Bangalore',NULL);
+INSERT INTO `advertisement_city` VALUES (1,'Pondicherry',1),(2,'Chennai',1),(3,'Bangalore',1),(4,'Aljunied',2),(5,'Ang Mo Kio',2),(6,'Balestier Road',2);
 /*!40000 ALTER TABLE `advertisement_city` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -244,7 +244,7 @@ CREATE TABLE `advertisement_locality` (
   PRIMARY KEY (`id`),
   KEY `advertisement_locality_995f8b6a` (`city_refid_id`),
   CONSTRAINT `city_refid_id_refs_id_449ceb0f` FOREIGN KEY (`city_refid_id`) REFERENCES `advertisement_city` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +253,7 @@ CREATE TABLE `advertisement_locality` (
 
 LOCK TABLES `advertisement_locality` WRITE;
 /*!40000 ALTER TABLE `advertisement_locality` DISABLE KEYS */;
-INSERT INTO `advertisement_locality` VALUES (1,1,'Muthialpet'),(2,1,'Lawspet'),(3,1,'Muthaliarpet'),(4,2,'Adayar'),(5,2,'Paris');
+INSERT INTO `advertisement_locality` VALUES (1,1,'Muthialpet'),(2,1,'Lawspet'),(3,1,'Muthaliarpet'),(4,2,'Adayar'),(5,2,'Paris'),(6,4,'Geylang Serai'),(7,4,'Kampong Kembangan'),(8,5,'Hokkien'),(9,6,'Kampong Ladang');
 /*!40000 ALTER TABLE `advertisement_locality` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1302,4 +1302,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-23 19:52:31
+-- Dump completed on 2015-07-24 10:28:41
