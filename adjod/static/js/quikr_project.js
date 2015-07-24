@@ -19,6 +19,14 @@ function category_popup_center_align(){
       
 }
 
+function forgot_center_align(){
+      var height=$('.forgot_div').height();
+      var width=$('.forgot_div').width();
+      $('.forgot_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+      
+}
+
+
 ( function( $ ) {
 		$( document ).ready(function() {
       
@@ -111,7 +119,24 @@ function updateCountdownDesc() {
 ( function( $ ) {
 $( document ).ready(function() {
 
-  // ************* start country wise mobile number validation in post ad page
+      // Forgot Password
+      $('.forgot_act').click(function(){
+
+      forgot_center_align();
+      $('.popup_fade').show();
+      $('.sign_in_div').hide();
+      $('.forgot_div, .close_btn').show();
+       
+      document.body.style.overflow = 'hidden';
+      });
+
+      //Reset div center align
+
+      var height=$('.reset_div').height();
+      var width=$('.reset_div').width();
+      $('.reset_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
+
+      // ************* start country wise mobile number validation in post ad page
 
         // get the country data from the plugin
         var countryData = $.fn.intlTelInput.getCountryData(),
@@ -1012,7 +1037,7 @@ $( document ).ready(function() {
     // });
     $('.cancel_btn').click(function(){
       $('.popup_fade').hide();
-      $('.sign_up_div,.sign_in_div, .close_btn, .choose_category_div').hide();
+      $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div').hide();
       document.body.style.overflow = 'auto';
   });
 

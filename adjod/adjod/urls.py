@@ -119,10 +119,21 @@ urlpatterns = patterns('',
 
     url(r'^store_chat_record/$', 'chat.views.store_chat_record'),
 
-    
-
-
-
+    #For Password Reset
+    url(r'^(?i)password_reset/$', 'django.contrib.auth.views.password_reset', {
+      'template_name':'registration/password_reset_form.html',
+      'email_template_name':'registration/password_reset_email.html'
+    }, name="password_reset"),
+    url(r'^(?i)user/password/reset/$', 
+        'django.contrib.auth.views.password_reset', 
+        {'post_reset_redirect' : '/user/password/reset/done/'}),
+    url(r'^(?i)user/password/reset/done/$',
+        'django.contrib.auth.views.password_reset_done'),
+    url(r'^(?i)user/password/reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 
+        'django.contrib.auth.views.password_reset_confirm', 
+        {'post_reset_redirect' : '/user/password/done/'}),
+    url(r'^(?i)user/password/done/$', 
+        'django.contrib.auth.views.password_reset_complete'),
 
     # url(r'^(?i)login_error/$', 'adjod.views.login_error', name='login-error'),
 
