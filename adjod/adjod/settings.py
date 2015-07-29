@@ -246,6 +246,7 @@ LOGIN_ERROR_URL = '/login_error/'
 AUTHENTICATION_BACKENDS = (
   'social_auth.backends.contrib.linkedin.LinkedinBackend',
   'django.contrib.auth.backends.ModelBackend',
+  'django.contrib.auth.models.AnonymousUser ',
 )
 
 # A sample logging configuration. The only tangible logging

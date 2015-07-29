@@ -38,14 +38,14 @@
 
     <script type="text/javascript">
 
-    {% if 'su' in request.REQUEST %}
-      alert("Successfully added post");
-    {% endif %}
-    {% if 'er' in request.REQUEST and user.is_authenticated %}
-      alert("Your email already exists 3 time....U have to make the account as premium");
-    {% elif 'er' in request.REQUEST and not user.is_authenticated %}
-      alert("Your email already exists 3 time....U have to register first and make the account as premium");
-    {% endif %}
+    // {% if 'su' in request.REQUEST %}
+    //   alert("Successfully added post");
+    // {% endif %}
+    // {% if 'er' in request.REQUEST and user.is_authenticated %}
+    //   alert("Your email already exists 3 time....U have to make the account as premium");
+    // {% elif 'er' in request.REQUEST and not user.is_authenticated %}
+    //   alert("Your email already exists 3 time....U have to register first and make the account as premium");
+    // {% endif %}
 
     function updateCountdownTitle() {
     		var remaining = 70 - $('.ad_title').val().length;
@@ -148,7 +148,7 @@
       <form method="post" action="{% url product_save %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">
       {% csrf_token %}
 
-     	
+     	      <div>{% for message in messages%}{{message}}{% endfor %}</div>
          		<div class="field_title form-group" id="type_of_ad_title">
          				<span class="title">Type of ad</span>
          				<span class="mandatory">*</span>

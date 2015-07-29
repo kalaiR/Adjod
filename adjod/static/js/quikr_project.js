@@ -28,7 +28,19 @@ function forgot_center_align(){
 
 
 ( function( $ ) {
-		$( document ).ready(function() {
+          //still in testing
+          // $(".signup_confirm_button").bind('mouseover', function(){
+          //   if ($('input.confirm').is(':checked')) {
+          //     $('.hovertext').hide();
+          //     $(".signup_confirm_button").css({'enabled':enabled});
+          //     $(".create").trigger('click');
+          //   }
+          //   else{
+          //     $('.hovertext').hide();
+          //     $(".signup_confirm_button").css({'disabled':disabled});
+          //   }
+          // });
+     
       
 		      $('input[type=text], textarea').focus(function() {
 		      if( this.value == this.defaultValue ) {
@@ -38,7 +50,7 @@ function forgot_center_align(){
 		       if( !this.value.length ) {
 		      this.value = this.defaultValue;
 		      }
-		    });  
+  		    });  
 
           // setTimer();
 
@@ -121,12 +133,10 @@ $( document ).ready(function() {
 
       // Forgot Password
       $('.forgot_act').click(function(){
-
       forgot_center_align();
       $('.popup_fade').show();
       $('.sign_in_div').hide();
-      $('.forgot_div, .close_btn').show();
-       
+      $('.forgot_div, .close_btn').show();       
       document.body.style.overflow = 'hidden';
       });
 
@@ -1004,6 +1014,8 @@ $( document ).ready(function() {
       document.body.style.overflow = 'hidden';
     });
 
+
+
     $('.popup_sign_in').click(function(){
       // alert("popup");
      
@@ -1041,16 +1053,13 @@ $( document ).ready(function() {
       document.body.style.overflow = 'auto';
   });
 
-    $(".confirm").click(function() {
-    var checked_status = this.checked;
-    if (checked_status == true) {
-       $(".signup_confirm_button").css({"cursor":"pointer","pointer-events":"auto"});
-    } else {
-       $(".signup_confirm_button").css({"cursor":"default","pointer-events":"none"});
-    }
+  //   $(".confirm").click(function() {
+  //   var checked_status = this.checked;
+  //   if (checked_status == true) {
+  //      $(".signup_confirm_button").css({"cursor":"pointer","pointer-events":"auto"});
+  //   } else {
+  //      $(".signup_confirm_button").css({"cursor":"default","pointer-events":"none"});
+  //   }
+  // });
 });
-});
-
-
-
 } )( jQuery );

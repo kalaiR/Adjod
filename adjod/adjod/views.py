@@ -121,8 +121,12 @@ def home(request):
     g = GeoIP()
     current_city=g.city(user_ip)['city']
     print g.city(user_ip)
+    code=g.country_code(user_ip)
+    print "code", code
+    country_id=Country.objects.filter(code=g.country_code(user_ip))[0].id
+    print "country_id", country_id
     current_country_cities=City.objects.filter(country_id=Country.objects.filter(code=g.country_code(user_ip))[0].id)
-
+    print "current_country_cities", current_country_cities
     # current_site =get_current_site(request)
     # print "current_site", current_site
     return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad, 'locality':locality,'city':city, 'country':country,'current_city':current_city,'current_country_cities':current_country_cities }, context_instance=RequestContext(request)) 
@@ -292,7 +296,7 @@ def register(request):
                 raise ValidationError(error['username_exists'], 2)
         except ValidationError as e:
             messages.add_message(request, messages.ERROR, e.messages[-1]) 
-            redirect_path = "/start/"
+            redirect_path = "/"
             query_string = 'st=%d' % e.code
             redirect_url = format_redirect_url(redirect_path, query_string)
             return HttpResponseRedirect(redirect_url)

@@ -103,6 +103,8 @@ $(document).ready(function() {
 
                     // $('#brandtype').val($(this).val()); 
                      $.cookie('subcatcookie',JSON.stringify(subid));
+
+                     
                     
                     // alert(JSON.stringify(subcookie));
                     perform_search(); 

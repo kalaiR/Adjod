@@ -3,7 +3,7 @@ var conf =
     // domain: 'domain.ltd',
     domain: 'localhost',
     server_type: 'socket.io',
-    server: 'localhost',
+    server: '192.168.1.45',
     port: '3000',
     debug: true,
     auto_login: false,

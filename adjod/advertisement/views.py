@@ -50,6 +50,9 @@ from os.path import splitext, basename
 
 from django.utils import simplejson
 import simplejson as json
+from django.core.exceptions import ValidationError
+from django.contrib import messages
+from adjod.util import format_redirect_url
 
 # A couple of request objects - one PJAX, one not.
 rf = RequestFactory()
@@ -181,62 +184,78 @@ def product_detail(request, pk):
 
 @pjax("pjax.html")
 def product_form(request, name=None, subname=None):
-    # print "product_form"
+    print "product_form"
     # print request.path 
+    # def product_form_data():
+    #     print "product_form_data"
+    #     category=Category.objects.all()
+    #     # dropdown=Dropdown.objects.all().exclude(year='', color='')
+    #     dropdown=Dropdown.objects.all()
+    #     # city=City.objects.all()
+    #     country=request.COOKIES.get("country")
+    #     country=Country.objects.get(code=request.COOKIES.get('country'))
+    #     city=City.objects.filter(country_id=country.id)
+    #     print city
+    #     ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
+    #     # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
+    #     return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
     userid=request.user.id
-    # print "userid", userid
-    category=Category.objects.all()
-    # dropdown=Dropdown.objects.all().exclude(year='', color='')
-    dropdown=Dropdown.objects.all()
-    # city=City.objects.all()
-    country=request.COOKIES.get("country")
-    country=Country.objects.get(code=request.COOKIES.get('country'))
-    city=City.objects.filter(country_id=country.id)
-    print city
-    ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
-    # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
-    return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
+    if request.user.is_authenticated():
+            print "authenticate"
+            userprofile = UserProfile.objects.get(user_id=userid)
+            print "userprofile", userprofile
+            if userprofile.ad_count>3:
+                print "redirect"
+                return HttpResponseRedirect('/')
+            else:
+                print "enter authenticate else"
+                category=Category.objects.all()
+                # dropdown=Dropdown.objects.all().exclude(year='', color='')
+                dropdown=Dropdown.objects.all()
+                # city=City.objects.all()
+                country=request.COOKIES.get("country")
+                country=Country.objects.get(code=request.COOKIES.get('country'))
+                city=City.objects.filter(country_id=country.id)
+                print city
+                ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
+                # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
+                return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
+    else:
+        print "enter non authenticate else"
+        print "enter authenticate else"
+        category=Category.objects.all()
+        # dropdown=Dropdown.objects.all().exclude(year='', color='')
+        dropdown=Dropdown.objects.all()
+        # city=City.objects.all()
+        country=request.COOKIES.get("country")
+        country=Country.objects.get(code=request.COOKIES.get('country'))
+        city=City.objects.filter(country_id=country.id)
+        print city
+        ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
+        # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
+        return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
 
 def product_save(request):
     # print "product_save"   
     success=False
     product=Product()
-    product.you_email = request.POST.get('your_email', '')
-    # print product.you_email
-    productresult=Product.objects.all()
-    count=0
-    for productresults in productresult:
-        if productresults.you_email == product.you_email:
-            count=count+1        
-    if count >3:
-        emailerror=True
-        print emailerror
-    else:
-        emailerror=False
-        print emailerror
     
-    if emailerror==False:
-        # product.user_id=request.POST.get('user')
+    def post_product_save():
         print "request.user", request.user.id
-        if request.user.is_authenticated():
-            product.userprofile = UserProfile.objects.get(user_id=request.user.id)
-            product.isregistered_user = True
-        else:
-            product.userprofile = None 
         
         product.category=Category.objects.get(id=request.POST['category_name'])
         # print product.category.id
         
         product.subcategory=SubCategory.objects.get(id=request.POST['subcategory_name'])
         # print product.subcategory.id
-
+    
         product.ad_brand=Dropdown.objects.get(id=request.POST['brand_name'])
         # print product.ad_brand.id
-
+    
         product.adtype=request.POST.get('condition')
         product.title=request.POST.get('ad_title')
         # product.price=request.POST.get('your_price')
-
+    
         price=request.POST.get('your_price')
         country_id=Country.objects.get(code=request.COOKIES.get('country'))
         for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
@@ -248,16 +267,16 @@ def product_save(request):
         convert_price = convert_money_without_symbol(float(price),current_country,base_currency)      
         print "convert_price",convert_price
         product.price=convert_price
-
+    
         product.ad_year=request.POST.get('your_year')
         product.description=request.POST.get('description','')
         product.you_are = request.POST.get('you_are_radio', '')
         product.you_name = request.POST.get('your_name', '')
         product.you_phone = request.POST.get('your_mobile_no', '')
-
+    
         product.city=City.objects.get(id=request.POST['your_city'])
         product.locality=Locality.objects.get(id=request.POST['your_locality'])
-
+    
         # product.photos=request.FILES['photos']
         
         #photos
@@ -285,7 +304,7 @@ def product_save(request):
                 photosgroup=photosgroup  +  'static/img/photos/' +str(uploaded_file) + ','
         # print photosgroup        
         product.photos=photosgroup
-
+    
         photo=str(product.photos)
         # print photo
         # print photo.split(',')
@@ -335,7 +354,7 @@ def product_save(request):
             #videos
             product.video =request.FILES.getlist('videos[]')
             # print product.video
-
+    
             def handle_uploaded_file(f):
                 # product.photos = open('/static/img/photos/%s' % f.name, 'wb+')
                 product.video = open('static/videos/%s' % f.name, 'wb+')
@@ -361,27 +380,55 @@ def product_save(request):
             # print product.video
        
         product.created_date  = datetime.datetime.now()
-        product.expired_date = product.created_date + datetime.timedelta(days=30)
+        # product.expired_date = product.created_date + datetime.timedelta(days=30)
         product.modified_date  = datetime.datetime.now()
         product.status_isactive  = True  
         # if request.POST['user_subscription']:
             
-        if product.ispremium == True:
-            product.premium_plan=PremiumPriceInfo.objects.get(id='1') # here 1 replaced with some other value after paypal has complete
-        else:
-            product.premium_plan=None
-
+        # if product.ispremium == True:
+        #     product.premium_plan=PremiumPriceInfo.objects.get(id='1') # here 1 replaced with some other value after paypal has complete
+        # else:
+        #     product.premium_plan=None
+    
         product.country=Country.objects.get(id=1)
         product.save()
-        success=True
+        # success=True
     
-    ctx = {'success':success,'emailerror':emailerror}
-    # return render_to_response('advertisement/ad_post.html',ctx , context_instance=RequestContext(request))
-    if emailerror:
-        # print "emailerror"
-        return HttpResponseRedirect('/postad/?er=emailerror')       
-    else:
-        return HttpResponseRedirect('/postad/?su=success')
+        # ctx = {'success':success,'emailerror':emailerror}
+        # return render_to_response('advertisement/ad_post.html',ctx , context_instance=RequestContext(request))
+    
+    def success_message():
+        post_product_save()
+        error['success'] = ugettext('Successfully added post')
+        print "error['exit_count']",error['success']
+        raise ValidationError(error['success'], 5)
+
+    try:
+        error={}
+        if request.user.is_authenticated():
+            product.userprofile = UserProfile.objects.get(user_id=request.user.id)
+            product.isregistered_user = True
+            if product.userprofile.ad_count<=3:
+                product.userprofile.ad_count+=1
+                success_message()
+            else:
+                print "else authenticate"
+                # get_object_or_404('/postad/')
+                error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium')
+                print "error['exit_count']",error['exit_count']
+                raise ValidationError(error['exit_count'], 6)
+        else:
+            print "else"
+            product.userprofile = None 
+            product.expired_date=datetime.datetime.now() + datetime.timedelta(days=10)
+            success_message()             
+    
+    except ValidationError as e:
+        messages.add_message(request, messages.ERROR, e.messages[-1]) 
+        redirect_path = "/postad/"
+        query_string = 'si=%d' % e.code
+        redirect_url = format_redirect_url(redirect_path, query_string)
+        return HttpResponseRedirect(redirect_url)
 
 def freealert_save(request):
     # print "freealert_save"

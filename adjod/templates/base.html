@@ -299,7 +299,7 @@
             </div> <!-- signin_div -->
             
             <div id="free_signup_div" class="form-group">
-              <button class="free_button btn-lg"><a href="#sign_up_div" class="fancybox orange_text">Sign up for free</a></button>
+              <a class="popup_sign_up"><button class="free_button btn-lg">Sign up for free</button></a>
             </div> <!-- free_signup_div -->
             
         </div> <!-- sign_in_div -->
@@ -358,7 +358,10 @@
             <div id="confirm_div" class="form-group">
               <input class="confirm" type="checkbox" name="confirm" />
               <span>I confirm that i am 18 yrs or older</span>
-              <input class="btn signup_confirm_button" type="submit" value="Create" name="create" id="create"/>
+              <input class="btn signup_confirm_button" type="submit" value="Create" name="create" id="create" disabled="disabled" />
+              <div>
+                      <span class="hovertext"> click the checkbox then create button will enable</span>
+                </div>
             </div> <!-- password_div -->
             
             <div id="hr_div" class="form-group">
@@ -366,7 +369,7 @@
             </div> <!-- hr_div -->
             
             <div id="signin_div" class="form-group">
-              <span class="signin">I have a account already <a href="#sign_in_div">Sign in</a> </span>
+              <span class="signin">I have a account already <a class="popup_sign_in">Sign in</a> </span>
             </div> <!-- signin_div -->
        </form>      
         </div> <!-- sign_up_div -->
@@ -412,7 +415,7 @@
             </div> <!-- signin_div -->
             
             <div id="free_signup_div" class="form-group">
-              <button class="free_button btn-lg"><a href="#sign_up_div" class="fancybox orange_text">Sign up for free</a></button>
+              <a class="popup_sign_up"><button class="free_button btn-lg">Sign up for free</button></a>
             </div> <!-- free_signup_div -->
             
         </div> <!-- forget_div -->

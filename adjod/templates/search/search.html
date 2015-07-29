@@ -41,7 +41,7 @@
 
                                 <span>{{categories}}<span class="product_quantity"></span>{{ categories.count }}</span>
                               </a>
-                                  <ul class="hide_list hidelist1  subclick ">
+                                  <ul class="hide_list hidelist1 subclick ">
                                   {% for subcategories in categories.id|get_subcategories %}
                                       <li class="list_folder">
 
@@ -213,15 +213,17 @@
                   <div class="additional_details">
                     <h3>{{product.object.price|conversion}}</h3>
                     <div class="number_verify_control">
-                      <span class="number_verify1">Online<i class="fa fa-check-circle checkcircle">
+                      <span class="number_verify1"><i class="fa fa-check-circle checkcircle">
                       </i></span>
                     </div>
                     <div class="product_users" style="display:none;">{{product.object.userprofile.user.username}}</div>
+
                     <!-- <a class="btn btn-default contact_button contact-button" href="javascript:openChatBox('{{product.object.userprofile.user.first_name}}', '', false)"> Chat Now</a> -->
-                    <div id='main-sort-chat' class='main-chat-window'>
+                    <div id='main-sort-chat' class='main-sort-chat main-chat-window'>
                     <!-- <a class="btn btn-default contact_button contact-button" href="#"> Chat Now</a> -->
                     </div>
                   </div>
+                  <span class="product_title_for_chat">{{product.object.title}}</span>
                 </div>
                 </li>
                 {% if forloop.counter == 5 %}

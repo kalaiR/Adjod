@@ -19,6 +19,7 @@ class UserProfile(models.Model):
     # address=models.OneToOneField(Address)
     age_status=models.BooleanField(default=False)
     is_emailverified=models.BooleanField(default=False)
+    ad_count=models.IntegerField(max_length=5)
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
