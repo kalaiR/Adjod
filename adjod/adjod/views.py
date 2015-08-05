@@ -126,10 +126,14 @@ def home(request):
     country_id=Country.objects.filter(code=g.country_code(user_ip))[0].id
     print "country_id", country_id
     current_country_cities=City.objects.filter(country_id=Country.objects.filter(code=g.country_code(user_ip))[0].id)
+    ctx={'category':category, 'path':path, 'recentad':recentad, 'locality':locality,'city':city, 'country':country,'current_city':current_city,'current_country_cities':current_country_cities}
     print "current_country_cities", current_country_cities
+    if request.user.is_authenticated():
+        userprofile=UserProfile.objects.get(user=request.user.id)
+        ctx={'category':category, 'path':path, 'recentad':recentad, 'locality':locality,'city':city, 'country':country,'current_city':current_city,'current_country_cities':current_country_cities,'userprofile':userprofile}
     # current_site =get_current_site(request)
     # print "current_site", current_site
-    return render_to_response('adjod/userpage.html', {'category':category, 'path':path, 'recentad':recentad, 'locality':locality,'city':city, 'country':country,'current_city':current_city,'current_country_cities':current_country_cities }, context_instance=RequestContext(request)) 
+    return render_to_response('adjod/userpage.html', ctx , context_instance=RequestContext(request)) 
 
 # def login_error(request):
 #     messages = get_messages(request)
@@ -377,21 +381,34 @@ def register(request):
 def send_registration_confirmation(user):
     p = user.get_profile()
     title = "Adjod account confirmation"
-    content = "http://192.168.1.43:8000/confirm/" + str(p.confirmation_code) + "/" + user.username
+    content = "http://" + settings.SITE_NAME + "/confirm/" + str(p.confirmation_code) + "/" + user.username
     # content = "http://localhost:8000/confirm/" + str(p.confirmation_code) + "/" + user.username
-    send_mail(title, content, 'no-reply@gsick.com', [user.email], fail_silently=False)
+    # send_mail(title, content, 'no-reply@gsick.com', [user.email], fail_silently=False)
+    send_templated_mail(
+                template_name = 'welcome',
+                subject = 'Welcome to Quikr.com',
+                from_email = 'testmail123sample@gmail.com',
+                recipient_list = [user.email],
+                context={
+                         'user': user,
+                         'content':content,
+                         
+                },
+            )
 
 def confirm(request, confirmation_code, username):    
     try:
-        user = User.objects.get(username=username)
-        
+        user = User.objects.get(username=username)        
         print user.id
         profile = user.get_profile()
        
         # if profile.confirmation_code == confirmation_code and user.date_joined > (datetime.datetime.now()-datetime.timedelta(days=1)):
         if profile.confirmation_code == confirmation_code:
-            user.is_active = True
-            user.save()
+            # user.is_active = True
+            profile.is_emailverified=True
+            print "user.is_emailverified", profile.is_emailverified
+            # user.save()
+            profile.save()
             user.backend='django.contrib.auth.backends.ModelBackend'
             login(request, user)
             print "confirm7"
@@ -416,7 +433,9 @@ def start(request):
     except:         
         last_active = LastActive.objects.create(user = UserProfile.objects.get(id=user.id), session = Session.objects.get(session_key = request.session.session_key))
     last_active.save()
-    return render_to_response('adjod/userpage.html',{'category':category,'path':path,'recentad':recentad,'product':product,'city':city},context_instance=RequestContext(request))
+    if request.user.is_authenticated:
+        userprofile=UserProfile.objects.get(user=request.user.id)
+    return render_to_response('adjod/userpage.html',{'category':category,'path':path,'recentad':recentad,'product':product,'city':city, 'userprofile':userprofile},context_instance=RequestContext(request))
 
 # /*  Auto Complete for Category based Brands */
 def autocomplete_keyword(request):     

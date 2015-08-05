@@ -95,7 +95,7 @@ class Product(models.Model):
     thumbnail = models.ImageField(upload_to="static/img/thumbs/", null=True, editable=False, max_length=500)
     imagecount=models.IntegerField(null=True, blank=True)
     video=models.FileField(upload_to='/static/videos/',null=True, blank=True)
-    condition = models.CharField(max_length=10,choices=CONDITION)
+    condition = models.CharField(max_length=10,choices=CONDITION, default="used")
     price = models.FloatField(null=True, default=0.0)
     ad_brand=models.ForeignKey(Dropdown,null=False, related_name="ad_brand")
     ad_year=models.CharField(max_length=10, null=True)

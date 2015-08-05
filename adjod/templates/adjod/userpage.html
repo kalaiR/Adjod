@@ -67,10 +67,10 @@
       <div class="row row_2">
         <div class="col-md-7">
           <h4 class="post_ad">Sell or Advertise anything</h4>
-          <a href="{% url product_form %}" class="#postbutton btn btn-lg btn-warning post_button">Post Free Ad</a>
+          <a href="{% url product_form %}" class="#postbutton btn btn-lg btn-warning post_button" style="{% if user.is_authenticated %}{% if userprofile.ad_count > 3 and userprofile.is_emailverified == 0 and userprofile.is_subscribed == 0 %} cursor:default;opacity:0.4; {% elif userprofile.ad_count > 3 and userprofile.is_emailverified == 1 and userprofile.is_subscribed == 0 %} cursor:default;opacity:0.4; {% elif userprofile.is_subscribed == 1 %} cursor:pointer; pointer-events:auto;{% endif %} {% endif %}" title="{% if user.is_authenticated %}{% if userprofile.ad_count > 3 and userprofile.is_emailverified == 0 and userprofile.is_subscribed == 0 %} You already add 3 posts and also did not verified ur email, if u want add more posts, u have to verify ur email and also make ur account as premium {% elif userprofile.ad_count > 3 and userprofile.is_emailverified == 1 and userprofile.is_subscribed == 0 %} You already add 3 posts, if u want add more posts, u have to make ur account as premium{% endif %}{% endif %}">Post Free Ad</a>
         </div> <!--col-md-7 -->
         <div class="col-md-5">
-          <h4 class="sell"><i class="fa  fa-shield"></i> How to sell safely ?</h4>
+          <h4 class="sell"><i class="fa fa-shield"></i> How to sell safely ?</h4>
           <p>Try to take the full payment at the time of delivery.<br>Remember to use the safe location to meet <a href="#">Read more</a></p>
         </div> <!-- col-md-5 -->
       </div> <!-- row2 -->
@@ -106,7 +106,7 @@
               <div class="detail">
                 <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a><span>${{recentads.price}}</span></div>
                 <span class="product_description"> {{ recentads.description }}</span>
-                <span class="product_user"> used | in Anna nagar | By dealer</span>
+                <span class="product_user"> {{recentads.condition}} | in {{recentads.locality.locality}} | By {{recentads.you_are}}</span>
               </div> <!-- detail -->
             </li>
             {% endfor %}
@@ -156,7 +156,7 @@
               </li>
               <li>
               <div class="select_container_brand" id="select_container_brand">
-                <div class="select_div">
+                <div class="select_div div_brand">
                   <p id="select_post_brand">Select Brand</p>
                   <i class="city_fa fa fa-caret-down">                    
                   </i>

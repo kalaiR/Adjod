@@ -93,8 +93,8 @@
                   {% if user.is_authenticated %}
                   <a href="/logout/" class="fancybox orange_text">Logout</a>
                   {% else %}
-                  <a href="#sign_in_div" class="fancybox orange_text">Login</a>
-                  <li><a href="#sign_up_div" class="fancybox">Sign up</a></li></a>
+                  <a class="popup_sign_in">Login</a>
+                  <li><a class="popup_sign_up">Sign up</a></li></a>
                   {% endif %}
                   </li>
               		
@@ -148,7 +148,7 @@
       <form method="post" action="{% url product_save %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">
       {% csrf_token %}
 
-     	      <div>{% for message in messages%}{{message}}{% endfor %}</div>
+     	      <div class="{% if request.REQUEST.pt %} labelError {% endif %}">{% for message in messages%}{{message}}{% endfor %}</div>
          		<div class="field_title form-group" id="type_of_ad_title">
          				<span class="title">Type of ad</span>
          				<span class="mandatory">*</span>
@@ -271,16 +271,19 @@
            	</div> --><!-- name_div -->
 
             <div class="field_div form-group" id="name_div">
-              <input class="your_name" name="your_name" id="your_name" placeholder="Your name" />
+              {% if user.is_authenticated %}
+              <input class="your_name" name="your_name" id="your_name" value="{{request.user.username}}" disabled/>
+              {% else %}
+              <input class="your_name" name="your_name" id="your_name" placeholder="Your name"/>
+              {% endif %}
               <input type="hidden" class="country" name="country" id="country" value="{{country}}" />
               <input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" type="tel"  onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
             </div> <!-- name_div -->
            	
            	<div class="field_div form-group" id="email_div">
               {% if user.is_authenticated %}
-              <input type="text" class="your_email" name="your_email" id="your_email" placeholder="Your email*" value="{{request.user}}"/>
-           		<label id="email_required" class="labelError" style="display:none;">Please enter email id.</label>
-              
+              <input type="text" class="your_email" name="your_email" id="your_email" placeholder="Your email*" value="{{request.user.email}}" disabled/>
+           		<label id="email_required" class="labelError" style="display:none;">Please enter email id.</label>  
               {% else %}
               <input type="text" class="your_email" name="your_email" id="your_email" placeholder="Your email*" value=""/>
               <label id="email_required" class="labelError" style="display:none;">Please enter email id.</label>
@@ -473,132 +476,183 @@
       
       
       
-      <!--======================
-      			Sign up 
+     <!--======================
+            Sign in 
       ========================-->
+      <div class="popup_fade cancel_btn" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}"></div>
+      <div class="container">
+            <div id="sign_in_div" class="sign_in_div" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}">
+          <code class="close_btn cancel_btn" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}"> </code>
 
-      <div style="display: none;" class="container">
-      	<div id="sign_up_div" class="sign_up_div">
-      		<div class="sign_up_title">
-      			<span>Sign up</span>
-      		</div> <!-- sign_up_title -->
-          {% if registered %}
-          <h5>Successfully registered</h5>
-          {% endif %}
-      	<form id="user_form" method="post" action="/new_user/" enctype="multipart/form-data">	
-        {% csrf_token %}
-      		<div id="register_now" class="form-group">
-           		<span>Register now for free</span>
-           	</div> <!-- register_now -->
-      		
-      		<div id="email_id_div" class="form-group">
-           		<input class="email_id" name="email_id" id="email_id" placeholder="Email ID*" />
-           		<span id="email_required" class="hide_error_message error_message">Please enter Email.</span>
-           		<span id="valid_signup_email_required" class="hide_error_message error_message">Please enter valid Email.</span>
-           	</div> <!-- email_id_div -->
-           	
-           	<div id="password_div" class="form-group">
-           		<input class="password" type="password" name="password" id="password" placeholder="Password*" />
-           		<span id="signup_password_required" class="hide_error_message error_message">Please enter Password.</span>
-           	</div> <!-- password_div -->
-           	
-           	<div id="select_city_div" class="form-group">
-           		
-           		<div class="select_container fl">
-           			<div class="select_div">
-           				<p id="select_city">Select city</p>
-           				<i class="city_fa fa fa-caret-down">
-           					
-           				</i>
-           			</div> <!-- select_div -->
-           			<select class="select_city" name="city">
-           				<option>Chennai</option>
-           				<option>Mumbai</option>
-           				<option>Delhi</option>
-           			</select>
-           		</div> <!-- select_container -->
-           		
-           		<div class="fl">
-           			<input class="mobile_number" name="your_mobile_number" id="mobile_number" placeholder="Your mobile number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();"/>
-           		</div>
-           		<div class="clear_both">
-           			
-           		</div>
-           		<span>(We will verify this number for privacy protection)</span>
-           	</div> <!-- description_div -->
-           	
-           	<div id="confirm_div" class="form-group">
-           		<input class="confirm" type="checkbox" name="confirm" />
-           		<span>I confirm that i am 18 yrs or older</span>
-           		<input class="btn confirm_button" type="submit" value="Create" name="create" id="create" />
-           	</div> <!-- password_div -->
-           	
-           	<div id="hr_div" class="form-group">
-           		<hr class="photos_line" noshade="noshade">
-           	</div> <!-- hr_div -->
-           	
-           	<div id="signin_div" class="form-group">
-           		<span class="signin">I have a account already <a href="#sign_in_div" class="fancybox orange_text">Sign in</a> </span>
-           	</div> <!-- signin_div -->
-       </form>    	
-      	</div> <!-- sign_up_div -->
+            <div class="sign_in_title">
+              <span>Sign in</span>
+            </div> <!-- sign_in_title -->
+            
+            <div id="account" class="form-group">
+                <span>I have a account already</span>
+              </div> <!-- account -->
+               <span class="signup_error" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}">
+                {%for message in messages%}{{message}}{% endfor %}</span>
+           <form id="login_form" method="post" action="/login/" name="sign_in">  
+           {% csrf_token %}
+            <div id="email_userid_div" class="form-group">
+                <input class="email_id" name="email_id" id="emailid_signup" placeholder="Username" />
+                <label for="emailid_signup" id="emailid_required" class="labelError" style="display:none;">Please enter Email or User ID</label>
+              </div> <!-- email_id_div -->
+              
+              <div id="password_signup_div" class="form-group">
+                <input class="password" type="password" name="password" id="password_signup" placeholder="Password*" />
+                <label for="password" id="password_required" class="labelError" style="display:none;">Please enter Password</label>
+              </div> <!-- password_div -->
+            </form> 
+            
+            
+            <div id="forgot_div" class="form-group">
+              <span class="forgot_act">Forgot you password?</span>
+              <input class="btn confirm_button" type="submit" value="Sign in" name="create" id="signin" />
+           
+            </div> <!-- forgot_div -->
+            
+            <div id="" class="form-group">
+              <hr class="photos_line" noshade="noshade">
+            </div> <!-- hr_div -->
+            
+            <div  class="form-group">
+              <span class="signin">I don't have a account</span>
+            </div> <!-- signin_div -->
+            
+            <div id="free_signup_div" class="form-group">
+              <a class="popup_sign_up"><button class="free_button btn-lg">Sign up for free</button></a>
+            </div> <!-- free_signup_div -->
+            
+        </div> <!-- sign_in_div -->
       </div> <!-- container -->
        <!--======================
-      		End Sign up 
+          End Sign in 
       ========================-->
-      
-      
+
       <!--======================
-      			Sign in 
+            Sign up 
       ========================-->
-      <div style="display: none;" class="container">
-      		<div id="sign_in_div" class="sign_in_div">
-      			<div class="sign_in_title">
-      				<span>Sign in</span>
-      			</div> <!-- sign_in_title -->
-      			
-      			<div id="account" class="form-group">
-           			<span>I have a account already</span>
-           		</div> <!-- account -->
-           <form id="login_form" method="post" action="/login/">	
+      <div class="popup_fade cancel_btn" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}"></div>
+      <div class="container">
+      
+        <div id="sign_up_div" class="sign_up_div" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}">
+        <code class="close_btn cancel_btn" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}"> </code>
+          <div class="sign_up_title">
+            <span>Sign up</span>
+          </div> <!-- sign_up_title -->
+          <span class="signup_error" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}">
+          {%for message in messages%}{{message}}{% endfor %}</span>
+        <form id="user_form" method="post" action="/new_user/" name="sign_up" enctype="multipart/form-data"> 
+        {% csrf_token %}
+          <div id="register_now" class="form-group">
+              <span>Register now for free</span>
+            </div> <!-- register_now -->
+
+          
+          <div id="email_id_div" class="form-group">
+              <input class="email_id" name="email_id" id="email_id" placeholder="Email ID*" />
+              <label id="email_required" class="signup_labelError" style="display:none;">Please enter Email</span>
+              <span id="valid_signup_email_required" class="hide_error_message error_message">Please enter valid Email.</span>
+            </div> <!-- email_id_div -->
+            
+            <div id="password_div" class="form-group">
+              <input class="password" type="password" name="password" id="password" placeholder="Password*" />
+              <span id="result"></span>
+              <label for="password" id="signup_password_required" class="signup_labelError" style="display:none;">Please enter Password</label>
+            </div> <!-- password_div -->    
+              
+             <div id="user_id_div" class="form-group fl">
+              <input class="user_id" name="user_id" id="user_id" placeholder="Username*" />
+              <label for="user_id" id="user_required" class="signup_labelError" style="display:none;">Please enter Username</label>
+            </div> <!--user _id_div -->
+
+              
+              <div id="mobile_number_div" class="form-group">
+                <input class="mobile_number" name="your_mobile_number" id="mobile_number_sign_up_postad" placeholder="Your mobile number"/>
+              </div>
+              <div class="clear_both">
+                
+              <!-- <div class="sign_up_span">
+              <span>(We will verify this number for privacy protection)</span>
+              </div> -->
+            
+            
+           <!--  <div id="confirm_div" class="form-group">
+              <input class="confirm" type="checkbox" name="confirm" />
+              <span>I confirm that i am 18 yrs or older</span>
+              <input class="btn signup_confirm_button" type="submit" value="Create" name="create" id="create" disabled="disabled" />
+              <div>
+                      <span class="hovertext"> click the checkbox then create button will enable</span>
+                </div>
+            </div> <!- password_div --> 
+            <div id="confirm_div" class="form-group">
+              <input class="confirm" type="checkbox" name="confirm" />
+              <span>I confirm that i am 18 yrs or older</span>
+              <input class="btn signup_confirm_button masterTooltip" type="submit" value="Create" name="create" id="create" title="Your age must be above 18 years, please check age status and then create account" />
+              
+            </div> 
+            
+            <div id="hr_div" class="form-group">
+              <hr class="photos_line" noshade="noshade">
+            </div> <!-- hr_div -->
+            
+            <div id="signin_div" class="form-group">
+              <span class="signin">I have a account already <a class="popup_sign_in">Sign in</a> </span>
+            </div> <!-- signin_div -->
+       </form>      
+        </div> <!-- sign_up_div -->
+      </div> <!-- container -->
+       <!--======================
+          End Sign up 
+      ========================-->
+
+      <!--======================
+        forgot password 
+      ========================-->
+      <div class="container">
+          <div id="forgot_div" class="forgot_div" style="{% if request.REQUEST.sf %} display:block; {%else%} display: none; {% endif %}">
+          <code class="close_btn cancel_btn" style="{% if request.REQUEST.sf %} display:block; {%else%} display: none; {% endif %}"> </code>
+            <div class="forgot_title">
+              <span>Forgot Password</span>
+            </div> <!-- sign_in_title -->
+            
+
+              <span class="forgot_error" style="{% if request.REQUEST.sf %} display:block; {%else%} display: none; {% endif %}">
+          {%for message in messages%}{{message}}{% endfor %}</span>
+           <form id="forgot_form" method="post" action="/forgot/" name="forgot">  
            {% csrf_token %}
 
-      			<div id="email_userid_div" class="form-group">
-           			<input class="email_id" name="email_id" id="emailid_signup" placeholder="Email / User ID*" />
-           			<span id="emailid_required" class="hide_error_message error_message">Please enter Email or User ID.</span>
-           		</div> <!-- email_id_div -->
-           		
-           		<div id="password_signup_div" class="form-group">
-           			<input class="password" type="password" name="password" id="password_signup" placeholder="Password*" />
-           			<span id="password_required" class="hide_error_message error_message">Please enter Password.</span>
-           		</div> <!-- password_div -->
-           	
-           	
-           	
-           	<div id="forgot_div" class="form-group">
-           		<span>Forgot you password?</span>
-           		<input class="btn confirm_button" type="submit" value="Sign in" name="create" id="signin" />
-           	</div> <!-- forgot_div -->
-           </form>	
-           	<div id="" class="form-group">
-           		<hr class="photos_line" noshade="noshade">
-           	</div> <!-- hr_div -->
-           	
-           	<div  class="form-group">
-           		<span class="signin">I don't have a account</span>
-           	</div> <!-- signin_div -->
-           	
-           	<div id="free_signup_div" class="form-group">
-           		<button class="free_button btn-lg"><a href="#sign_up_div" class="fancybox orange_text">Sign up for free</a></button>
-           	</div> <!-- free_signup_div -->
-           	
-      	</div> <!-- sign_in_div -->
+          
+
+            <!-- <div id="email_userid_div" class="form-group">
+                <input class="email_id" name="email_id" id="emailid_signup" placeholder="Email id" />
+                <label for="emailid_signup" id="emailid_required" class="labelError" style="display:none;">Please enter Email or User ID</label>
+              </div> <!- email_id_div ->
+              <div id="forgot_div" class="form-group">
+              <input class="btn confirm_button" type="submit" value="Sign in" name="create" id="signin" />
+           
+            </div> -->
+            <iframe src="{% url password_reset %}" height= "200" width="326" scrolling="no" frameBorder="0" style="border:none;"></iframe>
+           </form>  
+            <div id="" class="form-group">
+              <hr class="photos_line" noshade="noshade">
+            </div> <!-- hr_div -->
+            
+            <div  class="form-group">
+              <span class="signin">I don't have a account</span>
+            </div> <!-- signin_div -->
+            
+            <div id="free_signup_div" class="form-group">
+              <a class="popup_sign_up"><button class="free_button btn-lg">Sign up for free</button></a>
+            </div> <!-- free_signup_div -->
+            
+        </div> <!-- forget_div -->
       </div> <!-- container -->
-       <!--======================
-      		End Sign in 
+      <!--======================
+          End Forgot Password
       ========================-->
-      
-      
         
     <div class="footer_image f_img">
       <code></code>

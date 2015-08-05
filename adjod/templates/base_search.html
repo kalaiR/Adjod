@@ -50,6 +50,7 @@
     <script src="{% static "js/i18n_en.js" %}"></script>
     
     <script src="{% static "js/quikr_project.js" %}"></script>
+    
     <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script> 
     
@@ -108,7 +109,7 @@
                   {% if user.is_authenticated %}
                   <a href="/logout/" class="fancybox orange_text">Logout</a>
                   {% else %}
-                  <a class="popup_sign_in test">Login</a>
+                  <a class="popup_sign_in">Login</a>
                   <li><a class="popup_sign_up">Sign up</a></li></a>
                   {% endif %}
               </li>
@@ -190,7 +191,7 @@
       </div> <!-- container-->
     </div> <!-- final_part -->
 
-   <!--======================
+  <!--======================
             Sign in 
       ========================-->
       <div class="popup_fade cancel_btn" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}"></div>
@@ -219,7 +220,8 @@
                 <label for="password" id="password_required" class="labelError" style="display:none;">Please enter Password</label>
               </div> <!-- password_div -->
             </form> 
-                    
+            
+            
             <div id="forgot_div" class="form-group">
               <span class="forgot_act">Forgot you password?</span>
               <input class="btn confirm_button" type="submit" value="Sign in" name="create" id="signin" />
@@ -272,6 +274,7 @@
             
             <div id="password_div" class="form-group">
               <input class="password" type="password" name="password" id="password" placeholder="Password*" />
+              <span id="result"></span>
               <label for="password" id="signup_password_required" class="signup_labelError" style="display:none;">Please enter Password</label>
             </div> <!-- password_div -->    
               
@@ -282,7 +285,7 @@
 
               
               <div id="mobile_number_div" class="form-group">
-                <input class="mobile_number" name="your_mobile_number" id="mobile_number" placeholder="Your mobile number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
+                <input class="mobile_number" name="your_mobile_number" id="mobile_number_sign_up_search" placeholder="Your mobile number"/>
               </div>
               <div class="clear_both">
                 
@@ -291,11 +294,20 @@
               </div> -->
             
             
+           <!--  <div id="confirm_div" class="form-group">
+              <input class="confirm" type="checkbox" name="confirm" />
+              <span>I confirm that i am 18 yrs or older</span>
+              <input class="btn signup_confirm_button" type="submit" value="Create" name="create" id="create" disabled="disabled" />
+              <div>
+                      <span class="hovertext"> click the checkbox then create button will enable</span>
+                </div>
+            </div> <!- password_div --> 
             <div id="confirm_div" class="form-group">
               <input class="confirm" type="checkbox" name="confirm" />
               <span>I confirm that i am 18 yrs or older</span>
-              <input class="btn signup_confirm_button" type="submit" value="Create" name="create" id="create"/>
-            </div> <!-- password_div -->
+              <input class="btn signup_confirm_button masterTooltip" type="submit" value="Create" name="create" id="create" title="Your age must be above 18 years, please check age status and then create account" />
+              
+            </div> 
             
             <div id="hr_div" class="form-group">
               <hr class="photos_line" noshade="noshade">
@@ -323,9 +335,9 @@
             
 
               <span class="forgot_error" style="{% if request.REQUEST.sf %} display:block; {%else%} display: none; {% endif %}">
-              {%for message in messages%}{{message}}{% endfor %}</span>
-               <form id="forgot_form" method="post" action="/forgot/" name="forgot">  
-               {% csrf_token %}
+          {%for message in messages%}{{message}}{% endfor %}</span>
+           <form id="forgot_form" method="post" action="/forgot/" name="forgot">  
+           {% csrf_token %}
 
           
 
@@ -348,7 +360,7 @@
             </div> <!-- signin_div -->
             
             <div id="free_signup_div" class="form-group">
-              <button class="free_button btn-lg"><a href="#sign_up_div" class="fancybox orange_text">Sign up for free</a></button>
+              <a class="popup_sign_up"><button class="free_button btn-lg">Sign up for free</button></a>
             </div> <!-- free_signup_div -->
             
         </div> <!-- forget_div -->

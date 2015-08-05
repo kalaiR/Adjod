@@ -28,6 +28,105 @@ function forgot_center_align(){
 
 
 ( function( $ ) {
+  $( document ).ready(function() {
+
+    //For Popup
+      $('.popup_sign_up').click(function(){
+      // alert("popup");
+      
+      // var height=$('.sign_up_div').height();
+      // var width=$('.sign_up_div').width();
+      // $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+      sign_up_center_align();
+      
+      $('.popup_fade').show();
+      $('.sign_up_div, .close_btn').show();   
+      document.body.style.overflow = 'hidden';
+    });
+
+    $('.popup_sign_in').click(function(){
+      // alert("popup");
+      
+      // var height=$('.sign_in_div').height();
+      // var width=$('.sign_in_div').width();
+      // $('.sign_in_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+      sign_in_center_align();
+      $('.popup_fade').show();
+      $('.sign_in_div, .close_btn').show();
+       
+      document.body.style.overflow = 'hidden';
+    });
+
+    $('.choose_button').click(function(){
+      // alert("popup");     
+      // var height=$('.sign_up_div').height();
+      // var width=$('.sign_up_div').width();
+      // $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+      category_popup_center_align();      
+      $('.popup_fade').show();
+      $('.choose_category_div, .close_btn').show();   
+      document.body.style.overflow = 'hidden';
+    });
+
+    $('.cancel_btn').click(function(){
+      $('.popup_fade').hide();
+      $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div').hide();
+      document.body.style.overflow = 'auto';
+  });
+
+
+    /// password strength in sign up popup//
+    $('#password').keyup(function(){
+     
+        $('#result').html(checkStrength($('#password').val()));
+    });  
+ 
+    function checkStrength(password){
+   
+    //initial strength
+    var strength = 0
+ 
+    //if the password length is less than 6, return message.
+    if (password.length < 6) {
+        $('#result').removeClass()
+        $('#result').addClass('short')
+        return 'Too short'
+    }
+ 
+    //length is ok, lets continue.
+ 
+    //if length is 8 characters or more, increase strength value
+    if (password.length > 7) strength += 1
+ 
+    //if password contains both lower and uppercase characters, increase strength value
+    if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/))  strength += 1
+ 
+    //if it has numbers and characters, increase strength value
+    if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/))  strength += 1 
+ 
+    //if it has one special character, increase strength value
+    if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/))  strength += 1
+ 
+    //if it has two special characters, increase strength value
+    if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,",%,&,@,#,$,^,*,?,_,~])/)) strength += 1
+ 
+    //now we have calculated strength value, we can return messages
+ 
+    //if value is less than 2
+    if (strength < 2 ) {
+        $('#result').removeClass()
+        $('#result').addClass('weak')
+        return 'Weak'
+    } else if (strength == 2 ) {
+        $('#result').removeClass()
+        $('#result').addClass('good')
+        return 'Good'
+    } else {
+        $('#result').removeClass()
+        $('#result').addClass('strong')
+        return 'Strong'
+    }
+}
           //still in testing
           // $(".signup_confirm_button").bind('mouseover', function(){
           //   if ($('input.confirm').is(':checked')) {
@@ -201,6 +300,88 @@ $( document ).ready(function() {
       });
 
     // ************* end country wise mobile number validation
+
+    // ************* start country wise mobile number validation in sign up form
+        //home
+        // get the country data from the plugin
+        var countryData = $.fn.intlTelInput.getCountryData(),
+          telInput = $("#mobile_number_sign_up_home"),
+          addressDropdown = $("#country");
+    
+        // init plugin
+          telInput.intlTelInput({
+          utilsScript: "../../static/lib/libphonenumber/build/utils.js"  
+        });
+
+          telInput.change(function() {
+          var countryCode = telInput.intlTelInput("getSelectedCountryData").iso2;
+          addressDropdown.val(countryCode);
+        });
+
+        // trigger a fake "change" event now, to trigger an initial sync
+          telInput.change();
+
+        // listen to the address dropdown for changes
+          addressDropdown.change(function() {
+          var countryCode = $(this).val();
+          telInput.intlTelInput("selectCountry", countryCode);
+        });
+
+        //search
+        // get the country data from the plugin
+        var countryData = $.fn.intlTelInput.getCountryData(),
+          telInput = $("#mobile_number_sign_up_search"),
+          addressDropdown = $("#country");
+    
+        // init plugin
+          telInput.intlTelInput({
+          utilsScript: "../../static/lib/libphonenumber/build/utils.js"  
+        });
+
+          telInput.change(function() {
+          var countryCode = telInput.intlTelInput("getSelectedCountryData").iso2;
+          addressDropdown.val(countryCode);
+        });
+
+        // trigger a fake "change" event now, to trigger an initial sync
+          telInput.change();
+
+        // listen to the address dropdown for changes
+          addressDropdown.change(function() {
+          var countryCode = $(this).val();
+          telInput.intlTelInput("selectCountry", countryCode);
+        });
+
+        //postad
+        // get the country data from the plugin
+        var countryData = $.fn.intlTelInput.getCountryData(),
+          telInput = $("#mobile_number_sign_up_postad"),
+          addressDropdown = $("#country");
+    
+        // init plugin
+          telInput.intlTelInput({
+          utilsScript: "../../static/lib/libphonenumber/build/utils.js"  
+        });
+
+          telInput.change(function() {
+          var countryCode = telInput.intlTelInput("getSelectedCountryData").iso2;
+          addressDropdown.val(countryCode);
+        });
+
+        // trigger a fake "change" event now, to trigger an initial sync
+          telInput.change();
+
+        // listen to the address dropdown for changes
+          addressDropdown.change(function() {
+          var countryCode = $(this).val();
+          telInput.intlTelInput("selectCountry", countryCode);
+        });
+
+
+
+       // ************* end country wise mobile number validation
+
+
 
         	
 	// updateCountdown();
@@ -427,7 +608,25 @@ function fill_brands(sub_category_id) {
     // alert(sub_category_id);
     $.getJSON("/brand_for_subcategory/", {sub_category_id: sub_category_id},
       function(ret, textStatus) {
+        if(ret.length == 0){
+         
+          $('#id_brand').hide();
+          $('.div_brand').css({'opacity':0.5});
+         }
+
         var options = '';
+         if (window.location.href.indexOf("search") >= 0) {
+          // alert("search");
+          for (var i in ret) {
+            
+            options += '<li><input type="checkbox" class="css-checkbox sme brandtype"  name ="brandtype" value ="' + ret[i].id + '"><label for="checkbox1" name="checkbox1_lbl" class="css-label sme depressed">'+ ret[i].name + '</label></li>';
+    
+          }
+
+          $(".hiddenclass").html(options);
+
+         }
+        else{
         options +='<option>Select Brand</option>';
         for (var i in ret) {
           options += '<option value="' + ret[i].id + '">'
@@ -436,6 +635,7 @@ function fill_brands(sub_category_id) {
         response_cache4[sub_category_id] = options;
         
         $("#id_brand").html(options);
+      }
       });
   }
   response_cache4 = {}
@@ -449,6 +649,8 @@ function fill_brands(sub_category_id) {
 // ********** Validation Add Post **********
 ( function( $ ) {
 $( document ).ready(function() {
+
+
 
     //Image file upload
     $('input[type=file]').simpleFilePreview({
@@ -835,7 +1037,6 @@ $( document ).ready(function() {
 	$( ".select_city" ).change(function () {
  		var selected_option = $( ".select_city option:selected" ).val();
  		$('#select_city').html(selected_option);
-
 	});
 
   $( ".select_country" ).change(function () {
@@ -1000,66 +1201,6 @@ $( document ).ready(function() {
       var width = $(this).width();
       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
     });
-
-    $('.popup_sign_up').click(function(){
-      // alert("popup");
-      
-      // var height=$('.sign_up_div').height();
-      // var width=$('.sign_up_div').width();
-      // $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
-      sign_up_center_align();
-      
-      $('.popup_fade').show();
-      $('.sign_up_div, .close_btn').show();   
-      document.body.style.overflow = 'hidden';
-    });
-
-
-
-    $('.popup_sign_in').click(function(){
-      // alert("popup");
-     
-      // var height=$('.sign_in_div').height();
-      // var width=$('.sign_in_div').width();
-      // $('.sign_in_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
-      sign_in_center_align();
-      $('.popup_fade').show();
-      $('.sign_in_div, .close_btn').show();
-       
-      document.body.style.overflow = 'hidden';
-    });
-
-    $('.choose_button').click(function(){
-      // alert("popup");     
-      // var height=$('.sign_up_div').height();
-      // var width=$('.sign_up_div').width();
-      // $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
-      category_popup_center_align();      
-      $('.popup_fade').show();
-      $('.choose_category_div, .close_btn').show();   
-      document.body.style.overflow = 'hidden';
-    });
-
-    
-    // $('.container .sign_up_div').load(function(){
-    //   alert("sign_up_div");
-    //   var height = $(this).height();
-    //   var width = $(this).width();
-    //   $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
-    // });
-    $('.cancel_btn').click(function(){
-      $('.popup_fade').hide();
-      $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div').hide();
-      document.body.style.overflow = 'auto';
-  });
-
-  //   $(".confirm").click(function() {
-  //   var checked_status = this.checked;
-  //   if (checked_status == true) {
-  //      $(".signup_confirm_button").css({"cursor":"pointer","pointer-events":"auto"});
-  //   } else {
-  //      $(".signup_confirm_button").css({"cursor":"default","pointer-events":"none"});
-  //   }
-  // });
+ 
 });
 } )( jQuery );

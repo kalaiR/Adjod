@@ -1,8 +1,9 @@
 {% extends request.is_ajax|yesno:"base_ajax.html,base_search.html" %}
-{% load i18n %}
 {%if not request.is_ajax%}
+{% load i18n %}
   {%block page_swap%}   
       <span>
+      <div class="breadcrumbs">
         <a href="/" class="previous_page2">Back to my search results</a>
         <i class="fa fa-angle-right right"></i>
         {%if query%}
@@ -13,8 +14,24 @@
         <i class="fa fa-angle-right right"></i>
         <a href="" class="current_page">{{query}}</a>
         {%else%}
-        <a href="" class="current_page">All Results</a>
+        <a href="" class="current_page all">All Results</a>
+        <i class="fa fa-angle-right right all"></i>
+        <!-- {% for categories in initial_load|get_categories %}
+        <span id="add" value=""></span>
+        {% endfor %}  -->
+       <!--  <a href="#" class="current_page list_folder1 ">All category</a> -->
+        
+        <a class="list_display current_page">
+          <!-- <i class="fa fa-angle-right right"></i> -->
+           </a>
+        <!-- <i class="fa fa-angle-right right"></i> -->
+         <a class="list_display_subcat current_page">
+         <!--  <i class="fa fa-angle-right right"></i> -->
+           </a>
+        <a class="list_display_brand current_page"></a>
+       
         {%endif%}
+        </div>
       </span>
     {%endblock%} 
 
@@ -34,74 +51,63 @@
              <ul class="main_list">             
                   <!--  All Categories & Sub-Categories to Display in Advance Search-->   
                       <li class="list_folder">All category 
-                          <ul class="hide_list">
+                          <ul class="hide_list categoryclick">
                            {% for categories in initial_load|get_categories %}
                               <li class="list_folder">
-                              <a class="has_sub">
-
-                                <span>{{categories}}<span class="product_quantity"></span>{{ categories.count }}</span>
-                              </a>
-                                  <ul class="hide_list hidelist1 subclick ">
-                                  {% for subcategories in categories.id|get_subcategories %}
-                                      <li class="list_folder">
-
-                                      <span class="has_sub subcategory_choose">{{subcategories}}                                  
-                                      </span>
-                                     <!--  <input type="hidden" id="sub_cate_gory"  value="{{subcategories}}" name="sub_cate_gory"/>  -->
-
-                                      <!-- <span class="has_sub">
-                                      {{subcategories.id}}                                  
-                                      </span> -->
-                                      <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="{{subcategories.id}} " name="subcategoryid"/> 
-
-                                      <span class="product_quantity">{{subcategories.id|get_subcategoriesCount}} 
-                                        </span>
-                                      
-
-                                       <!-- <a href="/search/?q=&subcategoryid={{subcategories.id}}" class="has_sub">{{subcategories}}
-                               <span class="product_quantity">( {{subcategories.id|get_subcategoriesCount}} )
-                                          </span>
-                                          <input type="hidden"    class="subcategory_choose" name="subcategoryid" value="{{subcategories.id}}"/>
-                                         </a> -->
-
-                                        </li> 
-                                  {% endfor %}
-                                  <!-- <input type="hidden" id="sub_cate_gory"  value="{{subcategories}}" name="sub_cate_gory"/>  -->
-                                  <!-- <input type="hidden" id="sub_cate_gory_id"  value="{{subcategories.id}} " name="sub_cate_gory_id"/>  -->
+                              <a class="has_sub categoryselected get">
+                               {{categories}}
+                                 <!-- <span class="hidelist1 ajax_categoryid">
+                                      {{categories.id}}
+                                  </span>  -->
+                                
+                                <span class="product_quantity"> {{ categories.count }}                         
+                                </span> 
                                   
-                                   <!-- <input type="hidden" class="subcategory_choose" value="" name="subcategoryid"/>    -->    
-                                  </ul>
+                               
+                              </a>
+                              
+                                  <ul class="hide_list hidelist1 subclick">
+                                  {% for subcategories in categories.id|get_subcategories %}
+                                      <li class="list_folder parent_li">
+
+                                      <span class="has_sub subcategory_choose get1">{{subcategories}}                                  
+                                      </span>
+                                      <!-- <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="{{subcategories.id}} " name="subcategoryid"/>  -->                                    
+                                     
+                                      <span class="has_sub hidelist1 ajax_subid">
+                                      {{subcategories.id}}                                  
+                                      </span> 
+                                       <span class="product_quantity">{{subcategories.id|get_subcategoriesCount}} 
+                                        </span>
+                                         
+                                       </li> 
+                                      {% endfor %}
+
+                                     
+                                    </ul>
                               </li>
-                          {% endfor %}      
-                          </ul>
+                          {% endfor %} 
+                        </ul>
+                     <!--    <input type="hidden"  id="categoryid"  value="" name="categoryid"> -->
+                         <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="" name="subcategoryid"/>   
                       </li>
 
                  <!--  All Brands Type to Display in Advance Search-->    
-                      <li class="list_folder"> <b>Brands </b>
-                          <ul class="hide_list hidelist1">
+                      <li class="brand_folder list_folder"> <b>Brands </b>
+                          <ul class="hiddenclass hide_list" id="brand_toggle">
                             <!-- Location Auto complete -->
                            <!--  <div class="location_holder">     -->              
                                 <!-- <input type="text" class="location" style="size: 12" id="typeandbrandtxt" name= "typeandbrandtxt" value="{{form.name.value|default:''}}" placeholder="Type any brand"/> -->
 
                                 <!-- <input type="hidden" class="location" style="size: 12" id="typeandbrand" name="{{form.name.html_name}}"value="{{form.name.value|default:''}}" placeholder="Type any brand"/> -->                  
                            <!--  </div> -->
-                            <div id="listbrandtypes">
-                            <!-- get_brandforsubcategory{{request.COOKIES.subcatcookie}} -->
-                            get_brand: {{request.COOKIES.subcatcookie}}
-
-                            {% for brandsubcategory in request.GET.subcategoryid|get_brandforsubcategory %}  
-                                <li class="list_folder">
-                                     <input type="checkbox" class="css-checkbox sme brandtype" id="{{brandsubcategory.id}}" name ="brandtype" value ="{{brandsubcategory.id}}"/>
-                                    <label for="checkbox1" name="checkbox1_lbl" class="css-label sme depressed">
-                                    {{brandsubcategory}}
-                                    </label>  
-                                 </li>
-                               {% endfor %}      
-                            <input type="hidden" id="brandtype" value="" />
-                            </div>
+                            <!-- <div id="listbrandtypes"> -->
+                                <!-- <input type="hidden" id="brandsubcategoryid" name ="brandtype" value="" /> -->
+                            <!-- </div> -->
                           </ul>
+                           <input type="hidden" id="brandsubcategoryid" name ="brandtype" value="" />
                       </li>
-                       <!--  All PriceOptions to Display in Advance Search-->   
+                      <!--  All PriceOptions to Display in Advance Search-->   
                       <li class="list_folder"><b>Price</b> 
                           <ul class="hide_list hidelist1">                            
                                <li class="list_folder">
@@ -158,18 +164,20 @@
           </div>
 
           <div class="sort_part">
-              <span>Sort by</span>
-              <div class="custom_select sorting_custom_select">
-                          <div class="select">
-                            <p id="custom_select_value_act">Popularity</p>
+              <span class="sortclass">{% trans "Sort by" %}</span>
+              <div class="choose_select sorting_custom_select">
+                          <div class="choose">
+                            <p id="prov_custom_sort_value_act">{% trans "select" %}</p>
                             <i class="fa fa-caret-down new_icon"></i>
                           </div> <!-- select -->
-                          <select class="custom_select_value_act option_color" name="sorteddata">
-                          <option value="createddate">createddate</option>
-                          <option value="modifieddate">modifieddate</option>
-                          <option value="pricelow">pricelow</option>
-                          <option value="pricehigh">pricehigh</option>
+                          <select class="prov_custom_sort_value_act option_color" id ="sorteddata"  name="{{form.sorteddata.html_name}}" value="{{form.sorteddata.value|default:''}}">
+                             <option value="">{% trans "none" %}</option>
+                          <option value="Createddate">{% trans "Created Date" %}</option>
+                          <option value="onlineusers">{% trans  "online users" %}</option>
+                          <option value="pricelow" {% ifequal sort "Price -Low to High" %} selected {% endifequal %}>{% trans "PriceLow to High" %}</option>
+                          <option value="pricehigh" {% ifequal sort "Price -High to Low" %} selected {% endifequal %}>{% trans "PriceHigh to Low" %}</option>
                           </select>
+                          <input type="hidden" id ="sorteddata" name="sorteddata" value="" />
               </div><!-- custom_select -->
               
           </div> <!-- sort_part -->
@@ -207,7 +215,7 @@
                       <span class="product_description1">{{product.object.description}}</span>
                       <!-- <span class="additional_description">{{product.object.description}}</span> -->
                       
-                      <span class="model_year1"> used | in Anna nagar | By dealer</span>
+                      <span class="model_year1"> {{product.object.condition}} | in {{product.object.locality.locality}} | By {{product.object.you_are}}</span>
                       <span class="year">{{product.object.created_date}}</span>
                   </div>
                   <div class="additional_details">
@@ -271,9 +279,10 @@
         </div> <!-- bottom_part -->
         
         <div id="chat_div"></div>
-      
-        {% else %}
-             <div class="right_align"><span>{% trans "No Results Found" %}</span></div>       
+
+         {% else %}
+             <div class="right_align"><span>{% trans "No Results Found" %}</span></div>
+        
         {%endif%}
       </div> <!-- right_part -->
 {%if not request.is_ajax%}

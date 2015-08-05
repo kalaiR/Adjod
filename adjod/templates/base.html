@@ -188,7 +188,8 @@
                       {% endif %}
                       </div>
                     <button type="submit"class="btn btn-lg btn-success search_b">Search</button>
-                    <a href="{% url product_form %}" class="btn btn-lg post-button" style="{% if request.user.is_active == True %} cursor:default;pointer-events:none; {%else%} cursor:pointer;pointer-events:auto; {% endif %}">Post free Ad</a>
+                    <!-- <a href="{% url product_form %}" class="btn btn-lg post-button" style="{% if request.user.is_active == True %} cursor:default;pointer-events:none; {%else%} cursor:pointer;pointer-events:auto; {% endif %}">Post free Ad</a> -->
+                    <a href="{% url product_form %}" class="btn btn-lg post-button">Post free Ad</a>
                     <a href="/" class="btn btn-lg alert-button">Create free alert</a>
               </form> <!-- info_form -->
               
@@ -286,7 +287,7 @@
             
             <div id="forgot_div" class="form-group">
               <span class="forgot_act">Forgot you password?</span>
-              <input class="btn confirm_button" type="submit" value="Sign in" name="create" id="signin" />
+              <input class="btn confirm_button" type="button" value="Sign in" name="create" id="signin" />
            
             </div> <!-- forgot_div -->
             
@@ -336,6 +337,7 @@
             
             <div id="password_div" class="form-group">
               <input class="password" type="password" name="password" id="password" placeholder="Password*" />
+              <span id="result"></span>
               <label for="password" id="signup_password_required" class="signup_labelError" style="display:none;">Please enter Password</label>
             </div> <!-- password_div -->    
               
@@ -344,10 +346,14 @@
               <label for="user_id" id="user_required" class="signup_labelError" style="display:none;">Please enter Username</label>
             </div> <!--user _id_div -->
 
-              
+            
               <div id="mobile_number_div" class="form-group">
-                <input class="mobile_number" name="your_mobile_number" id="mobile_number" placeholder="Your mobile number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
+                <input class="mobile_number" name="your_mobile_number" id="mobile_number_sign_up_home" placeholder="Your mobile number"/>
               </div>
+              
+              <!-- <div id="mobile_number_div" class="form-group">
+                <input class="mobile_number" name="your_mobile_number" id="mobile_number" placeholder="Your mobile number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
+              </div> -->
               <div class="clear_both">
                 
               <!-- <div class="sign_up_span">
@@ -355,14 +361,20 @@
               </div> -->
             
             
-            <div id="confirm_div" class="form-group">
+           <!--  <div id="confirm_div" class="form-group">
               <input class="confirm" type="checkbox" name="confirm" />
               <span>I confirm that i am 18 yrs or older</span>
               <input class="btn signup_confirm_button" type="submit" value="Create" name="create" id="create" disabled="disabled" />
               <div>
                       <span class="hovertext"> click the checkbox then create button will enable</span>
                 </div>
-            </div> <!-- password_div -->
+            </div> <!- password_div --> 
+            <div id="confirm_div" class="form-group">
+              <input class="confirm" type="checkbox" name="confirm" />
+              <span>I confirm that i am 18 yrs or older</span>
+              <input class="btn signup_confirm_button masterTooltip" type="submit" value="Create" name="create" id="create" title="Your age must be above 18 years, please check age status and then create account" />
+              
+            </div> 
             
             <div id="hr_div" class="form-group">
               <hr class="photos_line" noshade="noshade">

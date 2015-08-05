@@ -26,7 +26,7 @@ $('.search_btn').click(function() {
 });
 
 $(function() {
-
+// alert("document ready");
     $("#typeandbrandtxt").autocomplete({
         source : "/autocomplete_brandlist",
         select : function(event, ui) {
@@ -46,6 +46,92 @@ $(function() {
     });    
     
 });  	
+
+function perform_search(){
+   
+            // $.cookie('keywords', $('input[name=keywords]').val(),{ path: "/" });
+            // $.cookie('location', $('input[name=locations]').val(),{ path: "/" });
+            // left_dyanmic_height();  
+            // $(".infield").inFieldLabels();
+            // $(".infield_p").inFieldLabels();
+            // show_searching(true);
+            // $('[name=rating_start]').val('')
+            // $('[name=rating_end]').val('')                                              
+            // q = q.replace(/filtersearch/g,'q'); 
+            var q = $('#form_search_filter').serialize();
+            // alert(q);
+    
+
+            //q=decodeURIComponent(q);
+            var pageurl = window.location.href;
+            //alert(pageurl);
+            // var url=pageurl.split('/')[3] + '/' + pageurl.split('/')[4]
+            // alert(url);
+            // q = q.replace(/filtersearch/g,'q'); 
+
+            var qsort = $("#sorteddata").val();
+            q = q +'&sorteddata='+$.trim(qsort);
+            // alert(q);
+            // var qlang = $("#currentlanguage").val();
+            if ($('[name=newsearch]').val() == "new")
+        {
+                    // alert('top');
+                    $.get('v2/search/?'+ q, function(data){                                                           
+                        show_searching(false);
+                        $('#search_result').html(data);
+                       
+                        // leadfound= $('.founded_no').text().trim();
+                        // if (leadfound == '')
+                        //     $('[name=search_founded_no]').val ('0 ' + gettext("Leads found"));
+                        // else
+                        //      $('[name=search_founded_no]').val($('.founded_no').text().trim());
+                        //      $.get('/search/?'+ q, function(data){
+                        //       // show_searching(false);
+                        //       $('#search_result').html(data);
+                        //       attach_pagination_events();
+                        //       // if($('[name=keywords]').val() == '')
+                        //       //     $('#keyword_highlight').hide();                                     
+                        //       // if($('[name=locations]').val() == '')
+                        //       //     $('#location_highlight').hide();
+                        // });
+                        // $.get(url+'/?'+ q, function(data){   
+                        //     // alert("enter url")
+                        //     // alert(data);
+                        //     $('#search_result').html(data);
+                        attach_pagination_events();
+                        }); 
+                        //  $.get(url+'/?'+ q, function(data){
+                        //  alert("enter url")
+                        //  alert(data);
+                        //  $('#search_result').html(data);                                         
+                        // }); 
+                        // $('#search_result').html(data); 
+                        // attach_pagination_events();
+                                  
+            }else{
+                    $.get('/search/?'+ q, function(data){                                                                                             
+                    $('#search_result').html(data);
+                    attach_pagination_events();
+                    
+
+                    // show_searching(false);             
+                    // leadfound= $('.founded_no').text().trim();
+                    // if (leadfound == '')
+                    //     $('[name=search_founded_no]').val ('0 ' + gettext("Leads found"));
+                    //  else
+                    //      $('[name=search_founded_no]').val($('.founded_no').text().trim());
+                    // attach_pagination_events();
+                   
+                    // if($('[name=keywords]').val() == '')
+                    //     $('#keyword_highlight').hide();
+                    
+                    // if($('[name=locations]').val() == '')
+                    //     $('#location_highlight').hide();
+                    // left_dyanmic_height();
+                            
+                });
+            }
+}
 
 function attach_pagination_events(){
     // pagination_filter_align();
@@ -67,6 +153,7 @@ function attach_pagination_events(){
             
 }
 $(document).ready(function() {
+            $("li.brand_folder > ul").hide();
             attach_pagination_events();
 
             var url = window.location.href;
@@ -78,191 +165,160 @@ $(document).ready(function() {
             $('.list_folder').on('click',function(e){
                 e.stopImmediatePropagation();               
                 $(this).find('.hide_list:first').slideToggle();
+                perform_search();
             });
-
-            // BrandType checkbox Options in Advance Search
-            $('input.brandtype').on('change', function() {
-                // alert("brandtype");
-                    $('input.brandtype').not(this).prop('checked', false); 
-                    $('#brandtype').val($(this).val());       
-                    // var cookies_subcategory = request.COOKIES.get('subcatcookie');             
-                    perform_search();  
-            });
-
-            //subcategory list choose
-            $('.subclick > li .subcategory_choose').click(function () {
-                  
-
-                $('.subclick > li .subcategory_choose').each(function( index ) {
-                    $(this).removeClass('orange_text');
-                });
-                    
-                    $(this).addClass('orange_text');
-                    var subid =  $(this).next('input[type="hidden"]').val();
-                    $('[name=subcategoryid]').val(subid);
-
-                    // $('#brandtype').val($(this).val()); 
-                     $.cookie('subcatcookie',JSON.stringify(subid));
-
-                     
-                    
-                    // alert(JSON.stringify(subcookie));
-                    perform_search(); 
-                    // alert(subid);
-                    // var subcat = $(this).val(subid);
-                     
-                    // $('[name=subcategoryid]').val(subcat);
-                    // alert(JSON.stringify(subcat));
-                    //  perform_search();
-                    // alert(subcat);
-
-                    // var subid = $(this).next().$('input[type="hidden"]').val();
-                    // var subid =  $('input[type="hidden"]'.subcategory_chooseid').$(this).val();
-                   
-                    // var subid = siblings(".subcategory_choose").attr('input[type="hidden"]').val();          
-                    // alert('subid[$(this)]');
-                    // $('[name=subcategoryid]').val($(this).subid[]);
-                   
-              
-                    // var subcategories = [];
-                    // var subcategories = $('input[type="hidden"]', this).val();
-                    // $('subcategoryid').val();
-                    });
-
-            // // BrandType checkbox Options in Advance Search
-            // $('input.pricerange').on('change', function() {
-            //      // alert("price");
-            //         $('input.pricerange').not(this).prop('checked', false); 
-            //         var splitprice = [];
-            //         var splitprice = $(this).val().split("#");                    
-            //         $('#price_start').val(splitprice[0]); 
-            //         $('#price_end').val(splitprice[1]);
-            //         perform_search();                                          
-            // });
-
-            //price range selection
-            $('input.pricerange').on('change', function(){
-
-                            $('input.pricerange').not(this).prop('checked', false);
-                            if ($(this).prop('checked') == true){
-                            var splitprice = [];
-                            var splitprice = $(this).val().split("#");  
-                            alert(splitprice);                  
-                            $('#price_start').val(splitprice[0]); 
-                            $('#price_end').val(splitprice[1]);
-                            perform_search();    
-                    }
-                  if ($(this).prop('checked') == false){
-                    $('[name=price_start]').val('');
-                    $('[name=price_end]').val('');
-                    var subid =  $('.subclick > li .subcategory_choose').next('input[type="hidden"]').val();
-                    $('[name=subcategoryid]').val(subid);
-                    // $('[name=subcategoryid]').val($(subcategoryid).val());
-                    alert(subcategoryid);
-                     perform_search();  
-                    }                       
-                });   
-
-            //sort data dropdown
-            $('.prov_custom_sort_value_act').change(function(){
-                    var str = "";
-                    // alert('strtext');
-                    var strtext = "";
-                    // alert('strtext');
-                     // alert(strtext);
-                    $("select.prov_custom_sort_value_act option:selected").each(function () {
-                    
-                    str += $(this).val();
-                    strtext = $(this).text();
-                    alert(strtext); 
+            $('.get').on('click',function(e){
+                var text = $(this).text();
+                $('.all').hide();
+                $('.list_display').html(text + " <i class='fa fa-angle-right right'></i>");
                 
-              });
-             
-             $("#sorteddata").val(str);
-              alert($("#sorteddata").val(str));
-              perform_search();
-
+            });
+             $('.get1').on('click',function(e){
+                var text = $(this).text();
+                $('.all').hide();
+                $('.list_display_subcat').html(text + " <i class='fa fa-angle-right right'></i>");
+                
             });
 
-});
+            
+            // $(document).on("click", '.brand_folder', function () {
+            // // e.stopImmediatePropagation();               
+            //     $(this).find('#brand_toggle').slideToggle();
+            // });
+            
+            // $('.brand_folder').on('click',function(e){
+            //     // e.stopImmediatePropagation();               
+            //     $(this).find('#brand_toggle').slideToggle();
+            // });
+    //category choose
 
-function perform_search(){
-                        // $.cookie('keywords', $('input[name=keywords]').val(),{ path: "/" });
-                        // $.cookie('location', $('input[name=locations]').val(),{ path: "/" });
-                        // left_dyanmic_height();  
-                        // $(".infield").inFieldLabels();
-                        // $(".infield_p").inFieldLabels();
-                        // show_searching(true);
-                        // $('[name=rating_start]').val('')
-                        // $('[name=rating_end]').val('')                                              
-                        // q = q.replace(/filtersearch/g,'q'); 
-                        var q = $('#form_search_filter').serialize();
-                        //q=decodeURIComponent(q);
-                        //var pageurl = window.location.href;
-                        //alert(pageurl);
-                        //var url=pageurl.split('/')[3] + '/' + pageurl.split('/')[4]
-                        // alert(url);
-                        // q = q.replace(/filtersearch/g,'q'); 
-                        var qsort = $("#sorteddata").val();
-                        q = q +'&sorteddata='+$.trim(qsort);
-                        // var qlang = $("#currentlanguage").val();
-                        if ($('[name=newsearch]').val() == "new")
-                        {
-                                    // alert('top');
-                                    $.get('v2/search/?'+ q, function(data){                                                           
-	                                    show_searching(false);
-	                                    $('#search_result').html(data);
-	                                    
-	                                    // leadfound= $('.founded_no').text().trim();
-	                                    // if (leadfound == '')
-	                                    //     $('[name=search_founded_no]').val ('0 ' + gettext("Leads found"));
-	                                    // else
-	                                    //      $('[name=search_founded_no]').val($('.founded_no').text().trim());
-	                                    // 		$.get('/search/?'+ q, function(data){
-	                                    //       // show_searching(false);
-	                                    //       $('#search_result').html(data);
-	                                    //       attach_pagination_events();
-	                                    //       // if($('[name=keywords]').val() == '')
-	                                    //       //     $('#keyword_highlight').hide();                                    
-	                                    //       // if($('[name=locations]').val() == '')
-	                                    //       //     $('#location_highlight').hide();
-	                                    // });
-	                                    // $.get(url+'/?'+ q, function(data){	
-	                                    //     // alert("enter url")
-	                                    //     // alert(data);
-	                                    //     $('#search_result').html(data);
-			                            attach_pagination_events();
-		                            }); 
-                                    //  $.get(url+'/?'+ q, function(data){
-                                    //  alert("enter url")
-                                    //  alert(data);
-                                    //  $('#search_result').html(data);                                         
-                                    // }); 
-                                    // $('#search_result').html(data); 
-                                    // attach_pagination_events();
-                                              
-                        }else{
-                                $.get('/search/?'+ q, function(data){                                                                                             
-                                $('#search_result').html(data);
-                                attach_pagination_events();
-                                // show_searching(false);             
-                                // leadfound= $('.founded_no').text().trim();
-                                // if (leadfound == '')
-                                //     $('[name=search_founded_no]').val ('0 ' + gettext("Leads found"));
-                                //  else
-                                //      $('[name=search_founded_no]').val($('.founded_no').text().trim());
-                                // attach_pagination_events();
-                               
-                                // if($('[name=keywords]').val() == '')
-                                //     $('#keyword_highlight').hide();
-                                
-                                // if($('[name=locations]').val() == '')
-                                //     $('#location_highlight').hide();
-                                // left_dyanmic_height();
-                                        
-                            });
-                        }
-}
+    // $('.categoryclick > li a.categoryselected').click(function () {
+            
+    //       var catid = $(this).next('.ajax_categoryid').text();
+    //       alert("catid"+catid);
+    //       var ajax_catid = $('input[type="hidden"]#categoryid').val(catid);
+    //       $('#categoryid').val(ajax_catid);
+    //         // alert(JSON.stringify($('#categoryid').val(ajax_catid)));
+    //        perform_search();
+    //          // var category_choose = $(this).next('.ajax_categoryid').val($(this).val());
+    //        // var ajax_catid = $('input[type="hidden"]#categoryid').val(category_choose);
+    //        //  $('#categoryid').val(ajax_catid);  
+         
+    //        //  perform_search();
+    //         // var category_choose = $(this).parent().next('.ajax_categoryid').text;
+    //         //  var trim_catid = $.trim(category_choose);
+    //         //   var ajax_catid = $('input[type="hidden"]#categoryselected').val(trim_catid);
+    //         //     $('[name=categoryselected]').text(trim_catid);  
+    //         // alert("trim_catid"+trim_catid);
+    //         // perform_search();
+    //       });
+
+    //subcategory list choose
+    $('.subclick > li .subcategory_choose').click(function () {
+            
+
+        $('.subclick > li .subcategory_choose').each(function( index ) {
+            $(this).removeClass('orange_text');
+        });
+            
+        $(this).addClass('orange_text');
+       
+        var subid =  $(this).next('.ajax_subid').text();
+        // alert(subid);
+        var trim_subid = $.trim(subid);
+        var ajax_subid = $('input[type="hidden"]#subcategoryid').val(trim_subid);
+        $('[name=subcategoryid]').text(trim_subid);  
+         var trim_subid = $.trim(subid);
+         // alert($.trim(subid));
+            fill_brands(trim_subid);
+        $.trim($.cookie('subcatcookie',JSON.stringify(trim_subid)));
+        perform_search(); 
+    });
+            
+
+
+              
+        //brand type
+
+        $(document).on("change", 'input.brandtype', function () {
+            if ($(this).prop('checked') == true){
+                alert($(this).val());
+                alert("true");
+                var check = $(this).parent().parent().next('#brandsubcategoryid').val($(this).val());
+                alert("check"+JSON.stringify(check));
+                perform_search(); 
+            }
+            else{
+                alert("false");
+                $('#brandsubcategoryid').val('');
+                perform_search(); 
+            }
+        });
+
+    
+
+//price range selection
+    $('input.pricerange').on('change', function(){
+
+          
+            if ($(this).prop('checked') == true){
+                    var splitprice = [];
+                    var splitprice = $(this).val().split("#");  
+                    alert(splitprice);                  
+                    $('#price_start').val(splitprice[0]); 
+                    $('#price_end').val(splitprice[1]);
+                    perform_search();    
+            }
+
+          if ($(this).prop('checked') == false){
+                $('[name=price_start]').val('');
+                $('[name=price_end]').val('');
+                $.cookie("subcatcookie")
+                alert($.cookie("subcatcookie"));
+                perform_search();                         
+            }    
+            
+    });
+
+    // //sort by dropdown  
+    //  $("select.prov_custom_sort_value_act option:selected").each(function () {
+    //      fill_brands();
+    //     perform_search();
+        // var selected_option = $( ".prov_custom_sort_value_act option:selected" ).text();
+        // $('#prov_custom_sort_value_act').html(selected_option); 
+
+
+    //sort by dropdown
+    // $( ".prov_custom_sort_value_act" ).on('change', function () {
+              
+    //   var selected_option = $( ".prov_custom_sort_value_act option:selected" ).text();
+    //   $('#prov_custom_sort_value_act').html(selected_option); 
+       
+    //   $('input[type="hidden"]#sorteddata').val(selected_option);
+    //   alert($('input[type="hidden"]#sorteddata').val(selected_option)); 
+    //   perform_search();
+    // });
+    
+
+            //current_city based search
+        // $('select.city_select').click(function () {
+        //     var current_city = $("select").val($("#currentid :selected").val());
+        //     alert("current_city"+$("select").val($("#currentid :selected").val()));
+        // });
+ 
+
+            
+// $("#cityid").change(function(){
+//         $.getJSON("/home/", {city: city},
+//                         function(ret, textStatus) {
+
+//             $(this).parent().parent().next('input[type="hidden"]#currentid').val($(this).val());
+//             alert("city_selected"+ $(this).parent().parent().next('input[type="hidden"]#currentid').val($(this).val()));
+//             perform_search();
+//         });
+// });
+
+    
 
 
 function show_searching(show) {
@@ -330,4 +386,4 @@ function validateSearch() {
    }
     //return true;
 }
-
+});

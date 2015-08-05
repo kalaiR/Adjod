@@ -17,7 +17,6 @@
 {{request.COOKIES.language}}
 {{request.COOKIES.city}}
 <div class="container">
-<a href="">{{cat}}</a>
 <!-- <div align="middle" id="richmedia_6">
   <a href="http://a.tribalfusion.com/h.click/agmP8qpTB45FM5VrfZaW671Pqf0QV3pStZbM1WZbxVPbw3Vv1XUUDUmPq5mQ9P6MC2HBq1HQAndEn5PvQ3sUeTGQ8WcngR6FmTWFRWrjP3F2oVa7tTT39QTrZaQVZbCQUiwRHY7UVv55Fquodyq0qmp2HbGSGbA26rEptiyTtZb6XFbcYUF6XqarPbJstnXsdv/http://download.mywebface.com/index.jhtml?partner=GRxdm059&amp;offer_id=869&amp;a=302&amp;oc=1204&amp;c=3440&amp;dm=1&amp;s1=225556&amp;s2=&amp;s3=&amp;s4=&amp;s5=" target="_blank">
   <img width="800" height="90" border="0" src="http://cdnx.tribalfusion.com/media/3794856.gif">
@@ -25,6 +24,7 @@
 </div>  -->
 
 <div class="row row_1">  
+<a href="/search/?q=&category={{cat.id}}">{{cat}}</a>
 <div class="col-md-12">
 {% for subcategories in subcategory %}  
         {% if forloop.counter0|divisibleby:4 %}
@@ -63,7 +63,7 @@
       <div class="row row_2">
         <div class="col-md-7">
           <h4 class="post_ad">Sell or Advertise anything</h4>
-          <a href="{% url product_form %}" class="#postbutton btn btn-lg btn-warning post_button">Post Free Ad</a>
+          <a href="{% url product_form %}" class="#postbutton btn btn-lg btn-warning post_button" style="{% if user.is_authenticated %}{% if userprofile.ad_count > 3 and userprofile.is_emailverified == 0 and userprofile.is_subscribed == 0 %} cursor:default;opacity:0.4; {% elif userprofile.ad_count > 3 and userprofile.is_emailverified == 1 and userprofile.is_subscribed == 0 %} cursor:default;opacity:0.4; {% elif userprofile.is_subscribed == 1 %} cursor:pointer;{% endif %} {% endif %}" title="{% if user.is_authenticated %}{% if userprofile.ad_count > 3 and userprofile.is_emailverified == 0 and userprofile.is_subscribed == 0 %} You already add 3 posts and also did not verified ur email, if u want add more posts, u have to verify ur email and also make ur account as premium {% elif userprofile.ad_count > 3 and userprofile.is_emailverified == 1 and userprofile.is_subscribed == 0 %} You already add 3 posts, if u want add more posts, u have to make ur account as premium{% endif %}{% endif %}">Post Free Ad</a>
         </div> <!--col-md-7 -->
         <div class="col-md-5">
           <h4 class="sell"><i class="fa  fa-shield"></i> How to sell safely ?</h4>
@@ -100,20 +100,20 @@
                 </a>
               </div>
               <div class="detail">
-                <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a><span>${{recentads.price|conversion}}</span></div>
+                <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a><span>${{recentads.price}}</span></div>
                 <span class="product_description"> {{ recentads.description }}</span>
-                <span class="product_user"> used | in Anna nagar | By dealer</span>
+                <span class="product_user"> {{recentads.condition}} | in {{recentads.locality.locality}} | By {{recentads.you_are}}</span>
               </div> <!-- detail -->
             </li>
             {% endfor %}
             
           </ul>
         </div> <!-- col-md-7 -->
-   <div class="col-md-5">
+     <div class="col-md-5">
           <div class="free_alert">
             <h4>Create free alert</h4>
           </div>
-         <form method="post" action="{% url free_alert %}">
+         <form method="post" action="{% url free_alert %}" name="alert_button">
             {% csrf_token %}
             <ul class="enquiry_form">
               <li>
@@ -129,8 +129,9 @@
                 <option value="{{ categories.id }}">{{ categories.name }}</option>
                 {% endfor %}
                 </select>
-                <label id="city_required" class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
+                 
               </div> <!-- select_container_city -->
+              <span id="id_category_required" class="labelError" style="font-size:12px;display:none;">Please Choose category</span>
               </li>
               <li>  
               <div class="select_container_subcategory" id="select_container_subcategory">
@@ -145,12 +146,13 @@
                 <option value=""></option>
                 
                 </select>
-               <label id="locality_required" class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
+               <span id="id_subcategory_required" class="labelError" style="font-size:12px;display:none;">Please Choose sub category</span>
               </div> <!-- select_container_city -->
+               
               </li>
               <li>
               <div class="select_container_brand" id="select_container_brand">
-                <div class="select_div">
+                <div class="select_div div_brand">
                   <p id="select_post_brand">Select Brand</p>
                   <i class="city_fa fa fa-caret-down">                    
                   </i>
@@ -160,15 +162,15 @@
                 <option value=""></option>
                 
                 </select>
-               <label id="locality_required" class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
+               <span id="id_brand_required" class="labelError" style="font-size:12px;display:none;">Please Choose brand</span>
               </div> <!-- select_container_city -->
+              
               </li>
               <li>
               <div class="select_container_city" id="select_container_city">
                 <div class="select_div">
                   <p id="select_post_city">Select City</p>
-                  <i class="city_fa fa fa-caret-down">
-                    
+                  <i class="city_fa fa fa-caret-down">                    
                   </i>
                 </div> <!-- select_div -->
                 <select id="id_city" class="select_post_city" name="your_city">
@@ -176,16 +178,19 @@
                 <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
                 {% endfor %}
                 </select>
-             <label id="city_required" class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
+                <span id="id_city_required" class="labelError" style="font-size:12px;display:none;">Please Choose city</span>
               </div> <!-- select_container_city -->
+               
               </li>
 
               <li><div class="form1">
-                  <input type="text" class="form-control inputs" value="Your email" name="email">
+                  <input type="text" class="form-control inputs" value="Your email" name="email" id="email">
+                   <span id="email_required" class="labelError" style="font-size:12px;display:none;">Please enter the valid mail</span>
                 </div>
             </li>
             <li><div class="form1">
-                  <input type="text" class="form-control inputs" value="Your mobile number" name="mobilenumber">
+                  <input type="text" class="form-control inputs mobile" value="Your mobile number" name="mobilenumber" id="mobilenumber">
+                  <span id="mobilenumber_required" class="labelError" style="font-size:12px;display:none;">Please enter the mobile number</span>
                 </div>
             </li>
             </ul>
@@ -195,7 +200,6 @@
     </form>
          
         </div> <!-- col-md-5 -->
-      </div> <!-- row3 -->
     </div> <!-- container fourth part -->
    
 {% endblock %}

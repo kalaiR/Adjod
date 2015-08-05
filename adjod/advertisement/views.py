@@ -204,7 +204,7 @@ def product_form(request, name=None, subname=None):
             print "authenticate"
             userprofile = UserProfile.objects.get(user_id=userid)
             print "userprofile", userprofile
-            if userprofile.ad_count>3:
+            if userprofile.ad_count>3 and userprofile.is_subscribed == 0:
                 print "redirect"
                 return HttpResponseRedirect('/')
             else:
@@ -426,7 +426,7 @@ def product_save(request):
     except ValidationError as e:
         messages.add_message(request, messages.ERROR, e.messages[-1]) 
         redirect_path = "/postad/"
-        query_string = 'si=%d' % e.code
+        query_string = 'pt=%d' % e.code
         redirect_url = format_redirect_url(redirect_path, query_string)
         return HttpResponseRedirect(redirect_url)
 
