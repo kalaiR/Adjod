@@ -1,34 +1,98 @@
 function sign_in_center_align(){
       var height=$('.sign_in_div').height();
       var width=$('.sign_in_div').width();
-      $('.sign_in_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
-      
+      $('.sign_in_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});       
 }
 
 function sign_up_center_align(){
       var height=$('.sign_up_div').height();
       var width=$('.sign_up_div').width();
-      $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
-      
+      $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});   
 }
 
 function category_popup_center_align(){
       var height=$('.choose_category_div').height();
       var width=$('.choose_category_div').width();
-      $('.choose_category_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
-      
+      $('.choose_category_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});       
 }
 
 function forgot_center_align(){
       var height=$('.forgot_div').height();
       var width=$('.forgot_div').width();
-      $('.forgot_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
-      
+      $('.forgot_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});   
 }
 
+// $(window).load(function() { 
+//     var $upperimg = $('.upperimg img');
+//     $('.thumbs img').click(function () {
+//         $upperimg.attr('src', this.src);
+//     });
+    
+//     $('.product_image img').load(function(){
+//       // alert("product_image");
+//       var height = $(this).height();
+//       var width = $(this).width();
+//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+//     });
+
+//     $('.product_images1 img').load(function(){
+//       var height = $(this).height();
+//       var width = $(this).width();
+//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+//     });
+
+//     $('.upperimg img').load(function(){
+//       var height = $(this).height();
+//       var width = $(this).width();
+//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+//     });
+
+//     $('.thumbs img').load(function(){
+//       var height = $(this).height();
+//       var width = $(this).width();
+//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+//     });
+// });
+
+$( document ).ready(function() {
+   var $upperimg = $('.upperimg img');
+    $('.thumbs img').click(function () {
+        $upperimg.attr('src', this.src);
+    });
+    
+    $('.product_image img').load(function(){
+      // alert("product_image");
+      var height = $(this).height();
+      var width = $(this).width();
+      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+    });
+
+    $('.product_images1 img').load(function(){
+      var height = $(this).height();
+      var width = $(this).width();
+      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+    });
+
+    $('.upperimg img').load(function(){
+      var height = $(this).height();
+      var width = $(this).width();
+      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+    });
+
+    $('.thumbs img').load(function(){
+      var height = $(this).height();
+      var width = $(this).width();
+      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+    });
+});
 
 ( function( $ ) {
   $( document ).ready(function() {
+
+    $(".fbtwtbutton").hide();
+    $(".share_button").click(function(){
+        $(".fbtwtbutton").slideToggle("slow");
+    });
 
     //For Popup
       $('.popup_sign_up').click(function(){
@@ -535,8 +599,32 @@ function find_subcategory(category_id) {
   }
 }
 
-function find_brand(sub_category_id) {
+// function find_brand(sub_category_id) {
   
+  
+//   if (response_cache1[sub_category_id]) {
+
+//     $(".brand_list").html(response_cache1[sub_category_id]);
+//   } else {
+   
+//     $.getJSON("/brand_for_subcategory/", {sub_category_id: sub_category_id},
+//       function(ret, textStatus) {
+        
+//         var options = '';
+//         for (var i in ret) {
+          
+//           options += '<li><input type="hidden" name="brand" value="' + ret[i].id + '">'
+//             + ret[i].name + '</li>';
+//         }
+
+//         response_cache1[sub_category_id] = options;
+//         $(".brand_list").html(options);
+//       });
+//   }
+// }
+
+function find_brand(sub_category_id) {
+
   
   if (response_cache1[sub_category_id]) {
 
@@ -545,16 +633,27 @@ function find_brand(sub_category_id) {
    
     $.getJSON("/brand_for_subcategory/", {sub_category_id: sub_category_id},
       function(ret, textStatus) {
-        
-        var options = '';
-        for (var i in ret) {
-          
-          options += '<li><input type="hidden" name="brand" value="' + ret[i].id + '">'
-            + ret[i].name + '</li>';
-        }
-
-        response_cache1[sub_category_id] = options;
-        $(".brand_list").html(options);
+        if(ret.length == 0){
+          // alert("empty brand");
+          $(".brand_list").html("no brand for this sub category");
+          $('.popup_fade').hide();
+          $('.close_btn').hide();
+          $('.choose_category_div').hide();
+          document.body.style.overflow = 'auto';
+          $('#category_name').val(category_id);
+          $('#subcategory_name').val(sub_category_id);
+          $('#category').val(category + " » " + sub_category);
+          $('.choose_button').text('change');   
+         }
+         else{
+          var options = '';
+          for (var i in ret) {  
+            options += '<li><input type="hidden" name="brand" value="' + ret[i].id + '">'
+              + ret[i].name + '</li>';
+          }
+          response_cache1[sub_category_id] = options;
+          $(".brand_list").html(options);
+         }
       });
   }
 }
@@ -602,7 +701,6 @@ function fill_subcategories(category_id) {
 
 function fill_brands(sub_category_id) {
   if (response_cache4[sub_category_id]) {
-
     $("#id_brand").html(response_cache4[sub_category_id]);
   } else {
     // alert(sub_category_id);
@@ -731,6 +829,7 @@ $( document ).ready(function() {
     // Place ID's of all required fields here.
     // required = ["category", "ad_title", "your_price", "your_description", "your_email", "select_container_city", "select_container_locality"];
     required = ["category", "ad_title", "your_price", "your_description", "your_email"];
+    freealert_required = ["id_category","id_subcategory","id_brand","id_city","email","mobilenumber"];
     // emailerror = "Invalid Email";
     // phoneerror = "Invalid Phone"
 
@@ -773,7 +872,133 @@ $( document ).ready(function() {
    //  }
    //  });
 
+  //*************** start Free alert form validation ***********
+
+   
+$(".alert_button").click(function(){ 
+    for (i=0;i<freealert_required.length;i++) { 
+      var input = $('#'+freealert_required[i]);    
+      if (input.val() == ""){       
+        input.addClass("error_input_field");
+        input.siblings('.labelError').show();    
+        
+      } else {
+        input.removeClass("error_input_field");
+        input.siblings('.labelError').hide();        
+      }
+    }
+      
+    //   if ($('.select_post_category').text() == "Select Category") {
+      
+    //     // $('#id_category_required').show(); 
+    //   $('.select_post_category').addClass("error_input_field");
+    //   $('.select_post_category').parent().find('.labelError').show();
+    // }
+    // else{
+    //   // $('#id_category_required').hide(); 
+    //   $('.select_post_category').removeClass("error_input_field");
+    //   $('.select_post_category').parent().find('.labelError').hide();
+    // }
+
+    // Dropdown category
+    if ($('#select_post_category').text() == "Your city *") {
+      $('.select_container_category').addClass("error_input_field");
+      $('.select_container_category').find('.labelError').show();
+    }
+    else{
+      $('.select_container_category').removeClass("error_input_field");
+      $('.select_container_category').find('.labelError').hide();
+    }
     
+
+   
+      //subcategory//
+
+      if ($('#select_post_subcategory').text() == "Select SubCategory") {
+      $('.select_post_subcategory').addClass("error_input_field");
+      $('.select_post_subcategory').find('.labelError').show();
+    }
+    else{
+      $('.select_post_subcategory').removeClass("error_input_field");
+      $('.select_post_subcategory').find('.labelError').hide();
+    }
+
+      //brand//
+
+      if ($('#select_post_brand').text() == "Select Brand") {
+      $('.select_post_brand').addClass("error_input_field");
+      $('.select_post_brand').find('.labelError').show();
+    }
+    else{
+      $('.select_post_brand').removeClass("error_input_field");
+      $('.select_post_brand').find('.labelError').hide();
+    }
+
+    //city//
+
+    if ($('#select_post_city').text() == "Select City") {
+      $('.select_container_city').addClass("error_input_field");
+      $('.select_container_city').find('.labelError').show();
+    }
+    else{
+      $('.select_container_city').removeClass("error_input_field");
+      $('.select_container_city').find('.labelError').hide();
+    }
+
+    // //Validate the e-mail.
+    // if($('#your_email').val() != ''){
+    // if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#your_email').val())) {
+    //   $('#your_email').addClass("error_input_field");
+    //   $('#your_email').parent().siblings('.labelError').text("Please enter valid email address");
+    //   $('.labelError').show();
+    //   //email.val(emailerror);
+    // }
+    // else
+    // {
+    //   $('#your_email').removeClass("error_input_field");
+    //   $('#your_email').parent().siblings('.labelError').hide();
+    // }
+    // }
+
+    //email//
+      if($('#email').val() != ''){
+      if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#your_email').val())) {
+        $('#email').addClass("error_input_field");
+        $('#email').siblings('.labelError').text("Please enter valid email address");
+        $('.labelError').show();
+        //email.val(emailerror);
+      }
+      else
+      {
+        $('#email').removeClass("error_input_field");
+        $('#email').siblings('.labelError').hide();
+      }
+      }
+   
+    if($('#mobilenumber').val() != ''){
+   
+      $('#mobilenumber').addClass("error_input_field");
+      // $('#mobilenumber').siblings('.labelError').text("Please enter mobilenumber");
+      $('.labelError').show();
+      //email.val(emailerror);
+    }
+    else
+    {
+      $('#email').removeClass("error_input_field");
+      $('#email').siblings('.labelError').hide();
+    }
+
+    if ($(":input").hasClass("error_input_field") || $(".select_container_city").hasClass("error_input_field") || $(".select_post_brand").hasClass("error_input_field") || $(".select_post_subcategory").hasClass("error_input_field") || $(".select_post_category").hasClass("error_input_field")){
+    return false;
+    }
+    else{
+      return true;
+      $('form[name="alert_button"]').submit();
+    }
+    });
+
+  //*************** End Free alert form validation ***********
+
 
     jQuery('#create').click(function(){     
       for (i=0;i<sign_up_required.length;i++) {
@@ -1170,37 +1395,5 @@ $( document ).ready(function() {
     $(".left_sidead").show();
     $(".leftslide1").hide();
   });
-
-
-    var $upperimg = $('.upperimg img');
-    $('.thumbs img').click(function () {
-        $upperimg.attr('src', this.src);
-    });
-    
-    $('.product_image img').load(function(){
-      // alert("product_image");
-      var height = $(this).height();
-      var width = $(this).width();
-      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
-    });
-
-    $('.product_images1 img').load(function(){
-      var height = $(this).height();
-      var width = $(this).width();
-      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
-    });
-
-    $('.upperimg img').load(function(){
-      var height = $(this).height();
-      var width = $(this).width();
-      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
-    });
-
-    $('.thumbs img').load(function(){
-      var height = $(this).height();
-      var width = $(this).width();
-      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
-    });
- 
 });
 } )( jQuery );

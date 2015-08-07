@@ -4,6 +4,7 @@ from django.db import models
 from django.conf import settings
 from paypal.standard.helpers import duplicate_txn_id, check_secret
 from paypal.standard.conf import RECEIVER_EMAIL, POSTBACK_ENDPOINT, SANDBOX_POSTBACK_ENDPOINT
+from adjod.models import UserProfile
 
 ST_PP_ACTIVE = 'Active'
 ST_PP_CANCELLED = 'Cancelled'
@@ -42,6 +43,7 @@ class PayPalStandardBase(Model):
     business = models.CharField(max_length=127, blank=True, help_text="Email where the money was sent.")
     charset=models.CharField(max_length=32, blank=True)
     custom = models.CharField(max_length=255, blank=True)
+    userprofile=models.ForeignKey(UserProfile)
     notify_version = models.DecimalField(max_digits=64, decimal_places=2, default=0, blank=True, null=True)
     parent_txn_id = models.CharField("Parent Transaction ID", max_length=19, blank=True)
     receiver_email = models.EmailField(max_length=127, blank=True)

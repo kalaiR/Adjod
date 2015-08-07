@@ -6,11 +6,13 @@ from django.views.decorators.csrf import csrf_exempt
 from paypal.standard.ipn.forms import PayPalIPNForm
 from paypal.standard.ipn.models import PayPalIPN
 from adjod.views import show_me_the_money
+from adjod.models import *
  
  
 @require_POST
 @csrf_exempt
 def ipn(request, item_check_callable=None):
+    print "enter ipn"
     """
     PayPal IPN endpoint (notify_url).
     Used by both PayPal Payments Pro and Payments Standard to confirm transactions.
@@ -57,7 +59,9 @@ def ipn(request, item_check_callable=None):
                 print "except"
                 import sys, traceback
                 traceback.print_exc(file=sys.stdout)
-
+    user_id=UserProfile.objects.get(user=request.user.id)
+    ipn_obj.userprofile=user_id
+    print "user_id saved", 
     ipn_obj.save()
     s_m_t_m=show_me_the_money(request, item_check_callable=None)
-    return HttpResponseRedirect("/")
+    return HttpResponseRedirect("/postad/")

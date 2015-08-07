@@ -114,7 +114,8 @@ class Product(models.Model):
     premium_plan=models.ForeignKey(PremiumPriceInfo, null=True, blank=True)
     expired_date=models.DateField(null=True,blank=True)
     status_isactive=models.BooleanField(default=False)
-    country=models.ForeignKey(Country, null=True, blank=True)   
+    country=models.ForeignKey(Country, null=True, blank=True) 
+    post_terms=models.BooleanField(default=False)
     class Admin:
         pass
     def __unicode__(self):
@@ -135,10 +136,18 @@ class Product(models.Model):
 
     def get_related(cls,product):
         print "get_related"
-        print "product", product
-        qs =  SearchQuerySet().exclude(id=product.id).filter(subcategory=product.subcategory)
-        print qs
-        return qs
+        print "product", product.subcategory.id
+        print "product brand", product.ad_brand.id
+        print "product city", product.city.id
+        # qs =  SearchQuerySet().exclude(id=product.id)
+        qs =  SearchQuerySet().filter(subcategoryid=product.subcategory.id, adbrandid=product.ad_brand.id).exclude(id=product.id)
+        print "qs", qs
+        related_product=[]
+        for product in qs:
+            if product.object:
+                related_product.append(product)
+                print "related_product",related_product
+        return related_product
         
             
 class FreeAlert(models.Model):

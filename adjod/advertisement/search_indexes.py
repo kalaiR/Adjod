@@ -24,6 +24,7 @@ class ProductIndex(SearchIndex, Indexable):
     brandtype = CharField(model_attr='ad_brand__id')
     locality = CharField(model_attr='locality__id')
     subcategoryid = CharField(model_attr='subcategory__id') 
+    adbrandid=CharField(model_attr='ad_brand__id') 
     created_date = DateTimeField(model_attr='created_date')
     modified_date = DateTimeField(model_attr='modified_date') 
     # geolocation = LocationField(model_attr='get_geolocation', null=True)

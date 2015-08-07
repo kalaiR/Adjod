@@ -185,23 +185,25 @@ def product_detail(request, pk):
 @pjax("pjax.html")
 def product_form(request, name=None, subname=None):
     print "product_form"
-    # print request.path 
-    # def product_form_data():
-    #     print "product_form_data"
-    #     category=Category.objects.all()
-    #     # dropdown=Dropdown.objects.all().exclude(year='', color='')
-    #     dropdown=Dropdown.objects.all()
-    #     # city=City.objects.all()
-    #     country=request.COOKIES.get("country")
-    #     country=Country.objects.get(code=request.COOKIES.get('country'))
-    #     city=City.objects.filter(country_id=country.id)
-    #     print city
-    #     ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
-    #     # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
-    #     return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
+    #Paypal transaction
+    from paypal.standard.forms import PayPalPaymentsForm
+    from paypal.standard.ipn.signals import payment_was_successful
     userid=request.user.id
     if request.user.is_authenticated():
             print "authenticate"
+            paypal_dict = {
+            "business": settings.PAYPAL_RECEIVER_EMAIL,
+            "item_name": "Advertisement Merchant",
+            # "invoice": "unique-invoice-id",
+            "notify_url": "http://192.168.1.45:8001/show_me_the_money/",
+            "return_url": "http://192.168.1.45:8001/show_me_the_money/",
+            "cancel_return": "http://192.168.1.35:8000/postad/?transactionfail=error",
+            # "notify_url": 'http://46.4.81.207:9000/show_me_the_money',
+            # "return_url": "http://46.4.81.207:9000/",
+            # "cancel_return": "http://46.4.81.207:9000/?transactionfail=error",
+            }
+
+            form = PayPalPaymentsForm(initial=paypal_dict)
             userprofile = UserProfile.objects.get(user_id=userid)
             print "userprofile", userprofile
             if userprofile.ad_count>3 and userprofile.is_subscribed == 0:
@@ -217,7 +219,7 @@ def product_form(request, name=None, subname=None):
                 country=Country.objects.get(code=request.COOKIES.get('country'))
                 city=City.objects.filter(country_id=country.id)
                 print city
-                ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
+                ctx = {'userprofile':userprofile, 'category':category,'city':city,'dropdown':dropdown,"form":form,"paypal":paypal_dict}
                 # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
                 return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
     else:
@@ -391,6 +393,7 @@ def product_save(request):
         #     product.premium_plan=None
     
         product.country=Country.objects.get(id=1)
+        product.post_terms=request.POST.get('terms_of_use')
         product.save()
         # success=True
     

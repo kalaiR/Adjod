@@ -16,6 +16,7 @@ from search.searchform import ProductSearchFilter
 #For language translation
 from django.conf.urls.i18n import i18n_patterns
 from django.utils.translation import ugettext_lazy as _
+from paypal.standard.ipn import *
 js_info_dict = {
     'packages': ('adjod',),
 }
@@ -60,7 +61,7 @@ urlpatterns = patterns('',
     # Paypal
     url(r'^paypal/$', 'adjod.views.view_that_asks_for_money', name='paypal'),
     url(r'^show_me_the_money/$', include('paypal.standard.ipn.urls')),
-    url(r'^notify/$', 'adjod.views.notify', name='notify'),
+    # url(r'^notify/$', 'adjod.views.notify', name='notify'),
     
     # Find locality for city when ajax call
     url(r'^localities_for_city/$','advertisement.views.localities_for_city', name='localities_for_city'),
@@ -74,7 +75,7 @@ urlpatterns = patterns('',
       form_class=ProductSearchFilter, 
       #results_per_page=settings.SEARCH_PAGE_NUMBER_OF_LEADS
     ), name='newsearchPageV2'),
-    url(r'^search_new/$', 'adjod.views.search_new', name='search_new'),
+    # url(r'^search_new/$', 'adjod.views.search_new', name='search_new'),
     # url(r'^search_new/$', 'adjod.views.search_new', name='search_new'),
      
     # Logout URL

@@ -99,7 +99,8 @@
     var s=this.files[0].size;
     // if (s<140000){
       // if (s<80000){
-        if (s<270000000){
+        // if (s<270000000){
+          if (s<1000000){
           var p = $(this).parents('.simpleFilePreview');
           
           // if it's a multi-select, add another selection box to the end
@@ -171,7 +172,8 @@
         }
        else
         {
-          alert('file exceede');
+          // alert('file exceede');
+          $('.photo_labelError').text("file size should be less than 1 MB")
           var p = $(this).parents('.simpleFilePreview');
           
           // if it's a multi-select, add another selection box to the end
