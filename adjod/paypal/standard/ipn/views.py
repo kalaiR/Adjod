@@ -8,9 +8,8 @@ from paypal.standard.ipn.models import PayPalIPN
 from adjod.views import show_me_the_money
 from adjod.models import *
  
- 
-@require_POST
-@csrf_exempt
+@csrf_exempt 
+# @require_POST
 def ipn(request, item_check_callable=None):
     print "enter ipn"
     """

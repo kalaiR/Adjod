@@ -96,7 +96,9 @@ STATIC_URL = '/static/'
 # SITE_NAME = 'alpha.login.com'
 # SITE_SASH = STATIC_URL + 'img/car.png'
 
-SITE_NAME = '192.168.1.45:8000'
+SITE_NAME = '192.168.1.45:8001'
+
+# SITE_NAME='dev.resalebuy.com'
 
 # Additional locations of static files
 STATICFILES_DIRS = (

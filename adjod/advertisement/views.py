@@ -195,9 +195,11 @@ def product_form(request, name=None, subname=None):
             "business": settings.PAYPAL_RECEIVER_EMAIL,
             "item_name": "Advertisement Merchant",
             # "invoice": "unique-invoice-id",
-            "notify_url": "http://192.168.1.45:8001/show_me_the_money/",
-            "return_url": "http://192.168.1.45:8001/show_me_the_money/",
-            "cancel_return": "http://192.168.1.35:8000/postad/?transactionfail=error",
+
+            "notify_url": "http://" + settings.SITE_NAME + "/show_me_the_money/",
+            "return_url": "http://"  + settings.SITE_NAME + "/show_me_the_money/",
+            "cancel_return": "http://" + settings.SITE_NAME + "/postad/?transactionfail=error",
+            
             # "notify_url": 'http://46.4.81.207:9000/show_me_the_money',
             # "return_url": "http://46.4.81.207:9000/",
             # "cancel_return": "http://46.4.81.207:9000/?transactionfail=error",

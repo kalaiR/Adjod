@@ -1068,7 +1068,7 @@
           main_chat_user_alert( iduser, 0 );
         }
         product_title=$('.user-button').children().children('.product_title').text();
-        alert(product_title);
+        // alert(product_title);
 
         append_msg_he( msg, main, name, date, avatar );
         // FIXME
