@@ -12,13 +12,14 @@ class Global(object):
     global_country=''
     global_ip=''
     global_city=''
+    global_city_id=''
     
     def process_request(self, request):
         # print "enter process_request"
         globals.request = request
         globals.user = getattr(request, 'user', None)
         globals.ip = get_client_ip(request)
-        # print "globals.ip", globals.ip
+        print "globals.ip", globals.ip
         if ',' in globals.ip:
             globals.ip = globals.ip.split(',')[0].strip()
             # print "globals.ip", globals.ip
@@ -40,6 +41,7 @@ class Global(object):
         self.global_country=get_global_country(request)
         self.global_city=get_global_city(request)
         self.global_ip= globals.ip
+        self.global_city_id=get_global_city_id(request)
         if request.user.is_authenticated():
             try:
                 request.user.last_login = helper.get_now()
@@ -76,6 +78,11 @@ class Global(object):
             city=self.global_city
             response.set_cookie("city", 
                 city, max_age = 365 * 24 * 60 * 60)
+        if self.global_city_id:
+            print "enter self.global_city_id"
+            city=self.global_city_id
+            response.set_cookie("global_city_id", 
+                                city, max_age = 365 * 24 * 60 * 60)
             
         return response
 

@@ -53,6 +53,12 @@ class ProductSearchFilter(FacetedSearchForm):
     premium_plan_id=forms.CharField(required=False)
     # lang = forms.CharField(required=False)
     # groupby = forms.CharField(required=False)
+    pricehigh = forms.FloatField(required=False)   
+    pricelow = forms.FloatField(required=False)
+    sorteddata = forms.CharField(required=False)
+    city=forms.CharField(required=False)
+
+
     
     def no_query_found(self):
       print 'no_query_found'  
@@ -75,10 +81,25 @@ class ProductSearchFilter(FacetedSearchForm):
                 data = data.filter(active=1).filter(status='active').filter(available__gt=0).order_by('-price')
        
       return data
+  
+    # def get_default_queryset(self):          
+    #     print 'get_default_queryset' 
+    #     sqs = SearchQuerySet().all()
+    #     sqs = sqs.models(Product)
+    #     return sqs.filter(active=1).filter(status='active').filter(available__gt=0).order_by('-created')
+
 
     def get_default_filters(self):
       print 'get_default_filters'
-      return None
+      sqs = SearchQuerySet().all()
+      currentcity = Product.get_global_city()
+      sqs = sqs.models(Product)
+      currentcity_id=City.objects.get(city=currentcity)
+      print "currentcity_id", currentcity_id
+      product = sqs.filter(city=currentcity_id.id)
+      print "Product", product
+      return product
+      # return None
 
     def get_default_search_field(self):
       print 'get_default_search_field'
@@ -106,7 +127,10 @@ class ProductSearchFilter(FacetedSearchForm):
         'price_end',
         'country',
         'ispremium',
-        'premium_plan_id'
+        'premium_plan_id',
+        'city',    
+        'pricelow',
+        'pricehigh',
       ]
       params = OrderedDict()
       print 'params', params
@@ -132,6 +156,29 @@ class ProductSearchFilter(FacetedSearchForm):
       if params['ispremium']:
         params['ispremium'] = params['ispremium']
         print "params['ispremium']", params['ispremium']
+    
+      if params['pricelow']:
+        
+        params['pricelow'] = params['pricelow']
+                
+        print "params['pricelow']", params['pricelow']
+        
+              
+      if params['pricehigh']:
+                
+        params['pricehigh'] = params['pricehigh']
+                
+        print "params['pricehigh']", params['pricehigh']
+              
+              
+      if params['city']:
+                
+        params['city'] = params['city']
+                
+        print "params['city']", params['city']    
+
+ 
+
 
       q = self.cleaned_data['q'] if 'q' in self.cleaned_data else None
       groupby = None
@@ -139,7 +186,7 @@ class ProductSearchFilter(FacetedSearchForm):
 
       orderby_mappings = {
         'createddate': 'created_date',
-        'modifieddate': '-modified',
+#         'modifieddate': '-modified',
         'pricelow': 'base_price',
         'pricehigh': '-base_price',
         'ispremium': '-ispremium',

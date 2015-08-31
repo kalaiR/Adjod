@@ -6,14 +6,32 @@ import urllib2
 from django.conf import settings
 from django.contrib.gis.geoip import GeoIP
 from adjod import globals
+# from ipware.ip import get_ip
+from advertisement.models import *
 
 def get_client_ip(request):
-#     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-#     if x_forwarded_for:
-#         ip = x_forwarded_for.split(',')[0]
-#     else:
-#         ip = request.META.get('REMOTE_ADDR')
-#     return ip
+    # x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    # print "x_forwarded_for", x_forwarded_for
+    # if x_forwarded_for:
+    #     ip = x_forwarded_for.split(',')[0]
+    #     print "x_forwarded_for ip", ip
+    # else:
+    #     ip = request.META.get('REMOTE_ADDR')
+    #     print "remote ip", ip
+    # return ip
+    
+    # x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    # print "x_forwarded_for", x_forwarded_for
+    # if x_forwarded_for:
+    #     ip = x_forwarded_for.split(',')[-1].strip()
+    # else:
+    #     ip = request.META.get('REMOTE_ADDR')
+    # return ip
+
+    # ip = get_ip(request)
+    # print "iware ip", ip
+    # return ip
+
     import ipgetter
     IP = ipgetter.myip()
     return IP 
@@ -146,6 +164,12 @@ def get_global_city(request):
     city=city['city']
     return city
 
+def get_global_city_id(request):   
+    city=City.objects.get(city=request.COOKIES.get('city'))
+    # city=City.objects.get(city="Pondicherry")
+    city_id=city.id
+    print "city_id", city_id
+    return city_id
 
 def format_redirect_url(redirect_path, query_string):
     ''' utility to format redirect url with fixido query string

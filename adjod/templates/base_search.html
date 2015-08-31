@@ -73,7 +73,22 @@
         </div> <!-- navbar header -->
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li>        
+              <li>   
+              	<div class="custom_select language_custom_select">             
+					<div class="select">
+					<p id="cityselected">{{ request.COOKIES.city }}</p>                           
+					<i class="fa fa-caret-down"></i>                              
+					<select class="city">                                                                 
+						<option  id="currentid" value="{{request.COOKIES.global_city_id}}">{{ request.COOKIES.city }}</option>
+                                 <!--  <span>{{city.id}}</span> -->
+		                  {% for cities in city|get_city %}
+		                  <option value="{{cities.id}}" id="ajax_cityid">{{ cities }} </option>
+		                  {% endfor%} 
+                    </select>
+                     </div><!-- select -->        
+                 </div><!-- custom_select -->    
+              </li>
+              <li>
                      <div class="custom_select language_custom_select">
                       <div class="select">
                         <p>  

@@ -48,6 +48,7 @@ $(function() {
 });  	
 
 function perform_search(){
+            // alert("perform_search");
    
             // $.cookie('keywords', $('input[name=keywords]').val(),{ path: "/" });
             // $.cookie('location', $('input[name=locations]').val(),{ path: "/" });
@@ -242,18 +243,50 @@ $(document).ready(function() {
 
         $(document).on("change", 'input.brandtype', function () {
             if ($(this).prop('checked') == true){
-                alert($(this).val());
+                // alert($(this).val());
                 alert("true");
                 var check = $(this).parent().parent().next('#brandsubcategoryid').val($(this).val());
-                alert("check"+JSON.stringify(check));
+                // alert("check"+JSON.stringify(check));
                 perform_search(); 
             }
             else{
-                alert("false");
+                // alert("false");
                 $('#brandsubcategoryid').val('');
                 perform_search(); 
             }
         });
+		
+		// city based search
+     
+		$( ".city" ).change(function () {
+		          
+		var selected_option = $( ".city option:selected" ).val();
+		          
+		// alert(selected_option);
+		          
+		$('p#cityselected').html($( ".city option:selected" ).text());  
+		          
+		var city = $('input[type="hidden"]#city').val($(this).val());
+		          
+		perform_search();
+		      
+		});
+		
+		//sort by dropdown
+     
+    
+		$(document).on('change',".prov_custom_sort_value_act", function(){
+		        
+		var selected_option = $( ".prov_custom_sort_value_act option:selected" ).val();
+		         
+		$('#prov_custom_sort_value_act').html($( ".prov_custom_sort_value_act option:selected" ).text()); 
+		         
+		$('input[type="hidden"]#sorteddata').val($(this).val());
+		          
+		perform_search();
+		    
+		});
+
 
     
 
@@ -264,7 +297,7 @@ $(document).ready(function() {
             if ($(this).prop('checked') == true){
                     var splitprice = [];
                     var splitprice = $(this).val().split("#");  
-                    alert(splitprice);                  
+                    // alert(splitprice);                  
                     $('#price_start').val(splitprice[0]); 
                     $('#price_end').val(splitprice[1]);
                     perform_search();    
@@ -274,7 +307,7 @@ $(document).ready(function() {
                 $('[name=price_start]').val('');
                 $('[name=price_end]').val('');
                 $.cookie("subcatcookie")
-                alert($.cookie("subcatcookie"));
+                // alert($.cookie("subcatcookie"));
                 perform_search();                         
             }    
             

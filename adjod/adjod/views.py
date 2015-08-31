@@ -114,9 +114,10 @@ def home(request):
     recentad=Product.objects.filter().order_by('-id')[:3]
     path = request.path
     print "path", path 
-    # locality =Locality.objects.all() 
-    # city=City.objects.all()
-    # country=Country.objects.all()
+    locality =Locality.objects.all() 
+    city=City.objects.all()
+    country=Country.objects.all()
+    
     user_ip = globals.ip
     g = GeoIP()
     current_city=g.city(user_ip)['city']
@@ -129,8 +130,11 @@ def home(request):
     current_country_cities=City.objects.filter(country_id=Country.objects.filter(code=g.country_code(user_ip))[0].id)
     ctx={'category':category, 'path':path, 'recentad':recentad, 'current_city':current_city,'current_country_cities':current_country_cities}
     print "current_country_cities", current_country_cities
+    
+    # ctx={'category':category, 'path':path, 'recentad':recentad}   
     if request.user.is_authenticated():
         userprofile=UserProfile.objects.get(user=request.user.id)
+        # ctx={'category':category, 'path':path, 'recentad':recentad}
         ctx={'category':category, 'path':path, 'recentad':recentad, 'current_city':current_city,'current_country_cities':current_country_cities,'userprofile':userprofile}
     # current_site =get_current_site(request)
     # print "current_site", current_site

@@ -122,7 +122,7 @@ class Product(models.Model):
     def __unicode__(self):
         return self.title
 
-    @classmethod
+    # @classmethod
     # def get_related(cls,product):
     #     print "get_related"
     #     print "product", product
@@ -135,6 +135,7 @@ class Product(models.Model):
     #             related_product.append(product)
     #     return related_product
 
+    @classmethod
     def get_related(cls,product):
         print "get_related"
         print "product", product.subcategory.id
@@ -149,8 +150,30 @@ class Product(models.Model):
                 related_product.append(product)
                 print "related_product",related_product
         return related_product
-        
-            
+
+    @classmethod
+    def get_global_city(cls):
+      """ This function get global language based on following assets
+          
+          1. authenticated user's language
+          2. cookie
+          2. fixido select language
+          3. query string
+          4. brower setting
+          5. default sweden
+      """ 
+      from adjod import globals
+      from django.contrib.gis.geoip import GeoIP     
+      # user_ip = globals.ip
+      user_ip = "114.69.235.2"
+      if user_ip.startswith('127.0.0'):
+          user_ip = '106.51.234.149'
+      g = GeoIP()
+      city=g.city(user_ip)
+      print "city", city
+      city=city['city']
+      return city
+                
 class FreeAlert(models.Model):
     alert_user=models.ForeignKey(UserProfile)
     alert_category = models.ForeignKey(Category, verbose_name='Chosen Category', null=False)

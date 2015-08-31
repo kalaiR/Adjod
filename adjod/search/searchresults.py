@@ -21,6 +21,7 @@ default_param_mappings = OrderedDict(
   price_end = 'price__lte',
   country= 'country__code',
   ispremium = 'ispremium',
+  city = 'city',
   #keywords = 'keywords__in',
   # lang = 'language__in',  
 )
@@ -61,7 +62,7 @@ def tokenize(query, double_check=True):
   # return tokens
 
 def prepare_search_query(query, search_field='searchtext'):
-
+  print "prepare_search_query", search_field
   query = query or ''
   qs = None
 

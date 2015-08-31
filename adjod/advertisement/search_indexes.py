@@ -28,7 +28,8 @@ class ProductIndex(SearchIndex, Indexable):
     created_date = DateTimeField(model_attr='created_date')
     modified_date = DateTimeField(model_attr='modified_date') 
     # geolocation = LocationField(model_attr='get_geolocation', null=True)
-    city = CharField(null=True, faceted=True)
+#     city = CharField(null=True, faceted=True)
+    city = CharField(model_attr='city__id')
     # country= CharField(model_attr='country__id')
     country=CharField(model_attr='country__id') 
     ispremium=CharField(model_attr='ispremium') 
@@ -75,5 +76,12 @@ class ProductIndex(SearchIndex, Indexable):
         product = Product.objects.filter(status_isactive=1)
         # product = product.extra(order_by = ['-ispremium'])
         return product
+    
+    # def index_queryset(self, **kwargs):
+    #     product = Product.objects.filter(status_isactive=1)
+    #     currentcity = Product.get_global_city()
+    #     # print 'currentcity from index', currentcity
+    #     product = Product.objects.filter(status_isactive=1,city__city=currentcity).order_by('-ispremium')
+    #     return product
 
 # register_model_for_search(Product, ProductIndex)

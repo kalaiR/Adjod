@@ -233,7 +233,8 @@ HAYSTACK_CONNECTIONS = dict(
     ENGINE = 'search.searchsites.AdjodSearchEngine',
     # URL = 'http://46.4.81.207:9200/',
     URL = 'http://127.0.0.1:9200/',
-    INDEX_NAME = 'adjod'
+    INDEX_NAME = 'adjod',
+    # TIMEOUT = '60'
   )
 )
 
