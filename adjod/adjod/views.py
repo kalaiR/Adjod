@@ -320,7 +320,8 @@ def register(request):
             user.save()
             userprofile.user=user       
             userprofile.mobile=request.POST['your_mobile_number']
-            userprofile.city=request.COOKIES.get('city')
+            if request.COOKIES.get('city'):
+                userprofile.city=City.objects.get(city=request.COOKIES.get('city'))
             # print "request.COOKIES.get('adjod_language')", request.COOKIES.get('adjod_language')
             userprofile.language=request.COOKIES.get('adjod_language')
             # print "request.COOKIES.get('country')", request.COOKIES.get('country')
