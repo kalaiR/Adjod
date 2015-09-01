@@ -21,8 +21,14 @@
  * Autocomplete_keyword
  */
 
+$(window).load(function(){
+    $('.product_images1 img').each(function () {
+        $(this).center();
+    });
+});
+
 $('.search_btn').click(function() {
-        validateSearch();
+    validateSearch();
 });
 
 $(function() {
@@ -75,7 +81,7 @@ function perform_search(){
             // alert(q);
             // var qlang = $("#currentlanguage").val();
             if ($('[name=newsearch]').val() == "new")
-        {
+            {
                     // alert('top');
                     $.get('v2/search/?'+ q, function(data){                                                           
                         show_searching(false);
@@ -101,6 +107,10 @@ function perform_search(){
                         //     $('#search_result').html(data);
                         attach_pagination_events();
                         }); 
+                        $('.product_images1 img').each(function( index ) {
+                                    alert("before call");
+                                    $(this).center1();
+                        });
                         //  $.get(url+'/?'+ q, function(data){
                         //  alert("enter url")
                         //  alert(data);
@@ -132,6 +142,35 @@ function perform_search(){
                             
                 });
             }
+
+            // $(".product_images1 img").one("load", function() {
+            //         alert("before");
+            //         var height = $(this).height();
+            //         alert(height);
+            //         var width = $(this).width();
+            //         alert(width);
+            //         $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});  
+            // }).each(function() {
+            //   if(this.complete) $(this).load();
+            // });
+            
+            // $('.product_images1').each(function () {
+            //     var height = $(this).height();
+            //     alert("height"+height);
+            //     var width = $(this).width();
+            //     alert("width"+width);
+            //     $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});   
+            // });
+
+            // $('.product_images1 img').load(function(){
+            //     $(this).center1();
+            // });
+
+            $(document).ajaxComplete(function(){
+               $('.product_images1 img').each(function () {
+                    $(this).center();
+                });
+            });
 }
 
 function attach_pagination_events(){
@@ -257,19 +296,12 @@ $(document).ready(function() {
         });
 		
 		// city based search
-     
-		$( ".city" ).change(function () {
-		          
-		var selected_option = $( ".city option:selected" ).val();
-		          
-		// alert(selected_option);
-		          
-		$('p#cityselected').html($( ".city option:selected" ).text());  
-		          
-		var city = $('input[type="hidden"]#city').val($(this).val());
-		          
-		perform_search();
-		      
+		 $(document).on("change", '.city', function () {
+		    // $( ".city" ).change(function () {          
+    		var selected_option = $( ".city option:selected" ).val();  
+    		$('p#cityselected').html($( ".city option:selected" ).text());            
+    		var city = $('input[type="hidden"]#city').val($(this).val());  		          
+    		perform_search();		      
 		});
 		
 		//sort by dropdown
