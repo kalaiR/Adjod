@@ -90,6 +90,10 @@ $( document ).ready(function() {
         $upperimg.attr('src', this.src);
     });
 
+     $('.product_image img').load(function(){
+      $(this).center(); 
+    });
+
     $('.product-image img').load(function(){
       $(this).center(); 
     });
