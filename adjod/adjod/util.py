@@ -28,10 +28,6 @@ def get_client_ip(request):
     #     ip = request.META.get('REMOTE_ADDR')
     # return ip
 
-    # ip = get_ip(request)
-    # print "iware ip", ip
-    # return ip
-
     import ipgetter
     IP = ipgetter.myip()
     return IP 
@@ -145,6 +141,14 @@ def get_global_country(request):
     # print "country", country
     return country
 
+def get_current_country_cities(request):
+    user_ip = globals.ip
+    g = GeoIP()
+    country_code=g.country_code(user_ip)
+    print "country_code", country_code
+    current_country_cities = City.objects.filter(country_id=Country.objects.filter(code=country_code))
+    return current_country_cities
+
 def get_global_city(request):
     """ This function get global language based on following assets
         
@@ -155,22 +159,31 @@ def get_global_city(request):
         4. brower setting
         5. default sweden
     """ 
+    print "get_global_city"
     user_ip = globals.ip
     if user_ip.startswith('127.0.0'):
         user_ip = '106.51.234.149'
     g = GeoIP()
     city=g.city(user_ip)
     print "city", city
-    city=city['city']
+    if not city:
+        city = None
+    else:
+        city=city['city']
     return city
 
-def get_global_city_id(request):   
-    city=City.objects.get(city=request.COOKIES.get('city'))
-    # city=City.objects.get(city="Pondicherry")
-    city_id=city.id
-    print "city_id", city_id
-    return city_id
-
+def get_global_city_id(request):
+    if not request.COOKIES.get('city'):
+        return None
+    else:
+        if City.objects.get(city=request.COOKIES.get('city')):
+            city=City.objects.get(city=request.COOKIES.get('city'))
+            city_id=city.id
+            print "city_id", city_id
+            return city_id
+        else:
+            return None
+        
 def format_redirect_url(redirect_path, query_string):
     ''' utility to format redirect url with fixido query string
     '''

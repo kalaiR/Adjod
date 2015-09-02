@@ -884,7 +884,6 @@ $( document ).ready(function() {
     // Place ID's of all required fields here.
     // required = ["category", "ad_title", "your_price", "your_description", "your_email", "select_container_city", "select_container_locality"];
     required = ["category", "ad_title", "your_price", "your_description", "your_email"];
-    freealert_required = ["id_category","id_subcategory","id_brand","id_city","email","mobilenumber"];
     // emailerror = "Invalid Email";
     // phoneerror = "Invalid Phone"
 
@@ -928,128 +927,54 @@ $( document ).ready(function() {
    //  });
 
   //*************** start Free alert form validation ***********
-
    
-$(".alert_button").click(function(){ 
-    for (i=0;i<freealert_required.length;i++) { 
-      var input = $('#'+freealert_required[i]);    
-      if (input.val() == ""){       
-        input.addClass("error_input_field");
-        input.siblings('.labelError').show();    
-        
-      } else {
-        input.removeClass("error_input_field");
-        input.siblings('.labelError').hide();        
+$("#alert_button").click(function(){ 
+
+      //email
+      if ($('#email').val() == "")
+           $('#email').parent().next('.email_labelError').show();  
+      else{
+          if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#email').val())) 
+          {
+          $('#email').parent().next('.email_labelError').text("Please enter valid email address");
+          $('.email_labelError').show();
+          }
+          else
+          {
+           $('#email').parent().next('.email_labelError').hide();
+          }
       }
-    }
-      
-    //   if ($('.select_post_category').text() == "Select Category") {
-      
-    //     // $('#id_category_required').show(); 
-    //   $('.select_post_category').addClass("error_input_field");
-    //   $('.select_post_category').parent().find('.labelError').show();
-    // }
-    // else{
-    //   // $('#id_category_required').hide(); 
-    //   $('.select_post_category').removeClass("error_input_field");
-    //   $('.select_post_category').parent().find('.labelError').hide();
-    // }
 
-    // Dropdown category
-    if ($('#select_post_category').text() == "Your city *") {
-      $('.select_container_category').addClass("error_input_field");
-      $('.select_container_category').find('.labelError').show();
-    }
-    else{
-      $('.select_container_category').removeClass("error_input_field");
-      $('.select_container_category').find('.labelError').hide();
-    }
-    
-
-   
-      //subcategory//
-
-      if ($('#select_post_subcategory').text() == "Select SubCategory") {
-      $('.select_post_subcategory').addClass("error_input_field");
-      $('.select_post_subcategory').find('.labelError').show();
-    }
-    else{
-      $('.select_post_subcategory').removeClass("error_input_field");
-      $('.select_post_subcategory').find('.labelError').hide();
-    }
-
-      //brand//
-
-      if ($('#select_post_brand').text() == "Select Brand") {
-      $('.select_post_brand').addClass("error_input_field");
-      $('.select_post_brand').find('.labelError').show();
-    }
-    else{
-      $('.select_post_brand').removeClass("error_input_field");
-      $('.select_post_brand').find('.labelError').hide();
-    }
-
-    //city//
-
-    if ($('#select_post_city').text() == "Select City") {
-      $('.select_container_city').addClass("error_input_field");
-      $('.select_container_city').find('.labelError').show();
-    }
-    else{
-      $('.select_container_city').removeClass("error_input_field");
-      $('.select_container_city').find('.labelError').hide();
-    }
-
-    // //Validate the e-mail.
-    // if($('#your_email').val() != ''){
-    // if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#your_email').val())) {
-    //   $('#your_email').addClass("error_input_field");
-    //   $('#your_email').parent().siblings('.labelError').text("Please enter valid email address");
-    //   $('.labelError').show();
-    //   //email.val(emailerror);
-    // }
-    // else
-    // {
-    //   $('#your_email').removeClass("error_input_field");
-    //   $('#your_email').parent().siblings('.labelError').hide();
-    // }
-    // }
-
-    //email//
-      if($('#email').val() != ''){
-      if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#your_email').val())) {
-        $('#email').addClass("error_input_field");
-        $('#email').siblings('.labelError').text("Please enter valid email address");
-        $('.labelError').show();
-        //email.val(emailerror);
-      }
+      //category
+      if ($('#select_post_category').text() == "Select Category")    
+        $('.select_post_category').parent().next('.labelError').show(); 
       else
-      {
-        $('#email').removeClass("error_input_field");
-        $('#email').siblings('.labelError').hide();
-      }
-      }
-   
-    if($('#mobilenumber').val() != ''){
-   
-      $('#mobilenumber').addClass("error_input_field");
-      // $('#mobilenumber').siblings('.labelError').text("Please enter mobilenumber");
-      $('.labelError').show();
-      //email.val(emailerror);
-    }
-    else
-    {
-      $('#email').removeClass("error_input_field");
-      $('#email').siblings('.labelError').hide();
-    }
+        $('.select_post_category').parent().next('.labelError').hide();
+      
+      //subcategory
+      if ($('#select_post_subcategory').text() == "Select SubCategory")    
+        $('.select_post_subcategory').parent().next('.labelError').show(); 
+      else
+        $('.select_post_subcategory').parent().next('.labelError').hide();
+      
+      //brand
+      if ($('#select_post_brand').text() == "Select Brand") 
+        $('.select_post_brand').parent().next('.labelError').show(); 
+      else
+        $('.select_post_brand').parent().next('.labelError').hide(); 
 
-    if ($(":input").hasClass("error_input_field") || $(".select_container_city").hasClass("error_input_field") || $(".select_post_brand").hasClass("error_input_field") || $(".select_post_subcategory").hasClass("error_input_field") || $(".select_post_category").hasClass("error_input_field")){
-    return false;
-    }
-    else{
-      return true;
-      $('form[name="alert_button"]').submit();
-    }
+       //city
+      if ($('#select_post_city').text() == "Select City") 
+        $('.select_post_city').parent().next('.labelError').show(); 
+      else
+        $('.select_post_city').parent().next('.labelError').hide(); 
+
+        if ($('.labelError,.email_labelError').is(":visible"))
+          return false;
+        else{
+          return true;
+          $('form[name="alert_button"]').submit();
+        }
     });
 
   //*************** End Free alert form validation ***********

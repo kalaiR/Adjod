@@ -240,7 +240,7 @@ def product_form(request, name=None, subname=None):
         return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
 
 def product_save(request):
-    # print "product_save"   
+    print "product_save"   
     success=False
     product=Product()
     
@@ -411,10 +411,12 @@ def product_save(request):
     try:
         error={}
         if request.user.is_authenticated():
-            product.userprofile = UserProfile.objects.get(user_id=request.user.id)
+            userprofile = UserProfile.objects.get(user_id=request.user.id)
             product.isregistered_user = True
-            if product.userprofile.ad_count<=3:
-                product.userprofile.ad_count+=1
+            if userprofile.ad_count<=3:
+                userprofile.ad_count+=1
+                userprofile.save()
+                print "userprofile.ad_count", userprofile.ad_count
                 success_message()
             else:
                 print "else authenticate"
@@ -435,26 +437,56 @@ def product_save(request):
         redirect_url = format_redirect_url(redirect_path, query_string)
         return HttpResponseRedirect(redirect_url)
 
+# def freealert_save(request):
+#     # print "freealert_save"
+#     user=request.user.id
+#     # print "user", user
+#     freealert=FreeAlert()
+#     if user:
+#         userprofile=User.objects.get(id=user)
+#         # print "userprofile.id", userprofile.id     
+#         freealert.alert_user=UserProfile.objects.get(user=userprofile.id)
+#         freealert.alert_category=Category.objects.get(id=request.POST['your_category'])
+#         freealert.alert_subcategory=SubCategory.objects.get(id=request.POST['your_subcategory'])
+#         freealert.alert_brand=Dropdown.objects.get(id=request.POST['your_brand'])
+#         freealert.alert_city=City.objects.get(id=request.POST['your_city'])
+#         freealert.alert_email = request.POST.get('email')
+#         freealert.alert_mobile = request.POST.get('mobilenumber')
+#         freealert.save()
+#         return HttpResponseRedirect("/?falert=success")
+#     else:
+#         # print "else part"
+#         return HttpResponseRedirect("/?alert=failure")
+
 def freealert_save(request):
-    # print "freealert_save"
-    user=request.user.id
-    # print "user", user
-    freealert=FreeAlert()
-    if user:
-        userprofile=User.objects.get(id=user)
-        # print "userprofile.id", userprofile.id     
-        freealert.alert_user=UserProfile.objects.get(user=userprofile.id)
-        freealert.alert_category=Category.objects.get(id=request.POST['your_category'])
-        freealert.alert_subcategory=SubCategory.objects.get(id=request.POST['your_subcategory'])
-        freealert.alert_brand=Dropdown.objects.get(id=request.POST['your_brand'])
-        freealert.alert_city=City.objects.get(id=request.POST['your_city'])
-        freealert.alert_email = request.POST.get('email')
-        freealert.alert_mobile = request.POST.get('mobilenumber')
-        freealert.save()
-        return HttpResponseRedirect("/?falert=success")
-    else:
-        # print "else part"
-        return HttpResponseRedirect("/?alert=failure")
+    try:
+        error={}
+        user=request.user.id
+        freealert=FreeAlert()
+        if user:
+            userprofile=User.objects.get(id=user)
+            # print "userprofile.id", userprofile.id     
+            freealert.alert_user=UserProfile.objects.get(user=userprofile.id)
+            freealert.alert_category=Category.objects.get(id=request.POST['your_category'])
+            freealert.alert_subcategory=SubCategory.objects.get(id=request.POST['your_subcategory'])
+            freealert.alert_brand=Dropdown.objects.get(id=request.POST['your_brand'])
+            freealert.alert_city=City.objects.get(id=request.POST['your_city'])
+            freealert.alert_email = request.POST.get('email')
+            freealert.alert_mobile = request.POST.get('mobilenumber')
+            freealert.save()
+            error['success'] = ugettext('Free alert created successfully')
+            print "error['success']",error['success']
+            raise ValidationError(error['success'], 7)
+        else:
+            error['not_an_user'] = ugettext('U are not registered users...First register and then create free alert')
+            print "error['not_an_user']",error['not_an_user']
+            raise ValidationError(error['not_an_user'], 8)
+    except ValidationError as e:
+        messages.add_message(request, messages.ERROR, e.messages[-1]) 
+        redirect_path = "/"
+        query_string = 'fst=%d' % e.code
+        redirect_url = format_redirect_url(redirect_path, query_string)
+        return HttpResponseRedirect(redirect_url)
 
 def freealert(request):
     category = Category.objects.all()

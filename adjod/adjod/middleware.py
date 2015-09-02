@@ -78,6 +78,7 @@ class Global(object):
             city=self.global_city
             response.set_cookie("city", 
                 city, max_age = 365 * 24 * 60 * 60)
+        
         if self.global_city_id:
             print "enter self.global_city_id"
             city=self.global_city_id

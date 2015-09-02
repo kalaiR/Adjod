@@ -59,6 +59,7 @@ from moneyed import Money
 from djmoney_rates.utils import convert_money
 from djmoney_rates.data import CURRENCIES_BY_COUNTRY_CODE
 from adjod import globals
+from adjod.util import *
 
 #Paypal transaction definition
 @csrf_exempt
@@ -113,29 +114,13 @@ def home(request):
     category=Category.objects.all()
     recentad=Product.objects.filter().order_by('-id')[:3]
     path = request.path
-    print "path", path 
-    locality =Locality.objects.all() 
-    city=City.objects.all()
-    country=Country.objects.all()
-    
-    user_ip = globals.ip
-    g = GeoIP()
-    current_city=g.city(user_ip)['city']
-    print "current_city", current_city
-    print g.city(user_ip)
-    code=g.country_code(user_ip)
-    print "code", code
-    country_id=Country.objects.filter(code=g.country_code(user_ip))[0].id
-    print "country_id", country_id
-    current_country_cities=City.objects.filter(country_id=Country.objects.filter(code=g.country_code(user_ip))[0].id)
-    ctx={'category':category, 'path':path, 'recentad':recentad, 'current_city':current_city,'current_country_cities':current_country_cities}
-    print "current_country_cities", current_country_cities
-    
+    print "path", path  
+    current_country_cities = get_current_country_cities(request)
+    ctx={'category':category, 'path':path, 'recentad':recentad,'current_country_cities':current_country_cities}
     # ctx={'category':category, 'path':path, 'recentad':recentad}   
     if request.user.is_authenticated():
         userprofile=UserProfile.objects.get(user=request.user.id)
-        # ctx={'category':category, 'path':path, 'recentad':recentad}
-        ctx={'category':category, 'path':path, 'recentad':recentad, 'current_city':current_city,'current_country_cities':current_country_cities,'userprofile':userprofile}
+        ctx={'category':category, 'path':path, 'recentad':recentad, 'current_country_cities':current_country_cities,'userprofile':userprofile}
     # current_site =get_current_site(request)
     # print "current_site", current_site
     return render_to_response('adjod/userpage.html', ctx , context_instance=RequestContext(request)) 
@@ -432,6 +417,7 @@ def start(request):
     recentad=Product.objects.filter().order_by('-id')[:3]
     user=UserProfile.objects.get(user=request.user.id)
     print "user", user.id
+    current_country_cities = get_current_country_cities(request)
     #Chat Store Active users
     last_active = None
     try:
@@ -441,7 +427,7 @@ def start(request):
     last_active.save()
     if request.user.is_authenticated:
         userprofile=UserProfile.objects.get(user=request.user.id)
-    return render_to_response('adjod/userpage.html',{'category':category,'path':path,'recentad':recentad,'product':product,'city':city, 'userprofile':userprofile},context_instance=RequestContext(request))
+    return render_to_response('adjod/userpage.html',{'category':category,'path':path,'recentad':recentad,'product':product,'city':city, 'userprofile':userprofile, 'current_country_cities':current_country_cities},context_instance=RequestContext(request))
 
 # /*  Auto Complete for Category based Brands */
 def autocomplete_keyword(request):     
