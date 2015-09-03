@@ -720,7 +720,7 @@ function fill_localities(city_id) {
     $.getJSON("/localities_for_city/", {city_id: city_id},
       function(ret, textStatus) {
         var options = '';
-        options +='<option>Select City</option>';
+        options +='<option>Select Locality</option>';
         for (var i in ret) {
           options += '<option value="' + ret[i].id + '">'
             + ret[i].name + '</option>';
@@ -980,38 +980,42 @@ $("#alert_button").click(function(){
   //*************** End Free alert form validation ***********
 
 
-    jQuery('#create').click(function(){     
-      for (i=0;i<sign_up_required.length;i++) {
-      var input = jQuery('#'+sign_up_required[i]);
-      if (input.val() == "")  {   
-        input.addClass("error_input_field");
-        input.siblings('.signup_labelError').show();         
-      } else {    
-        input.removeClass("error_input_field");
-        input.siblings('.signup_labelError').hide();        
-      }
-    }
-    //Validate the e-mail.
-    if($('#email_id').val() != ''){
-    if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#email_id').val())) {
-      $('#email_id').addClass("error_input_field");
-      $('#email_id').siblings('.signup_labelError').text("Please enter valid email address");
-      $('.signup_labelError').show();
-      //email.val(emailerror);
+    jQuery('#create').click(function(){
+    if ($('.confirm').prop('checked') == true){
+            for (i=0;i<sign_up_required.length;i++) {
+            var input = jQuery('#'+sign_up_required[i]);
+            if (input.val() == "")  {   
+            input.addClass("error_input_field");
+            input.siblings('.signup_labelError').show();         
+            } else {    
+              input.removeClass("error_input_field");
+              input.siblings('.signup_labelError').hide();        
+            }
+          }
+          //Validate the e-mail.
+          if($('#email_id').val() != ''){
+          if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#email_id').val())) {
+            $('#email_id').addClass("error_input_field");
+            $('#email_id').siblings('.signup_labelError').text("Please enter valid email address");
+            $('.signup_labelError').show();
+            //email.val(emailerror);
+          }
+          else
+          {
+            $('#email_id').removeClass("error_input_field");
+            $('#email_id').siblings('.signup_labelError').hide();
+          }
+          }
+           if ($(":input").hasClass("error_input_field")){
+          return false;
+          }
+          else{
+            return true;
+            $('form[name="sign_in"]').submit();
+          }
     }
     else
-    {
-      $('#email_id').removeClass("error_input_field");
-      $('#email_id').siblings('.signup_labelError').hide();
-    }
-    }
-     if ($(":input").hasClass("error_input_field")){
-    return false;
-    }
-    else{
-      return true;
-      $('form[name="sign_in"]').submit();
-    }
+          return false;
     });
   
     jQuery("#post").click(function(){ 
@@ -1052,7 +1056,7 @@ $("#alert_button").click(function(){
     }
 
     // Dropdown city
-    if ($('#select_post_city').text() == "Your city *") {
+    if ($('#select_post_city').text() == "Select city *") {
       $('.select_container_city').addClass("error_input_field");
       $('.select_container_city').find('.labelError').show();
     }
@@ -1062,7 +1066,7 @@ $("#alert_button").click(function(){
     }
 
     // Dropdown locality
-    if ($('#select_post_locality').text() == "Your locality *") {
+    if ($('#select_post_locality').text() == "Select locality *") {
       $('.select_container_locality').addClass("error_input_field");  
       $('.select_container_locality').find('.labelError').show();
     }

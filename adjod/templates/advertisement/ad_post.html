@@ -105,7 +105,7 @@
     </div><!-- top_header -->
     <div class="search_part">
       	<div class="container logo_part">
-        	<code></code>
+        	<a href="/"><code></code></a>
          
             	
               <form class="info_form" method="get" action="/search/?q=">
@@ -300,12 +300,13 @@
               
               <div class="select_container_city fl" id="select_container_city">
                 <div class="select_div">
-                  <p id="select_post_city">Your city *</p>
+                  <p id="select_post_city">Select city *</p>
                   <i class="city_fa fa fa-caret-down">
                     
                   </i>
                 </div> <!-- select_div -->
                 <select id="id_city" class="select_post_city" name="your_city">
+                <option value="Select City">Select City</option>
                 {% for cityitem in city %} 
                 <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
                 {% endfor %}
@@ -315,13 +316,13 @@
                 
               <div class="select_container_locality fl" id="select_container_locality">
                 <div class="select_div">
-                  <p id="select_post_locality">Your locality *</p>
+                  <p id="select_post_locality">Select locality *</p>
                   <i class="city_fa fa fa-caret-down">
                     
                   </i>
                 </div> <!-- select_div -->
                 <select id="id_locality" class="select_post_locality" name="your_locality" id="your_locality">
-                
+              <!--   <option value="Select Locality">Select Locality</option> -->
                 <option value=""></option>
                 
                 </select>
