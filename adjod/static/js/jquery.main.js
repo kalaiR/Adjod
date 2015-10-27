@@ -3,6 +3,7 @@
 // released under the MIT license
 
 (function( $ ) {
+  // alert("ready");
   var chat_stat = 0,
   chat_reconnect = 0,
   chat_num_users = 0,
@@ -10,6 +11,7 @@
   chat_changed_lang = true,
   user_email,
   user_name,
+  user_id,
   user_avatar,
   socket;
   var conf_domain,
@@ -23,21 +25,28 @@
   conf_bar_icon_expand,
   conf_bar_icon_collapse,
   conf_theme_default;
+  // dialog_status = [];
 
   var chat_record =new Object();
+  var dialog_status=[];
+  // var dialog_user_status=[];
   var chat_users=[];
 
   var xhr_toolbar = $.get( "/toolbar/", function( toolbar ) {
     $( "body" ).append( toolbar );
   });
   
-  var xhr_mchat = $.get( "/main_chat/", function( main_chat ) {
-    $( "body" ).append( main_chat );
-  });
+  // var xhr_mchat = $.get( "/main_chat/", function( main_chat ) {
+  //   $( "body" ).append( main_chat );
+  // });
+
+  var previous_chat_record;
+
+  // alert(window.location.pathname);
 
 
-  $.when( xhr_toolbar, xhr_mchat ).done(function(r1, r2, r3, r4) {
-
+  $.when( xhr_toolbar ).done(function(r1, r2, r3, r4) {
+    // localStorage.clear();
     main_set_conf();
     
     main_set_theme( conf_theme_default );
@@ -87,16 +96,32 @@
 
     //Open new chat
     $( document ).on("click", ".user-button", function() {
+      // alert("user button");
       var prefix = "user-button-";
       var iduser = $( this ).attr( "id" ).substring( (prefix.length) );
-      var name   = $( this ).text();
-      var product_title = $(this).children().children('.product_title').text();
+      var name   = $( this ).find('li').text();
+      // alert(name);
+      // if (window.location.pathname == '/search/'){
+      //   var product_title = $(this).children().children('.product_title').text();
+      //   // alert("product title in user button"+ product_title);
+      //   alert(product_title);
+      //   var product_id = $(this).children().children('.product_id').text();
+      //   alert(product_id);
+      // }
+      // else{
+        var product_title = $(this).children().children('.product_title').text();
+        // alert("product title in user button"+ product_title);
+        // alert(product_title);
+        var product_id = $(this).children().children('.product_id').text();
+        // alert(product_id);
+      // }
+      // alert("product title in user button"+ product_id);
       // $(".box-title").text(product_title);
       // alert(product_title);
       // var value = $(this).parent().parent().parent().parent().siblings('.ui-dialog').children('.ui-dialog-content').children('.box').children('.box-header').children('.box-title').text(product_title);
       // alert(value);
       // Del notification if exist
-      main_chat_user_alert( iduser, 1 );
+      main_chat_user_alert( iduser, 1, product_id );
 
       if ( name.length > 15 ) {
         var length = 15;
@@ -104,10 +129,11 @@
         name = name + "...";
       }
 
-      open_chat_box ( iduser, name );
+      open_chat_box ( iduser, name, product_id, product_title );
       $(".box-title").text(product_title);
       //Set position
-      $( "#Dialog" + iduser ).dialog( "option", "position", { my: "right bottom", at: "right top-3", of: this, collision: "flip, none" });
+      // alert("dialog set position");
+      $( "#Dialog" + product_id ).dialog( "option", "position", { my: "right bottom", at: "right top-3", of: this, collision: "flip, none" });
     });
 
     $( "#users" ).accordion({
@@ -121,28 +147,34 @@
 
     //Click in user in chat box
     $( document ).on("click", ".user", function() {
-      product=$(this).parent().parent().next('.product_title_for_chat').text();
-      // alert(product);
+      // alert("user");
+      product=$(this).parent().parent().siblings('.product_title_for_chat').text();
+      // alert("product" +product);
+      product_id=$(this).parent().parent().siblings('.product_id').text();
+      // alert("productid" +product_id);
       //Do nothing if user is offline
       if ( $( this ).hasClass( "offline" ) )
         return false;
 
       var prefix = "user-";
-      var iduser = $( this ).attr( "id" ).substring( (prefix.length) );
-
+      var iduser_product = $( this ).attr( "id" ).substring( (prefix.length) );
+      // alert(iduser_product);
       //Append div user in the bar if is not appended
-      if ( $( "#users-button-bar" ).parent().find( "#user-button-" + iduser ).length == 0 ) {
-        var name = $( this ).text();
+      if ( $( "#users-button-bar" ).parent().find( "#user-button-" + iduser_product ).length == 0 ) {
+        // var name = $( this ).text();
+        // alert("if");
+        var name = $( this ).parent().siblings('.product_users').text();
         // alert(name);
         var stat = $( this ).find( "li" ).attr( "class" );
         // alert(stat);
-        $( "#users-button-bar" ).append( "<button id='user-button-" + iduser + "' class='user-button' style='font-size: 65%;'><li class='" + stat + "'>" + name + "</li><span class='product_title' style='display:none;'>" + product + "</span></button>" );
+        $( "#users-button-bar" ).append( "<button id='user-button-" + iduser_product + "' class='user-button' style='font-size: 65%;'><li class='" + stat + "'>" + name + "</li><span class='product_title' style='display:none;'>" + product + "</span><span class='product_id' style='display:none;'>" + product_id + "</span></button>" );
         // $("#users-button-bar").closest('.product_title').val(product);
+        // alert($("#users-button-bar").html());
         $( ".user-button" ).button();
       }
 
       //Do the same as clicking the user in the bar
-      $( "#user-button-" + iduser ).trigger( "click" );
+      $( "#user-button-" + iduser_product ).trigger( "click" );
 
       return false;
     });
@@ -157,10 +189,15 @@
 
       var user_email=$.cookie('chat_email');
       var user_name=$.cookie('chat_user');
+      var user_id=$.cookie('chat_userid');
 
       if(chat_stat==0)
       {
       if( user_email && user_name){
+       
+      // previous_chat_record = $.get( "/previous_chat_record/", {'user_name':user_name}, function( data ) {
+      //   alert("data"+data);
+      // });
         main_chat_init();
         socket_connect();
         socket_handle();
@@ -262,10 +299,38 @@
       chat_changed_lang = false;
     }
 
-    //Box Dialog for new user
-    function main_set_dialog ( id, user ) {
+    // function ret(data, status){
+    //   alert(data);
+    //   alert(status);
+    //   data = data.trim();
+    //   if ( $.inArray(data, status) > -1 ){
+    //     alert("ret if");
+    //     return true;
+    //   }
+    //   else{
+    //     alert("ret else");
+    //     return false;
+    //   }
+    // }
 
-      $( "#Dialog" + id ).dialog({
+    //Box Dialog for new user
+    function main_set_dialog ( id, user, product ) {
+      // alert("main_set_dialog");
+      // alert("dialog status"+$("#Dialog" + product[i]).parents(".ui-dialog").is(":visible"));
+      // var referrer =  document.referrer;
+      // alert("referrer"+referrer);
+
+      // alert("id"+id);
+      // alert("user"+user);
+      // alert("product"+ product);
+      // alert($.cookie('dialog_status'));
+      // status = $.cookie('dialog_status');
+      // alert("inside main set"+status);
+      product=$.makeArray( product );
+      for(var i = 0; i <product.length; i++) {
+      // alert("inside loop product_id"+ product[i]);
+      $( "#Dialog" + product[i] ).dialog({
+        // autoOpen: ret("#Dialog" + product[i], status),
         autoOpen: false,
         closeOnEscape: true,
         resizable: false,
@@ -274,10 +339,12 @@
         maxHeight: 400,
         height: "auto",
         width: 280,
+        appendTo:'#main',
 
         open: function(event, ui) {
-
+          // alert("open function");
           //Set language in Dialog and init
+          // alert("open function");
           if ( chat_changed_lang == true )
             main_chat_set_dialog_lang( $( this ) );
 
@@ -285,7 +352,9 @@
 
             //Save the top of dialog
             var main = $( this );
-            var name = main.data( "name" );
+            // var name = main.data( "name" );
+            var name =  main.attr( "user" );
+            // alert(name);
 
             //Change text for the default lang
             main_chat_set_dialog_lang( main );
@@ -305,7 +374,12 @@
 
             //Textarea click
             main.parent().find( "textarea" ).click(function() {
-              main_chat_user_alert( id, 1 );
+              // alert("product_id 2"+JSON.stringify(main.parent().siblings(data("productid"))));
+              product_title=$(this).parent().siblings().children('.box-title').text();
+              // alert(product_title);
+              product_id=$(this).parent().siblings('.box_product_id').text();
+              // alert(product_id);
+              main_chat_user_alert( id, 1, product_id );
             });
 
             //Textarea focus fancy in and out
@@ -325,19 +399,30 @@
             new_scroll(main.parent().find( ".direct-chat-messages" ));
 
             //Close button
+            // main.parent().find( ".ui-dialog-titlebar-close" ).click(function() {
+            //   var iduser = main.attr( "id" ).substring( ( "Dialog".length ) );
+            //   alert("#user-button-" + iduser + "_product-" + product_id);
+            //   $( "#user-button-" + iduser + "_product-" + product_id ).remove();
+            // });
+            
             main.parent().find( ".ui-dialog-titlebar-close" ).click(function() {
-              var iduser = main.attr( "id" ).substring( ( "Dialog".length ) );
-              $( "#user-button-" + iduser ).remove();
+              // var iduser = main.attr( "id" ).substring( ( "Dialog".length ) );
+              productid =  main.attr('productid');
+              // alert("#user-button-" + id + "_product-" + productid);
+              $( "#user-button-" + id + "_product-" + productid).remove();
             });
 
             var typingTimeout;
             //Textarea send form when key enter is pressed
             main.find( "textarea" ).first().keyup(function( e ) {
-              product_title=$(this).parent().siblings().children('.box-title').text();
+              // product_title=$(this).parent().siblings().children('.box-title').text();
               // alert(product_title);
+              // product_id=$(this).parent().siblings('.box_product_id').text();
+              // alert(product_id);
 
               if (typingTimeout !== undefined) clearTimeout(typingTimeout);
-              typingTimeout = setTimeout(function() { call_user_is_writing(user) }, 400);
+              // alert("before call user is writing" +user);
+              typingTimeout = setTimeout(function() { call_user_is_writing(user, product_id) }, 400);
               // store_chat_record(user);
               // alert("user" + user);
               //Progressbar of char in textarea
@@ -353,13 +438,14 @@
                 $( this ).val( "" );
                 if (msg !== "") {
                   main.parent().find( "#progressbar-char" ).progressbar( "option", "value", 0 );
-                  socket.emit('message', { 'user': user, 'msg': msg }, function (data) {
+                  // alert(product[i]);
+                  socket.emit('message', { 'user': user, 'msg': msg, 'product_id':product_id, 'product_title': product_title }, function (data) {
                     var recv = JSON.parse(data);
-                    // alert(recv);
-                    append_msg_me(msg, main, recv.date, product_title);
+                    // alert("before send message"+JSON.stringify(recv));
+                    append_msg_me(msg, recv.date, product_title, product_id);
                     // FIXME
                     // Set dialog position
-                    main.dialog( "option", "position", { my: "right bottom", at: "right top-3", of: "#user-button-"+id, collision: "flip, none" });
+                    main.dialog( "option", "position", { my: "right bottom", at: "right top-3", of: "#user-button-"+id+ "_product-"+product_id, collision: "flip, none" });
                   });
                 }
               }
@@ -372,6 +458,7 @@
 
           //Go to bottom
           new_scroll($( this ).parent().find( ".direct-chat-messages" ));
+          // alert("end open");
         },
       
         show: {
@@ -381,14 +468,18 @@
           effect: "none"
         }
       });
+      }
+      // alert("end main_set_dialog");
     }
 
-    function call_user_is_writing(user) {
-      // alert(user);
-      user_list=user;
+    function call_user_is_writing(user, product_id) {
+      // alert("call user");
+      // alert("after call user is writing" +user);
+      // user_list=user;
       // alert("user_list" +user_list);
       // chat_record['receiver']=user;
-      socket.emit('user_typing', { 'user': user });
+      if (socket)
+      socket.emit('user_typing', { 'user': user, 'product_id': product_id });
       
     }
 
@@ -427,21 +518,28 @@
     function get_format_date(date) {
       var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+      var dayNames = ['Sun','Mon','Tues','Wed','Thur','Fri','Sat'];
       var d = new Date(date);
-      var day = d.getDay();
+      var day = d.getDay(); 
+      var date = d.getDate();
       var month = d.getMonth();
-      var r = day + " " + monthNames[month] + " " + minhour(d);
+      var r = dayNames[day] + " " + date + " " + monthNames[month] + " " + minhour(d);
+      // alert("r"+r);
       return r
     }
 
     // Append my messages
-    function append_msg_me ( msg, main, date, product_title ) {
+    function append_msg_me ( msg, date, product_title, product_id ) {
       // alert(product_title);
+      // alert("append_msg_me"+ product_id);
+      // alert("date"+date);
+      var main = $( "#Dialog" + product_id );
       var box = main.parent().find(".box-body");
       var me = box.find('.direct-chat-messages').last();
       var scroll = main.parent().find( ".direct-chat-messages" );
       $('.box-title').text(product_title);
       if (me.children().last().attr('id') == 'me') {
+        // alert("me");
         me.children().find('.direct-chat-text').last().append("<div>" + msg + "</div>")
       } else {
         me.append("\
@@ -461,13 +559,15 @@
       new_scroll(scroll);
     }
 
-    function append_msg_he ( msg, main, name, date, avatar ) {
+    function append_msg_he ( msg, name, date, avatar, product_id ) {
+      // alert("append_msg_he");
+      // alert("date"+date);
       var fullname = '';
       var fname = name.split(' ');
+      var main = $( "#Dialog" + product_id );
       var box = main.parent().find(".box-body");
       var he = box.find('.direct-chat-messages').last();
       var scroll = main.parent().find( ".direct-chat-messages" );
-
       if (fname.length == 2) fullname = fname[0] + " " + fname[1];
       else fullname = fname[0];
 
@@ -502,15 +602,25 @@
     }
 
     //Function for Open chat box
-    function open_chat_box ( iduser, name ) {
-      if ( $( "#Dialog" + iduser ).dialog( "isOpen" ) == false ) {
+    function open_chat_box ( iduser, name, product_id, product_title ) {
+      // alert("open_chat_box");
+      // alert(name);
+      // alert(product_id);
+      if ( $( "#Dialog" + product_id ).dialog( "isOpen" ) == false ) {
+        // dialog_product_status.push(product_id);
+        dialog_status.push({"user":iduser.split('_')[0],"name":name,"product":product_id,"title":product_title});
+        // alert("dialog_status"+JSON.stringify(dialog_status));
+        // $.cookie("dialog_status", JSON.stringify(dialog_status));
+        localStorage.setItem('dialog_status', JSON.stringify(dialog_status));
+      
         //Close all dialogs
         $( ".ui-dialog-content" ).dialog( "close" );
-        $( "#Dialog" + iduser ).data( "name", name );
-        $( "#Dialog" + iduser ).dialog( "open" );
-        // $(".box-title").text(product_title);
+        $( "#Dialog" + product_id ).data( "name", name );
+        $( "#Dialog" + product_id ).dialog( "open" );
+        $(".box-title").text(product_title);
+        // alert($.cookie("dialog_status"));
       } else
-        $( "#Dialog" + iduser ).dialog( "close" );
+        $( "#Dialog" + product_id ).dialog( "close" );
     }
 
     //Debug errors with alert
@@ -521,16 +631,16 @@
       }
     }
 
-    $( document ).ready(function() {
-      //Open chat by default on page ready
-      if ( conf_auto_login == true )
-        $( "#chat-title-button" ).trigger( "click" );
-    });
+    // $( document ).ready(function() {
+    //   //Open chat by default on page ready
+    //   if ( conf_auto_login == true )
+    //     $( "#chat-title-button" ).trigger( "click" );
+    // });
 
     //Set position on resize of the window
-    $( window ).resize(function() {
-      set_position();
-    });
+    // $( window ).resize(function() {
+    //   set_position();
+    // });
 
     function clean_name( text ) {
       var text_arr = text.split(" ");
@@ -554,8 +664,8 @@
       else if ( status == "offline" )
         $( "#rerun-img" ).attr( "src", "../img/button_offline.png" );
 
-      $( "#chat-title-button" ).find( "li" ).first().text( i18n.chat + " (" + text + ") " );
-      $( "#chat-title-button" ).find( "li" ).first().removeClass().addClass( status );
+      // $( "#chat-title-button" ).find( "li" ).first().text( i18n.chat + " (" + text + ") " );
+      // $( "#chat-title-button" ).find( "li" ).first().removeClass().addClass( status );
 
     }
 
@@ -599,22 +709,28 @@
 
     // Delete the user in main chat, but in message box, 
     // you must be able to read the conversation
-    function main_chat_user_offline_new ( id ) {
+    function main_chat_user_offline_new ( id, product_id ) {
+      // alert("main_chat_user_offline_new");
+      // alert(id);
+      // alert(product_id);
+      product=$.makeArray( product_id );
+      for(var i = 0; i <product.length; i++) {
       //Display warning
-      $( "#Dialog" + id ).parent().find( "#warning" ).first().removeClass( "no-display" );
+      // alert(product[i]);
+      $( "#Dialog" + product[i] ).parent().find( "#warning" ).first().removeClass( "no-display" );
       //Disable send msg
-      $( "#Dialog" + id ).parent().find( "#textarea_msg" ).first().attr( "disabled", "disabled" );
+      $( "#Dialog" + product[i] ).parent().find( "#textarea_msg" ).first().attr( "disabled", "disabled" );
 
       //if ( has scroll )
       //BUG!!!
-      var height = 180 - $( "#Dialog" + id ).parent().find( "#warning" ).height() - 2;
+      var height = 180 - $( "#Dialog" + product[i] ).parent().find( "#warning" ).height() - 2;
       //Now the height of the box is smaller
-      $( "#Dialog" + id ).parent().find( "#box" ).first().css( "max-height", height );
+      $( "#Dialog" + product[i] ).parent().find( "#box" ).first().css( "max-height", height );
 
       //Change li status to offline
-      main_chat_user_status( id, "offline" );
+      main_chat_user_status( id, "offline", product[i] );
 
-      $( "#main-sort-chat" ).find( "#user-"+id ).remove();
+      $( "#main-sort-chat" ).find( "#user-"+ id + "_product-" + product[i] ).remove();
 
       //Decrease total number of current users
       main_chat_users_num( 1, 0 );
@@ -627,69 +743,76 @@
       //Decrease total chat main heigh for the new user
       main_chat_set_position( 2 );
     }
+    }
 
-    function main_chat_user_offline ( id ) {
+    function main_chat_user_offline ( id, product_id ) {
+      alert("main_chat_user_offline");
       //Display warning
-      $( "#Dialog" + id ).parent().find( "#warning" ).first().removeClass( "no-display" );
+      $( "#Dialog" + product_id ).parent().find( "#warning" ).first().removeClass( "no-display" );
       //Disable send msg
-      $( "#Dialog" + id ).parent().find( "#textarea_msg" ).first().attr( "disabled", "disabled" );
+      $( "#Dialog" + product_id ).parent().find( "#textarea_msg" ).first().attr( "disabled", "disabled" );
 
       //if ( has scroll )
       //BUG!!!
-      var height = 180 - $( "#Dialog" + id ).parent().find( "#warning" ).height() - 2;
+      var height = 180 - $( "#Dialog" + product_id ).parent().find( "#warning" ).height() - 2;
       //Now the height of the box is smaller
-      $( "#Dialog" + id ).parent().find( "#box" ).first().css( "max-height", height );
+      $( "#Dialog" + product_id ).parent().find( "#box" ).first().css( "max-height", height );
 
       //Change li status to offline
       main_chat_user_status( id, "offline" );
     }
 
-    function main_chat_user_delete ( id ) {
-      $( "#main-sort-chat" ).find( "#user-"+id ).remove();
-      $( "#user-button-" + id ).remove();
-      $( "#Dialog" + id ).remove();
+    // function main_chat_user_delete ( id ) {
+    //   $( "#main-sort-chat" ).find( "#user-"+id ).remove();
+    //   $( "#user-button-" + id ).remove();
+    //   $( "#Dialog" + id ).remove();
 
-      //Decrease total number of current users
-      main_chat_users_num( 1, 0 );
+    //   //Decrease total number of current users
+    //   main_chat_users_num( 1, 0 );
 
-      //Add label of no users connected
-      // if ( chat_num_users == 0 )
-      //   if ( $( "#chat-main-title-label" ).length == 0 )
-      //     $( "#main-sort-chat" ).append( "<div id='chat-main-title-label'>" + i18n.no_users + "</div>" );
+    //   //Add label of no users connected
+    //   // if ( chat_num_users == 0 )
+    //   //   if ( $( "#chat-main-title-label" ).length == 0 )
+    //   //     $( "#main-sort-chat" ).append( "<div id='chat-main-title-label'>" + i18n.no_users + "</div>" );
 
-      //Decrease total chat main heigh for the new user
-      main_chat_set_position( 2 );
-    }
+    //   //Decrease total chat main heigh for the new user
+    //   main_chat_set_position( 2 );
+    // }
 
-    function main_chat_user_status ( id, status ) {
-      $( "#user-" + id ).find( "li" ).removeClass().addClass( status );
-      $( "#user-" + id ).find( "li" ).removeClass().addClass( status );
+    function main_chat_user_status ( id, status, product_id ) {
+      $( "#user-" + id + "_product-" + product_id ).find( "li" ).removeClass().addClass( status );
+      $( "#user-" + id + "_product-" + product_id ).find( "li" ).removeClass().addClass( status );
       // $( "#user-" + id ).find( "li a" ).removeClass().addClass(status );
-      $( "#user-button-" + id ).find( "li" ).removeClass().addClass( status );
-      $( "#Dialog" + id ).parent().find( "#dialog-status" ).removeClass().addClass( status );
-      $( "#Dialog" + id ).data( "status", status );
+      $( "#user-" + id + "_product-" + product_id ).find( "li" ).removeClass().addClass( status );
+      $( "#Dialog" + product_id ).parent().find( "#dialog-status" ).removeClass().addClass( status );
+      $( "#Dialog" + product_id ).data( "status", status );
     }
 
-    function main_chat_user_new ( id, status, name ) {
+    function main_chat_user_new ( id, status, name, product ) {
       //Append in the chat!
-
+      // alert("main_chat_user_new");
+      // alert("product"+product);
       $( ".product_users" ).each( function( index, element ){
-        if ($(this).text()==name){
+        // if ($(this).text()==name){
+          // alert("user name"+ $(this).text());
+          // alert("productid"+$(this).parent().next('.product_id').text());
+          product_id = $(this).parent().next('.product_id').text();
+          if (($(this).text()==name) && ($.inArray($(this).parent().next('.product_id').text(), product) < 0)){
         // $(this).next('.main-sort-chat').append( "<div id='user-" + id + "' class='user'><li class='" + status + "'><a href='#' style='text-decoration:none;' class='btn btn-default contact_button contact-button'> Chat Now </a></li></div>" );
          // $(this).next('.main-sort-chat').append( "<div id='user-" + id + "' class='user'><li class='" + status + "'><span style='display:none;'>"+ name +"</span><a href='#' style='text-decoration:none;' class='btn btn-default contact_button contact-button'>Chat Now</a></li></div>" );
-        $(this).next('.main-sort-chat').append( "<div id='user-" + id + "' class='user'><li class='" + status + "'><a href='#' style='text-decoration:none;' class='btn btn-default contact_button contact-button'> Chat Now </a></li></div>" );
+        $(this).next('.main-sort-chat').html( "<div id='user-" + id + "_product-" + product_id + "' class='user'><li class='" + status + "'><a href='#' style='text-decoration:none;' class='btn btn-default contact_button contact-button'> Chat Now </a></li></div>" );
         // $(this).next('.main-sort-chat').append( "<div id='user-" + id + "' class='user'><li class='" + status + "'><a href='#' style='text-decoration:none;' class='btn btn-default contact_button contact-button'>" + name + "</a></li></div>" );
         // $( ".box-title" ).each( function( index, element ){
         // $('.box-title').text($('.product_users').next('.product_title_for_chat').text());
         // });
         }
-      });
+     
       
       // $( "#main-sort-chat" ).append( "<div id='user-" + id + "' class='user user-pad scroll-content-item'><li class='" + status + "'><a href='#' style='text-decoration:none;'>" + name + "</a></li></div>" );
 
     
       //Set status in dialog
-      $( "#Dialog" + id ).data( "status", status );
+      $( "#Dialog" + product_id ).data( "status", status );
 
       //Open the chat for styling things
       if ( $( "#main-users-resizer" ).is( ":hidden" ) ) {
@@ -706,14 +829,22 @@
       //Close because was closed
       if ( wasclose == 1 )
         $( "#main-users-resizer" ).hide();
+       });
     }
 
-    function main_append_dialog ( id, user ) {
-      // alert(user);
-      if ( $( "#Dialog" + id ).length == 0 ) {
-        $( "body" ).append( "\
-          <div id='Dialog" + id + "' title='' user='" + user + "'>\
-                                                                              <!-- MUST CHANGE -->\
+    function main_append_dialog ( id, user, product ) {
+      // alert("main_append_dialog");
+      // alert("id1"+ id);
+      // alert("user1"+ user);
+      // alert("product1"+ product);
+      product=$.makeArray( product );
+      // alert("product after array" + product);
+      // alert("dialog length:" + $( "#Dialog" + id ).length);
+      if ( $( "#Dialog" + product ).length == 0 ) {
+      //   alert("dialog open");
+      for(var i = 0; i <product.length; i++) {
+        // alert("product[i]"+ product[i]);
+        $("#main").append("<div id='Dialog" + product[i] + "' title='' user='" + user + "' productid='" + product[i] + "'>\
             <div class='box box-info direct-chat direct-chat-info ui-widget-content no-content-border'>\
               <div class='box-header with-border'>\
                 <h4 class='box-title'></h4>\
@@ -727,14 +858,15 @@
                 <strong id='warning-alert'></strong><span id='warning-text'></span>\
               </div>\
               <div class='box-body'>\
-                <div class='direct-chat-messages'>\
-                </div>\
+              <div class='direct-chat-messages'>\
+              </div>\
               </div>\
               <div id='iswriting' class='pull-right'>\
                 <i class='fa fa-pencil'></i>\
                 <small id='iswriting-text'></small>\
               </div>\
               <div id='progressbar-char' class='pull-left'></div>\
+              <div class='box_product_id' style='display:none;'>" + product[i] + "</div>\
               <div class='small-box-footer'>\
                 <textarea id='textarea_msg' class='form-control textarea-msg' name='message' placeholder='"+ i18n.type_message +"'></textarea>\
               </div>\
@@ -742,17 +874,63 @@
           </div>");
       }
     }
+  }
 
-    function main_do_dialog( element, id ) {
-      $( element ).tipsy( "hide" );
+ 
+  function append_previous_chat_message( id, user, product, chat_message ) {
+    // alert("append_previous_chat_message");
+    // alert("chat_message"+JSON.stringify(chat_message));
+    // console.log("chat_message"+JSON.stringify(chat_message));
+    chat_message = eval(chat_message);   
+    product=$.makeArray( product );   
+    $.each(product, function(i,val){
+    // for(var i = 0; i <product.length; i++) {
+        var main = $( "#Dialog" + product[i] );
+        var message = main.find('.direct-chat-messages');
+        var scroll = main.parent().find( ".direct-chat-messages" );
+        $.each(chat_message, function(j,val){  
+          if(product[i] ==  val.product_id){  
+              if (val.sender == user_name){ 
+                    message.append("<div class='direct-chat-msg right' id='me'>\
+                                  <div class='direct-chat-info clearfix'>\
+                                    <span class='direct-chat-name pull-right'>" + val.sender + "</span>\
+                                    <span class='direct-chat-timestamp pull-left'>" + get_format_date(val.received_at) + "</span>\
+                                  </div>\
+                                  <img class='direct-chat-img' src='' alt='message user image' />\
+                                  <div class='direct-chat-text'>\
+                                    <div>" + val.message + "</div>\
+                                  </div>\
+                                </div>");              
+               }
+               else{        
+                    message.append("<div class='direct-chat-msg' id='he'>\
+                                  <div class='direct-chat-info clearfix'>\
+                                    <span class='direct-chat-name pull-left'>" + val.sender + "</span>\
+                                    <span class='direct-chat-timestamp pull-right'>" + get_format_date(val.received_at) + "</span>\
+                                  </div>\
+                                  <img class='direct-chat-img' src='' alt='message user image' />\
+                                  <div class='direct-chat-text'>\
+                                    <div>" + val.message + "</div>\
+                                  </div>\
+                                </div>");
+              }
+          }
+        });
+      new_scroll(scroll);
+    });
+  }
 
-      if ( $( id ).dialog( "isOpen" ) == false )
-        $( id ).dialog( "open" );
-      else
-        $( id ).dialog( "close" );
 
-      return false;
-    }
+    // function main_do_dialog( element, id ) {
+    //   $( element ).tipsy( "hide" );
+
+    //   if ( $( id ).dialog( "isOpen" ) == false )
+    //     $( id ).dialog( "open" );
+    //   else
+    //     $( id ).dialog( "close" );
+
+    //   return false;
+    // }
 
     //Set the num of available users
     function main_chat_users_num ( action, set ) {
@@ -855,20 +1033,20 @@
     }
 
     //Change position on resize window
-    function set_position() {
-      //Main chat
-      $( "#main-users-resizer" ).position({ my: "right bottom", at: "right top", of: "#main", collision: "flip, none" });
+    // function set_position() {
+    //   //Main chat
+    //   $( "#main-users-resizer" ).position({ my: "right bottom", at: "right top", of: "#main", collision: "flip, none" });
 
-      //Tools dialog
-      if ( $( "#tools-panel" ).dialog( "isOpen" ) == true )
-        $( "#tools-panel" ).dialog( "widget" ).position({ my: "left bottom", at: "left top", of: "#main", collision: "flip, none" });
+    //   //Tools dialog
+    //   if ( $( "#tools-panel" ).dialog( "isOpen" ) == true )
+    //     $( "#tools-panel" ).dialog( "widget" ).position({ my: "left bottom", at: "left top", of: "#main", collision: "flip, none" });
 
-      //Options dialog
-      if ( $( "#options-panel" ).dialog( "isOpen" ) == true )
-        $( "#options-panel" ).dialog( "widget" ).position({ my: "right bottom", at: "right top", collision: "flip, none", of: "#main"  });
+    //   //Options dialog
+    //   if ( $( "#options-panel" ).dialog( "isOpen" ) == true )
+    //     $( "#options-panel" ).dialog( "widget" ).position({ my: "right bottom", at: "right top", collision: "flip, none", of: "#main"  });
 
-      //TODO: change position of all chat dialog opened
-    }
+    //   //TODO: change position of all chat dialog opened
+    // }
 
     function main_chat_new_messages (action, main) {
       // action: 0 set to 0 count of messsages no reed
@@ -885,15 +1063,15 @@
       main.find( ".new-messages" ).prop("title", txt);
     }
 
-    function main_chat_user_alert ( id, action ) {
+    function main_chat_user_alert ( id, action, productid ) {
       //action = 0, add notification if not already have one
       //action = 1, del notification if already have one
-      var main = $( "#Dialog" + id );
+      var main = $( "#Dialog" + productid );
 
       if (action == 0) {
         if ( !main.parent().find( ".ui-dialog-titlebar" ).hasClass( "ui-state-highlight" ) ) {
           main.parent().find( ".ui-dialog-titlebar" ).addClass( "ui-state-highlight", 500 );
-          $( "#user-button-" + id ).addClass( "ui-state-error", 500 );  
+          $( "#user-button-" + id + "_product-" + productid ).addClass( "ui-state-error", 500 );  
         }
 
         //Increment number of new messages not read
@@ -902,7 +1080,7 @@
       } else if (action == 1) {
         if ( main.parent().find( ".ui-dialog-titlebar" ).hasClass( "ui-state-highlight" ) ) {
           main.parent().find( ".ui-dialog-titlebar" ).removeClass( "ui-state-highlight", 500 );
-          $( "#user-button-" + id ).removeClass( "ui-state-error", 500 );  
+          $( "#user-button-" + id + "_product-" + productid ).removeClass( "ui-state-error", 500 );  
         }
 
         //Set to 0 number of new messages not read
@@ -921,6 +1099,12 @@
       */
       main_chat_disconnect();
     }
+
+    $('.user_logout').click(function(){
+      // alert("logout");
+      socket.emit('forceDisconnect');
+      localStorage.clear();
+    });
 
     //Disconnect
     function main_chat_disconnect() {
@@ -967,7 +1151,7 @@
         main_chat_shutdown();
       });
 
-      socket.on('disconnect', function ( data ) {
+      socket.on('forceDisconnect', function ( data ) {
         main_chat_disconnect();
       });
 
@@ -991,8 +1175,10 @@
       });
 
       socket.on('chat', function (recv) {
+        // alert("on chat");
         var message = JSON.parse(recv);
-        // alert(JSON.stringify(message));
+        // alert("on_chat"+JSON.stringify(message));
+        // console.log("on_chat"+JSON.stringify(message));
         handle_incoming(message);
       });
 
@@ -1000,23 +1186,37 @@
     }
 
     function chat_join() {
-      socket.emit('join', { 'user': user_email, 'name': user_name }, function (data) { 
-        var recv = JSON.parse(data);
-        // console.log(recv);
-        console.log(user_email);
-        console.log(user_name);
-        // alert(field2);
-        chat_record['receiver']=user_name;
+      // alert("chat_join");
+      // alert(user_email);
+      // alert(user_name);
+      $.ajax({
+            type: 'POST',
+            url:'/get_user_products/',
+            data:"user_email="+user_email+"&user_name="+user_name,
+            success: function(data){
+            // alert(data);
+            // var res = eval("("+data+")");
+            // jQuery.each(res, function(i,val) {
+            // });
+            socket.emit('join', { 'uid':user_id,'user': user_email, 'name': user_name, 'data':data }, function (data) { 
+                var recv = JSON.parse(data);
+                // console.log(recv);
+                // console.log(user_email);
+                // console.log(user_name);
+                // alert(field2);
+                chat_record['receiver']=user_name;
+                // alert("chat_record['receiver']"+chat_record['receiver']);
+                if (recv.login == 'successful') {
+                  user_name = recv.my_settings.name;
+                  user_avatar = recv.my_settings.avatar;
 
-        if (recv.login == 'successful') {
-          user_name = recv.my_settings.name;
-          user_avatar = recv.my_settings.avatar;
-
-          setTimeout(function () {
-            main_chat_title( 0 );
-            main_chat_status( i18n.connected, 'online' );
-          }, 700);
-        }
+                  setTimeout(function () {
+                    main_chat_title( 0 );
+                    main_chat_status( i18n.connected, 'online' );
+                  }, 700);
+                }
+           });
+          }
       });
     }
 
@@ -1034,28 +1234,61 @@
 
     /***************** incoming events **************************/
     function handle_incoming(recv) {
+      // alert("handle_incoming");
+      // alert(JSON.stringify(recv));
+      // console.log(JSON.stringify(recv));
       var action  = recv.action;
       // alert(action);
       if (action == 'message') {
+        // alert("message");
         var date   = recv.date;
         var iduser = recv.data.user.uid;
         var name   = recv.data.user.name;
         var status = recv.data.user.status;
         var avatar = recv.data.user.avatar;
         var msg    = recv.data.msg;
+
         // alert(name);
         // alert(msg);
-        var main   = $( "#Dialog" + iduser );
+        product_title=recv.data.product_title;
+        // alert("product_title"+ product_title);
+
+        product_id=recv.data.product_id;
+        // alert("product_id" + product_id);
+        var main   = $( "#Dialog" + product_id );
 
         //Do nothing if user is offline
         // TODO:
         /*if ( status == 'offline' )
           return false;*/
-        //Append div user in the bar if is not appended
-        if ( $( "#users-button-bar" ).parent().find( "#user-button-" + iduser ).length == 0 ) {
-          $( "#users-button-bar" ).append( "<button id='user-button-" + iduser + "' class='user-button' style='font-size: 65%;'><li class='" + status + "'>" + name + "</li></button>" );
-          $( ".user-button" ).button();
+        // alert("user" +recv.data.user.user);
+        // alert("product_id" +product_id);
+        // alert("before main append");
+        // alert("product_id"+product_id);
+     
+        // if ($('div').not(main)){
+        // 
+
+        if ( $( "#Dialog" + product_id ).length == 0 ) {
+        // alert("if");  
+        main_append_dialog( recv.data.user.uid, recv.data.user.user, recv.data.product_id);
+        append_previous_chat_message( recv.data.user.uid, recv.data.user.user, recv.data.product_id, recv.data.user.chat_message)
+        main_set_dialog( recv.data.user.uid, recv.data.user.user, recv.data.product_id);
         }
+        // alert("after main_set_dialog");
+
+        //Append div user in the bar if is not appended
+        if ( $( "#users-button-bar" ).parent().find( "#user-button-" + iduser + "_product-" + product_id ).length == 0 ) {
+          // alert("user button bar");
+          $( "#users-button-bar" ).append( "<button id='user-button-" + iduser + "_product-" + product_id + "' class='user-button' style='font-size: 65%;'><li class='" + status + "'>" + name + "</li><span class='product_title' style='display:none;'>" + product_title + "</span><span class='product_id' style='display:none;'>" + product_id + "</span></button>" );
+          $( ".user-button" ).button();
+          $( "#user-button-" + iduser + "_product-" + product_id ).trigger( "click" );
+        }
+
+        // alert("after user button call");
+        // Do the same as clicking the user in the bar
+        // $( "#user-button-" + iduser + "_product-" + product_id ).trigger( "click" );
+
 
         //Check focus state and focus document to do sound and alert
         if( !$(document).is(document.activeElement) || !main.find( "#textarea_msg" ).is(document.activeElement) ) {
@@ -1065,40 +1298,52 @@
             $( "#audio-popup" ).trigger( "play" );
 
           //Add notification if not exist
-          main_chat_user_alert( iduser, 0 );
+          main_chat_user_alert( iduser, 0, product_id );
         }
-        product_title=$('.user-button').children().children('.product_title').text();
+        
         // alert(product_title);
-
-        append_msg_he( msg, main, name, date, avatar );
+        // alert("before append msg he");
+        append_msg_he( msg, name, date, avatar, product_id );
         // FIXME
         // Set dialog position
-        main.dialog( "option", "position", { my: "right bottom", at: "right top-3", of: "#user-button-"+iduser, collision: "flip, none" });
+        main.dialog( "option", "position", { my: "right bottom", at: "right top-3", of: "#user-button-"+iduser+"_product-"+product_id, collision: "flip, none" });
+
+      chat_record['sender']=name;
+      chat_record['message']=msg;
+      chat_record['product']=product_id;
+  
+      JSONstr=JSON.stringify(chat_record); 
+      $.post("/store_chat_record/", {data:JSONstr}, function(data){ console.log("success")});  
       }
 
       else if ( action == 'newuser' ) {
         //Append the Dialogid
-        main_append_dialog( recv.user.uid, recv.user.user );
-        main_set_dialog( recv.user.uid, recv.user.user);
+        // sample_f1();
+        // alert("newuser" +recv.user.user);
+        // alert("newuser");
+        main_append_dialog( recv.user.uid, recv.user.user, recv.user.product);
+        append_previous_chat_message(recv.user.uid, recv.user.user, recv.user.product, recv.user.chat_message);
+        main_set_dialog( recv.user.uid, recv.user.user, recv.user.product);
+        // main_set_dialog( recv.user.uid, recv.user.user);
 
         //Append the user to chat
-        main_chat_user_new( recv.user.uid, recv.user.status, recv.user.name );
+        main_chat_user_new( recv.user.uid, recv.user.status, recv.user.name, recv.user.product );
       }
 
       else if ( action == 'disconnect' ) {
         //Delete the user to chat
         //main_chat_user_delete( recv.user.uid );
-        main_chat_user_offline_new( recv.user.uid );
+        main_chat_user_offline_new( recv.user.uid, recv.user.product );
       }
 
       else if ( action == 'offline' ) {
         //Set offline the user in chat
-        main_chat_user_offline( recv.user.uid );
+        main_chat_user_offline( recv.user.uid, recv.user.product );
       }
 
       else if ( action == 'user_typing' ) {
         var userid = recv.data.uid;
-        var main = $( "#Dialog" + userid );
+        var main = $( "#Dialog" + product_id );
 
         if ( main.parent().find( "#iswriting" ).first().hasClass( "no-display") ) {
           
@@ -1122,33 +1367,42 @@
 
       // Update my setting from backend
       else if ( action == 'update_settings' ) {
+        // alert("update_settings");
         user_name = recv.data.name;
         user_avatar = recv.data.avatar;
+
+        // if ( $( "#Dialog" + product_id ).length == 0 ) {
+        // // alert("if");  
+        // main_append_dialog( recv.data.user.uid, recv.data.user.user, recv.data.product_id );
+        // main_set_dialog( recv.data.user.uid, recv.data.user.user, recv.data.product_id);
+        // }
       }
 
       else if ( action == 'usrlist' ) {
-        // alert(JSON.stringify(recv.user));
+        // console.log(JSON.stringify(recv.user.user));
+        // alert("usrlist");
         for (i in recv.user) {
-
+          // sample_f1();
           //Append the Dialogid
-          main_append_dialog( recv.user[i].uid, recv.user[i].user );
-          main_set_dialog( recv.user[i].uid, recv.user[i].user );
+          // alert("recv user id: "+recv.user[i].uid);
+          // alert("recv user: "+recv.user[i].user);
+          // alert("recv product: "+recv.user[i].product);
+          if (recv.user[i].user!=user_email){
+          main_append_dialog( recv.user[i].uid, recv.user[i].user, recv.user[i].product);
+          append_previous_chat_message(recv.user[i].uid, recv.user[i].user, recv.user[i].product, recv.user[i].chat_message);
+          main_set_dialog( recv.user[i].uid, recv.user[i].user, recv.user[i].product);
+          // main_set_dialog( recv.user[i].uid, recv.user[i].user);
 
           //Append the user to chat
-          main_chat_user_new( recv.user[i].uid, recv.user[i].status, recv.user[i].name );
+          main_chat_user_new( recv.user[i].uid, recv.user[i].status, recv.user[i].name, recv.user[i].product );
+          // main_chat_user_new( recv.user[i].uid, recv.user[i].status, recv.user[i].name);
+          }
         }
       }
 
       else {
         console.log('ERROR');
-      }
-
-      chat_record['sender']=name;
-      chat_record['message']=msg;
-  
-      JSONstr=JSON.stringify(chat_record);
-      // alert(JSONstr);             
-      $.post("/store_chat_record/", {data:JSONstr}, function(data){ console.log("success")});     
+      }   
       }
 
   }).fail(function() {
@@ -1162,3 +1416,60 @@
   });
 
 }( jQuery ));
+
+// $(window).load(function() {
+//  // executes when complete page is fully loaded, including all frames, objects and images
+//  alert("window is loaded");
+//  alert($.cookie("dialog_status"));
+//  result = jQuery.parseJSON($.cookie("dialog_status"));
+//  $.each(result, function(i,val){
+//      $("#user-"+i +"_product-" +val).attr('class','user').trigger("click");
+//     // $( "#user-button-" + iduser_product ).trigger( "click" );
+// });
+// });
+
+// $(window).load(function() {
+//  // executes when complete page is fully loaded, including all frames, objects and images
+//  // alert("window is loaded");
+//  // alert(localStorage.getItem('dialog_status'));
+//  // result = jQuery.parseJSON(localStorage.getItem('dialog_status'));
+//  result = eval(localStorage.getItem('dialog_status'));
+//  $.each(result, function(i,val){
+//     if (window.location.pathname == '/search/')
+//       $("#user-"+val.user +"_product-" +val.product).attr('class','user').trigger("click");
+//     else{
+//      $( "#users-button-bar" ).append( "<button id='user-button-" + val.user +  "_product-" + val.product +"' class='user-button' style='font-size: 65%;'><li class='online'>" + val.name + "</li><span class='product_title' style='display:none;'>" + val.title + "</span><span class='product_id' style='display:none;'>" + val.product + "</span></button>" );
+//      $( "#user-button-" + val.user +  "_product-" + val.product ).trigger( "click" );
+//      }
+// });
+// });
+
+
+
+$(window).load(function() {
+ // executes when complete page is fully loaded, including all frames, objects and images
+ // alert("window is loaded");
+ // alert(localStorage.getItem('dialog_status'));
+ // result = jQuery.parseJSON(localStorage.getItem('dialog_status'));
+ if (localStorage.getItem('dialog_status')!=null){
+   result = eval(localStorage.getItem('dialog_status'));
+   $.each(result, function(i,val){
+    // alert(val.name);
+      // if (window.location.pathname == '/search/')
+      //   // $("#user-"+val.user +"_product-" +val.product).attr('class','user').trigger("click");
+      //   $( "#user-button-" + val.user +  "_product-" + val.product ).trigger( "click" );
+      // else{
+      //   if ( $( "#users-button-bar" ).parent().find( "#user-button-" + val.user +  "_product-" + val.product ).length == 0 ){
+      //     $( "#users-button-bar" ).append( "<button id='user-button-" + val.user +  "_product-" + val.product +"' class='user-button' style='font-size: 65%;'><li class='online'>" + val.name + "</li><span class='product_title' style='display:none;'>" + val.title + "</span><span class='product_id' style='display:none;'>" + val.product + "</span></button>" );
+      //     // $( ".user-button" ).button();
+      //   }
+      //  $( "#user-button-" + val.user +  "_product-" + val.product ).trigger( "click" );
+      //  }
+      if ( $( "#users-button-bar" ).parent().find( "#user-button-" + val.user +  "_product-" + val.product ).length == 0 ){
+          $( "#users-button-bar" ).append( "<button id='user-button-" + val.user +  "_product-" + val.product +"' class='user-button' style='font-size: 65%;'><li class='online'>" + val.name + "</li><span class='product_title' style='display:none;'>" + val.title + "</span><span class='product_id' style='display:none;'>" + val.product + "</span></button>" );
+          $( ".user-button" ).button();
+        }
+       $( "#user-button-" + val.user +  "_product-" + val.product ).trigger( "click" );
+  });
+}
+});

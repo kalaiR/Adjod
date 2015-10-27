@@ -310,15 +310,15 @@ def register(request):
             # print "request.COOKIES.get('adjod_language')", request.COOKIES.get('adjod_language')
             userprofile.language=request.COOKIES.get('adjod_language')
             # print "request.COOKIES.get('country')", request.COOKIES.get('country')
-            country_id=Country.objects.get(code=request.COOKIES.get('country'))
+            # country_id=Country.objects.get(code=request.COOKIES.get('country'))
             # print "country_id", country_id.id
-            userprofile.country=Country.objects.get(id=country_id.id)
+            # userprofile.country=Country.objects.get(id=country_id.id)
             userprofile.age_status=request.POST.get('confirm')
             
             confirmation_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for x in range(33))
             # print confirmation_code
-            p = UserProfile(user=user, city=userprofile.city, mobile=userprofile.mobile, confirmation_code=confirmation_code, language=userprofile.language, country=userprofile.country, age_status=userprofile.age_status)
-            
+            # p = UserProfile(user=user, city=userprofile.city, mobile=userprofile.mobile, confirmation_code=confirmation_code, language=userprofile.language, country=userprofile.country, age_status=userprofile.age_status)
+            p = UserProfile(user=user, city=userprofile.city, mobile=userprofile.mobile, confirmation_code=confirmation_code, language=userprofile.language,age_status=userprofile.age_status)
             # Now sort out the UserProfile instance.
             # Since we need to set the user attribute ourselves, we set commit=False.
             # This delays saving the model until we're ready to avoid integrity problems.
@@ -507,8 +507,12 @@ def options(request):
 
 def convert(price):
     user_ip = globals.ip
+    # local
+    if user_ip.startswith('127.0.0'):
+        user_ip = '114.69.235.2'
     g = GeoIP()
     country_id = g.country_code(user_ip)
+    print "country_id", country_id
     for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
         if str(key) == str(country_id):
             isocode=value

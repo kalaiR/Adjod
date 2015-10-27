@@ -12,10 +12,10 @@
 <option value="{{ get_city_of_countrys.id }}"{% if get_city_of_countrys == "Pondicherry" %} selected{% endif %}>{{ get_city_of_countrys.city }}</option>
 {% endfor %}
 </select> -->
-{{request.COOKIES.ip}}
+<!-- {{request.COOKIES.ip}}
 {{request.COOKIES.country}}
 {{request.COOKIES.adjod_language}}
-{{request.COOKIES.city}}
+{{request.COOKIES.city}} -->
 <div class="container">
 <a href="">{{cat}}</a>
 <!-- <div align="center" id="richmedia_6">
@@ -23,7 +23,7 @@
   <img width="800" height="90" border="0" src="http://cdnx.tribalfusion.com/media/3794856.gif">
   </a>
 </div>       -->
-<div class="row row_1">     
+<div class="row row_1 col-md-12">     
         {% for categories in category %}  
                 {% if forloop.counter0|divisibleby:4 %}
                 <div class="col-md-4">

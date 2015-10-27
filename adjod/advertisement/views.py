@@ -217,11 +217,15 @@ def product_form(request, name=None, subname=None):
                 # dropdown=Dropdown.objects.all().exclude(year='', color='')
                 dropdown=Dropdown.objects.all()
                 # city=City.objects.all()
-                country=request.COOKIES.get("country")
-                country=Country.objects.get(code=request.COOKIES.get('country'))
-                city=City.objects.filter(country_id=country.id)
-                print city
-                ctx = {'userprofile':userprofile, 'category':category,'city':city,'dropdown':dropdown,"form":form,"paypal":paypal_dict}
+                
+                # country=request.COOKIES.get("country")
+                # country=Country.objects.get(code=request.COOKIES.get('country'))
+                # city=City.objects.filter(country_id=country.id)
+                # print city
+                # ctx = {'userprofile':userprofile, 'category':category,'city':city,'dropdown':dropdown,"form":form,"paypal":paypal_dict}
+
+                ctx = {'userprofile':userprofile, 'category':category,'dropdown':dropdown,"form":form,"paypal":paypal_dict}
+                
                 # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
                 return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
     else:
@@ -231,11 +235,15 @@ def product_form(request, name=None, subname=None):
         # dropdown=Dropdown.objects.all().exclude(year='', color='')
         dropdown=Dropdown.objects.all()
         # city=City.objects.all()
-        country=request.COOKIES.get("country")
-        country=Country.objects.get(code=request.COOKIES.get('country'))
-        city=City.objects.filter(country_id=country.id)
-        print city
-        ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
+        
+        # country=request.COOKIES.get("country")
+        # country=Country.objects.get(code=request.COOKIES.get('country'))
+        # city=City.objects.filter(country_id=country.id)
+        # print city
+        # ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
+
+        ctx = {'userid':userid, 'category':category,'dropdown':dropdown}
+        
         # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
         return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
 
@@ -260,17 +268,18 @@ def product_save(request):
         product.title=request.POST.get('ad_title')
         # product.price=request.POST.get('your_price')
     
-        price=request.POST.get('your_price')
-        country_id=Country.objects.get(code=request.COOKIES.get('country'))
-        for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
-            if str(key) == str(country_id):
-                isocode=value
-        current_country = isocode
-        print 'current_country', current_country
-        base_currency= settings.BASE_CURRENCY
-        convert_price = convert_money_without_symbol(float(price),current_country,base_currency)      
-        print "convert_price",convert_price
-        product.price=convert_price
+        product.price=request.POST.get('your_price')
+        
+        # country_id=Country.objects.get(code=request.COOKIES.get('country'))
+        # for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
+        #     if str(key) == str(country_id):
+        #         isocode=value
+        # current_country = isocode
+        # print 'current_country', current_country
+        # base_currency= settings.BASE_CURRENCY
+        # convert_price = convert_money_without_symbol(float(price),current_country,base_currency)      
+        # print "convert_price",convert_price
+        # product.price=convert_price
     
         product.ad_year=request.POST.get('your_year')
         product.description=request.POST.get('description','')
@@ -278,8 +287,8 @@ def product_save(request):
         product.you_name = request.POST.get('your_name', '')
         product.you_phone = request.POST.get('your_mobile_no', '')
     
-        product.city=City.objects.get(id=request.POST['your_city'])
-        product.locality=Locality.objects.get(id=request.POST['your_locality'])
+        # product.city=City.objects.get(id=request.POST['your_city'])
+        # product.locality=Locality.objects.get(id=request.POST['your_locality'])
     
         # product.photos=request.FILES['photos']
         
@@ -394,7 +403,7 @@ def product_save(request):
         # else:
         #     product.premium_plan=None
     
-        product.country=Country.objects.get(id=1)
+        # product.country=Country.objects.get(id=1)
         product.post_terms=request.POST.get('terms_of_use')
         product.save()
         # success=True
@@ -414,7 +423,7 @@ def product_save(request):
             userprofile = UserProfile.objects.get(user_id=request.user.id)
             product.isregistered_user = True
             if userprofile.ad_count<=3:
-                userprofile.ad_count+=1
+                # userprofile.ad_count+=1
                 userprofile.save()
                 print "userprofile.ad_count", userprofile.ad_count
                 success_message()
@@ -510,4 +519,16 @@ def expired_ad_conformation(request):
     user_and_product.save()
 
     return HttpResponseRedirect("/ads/" +ad_id)
+
+@csrf_exempt
+def get_user_products(request):
+    user_name=request.POST['user_name']
+    user_email=request.POST['user_email']
+    print "user_name", user_name
+    print "user_email", user_email
+    user_id = User.objects.get(username=user_name, email=user_email)
+    userprofile_id = UserProfile.objects.get(user=user_id)
+    product_id = Product.objects.filter(userprofile=userprofile_id.id)
+    product = [productid.id for productid in product_id]
+    return JSONResponse(product)
 

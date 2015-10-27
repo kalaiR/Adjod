@@ -28,9 +28,14 @@ def get_client_ip(request):
     #     ip = request.META.get('REMOTE_ADDR')
     # return ip
 
-    import ipgetter
-    IP = ipgetter.myip()
-    return IP 
+    # import ipgetter
+    # IP = ipgetter.myip()
+    # return IP 
+
+    ''' This utility gets client's IP address from the request
+    '''
+    print 'value==', request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', '127.0.0.1'))
+    return request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', '127.0.0.1'))
 
 def get_global_language(request):
     """ This function get global language based on following assets
@@ -134,8 +139,9 @@ def get_global_country(request):
         5. default sweden
     """ 
     user_ip = globals.ip
+    # local
     if user_ip.startswith('127.0.0'):
-        user_ip = '106.51.234.149'
+        user_ip = '114.69.235.2'
     g = GeoIP()
     country = g.country_code(user_ip)
     # print "country", country
@@ -143,10 +149,13 @@ def get_global_country(request):
 
 def get_current_country_cities(request):
     user_ip = globals.ip
+    # local
+    if user_ip.startswith('127.0.0'):
+        user_ip = '114.69.235.2'
     g = GeoIP()
-    country_code=g.country_code(user_ip)
-    print "country_code", country_code
-    current_country_cities = City.objects.filter(country_id=Country.objects.filter(code=country_code))
+    country = g.country_code(user_ip)
+    print "country", country   
+    current_country_cities = City.objects.filter(country_code=country)
     return current_country_cities
 
 def get_global_city(request):
@@ -159,30 +168,41 @@ def get_global_city(request):
         4. brower setting
         5. default sweden
     """ 
-    print "get_global_city"
     user_ip = globals.ip
+    print "user_ip from get_global_city in util", user_ip
+    # local
     if user_ip.startswith('127.0.0'):
-        user_ip = '106.51.234.149'
+        user_ip = '114.69.235.2'
     g = GeoIP()
-    city=g.city(user_ip)
-    print "city", city
-    if not city:
-        city = None
-    else:
-        city=city['city']
+    print '123456789', g.city(user_ip)
+    city=g.city(user_ip)['city']    
+    print "city in util.py", city
     return city
 
 def get_global_city_id(request):
-    if not request.COOKIES.get('city'):
-        return None
+    user_ip = globals.ip
+    # local
+    if user_ip.startswith('127.0.0'):
+        user_ip = '114.69.235.2'
+    g = GeoIP()
+    city=g.city(user_ip)['city']
+    print "city", city
+    if not city:
+        city = "Pondicherry" 
+    if City.objects.filter(city=city).exists():
+        city = City.objects.get(city=city)
+        city_id=city.id
     else:
-        if City.objects.get(city=request.COOKIES.get('city')):
-            city=City.objects.get(city=request.COOKIES.get('city'))
-            city_id=city.id
-            print "city_id", city_id
-            return city_id
-        else:
-            return None
+        country = get_global_country(request)
+        city_model = City()
+        city_model.city = city
+        city_model.country_code = country
+        city_model.country_name = g.country_name(user_ip)
+        city_model.save()
+        city_id = city_model.id
+    print "city_id", city_id
+    return city_id    
+
         
 def format_redirect_url(redirect_path, query_string):
     ''' utility to format redirect url with fixido query string

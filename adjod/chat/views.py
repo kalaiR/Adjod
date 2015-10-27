@@ -121,6 +121,25 @@ def post(request):
 def store_user_active_list(request):
     print "request.GET.get('user_id')", request.GET.get('user_id')
 
+# @csrf_exempt
+# def store_chat_record(request):
+#     import json
+#     print "request.POST['data']", request.POST['data']
+#     data = json.loads(request.POST['data'])  
+#     print "data" , len(data.keys())
+#     if len(data.keys()) <= 1:
+#         return HttpResponse('chat record not stored successfully')
+#     else:
+#         print "data['sender']", data['sender']
+#         print "data['receiver']", data['receiver']
+#         print "data['message']", data['message']
+#         sender=User.objects.get(username=data['sender'])
+#         print "sender", sender
+#         receiver=User.objects.get(username=data['receiver'])
+#         print "receiver", receiver
+#         ChatMessage.objects.create(sender = UserProfile.objects.get(user=sender.id), receiver = UserProfile.objects.get(user=receiver.id), message = data['message'])
+#         return HttpResponse('chat record stored successfully')
+
 @csrf_exempt
 def store_chat_record(request):
     import json
@@ -133,9 +152,60 @@ def store_chat_record(request):
         print "data['sender']", data['sender']
         print "data['receiver']", data['receiver']
         print "data['message']", data['message']
-        sender=User.objects.get(username=data['sender'])
-        print "sender", sender
-        receiver=User.objects.get(username=data['receiver'])
-        print "receiver", receiver
-        ChatMessage.objects.create(sender = UserProfile.objects.get(user=sender.id), receiver = UserProfile.objects.get(user=receiver.id), message = data['message'])
+        print "data['product']",data['product']
+        # sender=User.objects.get(username=data['sender'])
+        # print "sender", sender
+        # receiver=User.objects.get(username=data['receiver'])
+        # print "receiver", receiver
+        # ChatMessage.objects.create(sender = UserProfile.objects.get(user=sender.id), receiver = UserProfile.objects.get(user=receiver.id), message = data['message'])
+        product=Product.objects.get(id=data['product'])
+        chatmessage =ChatMessage()
+        chatmessage.sender = data['sender']
+        chatmessage.receiver = data['receiver']
+        chatmessage.product=product
+        chatmessage.message=data['message']
+        chatmessage.save()
+        # ChatMessage.objects.create(sender = data['sender'], receiver =  data['receiver'],product=product.id, message = data['message'])
+        print "store_chat_record successfully"
         return HttpResponse('chat record stored successfully')
+
+# def previous_chat_record(request):
+#     print "previous_chat_record"
+#     chat_record_sender = []
+#     chat_record_receiver = []
+#     user_name = request.GET['user_name']
+#     print "user_name", user_name
+#     crs =  ChatMessage.objects.filter(sender=user_name)
+#     crr = ChatMessage.objects.filter(receiver=user_name)
+#     for chats in crs:
+#         print "chats sender", chats
+#         chat_sender_list = {'sender': chats.sender,'receiver':chats.receiver, 'product':chats.product,'received_date':chats.received_at}
+#         chat_record_sender.append(chat_sender_list)
+#     for chats in crr:
+#         chat_receiver_list = {'sender': chats.sender,'receiver':chats.receiver, 'product':chats.product,'received_date':chats.received_at}
+#         chat_record_receiver.append(chat_receiver_list)
+#     return HttpResponse(simplejson.dumps(chat_record_sender),simplejson.dumps(chat_record_receiver))
+
+# @csrf_exempt
+# def append_chat_history(request):
+#     import json
+#     print "request.POST['data']", request.POST['data']
+#     data = json.loads(request.POST['data'])  
+#     append_string = "<div id='Dialog" + data['product'] + "' title='' user='" + data['user'] + "' productid='" + data['product'] + "'>\
+#                     <div class='box box-info direct-chat direct-chat-info ui-widget-content no-content-border'> \
+#                         <div class='box-header with-border'>\
+#                         <h4 class='box-title'></h4>\
+#                         <div class='box-tools pull-right'>\
+#                           <span data-toggle='tooltip' title='0 New Messages' class='badge bg-blue new-messages'>0</span>\
+#                           <button class='btn btn-box-tool' data-toggle='tooltip' title='Contacts' data-widget='chat-pane-toggle'><i class='fa fa-comments'></i></button>\
+#                         </div>\
+#                     </div>\
+#                     <div id='warning' class='highlight-padding ui-state-highlight ui-corner-all no-display'>\
+#                         <span class='window ui-icon ui-icon-info'></span>\
+#                         <strong id='warning-alert'></strong><span id='warning-text'></span>\
+#                     </div>\
+#                     <div class='box-body'>\
+#                     <div class='direct-chat-messages'>"
+#                     for sender in data['sender']:
+#                         if 
+

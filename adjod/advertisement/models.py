@@ -59,15 +59,17 @@ class Dropdown(models.Model):
 #     def __unicode__(self):
 #         return self.brand_name
 
-class Country(models.Model):
-    code=models.CharField(max_length=50)
-    country=models.CharField(max_length=50)
-    def __unicode__(self):
-        return self.code
+# class Country(models.Model):
+#     code=models.CharField(max_length=50)
+#     country=models.CharField(max_length=50)
+#     def __unicode__(self):
+#         return self.code
 
 class City(models.Model):
     city=models.CharField(max_length=50)
-    country=models.ForeignKey(Country)    
+    # country=models.ForeignKey(Country)  
+    country_code=models.CharField(max_length=10)
+    country_name=models.CharField(max_length=50)   
     def __unicode__(self):
         return self.city
 
@@ -115,7 +117,8 @@ class Product(models.Model):
     premium_plan=models.ForeignKey(PremiumPriceInfo, null=True, blank=True)
     expired_date=models.DateField(null=True,blank=True)
     status_isactive=models.BooleanField(default=False)
-    country=models.ForeignKey(Country, null=True, blank=True) 
+    # country=models.ForeignKey(Country, null=True, blank=True)
+    country_code=models.CharField(max_length=10)  
     post_terms=models.BooleanField(default=False)
     class Admin:
         pass
@@ -140,7 +143,7 @@ class Product(models.Model):
         print "get_related"
         print "product", product.subcategory.id
         print "product brand", product.ad_brand.id
-        print "product city", product.city.id
+        # print "product city", product.city.id
         # qs =  SearchQuerySet().exclude(id=product.id)
         qs =  SearchQuerySet().filter(subcategoryid=product.subcategory.id, adbrandid=product.ad_brand.id).exclude(id=product.id)
         print "qs", qs

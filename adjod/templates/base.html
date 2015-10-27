@@ -17,6 +17,7 @@
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
     <link href="{% static "css/index.less" %}" rel="stylesheet/less" type="text/less">
     <link href="{% static "css/jquery-ui.css" %}" rel="stylesheet">
+    <link href="{% static "css/jquery.ui.chatbox.css" %}" rel="stylesheet">
     <link href="{% static "css/simpleFilePreview.css" %}" rel="stylesheet">
     <link href="{% static "css/jquery.fancybox.css" %}" rel="stylesheet">
     <link href="{% static "css/intlTelInput.css" %}" rel="stylesheet">
@@ -46,19 +47,28 @@
     <script src="{% static "js/config.js" %}"></script>
     <script src="{% static "js/i18n_en.js" %}"></script> -->
 
-
+    <link href="{% static "AdminLTE/dist/css/AdminLTE.css" %}" rel="stylesheet" type="text/css" />
+    <link id='theme' rel='stylesheet' />
+    <link rel='stylesheet' href="{% static "css/tipsy.css" %}" />
+    <link rel='stylesheet' href="{% static "css/chat.css" %}" />
     <script src="{% static "js/jquery-1.11.3.min.js" %}"></script>
     <script src="{% static "js/jquery-ui-1.10.4.custom.min.js" %}"></script>
     <script src="{% static "js/jquery.cookie.js" %}"></script>
     <script src='http://localhost:<port>/socket.io/socket.io.js'></script>
     <script src="{% static "js/socket.io.js" %}"></script>
-    <script src="{% static "js/jquery.main1.js" %}"></script>
+    <script src="{% static "js/jquery.slimscroll.min.js" %}"></script>
+    <script src="{% static "js/jquery.tipsy.js" %}"></script>
+
+    <script src="{% static "js/jquery.main.js" %}"></script>
+
     <script src="{% static "js/config.js" %}"></script>
     <script src="{% static "js/i18n_en.js" %}"></script>
-
-
-    <script type="text/javascript" src="{% static "js/quikr_project.js" %}"></script>
+    
+    <script src="{% static "js/quikr_project.js" %}"></script>
+    
+    <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script> 
+    
     <script src="{% static "js/intlTelInput.min.js" %}"></script> 
 
 
@@ -124,7 +134,7 @@
                 </li>
               <li>
                   {% if user.is_authenticated %}
-                  <a href="/logout/" class="fancybox orange_text">Logout</a>
+                  <a href="/logout/" class="user_logout">Logout</a>
                   {% else %}
                   <a class="popup_sign_in">Login</a>
                   <li><a class="popup_sign_up">Sign up</a></li></a>

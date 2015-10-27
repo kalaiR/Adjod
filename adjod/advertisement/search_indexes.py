@@ -22,16 +22,16 @@ class ProductIndex(SearchIndex, Indexable):
     # category = CharField(model_attr='category', null=True)
     category = CharField(model_attr='category__id')
     brandtype = CharField(model_attr='ad_brand__id')
-    locality = CharField(model_attr='locality__id')
+    # locality = CharField(model_attr='locality__id')
     subcategoryid = CharField(model_attr='subcategory__id') 
     adbrandid=CharField(model_attr='ad_brand__id') 
     created_date = DateTimeField(model_attr='created_date')
     modified_date = DateTimeField(model_attr='modified_date') 
     # geolocation = LocationField(model_attr='get_geolocation', null=True)
 #     city = CharField(null=True, faceted=True)
-    city = CharField(model_attr='city__id')
+    # city = CharField(model_attr='city__id')
     # country= CharField(model_attr='country__id')
-    country=CharField(model_attr='country__id') 
+    # country=CharField(model_attr='country__id') 
     ispremium=CharField(model_attr='ispremium') 
     premium_plan_id=CharField(model_attr='premium_plan_id',null=True)
 
@@ -47,7 +47,7 @@ class ProductIndex(SearchIndex, Indexable):
         if obj.description:
             text.append(obj.description)
             print"text description", text 
-        text += self.prepare_locations(obj)
+        # text += self.prepare_locations(obj)
         # text += obj.country
         print "text", text
         search = []
@@ -58,14 +58,14 @@ class ProductIndex(SearchIndex, Indexable):
                     search.append(q)
         return ' '.join(search)
 
-    def prepare_locations(self,obj):
-        countrys=[]
-        country=obj.country
-        countrycode=Country.objects.get(code=country)
-        print "country", country
-        print "countrycode", countrycode.code
-        countrys.append(countrycode.code)
-        return countrys
+    # def prepare_locations(self,obj):
+    #     countrys=[]
+    #     country=obj.country
+    #     countrycode=Country.objects.get(code=country)
+    #     print "country", country
+    #     print "countrycode", countrycode.code
+    #     countrys.append(countrycode.code)
+    #     return countrys
     
     def get_model(self):
         return Product

@@ -1055,25 +1055,25 @@ $("#alert_button").click(function(){
   
     }
 
-    // Dropdown city
-    if ($('#select_post_city').text() == "Select city *") {
-      $('.select_container_city').addClass("error_input_field");
-      $('.select_container_city').find('.labelError').show();
-    }
-    else{
-      $('.select_container_city').removeClass("error_input_field");
-      $('.select_container_city').find('.labelError').hide();
-    }
+    // // Dropdown city
+    // if ($('#select_post_city').text() == "Select city *") {
+    //   $('.select_container_city').addClass("error_input_field");
+    //   $('.select_container_city').find('.labelError').show();
+    // }
+    // else{
+    //   $('.select_container_city').removeClass("error_input_field");
+    //   $('.select_container_city').find('.labelError').hide();
+    // }
 
-    // Dropdown locality
-    if ($('#select_post_locality').text() == "Select locality *") {
-      $('.select_container_locality').addClass("error_input_field");  
-      $('.select_container_locality').find('.labelError').show();
-    }
-    else{
-      $('.select_container_locality').removeClass("error_input_field");
-      $('.select_container_locality').find('.labelError').hide(); 
-    }
+    // // Dropdown locality
+    // if ($('#select_post_locality').text() == "Select locality *") {
+    //   $('.select_container_locality').addClass("error_input_field");  
+    //   $('.select_container_locality').find('.labelError').show();
+    // }
+    // else{
+    //   $('.select_container_locality').removeClass("error_input_field");
+    //   $('.select_container_locality').find('.labelError').hide(); 
+    // }
 
 
     // //Validate the e-mail.

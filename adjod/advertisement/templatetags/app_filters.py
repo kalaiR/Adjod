@@ -50,47 +50,24 @@ def conversion(price):
 	return convert(price)
 
 @register.filter
-
-def get_city(request):
-    
+def get_city(request):    
     user_ip = globals.ip
-        
+    # local
+    if user_ip.startswith('127.0.0'):
+        user_ip = '114.69.235.2'
     g = GeoIP()
-        
-    current_city=g.city(user_ip)['city']
-        
-    print g.city(user_ip)
-        
-    code=g.country_code(user_ip)
-        
-    print "code1", code
-        
-    country_id=Country.objects.filter(code=g.country_code(user_ip))[0].id
-        
-    print "country_id1", country_id
-    
-    # current_city = "Pondicherry"       
-    # current_country_cities=City.objects.filter(country_id=Country.objects.filter(code=g.country_code(user_ip))[0].id).exclude(city=current_city)
-        
-    current_country_cities=City.objects.filter(country_id=1).exclude(city=current_city)
-        
-    print "current_country_cities1 before", current_country_cities
-        
-    # current_country_cities = [str(obj.city) for obj in current_country_cities]
-        
-    print "current_country_cities1 after", current_country_cities
-        
+    country = g.country_code(user_ip)
+    print "country", country   
+    current_city = get_global_city(request)
+    print "current_city", current_city
+    current_country_cities = City.objects.filter(country_code=country)
     return current_country_cities
     
 
 @register.filter    
-
-def get_current_city_from_cookie(request):
-    
+def get_current_city_from_cookie(request):   
     print "get_current_city_from_cookie"
-        
-    result = get_global_city(request)
-        
+    result = get_global_city(request)        
     return result
 
 

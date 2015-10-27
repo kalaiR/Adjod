@@ -191,10 +191,10 @@ class SubCategoryAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 class CityAdmin(admin.ModelAdmin):
-    fields=['city','country']
-    list_display = ('id', 'city')
-    list_filter = ['city']
-    search_fields = ['id', 'city']
+    fields=['city','country_code','country_name']
+    list_display = ('id', 'city','country_code','country_name')
+    list_filter = ['city','country_code','country_name']
+    search_fields = ['id', 'city','country_code','country_name']
     # readonly_fields =['id']
     list_per_page = 50
 
@@ -251,5 +251,5 @@ admin.site.register(Locality, LocalityAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(SubCategory, SubCategoryAdmin)
 admin.site.register(Category,CategoryAdmin)
-admin.site.register(Country)
+# admin.site.register(Country)
 admin.site.register(Transaction)

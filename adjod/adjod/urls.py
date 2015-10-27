@@ -138,7 +138,7 @@ urlpatterns = patterns('',
 
     # url(r'^(?i)login_error/$', 'adjod.views.login_error', name='login-error'),
 
-
+    url(r'^get_user_products/$', 'advertisement.views.get_user_products',name='get_user_products'),
 
 
 )
