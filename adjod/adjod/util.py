@@ -60,8 +60,8 @@ def get_global_language(request):
        else:
             try:
                 user_ip = globals.ip
-                if user_ip.startswith('127.0.0'):
-                    user_ip = '106.51.234.149'
+                if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
+                    user_ip = '114.69.235.2'
                 g = GeoIP()
                 country = g.country_code(user_ip)
                 # print "country", country
@@ -140,7 +140,7 @@ def get_global_country(request):
     """ 
     user_ip = globals.ip
     # local
-    if user_ip.startswith('127.0.0'):
+    if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
         user_ip = '114.69.235.2'
     g = GeoIP()
     country = g.country_code(user_ip)
@@ -150,7 +150,7 @@ def get_global_country(request):
 def get_current_country_cities(request):
     user_ip = globals.ip
     # local
-    if user_ip.startswith('127.0.0'):
+    if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
         user_ip = '114.69.235.2'
     g = GeoIP()
     country = g.country_code(user_ip)
@@ -171,7 +171,7 @@ def get_global_city(request):
     user_ip = globals.ip
     print "user_ip from get_global_city in util", user_ip
     # local
-    if user_ip.startswith('127.0.0'):
+    if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
         user_ip = '114.69.235.2'
     g = GeoIP()
     print '123456789', g.city(user_ip)
@@ -182,7 +182,7 @@ def get_global_city(request):
 def get_global_city_id(request):
     user_ip = globals.ip
     # local
-    if user_ip.startswith('127.0.0'):
+    if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
         user_ip = '114.69.235.2'
     g = GeoIP()
     city=g.city(user_ip)['city']

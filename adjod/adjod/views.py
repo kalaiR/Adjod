@@ -508,7 +508,7 @@ def options(request):
 def convert(price):
     user_ip = globals.ip
     # local
-    if user_ip.startswith('127.0.0'):
+    if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
         user_ip = '114.69.235.2'
     g = GeoIP()
     country_id = g.country_code(user_ip)
