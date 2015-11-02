@@ -4,19 +4,27 @@ io       = require('socket.io').listen(server),
 crypto   = require('crypto'),
 users = {}, socks = {};
 
-var mysql = require('mysql');
+// var mysql = require('mysql');
+// var connection = mysql.createConnection({
+//   host     : 'localhost',
+//   user     : 'root',
+//   password : 'root',
+//   port     : '3306',
+//   database : 'adjod',
+// });
+
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'root',
+  password : 'manikandan@87',
   port     : '3306',
   database : 'adjod',
 });
 
-// connection.connect(function(err) {
-//   // connected! (unless `err` is set)
-//   console.log('db connected');
-// });
+connection.connect(function(err) {
+  // connected! (unless `err` is set)
+  console.log('db connected');
+});
 
 connection.connect(function(err){
   if(err){
