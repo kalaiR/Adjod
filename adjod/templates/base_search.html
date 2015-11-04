@@ -125,7 +125,7 @@
 					<select class="city">                                                                 
 						<option  id="currentid" value="{{request.COOKIES.global_city_id}}">{{ request.COOKIES.city }}</option>
                                  <!--  <span>{{city.id}}</span> -->
-		                  {% for cities in city|get_city %}
+		                  {% for cities in current_country_cities %}
 		                  <option value="{{cities.id}}" id="ajax_cityid">{{ cities }} </option>
 		                  {% endfor%} 
                     </select>
