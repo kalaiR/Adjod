@@ -19,7 +19,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'adjod',                      # Or path to database file if using sqlite3.
         'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': 'manikandan@87',                  # Not used with sqlite3.
+        'PASSWORD': 'root',                  # Not used with sqlite3.
         'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
     }
@@ -47,6 +47,7 @@ USE_I18N = True
 #     # ('he-il', gettext('Hebrew')),
 #     ('en-us', gettext('English')),
 # )
+
 
 # LANGUAGES = (
 #   ('en', _('English')),
@@ -95,7 +96,7 @@ STATIC_URL = '/static/'
 # SITE_NAME = 'alpha.login.com'
 # SITE_SASH = STATIC_URL + 'img/car.png'
 
-SITE_NAME = '128.199.70.156'
+SITE_NAME = '52.27.66.189'
 
 # SITE_NAME='dev.resalebuy.com'
 
@@ -122,7 +123,7 @@ SECRET_KEY = 'i95gwsqfo9nmejbll=t@!3z1(2@l4#9hee7!3x6dw8ad^&amp;u*cb'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-
+   
 #   'django.template.loaders.eggs.Loader',
 )
 
@@ -135,7 +136,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'adjod.middleware.Global',
-
+    
     # 'templatetags.app_filters.get_photos',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -148,9 +149,9 @@ TEMPLATE_CONTEXT_PROCESSORS += (
      'social_auth.context_processors.social_auth_login_redirect',
      'django.core.context_processors.request',
      'django.core.context_processors.i18n',
-     'django.core.context_processors.csrf',
+     'django.core.context_processors.csrf',  
      'django.core.context_processors.media',
-     'django.core.context_processors.debug',
+     'django.core.context_processors.debug',     
 )
 
 #set the Language tranlation path for accessing .po file
@@ -260,7 +261,6 @@ LOGGING = {
     'disable_existing_loggers': False,
     'filters': {
         'require_debug_false': {
-        'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
         }
     },
@@ -281,8 +281,8 @@ LOGGING = {
 }
 
 # settings for SMS verification
-TWILIO_ACCOUNT_SID = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-TWILIO_AUTH_TOKEN = 'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY'
+#TWILIO_ACCOUNT_SID = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+#TWILIO_AUTH_TOKEN = 'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY'
 
 AUTH_PROFILE_MODULE = 'adjod.UserProfile'
 
@@ -304,7 +304,7 @@ GEOIP_PATH = os.path.join(os.path.dirname(__file__), '../static/geoip/')
 LOGIN_ERROR_URL = '/login_error/'
 
 DJANGO_MONEY_RATES = {
-                 'DEFAULT_BACKEND': 'djmoney_rates.backends.OpenExchangeBackend',
+                'DEFAULT_BACKEND': 'djmoney_rates.backends.OpenExchangeBackend',
                 'OPENEXCHANGE_URL': 'http://openexchangerates.org/api/latest.json',
                 'OPENEXCHANGE_APP_ID': 'd4260d5caac9454996445fd14eb58591',
                 'OPENEXCHANGE_BASE_CURRENCY': 'USD',

@@ -151,7 +151,8 @@ TEMPLATE_CONTEXT_PROCESSORS += (
      'django.core.context_processors.i18n',
      'django.core.context_processors.csrf',  
      'django.core.context_processors.media',
-     'django.core.context_processors.debug',     
+     'django.core.context_processors.debug', 
+     'adjod.context_processors.global_activity',    
 )
 
 #set the Language tranlation path for accessing .po file

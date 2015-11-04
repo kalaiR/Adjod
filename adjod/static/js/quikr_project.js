@@ -98,9 +98,9 @@ $( document ).ready(function() {
       $(this).center(); 
     });
    
-    $('.count_holder1 img').each(function(){
-      $(this).center();
-    });
+    // $('.count_holder1 img').each(function(){
+    //   $(this).center();
+    // });
 
     $('.thumbs img').load(function(){
       $(this).center();     

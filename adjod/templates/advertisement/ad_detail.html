@@ -120,9 +120,9 @@
           <a href="/" class="previous_page2">Back to my search results</a>
           {% if 'ads' in path %}
           <i class="fa fa-angle-right right"></i>
-          <a href="/{{adinfo.category}}" class="previous_page1">{{adinfo.category}}</a>
+          <a href="/search/?q=" class="previous_page1">{{adinfo.category}}</a>
           <i class="fa fa-angle-right right"></i>
-          <a href="/{{adinfo.category}}/{{adinfo.subcategory}}/" class="current_page">{{adinfo.subcategory}}</a>
+          <a href="/search/?q=" class="current_page">{{adinfo.subcategory}}</a>
           {% endif %}
         </span>
       </div>
@@ -164,18 +164,18 @@
           {% else %}
           Anonymous
           {% endif %}
-          <span class="number_verify_1"><i class="fa fa-check-circle"></i> Number verified</span></p>
-          <p>{{adinfo.you_phone}}<span class="reply"><a href="" class="btn btn-default replybutton">REPLY</a></span></p>
+          <!-- <span class="number_verify_1"><i class="fa fa-check-circle"></i> Number verified</span></p>
+          <p>{{adinfo.you_phone}}<span class="reply"><a href="" class="btn btn-default replybutton">REPLY</a></span></p> -->
           </div>
-          <span>Send free SMS <i class="fa fa-caret-down caret-down"></i>
+          <!-- <span>Send free SMS <i class="fa fa-caret-down caret-down"></i>
                   <div class="login_holder">
             <form id="login_form" method="post" action="">
               Number: <input type="text" name="username" value="" size="30" />
               <br /><br />
               <input type="submit" value="send" />
               </form>
-            </div><!-- login_holder -->
-          </span>
+            </div>
+          </span> -->
         </div>
         
         <div class="description_box">
@@ -249,6 +249,8 @@
     </div>
     </div>
 
+    {% if adinfo.video|get_videos %}
+
     <div class="container">
       <iframe class="fl" width="500" height="315" src="{{adinfo.video|get_videos}}" frameborder="0" allowfullscreen></iframe>
         <div class="safety_tips fl">
@@ -259,7 +261,8 @@
           <i class="fa fa-shield shield"></i>
         </div>
         <div class="clear_both"></div>
-    </div>   
+    </div>  
+    {% endif %} 
     
 
     <div class="container recommend1">

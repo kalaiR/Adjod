@@ -46,7 +46,7 @@
 
 
   $.when( xhr_toolbar ).done(function(r1, r2, r3, r4) {
-    // localStorage.clear();
+    localStorage.clear();
     main_set_conf();
     
     main_set_theme( conf_theme_default );

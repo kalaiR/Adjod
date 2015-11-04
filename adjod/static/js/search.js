@@ -283,7 +283,7 @@ $(document).ready(function() {
         $(document).on("change", 'input.brandtype', function () {
             if ($(this).prop('checked') == true){
                 // alert($(this).val());
-                alert("true");
+                // alert("true");
                 var check = $(this).parent().parent().next('#brandsubcategoryid').val($(this).val());
                 // alert("check"+JSON.stringify(check));
                 perform_search(); 
