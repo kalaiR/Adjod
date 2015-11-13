@@ -75,9 +75,7 @@ urlpatterns = patterns('',
       form_class=ProductSearchFilter, 
       #results_per_page=settings.SEARCH_PAGE_NUMBER_OF_LEADS
     ), name='newsearchPageV2'),
-    # url(r'^search_new/$', 'adjod.views.search_new', name='search_new'),
-    # url(r'^search_new/$', 'adjod.views.search_new', name='search_new'),
-     
+    
     # Logout URL
     url(r'^logout/$', 'adjod.views.logout_view', name='logout_view'),
     

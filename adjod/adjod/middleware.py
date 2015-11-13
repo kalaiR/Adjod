@@ -28,9 +28,11 @@ class Global(object):
         if not (request.user.is_superuser or request.user.is_staff):
             if request.user.is_authenticated():
                 # self.global_language = request.user.actor.language
-                user_id=UserProfile.objects.get(user=request.user.id)
-                self.global_language = user_id.language
-                
+                try:
+                    user_id=UserProfile.objects.get(user=request.user.id)
+                    self.global_language = user_id.language
+                except:
+                    pass                
             else:
                 self.global_language = get_global_language(request)
 

@@ -63,7 +63,6 @@ def get_city(request):
     current_country_cities = City.objects.filter(country_code=country)
     return current_country_cities
     
-
 @register.filter    
 def get_current_city_from_cookie(request):   
     print "get_current_city_from_cookie"

@@ -124,9 +124,10 @@
 					<i class="fa fa-caret-down"></i>                              
 					<select class="city">                                                                 
 						<option  id="currentid" value="{{request.COOKIES.global_city_id}}">{{ request.COOKIES.city }}</option>
-                                 <!--  <span>{{city.id}}</span> -->
 		                  {% for cities in current_country_cities %}
-		                  <option value="{{cities.id}}" id="ajax_cityid">{{ cities }} </option>
+                        {% if cities.city != request.COOKIES.city %}
+                          <option value="{{cities.id}}" id="ajax_cityid">{{ cities.city }} </option>
+                        {% endif %}
 		                  {% endfor%} 
                     </select>
                      </div><!-- select -->        

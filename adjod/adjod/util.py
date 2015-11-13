@@ -6,36 +6,19 @@ import urllib2
 from django.conf import settings
 from django.contrib.gis.geoip import GeoIP
 from adjod import globals
-# from ipware.ip import get_ip
 from advertisement.models import *
+#For Currency
+from moneyed import Money
+from djmoney_rates.utils import convert_money
+from djmoney_rates.data import CURRENCIES_BY_COUNTRY_CODE
 
 def get_client_ip(request):
-    # x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    # print "x_forwarded_for", x_forwarded_for
-    # if x_forwarded_for:
-    #     ip = x_forwarded_for.split(',')[0]
-    #     print "x_forwarded_for ip", ip
-    # else:
-    #     ip = request.META.get('REMOTE_ADDR')
-    #     print "remote ip", ip
-    # return ip
-    
-    # x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    # print "x_forwarded_for", x_forwarded_for
-    # if x_forwarded_for:
-    #     ip = x_forwarded_for.split(',')[-1].strip()
-    # else:
-    #     ip = request.META.get('REMOTE_ADDR')
-    # return ip
-
-    # import ipgetter
-    # IP = ipgetter.myip()
-    # return IP 
-
     ''' This utility gets client's IP address from the request
     '''
-    print 'value==', request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', '127.0.0.1'))
-    return request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', '127.0.0.1'))
+    ip = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', '127.0.0.1'))
+    if ip.startswith('127.0.0') or ip.startswith('192.168.1'):
+        ip = '114.69.235.2'
+    return ip
 
 def get_global_language(request):
     """ This function get global language based on following assets
@@ -59,12 +42,11 @@ def get_global_language(request):
             cookies_language = url_language
        else:
             try:
-                user_ip = globals.ip
-                if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
-                    user_ip = '114.69.235.2'
-                g = GeoIP()
-                country = g.country_code(user_ip)
-                # print "country", country
+                # user_ip = globals.ip
+                # if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
+                #     user_ip = '114.69.235.2'
+                # g = GeoIP()
+                country = g.country_code(get_client_ip(request))
                 language_list = ['en','sv','de']
                 country_language_dict = {
                     'AU':'en','IN':'en','SE':'sv','DE':'de',
@@ -138,22 +120,14 @@ def get_global_country(request):
         4. brower setting
         5. default sweden
     """ 
-    user_ip = globals.ip
-    # local
-    if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
-        user_ip = '114.69.235.2'
     g = GeoIP()
-    country = g.country_code(user_ip)
+    country = g.country_code(get_client_ip(request))
     # print "country", country
     return country
 
 def get_current_country_cities(request):
-    user_ip = globals.ip
-    # local
-    if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
-        user_ip = '114.69.235.2'
     g = GeoIP()
-    country = g.country_code(user_ip)
+    country = g.country_code(get_client_ip(request))
     print "country", country   
     current_country_cities = City.objects.filter(country_code=country)
     return current_country_cities
@@ -168,24 +142,15 @@ def get_global_city(request):
         4. brower setting
         5. default sweden
     """ 
-    user_ip = globals.ip
-    print "user_ip from get_global_city in util", user_ip
-    # local
-    if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
-        user_ip = '114.69.235.2'
     g = GeoIP()
-    print '123456789', g.city(user_ip)
-    city=g.city(user_ip)['city']    
+    print '123456789', g.city(get_client_ip(request))
+    city=g.city(get_client_ip(request))['city']    
     print "city in util.py", city
     return city
 
 def get_global_city_id(request):
-    user_ip = globals.ip
-    # local
-    if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
-        user_ip = '114.69.235.2'
     g = GeoIP()
-    city=g.city(user_ip)['city']
+    city=g.city(get_client_ip(request))['city']
     print "city", city
     if not city:
         city = "Pondicherry" 
@@ -197,7 +162,7 @@ def get_global_city_id(request):
         city_model = City()
         city_model.city = city
         city_model.country_code = country
-        city_model.country_name = g.country_name(user_ip)
+        city_model.country_name = g.country_name(get_client_ip(request))
         city_model.save()
         city_id = city_model.id
     print "city_id", city_id
@@ -231,3 +196,20 @@ def format_redirect_url(redirect_path, query_string):
         query_string += k + '=' + qs[k] + '&'
         
     return redirect_path + url_join_str + query_string[:-1]
+
+#For Price Conversion
+def convert(price):
+    user_ip = globals.ip
+    # local
+    if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
+        user_ip = '114.69.235.2'
+    g = GeoIP()
+    country_id = g.country_code(user_ip)
+    print "country_id", country_id
+    for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
+        if str(key) == str(country_id):
+            isocode=value
+    current_country = isocode
+    base_currency= settings.BASE_CURRENCY
+    exchange_rate = convert_money(price,base_currency,current_country)
+    return exchange_rate
