@@ -305,27 +305,30 @@ $(document).ready(function() {
 		});
 		
 		//sort by dropdown
-     
-    
-		$(document).on('change',".prov_custom_sort_value_act", function(){
+		// $(document).on('change',".prov_custom_sort_value_act", function(){
 		        
-		var selected_option = $( ".prov_custom_sort_value_act option:selected" ).val();
+		// var selected_option = $( ".prov_custom_sort_value_act option:selected" ).val();
 		         
-		$('#prov_custom_sort_value_act').html($( ".prov_custom_sort_value_act option:selected" ).text()); 
+		// $('#prov_custom_sort_value_act').html($( ".prov_custom_sort_value_act option:selected" ).text()); 
 		         
-		$('input[type="hidden"]#sorteddata').val($(this).val());
+		// $('input[type="hidden"]#sorteddata').val($(this).val());
 		          
-		perform_search();
+		// perform_search();
 		    
-		});
+		// });
+
+        $(".prov_custom_sort_value_act").on('change', function(){         
+            var selected_option = $( ".prov_custom_sort_value_act option:selected" ).text();
+            $('#prov_custom_sort_value_act').html(selected_option);               
+            $('input[type="hidden"]#sorteddata').val($(this).val());                  
+            perform_search();           
+        });
 
 
     
 
 //price range selection
-    $('input.pricerange').on('change', function(){
-
-          
+    $('input.pricerange').on('change', function(){     
             if ($(this).prop('checked') == true){
                     var splitprice = [];
                     var splitprice = $(this).val().split("#");  

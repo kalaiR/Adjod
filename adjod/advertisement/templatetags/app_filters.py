@@ -55,6 +55,7 @@ def get_city(request):
     # local
     if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
         user_ip = '114.69.235.2'
+        # user_ip  = '219.75.27.16'
     g = GeoIP()
     country = g.country_code(user_ip)
     print "country", country   

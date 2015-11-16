@@ -18,6 +18,7 @@ def get_client_ip(request):
     ip = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', '127.0.0.1'))
     if ip.startswith('127.0.0') or ip.startswith('192.168.1'):
         ip = '114.69.235.2'
+        # ip  = '219.75.27.16'
     return ip
 
 def get_global_language(request):
@@ -198,18 +199,40 @@ def format_redirect_url(redirect_path, query_string):
     return redirect_path + url_join_str + query_string[:-1]
 
 #For Price Conversion
+# def convert(price):
+#     print "conversion"
+#     # user_ip = globals.ip
+#     # # local
+#     # if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
+#     #     user_ip = '114.69.235.2'
+#     user_ip  = '219.75.27.16'
+#     g = GeoIP()
+#     country_id = g.country_code(user_ip)
+#     print "user ip", user_ip
+#     print "country_id", country_id
+#     for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
+#         if str(key) == str(country_id):
+#             isocode=value
+#     current_country = isocode
+#     base_currency= settings.BASE_CURRENCY
+#     exchange_rate = convert_money(price,base_currency,current_country)
+#     return exchange_rate
+
 def convert(price):
+    print "conversion"
     user_ip = globals.ip
     # local
     if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
         user_ip = '114.69.235.2'
+        # user_ip  = '219.75.27.16'
     g = GeoIP()
     country_id = g.country_code(user_ip)
+    print "user ip", user_ip
     print "country_id", country_id
     for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
         if str(key) == str(country_id):
             isocode=value
     current_country = isocode
-    base_currency= settings.BASE_CURRENCY
+    base_currency= settings.CURRENCY_RATES
     exchange_rate = convert_money(price,base_currency,current_country)
     return exchange_rate

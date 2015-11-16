@@ -42,21 +42,20 @@ class ProductSearchFilter(FacetedSearchForm):
 
     price_start = forms.FloatField(required=False)
     price_end = forms.FloatField(required=False)
+    pricehigh = forms.FloatField(required=False)   
+    pricelow = forms.FloatField(required=False)
     locality    = forms.CharField(required=False)
     price       = forms.FloatField(required=False)
     category    = forms.CharField(required=False)
     brandtype   = forms.CharField(required=False)
     subcategoryid = forms.CharField(required=False)
-    sortdata = forms.CharField(required=False)
+    sorteddata = forms.CharField(required=False)
     country=forms.CharField(required=False)
     ispremium=forms.CharField(required=False)
     premium_plan_id=forms.CharField(required=False)
     # lang = forms.CharField(required=False)
-    # groupby = forms.CharField(required=False)
-    pricehigh = forms.FloatField(required=False)   
-    pricelow = forms.FloatField(required=False)
-    sorteddata = forms.CharField(required=False)
     city=forms.CharField(required=False)
+    groupby = forms.CharField(required=False)
 
 
     
@@ -67,40 +66,44 @@ class ProductSearchFilter(FacetedSearchForm):
       if hasattr(self, 'cleaned_data'):
           save_object = None
 
-          if self.cleaned_data['sortdata']:
-              if (self.cleaned_data['sortdata'] == "createddate"):
-                data = data.filter(active=1).filter(status='active').filter(available__gt=0).order_by('-created')
+          if self.cleaned_data['sorteddata']:
+              if (self.cleaned_data['sorteddata'] == "createddate"):
+                data = data.filter(status_isactive=1).order_by('created_date')
+                print "data", data
               
-              if (self.cleaned_data['sortdata'] == "modifieddate"):
-               data = data.filter(active=1).filter(status='active').filter(available__gt=0).order_by('-modified')
+              # if (self.cleaned_data['sorteddata'] == "modifieddate"):
+              #  data = data.filter(status_isactive=1).order_by('modified_date')
               
-              if (self.cleaned_data['sortdata'] == "pricelow"):
-                data = data.filter(active=1).filter(status='active').filter(available__gt=0).order_by('price')
+              if (self.cleaned_data['sorteddata'] == "pricelow"):
+                data = data.filter(status_isactive=1).order_by('price')
               
-              if (self.cleaned_data['sortdata'] == "pricehigh"):  
-                data = data.filter(active=1).filter(status='active').filter(available__gt=0).order_by('-price')
+              if (self.cleaned_data['sorteddata'] == "pricehigh"):  
+                data = data.filter(status_isactive=1).order_by('-price')
        
       return data
   
-    # def get_default_queryset(self):          
-    #     print 'get_default_queryset' 
-    #     sqs = SearchQuerySet().all()
-    #     sqs = sqs.models(Product)
-    #     return sqs.filter(active=1).filter(status='active').filter(available__gt=0).order_by('-created')
+    def get_default_queryset(self):          
+        print 'get_default_queryset' 
+        sqs = SearchQuerySet().all()
+        sqs = sqs.models(Product)
+        currentcity = Product.get_global_city()
+        return sqs.filter(status_isactive=1, city__city=currentcity).order_by('-ispremium')
 
+    # def get_default_filters(self):
+    #   print 'get_default_filters'
+    #   sqs = SearchQuerySet().all()
+    #   currentcity = Product.get_global_city()
+    #   sqs = sqs.models(Product)
+    #   currentcity_id=City.objects.get(city=currentcity)
+    #   print "currentcity_id", currentcity_id
+    #   product = sqs.filter(city=currentcity_id.id)
+    #   print "Product", product
+    #   return product
 
     def get_default_filters(self):
       print 'get_default_filters'
-      sqs = SearchQuerySet().all()
-      currentcity = Product.get_global_city()
-      sqs = sqs.models(Product)
-      currentcity_id=City.objects.get(city=currentcity)
-      print "currentcity_id", currentcity_id
-      product = sqs.filter(city=currentcity_id.id)
-      print "Product", product
-      return product
-      # return None
-
+      return None
+    
     def get_default_search_field(self):
       print 'get_default_search_field'
       return 'searchtext'
@@ -111,9 +114,40 @@ class ProductSearchFilter(FacetedSearchForm):
 
     def search(self):
       print 'searchv2'
+
+      sqs = self.get_default_queryset()
+
       if not hasattr(self, 'cleaned_data'):
         return productsearch(model_cls=self.get_model_class(), 
           default_filters=self.get_default_filters())
+
+      # if hasattr(self, 'cleaned_data'):
+      #   original_query = self.cleaned_data['q']
+      #   print 'originalquery',original_query
+
+      #   # Split by special character and space
+      #   query = re.sub(r'[^\w]', ' ', original_query,
+      #     flags=re.UNICODE).split(' ')
+      #   # print "q1", query
+
+      #   # Remove empty and special characters
+      #   query = [q for q in query \
+      #   if q and (not re.match(r'[^\w]', q, flags=re.UNICODE))]
+      #   print "q2", query
+      #   if query:
+      #     original_query = original_query.replace('/', ' ')
+      #     cleand = Clean(original_query)
+      #     print "cleaned",cleand
+      #     qs = SQ(**{search_field:cleand})
+      #     print "search_field", qs
+      #     qs = qs | SQ(**{search_field + '__startswith': cleand})
+      #     print "qs1", qs
+      #     cleand_q = ' '.join(query)
+      #     if original_query != cleand_q:
+      #       qs = qs | SQ(**{search_field:cleand_q})
+      #       print "qs", qs
+      #       sqs = sqs.filter(qs)
+      #       print sqs
         
       _params = [
         'locality',
@@ -157,28 +191,19 @@ class ProductSearchFilter(FacetedSearchForm):
         params['ispremium'] = params['ispremium']
         print "params['ispremium']", params['ispremium']
     
-      if params['pricelow']:
-        
-        params['pricelow'] = params['pricelow']
-                
+      if params['pricelow']:     
+        params['pricelow'] = params['pricelow']               
         print "params['pricelow']", params['pricelow']
         
               
-      if params['pricehigh']:
-                
-        params['pricehigh'] = params['pricehigh']
-                
+      if params['pricehigh']:           
+        params['pricehigh'] = params['pricehigh']               
         print "params['pricehigh']", params['pricehigh']
               
               
-      if params['city']:
-                
-        params['city'] = params['city']
-                
+      if params['city']:              
+        params['city'] = params['city']              
         print "params['city']", params['city']    
-
- 
-
 
       q = self.cleaned_data['q'] if 'q' in self.cleaned_data else None
       groupby = None
@@ -187,8 +212,8 @@ class ProductSearchFilter(FacetedSearchForm):
       orderby_mappings = {
         'createddate': 'created_date',
 #         'modifieddate': '-modified',
-        'pricelow': 'base_price',
-        'pricehigh': '-base_price',
+        'pricelow': 'price',
+        'pricehigh': '-price',
         'ispremium': '-ispremium',
         'premium_plan_id': 'premium_plan_id',
       }
@@ -196,10 +221,17 @@ class ProductSearchFilter(FacetedSearchForm):
       # if self.cleaned_data['groupby']:
       #   groupby = self.cleaned_data['groupby']
 
-      if self.cleaned_data['sortdata']:
-        orderby = self.cleaned_data['sortdata']
-        if orderby in orderby_mappings:
-          orderby = orderby_mappings[groupby]
+      if self.cleaned_data['sorteddata']:
+        orderby = self.cleaned_data['sorteddata']
+      
+      if orderby in orderby_mappings:
+          orderby = orderby_mappings[orderby]
+
+      if self.cleaned_data['groupby']:
+        groupby = self.cleaned_data['groupby']
+        sqs = sqs.facet(groupby)
+        print 'sqs',sqs
+        return sqs
 
       if not orderby:
         print "not orderby"

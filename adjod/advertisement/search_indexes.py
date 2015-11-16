@@ -71,11 +71,16 @@ class ProductIndex(SearchIndex, Indexable):
         return Product
     
     def index_queryset(self, **kwargs):
-        # product = Product.objects.all().order_by('-modified_date')
-#         country=Country.objects.get(code=request.COOKIES.get['country'])
-        product = Product.objects.filter(status_isactive=1)
-        # product = product.extra(order_by = ['-ispremium'])
+        # product = Product.objects.filter(status_isactive=1)
+        product = Product.objects.all()
         return product
+
+    # def index_queryset(self, **kwargs):
+    #     product = Product.objects.filter(status_isactive=1)
+    #     currentcity = Product.get_global_city()
+    #     print 'currentcity from index', currentcity
+    #     product = Product.objects.filter(status_isactive=1,city__city=currentcity).order_by('-ispremium')
+    #     return product
     
     # def index_queryset(self, **kwargs):
     #     product = Product.objects.filter(status_isactive=1)

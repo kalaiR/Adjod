@@ -24,6 +24,9 @@ default_param_mappings = OrderedDict(
   city = 'city',
   #keywords = 'keywords__in',
   # lang = 'language__in',  
+  pricehigh = '-price',
+  pricelow = 'price',
+  createddate = 'created_date',
 )
 
 default_geo_params = {
@@ -32,7 +35,7 @@ default_geo_params = {
 }
 
 default_orderby_mappings = {
-  # 'createddate': '-created',
+  'createddate': 'created_date',
   # 'modifieddate': '-modified',
   'pricelow': 'price',
   'pricehigh': '-price',
@@ -91,13 +94,13 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
     model_cls = Product
 
   if params is None:
-    params = OrderedDict([('locality', None), ('category', None), ('brandtype', None), ('price', None), ('subcategory', None), ('price_start', None), ('price_end', None),('country', None),('ispremium', None)])   
+    params = OrderedDict([('locality', None), ('category', None), ('brandtype', None), ('price', None),('pricehigh', None),('pricelow', None), ('price_start', None), ('price_end', None), ('subcategory', None),('country', None),('ispremium', None)])   
   #   params = OrderedDict([('locations', None), ('keywords', None), ('lang', ['en', 'sv', 'de']), ('category', None), ('budget_start', None), ('budget_end', None), ('deal_start', None), ('deal_end', None), ('price_start', None), ('price_end', None), ('created_start', None), ('created_end', None), ('ranking_start', None), ('ranking_end', None), ('rating_start', None), ('rating_end', None)]) 
   print "params['country']", params['country']
   print "params['ispremium']", params['ispremium']
   
   if orderby is None:
-    # orderby = 'created'  
+    # orderby = 'created_date'  
      orderby = '-ispremium'
   
   # if geo_params is None:
@@ -109,10 +112,13 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
   mappings = param_mappings or default_param_mappings
 
   sqs = SearchQuerySet().all()
+  print "sqs", sqs
   if q:
     qs = prepare_search_query(q, default_search_field)
+    print "qs", qs
     if qs:
       sqs = SearchQuerySet().filter(qs)
+      print "sqs", sqs
      
   sqs = sqs.models(model_cls)
   # sqs = sqs.filter(**default_filters)
@@ -129,10 +135,12 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
     print "sqs with params", sqs
 
   if orderby:
+    print "orderby", orderby
     sqs = sqs.order_by(orderby)
+    print "sqs", sqs
 
-  # if groupby:
-  #   sqs = sqs.facet(groupby)
+  if groupby:
+    sqs = sqs.facet(groupby)
 
   # if geo_location:
 
@@ -153,23 +161,23 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
   #   if geo_orderby:
   #     sqs = sqs.order_by('distance')
 
-  if geo_location:
+  # if geo_location:
 
-    if isinstance(geo_location, (str, unicode)):
-      country = geo_location
-    elif isinstance(geo_location, (list, tuple)):
-      country = geo_location      
-    else:
-      location = geo_location
+  #   if isinstance(geo_location, (str, unicode)):
+  #     country = geo_location
+  #   elif isinstance(geo_location, (list, tuple)):
+  #     country = geo_location      
+  #   else:
+  #     location = geo_location
 
-    if geo_params['method'] == 'bydistance':
-      radius = D(km=geo_params['radius'])
+  #   if geo_params['method'] == 'bydistance':
+  #     radius = D(km=geo_params['radius'])
       
-      sqs = sqs.dwithin('geolocation', country, radius)\
-        .distance('geolocation', country)
+  #     sqs = sqs.dwithin('geolocation', country, radius)\
+  #       .distance('geolocation', country)
 
-    if geo_orderby:
-      sqs = sqs.order_by('distance')
+  #   if geo_orderby:
+  #     sqs = sqs.order_by('distance')
 
   print "Created query", unicode(sqs.query), geo_location, geo_params
   print "Created query", sqs

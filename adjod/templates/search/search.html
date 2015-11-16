@@ -38,7 +38,31 @@
     <!-- Advance Search Form -->
 
     {%block search_results%}
-        
+         <div class="top_part">
+          <!-- <p>{{ page.number }} - {{page.paginator.num_pages}} of {{ page.object_list.count }} Results</p> -->
+          <!-- <p>{{ page.number }} of {{page.paginator.num_pages}} Results</p> -->
+          <div class="founded_no">
+          </div>
+
+          <div class="sort_part">
+              <span class="sortclass">{% trans "Sort by" %}</span>
+              <div class="choose_select sorting_custom_select">
+                          <div class="choose">
+                            <p id="prov_custom_sort_value_act">{% trans "select" %}</p>
+                            <i class="fa fa-caret-down new_icon"></i>
+                          <select class="prov_custom_sort_value_act option_color" id ="sorteddata"  name="{{form.sorteddata.html_name}}" value="{{form.sorteddata.value|default:''}}">
+                            <option value="">{% trans "None" %}</option>
+                            <!-- <option value="createddate">{% trans "Created Date" %}</option> -->
+                            <!-- <option value="onlineusers">{% trans  "online users" %}</option> -->
+                            <option value="pricelow" {% ifequal sort "Price -Low to High" %} selected {% endifequal %}>{% trans "Price Low to High" %}</option>
+                            <option value="pricehigh" {% ifequal sort "Price -High to Low" %} selected {% endifequal %}>{% trans "Price High to Low" %}</option>
+                          </select>
+                          </div> <!-- select -->
+                          <input type="hidden" id ="sorteddata" name="sorteddata" value="" />
+              </div><!-- custom_select -->
+              
+          </div> <!-- sort_part -->
+        </div> <!-- top_part -->
         <div class="left_part">
           <div class="refine_results"><h4>Refine Your Results</h4></div>               
         <div id="cssmenu">
@@ -113,28 +137,28 @@
                           <ul class="hide_list hidelist1">                            
                                <li class="list_folder">
                                <input type="checkbox" class="css-checkbox sme pricerange" name="pricerange" value ="0.0#1000.0" />
-                               <label for="checkbox1">Rs1000 &amp; Below</label>  
+                               <label for="checkbox1">{{1000|conversion}} &amp; Below</label>  
                                </li>
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="1000.0#5000.0"/>
-                                    <label for="checkbox1">Rs 1000 - Rs 5000</label>  
+                                    <label for="checkbox1">{{1000|conversion}} - {{5000|conversion}}</label>  
                                </li>
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="5000.0#15000.0"/>
-                                    <label for="checkbox1">Rs 5000 - Rs 15000</label>  
+                                    <label for="checkbox1">{{5000|conversion}} - {{15000|conversion}}</label>  
                                </li>
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="15000.0#25000.0"/>
-                                    <label for="checkbox1">Rs 15000 - Rs 25000</label>  
+                                    <label for="checkbox1">{{15000|conversion}} - {{25000|conversion}}</label>  
                                </li>
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="25000.0#50000.0"/>
-                                    <label for="checkbox1">Rs 25000 - Rs 50000</label>  
+                                    <label for="checkbox1">{{25000|conversion}} - {{50000|conversion}}</label>  
                                </li>
 
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="50000.0#1000000.0"/>
-                                    <label for="checkbox1">Rs 50000 & Above</label>  
+                                    <label for="checkbox1">{{50000|conversion}} & Above</label>  
                                </li>
                                                                   
                                <input type="hidden" id="price_start" value="" name="price_start"/>
@@ -156,34 +180,9 @@
   <img width="728" height="90" border="0" src="http://cdnx.tribalfusion.com/media/3794856.gif">
   </a>
 </div>          -->
+<p>{{ page.number }} of {{page.paginator.num_pages}} Results</p>
       <div class="right_part">
         {% if page and page.object_list %}
-        <div class="top_part">
-          <!-- <p>{{ page.number }} - {{page.paginator.num_pages}} of {{ page.object_list.count }} Results</p> -->
-          <p>{{ page.number }} of {{page.paginator.num_pages}} Results</p>
-          <div class="founded_no">
-          </div>
-
-          <div class="sort_part">
-              <span class="sortclass">{% trans "Sort by" %}</span>
-              <div class="choose_select sorting_custom_select">
-                          <div class="choose">
-                            <p id="prov_custom_sort_value_act">{% trans "select" %}</p>
-                            <i class="fa fa-caret-down new_icon"></i>
-                          </div> <!-- select -->
-                          <select class="prov_custom_sort_value_act option_color" id ="sorteddata"  name="{{form.sorteddata.html_name}}" value="{{form.sorteddata.value|default:''}}">
-                             <option value="">{% trans "none" %}</option>
-                          <option value="Createddate">{% trans "Created Date" %}</option>
-                          <option value="onlineusers">{% trans  "online users" %}</option>
-                          <option value="pricelow" {% ifequal sort "Price -Low to High" %} selected {% endifequal %}>{% trans "PriceLow to High" %}</option>
-                          <option value="pricehigh" {% ifequal sort "Price -High to Low" %} selected {% endifequal %}>{% trans "PriceHigh to Low" %}</option>
-                          </select>
-                          <input type="hidden" id ="sorteddata" name="sorteddata" value="" />
-              </div><!-- custom_select -->
-              
-          </div> <!-- sort_part -->
-        </div> <!-- top_part -->
-
         <div class="">
 
           <ul class="product1">

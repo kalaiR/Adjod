@@ -151,7 +151,8 @@ TEMPLATE_CONTEXT_PROCESSORS += (
      'django.core.context_processors.i18n',
      'django.core.context_processors.csrf',  
      'django.core.context_processors.media',
-     'django.core.context_processors.debug',     
+     'django.core.context_processors.debug', 
+     'adjod.context_processors.global_activity',    
 )
 
 #set the Language tranlation path for accessing .po file
@@ -307,7 +308,7 @@ DJANGO_MONEY_RATES = {
                 'DEFAULT_BACKEND': 'djmoney_rates.backends.OpenExchangeBackend',
                 'OPENEXCHANGE_URL': 'http://openexchangerates.org/api/latest.json',
                 'OPENEXCHANGE_APP_ID': 'd4260d5caac9454996445fd14eb58591',
-                'OPENEXCHANGE_BASE_CURRENCY': 'USD',
+                'OPENEXCHANGE_BASE_CURRENCY': 'SGD',
 }
 
-BASE_CURRENCY = 'USD'
+BASE_CURRENCY = 'SGD'

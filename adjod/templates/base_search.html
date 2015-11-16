@@ -119,18 +119,18 @@
             <ul class="nav navbar-nav navbar-right">
               <li>   
               	<div class="custom_select language_custom_select">             
-					<div class="select">
-					<p id="cityselected">{{ request.COOKIES.city }}</p>                           
-					<i class="fa fa-caret-down"></i>                              
-					<select class="city">                                                                 
-						<option  id="currentid" value="{{request.COOKIES.global_city_id}}">{{ request.COOKIES.city }}</option>
-		                  {% for cities in current_country_cities %}
-                        {% if cities.city != request.COOKIES.city %}
-                          <option value="{{cities.id}}" id="ajax_cityid">{{ cities.city }} </option>
-                        {% endif %}
-		                  {% endfor%} 
-                    </select>
-                     </div><!-- select -->        
+        					<div class="select">
+        					<p id="cityselected">{{ request.COOKIES.city }}</p>                           
+        					<i class="fa fa-caret-down"></i>                              
+        					<select class="city">                                                                 
+        						<option  id="currentid" value="{{request.COOKIES.global_city_id}}">{{ request.COOKIES.city }}</option>
+	                  {% for cities in current_country_cities %}
+                      {% if cities.city != request.COOKIES.city %}
+                        <option value="{{cities.id}}" id="ajax_cityid">{{ cities.city }} </option>
+                      {% endif %}
+	                  {% endfor%} 
+                  </select>
+                   </div><!-- select -->        
                  </div><!-- custom_select -->    
               </li>
               <li>

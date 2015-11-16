@@ -231,8 +231,7 @@ def register(request):
             user.backend='django.contrib.auth.backends.ModelBackend'
             login(request, user)
             return HttpResponseRedirect('/start/?user_id=' + str(user.id)) 
-
-     
+    
 def send_registration_confirmation(user):
     p = user.get_profile()
     title = "Adjod account confirmation"
