@@ -1,8 +1,8 @@
 # coding: utf-8 
 # -*- coding: utf-8 -*-
 from django.shortcuts import redirect
-from haystack.views import SearchView
-#from search.searchsites import SearchView
+# from haystack.views import SearchView
+from search.searchsites import SearchView
 # from fixido.util import get_global_language
 from advertisement.models import *
 

@@ -4,3 +4,4 @@
 {{ object.price }}
 {{ object.subcategoryid }}
 {{ object.brandtype }}
+{{ object.city}}

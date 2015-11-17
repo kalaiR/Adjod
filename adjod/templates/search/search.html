@@ -1,4 +1,4 @@
-{% extends request.is_ajax|yesno:"base_ajax.html,base_search.html" %}
+{% extends request.is_ajax|yesno:"base_ajax.html,base.html" %}
 {%if not request.is_ajax%}
 {% load i18n %}
   {%block page_swap%}   
@@ -43,7 +43,11 @@
           <!-- <p>{{ page.number }} of {{page.paginator.num_pages}} Results</p> -->
           <div class="founded_no">
           </div>
-
+          <div id="richmedia_6">
+              <a href="http://a.tribalfusion.com/h.click/agmP8qpTB45FM5VrfZaW671Pqf0QV3pStZbM1WZbxVPbw3Vv1XUUDUmPq5mQ9P6MC2HBq1HQAndEn5PvQ3sUeTGQ8WcngR6FmTWFRWrjP3F2oVa7tTT39QTrZaQVZbCQUiwRHY7UVv55Fquodyq0qmp2HbGSGbA26rEptiyTtZb6XFbcYUF6XqarPbJstnXsdv/http://download.mywebface.com/index.jhtml?partner=GRxdm059&amp;offer_id=869&amp;a=302&amp;oc=1204&amp;c=3440&amp;dm=1&amp;s1=225556&amp;s2=&amp;s3=&amp;s4=&amp;s5=" target="_blank">
+              <img width="728" height="90" border="0" src="http://cdnx.tribalfusion.com/media/3794856.gif">
+              </a>
+         </div> 
           <div class="sort_part">
               <span class="sortclass">{% trans "Sort by" %}</span>
               <div class="choose_select sorting_custom_select">
@@ -51,6 +55,7 @@
                             <p id="prov_custom_sort_value_act">{% trans "select" %}</p>
                             <i class="fa fa-caret-down new_icon"></i>
                           <select class="prov_custom_sort_value_act option_color" id ="sorteddata"  name="{{form.sorteddata.html_name}}" value="{{form.sorteddata.value|default:''}}">
+                            <option value="">{% trans "select" %}</option>
                             <option value="">{% trans "None" %}</option>
                             <!-- <option value="createddate">{% trans "Created Date" %}</option> -->
                             <!-- <option value="onlineusers">{% trans  "online users" %}</option> -->
@@ -174,26 +179,16 @@
 {%endif%}
 
 {%block search_results1%}
-<div class="fl filter_result_wrapper" id="search_result" style="position:relative;">   
-<!-- <div id="richmedia_6">
-  <a href="http://a.tribalfusion.com/h.click/agmP8qpTB45FM5VrfZaW671Pqf0QV3pStZbM1WZbxVPbw3Vv1XUUDUmPq5mQ9P6MC2HBq1HQAndEn5PvQ3sUeTGQ8WcngR6FmTWFRWrjP3F2oVa7tTT39QTrZaQVZbCQUiwRHY7UVv55Fquodyq0qmp2HbGSGbA26rEptiyTtZb6XFbcYUF6XqarPbJstnXsdv/http://download.mywebface.com/index.jhtml?partner=GRxdm059&amp;offer_id=869&amp;a=302&amp;oc=1204&amp;c=3440&amp;dm=1&amp;s1=225556&amp;s2=&amp;s3=&amp;s4=&amp;s5=" target="_blank">
-  <img width="728" height="90" border="0" src="http://cdnx.tribalfusion.com/media/3794856.gif">
-  </a>
-</div>          -->
+<div class="fl filter_result_wrapper" id="search_result" style="position:relative;">           
 <p>{{ page.number }} of {{page.paginator.num_pages}} Results</p>
       <div class="right_part">
         {% if page and page.object_list %}
-        <div class="">
-
           <ul class="product1">
               {% for product in page.object_list %}
               {% if product.object %}
                 <li class="product_list1">
                 <div class="product_images1 bg-img">
-                    
                      <p class="{% if product.object.premium_plan_id = 1 %} premium-img1 {% elif product.object.premium_plan_id = 2 %} premium-img2 {% elif product.object.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>   
-                    
-                    
                     {% if product.object.photos = '' %}
                     <a href="{% url product_detail product.object.id %}">
                     <img src="/static/img/bg-img1.png">  
@@ -238,15 +233,15 @@
                 </li>
                 {% if forloop.counter == 5 %}
                 <li>
-                  <!-- <div id="richmedia_6">
+                  <div id="richmedia_6">
                    <script src="http://a.tribalfusion.com/j.ad?flashVer=0&amp;ver=1.27&amp;th=12052180711&amp;tagKey=2429344267&amp;site=faadooengineerscom&amp;adSpace=ros&amp;center=1&amp;size=728x90&amp;env=display&amp;url=http%3A%2F%2Fwww.faadooengineers.com%2Fthreads%2F2771-PHP-programming-Basic-Study-material&amp;rurl=http%3A%2F%2Fwww.google.co.in%2Furl%3Fsa%3Dt%26rct%3Dj%26q%3D%26esrc%3Ds%26source%3Dweb%26cd%3D3%26cad%3Drja%26uact%3D8%26ved%3D0CDQQFjAC%26url%3Dhttp%253A%252F%252Fwww.faadooengineers.com%252Fthreads%252F2771-PHP-programming-Basic-Study-material%26ei%3Div6EVZ7JAYeRuAS05bCAAQ%26usg%3DAFQjCNGrmM3sWndZwp4irdeANs6R_OFnNA&amp;f=0&amp;p=4891703&amp;a=5&amp;adContainerId=richmedia_6&amp;rnd=4894557" type="text/javascript"></script>
-                </div>          -->
+                </div>         
                 </li>
                 {% endif %}
             {%endif%}
             {% endfor %}
           </ul>
-        </div>
+        
         <div class="bottom_part">
            <p>{{ page.number }} of {{page.paginator.num_pages}} Results</p>
           <div class="pagination" id="pagination_filter">

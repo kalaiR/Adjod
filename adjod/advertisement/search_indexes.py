@@ -29,7 +29,7 @@ class ProductIndex(SearchIndex, Indexable):
     modified_date = DateTimeField(model_attr='modified_date') 
     # geolocation = LocationField(model_attr='get_geolocation', null=True)
 #     city = CharField(null=True, faceted=True)
-    # city = CharField(model_attr='city__id')
+    city = CharField(model_attr='city__id')
     # country= CharField(model_attr='country__id')
     # country=CharField(model_attr='country__id') 
     ispremium=CharField(model_attr='ispremium') 

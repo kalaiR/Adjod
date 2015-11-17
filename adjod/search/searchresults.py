@@ -94,7 +94,7 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
     model_cls = Product
 
   if params is None:
-    params = OrderedDict([('locality', None), ('category', None), ('brandtype', None), ('price', None),('pricehigh', None),('pricelow', None), ('price_start', None), ('price_end', None), ('subcategory', None),('country', None),('ispremium', None)])   
+    params = OrderedDict([('locality', None), ('category', None), ('brandtype', None), ('price', None),('pricehigh', None),('pricelow', None), ('price_start', None), ('price_end', None), ('subcategory', None),('city', None),('country', None),('ispremium', None)])   
   #   params = OrderedDict([('locations', None), ('keywords', None), ('lang', ['en', 'sv', 'de']), ('category', None), ('budget_start', None), ('budget_end', None), ('deal_start', None), ('deal_end', None), ('price_start', None), ('price_end', None), ('created_start', None), ('created_end', None), ('ranking_start', None), ('ranking_end', None), ('rating_start', None), ('rating_end', None)]) 
   print "params['country']", params['country']
   print "params['ispremium']", params['ispremium']

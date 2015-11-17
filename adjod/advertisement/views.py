@@ -287,14 +287,14 @@ def product_save(request):
         product.you_name = request.POST.get('your_name', '')
         product.you_phone = request.POST.get('your_mobile_no', '')
     
-        # product.city=City.objects.get(id=request.POST['your_city'])
+        product.city=City.objects.get(id=request.POST['your_city'])
         # product.locality=Locality.objects.get(id=request.POST['your_locality'])
     
         # product.photos=request.FILES['photos']
         
         #photos
         product.photos =request.FILES.getlist('photos[]')
-        # print product.photos       
+        print product.photos       
         
         def handle_uploaded_file(f):
             # product.photos = open('/static/img/photos/%s' % f.name, 'wb+')
