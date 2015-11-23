@@ -217,7 +217,6 @@ def handle_uploaded_file(f, path):
 
 def product_save(request):
     print "product_save"   
-    success=False
     product=Product()
     
     def post_product_save():
@@ -248,7 +247,7 @@ def product_save(request):
         product.you_name = request.POST.get('your_name', '')
         product.you_phone = request.POST.get('your_mobile_no', '')
         product.city=City.objects.get(id=request.POST['your_city'])
-        # product.locality=Locality.objects.get(id=request.POST['your_locality'])
+        product.locality=Locality.objects.get(id=request.POST['your_locality'])
         # product.photos=request.FILES['photos']
         
         #photos
