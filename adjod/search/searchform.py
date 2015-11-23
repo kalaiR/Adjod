@@ -10,6 +10,7 @@ from haystack.query import SearchQuerySet
 from haystack.inputs import Clean, Raw, AutoQuery, Exact
 from haystack.query import SQ
 from advertisement.models import Product
+from adjod.util import *
 
 class Partial(Clean):
     input_type_name = 'partial'
@@ -35,11 +36,6 @@ class ProductSearchFilter(FacetedSearchForm):
     #Code included by Ramu
     model = None
 
-    # def __init__ (self,request=None, using=None):
-    #     from models import Lead
-    #     self.model= Lead#kwargs.pop('models')        
-    #     super(LeadSearchFilter,self).__init__(request, using=using, **kwargs)
-
     price_start = forms.FloatField(required=False)
     price_end = forms.FloatField(required=False)
     pricehigh = forms.FloatField(required=False)   
@@ -56,9 +52,7 @@ class ProductSearchFilter(FacetedSearchForm):
     # lang = forms.CharField(required=False)
     city=forms.CharField(required=False)
     groupby = forms.CharField(required=False)
-
-
-    
+   
     def no_query_found(self):
       print 'no_query_found'  
       data = self.searchqueryset.all()  
@@ -82,11 +76,11 @@ class ProductSearchFilter(FacetedSearchForm):
        
       return data
   
-    def get_default_queryset(self):          
+    def get_default_queryset(self, request):          
         print 'get_default_queryset' 
         sqs = SearchQuerySet().all()
         sqs = sqs.models(Product)
-        currentcity = Product.get_global_city()
+        currentcity = get_global_city(request)
         return sqs.filter(status_isactive=1, city__city=currentcity).order_by('-ispremium')
 
     # def get_default_filters(self):
@@ -112,42 +106,14 @@ class ProductSearchFilter(FacetedSearchForm):
       print 'get_model_class'
       return Product
 
-    def search(self):
+    def search(self, request):
       print 'searchv2'
 
-      sqs = self.get_default_queryset()
+      sqs = self.get_default_queryset(request)
 
       if not hasattr(self, 'cleaned_data'):
         return productsearch(model_cls=self.get_model_class(), 
           default_filters=self.get_default_filters())
-
-      # if hasattr(self, 'cleaned_data'):
-      #   original_query = self.cleaned_data['q']
-      #   print 'originalquery',original_query
-
-      #   # Split by special character and space
-      #   query = re.sub(r'[^\w]', ' ', original_query,
-      #     flags=re.UNICODE).split(' ')
-      #   # print "q1", query
-
-      #   # Remove empty and special characters
-      #   query = [q for q in query \
-      #   if q and (not re.match(r'[^\w]', q, flags=re.UNICODE))]
-      #   print "q2", query
-      #   if query:
-      #     original_query = original_query.replace('/', ' ')
-      #     cleand = Clean(original_query)
-      #     print "cleaned",cleand
-      #     qs = SQ(**{search_field:cleand})
-      #     print "search_field", qs
-      #     qs = qs | SQ(**{search_field + '__startswith': cleand})
-      #     print "qs1", qs
-      #     cleand_q = ' '.join(query)
-      #     if original_query != cleand_q:
-      #       qs = qs | SQ(**{search_field:cleand_q})
-      #       print "qs", qs
-      #       sqs = sqs.filter(qs)
-      #       print sqs
         
       _params = [
         'locality',
@@ -174,15 +140,6 @@ class ProductSearchFilter(FacetedSearchForm):
         else:
           params[p] =  None
 
-      # if params['lang']:
-      #   if params['lang'] == 'en':
-      #     params['lang'] = 'en,sv'
-
-      #   params['lang'] = params['lang'].split(',')
-
-      # if params['keywords']:
-      #   params['keywords'] = params['keywords'].split(',')
-
       if params['country']:
         params['country'] = params['country']
         print "params['country']", params['country']
@@ -198,8 +155,7 @@ class ProductSearchFilter(FacetedSearchForm):
               
       if params['pricehigh']:           
         params['pricehigh'] = params['pricehigh']               
-        print "params['pricehigh']", params['pricehigh']
-              
+        print "params['pricehigh']", params['pricehigh']          
               
       if params['city']:              
         params['city'] = params['city']              

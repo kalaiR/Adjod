@@ -104,14 +104,13 @@ def view_that_asks_for_money(request):
 #Home page defintion    
 @csrf_exempt
 def home(request):
+    ctx = {}
     if request.user.is_superuser:
         logout(request)
-        return HttpResponseRedirect('/')
-    current_country_cities = get_current_country_cities(request)
-    ctx={'current_country_cities':current_country_cities}   
+        return HttpResponseRedirect('/')  
     if request.user.is_authenticated():
         userprofile=UserProfile.objects.get(user=request.user.id)
-        ctx={'current_country_cities':current_country_cities,'userprofile':userprofile}
+        ctx={'userprofile':userprofile}
     return render_to_response('adjod/userpage.html', ctx , context_instance=RequestContext(request)) 
 
 @csrf_protect 
@@ -267,7 +266,6 @@ def confirm(request, confirmation_code, username):
     
 def start(request):
     user=UserProfile.objects.get(user=request.user.id)
-    current_country_cities = get_current_country_cities(request)
     #Chat Store Active users
     last_active = None
     try:
@@ -277,7 +275,7 @@ def start(request):
     last_active.save()
     if request.user.is_authenticated:
         userprofile=UserProfile.objects.get(user=request.user.id)
-    return render_to_response('adjod/userpage.html',{'userprofile':userprofile, 'current_country_cities':current_country_cities},context_instance=RequestContext(request))
+    return render_to_response('adjod/userpage.html',{'userprofile':userprofile},context_instance=RequestContext(request))
 
 # /*  Auto Complete for Category based Brands */
 def autocomplete_keyword(request):     
@@ -323,7 +321,6 @@ def autocomplete_brandlist(request):
     # if subCatId
     #     lead_keywords = Category.objects.filter(name__istartswith=keyterm)   
     # else
-
     lead_keywords = Dropdown.objects.filter(name__istartswith=keyterm) 
     for lead_keyword in lead_keywords:      
       keyword_strip = lead_keyword.name.strip()
@@ -335,19 +332,8 @@ def autocomplete_brandlist(request):
   return HttpResponse(simplejson.dumps(results), mimetype='application/json')
 
 #function for Chat
-def chat(request):
-    return render_to_response('chat_index.html', context_instance=RequestContext(request))
-
-def dialog_login(request):
-    return render_to_response('views/dialog-login.html', context_instance=RequestContext(request))   
-    
+# def chat(request):
+#     return render_to_response('chat_index.html', context_instance=RequestContext(request))    
 def toolbar(request):
     return render_to_response('views/toolbar.html', context_instance=RequestContext(request))    
-
-def main_chat(request):
-    return render_to_response('views/main-chat.html', context_instance=RequestContext(request))    
-
-def options(request):
-    return render_to_response('views/options.html', context_instance=RequestContext(request))     
-
 

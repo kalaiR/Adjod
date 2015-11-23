@@ -4,7 +4,7 @@ io       = require('socket.io').listen(server),
 crypto   = require('crypto'),
 users = {}, socks = {};
 
-// var mysql = require('mysql');
+var mysql = require('mysql');
 // var connection = mysql.createConnection({
 //   host     : 'localhost',
 //   user     : 'root',

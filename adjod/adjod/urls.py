@@ -79,10 +79,6 @@ urlpatterns = patterns('',
     # Logout URL
     url(r'^logout/$', 'adjod.views.logout_view', name='logout_view'),
     
-    # For view Front end design of detail page and post form page
-    url(r'^v2/postad/$', 'advertisement.views.post_ad_v2', name='post_ad_v2'),
-    url(r'^v3/addetail/$', 'advertisement.views.ad_detail_v3', name='ad_detail_v3'),
-    
     # Find Subcategory when ajax call
     url(r'^subcategory_for_category/$', 'advertisement.views.subcategory_for_category',name='subcategory'),
     
@@ -98,7 +94,6 @@ urlpatterns = patterns('',
 
     # save free alert url
     url(r'^create_free_alert/$', 'advertisement.views.freealert_save',name='free_alert'),
-    url(r'^freealert/$', 'advertisement.views.freealert',name='freealert'),
 
     # expired_ad_conformation
     url(r'^expired_ad_conformation/$', 'advertisement.views.expired_ad_conformation',name='expired_ad_conformation'),
@@ -109,11 +104,8 @@ urlpatterns = patterns('',
     url(r'^post/$', 'chat.views.post'),
 
     #Node.js chat
-    url(r'^chat/$', 'adjod.views.chat'),
-    url(r'^dialog_login/$', 'adjod.views.dialog_login'),
+    # url(r'^chat/$', 'adjod.views.chat'),
     url(r'^toolbar/$', 'adjod.views.toolbar'),
-    url(r'^main_chat/$', 'adjod.views.main_chat'),
-    url(r'^options/$', 'adjod.views.options'),
     url(r'^store_user_active_list/$', 'chat.views.store_user_active_list'),
 
     url(r'^store_chat_record/$', 'chat.views.store_chat_record'),
@@ -134,9 +126,5 @@ urlpatterns = patterns('',
     url(r'^(?i)user/password/done/$', 
         'django.contrib.auth.views.password_reset_complete'),
 
-    # url(r'^(?i)login_error/$', 'adjod.views.login_error', name='login-error'),
-
     url(r'^get_user_products/$', 'advertisement.views.get_user_products',name='get_user_products'),
-
-
 )

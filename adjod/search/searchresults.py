@@ -56,14 +56,6 @@ def tokenize(query, double_check=True):
   tokens = tokenizer_regex.split(query)
   return [q.strip() for q in tokens if q]
 
-  # tokens = re.sub(tokenizer_regex, ' ', query, 
-  #     flags=re.UNICODE).split(' ')
-  # if double_check:
-  #   tokens = [q for q in tokens \
-  #     if q and (not re.match(tokenizer_regex, q, flags=re.UNICODE))]
-
-  # return tokens
-
 def prepare_search_query(query, search_field='searchtext'):
   print "prepare_search_query", search_field
   query = query or ''
@@ -102,12 +94,6 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
   if orderby is None:
     # orderby = 'created_date'  
      orderby = '-ispremium'
-  
-  # if geo_params is None:
-  #   geo_params = default_geo_params
-
-  # if default_filters is None:
-  #   default_filters = default_lead_filters
 
   mappings = param_mappings or default_param_mappings
 
@@ -141,43 +127,6 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
 
   if groupby:
     sqs = sqs.facet(groupby)
-
-  # if geo_location:
-
-  #   if isinstance(geo_location, (str, unicode)):
-  #     location = geo_location.split(',')
-  #     location = Point(float(location[0]), float(location[1]))
-  #   elif isinstance(geo_location, (list, tuple)):
-  #     location = Point(float(geo_location[0]), float(geo_location[1]))      
-  #   else:
-  #     location = geo_location
-
-  #   if geo_params['method'] == 'bydistance':
-  #     radius = D(km=geo_params['radius'])
-      
-  #     sqs = sqs.dwithin('geolocation', location, radius)\
-  #       .distance('geolocation', location)
-
-  #   if geo_orderby:
-  #     sqs = sqs.order_by('distance')
-
-  # if geo_location:
-
-  #   if isinstance(geo_location, (str, unicode)):
-  #     country = geo_location
-  #   elif isinstance(geo_location, (list, tuple)):
-  #     country = geo_location      
-  #   else:
-  #     location = geo_location
-
-  #   if geo_params['method'] == 'bydistance':
-  #     radius = D(km=geo_params['radius'])
-      
-  #     sqs = sqs.dwithin('geolocation', country, radius)\
-  #       .distance('geolocation', country)
-
-  #   if geo_orderby:
-  #     sqs = sqs.order_by('distance')
 
   print "Created query", unicode(sqs.query), geo_location, geo_params
   print "Created query", sqs

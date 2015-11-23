@@ -334,7 +334,7 @@ class SearchView(object):
 
         self.form = self.build_form()
         self.query = self.get_query()
-        self.results = self.get_results()
+        self.results = self.get_results(request)
 
         return self.create_response()
 
@@ -372,14 +372,14 @@ class SearchView(object):
 
         return ''
 
-    def get_results(self):
+    def get_results(self,request):
         print 'get_results'    
         """
         Fetches the results via the form.
 
         Returns an empty list if there's no query to search with.
         """
-        return self.form.search()
+        return self.form.search(request)
 
     def build_page(self):
         print 'build_page' 

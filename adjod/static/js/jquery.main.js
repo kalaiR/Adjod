@@ -36,10 +36,6 @@
     $( "body" ).append( toolbar );
   });
   
-  // var xhr_mchat = $.get( "/main_chat/", function( main_chat ) {
-  //   $( "body" ).append( main_chat );
-  // });
-
   var previous_chat_record;
 
   // alert(window.location.pathname);

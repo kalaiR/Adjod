@@ -75,18 +75,4 @@ class ProductIndex(SearchIndex, Indexable):
         product = Product.objects.all()
         return product
 
-    # def index_queryset(self, **kwargs):
-    #     product = Product.objects.filter(status_isactive=1)
-    #     currentcity = Product.get_global_city()
-    #     print 'currentcity from index', currentcity
-    #     product = Product.objects.filter(status_isactive=1,city__city=currentcity).order_by('-ispremium')
-    #     return product
-    
-    # def index_queryset(self, **kwargs):
-    #     product = Product.objects.filter(status_isactive=1)
-    #     currentcity = Product.get_global_city()
-    #     # print 'currentcity from index', currentcity
-    #     product = Product.objects.filter(status_isactive=1,city__city=currentcity).order_by('-ispremium')
-    #     return product
-
 # register_model_for_search(Product, ProductIndex)

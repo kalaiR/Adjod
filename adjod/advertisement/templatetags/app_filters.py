@@ -9,7 +9,6 @@ register = template.Library()
 @register.filter
 def get_photos(photo): 
     photo=str(photo).split(',')
-    # print "get_photos"
     return photo[0]
 
 @register.filter
@@ -35,7 +34,6 @@ def get_subcategoriesCount(subCategoryId):
 
 @register.filter
 def get_brandforsubcategory(subCategoryId):  	
-	# brandforsubcategory = Dropdown.objects.filter(subcat_refid=subCategoryId).exclude(brand_name='')
 	brandforsubcategory = Dropdown.objects.filter(subcat__id=subCategoryId).exclude(brand_name='')
 	return brandforsubcategory	
 
@@ -49,25 +47,5 @@ def conversion(price):
     # return 1
 	return convert(price)
 
-@register.filter
-def get_city(request):    
-    user_ip = globals.ip
-    # local
-    if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
-        user_ip = '114.69.235.2'
-        # user_ip  = '219.75.27.16'
-    g = GeoIP()
-    country = g.country_code(user_ip)
-    print "country", country   
-    current_city = get_global_city(request)
-    print "current_city", current_city
-    current_country_cities = City.objects.filter(country_code=country)
-    return current_country_cities
-    
-@register.filter    
-def get_current_city_from_cookie(request):   
-    print "get_current_city_from_cookie"
-    result = get_global_city(request)        
-    return result
 
 

@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, user-scalable=no">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="">   
     <link rel="shortcut icon" href="">
     <link href="{% static "css/font-awesome.css" %}" rel="stylesheet">
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
@@ -18,41 +18,47 @@
     <link href="{% static "css/jquery.ui.chatbox.css" %}" rel="stylesheet">
     <link href="{% static "css/simpleFilePreview.css" %}" rel="stylesheet">
     <link href="{% static "css/intlTelInput.css" %}" rel="stylesheet">
+    <!-- <script src="{% static "js/jquery-1.9.1.js" %}"></script> 
+    <script src="{% static "js/jquery-ui.min.js" %}"></script> --> 
+    <script src="{% static "js/jquery-1.11.3.min.js" %}"></script>
+    <script src="{% static "js/jquery-migrate-1.2.1.js" %}"></script> 
+    <script src="{% static "js/jquery-ui-1.10.4.custom.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>    
+    <script src="{% static "js/jquery.ui.chatbox.js" %}"></script> 
+    <script src="{% static "js/jquery.ui.slider.js" %}"></script>
+    <script src="{% static "js/jquery.switchButton.js" %}"></script>
+    <script src="{% static "js/html5shiv.js" %}"></script>
+    <script src="{% static "js/less.js" %}"></script>
+    <script src="{% static "js/action.js" %}"></script> 
+    <script src="{% static "js/search.js" %}"></script>
     <link href="{% static "AdminLTE/dist/css/AdminLTE.css" %}" rel="stylesheet" type="text/css" />
     <link id='theme' rel='stylesheet' />
     <link rel='stylesheet' href="{% static "css/tipsy.css" %}" />
     <link rel='stylesheet' href="{% static "css/chat.css" %}" />
-    <script src="{% static "js/jquery-1.9.1.js" %}"></script> 
-    <!--<script src="{% static "js/jquery-migrate-1.2.1.js" %}"></script> -->
-    <script src="{% static "js/bootstrap.min.js" %}"></script>    
-    <script src="{% static "js/jquery-ui.min.js" %}"></script>
-    <!--<script src="{% static "js/jquery.ui.slider.js" %}"></script> -->
-    <script src="{% static "js/jquery.switchButton.js" %}"></script>
-    <script src="{% static "js/html5shiv.js" %}"></script>
-    <script src="{% static "js/less.js" %}"></script>
-    <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
     <script src="{% static "js/jquery.cookie.js" %}"></script>
     <script src='http://localhost:<port>/socket.io/socket.io.js'></script>
     <script src="{% static "js/socket.io.js" %}"></script>
     <script src="{% static "js/jquery.slimscroll.min.js" %}"></script>
-    <!--<script src="{% static "js/jquery.tipsy.js" %}"></script> -->
+    <script src="{% static "js/jquery.tipsy.js" %}"></script>
     <script src="{% static "js/jquery.main.js" %}"></script>
     <script src="{% static "js/config.js" %}"></script>
-    <script src="{% static "js/i18n_en.js" %}"></script> 
-    <script src="{% static "js/quikr_project.js" %}"></script>    
+    <script src="{% static "js/i18n_en.js" %}"></script>     
+    <script src="{% static "js/quikr_project.js" %}"></script>      
+    <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script> 
-    <script src="{% static "js/intlTelInput.min.js" %}"></script>
-    <script src="{% static "js/search.js" %}"></script> 
+    <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
+    <script src="{% static "js/jquery.fileupload.js" %}"></script>
+    <script src="{% static "js/intlTelInput.min.js" %}"></script> 
     <script type="text/javascript">
-      function updateCountdownTitle() {
+    function updateCountdownTitle() {
         var remaining = 70 - $('.ad_title').val().length;
         $('#ad_title_count').text(remaining);
-      }
-      function updateCountdownDesc() {
-          var remaining = 500 - $('#your_description').val().length;
-          $('#desc_count').text(remaining);
-      }
-    </script>
+    }
+    function updateCountdownDesc() {
+        var remaining = 500 - $('#your_description').val().length;
+        $('#desc_count').text(remaining);
+    }
+    </script>   
 </head>
 <body>
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/nkAydfUqi1s" frameborder="0" allowfullscreen></iframe> -->
@@ -136,7 +142,7 @@
       </div><!-- container -->
     </div><!-- top_header -->
 
-    {%  if path == '/' %}
+    {%  if path == '/' or 'start' in path  or 'categories' in path %}
     <div class="header_search">
       <div class="container quikr_logo">
         <a href="/"><code></code></a>
@@ -161,7 +167,7 @@
     </div> <!-- header_first_line -->
     {% endif %}
 
-    {%  if 'search' in path or 'postad' in path %}
+    {%  if 'search' in path  or 'postad' in path  or 'ads' in path %}
        <div class="search_part">
           <div class="container logo_part">
              <a href="/"><code></code></a>
@@ -178,23 +184,30 @@
                       <a href="{% url product_form %}" class="btn btn-lg post-button">Post free Ad</a>
                       <a href="/" class="btn btn-lg alert-button">Create free alert</a>
                 </form> <!-- info_form -->       
-          </div> <!-- container logo_part -->   
+          </div> <!-- container logo_part --> 
+          {%  if 'postad' in path %} 
+            <div class="container">
+              <div class="post_ad_first">Post an Ad in just 30 seconds</div>
+                <div class="post_ad_second">DO NOT post multiple ads for the same items or service. All duplicate, spam and wrongly categorized ads will be deleted.</div>
+            </div> 
+          {% endif %}
       </div> <!-- search_part -->
+      {%  if 'search' in path  or 'ads' in path %} 
       <div class="page_swap">
         <div class="container page_back">
           {%block page_swap%}
           {%endblock%}
       </div>
-    </div>
-    <hr>
+      </div>
+      <hr class="photos_line" noshade="noshade">
+      {% endif %}
     {% endif %}
 
-    {% if path == '/' %}
-    <div class="{% if path == '/' %}container second_part{% else %}{% endif %}">     
-      {% block content %} {% endblock %}     
+    <div class="container second_part">     
+      {% block content %} 
+      {% endblock %}     
     </div> <!-- container second part -->
-    {% endif %}
-
+  
     {% if 'search' in path %}
     <div class="container center">
       {%block search_results%}
