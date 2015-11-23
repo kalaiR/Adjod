@@ -308,7 +308,9 @@ DJANGO_MONEY_RATES = {
                 'DEFAULT_BACKEND': 'djmoney_rates.backends.OpenExchangeBackend',
                 'OPENEXCHANGE_URL': 'http://openexchangerates.org/api/latest.json',
                 'OPENEXCHANGE_APP_ID': 'd4260d5caac9454996445fd14eb58591',
-                'OPENEXCHANGE_BASE_CURRENCY': 'SGD',
+                'OPENEXCHANGE_BASE_CURRENCY': 'USD',
 }
+
+CURRENCY_RATES = 'USD'
 
 BASE_CURRENCY = 'SGD'
