@@ -8,11 +8,8 @@ from django.contrib.auth.tokens import default_token_generator
 
 #Project apps functionalities
 from advertisement.models import *
-from advertisement.forms import *
-from adjod.forms import *
 from adjod.models import *
 from advertisement.views import *
-from advertisement.forms import ProductSearchForm
 from banner.models import *
 from djpjax import pjax
 

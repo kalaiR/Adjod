@@ -18,7 +18,6 @@ from django.utils.translation import ugettext, string_concat
 from django.core.urlresolvers import reverse
 
 #calling local apps such as models, forms, etc..
-from adjod.forms import UserForm
 from django import forms
 from advertisement.models import *
 from banner.models import *

@@ -3,7 +3,6 @@ from django.conf.urls import patterns, include, url
 from adjod.views import *
 from advertisement.views import *
 from search.views import *
-from advertisement.forms import *
 from django.contrib import admin
 from advertisement.models import Product
 # from haystack.views import SearchView, FacetedSearchView
