@@ -49,7 +49,7 @@ from django.utils import simplejson
 import simplejson as json
 from django.core.exceptions import ValidationError
 from django.contrib import messages
-from adjod.util import format_redirect_url
+from adjod.util import *
 
 # A couple of request objects - one PJAX, one not.
 rf = RequestFactory()
@@ -214,7 +214,6 @@ def handle_uploaded_file(f, path):
 
 def product_save(request):
     print "product_save"   
-    success=False
     product=Product()
     
     def post_product_save():
@@ -243,9 +242,11 @@ def product_save(request):
         product.description=request.POST.get('description','')
         product.you_are = request.POST.get('you_are_radio', '')
         product.you_name = request.POST.get('your_name', '')
+        product.you_email = request.POST.get('your_email', '')
         product.you_phone = request.POST.get('your_mobile_no', '')
         product.city=City.objects.get(id=request.POST['your_city'])
-        # product.locality=Locality.objects.get(id=request.POST['your_locality'])
+        product.locality=Locality.objects.get(id=request.POST['your_locality'])
+        product.country_code =get_global_country(request)
         # product.photos=request.FILES['photos']
         
         #photos
