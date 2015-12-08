@@ -47,7 +47,9 @@ def global_activity(request):
 	path =  request.path
 	category = Category.objects.all()
 	subcategory = SubCategory.objects.all()
-	recentad=Product.objects.filter().order_by('-id')[:3]
+	recentad=Product.objects.filter(city=city_id).order_by('-id')[:3]
+	if not recentad:
+		recentad=Product.objects.filter().order_by('-id')[:3]
 
 	#get authenticated user id
 	if request.user.is_authenticated():

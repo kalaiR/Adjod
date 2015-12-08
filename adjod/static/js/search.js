@@ -141,7 +141,8 @@ $(document).ready(function() {
 	    // $( ".city" ).change(function () {          
 		var selected_option = $( ".city option:selected" ).val();  
 		$('p#cityselected').html($( ".city option:selected" ).text());            
-		var city = $('input[type="hidden"]#city').val($(this).val());  		          
+		var city = $('input[type="hidden"]#city').val($(this).val());  	
+        $('input[name="page"]').val('');    
 		perform_search();		      
 	});
 		

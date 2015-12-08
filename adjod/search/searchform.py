@@ -80,8 +80,11 @@ class ProductSearchFilter(FacetedSearchForm):
         print 'get_default_queryset' 
         sqs = SearchQuerySet().all()
         sqs = sqs.models(Product)
-        currentcity = get_global_city(request)
-        return sqs.filter(status_isactive=1, city__city=currentcity).order_by('-ispremium')
+        currentcity, city_id = get_global_city(request)
+        print "currentcity", currentcity
+        print "int(city_id)", int(city_id)
+        print "sqs filter", sqs.filter(status_isactive=1, city=int(city_id)).order_by('-ispremium')
+        return sqs.filter(status_isactive=1, city=int(city_id)).order_by('-ispremium')
 
     # def get_default_filters(self):
     #   print 'get_default_filters'
