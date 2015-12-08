@@ -86,7 +86,7 @@ MEDIA_URL = ''
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
 # STATIC_ROOT = 'static/img/photos/'
-STATIC_ROOT = '/static/'
+STATIC_ROOT = '/static_files/'
 IMAGES_ROOT = os.path.join(os.path.dirname(__file__), '..static/img/photos/')
 
 # URL prefix for static files.

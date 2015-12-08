@@ -25,6 +25,7 @@ class Global(object):
         self.global_country=get_global_country(request)
         self.global_city, self.global_city_id=get_global_city(request)
         self.global_ip= globals.ip
+        self.global_language=get_global_language(request)
         if request.user.is_authenticated():
             try:
                 request.user.last_login = helper.get_now()

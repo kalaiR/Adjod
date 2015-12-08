@@ -185,7 +185,7 @@
       </div><!-- container -->
     </div><!-- top_header -->
 
-    {%  if path == '/' or 'start' in path  or 'categories' in path %}
+    {%  if path == '/' or 'start' in path  or 'categories' in path  or 'login' in path%}
     <div class="header_search">
       <div class="container quikr_logo">
         <a href="/"><code></code></a>
@@ -375,6 +375,7 @@
                 <input class="password" type="password" name="password" id="password_signup" placeholder="Password*" />
                 <label for="password" id="password_required" class="labelError" style="display:none;">Please enter Password</label>
               </div> <!-- password_div -->
+              <input type="hidden" value="{{ request.get_full_path }}" name="next" /> 
             </form> 
             
             

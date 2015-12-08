@@ -1,8 +1,4 @@
-// A 100% javascript facebook/gmail style web chat.
-// (c) 2014-2015 Ezequiel Lovelle [ezequiellovelle@gmail.com]
-// released under the MIT license
-
-(function( $ ) {
+$( document ).ready(function() {
   // alert("ready");
   var chat_stat = 0,
   chat_reconnect = 0,
@@ -42,7 +38,7 @@
 
 
   $.when( xhr_toolbar ).done(function(r1, r2, r3, r4) {
-    localStorage.clear();
+    // localStorage.clear();
     main_set_conf();
     
     main_set_theme( conf_theme_default );
@@ -1411,7 +1407,7 @@
     // displayChatOnload();
   });
 
-}( jQuery ));
+});
 
 // $(window).load(function() {
 //  // executes when complete page is fully loaded, including all frames, objects and images
