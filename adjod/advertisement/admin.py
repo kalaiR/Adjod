@@ -6,7 +6,6 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy
 from django.contrib import admin
 from advertisement.models import *
-from advertisement.forms import *
 import pprint
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse, Http404

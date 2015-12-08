@@ -1404,11 +1404,11 @@
   }).fail(function() {
     console.log('fail');
   }).always(function() {
-    function displayChatOnload() {
-      document.getElementById('main').style.display = 'block';
-    }
+    // function displayChatOnload() {
+    //   document.getElementById('main').style.display = 'block';
+    // }
 
-    displayChatOnload();
+    // displayChatOnload();
   });
 
 }( jQuery ));

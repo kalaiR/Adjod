@@ -48,7 +48,7 @@
               <img width="728" height="90" border="0" src="http://cdnx.tribalfusion.com/media/3794856.gif">
               </a>
          </div> 
-          <div class="sort_part">
+          <div class="sort_part visible-lg">
               <span class="sortclass">{% trans "Sort by" %}</span>
               <div class="choose_select sorting_custom_select">
                           <div class="choose">
@@ -67,8 +67,27 @@
               </div><!-- custom_select -->
               
           </div> <!-- sort_part -->
+          <div class="sort_part hidden-lg">
+            <div class="app col-md-2"><p class="app_filter">Apply filters</p></div><!--app-->
+                <div class="choose_select sorting_custom_select mobile_select col-md-2">
+                           <div class="choose">
+                            <p id="prov_custom_sort_value_act">{% trans "Sort by" %}</p>
+                            <i class="fa fa-caret-down new_icon"></i>
+                          <select class="prov_custom_sort_value_act option_color" id ="sorteddata"  name="{{form.sorteddata.html_name}}" value="{{form.sorteddata.value|default:''}}">
+                            <option value="">{% trans "select" %}</option>
+                            <option value="">{% trans "None" %}</option>
+                            <!-- <option value="createddate">{% trans "Created Date" %}</option> -->
+                            <!-- <option value="onlineusers">{% trans  "online users" %}</option> -->
+                            <option value="pricelow" {% ifequal sort "Price -Low to High" %} selected {% endifequal %}>{% trans "Price Low to High" %}</option>
+                            <option value="pricehigh" {% ifequal sort "Price -High to Low" %} selected {% endifequal %}>{% trans "Price High to Low" %}</option>
+                          </select>
+                          </div> <!-- select -->
+                          <input type="hidden" id ="sorteddata" name="sorteddata" value="" />
+              </div><!-- custom_select -->
+          </div> <!-- sort_part -->
         </div> <!-- top_part -->
-        <div class="left_part">
+        
+        <div class="left_part visible-lg">
           <div class="refine_results"><h4>Refine Your Results</h4></div>               
         <div id="cssmenu">
         
@@ -80,10 +99,11 @@
 
              <ul class="main_list">             
                   <!--  All Categories & Sub-Categories to Display in Advance Search-->   
-                      <li class="list_folder">All category 
+                      <li class="list_folder"><b>All category</b> 
                           <ul class="hide_list categoryclick">
                            {% for categories in initial_load|get_categories %}
                               <li class="list_folder">
+                                <img src="../{{categories.icon}}" class="category_icon">
                               <a class="has_sub categoryselected get">
                                {{categories}}
                                  <!-- <span class="hidelist1 ajax_categoryid">
@@ -180,7 +200,7 @@
 
 {%block search_results1%}
 <div class="fl filter_result_wrapper" id="search_result" style="position:relative;">           
-<p>{{ page.number }} of {{page.paginator.num_pages}} Results</p>
+<p class="search_result">{{ page.number }} of {{page.paginator.num_pages}} Results</p>
       <div class="right_part">
         {% if page and page.object_list %}
           <ul class="product1">
@@ -210,12 +230,12 @@
                       <span class="product_description1">{{product.object.description}}</span>
                       <!-- <span class="additional_description">{{product.object.description}}</span> -->
                       
-                      <span class="model_year1"> {{product.object.condition}} | in {{product.object.city.city}} | By {{product.object.you_are}}</span>
+                      <span class="model_year1 visible-lg"> {{product.object.condition}} | in {{product.object.city.city}} | By {{product.object.you_are}}</span>
                       <span class="year">{{product.object.created_date}}</span>
                   </div>
                   <div class="additional_details">
                     <h3>{{product.object.price|conversion}}</h3>
-                    <div class="number_verify_control">
+                    <div class="number_verify_control visible-lg">
                       <span class="number_verify1"><i class="fa fa-check-circle checkcircle">
                       </i></span>
                     </div>
@@ -285,6 +305,24 @@
 {%if not request.is_ajax%}
 </div><!--filter_result_wrapper-->
 <div class="clear_both"> </div> 
+
+<div class="container third_part hidden-lg">
+  <div class="row row_2">
+      <div class="col-md-7">
+        <h4 class="post_ad">Sell or Advertise anything</h4>
+        <a href="{% url product_form %}" class="#postbutton btn btn-lg btn-warning post_button" style="{% if user.is_authenticated %}{% if userprofile.ad_count > 3 and userprofile.is_emailverified == 0 and userprofile.is_subscribed == 0 %} cursor:default;opacity:0.4; {% elif userprofile.ad_count > 3 and userprofile.is_emailverified == 1 and userprofile.is_subscribed == 0 %} cursor:default;opacity:0.4; {% elif userprofile.is_subscribed == 1 %} cursor:pointer; pointer-events:auto;{% endif %} {% endif %}" title="{% if user.is_authenticated %}{% if userprofile.ad_count > 3 and userprofile.is_emailverified == 0 and userprofile.is_subscribed == 0 %} You already add 3 posts and also did not verified ur email, if u want add more posts, u have to verify ur email and also make ur account as premium {% elif userprofile.ad_count > 3 and userprofile.is_emailverified == 1 and userprofile.is_subscribed == 0 %} You already add 3 posts, if u want add more posts, u have to make ur account as premium{% endif %}{% endif %}">Post Free Ad</a>
+        <div class="alert_content">
+        <h4 class="need_txt">Tell us your need</h4>
+        <a href="#" class="alert_btn">Create alert</a>
+      </div> 
+      </div> <!--col-md-7 -->
+      <div class="col-md-5">
+        <h4 class="sell"><i class="fa  fa-shield"></i> How to sell safely ?</h4>
+        <p>Try to take the full payment at the time of delivery.<br>Remember to use the safe location to meet <a href="#">Read more</a></p>
+      </div> <!-- col-md-5 -->
+
+  </div> <!-- row2 -->
+</div> <!-- third part -->
 {%endif%}
 {%endblock%}
 

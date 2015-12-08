@@ -81,6 +81,7 @@ class ProductSearchFilter(FacetedSearchForm):
         sqs = SearchQuerySet().all()
         sqs = sqs.models(Product)
         currentcity = get_global_city(request)
+        # currentcity = "Pondicherry"
         return sqs.filter(status_isactive=1, city__city=currentcity).order_by('-ispremium')
 
     # def get_default_filters(self):

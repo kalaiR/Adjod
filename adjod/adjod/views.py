@@ -18,7 +18,6 @@ from django.utils.translation import ugettext, string_concat
 from django.core.urlresolvers import reverse
 
 #calling local apps such as models, forms, etc..
-from adjod.forms import UserForm
 from django import forms
 from advertisement.models import *
 from banner.models import *
@@ -42,9 +41,6 @@ import simplejson as json
 #Paypal transaction
 from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.ipn.signals import payment_was_successful
-
-# For GEO
-from django.contrib.gis.geoip import GeoIP
 
 # from django.contrib.sites.models import get_current_site
 

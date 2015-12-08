@@ -139,7 +139,7 @@ def format_redirect_url(redirect_path, query_string):
         
     return redirect_path + url_join_str + query_string[:-1]
 
-#For Price Conversion
+For Price Conversion
 def convert(price):
     print "conversion"
     user_ip = globals.ip
@@ -153,6 +153,16 @@ def convert(price):
     # print "country_id", country_id
     for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
         if str(key) == str(country_id):
+            isocode=value
+    current_country = isocode
+    # base_currency= settings.BASE_CURRENCY
+    base_currency= settings.CURRENCY_RATES
+    exchange_rate = convert_money(price,base_currency,current_country)
+    return exchange_rate
+
+def convert(price):
+    for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
+        if str(key) == str("IN"):
             isocode=value
     current_country = isocode
     # base_currency= settings.BASE_CURRENCY
