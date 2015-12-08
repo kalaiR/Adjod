@@ -1,4 +1,4 @@
-(function( $ ) {
+$( document ).ready(function() {
   // alert("ready");
   var chat_stat = 0,
   chat_reconnect = 0,
@@ -1407,7 +1407,7 @@
     displayChatOnload();
   });
 
-}( jQuery ));
+});
 
 // $(window).load(function() {
 //  // executes when complete page is fully loaded, including all frames, objects and images
