@@ -69,9 +69,7 @@ function attach_pagination_events(){
             });
 }
 $(document).ready(function() {
-            $('.brandtype').click(function(){
-                alert('tests');
-            });
+
             $("li.brand_folder > ul").hide();
             attach_pagination_events();
 
@@ -160,10 +158,12 @@ $(document).ready(function() {
 
 	// city based search
 	 $(document).on("change", '.city', function () {
+
 	    // $( ".city" ).change(function () {
 		var selected_option = $( ".city option:selected" ).val();
 		$('p#cityselected').html($( ".city option:selected" ).text());
 		var city = $('input[type="hidden"]#city').val($(this).val());
+        $('input[name="page"]').val('');
 		perform_search();
 	});
 

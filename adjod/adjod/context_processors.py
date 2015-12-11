@@ -47,7 +47,9 @@ def global_activity(request):
 	path =  request.path
 	category = Category.objects.all()
 	subcategory = SubCategory.objects.all()
-	recentad=Product.objects.filter().order_by('-id')[:3]
+	recentad=Product.objects.filter(city=city_id).order_by('-id')[:4]
+	if not recentad:
+		recentad=Product.objects.filter().order_by('-id')[:4]
 
 	#get authenticated user id
 	if request.user.is_authenticated():
@@ -59,3 +61,16 @@ def global_activity(request):
 			'city_id':city_id,'language':global_language,'path':path,'category':category,
 			'subcategory':subcategory, 'recentad':recentad,'user_det':userprofile,
 			'user_ip':user_ip}
+
+# def global_activity(request):	
+# 	path =  request.path
+# 	category = Category.objects.all()
+# 	subcategory = SubCategory.objects.all()
+# 	recentad=Product.objects.filter().order_by('-id')[:4]
+# 	current_country_cities = City.objects.all()
+# 	if request.user.is_authenticated():
+# 		userprofile=UserProfile.objects.get(user=request.user.id)
+# 	else:
+# 		userprofile=None
+# 	return {'path':path,'category':category,
+# 			'subcategory':subcategory, 'recentad':recentad,'user_det':userprofile,'current_country_cities':current_country_cities}

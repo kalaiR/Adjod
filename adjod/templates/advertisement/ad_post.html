@@ -221,7 +221,7 @@
          	</div> <!-- terms_of_use_div -->
            	
          	<div class="field_div form-group" id="post_button_div">
-         		<input class="btn post_form_send" type="submit" value="Post the Ad" id="post" name="post" />
+         		<input class="btn-warning btn post_form_send" type="submit" value="Post the Ad" id="post" name="post" />
          	</div> <!-- post_button_div -->       	
      	</form> <!-- post_ad -->
     </div> <!-- inner_container -->
@@ -256,8 +256,8 @@
       		Category popup
       ========================-->
       
-      <div class="popup_fade cancel_btn" style="display: none;"></div>
-      <div class="container">
+      
+      <div class="container hidden-xs">
       	<div id="category_popup" class="choose_category_div" style="display:none;">
         <code class="close_btn cancel_btn" style="display: none;"> </code>
       		<div class="row title_row">
@@ -291,4 +291,52 @@
       <!--======================
       	   End Category popup
       ========================-->
+<div class="container hidden-lg">
+      <div id="category_popup" class="choose_category_div_mobile" style="display:none;">
+      <code class="close_btn close_mobile cancel_btn" style="display: none;"> </code>
+      <div id="cssmenu">
+         <!-- Normal Search and Advance Form Start --> 
+        <form id="form_search_filter" class="form_search_filter">
+             <input id="search_form" type="hidden" name="{{form.q.html_name}}"  value="{{form.q.value|default:''}}"/>
+             <input type="hidden" name="page"  value="{{page.number}}"/> 
+             <input type="hidden" name="city" id="city" value="">             
+              <ul class="main_list_mobile" id="list_mobile">             
+                  <!--  All Categories & Sub-Categories to Display in Advance Search-->   
+                      <li class="list_folder"><b>All category</b> 
+                          <ul class="hide_list categoryclick">
+                           {% for categories in initial_load|get_categories %}
+                              <li class="list_folder">
+                                <img src="../{{categories.icon}}" class="category_icon">
+                              <a class="has_sub categoryselected get">
+                               {{categories}}
+                                 <!-- <span class="hidelist1 ajax_categoryid">
+                                      {{categories.id}}
+                                  </span>  -->
+                                <span class="product_quantity"> {{ categories.count }}                         
+                                </span> 
+                              </a>
+                              <ul class="hide_list hidelist1 subclick">
+                                  {% for subcategories in categories.id|get_subcategories %}
+                                      <li class="list_folder parent_li">
+                                      <span class="has_sub subcategory_choose get1">{{subcategories}}                                  
+                                      </span>
+                                      <!-- <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="{{subcategories.id}} " name="subcategoryid"/>  --><span class="has_sub hidelist1 ajax_subid">
+                                      {{subcategories.id}}                                  
+                                      </span> 
+                                       <span class="product_quantity">{{subcategories.id|get_subcategoriesCount}} 
+                                        </span>
+                                       </li> 
+                                      {% endfor %}
+                                </ul>
+                              </li>
+                          {% endfor %} 
+                        </ul>
+                     <!--    <input type="hidden"  id="categoryid"  value="" name="categoryid"> -->
+                         <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="" name="subcategoryid"/>   
+                      </li>
+                </ul>
+           </form> 
+           </div>
+           </div>
+ </div> <!-- container -->
 {% endblock %}

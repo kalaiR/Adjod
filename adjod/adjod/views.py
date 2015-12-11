@@ -42,9 +42,6 @@ import simplejson as json
 from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.ipn.signals import payment_was_successful
 
-# For GEO
-from django.contrib.gis.geoip import GeoIP
-
 # from django.contrib.sites.models import get_current_site
 
 from adjod.util import format_redirect_url
@@ -117,6 +114,11 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST['email_id']
         password = request.POST['password']
+        if 'search' in request.POST['next']:
+            next_url = request.POST['next'].split('&')[0]
+        else:
+            next_url = request.POST['next'].split('?')[0]
+        print "next_url", next_url
         try:
             error={}
             if '@' in username:
@@ -131,7 +133,10 @@ def user_login(request):
                     raise ValidationError(error['username_exists'], 2)
         except ValidationError as e:
             messages.add_message(request, messages.ERROR, e.messages[-1]) 
-            redirect_path = "/login/"
+            if next_url == '/':
+                redirect_path = "/login/"
+            else:
+                redirect_path = next_url
             query_string = 'si=%d' % e.code
             redirect_url = format_redirect_url(redirect_path, query_string)
             return HttpResponseRedirect(redirect_url)
@@ -150,7 +155,10 @@ def user_login(request):
                     raise ValidationError(error['password'], 3)
             except ValidationError as e:
                 messages.add_message(request, messages.ERROR, e.messages[-1]) 
-                redirect_path = "/login/"
+                if next_url == '/':
+                    redirect_path = "/login/"
+                else:
+                    redirect_path = next_url
                 query_string = 'si=%d' % e.code
                 redirect_url = format_redirect_url(redirect_path, query_string)
                 return HttpResponseRedirect(redirect_url)
@@ -163,7 +171,10 @@ def user_login(request):
                     print user.id
                     user_id=user.id
                     # starturl=reverse('start',kwargs={ 'user_id': user.id })
-                    response=HttpResponseRedirect('/start/?user_id=' + str(user.id)) 
+                    if next_url == '/':
+                        response=HttpResponseRedirect('/start/?user_id=' + str(user.id)) 
+                    else:
+                        response=HttpResponseRedirect(next_url) 
                     response.set_cookie("chat_email", user.email)  
                     response.set_cookie("chat_user", user.username)  
                     response.set_cookie("chat_userid", user_id)

@@ -66,12 +66,55 @@
       <div class="container">
         <nav class="navbar navbar-inverse navigation_bar logo_contain">
           <div class="navbar-header">
+          {% if path == '/' %}
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
+            <div class="select_area">
+              <i class="fa fa-map-marker location_font"></i>
+                <select class="select_area">
+                          <option  id="currentid" value="{{request.COOKIES.global_city_id}}">Select area{{ request.COOKIES.city }}</option>
+                          {% for cities in current_country_cities %}
+                            {% if cities.city != request.COOKIES.city %}
+                              <option value="{{cities.id}}" id="ajax_cityid">{{ cities.city }} </option>
+                            {% endif %}
+                          {% endfor%}
+                  </select>
+                 <i class="fa fa-chevron-down down_font"></i>
+              </div><!--select_area-->
+           {% endif %}
+
+          {% if 'search' in path  %}
+            <div class="result_page">
+              <i class="fa fa-angle-left left_angle"></i>
+              <i class="fa fa-bell bell_font"></i>
+             </div><!--result_page-->
+          {% endif %}
+          {% if 'ads' in path  %}
+            <div class="detail_page">
+              <i class="fa fa-angle-left angle_icon"> <span class="detail_list">List</span></i>
+              <div class="detail_icon">
+                  <i class="fa fa-heart heart_font"></i>
+                    <div class="share hidden-lg">
+                      <span class="share_dropdown"><i class="fa fa-share-alt share_font"></i></span>
+                      <ul class="share_dropdownmenu">
+                        <li><i class="fa fa-facebook-square"></i></li>
+                        <li><i class="fa fa-twitter-square"></i></li>
+                      </ul>
+                    </div> <!--share-->
+                  </div><!--detail_icon-->
+               </div><!--detail_page-->
+         {% endif %}
           </div> <!-- navbar header -->
+          {% if 'postad' in path  %}
+            <div class="postad_page">
+              <i class="fa fa-angle-left left_angle"></i>
+
+             </div><!--postad_page-->
+          {% endif %}
+
           <div id="navbar" class="collapse navbar-collapse">
               <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
@@ -97,7 +140,7 @@
                     {% endif %}
                     <li>
                         <div class="custom_select language_custom_select">
-                            <div class="select">
+                            <div class="select lang_select">
                               <p>
 
                                   {% if request.LANGUAGE_CODE == 'en' or request.REQUEST.la == 'en' %}
@@ -142,7 +185,7 @@
       </div><!-- container -->
     </div><!-- top_header -->
 
-    {%  if path == '/' or 'start' in path  or 'categories' in path %}
+    {%  if path == '/' or 'start' in path  or 'categories' in path  or 'login' in path%}
     <div class="header_search">
       <div class="container quikr_logo">
         <a href="/"><code></code></a>
@@ -151,9 +194,10 @@
             <div class="form">
               <i class="fa fa-search"></i>
                 {% if query or request.REQUEST.q or request.REQUEST.q == '' %}
-                <input type="text"  name="q" id="q" class="form-control input-lg" placeholder=""  value="{% if query %}{{ query }}{% elif request.REQUEST.q %}{{request.REQUEST.q}}{% elif request.REQUEST.q == '' %}{% else %}{% endif %}" />
+                <input type="text"  name="q" id="q" class="form-control input-lg" placeholder="Search here"  value="{% if query %}{{ query }}{% elif request.REQUEST.q %}{{request.REQUEST.q}}{% elif request.REQUEST.q == '' %}{% else %}{% endif %}" />
                 {% else %}
-                <input type="text" name="q" id="q" class="form-control input-lg" placeholder=""  value="{% if recent_viewed_search %}{% for cat in recent_viewed_search|slice:'1' %}{% if cat.activity_view %}{{ cat.activity_view }}{% else %}{% endif %}{% endfor %}{% else %}{% endif %}"/>
+
+                <input type="text" name="q" id="q" class="form-control input-lg" placeholder="Search here"  value="{% if recent_viewed_search %}{% for cat in recent_viewed_search|slice:'1' %}{% if cat.activity_view %}{{ cat.activity_view }}{% else %}{% endif %}{% endfor %}{% else %}{% endif %}"/>
                 {% endif %}
             </div> <!-- form -->
             <button type="submit"class="btn btn-lg btn-success search_btn" value="Search">Search</button>
@@ -169,8 +213,25 @@
 
     {%  if 'search' in path  or 'postad' in path  or 'ads' in path %}
        <div class="search_part">
-          <div class="container logo_part">
+          <div class="container logo_part visible-lg">
              <a href="/"><code></code></a>
+                <form class="info_form" method="get" action="/search/?q=">
+                      <div class="button">
+                        <i class="fa fa-search search_icon"></i>
+                        {% if query or request.REQUEST.q or request.REQUEST.q == '' %}
+                          <input type="text" name="q" id="q" class="form-control input-lg" placeholder="" value="{% if query %}{{ query }}{% elif request.REQUEST.q %}{{request.REQUEST.q}}{% elif request.REQUEST.q == '' %}{% else %}{% endif %}" />
+                        {% else %}
+                          <input type="text" name="q" id="q" class="form-control input-lg" placeholder="" value="{% if recent_viewed_search %}{% for cat in recent_viewed_search|slice:'1' %}{% if cat.activity_view %}{{ cat.activity_view }}{% else %}{% endif %}{% endfor %}{% else %}{% endif %}" />
+                        {% endif %}
+                        </div>
+                      <button type="submit"class="btn btn-lg btn-success search_b">Search</button>
+                      <a href="{% url product_form %}" class="btn btn-lg post-button">Post free Ad</a>
+                      <a href="/" class="btn btn-lg alert-button">Create free alert</a>
+
+                </form> <!-- info_form -->
+          </div> <!-- container logo_part -->
+        {%  if 'search' in path %}
+          <div class="container logo_part_mobile hidden-lg">
                 <form class="info_form" method="get" action="/search/?q=">
                       <div class="button">
                         <i class="fa fa-search search_icon"></i>
@@ -185,7 +246,8 @@
                       <a href="/" class="btn btn-lg alert-button">Create free alert</a>
                 </form> <!-- info_form -->
           </div> <!-- container logo_part -->
-          {%  if 'postad' in path %}
+        {% endif %}
+           {%  if 'postad' in path %}
             <div class="container">
               <div class="post_ad_first">Post an Ad in just 30 seconds</div>
                 <div class="post_ad_second">DO NOT post multiple ads for the same items or service. All duplicate, spam and wrongly categorized ads will be deleted.</div>
@@ -221,8 +283,9 @@
       <div class="hp_ad banner_ad">
       <ul class="fifth_part">
       {% for banners in banner|get_banner %}
+
       {% if banners.pageurl == '/' and banners.position == 'bottom'%}
-      <li><a class="bannerlink" href="{{banners.link}}"><img class="bannerimage" src="../../{{banners.banner}}" style="height:120px;width:970px;"></a></li>
+      <li><a class="bannerlink" href="{{banners.link}}"><img class="bannerimage" src="../../{{banners.banner}}" style="height:120px;width:970px;"><i class="fa fa-times-circle closebtn1"></i></a></li>
       {% endif %}
       {% endfor %}
       </ul>
@@ -240,7 +303,7 @@
 
     <div class="final_part">
       <div class="container">
-        <div class="row row_4">
+        <div class="row row_4 footer_content">
           <div class="col-md-2">
                            <ul>
                             <li><a href="" class="footer">Help</a></li>
@@ -269,8 +332,22 @@
                             </span>
           </div>
         </div> <!-- row4 -->
-      </div> <!-- container-->
-    </div> <!-- final_part -->
+
+
+       </div> <!-- container-->
+  </div> <!-- final_part -->
+      {%  if path == '/' or 'start' in path  or 'search' in path %}
+        <div class="col-md-2 footer_responsive">
+              <select class="footer_lang">
+                        <option selected="" disabled="">Select language : </option>
+                        <option>English</option>
+                        <option>German</option>
+                        <option>Swedish</option>
+              </select>
+              <button class="footer_login">Login</button>
+              <button class="footer_signup">Sign up</button>
+        </div><!--footer_responsive-->
+      {% endif %}
 
     {% include "base_ajax.html" %}
 
@@ -279,7 +356,7 @@
       ========================-->
       <div class="popup_fade cancel_btn" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}"></div>
       <div class="container">
-            <div id="sign_in_div" class="sign_in_div" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}">
+            <div id="sign_in_div" class="sign_in_div signin_mobile" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}">
           <code class="close_btn cancel_btn" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}"> </code>
 
             <div class="sign_in_title">
@@ -302,6 +379,8 @@
                 <input class="password" type="password" name="password" id="password_signup" placeholder="Password*" />
                 <label for="password" id="password_required" class="labelError" style="display:none;">Please enter Password</label>
               </div> <!-- password_div -->
+
+              <input type="hidden" value="{{ request.get_full_path }}" name="next" />
             </form>
 
 
@@ -391,7 +470,7 @@
             </div> <!- password_div -->
             <div id="confirm_div" class="form-group">
               <input class="confirm" type="checkbox" name="confirm" />
-              <span>I confirm that i am 18 yrs or older</span>
+              <span>I confirm that I am 18 years or older</span>
               <input class="btn signup_confirm_button masterTooltip" type="submit" value="Create" name="create" id="create" title="Your age must be above 18 years, please check age status and then create account" />
 
             </div>
@@ -414,7 +493,7 @@
         forgot password
       ========================-->
       <div class="container">
-          <div id="forgot_div" class="forgot_div" style="{% if request.REQUEST.sf %} display:block; {%else%} display: none; {% endif %}">
+          <div id="forgot_div" class="forgot_div forgot_mobile" style="{% if request.REQUEST.sf %} display:block; {%else%} display: none; {% endif %}">
           <code class="close_btn cancel_btn" style="{% if request.REQUEST.sf %} display:block; {%else%} display: none; {% endif %}"> </code>
             <div class="forgot_title">
               <span>Forgot Password</span>
@@ -436,7 +515,8 @@
               <input class="btn confirm_button" type="submit" value="Sign in" name="create" id="signin" />
 
             </div> -->
-            <iframe src="{% url password_reset %}" height= "200" width="326" scrolling="no" frameBorder="0" style="border:none;"></iframe>
+
+            <iframe src="{% url password_reset %}" height= "215" width="278" scrolling="no" frameBorder="0" style="border:none;"></iframe>
            </form>
             <div id="" class="form-group">
               <hr class="photos_line" noshade="noshade">
@@ -455,6 +535,7 @@
       <!--======================
           End Forgot Password
       ========================-->
+
 
   </body>
 </html>
