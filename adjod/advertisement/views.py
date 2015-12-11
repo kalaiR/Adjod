@@ -2,7 +2,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
-from django.core.context_processors import csrf, request 
+from django.core.context_processors import csrf, request
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.tokens import default_token_generator
 
@@ -78,7 +78,7 @@ def localities_for_city(request):
 
 # def models_for_brand(request):
 #     if request.is_ajax() and request.GET and 'brand_id' in request.GET:
-#         objs1 = Dropdown.objects.filter(brand_refid=request.GET['brand_id']) 
+#         objs1 = Dropdown.objects.filter(brand_refid=request.GET['brand_id'])
 #         print objs1
 #         return JSONResponse([{'id': o1.id, 'name': smart_unicode(o1.model_name)}
 #             for o1 in objs1])
@@ -88,7 +88,7 @@ def localities_for_city(request):
 def subcategory_for_category(request):
     # print "subcategory_for_category"
     if request.is_ajax() and request.GET and 'category_id' in request.GET:
-        print request.GET['category_id']         
+        print request.GET['category_id']
         objs1 = SubCategory.objects.filter(category_id=request.GET['category_id'])
         return JSONResponse([{'id': o1.id, 'name': smart_unicode(o1.name)}
             for o1 in objs1])
@@ -98,11 +98,11 @@ def subcategory_for_category(request):
 def brand_for_subcategory(request):
     # print "brand_for_subcategory"
     if request.is_ajax() and request.GET and 'sub_category_id' in request.GET:
-        print request.GET['sub_category_id'] 
+        print request.GET['sub_category_id']
         # objs1 = Dropdown.objects.filter(subcat_refid=request.GET['sub_category_id']).exclude(brand_name='')
         objs1 = Dropdown.objects.filter(subcat__id=request.GET['sub_category_id'])
         for obj in objs1:
-            print obj.brand_name        
+            print obj.brand_name
         return JSONResponse([{'id': o1.id, 'name': smart_unicode(o1.brand_name)}
             for o1 in objs1])
     else:
@@ -113,7 +113,7 @@ def sub_category(request, pname=None):
     subcategory = SubCategory.objects.filter(category_id=cat.id)
     ctx = {'subcategory':subcategory,'cat':cat}
     return render_to_response('adjod/subcategory.html', ctx , context_instance=RequestContext(request))
-    
+
 # this is for pjax testing
 # @pjax("pjax.html")
 def product_detail(request, pk):
@@ -133,9 +133,9 @@ def product_detail(request, pk):
     #     print "searchresults:", recommendresult
 
     related_product=Product.get_related(adinfo)
-    print "related_product", related_product    
-    ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto,'related_product':related_product}  
-    return render_to_response('advertisement/ad_detail.html',ctx, context_instance=RequestContext(request))    
+    print "related_product", related_product
+    ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto,'related_product':related_product}
+    return render_to_response('advertisement/ad_detail.html',ctx, context_instance=RequestContext(request))
     # return TemplateResponse(request, 'advertisement/ad_detail.html', ctx)
 
 @pjax("pjax.html")
@@ -155,7 +155,7 @@ def product_form(request, name=None, subname=None):
             "notify_url": "http://" + settings.SITE_NAME + "/show_me_the_money/",
             "return_url": "http://"  + settings.SITE_NAME + "/show_me_the_money/",
             "cancel_return": "http://" + settings.SITE_NAME + "/postad/?transactionfail=error",
-            
+
             # "notify_url": 'http://46.4.81.207:9000/show_me_the_money',
             # "return_url": "http://46.4.81.207:9000/",
             # "cancel_return": "http://46.4.81.207:9000/?transactionfail=error",
@@ -173,7 +173,7 @@ def product_form(request, name=None, subname=None):
                 # dropdown=Dropdown.objects.all().exclude(year='', color='')
                 dropdown=Dropdown.objects.all()
                 # city=City.objects.all()
-                
+
                 # country=request.COOKIES.get("country")
                 # country=Country.objects.get(code=request.COOKIES.get('country'))
                 # city=City.objects.filter(country_id=country.id)
@@ -181,7 +181,7 @@ def product_form(request, name=None, subname=None):
                 # ctx = {'userprofile':userprofile, 'category':category,'city':city,'dropdown':dropdown,"form":form,"paypal":paypal_dict}
 
                 ctx = {'userprofile':userprofile, 'category':category,'dropdown':dropdown,"form":form,"paypal":paypal_dict}
-                
+
                 # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
                 return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
     else:
@@ -191,7 +191,7 @@ def product_form(request, name=None, subname=None):
         # dropdown=Dropdown.objects.all().exclude(year='', color='')
         dropdown=Dropdown.objects.all()
         # city=City.objects.all()
-        
+
         # country=request.COOKIES.get("country")
         # country=Country.objects.get(code=request.COOKIES.get('country'))
         # city=City.objects.filter(country_id=country.id)
@@ -199,7 +199,7 @@ def product_form(request, name=None, subname=None):
         # ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
 
         ctx = {'userid':userid, 'category':category,'dropdown':dropdown}
-        
+
         # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
         return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
 
@@ -213,12 +213,12 @@ def handle_uploaded_file(f, path):
     file_data.close()
 
 def product_save(request):
-    print "product_save"   
+    print "product_save"
     product=Product()
-    
+
     def post_product_save():
         print "request.user", request.user.id
-        
+
         product.category=Category.objects.get(id=request.POST['category_name'])
         product.subcategory=SubCategory.objects.get(id=request.POST['subcategory_name'])
         product.ad_brand=Dropdown.objects.get(id=request.POST['brand_name'])
@@ -226,7 +226,7 @@ def product_save(request):
         product.adtype= "sell"
         product.title=request.POST.get('ad_title')
         product.price=request.POST.get('your_price')
-        
+
         # country_id=Country.objects.get(code=request.COOKIES.get('country'))
         # for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
         #     if str(key) == str(country_id):
@@ -234,10 +234,10 @@ def product_save(request):
         # current_country = isocode
         # print 'current_country', current_country
         # base_currency= settings.BASE_CURRENCY
-        # convert_price = convert_money_without_symbol(float(price),current_country,base_currency)      
+        # convert_price = convert_money_without_symbol(float(price),current_country,base_currency)
         # print "convert_price",convert_price
         # product.price=convert_price
-    
+
         product.ad_year=request.POST.get('your_year')
         product.description=request.POST.get('description','')
         product.you_are = request.POST.get('you_are_radio', '')
@@ -248,10 +248,10 @@ def product_save(request):
         product.locality=Locality.objects.get(id=request.POST['your_locality'])
         product.country_code =get_global_country(request)
         # product.photos=request.FILES['photos']
-        
+
         #photos
         product.photos =request.FILES.getlist('photos[]')
-        print product.photos       
+        print product.photos
         IMAGE_PATH = 'static/img/photos/'
         VIDEO_PATH = 'static/videos/'
         photosgroup = ''
@@ -262,9 +262,9 @@ def product_save(request):
             if count==0:
                 photosgroup=photosgroup  + 'static/img/photos/' + str(uploaded_file)
             else:
-                photosgroup=photosgroup  +  'static/img/photos/' +str(uploaded_file) + ','      
+                photosgroup=photosgroup  +  'static/img/photos/' +str(uploaded_file) + ','
         product.photos=photosgroup
-    
+
         photo=str(product.photos)
         photos=photo.split(',')
         product.imagecount= len(photos)
@@ -288,10 +288,10 @@ def product_save(request):
                     temp_handle = StringIO()
                     # print "temp", temp_handle
                     image.save(temp_handle, 'png')
-                    temp_handle.seek(0)                   
+                    temp_handle.seek(0)
                     disassembled = urlparse(photo)
                     filename, file_ext = splitext(basename(disassembled.path))
-                    suf = SimpleUploadedFile(filename + file_ext, temp_handle.read(), content_type='image/png')                    
+                    suf = SimpleUploadedFile(filename + file_ext, temp_handle.read(), content_type='image/png')
                     product.thumbnail.save(filename + '_thumbnail' +'.png', suf, save=False)
                     # print product.thumbnail
                     if count == 0:
@@ -312,26 +312,26 @@ def product_save(request):
                 if count==0:
                     videosgroup=videosgroup + 'static/videos/' + str(uploaded_file)
                 else:
-                    videosgroup=videosgroup + 'static/videos/' +str(uploaded_file) + ','  
+                    videosgroup=videosgroup + 'static/videos/' +str(uploaded_file) + ','
             product.video=videosgroup
         else:
             product.video = request.POST.get('video_url')
         print "video", product.video
-       
+
         product.created_date  = datetime.datetime.now()
         # product.expired_date = product.created_date + datetime.timedelta(days=30)
         product.modified_date  = datetime.datetime.now()
-        product.status_isactive  = True  
-        # if request.POST['user_subscription']: 
+        product.status_isactive  = True
+        # if request.POST['user_subscription']:
         # if product.ispremium == True:
         #     product.premium_plan=PremiumPriceInfo.objects.get(id='1') # here 1 replaced with some other value after paypal has complete
         # else:
         #     product.premium_plan=None
-    
+
         # product.country=Country.objects.get(id=1)
         product.post_terms=request.POST.get('terms_of_use')
         product.save()
-           
+
     def success_message():
         post_product_save()
         error['success'] = ugettext('Successfully added post')
@@ -356,46 +356,49 @@ def product_save(request):
                 raise ValidationError(error['exit_count'], 6)
         else:
             print "else"
-            product.userprofile = None 
+            product.userprofile = None
             product.expired_date=datetime.datetime.now() + datetime.timedelta(days=10)
-            success_message()             
-    
+            success_message()
+
     except ValidationError as e:
-        messages.add_message(request, messages.ERROR, e.messages[-1]) 
+        messages.add_message(request, messages.ERROR, e.messages[-1])
         redirect_path = "/postad/"
         query_string = 'pt=%d' % e.code
         redirect_url = format_redirect_url(redirect_path, query_string)
         return HttpResponseRedirect(redirect_url)
 
 def freealert_save(request):
-    try:
-        error={}
+    # try:
+    error={}
+    freealert=FreeAlert()
+    if request.user.is_authenticated():
         user=request.user.id
-        freealert=FreeAlert()
-        if user:
-            userprofile=User.objects.get(id=user)
-            # print "userprofile.id", userprofile.id     
-            freealert.alert_user=UserProfile.objects.get(user=userprofile.id)
-            freealert.alert_category=Category.objects.get(id=request.POST['your_category'])
-            freealert.alert_subcategory=SubCategory.objects.get(id=request.POST['your_subcategory'])
-            freealert.alert_brand=Dropdown.objects.get(id=request.POST['your_brand'])
-            freealert.alert_city=City.objects.get(id=request.POST['your_city'])
-            freealert.alert_email = request.POST.get('email')
-            freealert.alert_mobile = request.POST.get('mobilenumber')
-            freealert.save()
-            error['success'] = ugettext('Free alert created successfully')
-            print "error['success']",error['success']
-            raise ValidationError(error['success'], 7)
-        else:
-            error['not_an_user'] = ugettext('U are not registered users...First register and then create free alert')
-            print "error['not_an_user']",error['not_an_user']
-            raise ValidationError(error['not_an_user'], 8)
-    except ValidationError as e:
-        messages.add_message(request, messages.ERROR, e.messages[-1]) 
-        redirect_path = "/"
-        query_string = 'fst=%d' % e.code
-        redirect_url = format_redirect_url(redirect_path, query_string)
-        return HttpResponseRedirect(redirect_url)
+        userprofile=User.objects.get(id=user)
+        # print "userprofile.id", userprofile.id
+        freealert.alert_user=UserProfile.objects.get(user=userprofile.id)
+    else:
+        freealert.alert_user=None
+    freealert.alert_category=Category.objects.get(id=request.POST['your_category'])
+    freealert.alert_subcategory=SubCategory.objects.get(id=request.POST['your_subcategory'])
+    freealert.alert_brand=Dropdown.objects.get(id=request.POST['your_brand'])
+    freealert.alert_city=City.objects.get(id=request.POST['your_city'])
+    freealert.alert_email = request.POST.get('email')
+    freealert.alert_mobile = request.POST.get('mobilenumber')
+    freealert.save()
+    return HttpResponseRedirect('/search/?q=&category={}&subcategoryid={}&brandtype={}'.format(request.POST['your_category'] , request.POST['your_subcategory'], request.POST['your_brand']))
+    #         error['success'] = ugettext('Free alert created successfully')
+    #         print "error['success']",error['success']
+    #         raise ValidationError(error['success'], 7)
+    #     else:
+    #         error['not_an_user'] = ugettext('U are not registered users...First register and then create free alert')
+    #         print "error['not_an_user']",error['not_an_user']
+    #         raise ValidationError(error['not_an_user'], 8)
+    # except ValidationError as e:
+        # messages.add_message(request, messages.ERROR, e.messages[-1])
+        # redirect_path = "/"
+        # query_string = 'fst=%d' % e.code
+        # redirect_url = format_redirect_url(redirect_path, query_string)
+        # return HttpResponseRedirect(redirect_url)
 
 def expired_ad_conformation(request):
     ad_id = request.REQUEST['ad_id']
@@ -420,4 +423,3 @@ def get_user_products(request):
     product_id = Product.objects.filter(userprofile=userprofile_id.id)
     product = [productid.id for productid in product_id]
     return JSONResponse(product)
-
