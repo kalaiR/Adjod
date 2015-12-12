@@ -22,24 +22,3 @@ pip install south
 sudo apt-get install curl
 sudo apt-get install nodejs
 sudo apt-get install npm
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -14,30 +14,30 @@ from django.conf import settings
 
 TYPE = (
     ('buy', 'Buy'),
-    ('sell', 'Sell'),   
+    ('sell', 'Sell'),
 )
 
 CONDITION = (
     ('used', 'Used'),
-    ('new', 'New'),   
+    ('new', 'New'),
 )
 
 YOU=( ('individual','Individual'),('dealer','Dealer'))
-    
+
 class Category(models.Model):
-    icon = models.ImageField(upload_to='static/img/', blank=True)    
+    icon = models.ImageField(upload_to='static/img/', blank=True)
     name = models.CharField(max_length=250)
     category_type = models.CharField(max_length=250)
     def __unicode__(self):
         return self.name
 
 class SubCategory(models.Model):
-    category = models.ForeignKey(Category) 
-    name = models.CharField(max_length=50) 
+    category = models.ForeignKey(Category)
+    name = models.CharField(max_length=50)
     def __unicode__(self):
         return self.name
 
-class Dropdown(models.Model):    
+class Dropdown(models.Model):
     subcat=models.ManyToManyField(SubCategory, null=True, blank=True)
     brand_name=models.CharField(max_length=50, blank =True,default='')
     # brand_refid=models.ForeignKey('self', blank=True, null=True)
@@ -67,9 +67,9 @@ class Dropdown(models.Model):
 
 class City(models.Model):
     city=models.CharField(max_length=50)
-    # country=models.ForeignKey(Country)  
+    # country=models.ForeignKey(Country)
     country_code=models.CharField(max_length=10)
-    country_name=models.CharField(max_length=50)   
+    country_name=models.CharField(max_length=50)
     def __unicode__(self):
         return self.city
 
@@ -100,7 +100,7 @@ class Product(models.Model):
     video=models.FileField(upload_to='/static/videos/',null=True, blank=True)
     condition = models.CharField(max_length=10,choices=CONDITION, default="used")
     price = models.FloatField(null=True, default=0.0)
-    ad_brand=models.ForeignKey(Dropdown,null=False, related_name="ad_brand")
+    ad_brand=models.ForeignKey(Dropdown,null=True, related_name="ad_brand")
     ad_year=models.CharField(max_length=10, null=True)
     city=models.ForeignKey(City, null=False)
     locality=models.ForeignKey(Locality, null=False)
@@ -118,7 +118,7 @@ class Product(models.Model):
     expired_date=models.DateField(null=True,blank=True)
     status_isactive=models.BooleanField(default=False)
     # country=models.ForeignKey(Country, null=True, blank=True)
-    country_code=models.CharField(max_length=10)  
+    country_code=models.CharField(max_length=10)
     post_terms=models.BooleanField(default=False)
     class Admin:
         pass
@@ -127,22 +127,23 @@ class Product(models.Model):
 
     @classmethod
     def get_related(cls,product):
-        print "get_related"
-        print "product", product.subcategory.id
-        print "product brand", product.ad_brand.id
-        # print "product city", product.city.id
-        # qs =  SearchQuerySet().exclude(id=product.id)
-        qs =  SearchQuerySet().filter(subcategoryid=product.subcategory.id, adbrandid=product.ad_brand.id).exclude(id=product.id)
+        if product.ad_brand:
+          qs =  SearchQuerySet().filter(subcategoryid=product.subcategory.id, adbrandid=product.ad_brand.id).exclude(id=product.id)
+        else:
+          qs =  SearchQuerySet().filter(subcategoryid=product.subcategory.id).exclude(id=product.id)
         print "qs", qs
         related_product=[]
         for product in qs:
             if product.object:
                 related_product.append(product)
                 print "related_product",related_product
+        if not related_product:
+          qs =  SearchQuerySet().all().exclude(id=product.id)
+          related_product=qs
         return related_product
-                
+
 class FreeAlert(models.Model):
-    alert_user=models.ForeignKey(UserProfile)
+    alert_user=models.ForeignKey(UserProfile,null=True)
     alert_category = models.ForeignKey(Category, verbose_name='Chosen Category', null=False)
     alert_subcategory =models.ForeignKey(SubCategory,null=False)
     alert_brand=models.ForeignKey(Dropdown,null=False)
@@ -160,17 +161,17 @@ class FreeAlert(models.Model):
         return qs
 
 class Transaction(models.Model):
-    
+
   """
   Transaction handles all transactions in the system
-    1 Order * from Buyer     
+    1 Order * from Buyer
     2 Deposit * from Actor
     3 Payout * to Actor
     4 Voucher * from Actor
     5 Sales * to Seller
     6 Commission * to Fixido
     7. Kickback * to Partner
-  """ 
+  """
   def create_transaction_reference():
       try:
           return 'AO' + str(int(Transaction.objects.filter(reference__startswith='AO').latest('reference').reference[2:]) + 1)
@@ -182,30 +183,30 @@ class Transaction(models.Model):
           return int(Transaction.objects.latest('transaction_id').transaction_id) + 1
       except:
           return 1
-      
+
   #TODO WRITE CODE TO UPDATE THE USER ACCOUNT WITH EVERY TRANSACTION!!! = UPDATE THE ACTOR ACCOUNT BALANCE!!!
-  transaction_id = models.IntegerField(default=create_transaction_id, null=False, editable=True, help_text="Internal transaction id. Used for identification")  
-  reference = models.CharField(max_length=128, primary_key=True, default=create_transaction_reference, editable=True, help_text="Internal transaction reference. Used for identification")  
+  transaction_id = models.IntegerField(default=create_transaction_id, null=False, editable=True, help_text="Internal transaction id. Used for identification")
+  reference = models.CharField(max_length=128, primary_key=True, default=create_transaction_reference, editable=True, help_text="Internal transaction reference. Used for identification")
   userprofile = models.ForeignKey(UserProfile)
-  
-  amount = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, help_text="Total paid amount including TAX") 
+
+  amount = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, help_text="Total paid amount including TAX")
   currency = models.CharField(max_length=8, default=settings.BASE_CURRENCY, null=True, blank=True, help_text="Payment currency. Stored as ISO codes (SEK, EUR, etc) in the DB")
-  
+
   payment_method = models.CharField(max_length=128, null=True, blank=True, help_text="Refer to the payment method.")
   payment_reference = models.CharField(max_length=128, null=True, blank=True, help_text="Refer to a payment. Can be payment gateway transaction id.")
   payment_message = models.CharField(max_length=256, null=True, blank=True, help_text="Message from payment system. Can be used for payment status and error messages.")
 
   # transaction_type = models.CharField(max_length=15, choices=TRANSACTION_TYPE, help_text="Type of the transaction. Handle by system.")
   # transaction_flag = models.CharField(max_length=10, choices=TRANSACTION_FLAG, help_text="Flag of the transaction. Handle by system.")
-  
-  # order = models.ForeignKey(Order, null=True, blank=True)  
+
+  # order = models.ForeignKey(Order, null=True, blank=True)
   # invoice = models.ForeignKey(Invoice, null=True, blank=True)
-  
+
   UserIp = models.CharField(max_length=100, null=True, blank=True, help_text="stores user ip.")
   #TODO> PAYMENT WITH VOUCHER voucher
-  
-  #TODO> PAYMENT WITH ACCOUNT. IN FUTURE USER CAN HAVE MULTIPLE ACCOUNTS TO PAY. FOR EXAMPLE A RESELLER.  
-  
+
+  #TODO> PAYMENT WITH ACCOUNT. IN FUTURE USER CAN HAVE MULTIPLE ACCOUNTS TO PAY. FOR EXAMPLE A RESELLER.
+
   #TODO> COPY THIS FUNCTION TO ACTOR AS WELL TO MAKE INTERNAL NOTES ON ACTORS!!
   # admin_note = models.TextField(null=True, blank=True, help_text="Admin user can add a manual note")
   admin_note_created = models.DateTimeField(auto_now_add=True, null=True, blank=True, help_text="Auto generated by system.")
@@ -222,7 +223,7 @@ class Transaction(models.Model):
   base_exchange_rate = models.DecimalField(default=1, decimal_places=4,
     blank=True, max_digits=10)
 
-  
+
   created = models.DateTimeField(auto_now_add=True, help_text="Auto generated by system.")
   transaction_date.editable=True
   modified = models.DateTimeField(auto_now_add=True, auto_now=True, help_text="Auto generated by system.")
@@ -255,8 +256,6 @@ class Transaction(models.Model):
       self.base_currency = CurrencyExchangeRate.BaseCurrency()
 
     super(Transaction, self).save(*args, **kwargs)
- 
+
   def __unicode__(self):
     return str(self.reference)
-
-

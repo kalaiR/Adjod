@@ -1,71 +1,72 @@
 function sign_in_center_align(){
       var height=$('.sign_in_div').height();
       var width=$('.sign_in_div').width();
-      $('.sign_in_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});       
+      $('.sign_in_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 }
 
 function sign_up_center_align(){
       var height=$('.sign_up_div').height();
       var width=$('.sign_up_div').width();
-      $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});   
+      $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 }
 
 function category_popup_center_align(){
+
       var height=$('.choose_category_div,.choose_category_div_mobile').height();
       var width=$('.choose_category_div,.choose_category_div_mobile').width();
-      $('.choose_category_div,.choose_category_div_mobile').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});       
+      $('.choose_category_div,.choose_category_div_mobile').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 }
 
 function forgot_center_align(){
       var height=$('.forgot_div').height();
       var width=$('.forgot_div').width();
-      $('.forgot_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});   
+      $('.forgot_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 }
 // function product_image(){
 //   // alert("product_image");
 //    var height = $('.product_images1 img').height();
 //    var width = $('.product_images1 img').width();
-//    $('.product_images1 img').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});    
+//    $('.product_images1 img').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 // }
 
-   
+
 // $( document ).ready(function() {
 //   product_image();
 // });
 
-// $(window).load(function() { 
-//    product_image(); 
+// $(window).load(function() {
+//    product_image();
 // });
 
-// $(window).load(function() { 
+// $(window).load(function() {
 //     var $upperimg = $('.upperimg img');
 //     $('.thumbs img').click(function () {
 //         $upperimg.attr('src', this.src);
 //     });
-    
+
 //     $('.product_image img').load(function(){
 //       // alert("product_image");
 //       var height = $(this).height();
 //       var width = $(this).width();
-//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 //     });
 
 //     $('.product_images1 img').load(function(){
 //       var height = $(this).height();
 //       var width = $(this).width();
-//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 //     });
 
 //     $('.upperimg img').load(function(){
 //       var height = $(this).height();
 //       var width = $(this).width();
-//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 //     });
 
 //     $('.thumbs img').load(function(){
 //       var height = $(this).height();
 //       var width = $(this).width();
-//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 //     });
 // });
 
@@ -79,7 +80,7 @@ function forgot_center_align(){
 $.fn.center = function () {
     var height = $(this).height();
     var width = $(this).width();
-    $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});   
+    $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
     return this;
 }
 
@@ -90,19 +91,19 @@ $( document ).ready(function() {
     });
 
      $('.product_image img').load(function(){
-      $(this).center(); 
+      $(this).center();
     });
 
     $('.product-image img').load(function(){
-      $(this).center(); 
+      $(this).center();
     });
-   
+
     // $('.count_holder1 img').each(function(){
     //   $(this).center();
     // });
 
     $('.thumbs img').load(function(){
-      $(this).center();     
+      $(this).center();
     });
 });
 
@@ -115,26 +116,26 @@ $( document ).ready(function() {
 //     $('.product_image img').load(function(){
 //       var height = $(this).height();
 //       var width = $(this).width();
-//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});     
+//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 //     });
-   
+
 //     $('.product_images1 img').load(function(){
 //       alert("product_images1");
 //       var height = $(this).height();
 //       var width = $(this).width();
-//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 //     });
 
 //     $('.product_images1 img').load(function(){
 //       var height = $(this).height();
 //       var width = $(this).width();
-//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});      
+//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 //     });
 
 //     $('.thumbs img').load(function(){
 //       var height = $(this).height();
 //       var width = $(this).width();
-//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});  
+//       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 //     });
 // });
 
@@ -155,7 +156,7 @@ $( document ).ready(function() {
         $(".option_value").slideUp();
       });
 
-      
+
       $('.alert_btn').click(function(){
         $('.popup_fade').show();
         $('.free_content, .close_btn').show();
@@ -184,38 +185,42 @@ $( document ).ready(function() {
     //For Popup
       $('.popup_sign_up, .footer_signup').click(function(){
       // alert("popup");
-      
+
       // var height=$('.sign_up_div').height();
       // var width=$('.sign_up_div').width();
-      // $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+      // $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
       sign_up_center_align();
-      
+
       $('.popup_fade').show();
-      $('.sign_up_div, .close_btn').show();   
+      $('.sign_up_div, .close_btn').show();
+      $('.sign_in_div').hide();
       document.body.style.overflow = 'hidden';
     });
 
+
     $('.popup_sign_in, .footer_login').click(function(){
       // alert("popup");
-      
+
       // var height=$('.sign_in_div').height();
       // var width=$('.sign_in_div').width();
-      // $('.sign_in_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
+      // $('.sign_in_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
       sign_in_center_align();
       $('.popup_fade').show();
       $('.sign_in_div, .close_btn').show();
-       
+      $('.sign_up_div').hide();
+
       document.body.style.overflow = 'hidden';
     });
 
     $('.choose_button').click(function(){
-      // alert("popup");     
+      // alert("popup");
       // var height=$('.sign_up_div').height();
       // var width=$('.sign_up_div').width();
-      // $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
-      category_popup_center_align();      
+      // $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
+      category_popup_center_align();
       $('.popup_fade').show();
-      $('.choose_category_div, .choose_category_div_mobile, .close_btn').show();   
+
+      $('.choose_category_div, .choose_category_div_mobile, .close_btn').show();
       document.body.style.overflow = 'hidden';
     });
 
@@ -228,41 +233,41 @@ $( document ).ready(function() {
 
     /// password strength in sign up popup//
     $('#password').keyup(function(){
-     
+
         $('#result').html(checkStrength($('#password').val()));
-    });  
- 
+    });
+
     function checkStrength(password){
-   
+
     //initial strength
     var strength = 0
- 
+
     //if the password length is less than 6, return message.
     if (password.length < 6) {
         $('#result').removeClass()
         $('#result').addClass('short')
         return 'Too short'
     }
- 
+
     //length is ok, lets continue.
- 
+
     //if length is 8 characters or more, increase strength value
     if (password.length > 7) strength += 1
- 
+
     //if password contains both lower and uppercase characters, increase strength value
     if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/))  strength += 1
- 
+
     //if it has numbers and characters, increase strength value
-    if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/))  strength += 1 
- 
+    if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/))  strength += 1
+
     //if it has one special character, increase strength value
     if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/))  strength += 1
- 
+
     //if it has two special characters, increase strength value
     if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,",%,&,@,#,$,^,*,?,_,~])/)) strength += 1
- 
+
     //now we have calculated strength value, we can return messages
- 
+
     //if value is less than 2
     if (strength < 2 ) {
         $('#result').removeClass()
@@ -290,8 +295,8 @@ $( document ).ready(function() {
           //     $(".signup_confirm_button").css({'disabled':disabled});
           //   }
           // });
-     
-      
+
+
 		      $('input[type=text], textarea').focus(function() {
 		      if( this.value == this.defaultValue ) {
 		       this.value = "";
@@ -300,7 +305,7 @@ $( document ).ready(function() {
 		       if( !this.value.length ) {
 		      this.value = this.defaultValue;
 		      }
-  		    });  
+  		    });
 
           // setTimer();
 
@@ -312,41 +317,41 @@ $( document ).ready(function() {
     if (next.length === 0) {
         next = $('.banner_ad ul li:first');
     }
-    
+
     active.removeClass('banneractive');
     next.addClass('banneractive');
     }
     setInterval(toggleSlide, 4000);
-		});  
-} )( jQuery ); 
+		});
+} )( jQuery );
 
- 
+
 
 
 
 
 // function setTimer() {
 //     //Call the gallery function to run the slideshow, 7000 = change to next image after 7 seconds
-    
+
 //     setInterval('changeImage()', 7000);
 // }
 
-// function changeImage() {  
+// function changeImage() {
 //     // alert("changeImage");
 //     $.getJSON("/getImages/",
-//     function(json) {  
+//     function(json) {
 //             // alert(json);
 //             $('#bannerimage').attr('src',json);
 
 
 //             // for (j = json.length - 1; j >= 0; j--) {
 //             //     // alert("changeImage function");
-//             //     imagID = "addImg" + (j + 1); 
-//             //     // alert(imagID);   
+//             //     imagID = "addImg" + (j + 1);
+//             //     // alert(imagID);
 //             //     alert(json[j]);
-//             //     document.getElementById(imagID).src = json[j];            
+//             //     document.getElementById(imagID).src = json[j];
 //             //     // $('#imagID').html(json[j]);
-//             // }        
+//             // }
 //         }
 //     );
 // }
@@ -371,7 +376,7 @@ function updateCountdownTitle() {
 function updateCountdownDesc() {
 	var remaining = 500 - $('#your_description').val().length;
 	$('#desc_count').text(remaining);
-    		
+
 }
 
 //********** End Functions **********
@@ -386,7 +391,7 @@ $( document ).ready(function() {
       forgot_center_align();
       $('.popup_fade').show();
       $('.sign_in_div').hide();
-      $('.forgot_div, .close_btn').show();       
+      $('.forgot_div, .close_btn').show();
       document.body.style.overflow = 'hidden';
       });
 
@@ -402,10 +407,10 @@ $( document ).ready(function() {
         var countryData = $.fn.intlTelInput.getCountryData(),
           telInput = $("#your_mobile_no"),
           addressDropdown = $("#country");
-    
+
         // init plugin
           telInput.intlTelInput({
-          utilsScript: "../../static/lib/libphonenumber/build/utils.js"  
+          utilsScript: "../../static/lib/libphonenumber/build/utils.js"
         });
 
           telInput.change(function() {
@@ -429,11 +434,11 @@ $( document ).ready(function() {
       // get the country data from the plugin
       var countryData = $.fn.intlTelInput.getCountryData(),
         telInput = $("#mobilenumber"),
-        addressDropdown = $("#country");      
+        addressDropdown = $("#country");
 
       // init plugin
         telInput.intlTelInput({
-        utilsScript: "../../static/lib/libphonenumber/build/utils.js"  
+        utilsScript: "../../static/lib/libphonenumber/build/utils.js"
       });
 
         telInput.change(function() {
@@ -458,10 +463,10 @@ $( document ).ready(function() {
         var countryData = $.fn.intlTelInput.getCountryData(),
           telInput = $("#mobile_number_sign_up_home"),
           addressDropdown = $("#country");
-    
+
         // init plugin
           telInput.intlTelInput({
-          utilsScript: "../../static/lib/libphonenumber/build/utils.js"  
+          utilsScript: "../../static/lib/libphonenumber/build/utils.js"
         });
 
           telInput.change(function() {
@@ -483,10 +488,10 @@ $( document ).ready(function() {
         var countryData = $.fn.intlTelInput.getCountryData(),
           telInput = $("#mobile_number_sign_up_search"),
           addressDropdown = $("#country");
-    
+
         // init plugin
           telInput.intlTelInput({
-          utilsScript: "../../static/lib/libphonenumber/build/utils.js"  
+          utilsScript: "../../static/lib/libphonenumber/build/utils.js"
         });
 
           telInput.change(function() {
@@ -508,10 +513,10 @@ $( document ).ready(function() {
         var countryData = $.fn.intlTelInput.getCountryData(),
           telInput = $("#mobile_number_sign_up_postad"),
           addressDropdown = $("#country");
-    
+
         // init plugin
           telInput.intlTelInput({
-          utilsScript: "../../static/lib/libphonenumber/build/utils.js"  
+          utilsScript: "../../static/lib/libphonenumber/build/utils.js"
         });
 
           telInput.change(function() {
@@ -534,11 +539,11 @@ $( document ).ready(function() {
 
 
 
-        	
+
 	// updateCountdown();
     // $('.ad_title').onkeypress(updateCountdown);
     // $('.ad_title').keyup(updateCountdown);
-	
+
 	//================= Fancy Box popup for choose category ======================
 	// $('.fancybox').fancybox({
 	// 	helpers : {
@@ -550,14 +555,14 @@ $( document ).ready(function() {
 	// 	}
 	// });
 
-	
+
     $('#highlightchk1').click(function(){
         if($("#highlightchk1").is(':checked')) {
             $('#premium_ad_hidden_part1').show();
             // $('#premium_ad_hidden_part2').hide();
             // $('#premium_ad_hidden_part3').hide();
         }
-        else 
+        else
             $('#premium_ad_hidden_part1').hide();
     })
 
@@ -663,21 +668,21 @@ var response_cache2 = {};
 var response_cache3 = {};
 var response_cache4 = {};
 function find_subcategory(category_id) {
-   
+
   if (response_cache[category_id]) {
 
     $(".subcategory_list").html(response_cache[category_id]);
   } else {
-   
+
     $.getJSON("/subcategory_for_category/", {category_id: category_id},
       function(ret, textStatus) {
-        
+
         var options = '';
         for (var i in ret) {
-          
+
           options += '<li><input type="hidden" name="subcategory" value="' + ret[i].id + '">'
             + ret[i].name + '</li>';
-          
+
         }
 
         response_cache[category_id] = options;
@@ -687,19 +692,19 @@ function find_subcategory(category_id) {
 }
 
 // function find_brand(sub_category_id) {
-  
-  
+
+
 //   if (response_cache1[sub_category_id]) {
 
 //     $(".brand_list").html(response_cache1[sub_category_id]);
 //   } else {
-   
+
 //     $.getJSON("/brand_for_subcategory/", {sub_category_id: sub_category_id},
 //       function(ret, textStatus) {
-        
+
 //         var options = '';
 //         for (var i in ret) {
-          
+
 //           options += '<li><input type="hidden" name="brand" value="' + ret[i].id + '">'
 //             + ret[i].name + '</li>';
 //         }
@@ -712,12 +717,12 @@ function find_subcategory(category_id) {
 
 function find_brand(sub_category_id) {
 
-  
+
   if (response_cache1[sub_category_id]) {
 
     $(".brand_list").html(response_cache1[sub_category_id]);
   } else {
-   
+
     $.getJSON("/brand_for_subcategory/", {sub_category_id: sub_category_id},
       function(ret, textStatus) {
         if(ret.length == 0){
@@ -731,11 +736,11 @@ function find_brand(sub_category_id) {
           $('#category_name').val(category_id);
           $('#subcategory_name').val(sub_category_id);
           $('#category').val(category + " » " + sub_category);
-          $('.choose_button').text('change');   
+          $('.choose_button').text('change');
          }
          else{
           var options = '';
-          for (var i in ret) {  
+          for (var i in ret) {
             options += '<li><input type="hidden" name="brand" value="' + ret[i].id + '">'
               + ret[i].name + '</li>';
           }
@@ -752,7 +757,8 @@ function fill_localities(city_id) {
   } else {
     $.getJSON("/localities_for_city/", {city_id: city_id},
       function(ret, textStatus) {
-        var options = '';
+        var options = '';      
+        $('#select_post_locality').text("Select Locality");
         options +='<option>Select Locality</option>';
         for (var i in ret) {
           options += '<option value="' + ret[i].id + '">'
@@ -770,7 +776,7 @@ function fill_subcategories(category_id) {
 
     $("#id_subcategory").html(response_cache3[category_id]);
   } else {
-    
+
     $.getJSON("/subcategory_for_category/", {category_id: category_id},
       function(ret, textStatus) {
         var options = '';
@@ -780,7 +786,7 @@ function fill_subcategories(category_id) {
             + ret[i].name + '</option>';
         }
         response_cache3[category_id] = options;
-        
+
         $("#id_subcategory").html(options);
       });
   }
@@ -795,7 +801,7 @@ function fill_brands(sub_category_id) {
     $.getJSON("/brand_for_subcategory/", {sub_category_id: sub_category_id},
       function(ret, textStatus) {
         if(ret.length == 0){
-         
+
           $('#id_brand').hide();
           $('.div_brand').css({'opacity':0.5});
          }
@@ -804,9 +810,9 @@ function fill_brands(sub_category_id) {
          if (window.location.href.indexOf("search") >= 0) {
           // alert("search");
           for (var i in ret) {
-            
+
             options += '<li><input type="checkbox" class="css-checkbox sme brandtype"  name ="brandtype" value ="' + ret[i].id + '"><label for="checkbox1" name="checkbox1_lbl" class="css-label sme depressed">'+ ret[i].name + '</label></li>';
-    
+
           }
 
           $(".hiddenclass").html(options);
@@ -819,7 +825,7 @@ function fill_brands(sub_category_id) {
             + ret[i].name + '</option>';
         }
         response_cache4[sub_category_id] = options;
-        
+
         $("#id_brand").html(options);
       }
       });
@@ -872,12 +878,12 @@ $( document ).ready(function() {
 		// var sub_category = "Cars";
 		// var brand = "Audi";
   //   var sub_category_id= "";
-		// $('input[type=radio]').change(function() { 
+		// $('input[type=radio]').change(function() {
 			// var radio_name = this.name;
 			// $('input[name='+radio_name+']').removeAttr('checked');
 			// $(this).attr('checked','checked');
 		// });
-		
+
 		//============= SIGN UP VALIDATION ===========
 		// $('#create').click(function(){
 		// 	//Email
@@ -887,8 +893,8 @@ $( document ).ready(function() {
   //     		} else {
   //         		if (!$('#email_required').hasClass('hide_error_message'))
   //             		$('#email_required').addClass('hide_error_message');
-              	
-  //         		if( !isValidEmailAddress( $('#email_id').val() ) ) { 
+
+  //         		if( !isValidEmailAddress( $('#email_id').val() ) ) {
   //             		$('#valid_signup_email_required').removeClass('hide_error_message');
   //         		} else {
   //             		if (!$('#valid_signup_email_required').hasClass('hide_error_message'))
@@ -903,10 +909,10 @@ $( document ).ready(function() {
   //             		$('#signup_password_required').addClass('hide_error_message');
   //    	 	};
 		// });
-		
-		
-	
-	   
+
+
+
+
 	    //============= POST AD VALIDATION ===========
 
     jQuery(document).ready(function(){
@@ -922,16 +928,16 @@ $( document ).ready(function() {
 
     //============= SIGN IN VALIDATION ===========
 
-     
-   // jQuery('#signin').click(function(){     
+
+   // jQuery('#signin').click(function(){
    //    for (i=0;i<sign_in_required.length;i++) {
    //    var input = jQuery('#'+sign_in_required[i]);
-   //    if (input.val() == "")  {   
+   //    if (input.val() == "")  {
    //      input.addClass("error_input_field");
-   //      input.siblings('.labelError').show();         
-   //    } else {    
+   //      input.siblings('.labelError').show();
+   //    } else {
    //      input.removeClass("error_input_field");
-   //      input.siblings('.labelError').hide();        
+   //      input.siblings('.labelError').hide();
    //    }
    //  }
    //  //Validate the e-mail.
@@ -955,19 +961,19 @@ $( document ).ready(function() {
    //    alert("else");
    //    signin();
    //    return true;
-   //    // $('form[name="sign_in"]').submit();      
+   //    // $('form[name="sign_in"]').submit();
    //  }
    //  });
 
   //*************** start Free alert form validation ***********
-   
-$("#alert_button").click(function(){ 
+
+$("#alert_button").click(function(){
 
       //email
       if ($('#email').val() == "")
-           $('#email').parent().next('.email_labelError').show();  
+           $('#email').parent().next('.email_labelError').show();
       else{
-          if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#email').val())) 
+          if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#email').val()))
           {
           $('#email').parent().next('.email_labelError').text("Please enter valid email address");
           $('.email_labelError').show();
@@ -979,28 +985,28 @@ $("#alert_button").click(function(){
       }
 
       //category
-      if ($('#select_post_category').text() == "Select Category")    
-        $('.select_post_category').parent().next('.labelError').show(); 
+      if ($('#select_post_category').text() == "Select Category")
+        $('.select_post_category').parent().next('.labelError').show();
       else
         $('.select_post_category').parent().next('.labelError').hide();
-      
+
       //subcategory
-      if ($('#select_post_subcategory').text() == "Select SubCategory")    
-        $('.select_post_subcategory').parent().next('.labelError').show(); 
+      if ($('#select_post_subcategory').text() == "Select SubCategory")
+        $('.select_post_subcategory').parent().next('.labelError').show();
       else
         $('.select_post_subcategory').parent().next('.labelError').hide();
-      
+
       //brand
-      if ($('#select_post_brand').text() == "Select Brand") 
-        $('.select_post_brand').parent().next('.labelError').show(); 
+      if ($('#select_post_brand').text() == "Select Brand")
+        $('.select_post_brand').parent().next('.labelError').show();
       else
-        $('.select_post_brand').parent().next('.labelError').hide(); 
+        $('.select_post_brand').parent().next('.labelError').hide();
 
        //city
-      if ($('#select_post_city').text() == "Select City") 
-        $('.select_post_city').parent().next('.labelError').show(); 
+      if ($('#select_post_city').text() == "Select City")
+        $('.select_post_city').parent().next('.labelError').show();
       else
-        $('.select_post_city').parent().next('.labelError').hide(); 
+        $('.select_post_city').parent().next('.labelError').hide();
 
         if ($('.labelError,.email_labelError').is(":visible"))
           return false;
@@ -1017,12 +1023,12 @@ $("#alert_button").click(function(){
     if ($('.confirm').prop('checked') == true){
             for (i=0;i<sign_up_required.length;i++) {
             var input = jQuery('#'+sign_up_required[i]);
-            if (input.val() == "")  {   
+            if (input.val() == "")  {
             input.addClass("error_input_field");
-            input.siblings('.signup_labelError').show();         
-            } else {    
+            input.siblings('.signup_labelError').show();
+            } else {
               input.removeClass("error_input_field");
-              input.siblings('.signup_labelError').hide();        
+              input.siblings('.signup_labelError').hide();
             }
           }
           //Validate the e-mail.
@@ -1050,17 +1056,17 @@ $("#alert_button").click(function(){
     else
           return false;
     });
-  
-    jQuery("#post").click(function(){ 
+
+    jQuery("#post").click(function(){
     for (i=0;i<required.length;i++) {
       var input = jQuery('#'+required[i]);
       if (input.val() == "")  {
         input.addClass("error_input_field");
-        input.siblings('.labelError').show();    
-        
+        input.siblings('.labelError').show();
+
       } else {
         input.removeClass("error_input_field");
-        input.siblings('.labelError').hide();        
+        input.siblings('.labelError').hide();
       }
     }
 
@@ -1071,9 +1077,9 @@ $("#alert_button").click(function(){
     }
     else {
       $('#buy,#sell').addClass("error_input_field");
-      
+
       $('#buy,#sell').siblings('.labelError').show();
-  
+
     }
 
     // Dealer and Individual Radio
@@ -1083,13 +1089,13 @@ $("#alert_button").click(function(){
     }
     else {
       $('#individual,#dealer').addClass("error_input_field");
-      
+
       $('#individual,#dealer').siblings('.labelError').show();
-  
+
     }
 
     // // Dropdown city
-    if ($('#select_post_city').text() == "Select city *") {
+    if (($('#select_post_city').text() == "Select city *") || ($('#select_post_city').text() == "Select City")) {
       $('.select_container_city').addClass("error_input_field");
       $('.select_container_city').find('.labelError').show();
     }
@@ -1099,13 +1105,13 @@ $("#alert_button").click(function(){
     }
 
     // // Dropdown locality
-    if ($('#select_post_locality').text() == "Select locality *") {
+    if (($('#select_post_locality').text() == "Select locality *") || ($('#select_post_locality').text() == "Select Locality")) {
       $('.select_container_locality').addClass("error_input_field");  
       $('.select_container_locality').find('.labelError').show();
     }
     else{
       $('.select_container_locality').removeClass("error_input_field");
-      $('.select_container_locality').find('.labelError').hide(); 
+      $('.select_container_locality').find('.labelError').hide();
     }
 
 
@@ -1150,17 +1156,17 @@ $("#alert_button").click(function(){
   //============= FOR SET PREMIUM PLAN AMOUNT ===========
 
     $('input[name=premium_plan]').click(function(){
-      var premium_id=this.id;    
-      if (premium_id == "premium_plan1")   
-        $('input[name=amount]').val("9.99"); 
-      else if (premium_id == "premium_plan2")   
-        $('input[name=amount]').val("14.99");  
-      else if (premium_id == "premium_plan3")   
-        $('input[name=amount]').val("19.99"); 
-      $('form[name="payment_form"]').submit();    
+      var premium_id=this.id;
+      if (premium_id == "premium_plan1")
+        $('input[name=amount]').val("9.99");
+      else if (premium_id == "premium_plan2")
+        $('input[name=amount]').val("14.99");
+      else if (premium_id == "premium_plan3")
+        $('input[name=amount]').val("19.99");
+      $('form[name="payment_form"]').submit();
     });
-    
-   
+
+
       //============= EX POST AD VALIDATION ===========
       $('#post_button').click(function(){
       //Ad type
@@ -1258,7 +1264,7 @@ $("#alert_button").click(function(){
       } else {
           if (!$('#email_required').hasClass('hide_error_message'))
               $('#email_required').addClass('hide_error_message');
-          if( !isValidEmailAddress( $('#email').val() ) ) { 
+          if( !isValidEmailAddress( $('#email').val() ) ) {
               $('#valid_email_required').removeClass('hide_error_message');
           } else {
               if (!$('#valid_email_required').hasClass('hide_error_message'))
@@ -1268,13 +1274,13 @@ $("#alert_button").click(function(){
 
   });
   //============= END EX POST AD VALIDATION ===========
-  	
+
   	//============= CHOOSE PAYMENT METHOD DROPDOWN ===========
  	$( ".select_payment" ).change(function () {
  		var selected_option = $( ".select_payment option:selected" ).val();
  		$('#payment_method').html(selected_option);
 	});
-	
+
 	//============= CHOOSE CITY DROPDOWN ===========
 	$( ".select_city" ).change(function () {
  		var selected_option = $( ".select_city option:selected" ).val();
@@ -1290,19 +1296,19 @@ $("#alert_button").click(function(){
   //============= CHOOSE LANGUAGE DROPDOWN ===========
     $( ".custom_select_value_act" ).change(function () {
       var selected_option = $( ".custom_select_value_act option:selected" ).text();
-      $('#custom_select_value_act').html(selected_option);    
+      $('#custom_select_value_act').html(selected_option);
   });
 
 
   //============= CHOOSE POST CITY DROPDOWN ===========
   $( ".select_post_city" ).change(function () {
-    
+
     var selected_option = $( ".select_post_city option:selected" ).text();
     $('#select_post_city').html(selected_option);
-    
+
     fill_localities($(this).val());
   });
-  
+
   //============= CHOOSE POST LOCALITY DROPDOWN ===========
   $( ".select_post_locality" ).change(function () {
     var selected_option = $( ".select_post_locality option:selected" ).text();
@@ -1311,40 +1317,40 @@ $("#alert_button").click(function(){
 
   //============= CHOOSE CATEGORY DROPDOWN ===========
   $( ".select_post_category" ).change(function () {
-    
+
     var selected_option = $( ".select_post_category option:selected" ).text();
     $('#select_post_category').html(selected_option);
-    
+
     fill_subcategories($(this).val());
-    
+
   });
 
    //============= CHOOSE SUBCATEGORY DROPDOWN ===========
   $( ".select_post_subcategory" ).change(function () {
-    
+
     var selected_option = $( ".select_post_subcategory option:selected" ).text();
     $('#select_post_subcategory').html(selected_option);
     fill_brands($(this).val());
-    
+
   });
   $( ".select_post_brand" ).change(function () {
-    
+
     var selected_option = $( ".select_post_brand option:selected" ).text();
     $('#select_post_brand').html(selected_option);
-    
+
   });
-  	
+
   	//============= CHOOSE CATEGORY POPUP ===========
   	//CATEGORY
   	$('.category_list > li').click(function () {
-      
+
   		$( ".category_list > li" ).each(function( index ) {
 			$( this ).removeClass('orange_text');
 		});
   		$(this).addClass('orange_text');
   		category = $(this).text();
       category_id=$('input[type="hidden"]', this).val();
-      
+
       find_subcategory(category_id);
       $('.brand_list').hide();
   	});
@@ -1356,10 +1362,10 @@ $("#alert_button").click(function(){
   		$( ".subcategory_list > li" ).each(function( index ) {
 			$( this ).removeClass('orange_text');
 		});
-		
+
   		//$(this).addClass('orange_text');
   		sub_category = $(this).text();
-      
+
       sub_category_id = $('input[type="hidden"]', this).val();
 
       $('#brand').html(sub_category);
@@ -1367,17 +1373,17 @@ $("#alert_button").click(function(){
   		$('.brand_list').show();
   		$('#brand').show();
   	});
-  
-  	
+
+
   	//BRAND
-  	$('.brand_list').on("click", ">li", function(){  
+  	$('.brand_list').on("click", ">li", function(){
   		$( ".brand_list > li" ).each(function( index ) {
 			$( this ).removeClass('orange_text');
 		});
   		$(this).addClass('orange_text');
   		brand = $(this).text();
       brand_id = $('input[type="hidden"]', this).val();
-      
+
   		// $('.fancybox-close').click();
       // alert(category_id);
       // alert(sub_category_id);
@@ -1396,7 +1402,7 @@ $("#alert_button").click(function(){
 
   //============= END CHOOSE CATEGORY POPUP ===========
   $('#button_click').click(function () {
-      
+
       var string =gettext('hello');
       alert(string);
     });
@@ -1406,7 +1412,7 @@ $("#alert_button").click(function(){
     $(".leftslide").show();
     $(".leftslide1").show();
   });
-  
+
   $(".closeimg").click(function(){
     $(".leftslide").hide();
     $(".left_sidead").show();
@@ -1414,4 +1420,3 @@ $("#alert_button").click(function(){
   });
 });
 } )( jQuery );
- 

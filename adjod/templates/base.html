@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, user-scalable=no">
     <meta name="description" content="">
-    <meta name="author" content="">   
+    <meta name="author" content="">
     <link rel="shortcut icon" href="">
     <link href="{% static "css/font-awesome.css" %}" rel="stylesheet">
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
@@ -18,18 +18,18 @@
     <link href="{% static "css/jquery.ui.chatbox.css" %}" rel="stylesheet">
     <link href="{% static "css/simpleFilePreview.css" %}" rel="stylesheet">
     <link href="{% static "css/intlTelInput.css" %}" rel="stylesheet">
-    <!-- <script src="{% static "js/jquery-1.9.1.js" %}"></script> 
-    <script src="{% static "js/jquery-ui.min.js" %}"></script> --> 
+    <!-- <script src="{% static "js/jquery-1.9.1.js" %}"></script>
+    <script src="{% static "js/jquery-ui.min.js" %}"></script> -->
     <script src="{% static "js/jquery-1.11.3.min.js" %}"></script>
-    <script src="{% static "js/jquery-migrate-1.2.1.js" %}"></script> 
+    <script src="{% static "js/jquery-migrate-1.2.1.js" %}"></script>
     <script src="{% static "js/jquery-ui-1.10.4.custom.min.js" %}"></script>
-    <script src="{% static "js/bootstrap.min.js" %}"></script>    
-    <script src="{% static "js/jquery.ui.chatbox.js" %}"></script> 
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/jquery.ui.chatbox.js" %}"></script>
     <script src="{% static "js/jquery.ui.slider.js" %}"></script>
     <script src="{% static "js/jquery.switchButton.js" %}"></script>
     <script src="{% static "js/html5shiv.js" %}"></script>
     <script src="{% static "js/less.js" %}"></script>
-    <script src="{% static "js/action.js" %}"></script> 
+    <script src="{% static "js/action.js" %}"></script>
     <script src="{% static "js/search.js" %}"></script>
     <link href="{% static "AdminLTE/dist/css/AdminLTE.css" %}" rel="stylesheet" type="text/css" />
     <link id='theme' rel='stylesheet' />
@@ -42,13 +42,13 @@
     <script src="{% static "js/jquery.tipsy.js" %}"></script>
     <script src="{% static "js/jquery.main.js" %}"></script>
     <script src="{% static "js/config.js" %}"></script>
-    <script src="{% static "js/i18n_en.js" %}"></script>     
-    <script src="{% static "js/quikr_project.js" %}"></script>      
+    <script src="{% static "js/i18n_en.js" %}"></script>
+    <script src="{% static "js/quikr_project.js" %}"></script>
     <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script> 
+    <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script>
     <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
     <script src="{% static "js/jquery.fileupload.js" %}"></script>
-    <script src="{% static "js/intlTelInput.min.js" %}"></script> 
+    <script src="{% static "js/intlTelInput.min.js" %}"></script>
     <script type="text/javascript">
     function updateCountdownTitle() {
         var remaining = 70 - $('.ad_title').val().length;
@@ -58,29 +58,29 @@
         var remaining = 500 - $('#your_description').val().length;
         $('#desc_count').text(remaining);
     }
-    </script>   
+    </script>
 </head>
 <body>
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/nkAydfUqi1s" frameborder="0" allowfullscreen></iframe> -->
-    <div class="top_header"> 
+    <div class="top_header">
       <div class="container">
         <nav class="navbar navbar-inverse navigation_bar logo_contain">
           <div class="navbar-header">
           {% if path == '/' %}
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
               <span class="icon-bar"></span>
-              <span class="icon-bar"></span> 
-              <span class="icon-bar"></span> 
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
             </button>
             <div class="select_area">
               <i class="fa fa-map-marker location_font"></i>
-                <select class="select_area">  
+                <select class="select_area">
                           <option  id="currentid" value="{{request.COOKIES.global_city_id}}">Select area{{ request.COOKIES.city }}</option>
                           {% for cities in current_country_cities %}
                             {% if cities.city != request.COOKIES.city %}
                               <option value="{{cities.id}}" id="ajax_cityid">{{ cities.city }} </option>
                             {% endif %}
-                          {% endfor%} 
+                          {% endfor%}
                   </select>
                  <i class="fa fa-chevron-down down_font"></i>
               </div><!--select_area-->
@@ -111,7 +111,7 @@
           {% if 'postad' in path  %}
             <div class="postad_page">
               <i class="fa fa-angle-left left_angle"></i>
-              
+
              </div><!--postad_page-->
           {% endif %}
 
@@ -121,32 +121,32 @@
                       <li><a href="/">{{request.user.email}}</a></li>
                     {% endif %}
                     {% if 'search' in path %}
-                    <li>   
-                      <div class="custom_select language_custom_select">             
+                    <li>
+                      <div class="custom_select language_custom_select">
                         <div class="select">
-                        <p id="cityselected">{{ request.COOKIES.city }}</p>                           
-                        <i class="fa fa-caret-down"></i>                              
-                        <select class="city">  
+                        <p id="cityselected">{{ request.COOKIES.city }}</p>
+                        <i class="fa fa-caret-down"></i>
+                        <select class="city">
                           <option  id="currentid" value="{{request.COOKIES.global_city_id}}">{{ request.COOKIES.city }}</option>
                           {% for cities in current_country_cities %}
                             {% if cities.city != request.COOKIES.city %}
                               <option value="{{cities.id}}" id="ajax_cityid">{{ cities.city }} </option>
                             {% endif %}
-                          {% endfor%} 
+                          {% endfor%}
                         </select>
-                         </div><!-- select -->        
-                       </div><!-- custom_select -->    
+                         </div><!-- select -->
+                       </div><!-- custom_select -->
                     </li>
                     {% endif %}
                     <li>
                         <div class="custom_select language_custom_select">
                             <div class="select lang_select">
-                              <p>  
-                                  
+                              <p>
+
                                   {% if request.LANGUAGE_CODE == 'en' or request.REQUEST.la == 'en' %}
                                     {% trans "English" %}
                                   {% endif %}
-                                  
+
                                   {% if request.LANGUAGE_CODE == 'de' or request.REQUEST.la == 'de' %}
                                     {% trans "German" %}
                                   {% endif %}
@@ -155,21 +155,21 @@
                                     {% trans "Swedish" %}
                                   {% endif %}
                               </p>
-                              
+
                               <i class="fa fa-caret-down"></i>
-                              </div><!-- select -->                
+                              </div><!-- select -->
                               <form action="/i18n/setlang/" method="post" id="language_selector">
-                                {% csrf_token %}  
+                                {% csrf_token %}
                                   <input name="next" type="hidden" value="{{request.path}}{% if request.GET.urlencode %}?{{request.GET.urlencode}}{% endif %}" />
                                   <select name="language" onchange="this.form.submit();">
-                                      <option value="" style="display: none;"> </option>                                  
+                                      <option value="" style="display: none;"> </option>
                                       <option value="en">{% trans "English" %}</option>
                                       <option value="de">{% trans "German" %}</option>
                                       <option value="sv">{% trans "Swedish" %}</option>
                                   </select>
                                 </form>
                             </div><!-- custom_select -->
-                              
+
                       </li>
                       <li>
                           {% if user.is_authenticated %}
@@ -181,7 +181,7 @@
                       </li>
                 </ul>
           </div> <!-- navbar collapse -->
-        </nav> <!-- navigation bar --> 
+        </nav> <!-- navigation bar -->
       </div><!-- container -->
     </div><!-- top_header -->
 
@@ -196,8 +196,9 @@
                 {% if query or request.REQUEST.q or request.REQUEST.q == '' %}
                 <input type="text"  name="q" id="q" class="form-control input-lg" placeholder="Search here"  value="{% if query %}{{ query }}{% elif request.REQUEST.q %}{{request.REQUEST.q}}{% elif request.REQUEST.q == '' %}{% else %}{% endif %}" />
                 {% else %}
+
                 <input type="text" name="q" id="q" class="form-control input-lg" placeholder="Search here"  value="{% if recent_viewed_search %}{% for cat in recent_viewed_search|slice:'1' %}{% if cat.activity_view %}{{ cat.activity_view }}{% else %}{% endif %}{% endfor %}{% else %}{% endif %}"/>
-                {% endif %} 
+                {% endif %}
             </div> <!-- form -->
             <button type="submit"class="btn btn-lg btn-success search_btn" value="Search">Search</button>
         </form>
@@ -226,8 +227,9 @@
                       <button type="submit"class="btn btn-lg btn-success search_b">Search</button>
                       <a href="{% url product_form %}" class="btn btn-lg post-button">Post free Ad</a>
                       <a href="/" class="btn btn-lg alert-button">Create free alert</a>
-                </form> <!-- info_form -->       
-          </div> <!-- container logo_part --> 
+
+                </form> <!-- info_form -->
+          </div> <!-- container logo_part -->
         {%  if 'search' in path %}
           <div class="container logo_part_mobile hidden-lg">
                 <form class="info_form" method="get" action="/search/?q=">
@@ -242,14 +244,14 @@
                       <button type="submit"class="btn btn-lg btn-success search_b">Search</button>
                       <a href="{% url product_form %}" class="btn btn-lg post-button">Post free Ad</a>
                       <a href="/" class="btn btn-lg alert-button">Create free alert</a>
-                </form> <!-- info_form -->       
-          </div> <!-- container logo_part --> 
+                </form> <!-- info_form -->
+          </div> <!-- container logo_part -->
         {% endif %}
-           {%  if 'postad' in path %} 
+           {%  if 'postad' in path %}
             <div class="container">
               <div class="post_ad_first">Post an Ad in just 30 seconds</div>
                 <div class="post_ad_second">DO NOT post multiple ads for the same items or service. All duplicate, spam and wrongly categorized ads will be deleted.</div>
-            </div> 
+            </div>
           {% endif %}
       </div> <!-- search_part -->
       {%  if 'search' in path  or 'ads' in path or 'update_profile' in path %} 
@@ -263,11 +265,11 @@
       {% endif %}
     {% endif %}
 
-    <div class="container second_part">     
-      {% block content %} 
-      {% endblock %}     
+    <div class="container second_part">
+      {% block content %}
+      {% endblock %}
     </div> <!-- container second part -->
-  
+
     {% if 'search' in path %}
     <div class="container center">
       {%block search_results%}
@@ -281,7 +283,8 @@
       <div class="hp_ad banner_ad">
       <ul class="fifth_part">
       {% for banners in banner|get_banner %}
-      {% if banners.pageurl == '/' and banners.position == 'bottom'%}    
+
+      {% if banners.pageurl == '/' and banners.position == 'bottom'%}
       <li><a class="bannerlink" href="{{banners.link}}"><img class="bannerimage" src="../../{{banners.banner}}" style="height:120px;width:970px;"><i class="fa fa-times-circle closebtn1"></i></a></li>
       {% endif %}
       {% endfor %}
@@ -302,14 +305,14 @@
       <div class="container">
         <div class="row row_4 footer_content">
           <div class="col-md-2">
-                           <ul> 
+                           <ul>
                             <li><a href="" class="footer">Help</a></li>
                             <li><a href="" class="footer">Terms of use</a></li>
                             <li><a href="" class="footer">How it works</a></li>
                             </ul>
           </div>
           <div class="col-md-2">
-                           <ul> 
+                           <ul>
                             <li><a href="" class="footer">Privacy policy</a></li>
                             <li><a href="" class="footer">Locations map</a></li>
                             <li><a href="" class="footer">Contact us</a></li>
@@ -330,6 +333,7 @@
           </div>
         </div> <!-- row4 -->
 
+
        </div> <!-- container-->
   </div> <!-- final_part -->
       {%  if path == '/' or 'start' in path  or 'search' in path %}
@@ -344,11 +348,11 @@
               <button class="footer_signup">Sign up</button>
         </div><!--footer_responsive-->
       {% endif %}
-    
+
     {% include "base_ajax.html" %}
 
       <!--======================
-            Sign in 
+            Sign in
       ========================-->
       <div class="popup_fade cancel_btn" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}"></div>
       <div class="container">
@@ -358,57 +362,58 @@
             <div class="sign_in_title">
               <span>Sign in</span>
             </div> <!-- sign_in_title -->
-            
+
             <div id="account" class="form-group">
                 <span>I have a account already</span>
               </div> <!-- account -->
                <span class="signup_error" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}">
                 {%for message in messages%}{{message}}{% endfor %}</span>
-           <form id="login_form" method="post" action="/login/" name="sign_in">  
+           <form id="login_form" method="post" action="/login/" name="sign_in">
            {% csrf_token %}
             <div id="email_userid_div" class="form-group">
                 <input class="email_id" name="email_id" id="emailid_signup" placeholder="Username" />
                 <label for="emailid_signup" id="emailid_required" class="labelError" style="display:none;">Please enter Email or User ID</label>
               </div> <!-- email_id_div -->
-              
+
               <div id="password_signup_div" class="form-group">
                 <input class="password" type="password" name="password" id="password_signup" placeholder="Password*" />
                 <label for="password" id="password_required" class="labelError" style="display:none;">Please enter Password</label>
               </div> <!-- password_div -->
-              <input type="hidden" value="{{ request.get_full_path }}" name="next" /> 
-            </form> 
-            
-            
+
+              <input type="hidden" value="{{ request.get_full_path }}" name="next" />
+            </form>
+
+
             <div id="forgot_div" class="form-group">
               <span class="forgot_act">Forgot you password?</span>
               <input class="btn confirm_button" type="button" value="Sign in" name="create" id="signin" />
-           
+
             </div> <!-- forgot_div -->
-            
+
             <div id="" class="form-group">
               <hr class="photos_line" noshade="noshade">
             </div> <!-- hr_div -->
-            
+
             <div  class="form-group">
               <span class="signin">I don't have a account</span>
             </div> <!-- signin_div -->
-            
+
             <div id="free_signup_div" class="form-group">
               <a class="popup_sign_up"><button class="free_button btn-lg">Sign up for free</button></a>
             </div> <!-- free_signup_div -->
-            
+
         </div> <!-- sign_in_div -->
       </div> <!-- container -->
        <!--======================
-          End Sign in 
+          End Sign in
       ========================-->
 
       <!--======================
-            Sign up 
+            Sign up
       ========================-->
       <div class="popup_fade cancel_btn" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}"></div>
       <div class="container">
-      
+
         <div id="sign_up_div" class="sign_up_div" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}">
         <code class="close_btn cancel_btn" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}"> </code>
           <div class="sign_up_title">
@@ -416,45 +421,45 @@
           </div> <!-- sign_up_title -->
           <span class="signup_error" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}">
           {%for message in messages%}{{message}}{% endfor %}</span>
-        <form id="user_form" method="post" action="/new_user/" name="sign_up" enctype="multipart/form-data"> 
+        <form id="user_form" method="post" action="/new_user/" name="sign_up" enctype="multipart/form-data">
         {% csrf_token %}
           <div id="register_now" class="form-group">
               <span>Register now for free</span>
             </div> <!-- register_now -->
 
-          
+
           <div id="email_id_div" class="form-group">
               <input class="email_id" name="email_id" id="email_id" placeholder="Email ID*" />
               <label id="email_required" class="signup_labelError" style="display:none;">Please enter Email</span>
               <span id="valid_signup_email_required" class="hide_error_message error_message">Please enter valid Email.</span>
             </div> <!-- email_id_div -->
-            
+
             <div id="password_div" class="form-group">
               <input class="password" type="password" name="password" id="password" placeholder="Password*" />
               <span id="result"></span>
               <label for="password" id="signup_password_required" class="signup_labelError" style="display:none;">Please enter Password</label>
-            </div> <!-- password_div -->    
-              
+            </div> <!-- password_div -->
+
              <div id="user_id_div" class="form-group fl">
               <input class="user_id" name="user_id" id="user_id" placeholder="Username*" />
               <label for="user_id" id="user_required" class="signup_labelError" style="display:none;">Please enter Username</label>
             </div> <!--user _id_div -->
 
-            
+
               <div id="mobile_number_div" class="form-group">
                 <input class="mobile_number" name="your_mobile_number" id="mobile_number_sign_up_home" placeholder="Your mobile number"/>
               </div>
-              
+
               <!-- <div id="mobile_number_div" class="form-group">
                 <input class="mobile_number" name="your_mobile_number" id="mobile_number" placeholder="Your mobile number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
               </div> -->
               <div class="clear_both">
-                
+
               <!-- <div class="sign_up_span">
               <span>(We will verify this number for privacy protection)</span>
               </div> -->
-            
-            
+
+
            <!--  <div id="confirm_div" class="form-group">
               <input class="confirm" type="checkbox" name="confirm" />
               <span>I confirm that i am 18 yrs or older</span>
@@ -462,30 +467,30 @@
               <div>
                       <span class="hovertext"> click the checkbox then create button will enable</span>
                 </div>
-            </div> <!- password_div --> 
+            </div> <!- password_div -->
             <div id="confirm_div" class="form-group">
               <input class="confirm" type="checkbox" name="confirm" />
               <span>I confirm that I am 18 years or older</span>
               <input class="btn signup_confirm_button masterTooltip" type="submit" value="Create" name="create" id="create" title="Your age must be above 18 years, please check age status and then create account" />
-              
-            </div> 
-            
+
+            </div>
+</form>
             <div id="hr_div" class="form-group">
               <hr class="photos_line" noshade="noshade">
             </div> <!-- hr_div -->
-            
+
             <div id="signin_div" class="form-group">
               <span class="signin">I have a account already <a class="popup_sign_in">Sign in</a> </span>
             </div> <!-- signin_div -->
-       </form>      
+
         </div> <!-- sign_up_div -->
       </div> <!-- container -->
        <!--======================
-          End Sign up 
+          End Sign up
       ========================-->
 
       <!--======================
-        forgot password 
+        forgot password
       ========================-->
       <div class="container">
           <div id="forgot_div" class="forgot_div forgot_mobile" style="{% if request.REQUEST.sf %} display:block; {%else%} display: none; {% endif %}">
@@ -493,14 +498,14 @@
             <div class="forgot_title">
               <span>Forgot Password</span>
             </div> <!-- sign_in_title -->
-            
+
 
               <span class="forgot_error" style="{% if request.REQUEST.sf %} display:block; {%else%} display: none; {% endif %}">
           {%for message in messages%}{{message}}{% endfor %}</span>
-           <form id="forgot_form" method="post" action="/forgot/" name="forgot">  
+           <form id="forgot_form" method="post" action="/forgot/" name="forgot">
            {% csrf_token %}
 
-          
+
 
             <!-- <div id="email_userid_div" class="form-group">
                 <input class="email_id" name="email_id" id="emailid_signup" placeholder="Email id" />
@@ -508,28 +513,29 @@
               </div> <!- email_id_div ->
               <div id="forgot_div" class="form-group">
               <input class="btn confirm_button" type="submit" value="Sign in" name="create" id="signin" />
-           
+
             </div> -->
+
             <iframe src="{% url password_reset %}" height= "215" width="278" scrolling="no" frameBorder="0" style="border:none;"></iframe>
-           </form>  
+           </form>
             <div id="" class="form-group">
               <hr class="photos_line" noshade="noshade">
             </div> <!-- hr_div -->
-            
+
             <div  class="form-group">
               <span class="signin">I don't have a account</span>
             </div> <!-- signin_div -->
-            
+
             <div id="free_signup_div" class="form-group">
               <a class="popup_sign_up"><button class="free_button btn-lg">Sign up for free</button></a>
             </div> <!-- free_signup_div -->
-            
+
         </div> <!-- forget_div -->
       </div> <!-- container -->
       <!--======================
           End Forgot Password
       ========================-->
-      
+
 
   </body>
 </html>

@@ -19,9 +19,7 @@ def global_activity(request):
 	# print "city", city
 	current_country_cities = City.objects.filter(country_code=country) # get current country cities from database
 	# print "current_country_cities", current_country_cities
-	#store city if not available in database
-	if not city:
-		city = "Pondicherry" 
+	#store city if not available in database 
 	if City.objects.filter(city=city).exists():
 		city = City.objects.get(city=city)
 		city_id=city.id
@@ -29,6 +27,8 @@ def global_activity(request):
 		country_code = country
 		city_model = City()
 		city_model.city = city
+		if not city:
+			city_model.city = "Pondicherry"
 		city_model.country_code = country_code
 		city_model.country_name = g.country_name(user_ip)
 		city_model.save()
@@ -47,9 +47,9 @@ def global_activity(request):
 	path =  request.path
 	category = Category.objects.all()
 	subcategory = SubCategory.objects.all()
-	recentad=Product.objects.filter(city=city_id).order_by('-id')[:3]
+	recentad=Product.objects.filter(city=city_id).order_by('-id')[:4]
 	if not recentad:
-		recentad=Product.objects.filter().order_by('-id')[:3]
+		recentad=Product.objects.filter().order_by('-id')[:4]
 
 	#get authenticated user id
 	if request.user.is_authenticated():

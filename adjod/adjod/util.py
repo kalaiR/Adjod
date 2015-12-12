@@ -104,6 +104,8 @@ def get_global_city(request):
         country = get_global_country(request)
         city_model = City()
         city_model.city = city
+        if not city:
+            city_model.city = "Pondicherry"
         city_model.country_code = country
         city_model.country_name = g.country_name(get_client_ip(request))
         city_model.save()
@@ -155,6 +157,7 @@ def convert(price):
         if str(key) == str(country_id):
             isocode=value
     current_country = isocode
+    print "current_country",current_country
     # base_currency= settings.BASE_CURRENCY
     base_currency= settings.CURRENCY_RATES
     exchange_rate = convert_money(price,base_currency,current_country)
