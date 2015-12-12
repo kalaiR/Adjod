@@ -35,7 +35,7 @@
            {% endfor %} 
     </div> <!-- row1 -->
 
-<div class="row row_1 col-md-12 hidden-lg">     
+<div class="row col-md-12 hidden-lg">     
         <div id="home_menu">
          <!-- Normal Search and Advance Form Start --> 
         <form id="form_search_filter" class="form_search_filter">
@@ -148,7 +148,7 @@
           <div class="col-md-5 free_content">
               <div class="free_alert">
                 <h4>Create free alert</h4>
-                <code class="close_btn cancel_btn" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}"> </code>
+                <code class="close_btn closemobile_btn cancel_btn" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}"> </code>
               </div>
                <form method="post" action="{% url free_alert %}" name="alert_button">
                   {% csrf_token %}

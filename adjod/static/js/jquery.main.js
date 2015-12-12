@@ -38,7 +38,7 @@ $( document ).ready(function() {
 
 
   $.when( xhr_toolbar ).done(function(r1, r2, r3, r4) {
-    // localStorage.clear();
+    localStorage.clear();
     main_set_conf();
     
     main_set_theme( conf_theme_default );
@@ -354,7 +354,7 @@ $( document ).ready(function() {
             //Extern window button
             //main.parent().find( ".ui-dialog-titlebar" ).append( "<button class='ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only externally-window' role='button' aria-disabled='false' title='Ventana externa'><span class='ui-icon ui-icon-arrowthick-1-nw'></span><span class='ui-button-text'>Ventana externa</span></button>" );
             //Min button
-            main.parent().find( ".ui-dialog-titlebar" ).append( "<button class='ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only minimize-window' role='button' aria-disabled='false' title='" + i18n.minimize + "'><span class='ui-icon ui-icon-minus'></span></button>" );
+            main.parent().find( ".ui-dialog-titlebar" ).append( "<i class='fa fa-minus ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only fa fa-times minimize-window' role='button' aria-disabled='false' title='" + i18n.minimize + "'><span class='ui-icon ui-icon-minus'></span></i>" );
             //Status icon
             main.parent().find( ".ui-dialog-title" ).append( "<li id='dialog-status' class='" + main.data( "status" ) + "'>" + name + "</li>" );
 
@@ -1400,11 +1400,11 @@ $( document ).ready(function() {
   }).fail(function() {
     console.log('fail');
   }).always(function() {
-    // function displayChatOnload() {
-    //   document.getElementById('main').style.display = 'block';
-    // }
+    function displayChatOnload() {
+      document.getElementById('main').style.display = 'block';
+    }
 
-    // displayChatOnload();
+    displayChatOnload();
   });
 
 });

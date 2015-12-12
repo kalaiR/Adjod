@@ -210,7 +210,7 @@
     </div> <!-- header_first_line -->
     {% endif %}
 
-    {%  if 'search' in path  or 'postad' in path  or 'ads' in path %}
+    {%  if 'search' in path  or 'postad' in path  or 'ads' in path  or 'update_profile' in path %}
        <div class="search_part">
           <div class="container logo_part visible-lg">
              <a href="/"><code></code></a>
@@ -252,7 +252,7 @@
             </div> 
           {% endif %}
       </div> <!-- search_part -->
-      {%  if 'search' in path  or 'ads' in path %} 
+      {%  if 'search' in path  or 'ads' in path or 'update_profile' in path %} 
       <div class="page_swap">
         <div class="container page_back">
           {%block page_swap%}

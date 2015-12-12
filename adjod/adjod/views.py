@@ -347,3 +347,5 @@ def autocomplete_brandlist(request):
 def toolbar(request):
     return render_to_response('views/toolbar.html', context_instance=RequestContext(request))    
 
+def update_profile(request):
+    return render_to_response('adjod/updateprofile.html', context_instance=RequestContext(request))
