@@ -28,7 +28,7 @@ def global_activity(request):
 		city_model = City()
 		city_model.city = city
 		if not city:
-			city = "Pondicherry"
+			city_model.city = "Pondicherry"
 		city_model.country_code = country_code
 		city_model.country_name = g.country_name(user_ip)
 		city_model.save()
