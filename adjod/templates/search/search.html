@@ -67,24 +67,7 @@
               </div><!-- custom_select -->
 
           </div> <!-- sort_part -->
-          <div class="sort_part hidden-lg">
-            <div class="app col-md-2"><p class="app_filter">Apply filters</p></div><!--app-->
-                <div class="choose_select sorting_custom_select mobile_select col-md-2">
-                           <div class="choose">
-                            <p id="prov_custom_sort_value_act">{% trans "Sort by" %}</p>
-                            <i class="fa fa-caret-down new_icon"></i>
-                          <select class="prov_custom_sort_value_act option_color" id ="sorteddata"  name="{{form.sorteddata.html_name}}" value="{{form.sorteddata.value|default:''}}">
-                            <option value="">{% trans "select" %}</option>
-                            <option value="">{% trans "None" %}</option>
-                            <!-- <option value="createddate">{% trans "Created Date" %}</option> -->
-                            <!-- <option value="onlineusers">{% trans  "online users" %}</option> -->
-                            <option value="pricelow" {% ifequal sort "Price -Low to High" %} selected {% endifequal %}>{% trans "Price Low to High" %}</option>
-                            <option value="pricehigh" {% ifequal sort "Price -High to Low" %} selected {% endifequal %}>{% trans "Price High to Low" %}</option>
-                          </select>
-                          </div> <!-- select -->
-                          <input type="hidden" id ="sorteddata" name="sorteddata" value="" />
-              </div><!-- custom_select -->
-          </div> <!-- sort_part -->
+          
         </div> <!-- top_part -->
 
         <div class="left_part visible-lg">
