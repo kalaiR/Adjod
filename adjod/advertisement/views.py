@@ -217,11 +217,13 @@ def product_save(request):
     product=Product()
     
     def post_product_save():
-        print "request.user", request.user.id
-        
+        print "request.user", request.user.id       
         product.category=Category.objects.get(id=request.POST['category_name'])
         product.subcategory=SubCategory.objects.get(id=request.POST['subcategory_name'])
-        product.ad_brand=Dropdown.objects.get(id=request.POST['brand_name'])
+        if request.POST['brand_name']:
+            product.ad_brand=Dropdown.objects.get(id=request.POST['brand_name'])
+        else:
+            product.ad_brand=None
         # product.adtype=request.POST.get('condition')
         product.adtype= "sell"
         product.title=request.POST.get('ad_title')
@@ -334,7 +336,7 @@ def product_save(request):
            
     def success_message():
         post_product_save()
-        error['success'] = ugettext('Successfully added post')
+        error['success'] = ugettext('Ad Successfully posted')
         print "error['exit_count']",error['success']
         raise ValidationError(error['success'], 5)
 

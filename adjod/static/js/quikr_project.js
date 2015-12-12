@@ -733,7 +733,8 @@ function fill_localities(city_id) {
   } else {
     $.getJSON("/localities_for_city/", {city_id: city_id},
       function(ret, textStatus) {
-        var options = '';
+        var options = '';      
+        $('#select_post_locality').text("Select Locality");
         options +='<option>Select Locality</option>';
         for (var i in ret) {
           options += '<option value="' + ret[i].id + '">'
@@ -1070,7 +1071,7 @@ $("#alert_button").click(function(){
     }
 
     // // Dropdown city
-    if ($('#select_post_city').text() == "Select city *") {
+    if (($('#select_post_city').text() == "Select city *") || ($('#select_post_city').text() == "Select City")) {
       $('.select_container_city').addClass("error_input_field");
       $('.select_container_city').find('.labelError').show();
     }
@@ -1080,7 +1081,7 @@ $("#alert_button").click(function(){
     }
 
     // // Dropdown locality
-    if ($('#select_post_locality').text() == "Select locality *") {
+    if (($('#select_post_locality').text() == "Select locality *") || ($('#select_post_locality').text() == "Select Locality")) {
       $('.select_container_locality').addClass("error_input_field");  
       $('.select_container_locality').find('.labelError').show();
     }
