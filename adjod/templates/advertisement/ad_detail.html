@@ -140,7 +140,11 @@
                   </div>
                 </div>
               </div>
-            
+              {% if adinfo.video%}
+              <div class="video_url">
+                <span> Video URL: <a target="__blank" href="{{adinfo.video}}">{{adinfo.video}}</a></span>
+              </div>
+              {% endif %}
               <div class="contact-seller visible-lg">
                 <h3 class="seller">Contact Seller</h3>
                 <div class="owner_contact">
@@ -207,14 +211,15 @@
                 </p>
               </div>
           </div> <!-- first-column -->
-       
+       <!-- {% if adinfo.video %}
          <div class="video_content visible-lg">
                 <video width="200px" height="100px" controls="true">
                       <source src="www.youtube.com/watch?v=EdChMvZ0tNo" type="video/mp4">
                 </video>
           </div>
-                <span class="video_description">BMW Car</span>
-                <span>23,578 Views</span>
+       {% endif %} -->
+                <!-- <span class="video_description">BMW Car</span>
+                <span>23,578 Views</span> -->
               
   </div> <!-- row-1 -->   
 
