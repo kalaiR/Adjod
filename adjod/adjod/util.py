@@ -104,8 +104,6 @@ def get_global_city(request):
         country = get_global_country(request)
         city_model = City()
         city_model.city = city
-        if not city:
-            city_model.city = "Pondicherry"
         city_model.country_code = country
         city_model.country_name = g.country_name(get_client_ip(request))
         city_model.save()
