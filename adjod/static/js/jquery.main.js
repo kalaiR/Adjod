@@ -159,7 +159,7 @@ $( document ).ready(function() {
         // alert(name);
         var stat = $( this ).find( "li" ).attr( "class" );
         // alert(stat);
-        $( "#users-button-bar" ).append( "<button id='user-button-" + iduser_product + "' class='user-button' style='font-size: 65%;'><li class='" + stat + "'>" + name + "</li><span class='product_title' style='display:none;'>" + product + "</span><span class='product_id' style='display:none;'>" + product_id + "</span></button>" );
+        $( "#users-button-bar" ).append( "<button id='user-button-" + iduser_product + "' class='user-button btn_user' style='font-size: 65%;'><li class='" + stat + "'>" + name + "</li><span class='product_title' style='display:none;'>" + product + "</span><span class='product_id' style='display:none;'>" + product_id + "</span></button>" );
         // $("#users-button-bar").closest('.product_title').val(product);
         // alert($("#users-button-bar").html());
         $( ".user-button" ).button();
@@ -1272,7 +1272,7 @@ $( document ).ready(function() {
         //Append div user in the bar if is not appended
         if ( $( "#users-button-bar" ).parent().find( "#user-button-" + iduser + "_product-" + product_id ).length == 0 ) {
           // alert("user button bar");
-          $( "#users-button-bar" ).append( "<button id='user-button-" + iduser + "_product-" + product_id + "' class='user-button' style='font-size: 65%;'><li class='" + status + "'>" + name + "</li><span class='product_title' style='display:none;'>" + product_title + "</span><span class='product_id' style='display:none;'>" + product_id + "</span></button>" );
+          $( "#users-button-bar" ).append( "<button id='user-button-" + iduser + "_product-" + product_id + "' class='user-button btn_user' style='font-size: 65%;'><li class='" + status + "'>" + name + "</li><span class='product_title' style='display:none;'>" + product_title + "</span><span class='product_id' style='display:none;'>" + product_id + "</span></button>" );
           $( ".user-button" ).button();
           $( "#user-button-" + iduser + "_product-" + product_id ).trigger( "click" );
         }
@@ -1458,7 +1458,7 @@ $(window).load(function() {
       //  $( "#user-button-" + val.user +  "_product-" + val.product ).trigger( "click" );
       //  }
       if ( $( "#users-button-bar" ).parent().find( "#user-button-" + val.user +  "_product-" + val.product ).length == 0 ){
-          $( "#users-button-bar" ).append( "<button id='user-button-" + val.user +  "_product-" + val.product +"' class='user-button' style='font-size: 65%;'><li class='online'>" + val.name + "</li><span class='product_title' style='display:none;'>" + val.title + "</span><span class='product_id' style='display:none;'>" + val.product + "</span></button>" );
+          $( "#users-button-bar" ).append( "<button id='user-button-" + val.user +  "_product-" + val.product +"' class='user-button btn_user' style='font-size: 65%;'><li class='online'>" + val.name + "</li><span class='product_title' style='display:none;'>" + val.title + "</span><span class='product_id' style='display:none;'>" + val.product + "</span></button>" );
           $( ".user-button" ).button();
         }
        $( "#user-button-" + val.user +  "_product-" + val.product ).trigger( "click" );

@@ -139,7 +139,7 @@ def format_redirect_url(redirect_path, query_string):
         
     return redirect_path + url_join_str + query_string[:-1]
 
-For Price Conversion
+# For Price Conversion
 def convert(price):
     print "conversion"
     user_ip = globals.ip
