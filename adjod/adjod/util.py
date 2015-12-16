@@ -110,7 +110,7 @@ def get_global_city(request):
         city_model.country_name = g.country_name(get_client_ip(request))
         city_model.save()
         city_id = city_model.id
-    # print "city_id", city_id
+    print "city_id", city_id
     return city, city_id   
        
 def format_redirect_url(redirect_path, query_string):
@@ -141,7 +141,7 @@ def format_redirect_url(redirect_path, query_string):
         
     return redirect_path + url_join_str + query_string[:-1]
 
-# For Price Conversion
+For Price Conversion
 def convert(price):
     print "conversion"
     user_ip = globals.ip
@@ -158,7 +158,7 @@ def convert(price):
             isocode=value
     current_country = isocode
     print "current_country",current_country
-    # base_currency= settings.BASE_CURRENCY
+    base_currency= settings.BASE_CURRENCY
     base_currency= settings.CURRENCY_RATES
     exchange_rate = convert_money(price,base_currency,current_country)
     return exchange_rate
