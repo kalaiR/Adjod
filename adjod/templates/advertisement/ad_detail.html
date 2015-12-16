@@ -14,6 +14,44 @@
 {%endblock%}
 {%block content%}
   <div class="row row-1">
+   <div class="col-md-6 second-column">
+              <div class="visible-lg">
+                  <h3>{{adinfo.title}}</h3>
+                  <span class="Ad-ID">Ad ID:{{adinfo.id}} | {{adinfo.created_date}} | 19 views</span>
+              </div>
+              
+              <div class="product-image visible-lg">
+                    <div class="upperimg">
+                      {% if largephoto = '' %}
+                          <img src="/static/img/bg-img1.png">
+                      {% else %}
+                        <img src="{{ STATIC_ROOT }}/{{ largephoto }}">
+                      {% endif %}
+                    </div><!--upperimg-->
+                    <div class="thumb_holder">
+                      {%for photo in photos %}
+                        <div class="thumbs nb col-md-2">  
+                           {% if photo = '' %}
+                           <img src="/static/img/bg-img1.png">  
+                           {% else %}  
+                          <img src="{{ STATIC_ROOT }}/{{ photo }}">
+                          {% endif %}
+                        </div><!--thumbs-->
+                      {%endfor%}
+                    </div><!-- thumb_holder -->
+          
+                    <!-- <div class=""></div> -->
+                    <!-- <div class="thumbnails1">
+                      <a href=""><img class="img1"src="img/Product_pic1.png"></a>
+                    </div>
+                    <div class="thumbnails2">
+                      <a href=""><img class="img2"src="img/Product_pic2.png"></a>
+                    </div> -->
+                    <div class="div">
+                       <i class="fa fa-camera"></i><span>{{adinfo.imagecount}}</span>
+                    </div>
+              </div>      
+        </div> <!-- second-column --> 
     <div class="product-image hidden-lg">
                     <div class="upperimg">
                       {% if largephoto = '' %}
@@ -58,10 +96,32 @@
               </div>      
         <div class="col-md-6 first-column">
               <div class="column-height">
-                <div class="visible-lg">
-                  <h3>{{adinfo.title}}</h3>
-                  <span class="Ad-ID">Ad ID:{{adinfo.id}} | {{adinfo.created_date}} | 19 views</span>
-                </div>
+                <div class="other-buttons visible-lg">
+                <span href="" class="btn btn-default share_button"> Share
+                <i class="fa fa-share-alt"></i></span>
+                <span href="" class="btn btn-default favourite_button"> Add as favourite
+                <i class="fa fa-heart heart_detail"></i></span>
+              </div>
+
+              <div class="fbtwtbutton">
+                  <div id="fb-root"></div>
+                    <script>(function(d, s, id) {
+                      var js, fjs = d.getElementsByTagName(s)[0];
+                      if (d.getElementById(id)) return;
+                      js = d.createElement(s); js.id = id;
+                      js.src = "http://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3";
+                      fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+                    </script>
+                  
+                    <div class="fb-share-button but" id="fbid1" data-href="https://developers.facebook.com/docs/plugins/" data-layout="icon" ></div>
+            
+                    <a href="https://twitter.com/share" class="twitter-share-button" id="twtid1" data-count="none" data-dnt="true">Tweet</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';
+                    fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+                    </script>
+              </div>
+
                 <div class="product-details">
                   <div class="product_txt">
                   <h3>Product Details<span class="price visible-lg">{{adinfo.price|conversion}}</span></h3>  
@@ -147,86 +207,18 @@
                 </p>
               </div>
           </div> <!-- first-column -->
-        <div class="col-md-6 second-column">
-              <div class="other-buttons visible-lg">
-                <span href="" class="btn btn-default share_button"> Share
-                <i class="fa fa-share-alt"></i></span>
-                <span href="" class="btn btn-default favourite_button"> Add as favourite
-                <i class="fa fa-heart heart_detail"></i></span>
-              </div>
-
-              <div class="fbtwtbutton">
-                  <div id="fb-root"></div>
-                    <script>(function(d, s, id) {
-                      var js, fjs = d.getElementsByTagName(s)[0];
-                      if (d.getElementById(id)) return;
-                      js = d.createElement(s); js.id = id;
-                      js.src = "http://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3";
-                      fjs.parentNode.insertBefore(js, fjs);
-                    }(document, 'script', 'facebook-jssdk'));
-                    </script>
-                  
-                    <div class="fb-share-button but" id="fbid1" data-href="https://developers.facebook.com/docs/plugins/" data-layout="icon" ></div>
-            
-                    <a href="https://twitter.com/share" class="twitter-share-button" id="twtid1" data-count="none" data-dnt="true">Tweet</a>
-                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';
-                    fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-                    </script>
-              </div>
-
-              <div class="product-image visible-lg">
-                    <div class="upperimg">
-                      {% if largephoto = '' %}
-                          <img src="/static/img/bg-img1.png">
-                      {% else %}
-                        <img src="{{ STATIC_ROOT }}/{{ largephoto }}">
-                      {% endif %}
-                    </div><!--upperimg-->
-                    <div class="thumb_holder">
-                      {%for photo in photos %}
-                        <div class="thumbs nb col-md-2">  
-                           {% if photo = '' %}
-                           <img src="/static/img/bg-img1.png">  
-                           {% else %}  
-                          <img src="{{ STATIC_ROOT }}/{{ photo }}">
-                          {% endif %}
-                        </div><!--thumbs-->
-                      {%endfor%}
-                    </div><!-- thumb_holder -->
-          
-                    <!-- <div class=""></div> -->
-                    <!-- <div class="thumbnails1">
-                      <a href=""><img class="img1"src="img/Product_pic1.png"></a>
-                    </div>
-                    <div class="thumbnails2">
-                      <a href=""><img class="img2"src="img/Product_pic2.png"></a>
-                    </div> -->
-                    <div class="div">
-                       <i class="fa fa-camera"></i><span>{{adinfo.imagecount}}</span>
-                    </div>
-              </div>      
-        </div> <!-- second-column --> 
+       
          <div class="video_content visible-lg">
-                <video width="430px" height="200px" controls>
-                      <source src="https://www.youtube.com/watch?v=EdChMvZ0tNo" type="video/mp4">
-                      Your browser does not support the video tag.
+                <video width="200px" height="100px" controls="true">
+                      <source src="www.youtube.com/watch?v=EdChMvZ0tNo" type="video/mp4">
                 </video>
-              </div>
+          </div>
+                <span class="video_description">BMW Car</span>
+                <span>23,578 Views</span>
+              
   </div> <!-- row-1 -->   
 
-{% if adinfo.video|get_videos %}
-  <div class="container">
-    <iframe class="fl" width="500" height="315" src="{{adinfo.video|get_videos}}" frameborder="0" allowfullscreen></iframe>
-      <!-- <div class="safety_tips fl">
-        <h3>Safety Tips for Buyers</h3><br>
-        <span>Meet seller at safe location</span><br>
-        <span>Check the item before you buy</span><br>
-        <span>Pay only after collecting items</span><br>
-        <i class="fa fa-shield shield"></i>
-      </div> -->
-      <div class="clear_both"></div>
-  </div>  
-{% endif %} 
+
     <div class="container recommend1 visible-lg">
      {% if related_product %}
         <div class="recommended">

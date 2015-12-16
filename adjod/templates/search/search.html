@@ -48,8 +48,9 @@
               <img width="728" height="90" border="0" src="http://cdnx.tribalfusion.com/media/3794856.gif">
               </a>
          </div>
-          <div class="sort_part visible-lg">
-              <span class="sortclass">{% trans "Sort by" %}</span>
+          <div class="sort_part">
+               <div class="app col-md-2 hidden-lg"><p class="app_filter">Apply filters</p></div><!--app-->
+               <span class="sortclass">{% trans "Sort by" %}</span>
               <div class="choose_select sorting_custom_select">
                           <div class="choose">
                             <p id="prov_custom_sort_value_act">{% trans "select" %}</p>
@@ -65,10 +66,8 @@
                           </div> <!-- select -->
                           <input type="hidden" id ="sorteddata" name="sorteddata" value="" />
               </div><!-- custom_select -->
-
-          </div> <!-- sort_part -->
-          
-        </div> <!-- top_part -->
+            </div> <!-- sort_part -->
+            </div> <!-- top_part -->
 
         <div class="left_part visible-lg">
           <div class="refine_results"><h4>Refine Your Results</h4></div>
