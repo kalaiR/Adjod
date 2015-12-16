@@ -126,5 +126,8 @@ urlpatterns = patterns('',
 
     url(r'^get_user_products/$', 'advertisement.views.get_user_products',name='get_user_products'),
     url(r'^update_profile/$', 'adjod.views.update_profile',name='update_profile'),
+    
+    # Test for geo location
+    url(r'^(?i)testpage/$', 'adjod.views.geosearch'),
 )
 
