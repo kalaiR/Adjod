@@ -33,8 +33,8 @@ def global_activity(request):
 			city_model.save()
 			city_id = city_model.id
 	except:
-        city = "Singapore"
-        city_id = 7
+		city = "Singapore"
+		city_id = 7
 	# print "cityid", city_id
 	# get global language from dictionary
 	language_list = ['en','sv','de']
