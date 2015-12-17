@@ -97,18 +97,22 @@ def get_global_city(request):
     # print "city in util.py", city
     
     #get global city id from database
-    if City.objects.filter(city=city).exists():
-        city = City.objects.get(city=city)
-        city_id=city.id
-    else:
-        country = get_global_country(request)
-        city_model = City()
-        city_model.city = city
-        city_model.country_code = country
-        city_model.country_name = g.country_name(get_client_ip(request))
-        city_model.save()
-        city_id = city_model.id
-    print "city_id", city_id
+    try:
+        if City.objects.filter(city=city).exists():
+            city = City.objects.get(city=city)
+            city_id=city.id
+        else:
+            country = get_global_country(request)
+            city_model = City()
+            city_model.city = city
+            city_model.country_code = country
+            city_model.country_name = g.country_name(get_client_ip(request))
+            city_model.save()
+            city_id = city_model.id
+        print "city_id", city_id
+    except:
+        city = "Singapore"
+        city_id = 7
     return city, city_id   
        
 def format_redirect_url(redirect_path, query_string):

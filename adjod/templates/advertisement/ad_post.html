@@ -111,7 +111,8 @@
 
           <div class="field_div form-group" id="name_div">
             {% if user.is_authenticated %}
-            <input class="your_name" name="your_name" id="your_name" value="{{request.user.username}}" disabled/>
+            <input type="text" class="your_name" name="your_name" id="your_name" value="{{request.user.username}}" disabled/>
+            <input type="hidden" name="your_name" value="{{request.user.username}}">
             {% else %}
             <input class="your_name" name="your_name" id="your_name" placeholder="Your name"/>
             {% endif %}
@@ -122,7 +123,8 @@
          	<div class="field_div form-group" id="email_div">
             {% if user.is_authenticated %}
               <input type="text" class="your_email" name="your_email" id="your_email" placeholder="Your email*" value="{{request.user.email}}" disabled/>
-           		<label id="email_required" class="labelError" style="display:none;">Please enter email id.</label>  
+              <label id="email_required" class="labelError" style="display:none;">Please enter email id.</label> 
+              <input type="hidden" name="your_email" value="{{request.user.email}}">     		 
               {% else %}
               <input type="text" class="your_email" name="your_email" id="your_email" placeholder="Your email*" value=""/>
               <label id="email_required" class="labelError" style="display:none;">Please enter email id.</label>

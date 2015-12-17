@@ -214,6 +214,7 @@ def handle_uploaded_file(f, path):
 
 def product_save(request):
     print "product_save"
+    print request.POST
     product=Product()
 
     def post_product_save():
@@ -241,11 +242,13 @@ def product_save(request):
         # product.price=convert_price
 
         product.ad_year=request.POST.get('your_year')
-        product.description=request.POST.get('description','')
-        product.you_are = request.POST.get('you_are_radio', '')
-        product.you_name = request.POST.get('your_name', '')
-        product.you_email = request.POST.get('your_email', '')
-        product.you_phone = request.POST.get('your_mobile_no', '')
+        product.description=request.POST.get('description')
+        product.you_are = request.POST.get('you_are_radio')
+        print "request.POST.get('your_name')", request.POST.get('your_name')
+        print "request.POST.get('your_email')", request.POST.get('your_email')
+        product.you_name = request.POST.get('your_name')
+        product.you_email = request.POST.get('your_email')
+        product.you_phone = request.POST.get('your_mobile_no')
         product.city=City.objects.get(id=request.POST['your_city'])
         product.locality=Locality.objects.get(id=request.POST['your_locality'])
         product.country_code =get_global_country(request)
@@ -258,6 +261,7 @@ def product_save(request):
         VIDEO_PATH = 'static/videos/'
         photosgroup = ''
         count=len(product.photos)
+        print "count", count
         for uploaded_file in product.photos:
             count=count-1
             handle_uploaded_file(uploaded_file,IMAGE_PATH)
@@ -343,12 +347,13 @@ def product_save(request):
     try:
         error={}
         if request.user.is_authenticated():
-            userprofile = UserProfile.objects.get(user_id=request.user.id)
+            product.userprofile = UserProfile.objects.get(user_id=request.user.id)
             product.isregistered_user = True
-            if userprofile.ad_count<=3:
-                # userprofile.ad_count+=1
-                userprofile.save()
-                print "userprofile.ad_count", userprofile.ad_count
+            if product.userprofile.ad_count<=3:
+                print "product.userprofile.ad_count", product.userprofile.ad_count
+                product.userprofile.ad_count = int(product.userprofile.ad_count) + 1
+                product.userprofile.save()
+                print "userprofile.ad_count", product.userprofile.ad_count
                 success_message()
             else:
                 print "else authenticate"

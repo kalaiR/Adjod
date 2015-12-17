@@ -20,17 +20,21 @@ def global_activity(request):
 	current_country_cities = City.objects.filter(country_code=country) # get current country cities from database
 	# print "current_country_cities", current_country_cities
 	#store city if not available in database 
-	if City.objects.filter(city=city).exists():
-		city = City.objects.get(city=city)
-		city_id=city.id
-	else:
-		country_code = country
-		city_model = City()
-		city_model.city = city
-		city_model.country_code = country_code
-		city_model.country_name = g.country_name(user_ip)
-		city_model.save()
-		city_id = city_model.id
+	try:
+		if City.objects.filter(city=city).exists():
+			city = City.objects.get(city=city)
+			city_id=city.id
+		else:
+			country_code = country
+			city_model = City()
+			city_model.city = city
+			city_model.country_code = country_code
+			city_model.country_name = g.country_name(user_ip)
+			city_model.save()
+			city_id = city_model.id
+	except:
+        city = "Singapore"
+        city_id = 7
 	# print "cityid", city_id
 	# get global language from dictionary
 	language_list = ['en','sv','de']
