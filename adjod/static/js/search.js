@@ -178,6 +178,7 @@ $(document).ready(function() {
 
 //price range selection
     $('input.pricerange').on('change', function(){
+            $('input.pricerange').not(this).prop('checked', false);  
             if ($(this).prop('checked') == true){
                     var splitprice = [];
                     var splitprice = $(this).val().split("#");

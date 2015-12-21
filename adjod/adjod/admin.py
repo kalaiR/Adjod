@@ -10,3 +10,5 @@ class UserProfileAdmin(admin.ModelAdmin):
     search_fields = ['id', 'mobile']
     list_per_page = 50   
 admin.site.register(UserProfile,UserProfileAdmin)
+admin.site.register(BaseCurrency)
+admin.site.register(ExchangeRate)

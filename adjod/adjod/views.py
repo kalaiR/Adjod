@@ -359,6 +359,7 @@ def loadbasecurrency(request):
         conversion = ExchangeRate()
         conversion.currency = rates.currency
         conversion.value = float(rates.value)/float(base_currency_rate.value)
+        # conversion.value = float("{0:.2f}".format(rates.value))/float("{0:.2f}".format(base_currency_rate.value))
         conversion.save()
     return HttpResponse('Successfully updated')
 
