@@ -123,28 +123,28 @@
                           <ul class="hide_list hidelist1">
                                <li class="list_folder">
                                <input type="checkbox" class="css-checkbox sme pricerange" name="pricerange" value ="0.0#1000.0" />
-                               <label for="checkbox1">{{1000|conversion}} &amp; Below</label>
+                               <label for="checkbox1">{{request.COOKIES.country|get_symbol}}{{1000|conversion|quantize}} &amp; Below</label>
                                </li>
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="1000.0#5000.0"/>
-                                    <label for="checkbox1">{{1000|conversion}} - {{5000|conversion}}</label>
+                                    <label for="checkbox1">{{request.COOKIES.country|get_symbol}}{{1000|conversion|quantize}} - {{request.COOKIES.country|get_symbol}}{{5000|conversion|quantize}}</label>
                                </li>
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="5000.0#15000.0"/>
-                                    <label for="checkbox1">{{5000|conversion}} - {{15000|conversion}}</label>
+                                    <label for="checkbox1">{{request.COOKIES.country|get_symbol}}{{5000|conversion|quantize}} - {{request.COOKIES.country|get_symbol}}{{15000|conversion|quantize}}</label>
                                </li>
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="15000.0#25000.0"/>
-                                    <label for="checkbox1">{{15000|conversion}} - {{25000|conversion}}</label>
+                                    <label for="checkbox1">{{request.COOKIES.country|get_symbol}}{{15000|conversion|quantize}} - {{request.COOKIES.country|get_symbol}}{{25000|conversion|quantize}}</label>
                                </li>
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="25000.0#50000.0"/>
-                                    <label for="checkbox1">{{25000|conversion}} - {{50000|conversion}}</label>
+                                    <label for="checkbox1">{{request.COOKIES.country|get_symbol}}{{25000|conversion|quantize}} - {{request.COOKIES.country|get_symbol}}{{50000|conversion|quantize}}</label>
                                </li>
 
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="50000.0#1000000.0"/>
-                                    <label for="checkbox1">{{50000|conversion}} & Above</label>
+                                    <label for="checkbox1">{{request.COOKIES.country|get_symbol}}{{50000|conversion|quantize}} & Above</label>
                                </li>
 
                                <input type="hidden" id="price_start" value="" name="price_start"/>
@@ -196,7 +196,7 @@
                       <span class="year">{{product.object.created_date}}</span>
                   </div>
                   <div class="additional_details">
-                    <h3>{{product.object.price|conversion}}</h3>
+                    <h3>{{request.COOKIES.country|get_symbol}}{{product.object.price|conversion|quantize}}</h3>
                     <div class="number_verify_control visible-lg">
                       <span class="number_verify1"><i class="fa fa-check-circle checkcircle">
                       </i></span>

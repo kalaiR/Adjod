@@ -2,7 +2,7 @@
 {% load i18n %}
 {% block content %}
     <!--======================
-      	 Post form content 
+      	 Post form content
     ========================-->
     <div class="container center">
       <div class="inner_container">
@@ -12,12 +12,12 @@
        		<!-- <div class="field_title form-group" id="type_of_ad_title">
        				<span class="title">Type of ad</span>
        				<span class="mandatory">*</span>
-       		</div> --> <!-- type_of_ad_title --> 		
+       		</div> --> <!-- type_of_ad_title -->
    		   <!-- <div class="field_div form-group" id="type_of_ad_content">
    			    <input type="radio" name="condition" value="sell" id="sell" class="ad_type_choice">
             <label for="sell" class="ad_type"><span><span></span></span>I want to sell</label>
    			    <input type="radio" name="condition" value="buy" id="buy" class="ad_type_choice">
-            <label for="buy" class="ad_type"><span><span></span></span>I want to buy</label>    
+            <label for="buy" class="ad_type"><span><span></span></span>I want to buy</label>
             <label id="condition_required" class="labelError" style="display:none;">Please select Type of ad.</label>
             <div class="clear_both"></div>
          </div> --> <!-- type_of_ad_content -->
@@ -30,10 +30,10 @@
               </div>
               <input type="text" class="choose_category" name="category1" id="category" placeholder="Choose a category" value="" disabled="disabled" />
            		<a class="btn choose_button">Choose</a>
-           		<label for="category" id="category_required" class="labelError" style="display:none;">Please choose category, Subcategory and Brand.</label>  
+           		<label for="category" id="category_required" class="labelError" style="display:none;">Please choose category, Subcategory and Brand.</label>
               <div class="clear_both"></div>
          	</div> <!-- category_div -->
-           	
+
          	<div class="field_div form-group" id="ad_title_div">
          		<input type="text" class="ad_title" maxlength="70" onchange="updateCountdownTitle()" onkeyup="updateCountdownTitle()" name="ad_title" id="ad_title" placeholder="Give a title to your Ad*" value=""/>
          		<br />
@@ -44,17 +44,17 @@
           <div style="display: block;" class="field_div form-group" id="price_div">
             <input type="text" class="your_price input" name="your_price" id="your_price" placeholder="Price" value=""/>
             <input type="text" class="your_year" name="your_year" id="your_year" placeholder="Year" value="" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" />
-            <span class="price_icon"><i class="fa fa-usd"></i></span>
+            <span class="price_icon">{{request.COOKIES.country|get_symbol}}</span>
             <label id="price_required" class="labelError" style="display:none;">Please enter price.</label>
           </div>
-           	
+
          	<div class="field_div form-group" id="description_div">
          		<textarea class="description" maxlength="500" onchange="updateCountdownDesc()" onkeyup="updateCountdownDesc()" name="description" id="your_description" placeholder="Give description to your Ad*" value=""></textarea>
          		<br />
          		<div class="char_left"><span id="desc_count">500</span> characters left</div>
          		<label id="desc_required" class="labelError" style="display:none;">Please enter description.</label>
          	</div> <!-- description_div -->
-           	
+
          	<div class="field_title form-group">
             <span class="title">Upload Photos</span>
           </div> <!-- field_title -->
@@ -79,7 +79,7 @@
 
           <div class="field_div form-group" id="upload_photos_div">
             <span class="title">Upload Videos</span>
-              <textarea class="videos" name="video_url" id="videos1" Placeholder="Embed online video URL (Ex: http://youtube.com/sample)"></textarea>                          
+              <textarea class="videos" name="video_url" id="videos1" Placeholder="Embed online video URL (Ex: http://youtube.com/sample)"></textarea>
           </div> <!-- description_div -->
           <!-- <hr noshade="noshade" class="photos_line" /> -->
 
@@ -89,7 +89,7 @@
           <div class="field_div buyer_info_div" style="display:none;">
                Buyer Information
           </div>
-           	
+
           <div class="field_title form-group" id="you_are_title">
          			<span class="title">You are</span>
          			<span class="mandatory">*</span>
@@ -103,7 +103,7 @@
               <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>
               <div class="clear_both"></div>
           </div> <!-- type_of_ad_content -->
-           
+
           <!-- <div class="field_div form-group" id="name_div">
            		<input class="your_name" name="your_name" id="your_name" placeholder="Your name" />
            		<input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" placeholder="Your mobile number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
@@ -119,16 +119,17 @@
             <input type="hidden" class="country" name="country" id="country" value="{{country}}" />
             <input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" type="tel"  onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
           </div> <!-- name_div -->
-           	
+
          	<div class="field_div form-group" id="email_div">
             {% if user.is_authenticated %}
               <input type="text" class="your_email" name="your_email" id="your_email" placeholder="Your email*" value="{{request.user.email}}" disabled/>
-              <label id="email_required" class="labelError" style="display:none;">Please enter email id.</label> 
-              <input type="hidden" name="your_email" value="{{request.user.email}}">     		 
+              <label id="email_required" class="labelError" style="display:none;">Please enter email id.</label>
+              <input type="hidden" name="your_email" value="{{request.user.email}}">
+
               {% else %}
               <input type="text" class="your_email" name="your_email" id="your_email" placeholder="Your email*" value=""/>
               <label id="email_required" class="labelError" style="display:none;">Please enter email id.</label>
-            {% endif %}   
+            {% endif %}
          	</div> <!-- email_div -->
 
 
@@ -136,12 +137,12 @@
             <div class="select_container_city fl" id="select_container_city">
                 <div class="select_div">
                   <p id="select_post_city">Select city *</p>
-                  <i class="city_fa fa fa-caret-down">   
+                  <i class="city_fa fa fa-caret-down">
                   </i>
                 </div> <!-- select_div -->
                 <select id="id_city" class="select_post_city" name="your_city">
                 <option value="Select City">Select City</option>
-                {% for cityitem in current_country_cities %} 
+                {% for cityitem in current_country_cities %}
                 <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
                 {% endfor %}
                 </select>
@@ -150,23 +151,23 @@
             <div class="select_container_locality fl" id="select_container_locality">
                 <div class="select_div">
                   <p id="select_post_locality">Select locality *</p>
-                  <i class="city_fa fa fa-caret-down">     
+                  <i class="city_fa fa fa-caret-down">
                   </i>
                 </div> <!-- select_div -->
                 <select id="id_locality" class="select_post_locality" name="your_locality" id="your_locality">
-                <option value=""></option>   
+                <option value=""></option>
                 </select>
                 <label id="locality_required" class="labelError" style="display:none;">Please Choose locality</label>
             </div> <!-- select_container_city -->
-            <div class="clear_both"></div>   
+            <div class="clear_both"></div>
           </div> <!-- city_div -->
-         	
+
            	<div class="field_div form-group" id="privacy_div">
            		<input type="checkbox" name="privacy" id="privacy" />
            		<span class="privacy_text">Maintain my Privacy (Buyers will first contact you via reply, you can decide when to reveal your phone number to them)</span>
            	</div> <!-- privacy -->
-           	
-           	<div class="field_div form-group" id="premium_ad">	
+
+           	<div class="field_div form-group" id="premium_ad">
              		<div class="row premium_row">
              			<div class="premium_title col-md-12">
              				<span>Make your Ad Premium</span>
@@ -196,36 +197,36 @@
                      			<div class="payable_amount col-md-12">
                      				<span class="payable_row_1">Payable amount: Rs 817</span>
                      				<span class="payable_row_2"># Price is exclusive of 12.36% service tax.</span>
-                     				<span class="payable_row_3">  					
+                     				<span class="payable_row_3">
                      		<div class="select_container_payment fl">
                      			<div class="select_div">
                      				<p id="payment_method">Choose payment method</p>
                      				<i class="city_fa fa fa-caret-down">
-                     					
+
                      				</i>
                      			</div> --> <!-- select_div -->
                      			<!-- <select class="select_payment">
                      				<option value="Online payment method">Online payment method</option>
                      				<option value="Offline payment method">Offline payment method</option>
                      			</select>
-                     		</div> --> <!-- select_container -->		
+                     		</div> --> <!-- select_container -->
                      					<!-- <select class="payment_method">
                      						<option>Choose payment method</option>
                      						<option>Online payment method</option>
                      					</select> <!-- payment_method -->
                      				<!-- </span>
                      			</div> --> <!-- payable_amount -->
-                     		<!-- </div> --> <!-- row -->   		
-          </div>	<!-- premium_ad -->  
-           	
+                     		<!-- </div> --> <!-- row -->
+          </div>	<!-- premium_ad -->
+
          	<div class="field_div form-group privacy_div" id="terms_of_use_div">
          		<input type="checkbox" name="terms_of_use" id="terms_of_use" />
          		<span class="privacy_text">By clicking "Post", you agree to our <a>Terms of Use</a> & <a>Privacy Policy</a></span>
          	</div> <!-- terms_of_use_div -->
-           	
+
          	<div class="field_div form-group" id="post_button_div">
          		<input class="btn-warning btn post_form_send" type="submit" value="Post the Ad" id="post" name="post" />
-         	</div> <!-- post_button_div -->       	
+         	</div> <!-- post_button_div -->
      	</form> <!-- post_ad -->
     </div> <!-- inner_container -->
   </div> <!-- container center -->
@@ -236,7 +237,7 @@
           <input type="hidden" name="receiver_email" value="{{settings.RECEIVER_EMAIL}}">
           <input type="hidden" name="amount" value="">
           <input type="hidden" name="rm" value="2"/>
-        
+
           <input type="hidden" name="charset" value="utf-8" id="id_charset">
           <input type="hidden" name="currency_code" value="USD" id="id_currency_code">
           <input type="hidden" name="no_shipping" value="1" id="id_no_shipping">
@@ -252,14 +253,14 @@
           <input border="0" type="image" alt="Buy it Now" name="submit" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_subscribeCC_LG.gif" title="{% if not user.is_authenticated %}Please register in our website and then make ur account premium {% endif %}">
     </form> -->
     <!--======================
-      End Post ad form content 
+      End Post ad form content
     ========================-->
 
       <!--======================
       		Category popup
       ========================-->
-      
-      
+
+
       <div class="container hidden-xs">
       	<div id="category_popup" class="choose_category_div" style="display:none;">
         <code class="close_btn cancel_btn" style="display: none;"> </code>
@@ -288,7 +289,7 @@
   					</ul>
   				</div>
 			</div> <!-- row -->
-           	
+
       	</div> <!-- choose_category_div -->
       </div> <!-- container -->
       <!--======================
@@ -298,14 +299,14 @@
       <div id="category_popup" class="choose_category_div_mobile" style="display:none;">
       <code class="close_btn close_mobile cancel_btn" style="display: none;"> </code>
       <div id="cssmenu">
-         <!-- Normal Search and Advance Form Start --> 
+         <!-- Normal Search and Advance Form Start -->
         <form id="form_search_filter" class="form_search_filter">
              <input id="search_form" type="hidden" name="{{form.q.html_name}}"  value="{{form.q.value|default:''}}"/>
-             <input type="hidden" name="page"  value="{{page.number}}"/> 
-             <input type="hidden" name="city" id="city" value="">             
-              <ul class="main_list_mobile" id="list_mobile">             
-                  <!--  All Categories & Sub-Categories to Display in Advance Search-->   
-                      <li class="list_folder"><b>All category</b> 
+             <input type="hidden" name="page"  value="{{page.number}}"/>
+             <input type="hidden" name="city" id="city" value="">
+              <ul class="main_list_mobile" id="list_mobile">
+                  <!--  All Categories & Sub-Categories to Display in Advance Search-->
+                      <li class="list_folder"><b>All category</b>
                           <ul class="hide_list categoryclick">
                            {% for categories in initial_load|get_categories %}
                               <li class="list_folder">
@@ -315,30 +316,30 @@
                                  <!-- <span class="hidelist1 ajax_categoryid">
                                       {{categories.id}}
                                   </span>  -->
-                                <span class="product_quantity"> {{ categories.count }}                         
-                                </span> 
+                                <span class="product_quantity"> {{ categories.count }}
+                                </span>
                               </a>
                               <ul class="hide_list hidelist1 subclick">
                                   {% for subcategories in categories.id|get_subcategories %}
                                       <li class="list_folder parent_li">
-                                      <span class="has_sub subcategory_choose get1">{{subcategories}}                                  
+                                      <span class="has_sub subcategory_choose get1">{{subcategories}}
                                       </span>
                                       <!-- <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="{{subcategories.id}} " name="subcategoryid"/>  --><span class="has_sub hidelist1 ajax_subid">
-                                      {{subcategories.id}}                                  
-                                      </span> 
-                                       <span class="product_quantity">{{subcategories.id|get_subcategoriesCount}} 
+                                      {{subcategories.id}}
+                                      </span>
+                                       <span class="product_quantity">{{subcategories.id|get_subcategoriesCount}}
                                         </span>
-                                       </li> 
+                                       </li>
                                       {% endfor %}
                                 </ul>
                               </li>
-                          {% endfor %} 
+                          {% endfor %}
                         </ul>
                      <!--    <input type="hidden"  id="categoryid"  value="" name="categoryid"> -->
-                         <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="" name="subcategoryid"/>   
+                         <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="" name="subcategoryid"/>
                       </li>
                 </ul>
-           </form> 
+           </form>
            </div>
            </div>
  </div> <!-- container -->

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from advertisement.models import *
+from django.utils.translation import ugettext_lazy as _
 
 #Model for storing user personal details
 class UserProfile(models.Model):
@@ -21,4 +22,19 @@ class UserProfile(models.Model):
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
-        return self.user.username      
+        return self.user.username
+
+class ExchangeRate(models.Model):
+    currency = models.CharField(max_length=3)
+    value = models.DecimalField(max_digits=20, decimal_places=6)
+
+    def __str__(self):
+        return _("%s at %.6f") % (self.currency, self.value)
+
+class BaseCurrency(models.Model):
+    base_currency = models.CharField(max_length=3)
+    last_update = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return _("%s rates update %s") % (
+            self.base_currency, self.last_update)

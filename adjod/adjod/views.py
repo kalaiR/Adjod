@@ -2,7 +2,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from django.core.context_processors import csrf 
+from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.tokens import default_token_generator
@@ -22,7 +22,6 @@ from django import forms
 from advertisement.models import *
 from banner.models import *
 from templated_email import send_templated_mail
-from adjod.util import *
 from adjod.util import *
 
 #Others
@@ -47,7 +46,9 @@ from paypal.standard.ipn.signals import payment_was_successful
 from adjod.util import format_redirect_url
 from django.core.exceptions import ValidationError
 from django.contrib import messages
-
+#for currency conversion
+from djmoney_rates.models import Rate
+from adjod.models import BaseCurrency, ExchangeRate
 # For Chat
 from chat.models import *
 
@@ -61,7 +62,7 @@ def show_me_the_money(sender, **kwargs):
         print "show_me_the_money1"
     # Undertake some action depending upon `ipn_obj`.
     # if ipn_obj.custom == "Upgrade all users!":
-    #     User.objects.update(paid=True)        
+    #     User.objects.update(paid=True)
 # print "show_me_the_money2"
 payment_was_successful.connect(show_me_the_money)
 
@@ -77,7 +78,7 @@ def view_that_asks_for_money(request):
     #     userprofile.is_subscribed=True
     # elif 'transaction=error' in request.REQUEST:
     #     userprofile.is_subscribed=False
-    
+
     # What you want the button to do.
     # paypal_dict = {
     #     # "business": settings.PAYPAL_RECEIVER_EMAIL,
@@ -96,20 +97,20 @@ def view_that_asks_for_money(request):
     # context = {"form": form}
     # return render(request, "payment.html", context)
     return render_to_response("paypal_integration/payment.html", context_instance=RequestContext(request))
-    
-#Home page defintion    
+
+#Home page defintion
 @csrf_exempt
 def home(request):
     ctx = {}
     if request.user.is_superuser:
         logout(request)
-        return HttpResponseRedirect('/')  
+        return HttpResponseRedirect('/')
     if request.user.is_authenticated():
         userprofile=UserProfile.objects.get(user=request.user.id)
         ctx={'userprofile':userprofile}
-    return render_to_response('adjod/userpage.html', ctx , context_instance=RequestContext(request)) 
+    return render_to_response('adjod/userpage.html', ctx , context_instance=RequestContext(request))
 
-@csrf_protect 
+@csrf_protect
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['email_id']
@@ -132,7 +133,7 @@ def user_login(request):
                     print "error['username_exists']",error['username_exists']
                     raise ValidationError(error['username_exists'], 2)
         except ValidationError as e:
-            messages.add_message(request, messages.ERROR, e.messages[-1]) 
+            messages.add_message(request, messages.ERROR, e.messages[-1])
             if next_url == '/':
                 redirect_path = "/login/"
             else:
@@ -154,7 +155,7 @@ def user_login(request):
                     error['password'] = ugettext('Wrong password')
                     raise ValidationError(error['password'], 3)
             except ValidationError as e:
-                messages.add_message(request, messages.ERROR, e.messages[-1]) 
+                messages.add_message(request, messages.ERROR, e.messages[-1])
                 if next_url == '/':
                     redirect_path = "/login/"
                 else:
@@ -162,9 +163,9 @@ def user_login(request):
                 query_string = 'si=%d' % e.code
                 redirect_url = format_redirect_url(redirect_path, query_string)
                 return HttpResponseRedirect(redirect_url)
-            if user:           
+            if user:
                 # Is the account active? It could have been disabled.
-                if user.is_active:                
+                if user.is_active:
                     # If the account is valid and active, we can log the user in.
                     # We'll send the user back to the homepage.
                     login(request, user)
@@ -172,22 +173,22 @@ def user_login(request):
                     user_id=user.id
                     # starturl=reverse('start',kwargs={ 'user_id': user.id })
                     if next_url == '/':
-                        response=HttpResponseRedirect('/start/?user_id=' + str(user.id)) 
+                        response=HttpResponseRedirect('/start/?user_id=' + str(user.id))
                     else:
-                        response=HttpResponseRedirect(next_url) 
-                    response.set_cookie("chat_email", user.email)  
-                    response.set_cookie("chat_user", user.username)  
+                        response=HttpResponseRedirect(next_url)
+                    response.set_cookie("chat_email", user.email)
+                    response.set_cookie("chat_user", user.username)
                     response.set_cookie("chat_userid", user_id)
-                    return response               
+                    return response
                 else:
-                    # An inactive account was used - no logging in!                
+                    # An inactive account was used - no logging in!
                     error = ugettext('Account disable')
-                    return errorHandle(error)               
+                    return errorHandle(error)
             else:
-                # Bad login details were provided. So we can't log the user in.            
+                # Bad login details were provided. So we can't log the user in.
                 error = ugettext('Invalid user')
                 print "error", error
-                return errorHandle(error) 
+                return errorHandle(error)
     else:
       category=Category.objects.all()
       return render_to_response('adjod/userpage.html', {'category':category}, context_instance=RequestContext(request))
@@ -212,7 +213,7 @@ def register(request):
                 print "error['username_exists']",error['username_exists']
                 raise ValidationError(error['username_exists'], 2)
         except ValidationError as e:
-            messages.add_message(request, messages.ERROR, e.messages[-1]) 
+            messages.add_message(request, messages.ERROR, e.messages[-1])
             redirect_path = "/"
             query_string = 'st=%d' % e.code
             redirect_url = format_redirect_url(redirect_path, query_string)
@@ -225,22 +226,22 @@ def register(request):
             user.set_password(user.password)
             user.first_name=request.POST['user_id']
             user.save()
-            userprofile.user=user       
+            userprofile.user=user
             userprofile.mobile=request.POST['your_mobile_number']
             if request.COOKIES.get('city'):
                 userprofile.city=City.objects.get(city=request.COOKIES.get('city'))
             userprofile.language=request.COOKIES.get('adjod_language')
             userprofile.country_code = userprofile.city.country_code
-            userprofile.age_status=request.POST.get('confirm')           
+            userprofile.age_status=request.POST.get('confirm')
             confirmation_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for x in range(33))
-            p = UserProfile(user=user, city=userprofile.city, mobile=userprofile.mobile, confirmation_code=confirmation_code, language=userprofile.language,age_status=userprofile.age_status, country_code =userprofile.country_code)         
-            p.save()           
+            p = UserProfile(user=user, city=userprofile.city, mobile=userprofile.mobile, confirmation_code=confirmation_code, language=userprofile.language,age_status=userprofile.age_status, country_code =userprofile.country_code)
+            p.save()
             send_registration_confirmation(user)
             user = User.objects.get(username=user.username)
             user.backend='django.contrib.auth.backends.ModelBackend'
             login(request, user)
-            return HttpResponseRedirect('/start/?user_id=' + str(user.id)) 
-    
+            return HttpResponseRedirect('/start/?user_id=' + str(user.id))
+
 def send_registration_confirmation(user):
     p = user.get_profile()
     title = "Adjod account confirmation"
@@ -252,15 +253,15 @@ def send_registration_confirmation(user):
                 recipient_list = [user.email],
                 context={
                          'user': user,
-                         'content':content,             
+                         'content':content,
                 },
             )
 
-def confirm(request, confirmation_code, username):    
+def confirm(request, confirmation_code, username):
     try:
-        user = User.objects.get(username=username)        
+        user = User.objects.get(username=username)
         print user.id
-        profile = user.get_profile()       
+        profile = user.get_profile()
         if profile.confirmation_code == confirmation_code:
             # user.is_active = True
             profile.is_emailverified=True
@@ -270,17 +271,17 @@ def confirm(request, confirmation_code, username):
             user.backend='django.contrib.auth.backends.ModelBackend'
             login(request, user)
             print "confirm7"
-        return HttpResponseRedirect('/start/?user_id=' + str(user.id))    
+        return HttpResponseRedirect('/start/?user_id=' + str(user.id))
     except:
         return HttpResponseRedirect('/')
-    
+
 def start(request):
     user=UserProfile.objects.get(user=request.user.id)
     #Chat Store Active users
     last_active = None
     try:
         last_active = LastActive.objects.get(user = UserProfile.objects.get(id=user.id))
-    except:         
+    except:
         last_active = LastActive.objects.create(user = UserProfile.objects.get(id=user.id), session = Session.objects.get(session_key = request.session.session_key))
     last_active.save()
     if request.user.is_authenticated:
@@ -288,21 +289,21 @@ def start(request):
     return render_to_response('adjod/userpage.html',{'userprofile':userprofile},context_instance=RequestContext(request))
 
 # /*  Auto Complete for Category based Brands */
-def autocomplete_keyword(request):     
+def autocomplete_keyword(request):
   from collections import OrderedDict
-  val = OrderedDict() 
-  results = []  
-  keyterm = request.GET.get('term')   
+  val = OrderedDict()
+  results = []
+  keyterm = request.GET.get('term')
   if keyterm:
-    unsort_dict = {}    
-    lead_keywords = Category.objects.filter(name__istartswith=keyterm)    
+    unsort_dict = {}
+    lead_keywords = Category.objects.filter(name__istartswith=keyterm)
     # print 'lead_keywords',lead_keywords
-    for lead_keyword in lead_keywords:      
+    for lead_keyword in lead_keywords:
       keyword_strip = lead_keyword.name.strip()
-      keyword_title = keyword_strip.title()      
+      keyword_title = keyword_strip.title()
       unsort_dict[keyword_title] = {'id':lead_keyword.id, 'label':keyword_title, 'value':keyword_title}
-    sorted_dic = OrderedDict(sorted(unsort_dict.iteritems(), key=lambda v: v[0])) 
-    for k, v in sorted_dic.iteritems():  
+    sorted_dic = OrderedDict(sorted(unsort_dict.iteritems(), key=lambda v: v[0]))
+    for k, v in sorted_dic.iteritems():
       results.append(v)
   return HttpResponse(simplejson.dumps(results), mimetype='application/json')
 
@@ -319,50 +320,64 @@ def logout_view(request):
     return response
 
 # /*  Auto Complete for Category based Brands , subCatId='none'*/
-def autocomplete_brandlist(request):  
+def autocomplete_brandlist(request):
   from collections import OrderedDict
-  val = OrderedDict()    
-  results = [] 
-  keyterm = request.GET.get('term')   
+  val = OrderedDict()
+  results = []
+  keyterm = request.GET.get('term')
   if keyterm:
-    unsort_dict = {}    
-    # lead_keywords = Category.objects.filter(name__istartswith=keyterm)    
+    unsort_dict = {}
+    # lead_keywords = Category.objects.filter(name__istartswith=keyterm)
     # print 'lead_keywords',lead_keywords
     # if subCatId
-    #     lead_keywords = Category.objects.filter(name__istartswith=keyterm)   
+    #     lead_keywords = Category.objects.filter(name__istartswith=keyterm)
     # else
-    lead_keywords = Dropdown.objects.filter(name__istartswith=keyterm) 
-    for lead_keyword in lead_keywords:      
+    lead_keywords = Dropdown.objects.filter(name__istartswith=keyterm)
+    for lead_keyword in lead_keywords:
       keyword_strip = lead_keyword.name.strip()
-      keyword_title = keyword_strip.title()      
+      keyword_title = keyword_strip.title()
       unsort_dict[keyword_title] = {'id':lead_keyword.id, 'label':keyword_title, 'value':keyword_title}
-    sorted_dic = OrderedDict(sorted(unsort_dict.iteritems(), key=lambda v: v[0])) 
-    for k, v in sorted_dic.iteritems():  
+    sorted_dic = OrderedDict(sorted(unsort_dict.iteritems(), key=lambda v: v[0]))
+    for k, v in sorted_dic.iteritems():
       results.append(v)
   return HttpResponse(simplejson.dumps(results), mimetype='application/json')
 
 #function for Chat
 # def chat(request):
-#     return render_to_response('chat_index.html', context_instance=RequestContext(request))    
+#     return render_to_response('chat_index.html', context_instance=RequestContext(request))
 def toolbar(request):
-    return render_to_response('views/toolbar.html', context_instance=RequestContext(request))    
+    return render_to_response('views/toolbar.html', context_instance=RequestContext(request))
+
+
+def loadbasecurrency(request):
+    basecurrency = BaseCurrency.objects.get(id=1)
+    adjod_base_currency = basecurrency.base_currency
+    base_currency_rate = Rate.objects.get(currency= adjod_base_currency)
+    open_exchange_rate = Rate.objects.all()
+    ExchangeRate.objects.all().delete()
+    for rates in open_exchange_rate:
+        conversion = ExchangeRate()
+        conversion.currency = rates.currency
+        conversion.value = float(rates.value)/float(base_currency_rate.value)
+        conversion.save()
+    return HttpResponse('Successfully updated')
 
 def update_profile(request):
     return render_to_response('adjod/updateprofile.html', context_instance=RequestContext(request))
 
 def geosearch(request):
     starttime = time()
-#     ipaddress = request.GET.get('ipaddress', '')   
+#     ipaddress = request.GET.get('ipaddress', '')
     ipaddress=get_client_ip(request)
-    print 'newip', ipaddress  
+    print 'newip', ipaddress
 #     if not ipaddress:
-#         ipaddress = globals.ip     
+#         ipaddress = globals.ip
     g = GeoIP()
     country = g.country_code(ipaddress)
     print "country:", country
 #     language=get_global_language(country)
-#     print "language", language    
-    timetaken = time() - starttime    
+#     print "language", language
+    timetaken = time() - starttime
     language="None"
     country_language_dict = {
                     'AU':'en','IN':'en','SE':'sv','DE':'de','SG':'en','SX':'en',}

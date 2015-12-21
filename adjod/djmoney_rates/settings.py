@@ -26,7 +26,7 @@ DEFAULTS = {
 
     'OPENEXCHANGE_URL': 'http://openexchangerates.org/api/latest.json',
     'OPENEXCHANGE_APP_ID': '',
-    'OPENEXCHANGE_BASE_CURRENCY': 'USD',
+    'OPENEXCHANGE_BASE_CURRENCY': 'SGD',
 }
 
 # List of settings that cannot be empty
