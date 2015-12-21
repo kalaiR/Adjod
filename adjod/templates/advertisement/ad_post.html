@@ -78,6 +78,7 @@
           </div> <!- upload_photos_div -> -->
 
           <div class="field_div form-group" id="upload_photos_div">
+            <span class="title">Upload Videos</span>
               <textarea class="videos" name="video_url" id="videos1" Placeholder="Embed online video URL (Ex: http://youtube.com/sample)"></textarea>
           </div> <!-- description_div -->
           <!-- <hr noshade="noshade" class="photos_line" /> -->
@@ -110,7 +111,8 @@
 
           <div class="field_div form-group" id="name_div">
             {% if user.is_authenticated %}
-            <input class="your_name" name="your_name" id="your_name" value="{{request.user.username}}" disabled/>
+            <input type="text" class="your_name" name="your_name" id="your_name" value="{{request.user.username}}" disabled/>
+            <input type="hidden" name="your_name" value="{{request.user.username}}">
             {% else %}
             <input class="your_name" name="your_name" id="your_name" placeholder="Your name"/>
             {% endif %}
@@ -121,7 +123,9 @@
          	<div class="field_div form-group" id="email_div">
             {% if user.is_authenticated %}
               <input type="text" class="your_email" name="your_email" id="your_email" placeholder="Your email*" value="{{request.user.email}}" disabled/>
-           		<label id="email_required" class="labelError" style="display:none;">Please enter email id.</label>
+              <label id="email_required" class="labelError" style="display:none;">Please enter email id.</label>
+              <input type="hidden" name="your_email" value="{{request.user.email}}">
+
               {% else %}
               <input type="text" class="your_email" name="your_email" id="your_email" placeholder="Your email*" value=""/>
               <label id="email_required" class="labelError" style="display:none;">Please enter email id.</label>
@@ -142,7 +146,7 @@
                 <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
                 {% endfor %}
                 </select>
-                <label id="city_required" class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
+                <label id="city_required" class="labelError" style="display:none;">Please Choose city</label>
             </div> <!-- select_container_city -->
             <div class="select_container_locality fl" id="select_container_locality">
                 <div class="select_div">
@@ -153,7 +157,7 @@
                 <select id="id_locality" class="select_post_locality" name="your_locality" id="your_locality">
                 <option value=""></option>
                 </select>
-                <label id="locality_required" class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
+                <label id="locality_required" class="labelError" style="display:none;">Please Choose locality</label>
             </div> <!-- select_container_city -->
             <div class="clear_both"></div>
           </div> <!-- city_div -->

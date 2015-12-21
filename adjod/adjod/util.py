@@ -110,10 +110,10 @@ def get_global_city(request):
             city_model.country_name = g.country_name(get_client_ip(request))
             city_model.save()
             city_id = city_model.id
+        print "city_id", city_id
     except:
-        city = 'Singapore'
-        city_id = '7'
-    # print "city_id", city_id
+        city = "Singapore"
+        city_id = 7
     return city, city_id
 
 def format_redirect_url(redirect_path, query_string):
@@ -162,7 +162,6 @@ def convert(price):
     # base_currency= settings.BASE_CURRENCY
     adjod_exchange_rate = ExchangeRate.objects.get(currency=current_country)
     return float(price)*float(adjod_exchange_rate.value)
-
 
 # def convert(price):
 #     for key,value in CURRENCIES_BY_COUNTRY_CODE.items():

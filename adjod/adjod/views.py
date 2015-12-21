@@ -348,6 +348,7 @@ def autocomplete_brandlist(request):
 def toolbar(request):
     return render_to_response('views/toolbar.html', context_instance=RequestContext(request))
 
+
 def loadbasecurrency(request):
     basecurrency = BaseCurrency.objects.get(id=1)
     adjod_base_currency = basecurrency.base_currency
@@ -360,3 +361,30 @@ def loadbasecurrency(request):
         conversion.value = float(rates.value)/float(base_currency_rate.value)
         conversion.save()
     return HttpResponse('Successfully updated')
+
+def update_profile(request):
+    return render_to_response('adjod/updateprofile.html', context_instance=RequestContext(request))
+
+def geosearch(request):
+    starttime = time()
+#     ipaddress = request.GET.get('ipaddress', '')
+    ipaddress=get_client_ip(request)
+    print 'newip', ipaddress
+#     if not ipaddress:
+#         ipaddress = globals.ip
+    g = GeoIP()
+    country = g.country_code(ipaddress)
+    print "country:", country
+#     language=get_global_language(country)
+#     print "language", language
+    timetaken = time() - starttime
+    language="None"
+    country_language_dict = {
+                    'AU':'en','IN':'en','SE':'sv','DE':'de','SG':'en','SX':'en',}
+    for key,value in country_language_dict.items():
+        if country==key:
+            language=value
+    city=g.city(ipaddress)['city']
+    return render_to_response('adjod/testpage.html', {
+        'country':country, 'ipaddress':ipaddress, 'timetaken':timetaken,'language':language,'city':city
+      }, context_instance=RequestContext(request))

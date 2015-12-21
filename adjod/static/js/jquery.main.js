@@ -38,7 +38,7 @@ $( document ).ready(function() {
 
 
   $.when( xhr_toolbar ).done(function(r1, r2, r3, r4) {
-    // localStorage.clear();
+    localStorage.clear();
     main_set_conf();
     
     main_set_theme( conf_theme_default );
@@ -159,7 +159,7 @@ $( document ).ready(function() {
         // alert(name);
         var stat = $( this ).find( "li" ).attr( "class" );
         // alert(stat);
-        $( "#users-button-bar" ).append( "<button id='user-button-" + iduser_product + "' class='user-button' style='font-size: 65%;'><li class='" + stat + "'>" + name + "</li><span class='product_title' style='display:none;'>" + product + "</span><span class='product_id' style='display:none;'>" + product_id + "</span></button>" );
+        $( "#users-button-bar" ).append( "<button id='user-button-" + iduser_product + "' class='user-button btn_user' style='font-size: 65%;'><li class='" + stat + "'>" + name + "</li><span class='product_title' style='display:none;'>" + product + "</span><span class='product_id' style='display:none;'>" + product_id + "</span></button>" );
         // $("#users-button-bar").closest('.product_title').val(product);
         // alert($("#users-button-bar").html());
         $( ".user-button" ).button();
@@ -354,7 +354,7 @@ $( document ).ready(function() {
             //Extern window button
             //main.parent().find( ".ui-dialog-titlebar" ).append( "<button class='ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only externally-window' role='button' aria-disabled='false' title='Ventana externa'><span class='ui-icon ui-icon-arrowthick-1-nw'></span><span class='ui-button-text'>Ventana externa</span></button>" );
             //Min button
-            main.parent().find( ".ui-dialog-titlebar" ).append( "<button class='ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only minimize-window' role='button' aria-disabled='false' title='" + i18n.minimize + "'><span class='ui-icon ui-icon-minus'></span></button>" );
+            main.parent().find( ".ui-dialog-titlebar" ).append( "<i class='fa fa-minus ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only fa fa-times minimize-window' role='button' aria-disabled='false' title='" + i18n.minimize + "'><span class='ui-icon ui-icon-minus'></span></i>" );
             //Status icon
             main.parent().find( ".ui-dialog-title" ).append( "<li id='dialog-status' class='" + main.data( "status" ) + "'>" + name + "</li>" );
 
@@ -1272,7 +1272,7 @@ $( document ).ready(function() {
         //Append div user in the bar if is not appended
         if ( $( "#users-button-bar" ).parent().find( "#user-button-" + iduser + "_product-" + product_id ).length == 0 ) {
           // alert("user button bar");
-          $( "#users-button-bar" ).append( "<button id='user-button-" + iduser + "_product-" + product_id + "' class='user-button' style='font-size: 65%;'><li class='" + status + "'>" + name + "</li><span class='product_title' style='display:none;'>" + product_title + "</span><span class='product_id' style='display:none;'>" + product_id + "</span></button>" );
+          $( "#users-button-bar" ).append( "<button id='user-button-" + iduser + "_product-" + product_id + "' class='user-button btn_user' style='font-size: 65%;'><li class='" + status + "'>" + name + "</li><span class='product_title' style='display:none;'>" + product_title + "</span><span class='product_id' style='display:none;'>" + product_id + "</span></button>" );
           $( ".user-button" ).button();
           $( "#user-button-" + iduser + "_product-" + product_id ).trigger( "click" );
         }
@@ -1400,11 +1400,11 @@ $( document ).ready(function() {
   }).fail(function() {
     console.log('fail');
   }).always(function() {
-    // function displayChatOnload() {
-    //   document.getElementById('main').style.display = 'block';
-    // }
+    function displayChatOnload() {
+      document.getElementById('main').style.display = 'block';
+    }
 
-    // displayChatOnload();
+    displayChatOnload();
   });
 
 });
@@ -1458,7 +1458,7 @@ $(window).load(function() {
       //  $( "#user-button-" + val.user +  "_product-" + val.product ).trigger( "click" );
       //  }
       if ( $( "#users-button-bar" ).parent().find( "#user-button-" + val.user +  "_product-" + val.product ).length == 0 ){
-          $( "#users-button-bar" ).append( "<button id='user-button-" + val.user +  "_product-" + val.product +"' class='user-button' style='font-size: 65%;'><li class='online'>" + val.name + "</li><span class='product_title' style='display:none;'>" + val.title + "</span><span class='product_id' style='display:none;'>" + val.product + "</span></button>" );
+          $( "#users-button-bar" ).append( "<button id='user-button-" + val.user +  "_product-" + val.product +"' class='user-button btn_user' style='font-size: 65%;'><li class='online'>" + val.name + "</li><span class='product_title' style='display:none;'>" + val.title + "</span><span class='product_id' style='display:none;'>" + val.product + "</span></button>" );
           $( ".user-button" ).button();
         }
        $( "#user-button-" + val.user +  "_product-" + val.product ).trigger( "click" );

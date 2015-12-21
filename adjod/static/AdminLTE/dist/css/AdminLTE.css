@@ -2782,16 +2782,16 @@ table.text-center th {
 }
 .direct-chat-warning .right > .direct-chat-text:after,
 .direct-chat-warning .right > .direct-chat-text:before {
-  border-left-color: #f39c12;
+  border-left-color: #e4e4e4;
 }
 .direct-chat-info .right > .direct-chat-text {
-  background: #00c0ef;
-  border-color: #00c0ef;
-  color: #ffffff;
+  background: #e4e4e4;
+  border-color: #e4e4e4;
+  color: black;
 }
 .direct-chat-info .right > .direct-chat-text:after,
 .direct-chat-info .right > .direct-chat-text:before {
-  border-left-color: #00c0ef;
+  border-left-color: #e4e4e4;
 }
 .direct-chat-success .right > .direct-chat-text {
   background: #00a65a;

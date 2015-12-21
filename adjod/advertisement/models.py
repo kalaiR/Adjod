@@ -100,7 +100,7 @@ class Product(models.Model):
     video=models.FileField(upload_to='/static/videos/',null=True, blank=True)
     condition = models.CharField(max_length=10,choices=CONDITION, default="used")
     price = models.FloatField(null=True, default=0.0)
-    ad_brand=models.ForeignKey(Dropdown,null=False, related_name="ad_brand")
+    ad_brand=models.ForeignKey(Dropdown,null=True, related_name="ad_brand")
     ad_year=models.CharField(max_length=10, null=True)
     city=models.ForeignKey(City, null=False)
     locality=models.ForeignKey(Locality, null=False)
@@ -127,18 +127,19 @@ class Product(models.Model):
 
     @classmethod
     def get_related(cls,product):
-        print "get_related"
-        print "product", product.subcategory.id
-        print "product brand", product.ad_brand.id
-        # print "product city", product.city.id
-        # qs =  SearchQuerySet().exclude(id=product.id)
-        qs =  SearchQuerySet().filter(subcategoryid=product.subcategory.id, adbrandid=product.ad_brand.id).exclude(id=product.id)
+        if product.ad_brand:
+          qs =  SearchQuerySet().filter(subcategoryid=product.subcategory.id, adbrandid=product.ad_brand.id).exclude(id=product.id)
+        else:
+          qs =  SearchQuerySet().filter(subcategoryid=product.subcategory.id).exclude(id=product.id)
         print "qs", qs
         related_product=[]
         for product in qs:
             if product.object:
                 related_product.append(product)
                 print "related_product",related_product
+        if not related_product:
+          qs =  SearchQuerySet().all().exclude(id=product.id)
+          related_product=qs
         return related_product
 
 class FreeAlert(models.Model):

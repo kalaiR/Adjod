@@ -172,8 +172,10 @@ body {
 }
 .banner_ad {
     display: none;
+    margin: 0px;
     @media (min-width: @grid-float-breakpoint){
     	display: block;
+    	margin: 30px 0 0;
 	}
 }
 .select_area {
@@ -211,9 +213,10 @@ body {
 }
 .form > i{
 	color: #c4c4c4;
-    left: 4px;
-    position: absolute;
-    top: 6%;
+    float: left;
+    left: 18px;
+    position: relative;
+    top: 10px;
     z-index: 9999;
 	@media (min-width: @grid-float-breakpoint) {
 		left: 9px;
@@ -589,7 +592,7 @@ body {
 	@media (min-width: @grid-float-breakpoint) {
     	width:344px;
 		height:50px;
-		margin-bottom:30px;
+		margin-bottom:15px;
   	}
 }
 .form1 {
@@ -908,13 +911,13 @@ body {
 	width: 0px;
 	@media (min-width: @grid-float-breakpoint) {
 		display:initial;
-		margin: 2px;
+		margin: 1px;
 		background:transparent;
 	    border: 1px solid white !important;
 	    border-radius: 0;
 	    color: white;
 	    font-size: 16px;
-	    padding: 10px 4px;
+	    padding: 10px 0px;
 	    width: 122px;
 	    font-family:Varela Round;
 	}
@@ -1008,7 +1011,7 @@ hr {
 	 	width:430px;
 	 	padding:0px;
 	 	position: relative;
-    	top: 45px;
+    	top: 32px;
     	height:508px;
   	}
 }
@@ -1218,7 +1221,7 @@ hr {
     	height: 360px;
 	    border: 1px solid lightgray;
 	    position:relative;
-	    margin-top:66px;
+	    margin: 0 55px 0 0;
     }
 }
 
@@ -1573,7 +1576,7 @@ hr {
 .product_list1 {
     border: 1px solid #828282;
     margin-bottom: 10px;
-    width:145%;
+    width:100%;
     height:126px;
     @media (min-width: @grid-float-breakpoint){
     	height:129px;
@@ -1697,7 +1700,13 @@ hr {
 }
 .sortclass{
 	margin:5px 0px 0px 0px;
-	color:color: #202020;
+	color: #202020;
+	display: none;
+	@media (min-width: @grid-float-breakpoint){
+		margin:5px 0px 0px 0px;
+		color: #202020;
+		display: inline;
+	}
 }
 .refine_results{
 	background:#8991c0;
@@ -1770,13 +1779,23 @@ input[type="checkbox"] {
     margin-bottom: 20px;
 }
 .sorting_custom_select{
-	width: 190px;
-  	height:34px;
-  	color:#737373;
-  	border:1px solid gray;
-  	display: inline-block;
-  	top:0px;
-  	border-radius: 5px;
+	background: #fafafa none repeat scroll 0 0;
+   	border: medium none;
+    color: #737373;
+    display: inline-block;
+    height: 43px;
+    top: 0;
+    width: 159px;
+	@media (min-width: @grid-float-breakpoint){
+		width: 190px;
+	  	height:34px;
+	  	color:#737373;
+	  	border:1px solid gray;
+	  	display: inline-block;
+	  	top:0px;
+	  	border-radius: 5px;
+	  	background:transparent;
+  	}
 }
 .top_part > p {
 	float: left;
@@ -1893,20 +1912,16 @@ input[type="checkbox"] {
  	top:2px !important;
  }
  .bg-img{
-
  	display:block;
  	height: 125px;
     right: 1px;
     position: relative;
     bottom: 1px;
-
-    @media (min-width: @grid-float-breakpoint){
+	@media (min-width: @grid-float-breakpoint){
     	width: 123px;
     }
- }
-
-
- .refine_results > h4 {
+}
+.refine_results > h4 {
     color: white;
     font-family: Varela Round;
 }
@@ -2670,6 +2685,7 @@ sup , .view_example{
     }
     .category, .ad_title, .description, .your_email{
       width: 100% !important;
+
     }
     #premium_col_1, #premium_col_2, #premium_col_3{
       border-bottom: 1px solid #e2e0e0 !important;
@@ -3032,7 +3048,7 @@ sup , .view_example{
     	font-size:16px;
 	    border: 1px solid #d8d8d8;
 	    height: 55px;
-	    width: 190px;
+	    width: 197px;
 	    padding: 10px;
 	    border-radius:4px;
 	    margin-right:20px;
@@ -3067,7 +3083,7 @@ sup , .view_example{
     	font-size:16px;
 	    border: 1px solid #d8d8d8;
 	    height: 55px;
-	    width: 190px;
+	    width: 205px;
 	    padding: 10px;
 	    border-radius:4px;
     }
@@ -3106,7 +3122,7 @@ sup , .view_example{
   margin-bottom:20px;
 }
 #forgot_div > input{
-  margin-left : 16px;
+  margin-left : 160px;
   @media (min-width: @grid-float-breakpoint){
   		margin-left : 100px;
 	}
@@ -3226,11 +3242,11 @@ sup , .view_example{
     }
 }
 .select_div{
-    width: 264px;
+    width: 280px;
     height:50px;
     padding:0px 35px 0px 10px;
-    position: absolute;
-    top: 10px;    left: 13px;
+    position: relative;
+    top: 10px;    left: 0px;
     background: #ffffff;
     font-family:"Varela Round";    font-size: 12px;    font-weight: normal; color: #2a2a2a;
     cursor:pointer;
@@ -3240,7 +3256,7 @@ sup , .view_example{
     	width: 100%;
 	    height:50px;
 	    padding:0px 35px 0px 10px;
-	    position: absolute;
+	    position: relative;
 	    top: 0;    left: 0;
 	    background: #ffffff;
 	    font-family:"Varela Round";    font-size: 12px;    font-weight: normal; color: #2a2a2a;
@@ -3400,7 +3416,7 @@ sup , .view_example{
         padding-top: 35% !important;
     }
     .simpleFilePreview_multiClip{
-        height: 140px !important;
+        height: 215px !important;
     }
 
 // ===========================
@@ -3461,7 +3477,7 @@ label >.error { color:red; }
 	color:red;
 	font-size:12px;
 	display:block;
-	width:270px;
+	width:225px;
 }
 .freealert_labelError{
 	color: red;
@@ -3627,7 +3643,7 @@ label >.error { color:red; }
    	}
 }
 .signin_mobile, .forgot_mobile{
-	height: 400px;
+	height: 420px;
 	@media (min-width: @grid-float-breakpoint){
 		height: 500px;
 	}
@@ -3750,12 +3766,12 @@ label >.error { color:red; }
 
 #mobile_number_div{
 	display:block;
-	left: 13px;
+	left: -12px;
     position: relative;
     top:-5px;
 	@media (min-width: @grid-float-breakpoint){
 		display:block;
-		left: 0;
+		left: -22px;
     	position: relative;
     	top:-8px;
 	}
@@ -3794,7 +3810,7 @@ li.offline,.product_title_for_chat { display:none !important; }
 	font-size:12px;
 	display:block;
 	position:relative;
-	margin-top:-18px;
+	margin-top:-15px;
 }
 
 .form-group-email{
@@ -3832,8 +3848,8 @@ li.offline,.product_title_for_chat { display:none !important; }
 	}
 }
 .video_content {
-    float: right;
-   	position: relative;
+    float: left;
+
 }
 #cityselected {
     margin-left: -48px;
@@ -3922,15 +3938,6 @@ li.offline,.product_title_for_chat { display:none !important; }
 .transparent_bg{
 	background: #b4a9aa none repeat scroll 0 0;
 	 opacity: 0.6;
-}
-.mobile_select{
-	background: #fafafa none repeat scroll 0 0;
-   	border: medium none;
-    color: #737373;
-    display: inline-block;
-    height: 43px;
-    top: 0;
-    width: 138px;
 }
 .app_filter{
 	background: #fafafa none repeat scroll 0 0;
@@ -4248,14 +4255,14 @@ li.offline,.product_title_for_chat { display:none !important; }
 }
 .intl-tel-input{
 	display: flex;
-    margin: 8px 0 4px;
+    margin: 0px 0 4px;
     position: relative;
     width:264px;
     @media (min-width: @grid-float-breakpoint) {
     	display: flex;
 	    margin: 8px 0 4px;
 	    position: relative;
-	    width:264px;
+	    width:260px;
     }
 }
 .inputs {
@@ -4361,7 +4368,7 @@ li.offline,.product_title_for_chat { display:none !important; }
 	  	border: 1px solid gray;
 	  	margin: 0px auto;
 	  	cursor: pointer;
-  }
+  	}
 }
 #home_menu > ul > li {
   margin: 0 0 2px 0;
@@ -4416,6 +4423,7 @@ li.offline,.product_title_for_chat { display:none !important; }
 .hide_list.hidelist1.subclick {
     padding-left: 32px !important;
 }
+
 #price_div {
     position: relative;
 }
@@ -4424,4 +4432,455 @@ li.offline,.product_title_for_chat { display:none !important; }
     left: 11px;
     position: absolute;
     top: 7px;
+}
+
+										/*update profile page*/
+
+.ads_details1 {
+   	display: block;
+    float: left;
+    width: 480px;
+    @media (min-width: @grid-float-breakpoint){
+    	display: flex;
+    	width: 480px;
+    	float: none;
+	}
+}
+.ads_name1{
+	bottom: 127px;
+    color: #484848;
+    float: left;
+    font-size: 12px;
+    height: 123px;
+    left: 0;
+    padding-left: 135px;
+    padding-top: 0;
+    position: relative;
+	@media (min-width: @grid-float-breakpoint){
+	    float: left;
+	    height: 123px;
+	    left: 0;
+	    padding-left: 30px;
+	    padding-top: 5px;
+	    position: relative;
+	    bottom: 0;
+	    color: #484848;
+	    font-size: 14px;
+    }
+}
+.ads_name2{
+	border: 1px solid #808080;
+    bottom: 134px;
+    color: #484848;
+    display: inline-flex;
+    float: none;
+    height: 50px;
+    left: -63px;
+    padding-left: 29px;
+    padding-top: 8px;
+    position: relative;
+    width: 338px;
+    @media (min-width: @grid-float-breakpoint){
+    	float: left;
+	    height: 123px;
+	    left: 0;
+	    padding-left: 23px;
+	    padding-top: 5px;
+	    position: relative;
+	    bottom: 0;
+	    width: 200px;
+	    color: #484848;
+	    border: medium none;
+	    display: inline;
+    }
+}
+.ads_name3{
+	bottom: 80px;
+    color: #484848;
+    float: left;
+    height: 0;
+    left: 57%;
+    padding-left: 0;
+    padding-top: 5px;
+    position: relative;
+    display: inline;
+	@media (min-width: @grid-float-breakpoint){
+		float: left;
+	    height: 123px;
+	    left: 40px;
+	    padding-left: 0;
+	    padding-top: 5px;
+	    position: relative;
+	    bottom: 0;
+	    width: 0;
+	    color: #484848;
+	    display: inline;
+    }
+}
+.ads_id{
+	color: black;
+    position: relative;
+    top: 20px;
+    font-family: Varela Round;
+}
+.category_ads {
+	display: flex;
+    font-family: Varela Round;
+    position: relative;
+    top: 18px;
+	@media (min-width: @grid-float-breakpoint){
+	    display: inline-block;
+	    position: relative;
+	    top: 18px;
+	    font-family: Varela Round;
+    }
+}
+.description1{
+	display: block;
+    font-family: Varela Round;
+    position: relative;
+    top: 0;
+    left: 20px;
+    color:#72AFD2;
+    cursor: pointer;
+}
+.spans, .spans1 , .spans2{
+	color: #484848;
+    display: block;
+    font-family: Varela Round;
+    font-size: 16px;
+    position: relative;
+	@media (min-width: @grid-float-breakpoint){
+		display: block;
+	    font-family: Varela Round;
+	    font-size: 18px;
+	    position: relative;
+	    color: #484848;
+    }
+}
+.action{
+	color: #8491db;
+    cursor: pointer;
+   	font-size: 20px;
+    @media (min-width: @grid-float-breakpoint){
+		font-family: Varela Round;
+	    font-size: 13px;
+	   	color: #484848;
+	   	cursor: pointer;
+   	}
+}
+.post_time{
+	border-left: 1px solid gray;
+    color: #484848;
+    font-family: Varela Round;
+    font-size: 13px;
+    padding: 0 0 0 18px;
+   	@media (min-width: @grid-float-breakpoint){
+   		padding: 0px;
+	    font-family: Varela Round;
+	    font-size: 13px;
+	   	color: #484848;
+	   	border-left: medium none;
+    }
+}
+.update_ads > span {
+    color: #202020;
+    font-family: Varela Round;
+    font-size: 20px;
+    line-height: 4;
+}
+.update_ads{
+	float: none;
+    height: 1210px;
+    margin: 0px auto;
+    padding: 0;
+    @media (min-width: @grid-float-breakpoint) {
+    	float: right;
+	    height: 1210px;
+	    margin: 0px auto;
+	    padding: 0;
+    }
+}
+.left_part_profile{
+	display: inline-block;
+    float: none;
+    margin-right: 14px;
+    margin-top: 0;
+    width: 280px;
+	@media (min-width: @grid-float-breakpoint) {
+		width:210px;
+		display:inline-block;
+		float:left;
+		margin-right:14px;
+		margin-top: 30px;
+	}
+}
+#menu_profile{
+	background: #fff none repeat scroll 0 0;
+    border: 1px solid #828282;
+    cursor: pointer;
+    height: 170px;
+    text-align: center;
+    width: 211px;
+}
+#menu_profile ul,
+#menu_profile li,
+#menu_profile a {
+  margin: 0;
+  padding: 3px;
+  border: 0;
+  list-style: none;
+  font-weight: normal;
+  text-decoration: none;
+  font-size: 16px;
+  position: relative;
+  font-family:Varela Round;
+  color: black;
+}
+#menu_profile a {
+  line-height:3;
+}
+#menu_profile li {
+    border-bottom: 1px solid #828282;
+}
+.bottom_ads {
+	color: #202020;
+    display: inline;
+    font-family: Varela Round;
+    line-height: 3;
+    cursor: pointer;
+	@media (min-width: @grid-float-breakpoint) {
+	  	color: #202020;
+	    display: inline-flex;
+	    font-family: Varela Round;
+	    line-height: 3;
+	    cursor: pointer;
+    }
+}
+.check_all, .uncheck_all{
+    color: #559fd9;
+    padding: 0 0 0 20px;
+    @media (min-width: @grid-float-breakpoint) {
+    	color: #559fd9;
+    	padding: 0px;
+	}
+}
+.delete_btn {
+    height: 43px;
+    position: relative;
+    top: 5px;
+    width: 125px;
+    font-family: Varela Round;
+}
+.profile_text > span{
+	color: #202020;
+    font-family: Varela Round;
+    font-size: 20px;
+    line-height: 4;
+}
+.update_profile {
+    border: 1px solid #828282;
+    height: auto;
+    margin: 0 auto;
+    padding: 0;
+    width: 320px;
+    @media (min-width: @grid-float-breakpoint) {
+    	border: 1px solid #828282;
+	    margin-bottom: 60px;
+	    height: auto;
+	    padding:0;
+	    width: 745px;
+    }
+}
+.personal_details, .additional_info, .set_password {
+ border-bottom: 1px solid #828282;
+}
+.personal_center, .additional_center, .password_center{
+    margin: -22px 0 0;
+    padding: 14px;
+    @media (min-width: @grid-float-breakpoint) {
+    	margin: 0 0 0 100px;
+	}
+}
+.marketing {
+    border-bottom: 1px solid #828282;
+    font-size: 18px;
+    padding: 15px 0 16px;
+    text-align: center;
+}
+.email_profile, .pwd_profile, .newpwd_profile {
+    border: 1px solid #d8d8d8;
+    font-size: 16px;
+    height: 50px;
+    padding: 10px;
+    width: 280px;
+    margin: 5px 0 0;
+    @media (min-width: @grid-float-breakpoint) {
+    	width: 527px;
+	    border: 1px solid #d8d8d8;
+	    font-size: 16px;
+	    height: 50px;
+	    padding: 10px;
+	    margin: 0px;
+    }
+}
+.additional_txt,.password_txt,.personal_txt{
+	color: #202020;
+    font-family: Varela Round;
+    font-size: 18px;
+    line-height: 3;
+    padding: 0 0 0 30px;
+}
+.marketing_txt{
+	color: #202020;
+    font-family: Varela Round;
+    font-size: 18px;
+    float: left;
+    padding: 0 0 0 30px;
+}
+.mailing_txt {
+    margin: 0 0 0 20px;
+    position: relative;
+}
+.sms_txt {
+    font-family: Varela Round;
+    font-size: 16px;
+    padding: 0 0 0 25px;
+}
+.set_password {
+    padding: 0px;
+    @media (min-width: @grid-float-breakpoint) {
+    	padding: 0 0 45px;
+	}
+}
+.profile_btn {
+    line-height: 6;
+}
+.active{
+	background:#E08E0B;
+}
+#menu_mobile > ul {
+    display: inline-flex;
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+#menu_mobile li {
+    border: 1px solid #e08e0b;
+    width: 110px;
+    cursor: pointer;
+}
+#menu_mobile a {
+    color: black;
+}
+.select_profile{
+	background: #ffffff none repeat scroll 0 0;
+    border: 1px solid #dedede;
+    border-radius: 4px;
+    color: #2a2a2a;
+    cursor: pointer;
+    font-family: "Varela Round";
+    font-size: 12px;
+    font-weight: normal;
+    height: 50px;
+    left: 0;
+    padding: 0 35px 0 10px;
+    position: absolute;
+    top: 10px;
+    width: 280px;
+    @media (min-width: @grid-float-breakpoint) {
+    	background: #ffffff none repeat scroll 0 0;
+	    border: 1px solid #dedede;
+	    border-radius: 4px;
+	    color: #2a2a2a;
+	    cursor: pointer;
+	    font-family: "Varela Round";
+	    font-size: 12px;
+	    font-weight: normal;
+	    height: 50px;
+	    left: 0px;
+	    padding: 0 35px 0 10px;
+	    position: absolute;
+	    top: 30px;
+	    width: 265px;
+	}
+}
+.select_profile > p {
+    color: #2a2a2a !important;
+    cursor: pointer;
+    float: left;
+    font-family: Varela Round;
+    font-size: 15px !important;
+    height: 55px;
+    line-height: 50px !important;
+    margin-bottom: 0 !important;
+    overflow: hidden;
+    padding: 0 !important;
+    width: 100%;
+}
+.age_profile{
+	border: 1px solid #d8d8d8;
+    font-size: 16px;
+    height: 50px;
+    padding: 10px;
+    width: 280px;
+    margin: 10px 0 12px;
+    @media (min-width: @grid-float-breakpoint) {
+    	border: 1px solid #d8d8d8;
+	    font-size: 16px;
+	    height: 50px;
+	    padding: 10px;
+	    width: 280px;
+	    margin: 0px;
+    }
+}
+.product_ads {
+    border: 1px solid #828282;
+    margin-bottom: 10px;
+    width:70%;
+    height:126px;
+    @media (min-width: @grid-float-breakpoint){
+    	height:129px;
+    	width:745px;
+    	border: 1px solid #828282;
+	    margin-bottom: 10px;
+	}
+}
+.address_profile{
+	font-size:16px;
+    border: 1px solid #d8d8d8;
+    height: 123px;
+    width: 280px;
+    padding: 10px;
+    @media (min-width: @grid-float-breakpoint){
+    	font-size:16px;
+	    border: 1px solid #d8d8d8;
+	    height: 110px;
+	    width: 545px;
+	    padding: 10px;
+    }
+}
+.city {
+    margin: 0 0 0 -52px;
+    width: 130px !important;
+}
+.video_description{
+	display: inherit;
+	font-family: Varela Round;
+    font-size: 18px;
+}
+.btn_user {
+    background-color: #8991c0;
+    color: white;
+    margin-right: 180px !important;
+    text-align: left !important;
+    width: 111% !important;
+}
+
+.user_name {
+    width: 240px;
+}
+
+.video_url {
+    margin: -11px 0px 14px 0px;
 }

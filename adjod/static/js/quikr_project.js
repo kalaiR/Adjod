@@ -141,7 +141,7 @@ $( document ).ready(function() {
 
 ( function( $ ) {
   $( document ).ready(function() {
-      $(".fbtwtbutton").hide();
+     $(".fbtwtbutton").hide();
         $(".share_button").click(function(){
           $(".fbtwtbutton").toggle();
         });
@@ -161,8 +161,27 @@ $( document ).ready(function() {
         $('.popup_fade').show();
         $('.free_content, .close_btn').show();
         document.body.style.overflow = 'hidden';
-      })
+      });
 
+      $('.closemobile_btn').click(function(){
+      $('.popup_fade, .free_content').hide();
+     
+     });
+      $(".profile_text").hide();
+      $(".My_ads").click(function(){
+        $(".update_ads").show();
+        $(".profile_text").hide();
+      });
+      $(".My_profile").click(function(){
+        $(".profile_text").show();
+        $(".update_ads").hide();
+      });
+
+      $(".menu_active").click(function(){
+        $('.menu_active').removeClass('active');
+        $(this).addClass('active');
+      });
+      
     //For Popup
       $('.popup_sign_up, .footer_signup').click(function(){
       // alert("popup");
@@ -207,7 +226,7 @@ $( document ).ready(function() {
 
     $('.cancel_btn').click(function(){
       $('.popup_fade').hide();
-      $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile,.free_content').hide();
+      $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile').hide();
       document.body.style.overflow = 'auto';
   });
 
@@ -738,7 +757,8 @@ function fill_localities(city_id) {
   } else {
     $.getJSON("/localities_for_city/", {city_id: city_id},
       function(ret, textStatus) {
-        var options = '';
+        var options = '';      
+        $('#select_post_locality').text("Select Locality");
         options +='<option>Select Locality</option>';
         for (var i in ret) {
           options += '<option value="' + ret[i].id + '">'
@@ -1075,7 +1095,7 @@ $("#alert_button").click(function(){
     }
 
     // // Dropdown city
-    if ($('#select_post_city').text() == "Select city *") {
+    if (($('#select_post_city').text() == "Select city *") || ($('#select_post_city').text() == "Select City")) {
       $('.select_container_city').addClass("error_input_field");
       $('.select_container_city').find('.labelError').show();
     }
@@ -1085,8 +1105,8 @@ $("#alert_button").click(function(){
     }
 
     // // Dropdown locality
-    if ($('#select_post_locality').text() == "Select locality *") {
-      $('.select_container_locality').addClass("error_input_field");
+    if (($('#select_post_locality').text() == "Select locality *") || ($('#select_post_locality').text() == "Select Locality")) {
+      $('.select_container_locality').addClass("error_input_field");  
       $('.select_container_locality').find('.labelError').show();
     }
     else{
