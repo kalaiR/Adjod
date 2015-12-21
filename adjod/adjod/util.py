@@ -25,7 +25,7 @@ def get_client_ip(request):
 
 def get_global_language(request):
     """ This function get global language based on following assets
-        
+
         1. authenticated user's language
         2. cookie
         2. fixido select language
@@ -36,7 +36,7 @@ def get_global_language(request):
     cookies_language = request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME)
     if cookies_language:
         select_language = request.POST.get('language', None)
-        
+
         if select_language and select_language != cookies_language:
             cookies_language = select_language
     else:
@@ -60,88 +60,92 @@ def get_global_language(request):
 
 def get_global_country(request):
     """ This function get global language based on following assets
-        
+
         1. authenticated user's language
         2. cookie
         2. fixido select language
         3. query string
         4. brower setting
         5. default sweden
-    """ 
+    """
     g = GeoIP()
+    city=g.city(get_client_ip(request))
+    country_code = city['country_code3']
     country = g.country_code(get_client_ip(request))
-    # print "country", country
-    return country
+    return country,country_code
 
 def get_current_country_cities(request):
     g = GeoIP()
     country = g.country_code(get_client_ip(request))
-    # print "country", country   
+    # print "country", country
     current_country_cities = City.objects.filter(country_code=country)
     return current_country_cities
 
 def get_global_city(request):
     """ This function get global language based on following assets
-        
+
         1. authenticated user's language
         2. cookie
         2. fixido select language
         3. query string
         4. brower setting
         5. default sweden
-    """ 
+    """
     g = GeoIP()
-    
+    #print 'dddddddddddddddddd',g.city
     # get global city
-    city=g.city(get_client_ip(request))['city']    
-    # print "city in util.py", city
-    
+    city=g.city(get_client_ip(request))['city']
+    print "city in util.py", city
+
     #get global city id from database
-    if City.objects.filter(city=city).exists():
-        city = City.objects.get(city=city)
-        city_id=city.id
-    else:
-        country = get_global_country(request)
-        city_model = City()
-        city_model.city = city
-        city_model.country_code = country
-        city_model.country_name = g.country_name(get_client_ip(request))
-        city_model.save()
-        city_id = city_model.id
+    try:
+        if City.objects.filter(city=city).exists():
+            city = City.objects.get(city=city)
+            city_id=city.id
+        else:
+            country = get_global_country(request)
+            city_model = City()
+            city_model.city = city
+            city_model.country_code = country
+            city_model.country_name = g.country_name(get_client_ip(request))
+            city_model.save()
+            city_id = city_model.id
+    except:
+        city = 'Singapore'
+        city_id = '7'
     # print "city_id", city_id
-    return city, city_id   
-       
+    return city, city_id
+
 def format_redirect_url(redirect_path, query_string):
     ''' utility to format redirect url with fixido query string
     '''
     stop_popup = True if 'st=' in query_string else False
-    
+
     url_join_str = '?'
     if url_join_str in redirect_path:
         redirect_path, qs = redirect_path.split(url_join_str, 1)
         query_string = qs + '&' + query_string
-    
+
     qs = {}
     for q in query_string.split('&'):
         if '=' in q:
             k, v = q.split('=', 1)
             qs[k] = v
-    
+
     if stop_popup:
         if qs.has_key('zr'): del qs['zr']
         if qs.has_key('lr'): del qs['lr']
         if qs.has_key('ler'): del qs['ler']
         if qs.has_key('thanks'): del qs['thanks']
-    
+
     query_string = ''
     for k in qs:
         query_string += k + '=' + qs[k] + '&'
-        
+
     return redirect_path + url_join_str + query_string[:-1]
 
 # For Price Conversion
 def convert(price):
-    print "conversion"
     user_ip = globals.ip
     # local
     if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
@@ -156,9 +160,9 @@ def convert(price):
             isocode=value
     current_country = isocode
     # base_currency= settings.BASE_CURRENCY
-    base_currency= settings.CURRENCY_RATES
-    exchange_rate = convert_money(price,base_currency,current_country)
-    return exchange_rate
+    adjod_exchange_rate = ExchangeRate.objects.get(currency=current_country)
+    return float(price)*float(adjod_exchange_rate.value)
+
 
 # def convert(price):
 #     for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
@@ -169,3 +173,25 @@ def convert(price):
 #     base_currency= settings.CURRENCY_RATES
 #     exchange_rate = convert_money(price,base_currency,current_country)
 #     return exchange_rate
+
+# Give input of two character of country code
+def currency_symbol(country):
+    currency = {
+        'IN':u'\u20b9',
+        'SG':u'\u0024',
+    }
+    return currency[country]
+
+# Give input of three character of country code
+def currency_of_country(code):
+    currency_code = {
+        'IND':'INR',
+        'SGP':'SGD',
+        'USA':'USD',
+    }
+    return currency_code[code]
+
+def currency_conversion(price,country):
+    currency_code = currency_of_country(country)
+    adjod_exchange_rate = ExchangeRate.objects.get(currency=currency_code)
+    return float(price)/float(adjod_exchange_rate.value)

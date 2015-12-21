@@ -140,13 +140,11 @@ def product_detail(request, pk):
 
 @pjax("pjax.html")
 def product_form(request, name=None, subname=None):
-    print "product_form"
     #Paypal transaction
     from paypal.standard.forms import PayPalPaymentsForm
     from paypal.standard.ipn.signals import payment_was_successful
     userid=request.user.id
     if request.user.is_authenticated():
-            print "authenticate"
             paypal_dict = {
             "business": settings.PAYPAL_RECEIVER_EMAIL,
             "item_name": "Advertisement Merchant",
@@ -163,12 +161,9 @@ def product_form(request, name=None, subname=None):
 
             form = PayPalPaymentsForm(initial=paypal_dict)
             userprofile = UserProfile.objects.get(user_id=userid)
-            print "userprofile", userprofile
             if userprofile.ad_count>3 and userprofile.is_subscribed == 0:
-                print "redirect"
                 return HttpResponseRedirect('/')
             else:
-                print "enter authenticate else"
                 category=Category.objects.all()
                 # dropdown=Dropdown.objects.all().exclude(year='', color='')
                 dropdown=Dropdown.objects.all()
@@ -185,14 +180,12 @@ def product_form(request, name=None, subname=None):
                 # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
                 return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
     else:
-        print "enter non authenticate else"
-        print "enter authenticate else"
         category=Category.objects.all()
         # dropdown=Dropdown.objects.all().exclude(year='', color='')
         dropdown=Dropdown.objects.all()
         # city=City.objects.all()
 
-        # country=request.COOKIES.get("country")
+        #country=request.COOKIES.get("country")
         # country=Country.objects.get(code=request.COOKIES.get('country'))
         # city=City.objects.filter(country_id=country.id)
         # print city
@@ -225,8 +218,7 @@ def product_save(request):
         # product.adtype=request.POST.get('condition')
         product.adtype= "sell"
         product.title=request.POST.get('ad_title')
-        product.price=request.POST.get('your_price')
-
+        product.price = currency_conversion(request.POST.get('your_price'),request.COOKIES.get('country_code'))
         # country_id=Country.objects.get(code=request.COOKIES.get('country'))
         # for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
         #     if str(key) == str(country_id):
@@ -246,7 +238,7 @@ def product_save(request):
         product.you_phone = request.POST.get('your_mobile_no', '')
         product.city=City.objects.get(id=request.POST['your_city'])
         product.locality=Locality.objects.get(id=request.POST['your_locality'])
-        product.country_code =get_global_country(request)
+        product.country_code,temp =get_global_country(request)
         # product.photos=request.FILES['photos']
 
         #photos

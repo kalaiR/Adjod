@@ -125,4 +125,5 @@ urlpatterns = patterns('',
         'django.contrib.auth.views.password_reset_complete'),
 
     url(r'^get_user_products/$', 'advertisement.views.get_user_products',name='get_user_products'),
+    url(r'^loadbasecurrency/$', 'adjod.views.loadbasecurrency',name='loadbasecurrency'),
 )

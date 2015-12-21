@@ -10,9 +10,10 @@ from advertisement.models import *
 class Global(object):
     global_language = ''
     global_country=''
+    global_country_code=''
     global_ip=''
     global_city=''
-    global_city_id=''    
+    global_city_id=''
     def process_request(self, request):
         # print "enter process_request"
         globals.request = request
@@ -21,8 +22,8 @@ class Global(object):
         # print "globals.ip", globals.ip
         if ',' in globals.ip:
             globals.ip = globals.ip.split(',')[0].strip()
-        globals.sess = request.session.session_key       
-        self.global_country=get_global_country(request)
+        globals.sess = request.session.session_key
+        self.global_country,self.global_country_code=get_global_country(request)
         self.global_city, self.global_city_id=get_global_city(request)
         self.global_ip= globals.ip
         self.global_language=get_global_language(request)
@@ -31,31 +32,36 @@ class Global(object):
                 request.user.last_login = helper.get_now()
                 request.user.save()
             except Exception, e:
-                pass   
+                pass
     def process_response(self, request, response):
         """while response set cookie for language"""
         if self.global_language:
             language=self.global_language
-            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, 
-                language, max_age = 365 * 24 * 60 * 60)        
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME,
+                language, max_age = 365 * 24 * 60 * 60)
 
         if self.global_country:
             country=self.global_country
-            response.set_cookie("country", 
+            response.set_cookie("country",
                 country, max_age = 365 * 24 * 60 * 60)
+
+        if self.global_country_code:
+            country_code=self.global_country_code
+            response.set_cookie("country_code",
+                country_code, max_age = 365 * 24 * 60 * 60)
 
         if self.global_ip:
             ip=self.global_ip
-            response.set_cookie("ip", 
+            response.set_cookie("ip",
                 ip, max_age = 365 * 24 * 60 * 60)
-        
+
         if self.global_city:
             city=self.global_city
-            response.set_cookie("city", 
+            response.set_cookie("city",
                 city, max_age = 365 * 24 * 60 * 60)
-        
+
         if self.global_city_id:
             city=self.global_city_id
-            response.set_cookie("global_city_id", 
-                                city, max_age = 365 * 24 * 60 * 60)           
+            response.set_cookie("global_city_id",
+                                city, max_age = 365 * 24 * 60 * 60)
         return response

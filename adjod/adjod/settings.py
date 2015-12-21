@@ -62,7 +62,7 @@ USE_I18N = True
 #   ('pl', _('Polish')),
 #   ('pt', _('Portuguese')),
 #   ('ru', _('Russian')),
-#   ('se', _('Spanish')), 
+#   ('se', _('Spanish')),
 # )
 
 # If you set this to False, Django will not format dates, numbers and
@@ -74,12 +74,13 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = '/home/media/'
+print 'MEDIA_ROOT',MEDIA_ROOT
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -123,7 +124,7 @@ SECRET_KEY = 'i95gwsqfo9nmejbll=t@!3z1(2@l4#9hee7!3x6dw8ad^&amp;u*cb'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-   
+
 #   'django.template.loaders.eggs.Loader',
 )
 
@@ -136,7 +137,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'adjod.middleware.Global',
-    
+
     # 'templatetags.app_filters.get_photos',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -149,10 +150,10 @@ TEMPLATE_CONTEXT_PROCESSORS += (
      'social_auth.context_processors.social_auth_login_redirect',
      'django.core.context_processors.request',
      'django.core.context_processors.i18n',
-     'django.core.context_processors.csrf',  
+     'django.core.context_processors.csrf',
      'django.core.context_processors.media',
-     'django.core.context_processors.debug', 
-     'adjod.context_processors.global_activity',    
+     'django.core.context_processors.debug',
+     'adjod.context_processors.global_activity',
 )
 
 #set the Language tranlation path for accessing .po file
