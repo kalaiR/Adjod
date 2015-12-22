@@ -131,4 +131,4 @@ urlpatterns = patterns('',
 
     # Test for geo location
     url(r'^(?i)testpage/$', 'adjod.views.geosearch'),
-)+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+)+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
