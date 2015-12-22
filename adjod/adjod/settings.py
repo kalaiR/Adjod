@@ -9,10 +9,12 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+  ('admin', ''),
 )
 
 MANAGERS = ADMINS
+
+ALLOWED_HOSTS = []
 
 DATABASES = {
     'default': {
@@ -84,7 +86,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
+    # 'compressor.finders.CompressorFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -141,27 +143,32 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
     'django.contrib.admindocs',
+    
+    # Apps
     'adjod',
     'advertisement',
     'search',
+    'worker',
+    'banner',
+    'chat',
+
+    # Third Party Libs
     'haystack',
+    'paypal.standard.ipn',   
+    'djmoney_rates',
+
     # 'communication',
     # 'smsverify',
     # 'rollyourown.seo',
-   'paypal.standard.ipn',
-   #  'django_nose',
-   'worker',
-   'banner',
-   'chat',
-   'djmoney_rates',
+    # 'django_nose',
 
 )
 

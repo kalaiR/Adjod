@@ -16,6 +16,9 @@ from search.searchform import ProductSearchFilter
 from django.conf.urls.i18n import i18n_patterns
 from django.utils.translation import ugettext_lazy as _
 from paypal.standard.ipn import *
+
+admin.autodiscover()
+
 js_info_dict = {
     'packages': ('adjod',),
 }
@@ -27,10 +30,8 @@ from chat.views import *
 from django.template.loader import add_to_builtins
 add_to_builtins('advertisement.templatetags.app_filters')
 
-admin.autodiscover()
-
 urlpatterns = patterns('',
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^(?i)admin/', include(admin.site.urls)),
     url(r'^$', 'adjod.views.home', name='home'),
 
     # Home page URL
