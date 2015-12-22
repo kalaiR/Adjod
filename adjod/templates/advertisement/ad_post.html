@@ -273,7 +273,7 @@
   				<div class="category_list_div col-md-4">
 					<ul class="category_list">
             {% for categories in category %}
-						<li class=""><img height="30" width="30" src="{{ STATIC_ROOT }}/{{ categories.icon }}" />
+						<li class=""><img height="30" width="30" src="{{ MEDIA_URL }}{{ categories.icon }}" />
             <input type="hidden" value="{{categories.id}}" name="category">{{categories.name}}</li>
 						{% endfor %}
 					</ul>

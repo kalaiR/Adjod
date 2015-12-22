@@ -197,10 +197,10 @@ def product_form(request, name=None, subname=None):
         return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
 
 #Fuction for storing in images or vidoes in our folder
-def handle_uploaded_file(f, path):
+def handle_uploaded_file(f):
     print "f", f
     print "f.name", f.name
-    file_data = open(path + '%s' % f.name, 'wb+')
+    file_data = open(settings.MEDIA_ROOT + '/products/' + '%s' % f.name, 'wb+')
     for chunk in f.chunks():
         file_data.write(chunk)
     file_data.close()
@@ -249,18 +249,16 @@ def product_save(request):
         #photos
         product.photos =request.FILES.getlist('photos[]')
         print product.photos
-        IMAGE_PATH = 'static/img/photos/'
-        VIDEO_PATH = 'static/videos/'
         photosgroup = ''
         count=len(product.photos)
         print "count", count
         for uploaded_file in product.photos:
             count=count-1
-            handle_uploaded_file(uploaded_file,IMAGE_PATH)
+            handle_uploaded_file(uploaded_file)
             if count==0:
-                photosgroup=photosgroup  + 'static/img/photos/' + str(uploaded_file)
+                photosgroup=photosgroup + 'products/' + str(uploaded_file)
             else:
-                photosgroup=photosgroup  +  'static/img/photos/' +str(uploaded_file) + ','
+                photosgroup=photosgroup + 'products/' + str(uploaded_file) + ','
         product.photos=photosgroup
 
         photo=str(product.photos)
@@ -277,7 +275,7 @@ def product_save(request):
                 for photo in photos:
                     count=count-1
                     THUMBNAIL_SIZE = (100, 100) # dimensions
-                    image = ImageObj.open(photo)
+                    image = ImageObj.open(settings.MEDIA_ROOT + '/' + photo)
                     # Convert to RGB if necessary
                     if image.mode not in ('L', 'RGB'): image = image.convert('RGB')
                     # create a thumbnail + use antialiasing for a smoother thumbnail
@@ -300,20 +298,8 @@ def product_save(request):
             except ImportError:
                 pass
         product.thumbnail = thumbnail_group
-        if request.FILES.getlist('videos[]'):
-            product.video =request.FILES.getlist('videos[]')
-            videosgroup = ''
-            count=len(product.video)
-            for uploaded_file in product.video:
-                count=count-1
-                handle_uploaded_file(uploaded_file, VIDEO_PATH)
-                if count==0:
-                    videosgroup=videosgroup + 'static/videos/' + str(uploaded_file)
-                else:
-                    videosgroup=videosgroup + 'static/videos/' +str(uploaded_file) + ','
-            product.video=videosgroup
-        else:
-            product.video = request.POST.get('video_url')
+        
+        product.video = request.POST.get('video_url')
         print "video", product.video
 
         product.created_date  = datetime.datetime.now()

@@ -42,64 +42,32 @@ SITE_ID = 1
 # to load the internationalization machinery.
 USE_I18N = True
 
-# gettext = lambda s: s
-# LANGUAGES = (
-#     # ('he-il', gettext('Hebrew')),
-#     ('en-us', gettext('English')),
-# )
-
-
-# LANGUAGES = (
-#   ('en', _('English')),
-#   ('en-UK', _('English - United Kingdom')),
-#   ('sv', _('Swedish')),
-#   ('da', _('Danish')),
-#   ('fi', _('Finish')),
-#   ('fr', _('French')),
-#   ('de', _('German')),
-#   ('it', _('Italian')),
-#   ('nn', _('Norwegian')),
-#   ('pl', _('Polish')),
-#   ('pt', _('Portuguese')),
-#   ('ru', _('Russian')),
-#   ('se', _('Spanish')),
-# )
-
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
-
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), '../media')
-print 'MEDIA_ROOT',MEDIA_ROOT
 
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
 MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# Don't put anything in this directory yourself; store your static files in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-# STATIC_ROOT = 'static/img/photos/'
+
 STATIC_ROOT = '/static_files/'
-IMAGES_ROOT = os.path.join(os.path.dirname(__file__), '..static/img/photos/')
+# STATIC_ROOT = os.path.join(os.path.dirname(__file__), '../static')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
-# SITE_NAME = 'alpha.login.com'
-# SITE_SASH = STATIC_URL + 'img/car.png'
-
-SITE_NAME = '52.27.66.189'
-
-# SITE_NAME='dev.resalebuy.com'
+SITE_NAME = '52.34.51.104'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -109,12 +77,10 @@ STATICFILES_DIRS = (
     os.path.join(os.path.dirname(__file__), '../static'),
 )
 
-# List of finder classes that know how to find static files in
-# various locations.
+# List of finder classes that know how to find static files in various locations.
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -124,8 +90,6 @@ SECRET_KEY = 'i95gwsqfo9nmejbll=t@!3z1(2@l4#9hee7!3x6dw8ad^&amp;u*cb'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-
-#   'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -137,10 +101,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'adjod.middleware.Global',
-
-    # 'templatetags.app_filters.get_photos',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS += (
@@ -150,10 +110,10 @@ TEMPLATE_CONTEXT_PROCESSORS += (
      'social_auth.context_processors.social_auth_login_redirect',
      'django.core.context_processors.request',
      'django.core.context_processors.i18n',
-     'django.core.context_processors.csrf',
+     'django.core.context_processors.csrf',  
      'django.core.context_processors.media',
-     'django.core.context_processors.debug',
-     'adjod.context_processors.global_activity',
+     'django.core.context_processors.debug', 
+     'adjod.context_processors.global_activity',    
 )
 
 #set the Language tranlation path for accessing .po file
@@ -235,7 +195,8 @@ HAYSTACK_CONNECTIONS = dict(
     ENGINE = 'search.searchsites.AdjodSearchEngine',
     # URL = 'http://46.4.81.207:9200/',
     URL = 'http://127.0.0.1:9200/',
-    INDEX_NAME = 'adjod'
+    INDEX_NAME = 'adjod',
+    # TIMEOUT = '60'
   )
 )
 
@@ -253,11 +214,7 @@ AUTHENTICATION_BACKENDS = (
   # 'django.contrib.auth.models.AnonymousUser ',
 )
 
-# A sample logging configuration. The only tangible logging
-# performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error when DEBUG=False.
-# See http://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
+# settings for storing logs
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -283,13 +240,13 @@ LOGGING = {
 }
 
 # settings for SMS verification
-#TWILIO_ACCOUNT_SID = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-#TWILIO_AUTH_TOKEN = 'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY'
+TWILIO_ACCOUNT_SID = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+TWILIO_AUTH_TOKEN = 'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY'
 
 AUTH_PROFILE_MODULE = 'adjod.UserProfile'
-
 ACCOUNT_ACTIVATION_DAYS = 1
 
+# settings for Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
@@ -301,17 +258,16 @@ SEO_MODEL_REGISTRY = (
     ('test_project.MyMetadata', ('template_test', )),
 )
 
+# settings for GEO
 GEOIP_PATH = os.path.join(os.path.dirname(__file__), '../static/geoip/')
 
-LOGIN_ERROR_URL = '/login_error/'
-
+# settings for Currency Conversion
 DJANGO_MONEY_RATES = {
                 'DEFAULT_BACKEND': 'djmoney_rates.backends.OpenExchangeBackend',
                 'OPENEXCHANGE_URL': 'http://openexchangerates.org/api/latest.json',
                 'OPENEXCHANGE_APP_ID': 'd4260d5caac9454996445fd14eb58591',
                 'OPENEXCHANGE_BASE_CURRENCY': 'USD',
 }
-
 CURRENCY_RATES = 'USD'
 
 BASE_CURRENCY = 'SGD'
