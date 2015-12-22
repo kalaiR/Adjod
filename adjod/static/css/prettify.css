@@ -84,7 +84,6 @@ ol.linenums li {
 	height:46px; line-height: 46px;
 	padding:0px 14px 0px 10px;
 	font-size: 30px; color:#FFFFFF; 
-	background:#4b576e url(../img/fixido_logo_en.png?version=2.4.0) no-repeat 321px -232px;
 } 
 .popup_content label {	color:#000; font-size:14px; }
 .popup_content  .last label{ width:372px; } 
@@ -121,19 +120,16 @@ ol.linenums li {
   width:173px; height:48px; 
   float:left;
   padding:0px; margin:0px;
-  background: url(../img/fixido_logo_en.png?version=2.4.0) no-repeat 0px -140px;
 }
 .popup_heading .logo_sv {
   width:173px; height:48px; 
   float:left;
   padding:0px; margin:0px;
-  background: url(../img/fixido_logo_sv.png?version=2.4.0) no-repeat 0px -140px;
 }
 .popup_heading .logo_de {
 	width:173px; height:48px; 
 	float:left;
 	padding:0px; margin:0px;
-	background: url(../img/fixido_logo_de.png?version=2.4.0) no-repeat 0px -140px;
 }
 .popup_contents {
 	padding:0px 17px; position: relative;
@@ -263,7 +259,6 @@ margin: -19px 0 11px;
 	min-height:100% !important;
 }
 .navbar .brand {
-	background:url(../img/fxapi_logo.png?version=2.4.0) 0px 0px no-repeat ;
 	width:115px;
 	height:30px;
 	padding:0px;

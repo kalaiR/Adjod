@@ -25,7 +25,8 @@ CONDITION = (
 YOU=( ('individual','Individual'),('dealer','Dealer'))
 
 class Category(models.Model):
-    icon = models.ImageField(upload_to='static/img/', blank=True)
+    # icon = models.ImageField(upload_to='static/img/', blank=True)
+    icon = models.ImageField(upload_to='icons', blank=True)
     name = models.CharField(max_length=250)
     category_type = models.CharField(max_length=250)
     def __unicode__(self):

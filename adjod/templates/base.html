@@ -286,7 +286,7 @@
       {% for banners in banner|get_banner %}
 
       {% if banners.pageurl == '/' and banners.position == 'bottom'%}
-      <li><a class="bannerlink" href="{{banners.link}}"><img class="bannerimage" src="../../{{banners.banner}}" style="height:120px;width:970px;"><i class="fa fa-times-circle closebtn1"></i></a></li>
+      <li><a class="bannerlink" href="{{banners.link}}"><img class="bannerimage" src="{{MEDIA_URL}}{{banners.banner}}" style="height:120px;width:970px;"><i class="fa fa-times-circle closebtn1"></i></a></li>
       {% endif %}
       {% endfor %}
       </ul>

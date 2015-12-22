@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
+from django.conf.urls.static import static
 from adjod.views import *
 from advertisement.views import *
 from django.contrib import admin
@@ -130,4 +131,4 @@ urlpatterns = patterns('',
 
     # Test for geo location
     url(r'^(?i)testpage/$', 'adjod.views.geosearch'),
-)
+)+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

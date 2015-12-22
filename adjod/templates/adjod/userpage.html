@@ -20,7 +20,8 @@
                               {% elif categories.id == 9 %} sub_category8 {% elif categories.id == 10 %} sub_category9
                               {% elif categories.id == 11 %} sub_category10 {% elif categories.id == 12 %} sub_category11
                               {% endif %}">
-                              <a href="/addproduct/" class=""><code></code></a>
+                              <!-- <a href="/addproduct/" class=""><code></code></a> -->
+                              <a href="/addproduct/" class=""><img src="{{ MEDIA_URL }}{{categories.icon}}"></a>
                                 <div>
                                 <a href="{%url sub_category categories.name%}" class=""><h4>{% trans categories.name %}</h4></a>
                                 <span class="brand">{{categories.category_type}}<i class="fa fa-chevron-right arrow_right"></i>
@@ -86,12 +87,12 @@
 
 <div class="leftslide">
   <code class="closeimg"> </code>
-  <img src="/static/banners/banner3.jpg" />
+  <img src="{{MEDIA_URL}}banners/banner3.jpg" />
 </div><!--leftslide-->
 
 <div class="leftslide1">
   <code class="closeimg"> </code>
-  <img src="/static/banners/banner4.jpeg" />
+  <img src="{{MEDIA_URL}}banners/banner4.jpeg" />
 </div><!--leftslide-->
 
 <div class="container third_part">
@@ -126,9 +127,9 @@
                     <p class="{% if recentads.premium_plan_id = None %} premium-img {% elif recentads.premium_plan_id = 1 %} premium-img1 {% elif recentads.premium_plan_id = 2 %} premium-img2 {% elif recentads.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>
                     <a href="" class="">
                       {% if recentads.photos = '' %}
-                        <img src="/static/img/bg-img1.png">
+                        <img src="{{STATIC_URL}}img/bg-img1.png">
                       {% else %}
-                        <img src="{{STATIC_ROOT}}/{{recentads.photos|get_photos}}">
+                        <img src="{{STATIC_URL}}{{recentads.photos|get_photos}}">
                       {% endif %}
                       <div class="count_holder">
                         <span>{{recentads.imagecount}}</span>
@@ -252,9 +253,9 @@
                     <p class="{% if recentads.premium_plan_id = None %} premium-img {% elif recentads.premium_plan_id = 1 %} premium-img1 {% elif recentads.premium_plan_id = 2 %} premium-img2 {% elif recentads.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>
                     <a href="" class="">
                       {% if recentads.photos = '' %}
-                      <img src="/static/img/bg-img1.png">
+                      <img src="{{STATIC_URL}}img/bg-img1.png">
                       {% else %}
-                        <img src="{{STATIC_ROOT}}/{{recentads.photos|get_photos}}">
+                        <img src="{{STATIC_URL}}{{recentads.photos|get_photos}}">
                       {% endif %}
                       <div class="detail">
                           <div class="mobile_product_name">
