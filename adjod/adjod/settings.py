@@ -51,6 +51,7 @@ USE_TZ = True
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
+print "MEDIA_ROOT", MEDIA_ROOT
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
@@ -62,7 +63,8 @@ MEDIA_URL = '/media/'
 
 # STATIC_ROOT = '/static_files/'
 # STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static')
-STATIC_ROOT = '/static/'
+STATIC_ROOT = 'static'
+print "STATIC_ROOT", STATIC_ROOT
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -82,6 +84,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -113,6 +116,7 @@ TEMPLATE_CONTEXT_PROCESSORS += (
      'django.core.context_processors.i18n',
      'django.core.context_processors.csrf',  
      'django.core.context_processors.media',
+     'django.core.context_processors.static',
      'django.core.context_processors.debug', 
      'adjod.context_processors.global_activity',    
 )
@@ -137,15 +141,13 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
-    'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'adjod',
     'advertisement',
