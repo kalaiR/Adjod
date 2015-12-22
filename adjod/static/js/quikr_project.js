@@ -156,7 +156,6 @@ $( document ).ready(function() {
         $(".option_value").slideUp();
       });
 
-
       $('.alert_btn').click(function(){
         $('.popup_fade').show();
         $('.free_content, .close_btn').show();
