@@ -205,6 +205,7 @@ $( document ).ready(function() {
       document.forms["sign_in"].submit();
       }
 
+      sign_in_required =["emailid_signup", "password_signup"];
       jQuery('#signin').click(function(){     
       for (i=0;i<sign_in_required.length;i++) {
       var input = jQuery('#'+sign_in_required[i]);
