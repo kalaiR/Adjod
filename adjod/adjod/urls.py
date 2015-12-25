@@ -85,8 +85,8 @@ urlpatterns = patterns('',
     # Find Brand when ajax call
     url(r'^brand_for_subcategory/$', 'advertisement.views.brand_for_subcategory',name='brand'),
 
-    # Find Subcategory with pass category dynamically in url
-    url(r'^(?i)categories/(?P<pname>.*)/$', 'advertisement.views.sub_category',name='sub_category'),
+    # Find Subcategory with pass category dynamically in url (Comment this for future reference)
+    # url(r'^(?i)categories/(?P<pname>.*)/$', 'advertisement.views.sub_category',name='sub_category'),
 
     #For language translation
     url(r'^(?i)i18n/', include('django.conf.urls.i18n')),
@@ -132,4 +132,6 @@ urlpatterns = patterns('',
 
     # Test for geo location
     url(r'^(?i)testpage/$', 'adjod.views.geosearch'),
+
+    url(r'^(?i)handler404/$', 'adjod.views.custom_404', name='custom_404'),
 )+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

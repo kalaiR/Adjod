@@ -25,7 +25,6 @@ CONDITION = (
 YOU=( ('individual','Individual'),('dealer','Dealer'))
 
 class Category(models.Model):
-    # icon = models.ImageField(upload_to='static/img/', blank=True)
     icon = models.ImageField(upload_to='icons', blank=True)
     name = models.CharField(max_length=250)
     category_type = models.CharField(max_length=250)
@@ -40,35 +39,12 @@ class SubCategory(models.Model):
 
 class Dropdown(models.Model):
     subcat=models.ManyToManyField(SubCategory, null=True, blank=True)
-    brand_name=models.CharField(max_length=50, blank =True,default='')
-    # brand_refid=models.ForeignKey('self', blank=True, null=True)
-    # model_name=models.CharField(max_length=50, blank =True, default='')
-    # type_name=models.CharField(max_length=50, blank =True, default='')
-    # year=models.CharField(max_length=50, blank =True,default='')
-    # color=models.CharField(max_length=50, blank =True,default='')
-    # os=models.CharField(max_length=50, blank =True,default='')
-    # sim=models.CharField(max_length=50, blank =True,default='')
-    # alsoinclude=models.CharField(max_length=50, blank =True,default='')
+    brand_name=models.CharField(max_length=50, blank =True, default='')
     def __unicode__(self):
         return self.brand_name
 
-# class Brand(models.Model):
-#     brand_name= models.CharField(max_length=50)
-#     brand_subcategory=models.ManyToManyField(SubCategory)
-#     model_name
-
-#     def __unicode__(self):
-#         return self.brand_name
-
-# class Country(models.Model):
-#     code=models.CharField(max_length=50)
-#     country=models.CharField(max_length=50)
-#     def __unicode__(self):
-#         return self.code
-
 class City(models.Model):
     city=models.CharField(max_length=50)
-    # country=models.ForeignKey(Country)
     country_code=models.CharField(max_length=10)
     country_name=models.CharField(max_length=50)
     def __unicode__(self):
@@ -90,7 +66,6 @@ class PremiumPriceInfo(models.Model):
 
 class Product(models.Model):
     userprofile=models.ForeignKey(UserProfile, null=True, blank=True)
-    # user_id=models.IntegerField(null=True, blank=True)
     category = models.ForeignKey(Category, verbose_name='Chosen Category', null=False)
     subcategory =models.ForeignKey(SubCategory,null=False)
     adtype= models.CharField(max_length=10, choices=TYPE, null=False)
@@ -105,6 +80,7 @@ class Product(models.Model):
     ad_year=models.CharField(max_length=10, null=True)
     city=models.ForeignKey(City, null=False)
     locality=models.ForeignKey(Locality, null=False)
+    country_code=models.CharField(max_length=10)
     description = models.TextField(max_length=100, verbose_name="Description", null=False)
     you_are = models.CharField(max_length=20,choices=YOU,default='individual', null=False)
     you_name = models.CharField(max_length=20, null=True)
@@ -113,14 +89,11 @@ class Product(models.Model):
     created_date =models.DateField(default=datetime.datetime.now)
     modified_date =models.DateField(default=datetime.datetime.now)
     isregistered_user=models.BooleanField(default=False)
-    # ispremium=models.BooleanField(default=False)
-    ispremium=models.CharField(max_length=12, null=False)
+    ispremium=models.BooleanField(default=False)
     premium_plan=models.ForeignKey(PremiumPriceInfo, null=True, blank=True)
     expired_date=models.DateField(null=True,blank=True)
     status_isactive=models.BooleanField(default=False)
-    # country=models.ForeignKey(Country, null=True, blank=True)
-    country_code=models.CharField(max_length=10)
-    post_terms=models.BooleanField(default=False)
+    post_term_status=models.BooleanField(default=False)
     class Admin:
         pass
     def __unicode__(self):

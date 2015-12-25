@@ -66,6 +66,7 @@ class JSONResponse(HttpResponse):
         super(JSONResponse, self).__init__(
                 simplejson.dumps(data), mimetype='application/json')
 
+
 def localities_for_city(request):
     if request.is_ajax() and request.GET and 'city_id' in request.GET:
         print "request.GET['city_id']", request.GET['city_id']
@@ -76,6 +77,7 @@ def localities_for_city(request):
     else:
         return JSONResponse({'error': 'Not Ajax or no GET'})
 
+# Comment this code for future reference
 # def models_for_brand(request):
 #     if request.is_ajax() and request.GET and 'brand_id' in request.GET:
 #         objs1 = Dropdown.objects.filter(brand_refid=request.GET['brand_id'])
@@ -84,6 +86,7 @@ def localities_for_city(request):
 #             for o1 in objs1])
 #     else:
 #         return JSONResponse({'error': 'Not Ajax or no GET'})
+
 
 def subcategory_for_category(request):
     # print "subcategory_for_category"
@@ -94,6 +97,7 @@ def subcategory_for_category(request):
             for o1 in objs1])
     else:
         return JSONResponse({'error': 'Not Ajax or no GET'})
+
 
 def brand_for_subcategory(request):
     # print "brand_for_subcategory"
@@ -108,11 +112,13 @@ def brand_for_subcategory(request):
     else:
         return JSONResponse({'error': 'Not Ajax or no GET'})
 
-def sub_category(request, pname=None):
-    cat=Category.objects.get(name=pname)
-    subcategory = SubCategory.objects.filter(category_id=cat.id)
-    ctx = {'subcategory':subcategory,'cat':cat}
-    return render_to_response('adjod/subcategory.html', ctx , context_instance=RequestContext(request))
+# Comment this code for future reference
+# def sub_category(request, pname=None):
+#     cat=Category.objects.get(name=pname)
+#     subcategory = SubCategory.objects.filter(category_id=cat.id)
+#     ctx = {'subcategory':subcategory,'cat':cat}
+#     return render_to_response('adjod/subcategory.html', ctx , context_instance=RequestContext(request))
+
 
 # this is for pjax testing
 # @pjax("pjax.html")
@@ -121,7 +127,7 @@ def product_detail(request, pk):
     large=str(adinfo.photos).split(',')
     largephoto=large[0]
     photos=[n for n in str(adinfo.photos).split(',')]
-
+    #Comment For Future Reference
     # results = SearchQuerySet().all()
     # sqs = SearchQuerySet().filter(content=adinfo.title)
     # print "sqs",sqs
@@ -131,7 +137,6 @@ def product_detail(request, pk):
     # print "recommendresults", recommendresults
     # for recommendresult in recommendresults:
     #     print "searchresults:", recommendresult
-
     related_product=Product.get_related(adinfo)
     print "related_product", related_product
     ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto,'related_product':related_product}
@@ -143,13 +148,11 @@ def product_form(request, name=None, subname=None):
     #Paypal transaction
     from paypal.standard.forms import PayPalPaymentsForm
     from paypal.standard.ipn.signals import payment_was_successful
-    userid=request.user.id
     if request.user.is_authenticated():
             paypal_dict = {
             "business": settings.PAYPAL_RECEIVER_EMAIL,
             "item_name": "Advertisement Merchant",
             # "invoice": "unique-invoice-id",
-
             "notify_url": "http://" + settings.SITE_NAME + "/show_me_the_money/",
             "return_url": "http://"  + settings.SITE_NAME + "/show_me_the_money/",
             "cancel_return": "http://" + settings.SITE_NAME + "/postad/?transactionfail=error",
@@ -158,41 +161,20 @@ def product_form(request, name=None, subname=None):
             # "return_url": "http://46.4.81.207:9000/",
             # "cancel_return": "http://46.4.81.207:9000/?transactionfail=error",
             }
-
             form = PayPalPaymentsForm(initial=paypal_dict)
-            userprofile = UserProfile.objects.get(user_id=userid)
+            userprofile = UserProfile.objects.get(id=request.user.id)
             if userprofile.ad_count>3 and userprofile.is_subscribed == 0:
                 return HttpResponseRedirect('/')
             else:
                 category=Category.objects.all()
-                # dropdown=Dropdown.objects.all().exclude(year='', color='')
                 dropdown=Dropdown.objects.all()
-                # city=City.objects.all()
-
-                # country=request.COOKIES.get("country")
-                # country=Country.objects.get(code=request.COOKIES.get('country'))
-                # city=City.objects.filter(country_id=country.id)
-                # print city
-                # ctx = {'userprofile':userprofile, 'category':category,'city':city,'dropdown':dropdown,"form":form,"paypal":paypal_dict}
-
                 ctx = {'userprofile':userprofile, 'category':category,'dropdown':dropdown,"form":form,"paypal":paypal_dict}
-
                 # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
                 return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
     else:
         category=Category.objects.all()
-        # dropdown=Dropdown.objects.all().exclude(year='', color='')
         dropdown=Dropdown.objects.all()
-        # city=City.objects.all()
-
-        #country=request.COOKIES.get("country")
-        # country=Country.objects.get(code=request.COOKIES.get('country'))
-        # city=City.objects.filter(country_id=country.id)
-        # print city
-        # ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
-
-        ctx = {'userid':userid, 'category':category,'dropdown':dropdown}
-
+        ctx = {'category':category,'dropdown':dropdown}
         # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
         return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
 
@@ -243,7 +225,7 @@ def product_save(request):
         product.you_phone = request.POST.get('your_mobile_no')
         product.city=City.objects.get(id=request.POST['your_city'])
         product.locality=Locality.objects.get(id=request.POST['your_locality'])
-        product.country_code,temp =get_global_country(request)
+        product.country_code,temp = response.get_cookie("country")
         # product.photos=request.FILES['photos']
 
         #photos
