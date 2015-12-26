@@ -83,8 +83,10 @@ def currency_symbol(country):
 # Give input of three character of country code
 def currency_of_country(code):
     currency_code = {
-        'IND':'INR',
-        'SGP':'SGD',
+        # 'IND':'INR',
+        'IN':'INR',
+        # 'SGP':'SGD',
+        'SG':'SGD',
         'USA':'USD',
     }
     return currency_code[code]

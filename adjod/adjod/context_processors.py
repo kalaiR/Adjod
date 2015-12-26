@@ -84,6 +84,7 @@ def global_activity(request):
 	city_id = "1"
 	language= "en"
 
+	locality = Locality.objects.all()
 	recentad=Product.objects.filter(city=city_id).order_by('-id')[:4]
 	if not recentad:
 		recentad=Product.objects.filter().order_by('-id')[:4]
@@ -95,7 +96,7 @@ def global_activity(request):
 	else:
 		userprofile=None	 
 	return {'country':country,'city': city,'city_id':city_id,'language':language,'path':path,'category':category,
-			'subcategory':subcategory, 'recentad':recentad,'user_det':userprofile,'user_ip':user_ip}
+			'subcategory':subcategory, 'recentad':recentad,'user_det':userprofile,'user_ip':user_ip,'locality':locality}
 
 # def global_activity(request):	
 # 	path =  request.path

@@ -130,8 +130,8 @@ urlpatterns = patterns('',
     url(r'^loadbasecurrency/$', 'adjod.views.loadbasecurrency',name='loadbasecurrency'),
     url(r'^update_profile/$', 'adjod.views.update_profile',name='update_profile'),
 
-    # Test for geo location
-    url(r'^(?i)testpage/$', 'adjod.views.geosearch'),
+    # Test for geo location (comment for future reference)
+    # url(r'^(?i)testpage/$', 'adjod.views.geosearch'),
 
     url(r'^(?i)handler404/$', 'adjod.views.custom_404', name='custom_404'),
 )+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

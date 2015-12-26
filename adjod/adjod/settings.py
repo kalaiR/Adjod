@@ -268,8 +268,8 @@ SEO_MODEL_REGISTRY = (
     ('test_project.MyMetadata', ('template_test', )),
 )
 
-# settings for GEO
-GEOIP_PATH = os.path.join(os.path.dirname(__file__), 'static/geoip/')
+# settings for GEO (comment for future reference)
+# GEOIP_PATH = os.path.join(os.path.dirname(__file__), 'static/geoip/')
 
 # settings for Currency Conversion
 DJANGO_MONEY_RATES = {

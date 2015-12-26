@@ -121,14 +121,21 @@
                     <li>
                       <div class="custom_select language_custom_select">
                         <div class="select">
-                        <p id="cityselected">{{ request.COOKIES.city }}</p>
+                        <p id="cityselected">Select Locality</p>
                         <i class="fa fa-caret-down"></i>
-                        <select class="city">
+                        <!-- For Future reference -->
+                        <!-- <select class="city">
                           <option  id="currentid" value="{{request.COOKIES.global_city_id}}">{{ request.COOKIES.city }}</option>
                           {% for cities in current_country_cities %}
                             {% if cities.city != request.COOKIES.city %}
                               <option value="{{cities.id}}" id="ajax_cityid">{{ cities.city }} </option>
                             {% endif %}
+                          {% endfor%}
+                        </select> -->
+                        <select class="city">
+                          <option  id="currentid" value="Select Locality">Select Locality</option>
+                          {% for localities in locality %}
+                              <option value="{{localities.id}}" id="ajax_cityid">{{ localities.locality }} </option>
                           {% endfor%}
                         </select>
                          </div><!-- select -->

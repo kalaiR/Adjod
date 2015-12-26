@@ -373,30 +373,30 @@ def loadbasecurrency(request):
 def update_profile(request):
     return render_to_response('adjod/updateprofile.html', context_instance=RequestContext(request))
 
-
-def geosearch(request):
-    starttime = time()
-#     ipaddress = request.GET.get('ipaddress', '')
-    ipaddress=get_client_ip(request)
-    print 'newip', ipaddress
-#     if not ipaddress:
-#         ipaddress = globals.ip
-    g = GeoIP()
-    country = g.country_code(ipaddress)
-    print "country:", country
-#     language=get_global_language(country)
-#     print "language", language
-    timetaken = time() - starttime
-    language="None"
-    country_language_dict = {
-                    'AU':'en','IN':'en','SE':'sv','DE':'de','SG':'en','SX':'en',}
-    for key,value in country_language_dict.items():
-        if country==key:
-            language=value
-    city=g.city(ipaddress)['city']
-    return render_to_response('adjod/testpage.html', {
-        'country':country, 'ipaddress':ipaddress, 'timetaken':timetaken,'language':language,'city':city
-      }, context_instance=RequestContext(request))
+#Test geo comment this for future reference
+# def geosearch(request):
+#     starttime = time()
+# #     ipaddress = request.GET.get('ipaddress', '')
+#     ipaddress=get_client_ip(request)
+#     print 'newip', ipaddress
+# #     if not ipaddress:
+# #         ipaddress = globals.ip
+#     g = GeoIP()
+#     country = g.country_code(ipaddress)
+#     print "country:", country
+# #     language=get_global_language(country)
+# #     print "language", language
+#     timetaken = time() - starttime
+#     language="None"
+#     country_language_dict = {
+#                     'AU':'en','IN':'en','SE':'sv','DE':'de','SG':'en','SX':'en',}
+#     for key,value in country_language_dict.items():
+#         if country==key:
+#             language=value
+#     city=g.city(ipaddress)['city']
+#     return render_to_response('adjod/testpage.html', {
+#         'country':country, 'ipaddress':ipaddress, 'timetaken':timetaken,'language':language,'city':city
+#       }, context_instance=RequestContext(request))
 
 def custom_404(request):
    return render_to_response('404.html')
