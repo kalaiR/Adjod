@@ -237,7 +237,7 @@ def send_registration_confirmation(userprofile):
                          'content':content,
                 },
             )
-
+    print "mail send"
 
 def confirm(request, confirmation_code, username):
     try:
@@ -370,3 +370,24 @@ def update_profile(request):
 
 def custom_404(request):
    return render_to_response('404.html')
+
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic.base import View
+from social_auth.views import complete
+
+
+
+class AuthComplete(View):
+    def get(self, request, *args, **kwargs):
+        backend = kwargs.pop('backend')
+        try:
+            return complete(request, backend, *args, **kwargs)
+        except :
+            messages.error(request, "Your Google Apps domain isn't authorized for this app")
+            return HttpResponseRedirect(reverse('login'))
+
+
+class LoginError(View):
+    def get(self, request, *args, **kwargs):
+        return HttpResponse(status=401)

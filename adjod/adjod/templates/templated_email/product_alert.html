@@ -1,0 +1,47 @@
+{% load static from staticfiles %}
+{% load i18n %}
+{% block html %}
+{% block content %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Remainder for Product</title>
+ </head>
+
+<body >
+<div style="background-image: url(&quot;https://pro-bee-user-content-eu-west-1.s3.amazonaws.com/public/users/BeeFree/754de35f-e3a1-42ed-994e-b0550048af0e/FREE ALERTS1.jpg &quot;); border: 6px outset; width: 800px; height: 600px;">
+    <div class="content">
+          <p style="margin-top: 10%; float: left; margin-left: 31%;"> Dear {{ user }}</p>
+          <p style="float: left; margin-left: 31%;">
+            These Products are going to expired in 3days.
+            If you want extend please visit our website.</p>
+           <table style="float: left;margin-left: 44%; margin-top: 3%;">
+              <tbody>
+                  <tr>
+                    <td width="222" style="line-height: 18px; color: rgb(0, 0, 0);"><b>Category:</b></td>
+                    <td style="color:#4c4c4c;">{{ cat }}</td>
+                  </tr>
+                  <tr height="50px">
+                    <td style="color: rgb(0, 0, 0); line-height: 18px;"><b>Subcategory:</b></td>
+                    <td style="color:#4c4c4c;">{{ subcat }}</td>
+                  </tr>
+                  <tr height="25px">
+                    <td style="color: rgb(0, 0, 0); line-height: 18px;"><b>Brand:</b></td>
+                    <td style="color:#4c4c4c;">{{ brand }}</td>
+                  </tr>
+                  <tr height="50px">
+                      <td style="color: rgb(0, 0, 0); line-height: 18px;"><b>Title:</b></td>
+                      <td style="color:#4c4c4c;">{{ title }}</td>
+                  </tr>
+              </tbody>
+          </table>
+          <a href="{{ con }}" style="background: #fc891e none repeat scroll 0 0; border: 1px solid #fc891e; color: white; float: left;margin-left: -212px;margin-top: 26%;padding: 10px 17px 7px 14px;text-align: center;">ACTIVE</a>
+         <!--  <p>{{ con }}</p> -->
+     </div>  
+  </div>
+</body>
+</html>
+{% endblock %}
+{% endblock %}

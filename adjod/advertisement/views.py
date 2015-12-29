@@ -266,6 +266,18 @@ def post_success(request, product):
     else:
         response = None
     product.save()
+    send_templated_mail(
+              template_name = 'post_ad',
+              from_email = 'testmail123sample@gmail.com',
+              recipient_list= [product.you_email],
+              context = {
+                 'subject': 'Alert Products',
+                 'content':product.title,
+                 'user':product.you_name ,
+                 'current_site':current_site,
+                 
+              },
+            )
     return response
     
 
