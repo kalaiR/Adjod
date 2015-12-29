@@ -518,10 +518,10 @@ $( document ).ready(function() {
         else
           $('.select_post_brand').parent().next('.labelError').hide();
          //city
-        if ($('#select_post_city').text() == "Select City")
-          $('.select_post_city').parent().next('.labelError').show();
+        if ($('#select_post_locality').text() == "Select Locality")
+          $('.select_post_locality').parent().next('.labelError').show();
         else
-          $('.select_post_city').parent().next('.labelError').hide();
+          $('.select_post_locality').parent().next('.labelError').hide();
           if ($('.labelError,.email_labelError').is(":visible"))
             return false;
           else{
@@ -785,6 +785,9 @@ $( document ).ready(function() {
         $('.user_dropdown').toggle();
     });
 
-
+    $('.subscribe_content code').click(function(){
+      $('form[name="paypal_account_subscription"]').submit();
+    });
+    
 
 });

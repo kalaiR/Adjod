@@ -149,7 +149,7 @@ def product_form(request, name=None, subname=None):
     if request.user.is_authenticated():       
         if not request.user.is_superuser:
             userprofile = UserProfile.objects.get(id=request.user.id)
-            if userprofile.ad_count>3 and userprofile.is_subscribed == 0:
+            if userprofile.ad_count>=3 and userprofile.is_subscribed == 0:
                 return HttpResponseRedirect('/')        
     return TemplateResponse(request, 'advertisement/ad_post.html')
 
@@ -323,7 +323,9 @@ def freealert_save(request):
     freealert.alert_category=Category.objects.get(id=request.POST['your_category'])
     freealert.alert_subcategory=SubCategory.objects.get(id=request.POST['your_subcategory'])
     freealert.alert_brand=Dropdown.objects.get(id=request.POST['your_brand'])
-    freealert.alert_city=City.objects.get(id=request.POST['your_city'])
+    # freealert.alert_city=City.objects.get(id=request.POST['your_city'])
+    freealert.alert_city=City.objects.get(id=request.COOKIES.get('global_city_id'))
+    freealert.alert_locality=Locality.objects.get(id=request.POST['your_locality'])
     freealert.alert_email = request.POST.get('email')
     freealert.alert_mobile = request.POST.get('mobilenumber')
     freealert.save()
