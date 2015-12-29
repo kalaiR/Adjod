@@ -56,7 +56,7 @@
          	</div> <!-- description_div -->
 
          	<div class="field_title form-group">
-            <span class="title">Upload Photos</span>
+            <span class="title upload_txt">Upload Photos</span>
           </div> <!-- field_title -->
 
           <div class="field_div form-group" id="upload_photos_div">
@@ -78,7 +78,7 @@
           </div> <!- upload_photos_div -> -->
 
           <div class="field_div form-group" id="upload_photos_div">
-            <span class="title">Upload Videos</span>
+            <span class="title upload_txt">Upload Videos</span>
               <textarea class="videos" name="video_url" id="videos1" Placeholder="Embed online video URL (Ex: http://youtube.com/sample)"></textarea>
           </div> <!-- description_div -->
           <!-- <hr noshade="noshade" class="photos_line" /> -->
@@ -135,12 +135,12 @@
 
           <div class="field_div form-group" id="city_div">
             <div class="select_container_city fl" id="select_container_city">
-                <div class="select_div">
+                <div class="select_div select_disable">
                   <p id="select_post_city">Select city *</p>
                   <i class="city_fa fa fa-caret-down">
                   </i>
                 </div> <!-- select_div -->
-                <select id="id_city" class="select_post_city" name="your_city">
+                <select id="id_city" class="select_post_city disable_cursor" name="your_city"  disabled="disabled">
                 <option value="Select City">Select City</option>
                 {% for cityitem in current_country_cities %}
                 <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
@@ -178,19 +178,28 @@
           						<span class="premium_row_1">Urgent Ad</span>
           						<span class="premium_row_2"><a href="#">View Example</a></span>
           						<span class="premium_row_3">S$ 9.99 per ad</a></span>
-          						<span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan1" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span>
+          						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan1" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
+                      <span class="premium_row_4 select_premium">
+                      <input type="checkbox" id="premium_plan1" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}" class="check_disable"><span class="premium_new">Select</span>
+                      </span>
       					  </div> <!-- premium_col_1 -->
         					<div id="premium_col_2" class="col-md-4">
           						<span class="premium_row_1">Top of the page Ad</span>
           						<span class="premium_row_2"><a href="#">View Example</a></span>
           						<span class="premium_row_3">S$ 14.99 per ad</a></span>
-          						<span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan2" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span>
+          						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan2" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
+                      <span class="premium_row_4 select_premium">
+                      <input type="checkbox" id="premium_plan1" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}" class="check_disable"><span class="premium_new">Select</span>
+                      </span>
       					</div> <!-- premium_col_2 -->
       					<div id="premium_col_3" class="col-md-4">
           						<span class="premium_row_1">Top of the page Ad + Urgent Ad</span>
           						<span class="premium_row_2"><a href="#">View Example</a></span>
           						<span class="premium_row_3">S$ 19.99 per ad</a></span>
-          						<span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan3" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span>
+          						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan3" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
+                      <span class="premium_row_4 select_premium">
+                      <input type="checkbox" id="premium_plan1" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}" class="check_disable"><span class="premium_new">Select</span>
+                      </span>
     					   </div> <!-- premium_col_3 -->
   				    </div> <!-- row -->
           			<!-- 	<div class="row premium_row">

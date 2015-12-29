@@ -17,7 +17,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.utils.translation import ugettext_lazy as _
 from paypal.standard.ipn import *
 
-admin.autodiscover()
+# admin.autodiscover()
 
 js_info_dict = {
     'packages': ('adjod',),

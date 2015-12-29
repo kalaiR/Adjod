@@ -1,67 +1,76 @@
-from core import helper
-from adjod import globals
+import os
+import random
+import string
+import uuid
+import urllib2
 from django.conf import settings
-from django.utils import translation
-from adjod.util import get_client_ip
-from adjod.util import *
+from django.contrib.gis.geoip import GeoIP
+from adjod import globals
 from advertisement.models import *
 
-#Middleware class for finding global_lanugage, global_country, global_ip when user enter into the website
-class Global(object):
-    global_language = ''
-    global_country=''
-    global_country_code=''
-    global_ip=''
-    global_city=''
-    global_city_id=''
-    def process_request(self, request):
-        # print "enter process_request"
-        globals.request = request
-        globals.user = getattr(request, 'user', None)
-        globals.ip = get_client_ip(request)
-        # print "globals.ip", globals.ip
-        if ',' in globals.ip:
-            globals.ip = globals.ip.split(',')[0].strip()
-        globals.sess = request.session.session_key
-        self.global_country,self.global_country_code=get_global_country(request)
-        self.global_city, self.global_city_id=get_global_city(request)
-        self.global_ip= globals.ip
-        self.global_language=get_global_language(request)
-        if request.user.is_authenticated():
-            try:
-                request.user.last_login = helper.get_now()
-                request.user.save()
-            except Exception, e:
-                pass
-    def process_response(self, request, response):
-        """while response set cookie for language"""
-        if self.global_language:
-            language=self.global_language
-            response.set_cookie(settings.LANGUAGE_COOKIE_NAME,
-                language, max_age = 365 * 24 * 60 * 60)
+#For Currency
+from moneyed import Money
+from djmoney_rates.utils import convert_money
+from djmoney_rates.data import CURRENCIES_BY_COUNTRY_CODE
 
-        if self.global_country:
-            country=self.global_country
-            response.set_cookie("country",
-                country, max_age = 365 * 24 * 60 * 60)
+#For getting country and their language
+from core.config import country_language_dict
 
-        if self.global_country_code:
-            country_code=self.global_country_code
-            response.set_cookie("country_code",
-                country_code, max_age = 365 * 24 * 60 * 60)
+def get_client_ip(request):
+    ''' This utility gets client's IP address from the request
+    '''
+    ip = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', '127.0.0.1'))
+    if ip.startswith('127.0.0') or ip.startswith('192.168.1'):
+        ip = '114.69.235.2'
+        # ip  = '219.75.27.16'
+    return ip
 
-        if self.global_ip:
-            ip=self.global_ip
-            response.set_cookie("ip",
-                ip, max_age = 365 * 24 * 60 * 60)
+def format_redirect_url(redirect_path, query_string):
+    ''' utility to format redirect url with fixido query string
+    '''
+    stop_popup = True if 'st=' in query_string else False
 
-        if self.global_city:
-            city=self.global_city
-            response.set_cookie("city",
-                city, max_age = 365 * 24 * 60 * 60)
+    url_join_str = '?'
+    if url_join_str in redirect_path:
+        redirect_path, qs = redirect_path.split(url_join_str, 1)
+        query_string = qs + '&' + query_string
 
-        if self.global_city_id:
-            city=self.global_city_id
-            response.set_cookie("global_city_id",
-                                city, max_age = 365 * 24 * 60 * 60)
-        return response
+    qs = {}
+    for q in query_string.split('&'):
+        if '=' in q:
+            k, v = q.split('=', 1)
+            qs[k] = v
+
+    if stop_popup:
+        if qs.has_key('zr'): del qs['zr']
+        if qs.has_key('lr'): del qs['lr']
+        if qs.has_key('ler'): del qs['ler']
+        if qs.has_key('thanks'): del qs['thanks']
+
+    query_string = ''
+    for k in qs:
+        query_string += k + '=' + qs[k] + '&'
+
+    return redirect_path + url_join_str + query_string[:-1]
+
+# For Price Conversion
+def convert(price):
+    for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
+        if str(key) == str("SG"):
+            isocode=value
+    current_country = isocode
+    adjod_exchange_rate = ExchangeRate.objects.get(currency=current_country)
+    return float(price)*float(adjod_exchange_rate.value)
+
+# def convert(price):
+#     for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
+#         if str(key) == str("IN"):
+#             isocode=value
+#     current_country = isocode
+#     # base_currency= settings.BASE_CURRENCY
+#     base_currency= settings.CURRENCY_RATES
+#     exchange_rate = convert_money(price,base_currency,current_country)
+#     return exchange_rate
+
+# Give input of two character of country code
+def currency_sy

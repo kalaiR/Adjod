@@ -69,6 +69,9 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
+            <div class="logo_mobile">
+              <a href="#"><code></code></a>
+            </div><!--logo_mobile-->
             <div class="select_area">
               <i class="fa fa-map-marker location_font"></i>
                 <select class="select_area">
@@ -115,12 +118,19 @@
           <div id="navbar" class="collapse navbar-collapse">
               <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
-                    <li class="user_name"><a href="/">{{request.user.email}}</a></li>
+                    <li class="user_name"><a href="/">{{request.user.email}}</a></li><i class="fa fa-caret-down caret_user"></i>
+                    <div class="user_dropdown"> 
+                       <ul>
+                          <a><li>My Ads</li></a>
+                         <a><li>Update My Profile</li></a>
+                         <a><li>My Chats</li></a>
+                       </ul>
+                    </div><!--user_dropdown-->
                     {% endif %}
                     {% if 'search' in path %}
-                    <li>
-                      <div class="custom_select language_custom_select">
-                        <div class="select">
+                    <!-- <li>
+                      <div class="custom_select language_custom_select"> -->
+                        <!-- <div class="select">
                         <p id="cityselected">{{ request.COOKIES.city }}</p>
                         <i class="fa fa-caret-down"></i>
                         <select class="city">
@@ -132,8 +142,8 @@
                           {% endfor%}
                         </select>
                          </div><!-- select -->
-                       </div><!-- custom_select -->
-                    </li>
+                       <!-- </div>custom_select -->
+                    <!-- </li> -->
                     {% endif %}
 
                     <li>
@@ -212,14 +222,28 @@
     {%  if 'search' in path  or 'postad' in path  or 'ads' in path  or 'update_profile' in path %}
        <div class="search_part">
           <div class="container logo_part visible-lg">
-             <a href="/"><code></code></a>
+            <a href="/"><code></code></a>
                 <form class="info_form" method="get" action="/search/?q=">
+                      <div class="custom_select language_custom_select search_city">
+                        <div class="select select_new">
+                        <p id="cityselected">{{ request.COOKIES.city }}</p>
+                        <i class="fa fa-caret-down"></i>
+                        <select class="city">
+                        <option  id="currentid" value="{{request.COOKIES.global_city_id}}">{{ request.COOKIES.city }}</option>
+                          {% for cities in current_country_cities %}
+                            {% if cities.city != request.COOKIES.city %}
+                              <option value="{{cities.id}}" id="ajax_cityid">{{ cities.city }} </option>
+                            {% endif %}
+                          {% endfor%}
+                        </select>
+                         </div><!-- select -->
+              </div><!-- custom_select -->
                       <div class="button">
                         <i class="fa fa-search search_icon"></i>
                         {% if query or request.REQUEST.q or request.REQUEST.q == '' %}
-                          <input type="text" name="q" id="q" class="form-control input-lg" placeholder="" value="{% if query %}{{ query }}{% elif request.REQUEST.q %}{{request.REQUEST.q}}{% elif request.REQUEST.q == '' %}{% else %}{% endif %}" />
+                          <input type="text" name="q" id="q" class="form-control input-lg" placeholder="Search here" value="{% if query %}{{ query }}{% elif request.REQUEST.q %}{{request.REQUEST.q}}{% elif request.REQUEST.q == '' %}{% else %}{% endif %}" />
                         {% else %}
-                          <input type="text" name="q" id="q" class="form-control input-lg" placeholder="" value="{% if recent_viewed_search %}{% for cat in recent_viewed_search|slice:'1' %}{% if cat.activity_view %}{{ cat.activity_view }}{% else %}{% endif %}{% endfor %}{% else %}{% endif %}" />
+                          <input type="text" name="q" id="q" class="form-control input-lg" placeholder="Search here" value="{% if recent_viewed_search %}{% for cat in recent_viewed_search|slice:'1' %}{% if cat.activity_view %}{{ cat.activity_view }}{% else %}{% endif %}{% endfor %}{% else %}{% endif %}" />
                         {% endif %}
                         </div>
                       <button type="submit"class="btn btn-lg btn-success search_b">Search</button>
@@ -283,7 +307,7 @@
       {% for banners in banner|get_banner %}
 
       {% if banners.pageurl == '/' and banners.position == 'bottom'%}
-      <li><a class="bannerlink" href="{{banners.link}}"><img class="bannerimage" src="{{MEDIA_URL}}{{banners.banner}}" style="height:120px;width:970px;"><i class="fa fa-times-circle closebtn1"></i></a></li>
+      <li><a class="bannerlink" href="{{banners.link}}"><img class="bannerimage" src="{{MEDIA_URL}}{{banners.banner}}" style="height:120px;width:970px;"></a></li>
       {% endif %}
       {% endfor %}
       </ul>
@@ -469,8 +493,8 @@
             <div id="confirm_div" class="form-group">
               <input class="confirm" type="checkbox" name="confirm" />
               <span>I confirm that I am 18 years or older</span>
-              <input class="btn signup_confirm_button masterTooltip" type="submit" value="Create" name="create" id="create" title="Your age must be above 18 years, please check age status and then create account" />
-
+              <a class="tool_tip"><input class="btn signup_confirm_button masterTooltip" type="submit" value="Create" name="create" id="create"><div class="signup_tooltip">Your age must be above 18 years, please check age status and then create account</div></a>
+              
             </div>
 </form>
             <div id="hr_div" class="form-group">

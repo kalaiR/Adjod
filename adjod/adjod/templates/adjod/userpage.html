@@ -85,13 +85,13 @@
   <a class="handle" >Ads</a>
 </div><!--left_side ad-->
 
-<div class="leftslide">
-  <code class="closeimg"> </code>
+<div class="leftslide visible-lg">
+ <!--  <code class="closeimg"> </code> -->
   <img src="{{MEDIA_URL}}banners/banner3.jpg" />
 </div><!--leftslide-->
 
-<div class="leftslide1">
-  <code class="closeimg"> </code>
+<div class="leftslide1 visible-lg">
+  <!-- <code class="closeimg"> </code> -->
   <img src="{{MEDIA_URL}}banners/banner4.jpeg" />
 </div><!--leftslide-->
 
@@ -99,12 +99,38 @@
   <div class="row row_2">
       <div class="col-md-7">
         <h4 class="post_ad">Sell or Advertise anything</h4>
-        <a href="{% url product_form %}" class="#postbutton btn btn-lg btn-warning post_button" style="{% if user.is_authenticated %}{% if userprofile.ad_count > 3 and userprofile.is_emailverified == 0 and userprofile.is_subscribed == 0 %} cursor:default;opacity:0.4; {% elif userprofile.ad_count > 3 and userprofile.is_emailverified == 1 and userprofile.is_subscribed == 0 %} cursor:default;opacity:0.4; {% elif userprofile.is_subscribed == 1 %} cursor:pointer; pointer-events:auto;{% endif %} {% endif %}" title="{% if user.is_authenticated %}{% if userprofile.ad_count > 3 and userprofile.is_emailverified == 0 and userprofile.is_subscribed == 0 %} You already add 3 posts and also did not verified ur email, if u want add more posts, u have to verify ur email and also make ur account as premium {% elif userprofile.ad_count > 3 and userprofile.is_emailverified == 1 and userprofile.is_subscribed == 0 %} You already add 3 posts, if u want add more posts, u have to make ur account as premium{% endif %}{% endif %}">Post Free Ad</a>
+        <a href="#" class="#postbutton btn btn-warning post_button disable_post">Post Free Ad
+        <div class="tooltip">You already add 3 posts,<br>if u want add more posts,<br>u have to make ur account as premium<button type="button" class="btn btn-link link_tooltip">Click here</button></div></a>
         <div class="alert_content">
         <h4 class="need_txt">Tell us your need</h4>
         <a href="#" class="alert_btn">Create alert</a>
       </div>
       </div> <!--col-md-7 -->
+
+
+
+      <div class="subscription_popup">
+      <code class="close_btn cancel_btn" style="{% if request.REQUEST.sf %} display:block; {%else%} display: none; {% endif %}"> </code>
+         <div class="subscribe_title"> 
+            <h4>Account Subscribe</h4>     
+         </div><!--subscribe_title-->
+         <div class="subscribe_content">
+           <p>You already used our Free Limited Services. If you want to post more Ads, Please Subscribe your account.</p>
+           <code></code>
+        </div><!--subscribe_content-->
+
+      </div><!--subscription_popup-->
+      
+
+
+
+
+
+
+
+
+
+
       <div class="col-md-5">
         <h4 class="sell"><i class="fa  fa-shield"></i> How to sell safely ?</h4>
         <p>Try to take the full payment at the time of delivery.<br>Remember to use the safe location to meet <a href="#">Read more</a></p>
