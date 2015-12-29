@@ -788,6 +788,9 @@ $( document ).ready(function() {
     $('.subscribe_content code').click(function(){
       $('form[name="paypal_account_subscription"]').submit();
     });
-    
+
+    $('input.checkbox_premium').on('change', function(){
+        $('input.checkbox_premium').not(this).prop('checked', false); 
+    });
 
 });
