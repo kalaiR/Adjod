@@ -130,6 +130,8 @@ body {
 	@media (min-width: @grid-float-breakpoint) {
 		width: 160px;height: 83px;
 		display: block;
+		bottom: 56px;
+		position: relative;
 	}
 }
 .container.quikr_logo > form {
@@ -387,7 +389,7 @@ body {
     font-size: 17px;
     color:#0000;
    	@media (min-width: @grid-float-breakpoint) {
-   		width: 210px;
+   		width: 225px;
     	margin:35px 30px;
     	left:0px;
     	position: relative;
@@ -429,6 +431,7 @@ body {
     	left:0px;
     	width: 200px;
     	font-family: Varela Round;
+    	font-size: 18px;
     }
 }
 .alert_content{
@@ -685,7 +688,7 @@ body {
 		border: 1px solid #fc891e;
 		position: relative;
 		float: left;
-		font-size: 16px;
+		font-size: 15px;
   }
 }
 .free_content{
@@ -875,7 +878,7 @@ body {
 		position: relative;
     	top: 0px;
     	left: 40px;
-    	left: 6%;
+    	left: 4%;
    		margin: 0;
    		width: 180px;
 	}
@@ -887,6 +890,7 @@ body {
 		display:block;
 		width: 160px;height: 83px;
 		position: relative;
+		left: 195px;  bottom: 63px;
 	}
 }
 .button > input{
@@ -936,7 +940,7 @@ body {
     }
     @media (min-width: 1200px) and (max-width: 1600px) {
     	left: 190px;
-    	width:930px;
+    	width:950px;
     }
 }
 .button{
@@ -1577,6 +1581,7 @@ hr {
 	width:100%;
 	@media (min-width: @grid-float-breakpoint){
 		width:745px;
+		padding-left:5px;
 	}
 }
 
@@ -1599,7 +1604,7 @@ hr {
 	width:100%;
 	height:auto;
 	@media (min-width: @grid-float-breakpoint){
-		width:745px!important;
+		width:740px!important;
 	}
 }
 .recommended {
@@ -1631,6 +1636,7 @@ hr {
 .recommend1 {
 	@media (min-width: @grid-float-breakpoint){
     	margin-top: 15px;
+    	border:1px solid #828282;
     }
 }
 .contact_button{
@@ -1704,7 +1710,7 @@ hr {
 	@media (min-width: @grid-float-breakpoint){
 		display: inline-block;
 	    float: left;
-	    height: 100%;
+	    height: auto;
 	    margin-left: -10px;
 	    margin-right: 24px;
 	    margin-top: 0;
@@ -1784,7 +1790,7 @@ input[type="checkbox"] {
 }
 .right_part{
 	@media (min-width: @grid-float-breakpoint){
-		width:746px;
+		width:745px;
 		height:auto;
 		display:inline-block;
 	}
@@ -2889,6 +2895,7 @@ sup , .view_example{
   font-size: 14px;
   color: #858585;
   margin-bottom: 20px;
+  float: left;
 }
 .premium_row{
   border: 1px solid #e2e0e0;
@@ -3536,8 +3543,8 @@ label >.error { color:red; }
 	/*border: 1px solid #ccc;*/
     height: 221px;
     position: absolute;
-    right: 0;
-    top: 290px;
+    right: 15px;
+    top: 300px;
     width: 165px;
     display:block;
 }
@@ -3555,7 +3562,7 @@ label >.error { color:red; }
 	/*border: 1px solid #ccc;*/
     height: 221px;
     position: absolute;
-    left: -22px;
+    left: 0px;
     top: 290px;
     width: 188px;
 }
@@ -4992,12 +4999,14 @@ li.offline,.product_title_for_chat { display:none !important; }
     opacity: 0;
     width: 63px;
     margin: 0 !important;
+    left: 65px;
+    top: 8px;
 }
 .select_premium input:checked + span {
 	background:url("../img/button_online.png") no-repeat;
 }
 .signup_tooltip{
-	background: #ACACAC none repeat scroll 0 0;
+	background: black none repeat scroll 0 0;
     color: white;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 12px;
@@ -5009,6 +5018,8 @@ li.offline,.product_title_for_chat { display:none !important; }
     visibility: visible;
     width: 32%;
     z-index: 9999;
+    padding: 3px;
+    border-radius: 6px;
 }
 .search_city {
     float: left;
@@ -5077,4 +5088,6 @@ li.offline,.product_title_for_chat { display:none !important; }
     margin-top: -250px;
     margin-left: -250px;
 }
-
+.handle {
+    display: none;
+}
