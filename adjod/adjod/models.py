@@ -7,12 +7,13 @@ from django.utils.translation import ugettext_lazy as _
 class UserProfile(User):
     mobile=models.CharField(max_length=50, null=True)
     confirmation_code=models.CharField(max_length=500)
-    is_subscribed=models.BooleanField(default=False)
     city=models.ForeignKey('advertisement.City', null=True, blank=True)
     language=models.CharField(max_length=5)
     age_status=models.BooleanField(default=False)
     is_emailverified=models.BooleanField(default=False)
     ad_count=models.IntegerField(max_length=5, null=True, blank=True, default=0)
+    is_subscribed=models.BooleanField(default=False)
+    subscribed_plan = models.ForeignKey('advertisement.PremiumPriceInfo', null=True, blank=True)
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):

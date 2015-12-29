@@ -85,13 +85,13 @@
   <a class="handle" >Ads</a>
 </div><!--left_side ad-->
 
-<div class="leftslide">
-  <code class="closeimg"> </code>
+<div class="leftslide visible-lg">
+ <!--  <code class="closeimg"> </code> -->
   <img src="{{MEDIA_URL}}banners/banner3.jpg" />
 </div><!--leftslide-->
 
-<div class="leftslide1">
-  <code class="closeimg"> </code>
+<div class="leftslide1 visible-lg">
+  <!-- <code class="closeimg"> </code> -->
   <img src="{{MEDIA_URL}}banners/banner4.jpeg" />
 </div><!--leftslide-->
 
@@ -99,12 +99,16 @@
   <div class="row row_2">
       <div class="col-md-7">
         <h4 class="post_ad">Sell or Advertise anything</h4>
-        <a href="{% url product_form %}" class="#postbutton btn btn-lg btn-warning post_button" style="{% if user.is_authenticated %}{% if userprofile.ad_count > 3 and userprofile.is_emailverified == 0 and userprofile.is_subscribed == 0 %} cursor:default;opacity:0.4; {% elif userprofile.ad_count > 3 and userprofile.is_emailverified == 1 and userprofile.is_subscribed == 0 %} cursor:default;opacity:0.4; {% elif userprofile.is_subscribed == 1 %} cursor:pointer; pointer-events:auto;{% endif %} {% endif %}" title="{% if user.is_authenticated %}{% if userprofile.ad_count > 3 and userprofile.is_emailverified == 0 and userprofile.is_subscribed == 0 %} You already add 3 posts and also did not verified ur email, if u want add more posts, u have to verify ur email and also make ur account as premium {% elif userprofile.ad_count > 3 and userprofile.is_emailverified == 1 and userprofile.is_subscribed == 0 %} You already add 3 posts, if u want add more posts, u have to make ur account as premium{% endif %}{% endif %}">Post Free Ad</a>
+        <div class="{% if user.is_authenticated and userprofile.ad_count >= 3 and userprofile.is_subscribed == 0%} disable_post {% endif%}"> 
+          <a href="{% if user.is_authenticated and userprofile.ad_count >= 3 and userprofile.is_subscribed == 0%} {% else %} {% url product_form %} {% endif%}" class="#postbutton btn btn-warning post_button">Post Free Ad</a>
+          <div class="tooltip">You already add 3 posts,<br>if u want add more posts,<br>u have to make ur account as premium<button type="button" class="btn btn-link link_tooltip">Click here</button></div>
+        </div>
         <div class="alert_content">
         <h4 class="need_txt">Tell us your need</h4>
         <a href="#" class="alert_btn">Create alert</a>
       </div>
-      </div> <!--col-md-7 -->
+      </div> <!--col-md-7 -->   
+
       <div class="col-md-5">
         <h4 class="sell"><i class="fa  fa-shield"></i> How to sell safely ?</h4>
         <p>Try to take the full payment at the time of delivery.<br>Remember to use the safe location to meet <a href="#">Read more</a></p>
@@ -138,7 +142,7 @@
                     </a>
                   </div>
                   <div class="detail">
-                    <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a><span>{{request.COOKIES.country_code|get_symbol}}{{recentads.price|conversion|quantize}}</span></div>
+                    <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a><span>{{country_code|get_symbol}}{{recentads.price|conversion|quantize}}</span></div>
                     <span class="product_description"> {{ recentads.description }}</span>
                     <span class="product_user"> {{recentads.condition}} | in {{recentads.locality.locality}} | By {{recentads.you_are}}</span>
                   </div> <!-- detail -->
@@ -199,20 +203,20 @@
                           <span id="id_brand_required" class="labelError" style="font-size:12px;display:none;">Please Choose brand</span>
                         </li>
                         <li>
-                          <div class="select_container_city" id="select_container_city">
+                          <div class="select_container_locality" id="select_container_locality">
                             <div class="select_div">
-                              <p id="select_post_city">Select City</p>
+                              <p id="select_post_locality">Select Locality</p>
                               <i class="city_fa fa fa-caret-down">
                               </i>
                             </div> <!-- select_div -->
-                            <select id="id_city" class="select_post_city" name="your_city">
-                              <option value="Select City">Select City</option>
-                              {% for cityitem in current_country_cities %}
-                              <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
+                            <select id="id_locality" class="select_post_locality" name="your_locality">
+                              <option value="Select Locality">Select Locality</option>
+                              {% for localities in locality %}
+                              <option value="{{ localities.id }}">{{ localities.locality }}</option>
                               {% endfor %}
                             </select>
                           </div> <!-- select_container_city -->
-                           <span id="id_city_required" class="labelError" style="font-size:12px;display:none;">Please Choose city</span>
+                           <span id="id_locality_required" class="labelError" style="font-size:12px;display:none;">Please Choose Locality</span>
                         </li>
                         <li>
                           <div class="form1">

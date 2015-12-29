@@ -53,7 +53,6 @@ USE_TZ = True
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
-print "MEDIA_ROOT", MEDIA_ROOT
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
@@ -66,7 +65,6 @@ MEDIA_URL = '/media/'
 # STATIC_ROOT = '/static_files/'
 # STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static')
 STATIC_ROOT = 'static'
-print "STATIC_ROOT", STATIC_ROOT
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -163,6 +161,8 @@ INSTALLED_APPS = (
     'worker',
     'banner',
     'chat',
+    'commerce',
+    'logs',
 
     # Third Party Libs
     'haystack',
@@ -194,11 +194,12 @@ TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
 
 PAYPAL_TEST = True
 
-PAYPAL_RECEIVER_EMAIL = "deepakkuppusamy.gs@gmail.com"
+# PAYPAL_RECEIVER_EMAIL = "deepakkuppusamy.gs@gmail.com"
+PAYPAL_RECEIVER_EMAIL = "kalairkv.mca14-facilitator@gmail.com"
 
 #Sandbox url For testing
 SANDBOX_URL = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
-SANDBOX_BUSS_EMAIL = 'deepakkuppusamy.gs@gmail.com'
+SANDBOX_BUSS_EMAIL = 'kalairkv.mca14-facilitator@gmail.com'
 
 #Paypal URL for Live
 # PAYPAL_URL = 'https://www.paypal.com/cgi-bin/webscr'
@@ -238,25 +239,39 @@ AUTHENTICATION_BACKENDS = (
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+        },
     'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
+        'file':{
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'resell.log',
+            'formatter': 'verbose'
+        },
+        'db':{
+            'level': 'WARNING',
+            'class': 'logs.loggers.MyDbLogHandler',
+            'formatter': 'verbose'
         }
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    }
+            'handlers': ['db', 'file'],
+            'level': 'WARNING',
+            'propagate': False,
+            },
+        'myapplog': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': False,
+            }
+        }
 }
 
 # settings for SMS verification
@@ -332,3 +347,10 @@ SOCIAL_AUTH_PIPELINE = (
 'social_auth.backends.pipeline.user.update_user_details',
 
 )
+
+PAYPAL_DICT = {
+    'cancel_return' : '/postad/',
+    'success_return': '/paypal/',
+    'notify_url'    : '/paypal/'
+}
+

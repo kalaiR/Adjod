@@ -146,7 +146,7 @@ class DropdownAdmin(admin.ModelAdmin):
     search_fields = ['id', 'brand_name']
     # readonly_fields =['id']
     list_per_page = 50
-    print "Hello DropdownAdmin1"
+    
     def get_brand_subcategory(self, obj):
         return "\n".join([p.subcategory for p in obj.brand_subcategory.all()])
 
@@ -169,10 +169,10 @@ class ProductAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 class PremiumPriceInfoAdmin(admin.ModelAdmin):
-    fields=['premium_price','currency','purpose','month']
-    list_display = ('id', 'premium_price','currency','purpose','month')
-    list_filter = ['premium_price','currency','purpose']
-    search_fields = ['premium_price','currency','purpose']
+    fields=['premium_price','base_currency','purpose','duration']
+    list_display = ('id', 'premium_price','base_currency','purpose','duration')
+    list_filter = ['premium_price','base_currency','purpose']
+    search_fields = ['premium_price','base_currency','purpose']
     # readonly_fields =['id']
     list_per_page = 50
     
@@ -185,4 +185,3 @@ admin.site.register(City, CityAdmin)
 admin.site.register(SubCategory, SubCategoryAdmin)
 admin.site.register(Category,CategoryAdmin)
 # admin.site.register(Country)
-admin.site.register(Transaction)

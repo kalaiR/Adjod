@@ -10,6 +10,7 @@ $( document ).ready(function() {
   user_id,
   user_avatar,
   socket;
+  
   var conf_domain,
   conf_server_type,
   conf_server,
@@ -1300,12 +1301,13 @@ $( document ).ready(function() {
         // FIXME
         // Set dialog position
         main.dialog( "option", "position", { my: "right bottom", at: "right top-3", of: "#user-button-"+iduser+"_product-"+product_id, collision: "flip, none" });
-
       chat_record['sender']=name;
       chat_record['message']=msg;
       chat_record['product']=product_id;
+      chat_record['sender_image']=user_avatar;
+      chat_record['receiver_image']=avatar;
   
-      JSONstr=JSON.stringify(chat_record); 
+      JSONstr=JSON.stringify(chat_record);
       $.post("/store_chat_record/", {data:JSONstr}, function(data){ console.log("success")});  
       }
 

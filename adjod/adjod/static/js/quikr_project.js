@@ -221,7 +221,7 @@ function fill_brands(sub_category_id) {
 //********** End Functions **********
 
 $( document ).ready(function() {
-
+      
     sign_in_center_align();
     sign_up_center_align();
     reset_div_center_align();
@@ -287,7 +287,7 @@ $( document ).ready(function() {
     });
     $('.cancel_btn').click(function(){
         $('.popup_fade').hide();
-        $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile').hide();
+        $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile,.subscription_popup').hide();
         document.body.style.overflow = 'auto';
     });
     // Forgot Password Popup
@@ -299,6 +299,11 @@ $( document ).ready(function() {
         document.body.style.overflow = 'hidden';
     });
 
+     $('.free_button').click(function(){
+         $('.forgot_div').hide();
+        $('.sign_up_div, .close_btn').show();
+        document.body.style.overflow = 'hidden';
+    });
     // Find password strength in sign up popup
     $('#password').keyup(function(){
         $('#result').html(checkStrength($('#password').val()));
@@ -513,10 +518,10 @@ $( document ).ready(function() {
         else
           $('.select_post_brand').parent().next('.labelError').hide();
          //city
-        if ($('#select_post_city').text() == "Select City")
-          $('.select_post_city').parent().next('.labelError').show();
+        if ($('#select_post_locality').text() == "Select Locality")
+          $('.select_post_locality').parent().next('.labelError').show();
         else
-          $('.select_post_city').parent().next('.labelError').hide();
+          $('.select_post_locality').parent().next('.labelError').hide();
           if ($('.labelError,.email_labelError').is(":visible"))
             return false;
           else{
@@ -745,16 +750,44 @@ $( document ).ready(function() {
     });
 
     // Show Banner Ads In home Page
-    $(".left_sidead").click(function(){
-        $(".left_sidead").hide();
-        $(".leftslide").show();
-        $(".leftslide1").show();
+    // $(".left_sidead").click(function(){
+    //     $(".left_sidead").hide();
+    //     $(".leftslide").show();
+    //     $(".leftslide1").show();
+    // });
+
+    // $(".closeimg").click(function(){
+    //     $(".leftslide").hide();
+    //     $(".left_sidead").show();
+    //     $(".leftslide1").hide();
+    // });
+    
+    // subscription popup
+    $(".subscription_popup").hide();
+    $(".link_tooltip").click(function(){
+        $('.popup_fade').show();
+        $('.subscription_popup ,.close_btn').show();
+        document.body.style.overflow = 'hidden';
     });
 
-    $(".closeimg").click(function(){
-        $(".leftslide").hide();
-        $(".left_sidead").show();
-        $(".leftslide1").hide();
+    $('.signup_tooltip').hide();
+    $(".signup_confirm_button").on('hover', function(){
+    if ($(".confirm").prop('checked')==false){ 
+        $('.signup_tooltip').show();
+    }
+    else{
+         $('.signup_tooltip').hide();
+       }
     });
+    
+    $(".user_dropdown").hide();
+    $(".caret_user").click(function(){
+        $('.user_dropdown').toggle();
+    });
+
+    $('.subscribe_content code').click(function(){
+      $('form[name="paypal_account_subscription"]').submit();
+    });
+    
 
 });

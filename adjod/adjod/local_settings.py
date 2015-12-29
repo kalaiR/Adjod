@@ -50,7 +50,8 @@ USE_L10N = True
 USE_TZ = True
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(os.path.dirname(__file__), '../media')
+MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
+print "MEDIA_ROOT", MEDIA_ROOT
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
@@ -61,26 +62,29 @@ MEDIA_URL = '/media/'
 # Example: "/home/media/media.lawrence.com/static/"
 
 # STATIC_ROOT = '/static_files/'
-STATIC_ROOT = os.path.join(os.path.dirname(__file__), '../static')
+# STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static')
+STATIC_ROOT = 'static'
+print "STATIC_ROOT", STATIC_ROOT
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
-SITE_NAME = '192.168.1.33:9000'
+SITE_NAME = '52.34.51.104'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(os.path.dirname(__file__), '../static'),
+    os.path.join(os.path.dirname(__file__), 'static'),
 )
 
 # List of finder classes that know how to find static files in various locations.
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # 'compressor.finders.CompressorFinder',
 )
 
 # Make this unique, and don't share it with anybody.

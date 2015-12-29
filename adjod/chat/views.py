@@ -136,6 +136,8 @@ def store_chat_record(request):
         chatmessage.receiver = data['receiver']
         chatmessage.product=product
         chatmessage.message=data['message']
+        chatmessage.sender_image=data['sender_image']
+        chatmessage.receiver_image=data['receiver_image']
         chatmessage.save()
         # ChatMessage.objects.create(sender = data['sender'], receiver =  data['receiver'],product=product.id, message = data['message'])
         print "store_chat_record successfully"
