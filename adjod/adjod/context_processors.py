@@ -77,6 +77,7 @@ def global_activity(request):
 	path =  request.path	
 	category = Category.objects.all()
 	subcategory = SubCategory.objects.all()
+	dropdown=Dropdown.objects.all()
 		
 	country = "Singapore"
 	country_code = "SG"
@@ -95,8 +96,8 @@ def global_activity(request):
 		print "userprofile in context processors", userprofile
 	else:
 		userprofile=None	 
-	return {'country':country,'city': city,'city_id':city_id,'language':language,'path':path,'category':category,
-			'subcategory':subcategory, 'recentad':recentad,'user_det':userprofile,'user_ip':user_ip,'locality':locality}
+	return {'country':country,'country_code':country_code,'city': city,'city_id':city_id,'language':language,'path':path,'category':category,
+			'subcategory':subcategory,'dropdown':dropdown, 'recentad':recentad,'user_det':userprofile,'user_ip':user_ip,'locality':locality}
 
 # def global_activity(request):	
 # 	path =  request.path

@@ -59,10 +59,9 @@ urlpatterns = patterns('',
     url(r'^addproduct/$', 'advertisement.views.product_save',name='product_save'),
 
     # Paypal
-    url(r'^paypal/$', 'adjod.views.view_that_asks_for_money', name='paypal'),
-    url(r'^show_me_the_money/$', include('paypal.standard.ipn.urls')),
-    # url(r'^notify/$', 'adjod.views.notify', name='notify'),
-
+    url(r'^paypal/$', include('paypal.standard.ipn.urls')),
+    url(r'^test_paypal/$', 'adjod.views.test_paypal',name='test_paypal'),
+    
     # Find locality for city when ajax call
     url(r'^localities_for_city/$','advertisement.views.localities_for_city', name='localities_for_city'),
 
@@ -134,4 +133,6 @@ urlpatterns = patterns('',
     # url(r'^(?i)testpage/$', 'adjod.views.geosearch'),
 
     url(r'^(?i)handler404/$', 'adjod.views.custom_404', name='custom_404'),
+    
+
 )+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -53,52 +53,22 @@ from adjod.models import BaseCurrency, ExchangeRate
 # For Chat
 from chat.models import *
 
-#Paypal transaction definition
-@csrf_exempt
-def show_me_the_money(sender, **kwargs):
-    # print "show_me_the_money"
-    ipn_obj = sender
-    payStatus=ipn_obj.POST.get('payment_status','')
-    if payStatus=='Completed':
-        print "show_me_the_money1"
-    # Undertake some action depending upon `ipn_obj`.
-    # if ipn_obj.custom == "Upgrade all users!":
-    #     User.objects.update(paid=True)
-# print "show_me_the_money2"
-payment_was_successful.connect(show_me_the_money)
-
-def notify(request):
-    # print "notify"
-    # print "request", request.REQUEST['business']
-    return HttpResponseRedirect("/")
-
-@csrf_exempt
-def view_that_asks_for_money(request):
-    # userprofile = UserProfile.objects.get(user_id=request.user.id)
-    # if 'transaction=success' in request.REQUEST:
-    #     userprofile.is_subscribed=True
-    # elif 'transaction=error' in request.REQUEST:
-    #     userprofile.is_subscribed=False
-
+def test_paypal(request):
     # What you want the button to do.
-    # paypal_dict = {
-    #     # "business": settings.PAYPAL_RECEIVER_EMAIL,
-    #     # "amount": "10.00",
-    #     # "item_name": "Advertisement Merchant",
-    #     # "invoice": "unique-invoice-id",
-    #     # "notify_url": 'http://192.168.1.35:8000/show_me_the_money',
-    #     # "return_url": "http://192.168.1.35:8000/",
-    #     "cancel_return": "http://192.168.1.35:8000/?transactionfail=error",
-    #     # "notify_url": 'http://46.4.81.207:9000/show_me_the_money',
-    #     # "return_url": "http://46.4.81.207:9000/",
-    #     # "cancel_return": "http://46.4.81.207:9000/?transactionfail=error",
-    # }
+    paypal_dict = {
+        "business": settings.PAYPAL_RECEIVER_EMAIL,
+        "amount": "1.00",
+        "item_name": "name of the item",
+        "notify_url": "http://192.168.1.100:8000/paypal/",
+        "return_url": "http://192.168.1.100:8000/paypal/",
+        "cancel_return": "http://192.168.1.100:8000/postad",
+        "custom": "Upgrade all users!",  # Custom command to correlate to some function later (optional)
+    }
 
-    # form = PayPalPaymentsForm(initial=paypal_dict)
-    # context = {"form": form}
-    # return render(request, "payment.html", context)
-    return render_to_response("paypal_integration/payment.html", context_instance=RequestContext(request))
-
+    # Create the instance.
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    context = {"form": form}
+    return render_to_response('paypal_integration/payment.html',context, context_instance=RequestContext(request))
 
 #Home page defintion
 @csrf_exempt

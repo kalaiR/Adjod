@@ -138,7 +138,7 @@
                     </a>
                   </div>
                   <div class="detail">
-                    <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a><span>{{request.COOKIES.country_code|get_symbol}}{{recentads.price|conversion|quantize}}</span></div>
+                    <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a><span>{{country_code|get_symbol}}{{recentads.price|conversion|quantize}}</span></div>
                     <span class="product_description"> {{ recentads.description }}</span>
                     <span class="product_user"> {{recentads.condition}} | in {{recentads.locality.locality}} | By {{recentads.you_are}}</span>
                   </div> <!-- detail -->
