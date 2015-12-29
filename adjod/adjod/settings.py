@@ -107,7 +107,6 @@ MIDDLEWARE_CLASSES = (
     'adjod.middleware.Global',
     # setting for social auth backend  and tracking by Priya
     'social_auth.middleware.SocialAuthExceptionMiddleware',
-    'tracking.middleware.VisitorTrackingMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS += (
@@ -169,7 +168,6 @@ INSTALLED_APPS = (
     'paypal.standard.ipn',   
     'djmoney_rates',
     'social_auth',
-    'tracking',
     # 'communication',
     # 'smsverify',
     # 'rollyourown.seo',

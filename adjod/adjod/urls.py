@@ -132,9 +132,6 @@ urlpatterns = patterns('',
     # url for login using social Auth By Priya
     url(r'', include('social_auth.urls')),
     url(r'^complete/(?P<backend>[^/]+)/$', AuthComplete.as_view()),
-   
-    # For Track the user's by Priya
-    url(r'^tracking/', include('tracking.urls')),
     
     # Test for geo location (comment for future reference)
     # url(r'^(?i)testpage/$', 'adjod.views.geosearch'),
