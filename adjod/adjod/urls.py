@@ -59,10 +59,9 @@ urlpatterns = patterns('',
     url(r'^addproduct/$', 'advertisement.views.product_save',name='product_save'),
 
     # Paypal
-    url(r'^paypal/$', 'adjod.views.view_that_asks_for_money', name='paypal'),
-    url(r'^show_me_the_money/$', include('paypal.standard.ipn.urls')),
-    # url(r'^notify/$', 'adjod.views.notify', name='notify'),
-
+    url(r'^paypal/$', include('paypal.standard.ipn.urls')),
+    url(r'^test_paypal/$', 'adjod.views.test_paypal',name='test_paypal'),
+    
     # Find locality for city when ajax call
     url(r'^localities_for_city/$','advertisement.views.localities_for_city', name='localities_for_city'),
 
@@ -85,8 +84,8 @@ urlpatterns = patterns('',
     # Find Brand when ajax call
     url(r'^brand_for_subcategory/$', 'advertisement.views.brand_for_subcategory',name='brand'),
 
-    # Find Subcategory with pass category dynamically in url
-    url(r'^(?i)categories/(?P<pname>.*)/$', 'advertisement.views.sub_category',name='sub_category'),
+    # Find Subcategory with pass category dynamically in url (Comment this for future reference)
+    # url(r'^(?i)categories/(?P<pname>.*)/$', 'advertisement.views.sub_category',name='sub_category'),
 
     #For language translation
     url(r'^(?i)i18n/', include('django.conf.urls.i18n')),
@@ -130,6 +129,10 @@ urlpatterns = patterns('',
     url(r'^loadbasecurrency/$', 'adjod.views.loadbasecurrency',name='loadbasecurrency'),
     url(r'^update_profile/$', 'adjod.views.update_profile',name='update_profile'),
 
-    # Test for geo location
-    url(r'^(?i)testpage/$', 'adjod.views.geosearch'),
+    # Test for geo location (comment for future reference)
+    # url(r'^(?i)testpage/$', 'adjod.views.geosearch'),
+
+    url(r'^(?i)handler404/$', 'adjod.views.custom_404', name='custom_404'),
+    
+
 )+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

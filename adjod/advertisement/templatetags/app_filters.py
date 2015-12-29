@@ -42,7 +42,7 @@ def get_brandforsubcategory(subCategoryId):
 
 @register.filter
 def get_banner(banner):
-	banner=SiteBanner.objects.all()
+	banner=PostBanner.objects.all()
 	return banner
 
 @register.filter

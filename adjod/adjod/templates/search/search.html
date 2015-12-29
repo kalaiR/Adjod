@@ -123,28 +123,28 @@
                           <ul class="hide_list hidelist1">
                                <li class="list_folder">
                                <input type="checkbox" class="css-checkbox sme pricerange" name="pricerange" value ="0.0#21.27" />
-                               <label for="checkbox1">{{request.COOKIES.country|get_symbol}}{{21.27|conversion|quantize}} &amp; Below</label>
+                               <label for="checkbox1">{{country_code|get_symbol}}{{21.27|conversion|quantize}} &amp; Below</label>
                                </li>
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="21.27#106.37"/>
-                                    <label for="checkbox1">{{request.COOKIES.country|get_symbol}}{{21.27|conversion|quantize}} - {{request.COOKIES.country|get_symbol}}{{106.37|conversion|quantize}}</label>
+                                    <label for="checkbox1">{{country_code|get_symbol}}{{21.27|conversion|quantize}} - {{country_code|get_symbol}}{{106.37|conversion|quantize}}</label>
                                </li>
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="106.37#106.37"/>
-                                    <label for="checkbox1">{{request.COOKIES.country|get_symbol}}{{106.37|conversion|quantize}} - {{request.COOKIES.country|get_symbol}}{{106.37|conversion|quantize}}</label>
+                                    <label for="checkbox1">{{country_code|get_symbol}}{{106.37|conversion|quantize}} - {{country_code|get_symbol}}{{106.37|conversion|quantize}}</label>
                                </li>
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="319.1#531.84"/>
-                                    <label for="checkbox1">{{request.COOKIES.country|get_symbol}}{{319.1|conversion|quantize}} - {{request.COOKIES.country|get_symbol}}{{531.84|conversion|quantize}}</label>
+                                    <label for="checkbox1">{{country_code|get_symbol}}{{319.1|conversion|quantize}} - {{country_code|get_symbol}}{{531.84|conversion|quantize}}</label>
                                </li>
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="531.84#1063.68"/>
-                                    <label for="checkbox1">{{request.COOKIES.country|get_symbol}}{{531.84|conversion|quantize}} - {{request.COOKIES.country|get_symbol}}{{1063.68|conversion|quantize}}</label>
+                                    <label for="checkbox1">{{country_code|get_symbol}}{{531.84|conversion|quantize}} - {{country_code|get_symbol}}{{1063.68|conversion|quantize}}</label>
                                </li>
 
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="1063.68#21278.61"/>
-                                    <label for="checkbox1">{{request.COOKIES.country|get_symbol}}{{1063.68|conversion|quantize}} & Above</label>
+                                    <label for="checkbox1">{{country_code|get_symbol}}{{1063.68|conversion|quantize}} & Above</label>
                                </li>
 
                                <input type="hidden" id="price_start" value="" name="price_start"/>
@@ -196,14 +196,14 @@
                       <span class="year">{{product.object.created_date}}</span>
                   </div>
                   <div class="additional_details">
-                    <h3>{{request.COOKIES.country|get_symbol}}{{product.object.price|conversion|quantize}}</h3>
+                    <h3>{{country_code|get_symbol}}{{product.object.price|conversion|quantize}}</h3>
                     <div class="number_verify_control visible-lg">
                       <span class="number_verify1"><i class="fa fa-check-circle checkcircle">
                       </i></span>
                     </div>
-                    <div class="product_users {{product.object.userprofile.user.username}}_user" style="display:none;">{{product.object.userprofile.user.username}}</div>
+                    <div class="product_users {{product.object.userprofile.username}}_user" style="display:none;">{{product.object.userprofile.username}}</div>
 
-                    <!-- <a class="btn btn-default contact_button contact-button" href="javascript:openChatBox('{{product.object.userprofile.user.first_name}}', '', false)"> Chat Now</a> -->
+                    <!-- <a class="btn btn-default contact_button contact-button" href="javascript:openChatBox('{{product.object.userprofile.first_name}}', '', false)"> Chat Now</a> -->
                     <div id='main-sort-chat' class='main-sort-chat main-chat-window'>
 
                     </div>

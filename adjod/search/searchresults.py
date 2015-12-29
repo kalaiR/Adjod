@@ -57,7 +57,6 @@ def tokenize(query, double_check=True):
   return [q.strip() for q in tokens if q]
 
 def prepare_search_query(query, search_field='searchtext'):
-  print "prepare_search_query", search_field
   query = query or ''
   qs = None
 
@@ -87,9 +86,6 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
 
   if params is None:
     params = OrderedDict([('locality', None), ('category', None), ('brandtype', None), ('price', None),('pricehigh', None),('pricelow', None), ('price_start', None), ('price_end', None), ('subcategory', None),('city', None),('country', None),('ispremium', None)])   
-  #   params = OrderedDict([('locations', None), ('keywords', None), ('lang', ['en', 'sv', 'de']), ('category', None), ('budget_start', None), ('budget_end', None), ('deal_start', None), ('deal_end', None), ('price_start', None), ('price_end', None), ('created_start', None), ('created_end', None), ('ranking_start', None), ('ranking_end', None), ('rating_start', None), ('rating_end', None)]) 
-  print "params['country']", params['country']
-  print "params['ispremium']", params['ispremium']
   
   if orderby is None:
     # orderby = 'created_date'  
@@ -98,13 +94,10 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
   mappings = param_mappings or default_param_mappings
 
   sqs = SearchQuerySet().all()
-  print "sqs", sqs
   if q:
     qs = prepare_search_query(q, default_search_field)
-    print "qs", qs
     if qs:
       sqs = SearchQuerySet().filter(qs)
-      print "sqs", sqs
      
   sqs = sqs.models(model_cls)
   # sqs = sqs.filter(**default_filters)
@@ -118,12 +111,9 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
     
   if sq_params:
     sqs = sqs.filter(**sq_params)
-    print "sqs with params", sqs
-
+    
   if orderby:
-    print "orderby", orderby
     sqs = sqs.order_by(orderby)
-    print "sqs", sqs
 
   if groupby:
     sqs = sqs.facet(groupby)

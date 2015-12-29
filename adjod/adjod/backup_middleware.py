@@ -1,7 +1,9 @@
 from core import helper
 from adjod import globals
 from django.conf import settings
+from django.utils import translation
 from adjod.util import get_client_ip
+from adjod.util import *
 from advertisement.models import *
 
 #Middleware class for finding global_lanugage, global_country, global_ip when user enter into the website
@@ -12,27 +14,25 @@ class Global(object):
     global_ip=''
     global_city=''
     global_city_id=''
-    
     def process_request(self, request):
+        # print "enter process_request"
         globals.request = request
         globals.user = getattr(request, 'user', None)
         globals.ip = get_client_ip(request)
+        # print "globals.ip", globals.ip
         if ',' in globals.ip:
             globals.ip = globals.ip.split(',')[0].strip()
         globals.sess = request.session.session_key
-        self.global_country = "Singapore"
-        self.global_country_code = "SG"
-        self.global_city="Singapore"
-        self.global_city_id = "1"
-        self.global_ip = globals.ip
-        self.global_language= "en"
+        self.global_country,self.global_country_code=get_global_country(request)
+        self.global_city, self.global_city_id=get_global_city(request)
+        self.global_ip= globals.ip
+        self.global_language=get_global_language(request)
         if request.user.is_authenticated():
             try:
                 request.user.last_login = helper.get_now()
                 request.user.save()
             except Exception, e:
                 pass
-    
     def process_response(self, request, response):
         """while response set cookie for language"""
         if self.global_language:
@@ -61,7 +61,7 @@ class Global(object):
                 city, max_age = 365 * 24 * 60 * 60)
 
         if self.global_city_id:
-            city=int(self.global_city_id)
+            city=self.global_city_id
             response.set_cookie("global_city_id",
                                 city, max_age = 365 * 24 * 60 * 60)
         return response

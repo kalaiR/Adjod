@@ -4,8 +4,8 @@ from django.contrib import admin
 
 #Admin functionalities for userprofile model
 class UserProfileAdmin(admin.ModelAdmin):
-    fields=['user','city','mobile','confirmation_code']
-    list_display = ('id', 'user','city','mobile','confirmation_code' )
+    fields=['city','mobile','confirmation_code']
+    list_display = ('id','city','mobile','confirmation_code' )
     list_filter = ['city']
     search_fields = ['id', 'mobile']
     list_per_page = 50   

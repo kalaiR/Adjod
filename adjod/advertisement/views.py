@@ -50,6 +50,8 @@ import simplejson as json
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from adjod.util import *
+from paypal.standard.ipn.views import paypal_transaction
+from django.db import transaction
 
 # A couple of request objects - one PJAX, one not.
 rf = RequestFactory()
@@ -66,6 +68,7 @@ class JSONResponse(HttpResponse):
         super(JSONResponse, self).__init__(
                 simplejson.dumps(data), mimetype='application/json')
 
+
 def localities_for_city(request):
     if request.is_ajax() and request.GET and 'city_id' in request.GET:
         print "request.GET['city_id']", request.GET['city_id']
@@ -76,6 +79,7 @@ def localities_for_city(request):
     else:
         return JSONResponse({'error': 'Not Ajax or no GET'})
 
+# Comment this code for future reference
 # def models_for_brand(request):
 #     if request.is_ajax() and request.GET and 'brand_id' in request.GET:
 #         objs1 = Dropdown.objects.filter(brand_refid=request.GET['brand_id'])
@@ -84,6 +88,7 @@ def localities_for_city(request):
 #             for o1 in objs1])
 #     else:
 #         return JSONResponse({'error': 'Not Ajax or no GET'})
+
 
 def subcategory_for_category(request):
     # print "subcategory_for_category"
@@ -95,11 +100,11 @@ def subcategory_for_category(request):
     else:
         return JSONResponse({'error': 'Not Ajax or no GET'})
 
+
 def brand_for_subcategory(request):
     # print "brand_for_subcategory"
     if request.is_ajax() and request.GET and 'sub_category_id' in request.GET:
         print request.GET['sub_category_id']
-        # objs1 = Dropdown.objects.filter(subcat_refid=request.GET['sub_category_id']).exclude(brand_name='')
         objs1 = Dropdown.objects.filter(subcat__id=request.GET['sub_category_id'])
         for obj in objs1:
             print obj.brand_name
@@ -108,11 +113,13 @@ def brand_for_subcategory(request):
     else:
         return JSONResponse({'error': 'Not Ajax or no GET'})
 
-def sub_category(request, pname=None):
-    cat=Category.objects.get(name=pname)
-    subcategory = SubCategory.objects.filter(category_id=cat.id)
-    ctx = {'subcategory':subcategory,'cat':cat}
-    return render_to_response('adjod/subcategory.html', ctx , context_instance=RequestContext(request))
+# Comment this code for future reference
+# def sub_category(request, pname=None):
+#     cat=Category.objects.get(name=pname)
+#     subcategory = SubCategory.objects.filter(category_id=cat.id)
+#     ctx = {'subcategory':subcategory,'cat':cat}
+#     return render_to_response('adjod/subcategory.html', ctx , context_instance=RequestContext(request))
+
 
 # this is for pjax testing
 # @pjax("pjax.html")
@@ -121,7 +128,7 @@ def product_detail(request, pk):
     large=str(adinfo.photos).split(',')
     largephoto=large[0]
     photos=[n for n in str(adinfo.photos).split(',')]
-
+    #Comment For Future Reference
     # results = SearchQuerySet().all()
     # sqs = SearchQuerySet().filter(content=adinfo.title)
     # print "sqs",sqs
@@ -131,7 +138,6 @@ def product_detail(request, pk):
     # print "recommendresults", recommendresults
     # for recommendresult in recommendresults:
     #     print "searchresults:", recommendresult
-
     related_product=Product.get_related(adinfo)
     print "related_product", related_product
     ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto,'related_product':related_product}
@@ -140,227 +146,178 @@ def product_detail(request, pk):
 
 @pjax("pjax.html")
 def product_form(request, name=None, subname=None):
-    #Paypal transaction
-    from paypal.standard.forms import PayPalPaymentsForm
-    from paypal.standard.ipn.signals import payment_was_successful
-    userid=request.user.id
-    if request.user.is_authenticated():
-            paypal_dict = {
-            "business": settings.PAYPAL_RECEIVER_EMAIL,
-            "item_name": "Advertisement Merchant",
-            # "invoice": "unique-invoice-id",
-
-            "notify_url": "http://" + settings.SITE_NAME + "/show_me_the_money/",
-            "return_url": "http://"  + settings.SITE_NAME + "/show_me_the_money/",
-            "cancel_return": "http://" + settings.SITE_NAME + "/postad/?transactionfail=error",
-
-            # "notify_url": 'http://46.4.81.207:9000/show_me_the_money',
-            # "return_url": "http://46.4.81.207:9000/",
-            # "cancel_return": "http://46.4.81.207:9000/?transactionfail=error",
-            }
-
-            form = PayPalPaymentsForm(initial=paypal_dict)
-            userprofile = UserProfile.objects.get(user_id=userid)
+    if request.user.is_authenticated():       
+        if not request.user.is_superuser:
+            userprofile = UserProfile.objects.get(id=request.user.id)
             if userprofile.ad_count>3 and userprofile.is_subscribed == 0:
-                return HttpResponseRedirect('/')
-            else:
-                category=Category.objects.all()
-                # dropdown=Dropdown.objects.all().exclude(year='', color='')
-                dropdown=Dropdown.objects.all()
-                # city=City.objects.all()
-
-                # country=request.COOKIES.get("country")
-                # country=Country.objects.get(code=request.COOKIES.get('country'))
-                # city=City.objects.filter(country_id=country.id)
-                # print city
-                # ctx = {'userprofile':userprofile, 'category':category,'city':city,'dropdown':dropdown,"form":form,"paypal":paypal_dict}
-
-                ctx = {'userprofile':userprofile, 'category':category,'dropdown':dropdown,"form":form,"paypal":paypal_dict}
-
-                # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
-                return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
-    else:
-        category=Category.objects.all()
-        # dropdown=Dropdown.objects.all().exclude(year='', color='')
-        dropdown=Dropdown.objects.all()
-        # city=City.objects.all()
-
-        #country=request.COOKIES.get("country")
-        # country=Country.objects.get(code=request.COOKIES.get('country'))
-        # city=City.objects.filter(country_id=country.id)
-        # print city
-        # ctx = {'userid':userid, 'category':category,'city':city,'dropdown':dropdown}
-
-        ctx = {'userid':userid, 'category':category,'dropdown':dropdown}
-
-        # return render_to_response('advertisement/ad_post.html', ctx , context_instance=RequestContext(request))
-        return TemplateResponse(request, 'advertisement/ad_post.html', ctx)
+                return HttpResponseRedirect('/')        
+    return TemplateResponse(request, 'advertisement/ad_post.html')
 
 #Fuction for storing in images or vidoes in our folder
 def handle_uploaded_file(f):
-    print "f", f
-    print "f.name", f.name
     file_data = open(settings.MEDIA_ROOT + '/products/' + '%s' % f.name, 'wb+')
     for chunk in f.chunks():
         file_data.write(chunk)
     file_data.close()
 
+def create_path_for_photos_thumbanails(photos, product):
+    #Creating path for large photos
+    photosgroup = ''
+    count=len(photos)
+    for uploaded_file in photos:
+        count=count-1
+        handle_uploaded_file(uploaded_file)
+        if count==0:
+            photosgroup=photosgroup + 'products/' + str(uploaded_file)
+        else:
+            photosgroup=photosgroup + 'products/' + str(uploaded_file) + ','
+    large_photos=photosgroup
+
+    # Creating path for thumbnail photos
+    photo=str(large_photos)
+    photos=photo.split(',')
+    
+    imagecount= len(photos)
+    
+    thumbnail_group=''
+    if large_photos:
+        from PIL import Image as ImageObj
+        from cStringIO import StringIO
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        import os
+        try:
+            count =len(photos)
+            for photo in photos:
+                count=count-1
+                THUMBNAIL_SIZE = (100, 100) # dimensions
+                image = ImageObj.open(settings.MEDIA_ROOT + '/' + photo)
+                # Convert to RGB if necessary
+                if image.mode not in ('L', 'RGB'): image = image.convert('RGB')
+                # create a thumbnail + use antialiasing for a smoother thumbnail
+                image.thumbnail(THUMBNAIL_SIZE, ImageObj.ANTIALIAS)
+                # fetch image into memory
+                temp_handle = StringIO()
+                # print "temp", temp_handle
+                image.save(temp_handle, 'png')
+                temp_handle.seek(0)
+                disassembled = urlparse(photo)
+                filename, file_ext = splitext(basename(disassembled.path))
+                suf = SimpleUploadedFile(filename + file_ext, temp_handle.read(), content_type='image/png')
+                product.thumbnail.save(filename + '_thumbnail' +'.png', suf, save=False)
+                # print product.thumbnail
+                if count == 0:
+                    thumbnail_group = thumbnail_group + str(product.thumbnail)
+                else:
+                    thumbnail_group = thumbnail_group + str(product.thumbnail) + ','
+            # print thumbnail_group
+        except ImportError:
+            pass
+    thumbnail_photos = thumbnail_group           
+    return large_photos, imagecount, thumbnail_photos
+
+#Here Save the post ad after checked the required condition
+def post_success(request, product):
+    error = {}
+    product.category=Category.objects.get(id=request.POST['category_name'])
+    product.subcategory=SubCategory.objects.get(id=request.POST['subcategory_name'])
+    if request.POST['brand_name']:
+        product.ad_brand=Dropdown.objects.get(id=request.POST['brand_name'])
+    else:
+        product.ad_brand=None   
+    # product.adtype=request.POST.get('condition')
+    product.adtype= "sell"        
+    product.title=request.POST.get('ad_title')
+    product.price = currency_conversion(request.POST.get('your_price'),request.COOKIES.get('country_code'))
+    product.ad_year=request.POST.get('your_year')
+    product.description=request.POST.get('description')
+    product.you_are = request.POST.get('you_are_radio')
+    product.you_name = request.POST.get('your_name')
+    product.you_email = request.POST.get('your_email')
+    product.you_phone = request.POST.get('your_mobile_no')
+    print "request.POST['your_city']",request.POST['your_city']
+    product.city=City.objects.get(id=int(request.POST['your_city']))
+    product.locality=Locality.objects.get(id=request.POST['your_locality'])
+    product.country_code = request.COOKIES.get("country_code")   
+    # product.photos=request.FILES['photos']
+    photos =request.FILES.getlist('photos[]')   
+    product.photos, product.imagecount, product.thumbnail = create_path_for_photos_thumbanails(photos, product)
+    product.video = request.POST.get('video_url')
+    product.created_date  = datetime.datetime.now()
+    product.modified_date  = datetime.datetime.now()
+    product.expired_date=datetime.datetime.now() + datetime.timedelta(days=30)
+    product.status_isactive  = True
+    product.post_terms=request.POST.get('terms_of_use')
+    if request.user.is_authenticated():
+        if request.POST.get('premium_plan'):
+            plan_price = request.POST["premium_plan"]
+            product.premium_plan = PremiumPriceInfo.objects.get(premium_price=plan_price)
+            product.ispremium = True
+            product_dict = {'userprofile':product.userprofile.id, 'category':product.category, 'subcategory':product.subcategory,
+                        'adtype':product.adtype,'title':product.title, 'photos':product.photos,'thumbnail':product.thumbnail,
+                        'imagecount':product.imagecount,'video':product.video,'condition':product.condition,'price':product.price,
+                        'ad_year':product.ad_year, 'city':product.city, 'locality':product.locality,'country_code':product.country_code,
+                        'description':product.description,'you_are':product.you_are, 'you_name':product.you_name,'you_email':product.you_email,
+                        'you_phone':product.you_phone,'isregistered_user':product.isregistered_user,'ispremium':product.ispremium,
+                        'premium_plan':product.premium_plan,'expired_date':product.expired_date,'status_isactive':product.status_isactive,
+                        'post_term_status':product.post_term_status,"premium_plan":product.premium_plan.id}       
+            response = product_dict
+        else:
+            response = None
+    else:
+        response = None
+    product.save()
+    return response
+    
+
+#Check whether to save the product or not
+@transaction.commit_on_success
 def product_save(request):
-    print "product_save"
-    print request.POST
-    product=Product()
-
-    def post_product_save():
-        print "request.user", request.user.id       
-        product.category=Category.objects.get(id=request.POST['category_name'])
-        product.subcategory=SubCategory.objects.get(id=request.POST['subcategory_name'])
-        if request.POST['brand_name']:
-            product.ad_brand=Dropdown.objects.get(id=request.POST['brand_name'])
-        else:
-            product.ad_brand=None
-        # product.adtype=request.POST.get('condition')
-        product.adtype= "sell"
-        product.title=request.POST.get('ad_title')
-        product.price = currency_conversion(request.POST.get('your_price'),request.COOKIES.get('country_code'))
-        # country_id=Country.objects.get(code=request.COOKIES.get('country'))
-        # for key,value in CURRENCIES_BY_COUNTRY_CODE.items():
-        #     if str(key) == str(country_id):
-        #         isocode=value
-        # current_country = isocode
-        # print 'current_country', current_country
-        # base_currency= settings.BASE_CURRENCY
-        # convert_price = convert_money_without_symbol(float(price),current_country,base_currency)
-        # print "convert_price",convert_price
-        # product.price=convert_price
-
-        product.ad_year=request.POST.get('your_year')
-        product.description=request.POST.get('description')
-        product.you_are = request.POST.get('you_are_radio')
-        print "request.POST.get('your_name')", request.POST.get('your_name')
-        print "request.POST.get('your_email')", request.POST.get('your_email')
-        product.you_name = request.POST.get('your_name')
-        product.you_email = request.POST.get('your_email')
-        product.you_phone = request.POST.get('your_mobile_no')
-        product.city=City.objects.get(id=request.POST['your_city'])
-        product.locality=Locality.objects.get(id=request.POST['your_locality'])
-        product.country_code,temp =get_global_country(request)
-        # product.photos=request.FILES['photos']
-
-        #photos
-        product.photos =request.FILES.getlist('photos[]')
-        print product.photos
-        photosgroup = ''
-        count=len(product.photos)
-        print "count", count
-        for uploaded_file in product.photos:
-            count=count-1
-            handle_uploaded_file(uploaded_file)
-            if count==0:
-                photosgroup=photosgroup + 'products/' + str(uploaded_file)
+    if request.method == 'POST':
+        print "product_save"
+        product=Product() 
+        try:
+            error={}
+            if request.user.is_authenticated():
+                product.userprofile = UserProfile.objects.get(id=request.user.id)
+                product.isregistered_user = True
+                if product.userprofile.ad_count<3:
+                    product_dict = post_success(request, product) 
+                    #Store in Userprofile table to know the status of users post ad counts
+                    product.userprofile.ad_count = int(product.userprofile.ad_count) + 1
+                    product.userprofile.save() 
+                    if product_dict is None:
+                        error['success'] = ugettext('Ad Successfully posted')
+                        raise ValidationError(error['success'], 5)
+                    else: 
+                        response = paypal_transaction(request,product_dict)
+                        print "after all"
+                        return response
+                else:
+                    # get_object_or_404('/postad/')
+                    error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium')
+                    print "error['exit_count']",error['exit_count']
+                    raise ValidationError(error['exit_count'], 6)
             else:
-                photosgroup=photosgroup + 'products/' + str(uploaded_file) + ','
-        product.photos=photosgroup
+                product.userprofile = None
+                post_success(request, product)
+                error['success'] = ugettext('Ad Successfully posted')
+                raise ValidationError(error['success'], 5)
 
-        photo=str(product.photos)
-        photos=photo.split(',')
-        product.imagecount= len(photos)
-        thumbnail_group=''
-        if product.photos:
-            from PIL import Image as ImageObj
-            from cStringIO import StringIO
-            from django.core.files.uploadedfile import SimpleUploadedFile
-            import os
-            try:
-                count =len(photos)
-                for photo in photos:
-                    count=count-1
-                    THUMBNAIL_SIZE = (100, 100) # dimensions
-                    image = ImageObj.open(settings.MEDIA_ROOT + '/' + photo)
-                    # Convert to RGB if necessary
-                    if image.mode not in ('L', 'RGB'): image = image.convert('RGB')
-                    # create a thumbnail + use antialiasing for a smoother thumbnail
-                    image.thumbnail(THUMBNAIL_SIZE, ImageObj.ANTIALIAS)
-                    # fetch image into memory
-                    temp_handle = StringIO()
-                    # print "temp", temp_handle
-                    image.save(temp_handle, 'png')
-                    temp_handle.seek(0)
-                    disassembled = urlparse(photo)
-                    filename, file_ext = splitext(basename(disassembled.path))
-                    suf = SimpleUploadedFile(filename + file_ext, temp_handle.read(), content_type='image/png')
-                    product.thumbnail.save(filename + '_thumbnail' +'.png', suf, save=False)
-                    # print product.thumbnail
-                    if count == 0:
-                        thumbnail_group = thumbnail_group + str(product.thumbnail)
-                    else:
-                        thumbnail_group = thumbnail_group + str(product.thumbnail) + ','
-                # print thumbnail_group
-            except ImportError:
-                pass
-        product.thumbnail = thumbnail_group
-        
-        product.video = request.POST.get('video_url')
-        print "video", product.video
-
-        product.created_date  = datetime.datetime.now()
-        # product.expired_date = product.created_date + datetime.timedelta(days=30)
-        product.modified_date  = datetime.datetime.now()
-        product.status_isactive  = True
-        # if request.POST['user_subscription']:
-        # if product.ispremium == True:
-        #     product.premium_plan=PremiumPriceInfo.objects.get(id='1') # here 1 replaced with some other value after paypal has complete
-        # else:
-        #     product.premium_plan=None
-
-        # product.country=Country.objects.get(id=1)
-        product.post_terms=request.POST.get('terms_of_use')
-        product.save()
-
-    def success_message():
-        post_product_save()
-        error['success'] = ugettext('Ad Successfully posted')
-        print "error['exit_count']",error['success']
-        raise ValidationError(error['success'], 5)
-
-    try:
-        error={}
-        if request.user.is_authenticated():
-            product.userprofile = UserProfile.objects.get(user_id=request.user.id)
-            product.isregistered_user = True
-            if product.userprofile.ad_count<=3:
-                print "product.userprofile.ad_count", product.userprofile.ad_count
-                product.userprofile.ad_count = int(product.userprofile.ad_count) + 1
-                product.userprofile.save()
-                print "userprofile.ad_count", product.userprofile.ad_count
-                success_message()
-            else:
-                print "else authenticate"
-                # get_object_or_404('/postad/')
-                error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium')
-                print "error['exit_count']",error['exit_count']
-                raise ValidationError(error['exit_count'], 6)
-        else:
-            print "else"
-            product.userprofile = None
-            product.expired_date=datetime.datetime.now() + datetime.timedelta(days=10)
-            success_message()
-
-    except ValidationError as e:
-        messages.add_message(request, messages.ERROR, e.messages[-1])
-        redirect_path = "/postad/"
-        query_string = 'pt=%d' % e.code
-        redirect_url = format_redirect_url(redirect_path, query_string)
-        return HttpResponseRedirect(redirect_url)
+        except ValidationError as e:
+            messages.add_message(request, messages.ERROR, e.messages[-1])
+            redirect_path = "/postad/"
+            query_string = 'pt=%d' % e.code
+            redirect_url = format_redirect_url(redirect_path, query_string)
+            return HttpResponseRedirect(redirect_url)
+    else:
+        return HttpResponseRedirect("/postad/")
 
 def freealert_save(request):
     # try:
     error={}
     freealert=FreeAlert()
     if request.user.is_authenticated():
-        user=request.user.id
-        userprofile=User.objects.get(id=user)
-        # print "userprofile.id", userprofile.id
-        freealert.alert_user=UserProfile.objects.get(user=userprofile.id)
+        freealert.alert_user=UserProfile.objects.get(id=request.user.id)
     else:
         freealert.alert_user=None
     freealert.alert_category=Category.objects.get(id=request.POST['your_category'])
@@ -403,8 +360,8 @@ def get_user_products(request):
     user_email=request.POST['user_email']
     print "user_name", user_name
     print "user_email", user_email
-    user_id = User.objects.get(username=user_name, email=user_email)
-    userprofile_id = UserProfile.objects.get(user=user_id)
+    # user_id = User.objects.get(username=user_name, email=user_email)
+    userprofile_id = UserProfile.objects.get(username=user_name, email=user_email)
     product_id = Product.objects.filter(userprofile=userprofile_id.id)
     product = [productid.id for productid in product_id]
     return JSONResponse(product)

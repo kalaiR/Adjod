@@ -42,77 +42,47 @@ from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.ipn.signals import payment_was_successful
 
 # from django.contrib.sites.models import get_current_site
-
 from adjod.util import format_redirect_url
 from django.core.exceptions import ValidationError
 from django.contrib import messages
+
 #for currency conversion
 from djmoney_rates.models import Rate
 from adjod.models import BaseCurrency, ExchangeRate
+
 # For Chat
 from chat.models import *
 
-#Paypal transaction definition
-@csrf_exempt
-def show_me_the_money(sender, **kwargs):
-    # print "show_me_the_money"
-    ipn_obj = sender
-    payStatus=ipn_obj.POST.get('payment_status','')
-    if payStatus=='Completed':
-        print "show_me_the_money1"
-    # Undertake some action depending upon `ipn_obj`.
-    # if ipn_obj.custom == "Upgrade all users!":
-    #     User.objects.update(paid=True)
-# print "show_me_the_money2"
-payment_was_successful.connect(show_me_the_money)
-
-def notify(request):
-    # print "notify"
-    # print "request", request.REQUEST['business']
-    return HttpResponseRedirect("/")
-
-@csrf_exempt
-def view_that_asks_for_money(request):
-    # userprofile = UserProfile.objects.get(user_id=request.user.id)
-    # if 'transaction=success' in request.REQUEST:
-    #     userprofile.is_subscribed=True
-    # elif 'transaction=error' in request.REQUEST:
-    #     userprofile.is_subscribed=False
-
+def test_paypal(request):
     # What you want the button to do.
-    # paypal_dict = {
-    #     # "business": settings.PAYPAL_RECEIVER_EMAIL,
-    #     # "amount": "10.00",
-    #     # "item_name": "Advertisement Merchant",
-    #     # "invoice": "unique-invoice-id",
-    #     # "notify_url": 'http://192.168.1.35:8000/show_me_the_money',
-    #     # "return_url": "http://192.168.1.35:8000/",
-    #     "cancel_return": "http://192.168.1.35:8000/?transactionfail=error",
-    #     # "notify_url": 'http://46.4.81.207:9000/show_me_the_money',
-    #     # "return_url": "http://46.4.81.207:9000/",
-    #     # "cancel_return": "http://46.4.81.207:9000/?transactionfail=error",
-    # }
+    paypal_dict = {
+        "business": settings.PAYPAL_RECEIVER_EMAIL,
+        "amount": "1.00",
+        "item_name": "name of the item",
+        "notify_url": "http://192.168.1.100:8000/paypal/",
+        "return_url": "http://192.168.1.100:8000/paypal/",
+        "cancel_return": "http://192.168.1.100:8000/postad",
+        "custom": "Upgrade all users!",  # Custom command to correlate to some function later (optional)
+    }
 
-    # form = PayPalPaymentsForm(initial=paypal_dict)
-    # context = {"form": form}
-    # return render(request, "payment.html", context)
-    return render_to_response("paypal_integration/payment.html", context_instance=RequestContext(request))
+    # Create the instance.
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    context = {"form": form}
+    return render_to_response('paypal_integration/payment.html',context, context_instance=RequestContext(request))
 
 #Home page defintion
 @csrf_exempt
 def home(request):
-    ctx = {}
     if request.user.is_superuser:
         logout(request)
         return HttpResponseRedirect('/')
-    if request.user.is_authenticated():
-        userprofile=UserProfile.objects.get(user=request.user.id)
-        ctx={'userprofile':userprofile}
-    return render_to_response('adjod/userpage.html', ctx , context_instance=RequestContext(request))
+    return render_to_response('adjod/userpage.html', context_instance=RequestContext(request))
+
 
 @csrf_protect
 def user_login(request):
     if request.method == 'POST':
+        error={}
         username = request.POST['email_id']
         password = request.POST['password']
         if 'search' in request.POST['next']:
@@ -121,7 +91,7 @@ def user_login(request):
             next_url = request.POST['next'].split('?')[0]
         print "next_url", next_url
         try:
-            error={}
+            
             if '@' in username:
                 if not User.objects.filter(email=username).exists():
                     error['email_exists'] = ugettext('Email Doesnot exists')
@@ -129,7 +99,7 @@ def user_login(request):
                     raise ValidationError(error['email_exists'], 1)
             else:
                 if not User.objects.filter(username=username).exists():
-                    error['username_exists'] = ugettext('Username Doesnot exists')
+                    error['username_exists'] = ugettext('Username Does not exists')
                     print "error['username_exists']",error['username_exists']
                     raise ValidationError(error['username_exists'], 2)
         except ValidationError as e:
@@ -148,7 +118,6 @@ def user_login(request):
                 user = User.objects.get(email=username)
             user.backend='django.contrib.auth.backends.ModelBackend'
             try:
-                error={}
                 if user.check_password(password):
                     print user
                 else:
@@ -182,28 +151,36 @@ def user_login(request):
                     return response
                 else:
                     # An inactive account was used - no logging in!
-                    error = ugettext('Account disable')
-                    return errorHandle(error)
-            else:
-                # Bad login details were provided. So we can't log the user in.
-                error = ugettext('Invalid user')
-                print "error", error
-                return errorHandle(error)
+                    try:
+                        error['inactive'] = ugettext('Your Account is already inactive due to non-maintanence')
+                        raise ValidationError(error['inactive'], 4)
+                    except ValidationError as e:
+			            messages.add_message(request, messages.ERROR, e.messages[-1])
+			            if next_url == '/':
+			                redirect_path = "/login/"
+			            else:
+			                redirect_path = next_url
+			            query_string = 'si=%d' % e.code
+			            redirect_url = format_redirect_url(redirect_path, query_string)
+			            return HttpResponseRedirect(redirect_url)
     else:
-      category=Category.objects.all()
-      return render_to_response('adjod/userpage.html', {'category':category}, context_instance=RequestContext(request))
+      return render_to_response('adjod/userpage.html', context_instance=RequestContext(request))
+
+
+def auto_login(request, user):
+    user.backend = 'django.contrib.auth.backends.ModelBackend'
+    login(request, user)
+    request.session.set_expiry(12 * 30 * 24 * 60 * 60)
+
 
 #User registration definition
 @csrf_protect
 def register(request):
-    user=User()
-    userprofile=UserProfile()
-    # If it's a HTTP POST, we're interested in processing form data.
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_anonymous():
+        error={}
         email=request.POST['email_id']
-        username=request.POST['user_id']
-        try:
-            error={}
+        username=request.POST['user_id']        
+        try:   
             if User.objects.filter(email=email).exists():
                 error['email_exists'] = ugettext('Email already exists')
                 print "error['email_exists']",error['email_exists']
@@ -217,76 +194,87 @@ def register(request):
             redirect_path = "/"
             query_string = 'st=%d' % e.code
             redirect_url = format_redirect_url(redirect_path, query_string)
-            return HttpResponseRedirect(redirect_url)
+            return HttpResponseRedirect(redirect_url)     
         if not error:
-            user.is_active = True
-            user.username=request.POST['user_id']
-            user.email=request.POST['email_id']
-            user.password=request.POST['password']
-            user.set_password(user.password)
-            user.first_name=request.POST['user_id']
-            user.save()
-            userprofile.user=user
+            userprofile = UserProfile()
+            userprofile.is_active = True
+            userprofile.username=request.POST['user_id']
+            userprofile.email=request.POST['email_id']
+            userprofile.password=request.POST['password']
+            userprofile.set_password(userprofile.password)
+            userprofile.first_name=request.POST['user_id']
             userprofile.mobile=request.POST['your_mobile_number']
-            if request.COOKIES.get('city'):
+            try: 
                 userprofile.city=City.objects.get(city=request.COOKIES.get('city'))
-            userprofile.language=request.COOKIES.get('adjod_language')
-            userprofile.country_code = userprofile.city.country_code
+            except:
+                userprofile.city=None
+            try: 
+                userprofile.language=request.COOKIES.get('adjod_language')
+            except:
+                userprofile.language=None
+            try: 
+                userprofile.country_code=request.COOKIES.get('country_code')
+            except:
+                userprofile.country_code=None   
             userprofile.age_status=request.POST.get('confirm')
-            confirmation_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for x in range(33))
-            p = UserProfile(user=user, city=userprofile.city, mobile=userprofile.mobile, confirmation_code=confirmation_code, language=userprofile.language,age_status=userprofile.age_status, country_code =userprofile.country_code)
-            p.save()
-            send_registration_confirmation(user)
-            user = User.objects.get(username=user.username)
-            user.backend='django.contrib.auth.backends.ModelBackend'
-            login(request, user)
-            return HttpResponseRedirect('/start/?user_id=' + str(user.id))
+            userprofile.confirmation_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for x in range(33))      
+            userprofile.save()           
+            send_registration_confirmation(userprofile)
+            auto_login(request, userprofile)
+            return HttpResponseRedirect('/start/?user_id=' + str(userprofile.id))
 
-def send_registration_confirmation(user):
-    p = user.get_profile()
-    title = "Adjod account confirmation"
-    content = "http://" + settings.SITE_NAME + "/confirm/" + str(p.confirmation_code) + "/" + user.username
+
+def send_registration_confirmation(userprofile):
+    title = "Resell account confirmation"
+    content = "http://" + settings.SITE_NAME + "/confirm/" + str(userprofile.confirmation_code) + "/" + userprofile.username
     send_templated_mail(
                 template_name = 'welcome',
-                subject = 'Welcome to Resellbuy.com',
+                subject = 'Welcome to Resell.com',
                 from_email = 'testmail123sample@gmail.com',
-                recipient_list = [user.email],
+                recipient_list = [userprofile.email],
                 context={
-                         'user': user,
+                         'user': userprofile,
                          'content':content,
                 },
             )
 
+
 def confirm(request, confirmation_code, username):
     try:
-        user = User.objects.get(username=username)
-        print user.id
-        profile = user.get_profile()
-        if profile.confirmation_code == confirmation_code:
-            # user.is_active = True
-            profile.is_emailverified=True
-            print "user.is_emailverified", profile.is_emailverified
-            # user.save()
-            profile.save()
-            user.backend='django.contrib.auth.backends.ModelBackend'
-            login(request, user)
-            print "confirm7"
-        return HttpResponseRedirect('/start/?user_id=' + str(user.id))
+        userprofile = UserProfile.objects.get(username=username)
+        if userprofile.confirmation_code == confirmation_code:
+            userprofile.is_emailverified=True
+            userprofile.save()
+            auto_login(request, userprofile)
+        return HttpResponseRedirect('/start/?user_id=' + str(userprofile.id))
     except:
         return HttpResponseRedirect('/')
 
-def start(request):
-    user=UserProfile.objects.get(user=request.user.id)
-    #Chat Store Active users
-    last_active = None
+
+def start(request):    
     try:
-        last_active = LastActive.objects.get(user = UserProfile.objects.get(id=user.id))
+        last_active = LastActive.objects.create(user = UserProfile.objects.get(id=request.user.id), session = Session.objects.get(session_key = request.session.session_key))
+        last_active.save()
     except:
-        last_active = LastActive.objects.create(user = UserProfile.objects.get(id=user.id), session = Session.objects.get(session_key = request.session.session_key))
-    last_active.save()
-    if request.user.is_authenticated:
-        userprofile=UserProfile.objects.get(user=request.user.id)
-    return render_to_response('adjod/userpage.html',{'userprofile':userprofile},context_instance=RequestContext(request))
+        pass  
+    response = render_to_response('adjod/userpage.html',context_instance=RequestContext(request))
+    response.set_cookie("chat_email", request.user.email)
+    response.set_cookie("chat_user", request.user.username)
+    response.set_cookie("chat_userid", request.user.id)
+    return response
+
+
+#User Logout definition
+def logout_view(request):
+    if LastActive.objects.filter(user = request.user.id).exists():
+        last_active = LastActive.objects.get(user = request.user.id)
+        last_active.delete()
+    logout(request)
+    response = HttpResponseRedirect("/")
+    response.delete_cookie('chat_email')
+    response.delete_cookie('chat_user')
+    return response
+
 
 # /*  Auto Complete for Category based Brands */
 def autocomplete_keyword(request):
@@ -307,17 +295,6 @@ def autocomplete_keyword(request):
       results.append(v)
   return HttpResponse(simplejson.dumps(results), mimetype='application/json')
 
-#User Logout definition
-def logout_view(request):
-    # user=UserProfile.objects.get(user=request.user.id)
-    # if LastActive.objects.filter(user = user.id).exists():
-    #     last_active = LastActive.objects.get(user = user.id)
-    #     last_active.delete()
-    logout(request)
-    response = HttpResponseRedirect("/")
-    response.delete_cookie('chat_email')
-    response.delete_cookie('chat_user')
-    return response
 
 # /*  Auto Complete for Category based Brands , subCatId='none'*/
 def autocomplete_brandlist(request):
@@ -342,9 +319,8 @@ def autocomplete_brandlist(request):
       results.append(v)
   return HttpResponse(simplejson.dumps(results), mimetype='application/json')
 
+
 #function for Chat
-# def chat(request):
-#     return render_to_response('chat_index.html', context_instance=RequestContext(request))
 def toolbar(request):
     return render_to_response('views/toolbar.html', context_instance=RequestContext(request))
 
@@ -363,29 +339,34 @@ def loadbasecurrency(request):
         conversion.save()
     return HttpResponse('Successfully updated')
 
+
 def update_profile(request):
     return render_to_response('adjod/updateprofile.html', context_instance=RequestContext(request))
 
-def geosearch(request):
-    starttime = time()
-#     ipaddress = request.GET.get('ipaddress', '')
-    ipaddress=get_client_ip(request)
-    print 'newip', ipaddress
-#     if not ipaddress:
-#         ipaddress = globals.ip
-    g = GeoIP()
-    country = g.country_code(ipaddress)
-    print "country:", country
-#     language=get_global_language(country)
-#     print "language", language
-    timetaken = time() - starttime
-    language="None"
-    country_language_dict = {
-                    'AU':'en','IN':'en','SE':'sv','DE':'de','SG':'en','SX':'en',}
-    for key,value in country_language_dict.items():
-        if country==key:
-            language=value
-    city=g.city(ipaddress)['city']
-    return render_to_response('adjod/testpage.html', {
-        'country':country, 'ipaddress':ipaddress, 'timetaken':timetaken,'language':language,'city':city
-      }, context_instance=RequestContext(request))
+#Test geo comment this for future reference
+# def geosearch(request):
+#     starttime = time()
+# #     ipaddress = request.GET.get('ipaddress', '')
+#     ipaddress=get_client_ip(request)
+#     print 'newip', ipaddress
+# #     if not ipaddress:
+# #         ipaddress = globals.ip
+#     g = GeoIP()
+#     country = g.country_code(ipaddress)
+#     print "country:", country
+# #     language=get_global_language(country)
+# #     print "language", language
+#     timetaken = time() - starttime
+#     language="None"
+#     country_language_dict = {
+#                     'AU':'en','IN':'en','SE':'sv','DE':'de','SG':'en','SX':'en',}
+#     for key,value in country_language_dict.items():
+#         if country==key:
+#             language=value
+#     city=g.city(ipaddress)['city']
+#     return render_to_response('adjod/testpage.html', {
+#         'country':country, 'ipaddress':ipaddress, 'timetaken':timetaken,'language':language,'city':city
+#       }, context_instance=RequestContext(request))
+
+def custom_404(request):
+   return render_to_response('404.html')

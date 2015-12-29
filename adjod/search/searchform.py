@@ -28,12 +28,9 @@ class Partial(Clean):
         if query_string[-1] != '*':
           query_string = query_string + u'*'
 
-        print "Searching", self.original, query_string
         return 
 
 class ProductSearchFilter(FacetedSearchForm):
-    print 'LeadSearchFilter'
-    #Code included by Ramu
     model = None
 
     price_start = forms.FloatField(required=False)
@@ -53,8 +50,7 @@ class ProductSearchFilter(FacetedSearchForm):
     city=forms.CharField(required=False)
     groupby = forms.CharField(required=False)
    
-    def no_query_found(self):
-      print 'no_query_found'  
+    def no_query_found(self): 
       data = self.searchqueryset.all()  
         
       if hasattr(self, 'cleaned_data'):
@@ -63,8 +59,7 @@ class ProductSearchFilter(FacetedSearchForm):
           if self.cleaned_data['sorteddata']:
               if (self.cleaned_data['sorteddata'] == "createddate"):
                 data = data.filter(status_isactive=1).order_by('created_date')
-                print "data", data
-              
+                
               # if (self.cleaned_data['sorteddata'] == "modifieddate"):
               #  data = data.filter(status_isactive=1).order_by('modified_date')
               
@@ -77,43 +72,24 @@ class ProductSearchFilter(FacetedSearchForm):
       return data
   
     def get_default_queryset(self, request):          
-        print 'get_default_queryset' 
         sqs = SearchQuerySet().all()
         sqs = sqs.models(Product)
-        currentcity, city_id = get_global_city(request)
-        print "currentcity", currentcity
-        print "int(city_id)", int(city_id)
+        currentcity = "Singapore"
+        city_id = "1"
         return sqs.filter(status_isactive=1, city=int(city_id)).order_by('-ispremium')
         # currentcity = "Pondicherry"
         # return sqs.filter(status_isactive=1, city__city=currentcity).order_by('-ispremium')
         
-
-    # def get_default_filters(self):
-    #   print 'get_default_filters'
-    #   sqs = SearchQuerySet().all()
-    #   currentcity = Product.get_global_city()
-    #   sqs = sqs.models(Product)
-    #   currentcity_id=City.objects.get(city=currentcity)
-    #   print "currentcity_id", currentcity_id
-    #   product = sqs.filter(city=currentcity_id.id)
-    #   print "Product", product
-    #   return product
-
     def get_default_filters(self):
-      print 'get_default_filters'
       return None
     
     def get_default_search_field(self):
-      print 'get_default_search_field'
       return 'searchtext'
 
     def get_model_class(self):
-      print 'get_model_class'
       return Product
 
     def search(self, request):
-      print 'searchv2'
-
       sqs = self.get_default_queryset(request)
 
       if not hasattr(self, 'cleaned_data'):
@@ -138,7 +114,6 @@ class ProductSearchFilter(FacetedSearchForm):
         'pricehigh',
       ]
       params = OrderedDict()
-      print 'params', params
       for p in _params:
         if p in self.cleaned_data and self.cleaned_data[p]:
           params[p] =  self.cleaned_data[p]
@@ -147,24 +122,18 @@ class ProductSearchFilter(FacetedSearchForm):
 
       if params['country']:
         params['country'] = params['country']
-        print "params['country']", params['country']
       
       if params['ispremium']:
         params['ispremium'] = params['ispremium']
-        print "params['ispremium']", params['ispremium']
-    
+        
       if params['pricelow']:     
         params['pricelow'] = params['pricelow']               
-        print "params['pricelow']", params['pricelow']
-        
               
       if params['pricehigh']:           
-        params['pricehigh'] = params['pricehigh']               
-        print "params['pricehigh']", params['pricehigh']          
+        params['pricehigh'] = params['pricehigh']                    
               
       if params['city']:              
         params['city'] = params['city']              
-        print "params['city']", params['city']    
 
       q = self.cleaned_data['q'] if 'q' in self.cleaned_data else None
       groupby = None
@@ -191,11 +160,9 @@ class ProductSearchFilter(FacetedSearchForm):
       if self.cleaned_data['groupby']:
         groupby = self.cleaned_data['groupby']
         sqs = sqs.facet(groupby)
-        print 'sqs',sqs
         return sqs
 
       if not orderby:
-        print "not orderby"
         orderby = orderby_mappings['premium_plan_id']
 
       return productsearch(q, params, orderby, groupby, model_cls=self.get_model_class(), 
