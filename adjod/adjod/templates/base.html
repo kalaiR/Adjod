@@ -185,6 +185,7 @@
                           {% endif %}
                       </li>
                 </ul>
+                
           </div> <!-- navbar collapse -->
         </nav> <!-- navigation bar -->
       </div><!-- container -->
@@ -399,6 +400,14 @@
               <hr class="photos_line" noshade="noshade">
             </div> <!-- hr_div -->
 
+            <div id="sign" class="form-group fb fl" >
+              <a  href="{% url socialauth_begin 'facebook' %}" class="popup_sign_up"><button class="free_button btn-lg">Sign up with fb</button></a>
+            </div>
+
+            <div id="free_signup_div" class="form-group fl">
+              <a  href="{% url socialauth_begin 'google-oauth2' %}" class="popup_sign_up"><button class="free_button btn-lg">Sign up with gmail </button></a>
+            </div>
+            <div class="clear_both"></div>
             <div  class="form-group">
               <span class="signin">I don't have a account</span>
             </div> <!-- signin_div -->

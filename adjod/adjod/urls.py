@@ -129,7 +129,14 @@ urlpatterns = patterns('',
     url(r'^get_user_products/$', 'advertisement.views.get_user_products',name='get_user_products'),
     url(r'^loadbasecurrency/$', 'adjod.views.loadbasecurrency',name='loadbasecurrency'),
     url(r'^update_profile/$', 'adjod.views.update_profile',name='update_profile'),
-
+   
+    # url for login using social Auth By Priya
+    url(r'', include('social_auth.urls')),
+    url(r'^complete/(?P<backend>[^/]+)/$', AuthComplete.as_view()),
+   
+    # For Track the user's by Priya
+    url(r'^tracking/', include('tracking.urls')),
+    
     # Test for geo location (comment for future reference)
     # url(r'^(?i)testpage/$', 'adjod.views.geosearch'),
 

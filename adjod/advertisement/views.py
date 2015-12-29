@@ -279,7 +279,18 @@ def post_success(request, product):
 
     product.post_terms=request.POST.get('terms_of_use')
     product.save()
-
+    send_templated_mail(
+                  template_name = 'post_ad',
+                  from_email = 'testmail123sample@gmail.com',
+                  recipient_list= [product.you_email],
+                  context = {
+                     'subject': 'Alert Products',
+                     'content':product.title,
+                     'user':product.you_name ,
+                     'current_site':current_site,
+                     
+                  },
+                )
     #Store in Userprofile table to know the status of users post ad counts
     if request.user.is_authenticated():
         product.userprofile.ad_count = int(product.userprofile.ad_count) + 1
