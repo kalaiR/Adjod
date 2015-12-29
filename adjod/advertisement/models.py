@@ -129,6 +129,7 @@ class FreeAlert(models.Model):
     alert_subcategory =models.ForeignKey(SubCategory,null=False)
     alert_brand=models.ForeignKey(Dropdown,null=False)
     alert_city=models.ForeignKey(City, null=False)
+    alert_locality=models.ForeignKey(Locality, null=False)
     alert_email=models.CharField(max_length=30, null=False)
     alert_mobile=models.CharField(max_length=30, null=False)
     mail_is_sent=models.BooleanField(default=False)

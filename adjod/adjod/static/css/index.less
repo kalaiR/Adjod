@@ -4919,25 +4919,23 @@ li.offline,.product_title_for_chat { display:none !important; }
 	border-left:7px transparent solid;
 	cursor: context-menu;
 	@media (min-width: @grid-float-breakpoint){
-	    background: gray none repeat scroll 0 0;
+	    background: none repeat scroll 0 0 gray;
+	    border-radius: 6px;
+	    bottom: 90px;
 	    color: white;
+	    cursor: context-menu;
+	    display: none;
 	    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	    font-size: 12px;
 	    font-weight: 400;
-	    height: 185%;
-	    line-height: 1.4;
+	    height: 80%;
+	    left: 270px;
 	    opacity: 1;
 	    position: absolute;
-	    bottom: 54px;
+	    text-align: center;
 	    visibility: visible;
-	    width: 132%;
+	    width: 45%;
 	    z-index: 9999;
-	    display :none;
-	    left: 0;
-	    border-right:7px transparent solid;
-		border-bottom:14px gray solid;
-		border-left:7px transparent solid;
-		cursor: context-menu;
 	}
 }
 .disable_post:hover .tooltip{
@@ -4983,6 +4981,7 @@ li.offline,.product_title_for_chat { display:none !important; }
     position: absolute;
     width: 100px;
     right: 38%;
+    cursor: pointer;
 }
 .select_disable {
     background: #e3e3e3 none repeat scroll 0 0;
