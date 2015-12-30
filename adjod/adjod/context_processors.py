@@ -98,10 +98,14 @@ def global_activity(request):
 
 	#get authenticated user id
 	if request.user.is_authenticated() and not request.user.is_superuser:
-		userprofile=UserProfile.objects.get(id=request.user.id)
-		print "userprofile in context processors", userprofile
+		if UserProfile.objects.filter(id=request.user.id).exists():
+			userprofile=UserProfile.objects.get(id=request.user.id)
+			print "userprofile in context processors", userprofile
+		else:
+			userprofile=None
 	else:
-		userprofile=None	 
+		userprofile=None	
+		 
 	return {'country':country,'country_code':country_code,'city': city,'city_id':city_id,'language':language,'path':path,'category':category,
 			'subcategory':subcategory,'dropdown':dropdown, 'recentad':recentad,'userprofile':userprofile,'user_ip':user_ip,
 			'locality':locality,'premium_info_account':premium_info_account, 'paypal_receiver_email':settings.PAYPAL_RECEIVER_EMAIL,
