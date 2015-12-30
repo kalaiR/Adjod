@@ -37,6 +37,8 @@ from django.views.generic import View
 from django.shortcuts import render_to_response, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template.response import TemplateResponse
+from templated_email import send_templated_mail
+from django.contrib.sites.models import Site
 
 #Language and text Translation
 from django.utils.translation import ugettext_lazy as _
@@ -266,6 +268,7 @@ def post_success(request, product):
     else:
         response = None
     product.save()
+    current_site = Site.objects.get_current()
     send_templated_mail(
               template_name = 'post_ad',
               from_email = 'testmail123sample@gmail.com',
