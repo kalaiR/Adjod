@@ -555,14 +555,17 @@ body {
     display:none;
     font-family: Varela Round;
 	@media (min-width: @grid-float-breakpoint) {
-    	left: 14px;
-    	position: relative;
-    	top: 6px;
-    	font-size:15px;
-    	width:377px;
     	color: #484848;
-    	display:block;
-    	font-family: Varela Round;
+	    display: block;
+	    font-family: Varela Round;
+	    font-size: 15px;
+	    left: 14px;
+	    max-width: 390px;
+	    overflow: hidden;
+	    position: relative;
+	    text-overflow: ellipsis;
+	    top: 6px;
+	    white-space: nowrap;
     }
 }
 .product_user {
@@ -939,7 +942,7 @@ body {
     	width:100%;
     }
     @media (min-width: 1200px) and (max-width: 1600px) {
-    	left: 190px;
+    	left: 410px;
     	width:950px;
     }
 }
@@ -956,7 +959,7 @@ body {
     position: relative;
     top: 32px;
 	@media (min-width: @grid-float-breakpoint) {
-    	left: 19%;
+    	left: 1%;
     	position: absolute;
     	top: 14px;
     }
@@ -1165,10 +1168,10 @@ hr {
 }
 .description_box{
 	width:100%;
-	height: 25%;
+	height: auto;
 	font-family:Varela Round;
 	@media (min-width: @grid-float-breakpoint){
-		height:125px;
+		height:auto;
 		position: relative;
     	top: 11px;
     	font-family:Varela Round;
@@ -1413,10 +1416,14 @@ hr {
     color: #c4c4c4;
     font-family: Varela Round;
 	@media (min-width: @grid-float-breakpoint){
-		display:block;
-		position: relative;
-    	top: 0px;
-    	font-family: Varela Round;
+		display: block;
+	    font-family: Varela Round;
+	    max-width: 435px;
+	    overflow: hidden;
+	    position: relative;
+	    text-overflow: ellipsis;
+	    top: 0;
+	    white-space: nowrap;
 	}
 }
 .additional_description{
@@ -1627,16 +1634,17 @@ hr {
 }
 .column-ad {
 	@media (min-width: @grid-float-breakpoint){
-    	left: 15px;
-    	padding: 0;
+    	float: right;
     	position: relative;
-   		width: 210px !important;
+    	top: 15px;
    	}
 }
 .recommend1 {
 	@media (min-width: @grid-float-breakpoint){
     	margin-top: 15px;
     	border:1px solid #828282;
+    	width: 78%;
+    	float: left;
     }
 }
 .contact_button{
@@ -3544,7 +3552,7 @@ label >.error { color:red; }
     height: 221px;
     position: absolute;
     right: 15px;
-    top: 300px;
+    top: 382px;
     width: 165px;
     display:block;
 }
@@ -3563,7 +3571,7 @@ label >.error { color:red; }
     height: 221px;
     position: absolute;
     left: 0px;
-    top: 290px;
+    top: 382px;
     width: 188px;
 }
 
@@ -4262,6 +4270,7 @@ li.offline,.product_title_for_chat { display:none !important; }
 	    margin: 8px 0 4px;
 	    position: relative;
 	    width:260px;
+	    
     }
 }
 .inputs {
@@ -4322,12 +4331,12 @@ li.offline,.product_title_for_chat { display:none !important; }
     position: fixed;
     top: 10%;
     width: 290px;
-    z-index: 99999;
+    
     @media (min-width: @grid-float-breakpoint) {
     	background: white none repeat scroll 0 0;
     	position: relative;
     	top: 0;
-    	z-index: 99999;
+    	
     	border: 1px solid gray;
     	width: 405px;
     	left: 0px;
@@ -4881,7 +4890,7 @@ li.offline,.product_title_for_chat { display:none !important; }
 }*/
 
 .user_name {
-    width: 240px;
+    left:-3px;
 }
 
 .video_url {
@@ -4892,11 +4901,12 @@ li.offline,.product_title_for_chat { display:none !important; }
 	position: relative;
 }
 
-.disable_post{
+.disable_post a{
 	box-shadow: none;
     cursor: not-allowed;
     opacity: 0.65;
     pointer-events: initial;
+    
 }
 .tooltip {
 	background: gray none repeat scroll 0 0;
@@ -4938,7 +4948,28 @@ li.offline,.product_title_for_chat { display:none !important; }
 	    z-index: 9999;
 	}
 }
+.searchpage_tooltip{
+	background: none repeat scroll 0 0 gray;
+    border-radius: 6px;
+    color: white;
+    cursor: context-menu;
+    display: none;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    opacity: 1;
+    position: absolute;
+    left: 425px;
+    text-align: center;
+    top: 50px;
+    visibility: visible;
+    width: 25%;
+    z-index: 9999;
+}
 .disable_post:hover .tooltip{
+	display :block;
+}
+.disable_post:hover .searchpage_tooltip{
 	display :block;
 }
 .link_tooltip{
@@ -4948,14 +4979,15 @@ li.offline,.product_title_for_chat { display:none !important; }
 } 
 .link_tooltip:hover{ color:white; }
 .subscription_popup {
-     background: white none repeat scroll 0 0;
+    background: white none repeat scroll 0 0;
     border: 1px solid;
     height: 215px;
-    position: absolute;
     width: 28%;
-    z-index: 9999;
-    left: 35%;
-    top: 12%;
+    top:50%;
+   	left:50%;
+  	position:fixed;
+   	z-index:9999;
+   	display:none;
 }
 .subscribe_title {
     background: #7880A7 none repeat scroll 0 0;
@@ -5021,8 +5053,9 @@ li.offline,.product_title_for_chat { display:none !important; }
     border-radius: 6px;
 }
 .search_city {
-    float: left;
+    left : -19%;
     width: 170px;
+    position:absolute;
 }
 .select_new {
     background: white none repeat scroll 0 0;
@@ -5054,11 +5087,14 @@ li.offline,.product_title_for_chat { display:none !important; }
 	}
 }
 .user_dropdown {
-    background: black none repeat scroll 0 0;
+    background: none repeat scroll 0 0 black;
+    border-left: 1px solid;
+    border-top: 1px solid;
     color: white;
+    padding-left: 10px;
     position: absolute;
-    top: 45px;
-    width: 190px;
+    top: 52px;
+    width: 160px;
     z-index: 9999;
 }
 .caret_user {
@@ -5089,4 +5125,34 @@ li.offline,.product_title_for_chat { display:none !important; }
 }
 .handle {
     display: none;
+}
+.lang_select select{
+	background:black !important;
+}
+.search_tool{
+	display: inline;
+}
+.ui-state-highlight{
+	background:#8991C0 !important;
+	border:1px solid #8991C0 !important;
+}
+.box-title {
+    max-width: 165px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+.ui-dialog-titlebar-close {
+    background: url("../img/close_chat.png") no-repeat !important;
+    border: medium none !important;
+    margin: -8px 0 0 !important;
+}
+.ui-button{
+	font-size: 13px !important;
+}
+.online, .busy, .away, .offline, .logout{
+	font-size: 13px !important;
+}
+#textarea_msg {
+    height: 70px !important;
 }

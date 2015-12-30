@@ -29,6 +29,11 @@ function reset_div_center_align(){
       var width=$('.reset_div').width();
       $('.reset_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 }
+function subscribe_center_align(){
+      var height=$('.subscription_popup').height();
+      var width=$('.subscription_popup').width();
+      $('.subscription_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
+}
 
 $.fn.center = function () {
       var height = $(this).height();
@@ -225,7 +230,17 @@ $( document ).ready(function() {
     sign_in_center_align();
     sign_up_center_align();
     reset_div_center_align();
-    
+    subscribe_center_align();
+
+    // subscription popup
+   
+    $(".link_tooltip").click(function(){
+        subscribe_center_align();
+        $('.popup_fade').show();
+        $('.subscription_popup ,.close_btn').show();
+        document.body.style.overflow = 'hidden';
+    });
+
     // Showing Image as large when click thumbnail
     var $upperimg = $('.upperimg img');
     $('.thumbs img').click(function () {
@@ -762,13 +777,7 @@ $( document ).ready(function() {
     //     $(".leftslide1").hide();
     // });
     
-    // subscription popup
-    $(".subscription_popup").hide();
-    $(".link_tooltip").click(function(){
-        $('.popup_fade').show();
-        $('.subscription_popup ,.close_btn').show();
-        document.body.style.overflow = 'hidden';
-    });
+
 
     $('.signup_tooltip').hide();
     $(".signup_confirm_button").on('hover', function(){

@@ -23,18 +23,18 @@
               <div class="product-image visible-lg">
                     <div class="upperimg">
                       {% if largephoto = '' %}
-                          <img src="{{STATIC_URL}}img/bg-img1.png">
+                          <img src="{{MEDIA_URL}}img/bg-img1.png">
                       {% else %}
-                        <img src="{{ STATIC_URL }}{{ largephoto }}">
+                        <img src="{{ MEDIA_URL }}{{ largephoto }}">
                       {% endif %}
                     </div><!--upperimg-->
                     <div class="thumb_holder">
                       {%for photo in photos %}
                         <div class="thumbs nb col-md-2">  
                            {% if photo = '' %}
-                           <img src="{{STATIC_URL}}img/bg-img1.png">  
+                           <img src="{{MEDIA_URL}}img/bg-img1.png">  
                            {% else %}  
-                          <img src="{{ STATIC_URL }}{{ photo }}">
+                          <img src="{{ MEDIA_URL }}{{ photo }}">
                           {% endif %}
                         </div><!--thumbs-->
                       {%endfor%}
@@ -55,18 +55,18 @@
     <div class="product-image hidden-lg">
                     <div class="upperimg">
                       {% if largephoto = '' %}
-                          <img src="{{STATIC_URL}}img/bg-img1.png">
+                          <img src="{{MEDIA_URL}}img/bg-img1.png">
                       {% else %}
-                        <img src="{{ STATIC_URL }}{{ largephoto }}">
+                        <img src="{{ MEDIA_URL }}{{ largephoto }}">
                       {% endif %}
                     </div><!--upperimg-->
                     <div class="thumb_holder hidden-xs">
                       {%for photo in photos %}
                         <div class="thumbs nb col-md-2">  
                            {% if photo = '' %}
-                           <img src="{{STATIC_URL}}img/bg-img1.png">  
+                           <img src="{{MEDIA_URL}}img/bg-img1.png">  
                            {% else %}  
-                          <img src="{{ STATIC_URL }}{{ photo }}">
+                          <img src="{{ MEDIA_URL }}{{ photo }}">
                           {% endif %}
                         </div><!--thumbs-->
                       {%endfor%}
@@ -240,9 +240,9 @@
                       <a href="" class="">
                         
                         {% if related_products.object.photos = '' %}
-                        <img src="{{STATIC_URL}}img/bg-img1.png">
+                        <img src="{{MEDIA_URL}}img/bg-img1.png">
                         {% else %}
-                        <img src="{{STATIC_URL}}{{related_products.object.photos|get_photos}}">
+                        <img src="{{MEDIA_URL}}{{related_products.object.photos|get_photos}}">
                         {% endif %}
                         <div class="count_holder1 visible-lg">
                         <span>{% if not related_products.object.imagecount %}0{% else %}{{related_products.object.imagecount}} {%endif%}</span>
@@ -270,11 +270,7 @@
               </ul>
         {% endif %}
         </div> <!-- col-md-8 -->
-        <div class="col-md-4 column-ad visible-lg">
-            <div class="adv_part">
-              <a href="" class=""><code><i class="fa fa-times-circle closebtn"></i></code></a>
-            </div>
-        </div>
+        
         {% if recommendresults %}
             <div class="col-md-4 column-ad visible-lg">
               <div class="adv_part">
@@ -295,7 +291,14 @@
             </div> <!-- container fifth_part-->
         {% endif %}  
       </div> <!-- row row2 -->
-    </div> <!-- container -->
+ </div> <!-- container -->
+
+  <div class="col-md-2 column-ad visible-lg">
+      <div class="adv_part">
+          <img src="{{MEDIA_URL}}banners/car_banner.jpg" /><br><br>
+          <img src="{{MEDIA_URL}}banners/ac_banner.png" style="height:160px;width:162px;"/>
+      </div>
+  </div>
 
 
     
@@ -316,9 +319,9 @@
                     {% endif %}
                       <a href="" class="">
                         {% if related_products.object.photos = '' %}
-                        <img src="{{STATIC_URL}}img/bg-img1.png">
+                        <img src="{{MEDIA_URL}}img/bg-img1.png">
                         {% else %}
-                        <img src="{{STATIC_URL}}{{related_products.object.photos|get_photos}}">
+                        <img src="{{MEDIA_URL}}{{related_products.object.photos|get_photos}}">
                         {% endif %}
                         <div class="details">
                             <div class="product_name1_mobile">  
@@ -342,7 +345,7 @@
         </div> <!-- col-md-8 -->
         <div class="col-md-4 column-ad visible-lg">
             <div class="adv_part">
-              <a href="" class=""><code><i class="fa fa-times-circle closebtn"></i></code></a>
+              <a href="" class=""><img src=""></a>
             </div>
         </div>
         {% if recommendresults %}
