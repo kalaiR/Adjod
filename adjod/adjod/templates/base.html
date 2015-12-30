@@ -118,14 +118,14 @@
           <div id="navbar" class="collapse navbar-collapse">
               <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
-                    <li class="user_name"><a href="/">{{request.user.email}}</a></li><i class="fa fa-caret-down caret_user"></i>
-                    <div class="user_dropdown"> 
+                    <li class="user_name"><a href="/">{{request.user.email}}</a></li><!-- <i class="fa fa-caret-down caret_user"></i> -->
+                   <!--  <div class="user_dropdown"> 
                        <ul>
                           <a><li>My Ads</li></a>
                          <a><li>Update My Profile</li></a>
                          <a><li>My Chats</li></a>
                        </ul>
-                    </div><!--user_dropdown-->
+                    </div> --><!--user_dropdown-->
                     {% endif %}
                     <!-- {% if 'search' in path %}
                     <li>

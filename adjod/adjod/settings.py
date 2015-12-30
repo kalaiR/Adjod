@@ -162,6 +162,7 @@ INSTALLED_APPS = (
     'chat',
     'commerce',
     'logs',
+    'tracking',
 
     # Third Party Libs
     'haystack',
