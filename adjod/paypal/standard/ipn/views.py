@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from paypal.standard.ipn.forms import PayPalIPNForm
 from paypal.standard.ipn.models import PayPalIPN
@@ -10,12 +10,13 @@ from paypal.standard.ipn.signals import payment_was_successful
 from adjod.models import UserProfile
 
 from django.contrib.sites.models import Site
-from advertisement.models import PremiumPriceInfo
+from advertisement.models import PremiumPriceInfo, Product
 from adjod.util import currency_of_country
 from django.conf import settings
 from django.template import RequestContext
 from django.shortcuts import render_to_response, render
 from django.db import transaction
+from commerce.models import *
 
 def show_me_the_money(sender, **kwargs):
 	print "show_me_the_money"
@@ -25,6 +26,47 @@ def show_me_the_money(sender, **kwargs):
 		if ipn_obj.custom == "Upgrade all users!":
 			Users.objects.update(paid=True)
 payment_was_successful.connect(show_me_the_money)
+
+def store_transaction(request,ipn_obj):
+	if request.COOKIES.get('product_id'):
+		if Product.objects.filter(id=request.COOKIES.get('product_id')).exists():
+			product = Product.objects.get(id=request.COOKIES.get('product_id'))
+			if ipn_obj.payment_status == "Pending":
+				print "pending"
+				product.delete()
+			else:
+				if product.premium_plan.purpose == "product_subscription":
+					order = Order()
+					order.product = product
+					order.subscription_plan = PremiumPriceInfo.objects.get(id=product.premium_plan.id)
+					order.save()
+				transaction =  Transaction()
+				transaction.userprofile = UserProfile.objects.get(id=request.user.id)
+				transaction.transaction_mode = "online"
+				transaction.amount = ipn_obj.mc_gross
+				transaction.transaction_type = product.premium_plan.purpose
+				transaction.order = order
+				transaction.paypal = ipn_obj
+				transaction.payment_status = ipn_obj.payment_status
+				transaction.save()
+	if request.COOKIES.get('transaction_type') and request.COOKIES.get('transaction_type') == "Account Subscription":
+			premium_plan = PremiumPriceInfo.objects.get(purpose="account_subscription")
+			order = Order()
+			order.subscription_plan = PremiumPriceInfo.objects.get(id=premium_plan.id)
+			order.save()
+			transaction =  Transaction()
+			transaction.userprofile = UserProfile.objects.get(id=request.user.id)
+			transaction.transaction_mode = "online"
+			transaction.amount = ipn_obj.mc_gross
+			transaction.transaction_type = premium_plan.purpose
+			transaction.order = order
+			transaction.paypal = ipn_obj
+			transaction.payment_status = ipn_obj.payment_status
+			transaction.save()
+	return 
+
+
+			
 
 @transaction.commit_on_success
 @csrf_exempt
@@ -71,31 +113,32 @@ def ipn(request, item_check_callable=None):
 		else:
 			ipn_obj.verify(item_check_callable)
 	ipn_obj.user =  UserProfile.objects.get(id=request.user.id)
-	
-	if ipn_obj.payment_status == "Pending":
-		print "pending"
-		transaction.rollback()
-	else:
-		order = Order()
-
 	ipn_obj.save()
-
-	return HttpResponse("OKAY")
+	transaction = store_transaction(request, ipn_obj)
+	response = HttpResponseRedirect("/postad/")
+	if request.COOKIES.get('product_id'):
+		response.delete_cookie('product_id')
+	return response
 
 def paypal_transaction(request, product_dict):
-    current_site = Site.objects.get_current()
-    print "product_dict", product_dict
-    plan = PremiumPriceInfo.objects.get(id=product_dict['premium_plan'])
-    ctx = { 'business': settings.PAYPAL_RECEIVER_EMAIL,
-    		'amount': plan.premium_price,
-    		'item_name': product_dict['title'],
-    		'notify_url': current_site.domain + settings.PAYPAL_DICT['notify_url'],
-    		'cancel_return': current_site.domain + settings.PAYPAL_DICT['cancel_return'],
-    		'return': current_site.domain + settings.PAYPAL_DICT['success_return'],
-    		'custom':product_dict['you_name'],
-    		# 'currency_code': plan.base_currency,
-    		'currency_code': "USD",
-    		'sandbox_url':settings.SANDBOX_URL
-    }
-    return render_to_response('paypal_integration/payment.html', ctx , context_instance=RequestContext(request))
-  
+	current_site = Site.objects.get_current()
+	print "product_dict", product_dict
+	plan = PremiumPriceInfo.objects.get(id=product_dict['premium_plan'])
+	ctx = { 'business': settings.PAYPAL_RECEIVER_EMAIL,
+			'amount': plan.premium_price,
+			'item_name': product_dict['title'],
+			'notify_url': current_site.domain + settings.PAYPAL_DICT['notify_url'],
+			'cancel_return': current_site.domain + settings.PAYPAL_DICT['cancel_return'],
+			'return': current_site.domain + settings.PAYPAL_DICT['success_return'],
+			'custom':product_dict['you_name'],
+			# 'currency_code': plan.base_currency,
+			'currency_code': "USD",
+			'sandbox_url':settings.SANDBOX_URL
+	}
+	response = render_to_response('paypal_integration/payment.html', ctx , context_instance=RequestContext(request))
+	try:
+		product_id = Product.objects.get(title=product_dict['title'],userprofile=UserProfile.objects.get(id=product_dict['userprofile']))
+		response.set_cookie("product_id", product_id.id)
+	except:
+		pass
+	return response

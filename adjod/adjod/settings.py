@@ -168,7 +168,6 @@ INSTALLED_APPS = (
     'paypal.standard.ipn',   
     'djmoney_rates',
     'social_auth',
-    'tracking',
     # 'communication',
     # 'smsverify',
     # 'rollyourown.seo',

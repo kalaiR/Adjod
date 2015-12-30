@@ -42,7 +42,7 @@
          	</div> <!-- ad_title_div -->
 
           <div style="display: block;" class="field_div form-group" id="price_div">
-            <input type="text" class="your_price input" name="your_price" id="your_price" placeholder="Price" value=""/>
+            <input type="text" class="your_price input" name="your_price" id="your_price" placeholder="Price" value="" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"/>
             <input type="text" class="your_year" name="your_year" id="your_year" placeholder="Year" value="" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" />
             <span class="price_icon">{{country_code|get_symbol}}</span>
             <label id="price_required" class="labelError" style="display:none;">Please enter price.</label>
@@ -174,7 +174,7 @@
                   <option value="{{ localities.id }}">{{ localities.locality }}</option>
                 {% endfor %}
                 </select>
-                <label id="locality_required" class="labelError" style="display:none;">Please Choose locality</label>
+                <label id="locality_required" class="labelError choose_error" style="display:none;">Please Choose locality</label>
             </div> <!-- select_container_city -->
             <div class="clear_both"></div>
           </div> <!-- city_div -->

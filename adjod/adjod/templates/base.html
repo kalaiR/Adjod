@@ -316,7 +316,7 @@
       <ul class="fifth_part">
       {% for banners in banner|get_banner %}
 
-      {% if banners.pageurl == '/' and banners.position == 'bottom'%}
+      {% if banners.bannerplan.page == 'Home page' and banners.bannerplan.position == 'Bottom'%}
       <li><a class="bannerlink" href="{{banners.link}}"><img class="bannerimage" src="{{MEDIA_URL}}{{banners.banner}}" style="height:120px;width:970px;"></a></li>
       {% endif %}
       {% endfor %}
@@ -590,6 +590,7 @@
            <code></code>
         </div><!--subscribe_content-->
         <form action='{{sandbox_url}}' method='post' name="paypal_account_subscription">
+        {%csrf_token%}
           <input id="id_business" type="hidden" value="{{paypal_receiver_email}}" name="business">
           <input id="id_amount" type="hidden" value="{{premium_info_account.premium_price}}" name="amount">
           <input id="id_item_name" type="hidden" value="Account Subscription" name="item_name">
