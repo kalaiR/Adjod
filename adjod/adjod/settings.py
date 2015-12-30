@@ -95,7 +95,7 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
-
+ # setting for social auth backend  and tracking by Priya  
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -105,9 +105,12 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'adjod.middleware.Global',
+    'tracking.middleware.VisitorTrackingMiddleware',   
+    'social_auth.middleware.SocialAuthExceptionMiddleware',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS += (
+# settings for social auth redirect for home by priya
+TEMPLATE_CONTEXT_PROCESSORS += (    
      'social_auth.context_processors.social_auth_by_name_backends',
      'social_auth.context_processors.social_auth_backends',
      'social_auth.context_processors.social_auth_by_type_backends',
@@ -164,7 +167,7 @@ INSTALLED_APPS = (
     'haystack',
     'paypal.standard.ipn',   
     'djmoney_rates',
-
+    'social_auth',
     # 'communication',
     # 'smsverify',
     # 'rollyourown.seo',
@@ -215,13 +218,18 @@ HAYSTACK_CUSTOM_HIGHLIGHTER ='adjod.search_sites.SearchHighlighter'
 
 # SEARCH_PAGE_NUMBER_OF_LEADS = 70
 
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
-LOGIN_ERROR_URL = '/login_error/'
+# LOGIN_URL = '/login/'
+# LOGIN_REDIRECT_URL = '/'
+# LOGIN_ERROR_URL = '/login_error/'
 
 AUTHENTICATION_BACKENDS = (
-  'social_auth.backends.contrib.linkedin.LinkedinBackend',
-  'django.contrib.auth.backends.ModelBackend',
+    # setting for authenticate facebook and gmail login by priya
+    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.google.GoogleOAuthBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'social_auth.backends.google.GoogleBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
   # 'django.contrib.auth.models.AnonymousUser ',
 )
 
@@ -297,8 +305,53 @@ CURRENCY_RATES = 'USD'
 
 BASE_CURRENCY = 'SGD'
 
+# setting for facebook login and gmail login by priya
+LOGIN_URL          = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_ERROR_URL    = '/'
+AUTH_USER_EMAIL_UNIQUE = True
+
+# Api key for Facebook login
+FACEBOOK_APP_ID='1157881127573603'
+FACEBOOK_API_SECRET='2f66e63169226ef3864acdc7c5fe542e'
+FACEBOOK_EXTENDED_PERMISSIONS = ['email']
+FACEBOOK_PROFILE_EXTRA_PARAMS = {
+  'locale': 'pl_PL',
+  'fields': 'id, name, email',
+}
+
+# Api key for gmail login
+GOOGLE_OAUTH2_CLIENT_ID='386650716576-54iaoop0jnqsiovmvqh8a17vii2kucbv.apps.googleusercontent.com'
+GOOGLE_OAUTH2_CLIENT_SECRET ='Yu8CYEANcN1mljC1Cd1s1zQG'
+GOOGLE_OAUTH2_USE_UNIQUE_USER_ID = True
+SOCIAL_AUTH_USER_MODEL = 'auth.User'
+GOOGLE_OAUTH2_USE_DEPRECATED_API = True
+
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/login/'
+SOCIAL_AUTH_BACKEND_ERROR_URL = '/'
+
+SOCIAL_AUTH_CREATE_USERS          = True
+SOCIAL_AUTH_FORCE_RANDOM_USERNAME = False
+SOCIAL_AUTH_DEFAULT_USERNAME      = 'socialauth_user'
+SOCIAL_AUTH_COMPLETE_URL_NAME     = 'socialauth_complete'
+SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+TRACK_PAGEVIEWS = True
+
+SOCIAL_AUTH_PIPELINE = (
+'social_auth.backends.pipeline.social.social_auth_user',
+'social_auth.backends.pipeline.associate.associate_by_email',
+'social_auth.backends.pipeline.user.get_username',
+'social_auth.backends.pipeline.user.create_user',
+'social_auth.backends.pipeline.social.associate_user',
+'social_auth.backends.pipeline.user.update_user_details',
+
+)
+
 PAYPAL_DICT = {
     'cancel_return' : '/postad/',
     'success_return': '/paypal/',
     'notify_url'    : '/paypal/'
 }
+

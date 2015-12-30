@@ -795,8 +795,13 @@ $( document ).ready(function() {
     });
 
     $('.subscribe_content code').click(function(){
+      transaction_type = $('form[name="paypal_account_subscription"]').find("input[name='item_name']").val();
+      $.cookie("transaction_type", transaction_type);
       $('form[name="paypal_account_subscription"]').submit();
     });
-    
+
+    $('input.checkbox_premium').on('change', function(){
+        $('input.checkbox_premium').not(this).prop('checked', false); 
+    });
 
 });

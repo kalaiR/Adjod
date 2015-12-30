@@ -8,6 +8,7 @@ POSITION = (
     ('Bottom', 'Bottom of the page'),
     ('Center', 'Center of the page'),
     ('Right', 'Right of the page'),
+    ('Left', 'Left of the page'),
 )
 
 PAGEURL = (
@@ -18,12 +19,7 @@ PAGEURL = (
 )
 
 class BannerPlan(models.Model):
-    """
-    This Model is used for maintaining different banner plans.
-    """
-    page = models.CharField(max_length=50, choices=PAGEURL,
-                            help_text="page = All is only \
-                            applicable for top position of all pages")
+    page = models.CharField(max_length=50, choices=PAGEURL)
     position = models.CharField(max_length=50, choices=POSITION)
     price = models.FloatField(null=True, default=0.0)
     plan_duration = models.BigIntegerField(
@@ -37,12 +33,8 @@ class BannerPlan(models.Model):
 
 
 class PostBanner(models.Model):
-    """
-    This Model is used for maintaining list of banners 
-    posted by users.
-    """
-    user = models.ForeignKey(UserProfile)
-    banner = ContentTypeRestrictedFileField(upload_to='static/banners',
+    user = models.ForeignKey(UserProfile, null=True, blank=True)
+    banner = ContentTypeRestrictedFileField(upload_to='banners',
         content_types=['image/jpeg', 'image/png'], max_upload_size=2097152,
         help_text="Please upload the banner Image with 2MB min and jpg, png \
         format only allowed")
