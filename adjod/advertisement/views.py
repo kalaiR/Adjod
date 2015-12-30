@@ -52,7 +52,7 @@ import simplejson as json
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from adjod.util import *
-from paypal.standard.ipn.views import paypal_transaction
+from paypal.standard.ipn.views import *
 from django.db import transaction
 
 # A couple of request objects - one PJAX, one not.

@@ -8,6 +8,7 @@ POSITION = (
     ('Bottom', 'Bottom of the page'),
     ('Center', 'Center of the page'),
     ('Right', 'Right of the page'),
+    ('Left', 'Left of the page'),
 )
 
 PAGEURL = (
