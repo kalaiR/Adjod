@@ -88,7 +88,8 @@ class VisitorTrackingMiddleware(object):
         visitor.time_on_site = int(time_on_site)
 
         try:
-            visitor.save()
+            # with transaction.atomic():
+                visitor.save()
         except IntegrityError:
             # there is a small chance a second response has saved this
             # Visitor already and a second save() at the same time (having
@@ -99,11 +100,10 @@ class VisitorTrackingMiddleware(object):
 
         return visitor
 
-
     def _add_pageview(self, visitor, request, view_time):
         referer = None
         query_string = None
-        
+
         if TRACK_REFERER:
             referer = request.META.get('HTTP_REFERER', None)
 

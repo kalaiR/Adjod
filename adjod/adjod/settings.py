@@ -95,7 +95,7 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
-
+ # setting for social auth backend  and tracking by Priya  
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -105,13 +105,12 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'adjod.middleware.Global',
-    # setting for social auth backend  and tracking by Priya
+    'tracking.middleware.VisitorTrackingMiddleware',   
     'social_auth.middleware.SocialAuthExceptionMiddleware',
-    'tracking.middleware.VisitorTrackingMiddleware',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS += (
-    # settings for social auth redirect for home by priya
+# settings for social auth redirect for home by priya
+TEMPLATE_CONTEXT_PROCESSORS += (    
      'social_auth.context_processors.social_auth_by_name_backends',
      'social_auth.context_processors.social_auth_backends',
      'social_auth.context_processors.social_auth_by_type_backends',
@@ -220,9 +219,9 @@ HAYSTACK_CUSTOM_HIGHLIGHTER ='adjod.search_sites.SearchHighlighter'
 
 # SEARCH_PAGE_NUMBER_OF_LEADS = 70
 
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
-LOGIN_ERROR_URL = '/login_error/'
+# LOGIN_URL = '/login/'
+# LOGIN_REDIRECT_URL = '/'
+# LOGIN_ERROR_URL = '/login_error/'
 
 AUTHENTICATION_BACKENDS = (
     # setting for authenticate facebook and gmail login by priya
@@ -311,6 +310,7 @@ BASE_CURRENCY = 'SGD'
 LOGIN_URL          = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL    = '/'
+AUTH_USER_EMAIL_UNIQUE = True
 
 # Api key for Facebook login
 FACEBOOK_APP_ID='1157881127573603'
@@ -337,6 +337,8 @@ SOCIAL_AUTH_DEFAULT_USERNAME      = 'socialauth_user'
 SOCIAL_AUTH_COMPLETE_URL_NAME     = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+TRACK_PAGEVIEWS = True
 
 SOCIAL_AUTH_PIPELINE = (
 'social_auth.backends.pipeline.social.social_auth_user',

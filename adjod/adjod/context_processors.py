@@ -98,8 +98,11 @@ def global_activity(request):
 
 	#get authenticated user id
 	if request.user.is_authenticated() and not request.user.is_superuser:
-		userprofile=UserProfile.objects.get(id=request.user.id)
-		print "userprofile in context processors", userprofile
+		if UserProfile.objects.filter(id=request.user.id).exists():
+			userprofile=UserProfile.objects.get(id=request.user.id)
+			print "userprofile in context processors", userprofile
+		else:
+			userprofile=None
 	else:
 		userprofile=None	 
 	return {'country':country,'country_code':country_code,'city': city,'city_id':city_id,'language':language,'path':path,'category':category,
