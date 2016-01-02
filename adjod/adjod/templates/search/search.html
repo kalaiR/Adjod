@@ -189,7 +189,7 @@
                   <div class="product_name1">
                       <a href="{% url product_detail product.object.id %}" class="spans"> {{product.object.title}}</a>
 
-                      <span class="product_description1">{{product.object.description}}</span>
+                      <span class="product_description1">{{product.object.description|truncatewords:10}}</span>
                       <!-- <span class="additional_description">{{product.object.description}}</span> -->
 
                       <span class="model_year1 visible-lg"> {{product.object.condition}} | in {{product.object.city.city}} | By {{product.object.you_are}}</span>
