@@ -3,12 +3,19 @@ from django.db import models
 from advertisement.models import *
 from django.utils.translation import ugettext_lazy as _
 
+LANGUAGE = (
+    ('en', 'English'),
+    ('zh', 'Chinese'),
+    ('ms', 'Malay'),
+)
+
+
 #Model for storing user personal details
 class UserProfile(User):
     mobile=models.CharField(max_length=50, null=True)
     confirmation_code=models.CharField(max_length=500)
     city=models.ForeignKey('advertisement.City', null=True, blank=True)
-    language=models.CharField(max_length=5)
+    language=models.CharField(max_length=5,choices=LANGUAGE,default='en')
     age_status=models.BooleanField(default=False)
     is_emailverified=models.BooleanField(default=False)
     ad_count=models.IntegerField(max_length=5, null=True, blank=True, default=0)
