@@ -247,16 +247,16 @@ $( document ).ready(function() {
         $upperimg.attr('src', this.src);
     });
 
-    // //Apply center alignment for images
-    // $('.product_image img').load(function(){
-    //     $(this).center();
-    // });
-    // $('.product-image img').load(function(){
-    //     $(this).center();
-    // });
-    // $('.thumbs img').load(function(){
-    //     $(this).center();
-    // });
+    //Apply center alignment for images
+    $('.product_image img').load(function(){
+        $(this).center();
+    });
+    $('.product-image img').load(function(){
+        $(this).center();
+    });
+    $('.thumbs img').load(function(){
+        $(this).center();
+    });
 
     // Social auth share button actions for desktop
     $(".fbtwtbutton").hide();
