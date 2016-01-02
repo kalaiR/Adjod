@@ -28,7 +28,7 @@
                                 </span>
                                 </div>
                               </li>
-                              {% if forloop.counter|divisibleby:4 %}
+                            {% if forloop.counter|divisibleby:4 %}
 
                             </ul>
                   </div> <!-- row1 3rd col-md-4 -->
@@ -143,7 +143,7 @@
                   </div>
                   <div class="detail">
                     <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a><span>{{country_code|get_symbol}}{{recentads.price|conversion|quantize}}</span></div>
-                    <span class="product_description"> {{ recentads.description }}</span>
+                    <span class="product_description"> {{ recentads.description|truncatewords:10 }}</span>
                     <span class="product_user"> {{recentads.condition}} | in {{recentads.locality.locality}} | By {{recentads.you_are}}</span>
                   </div> <!-- detail -->
                 </li>
@@ -154,7 +154,7 @@
           <div class="col-md-5 free_content">
               <div class="free_alert">
                 <h4>Create free alert</h4>
-                <code class="close_btn closemobile_btn cancel_btn" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}"> </code>
+                <code class="close_btn closemobile_btn cancel_btn hidden-lg" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}"> </code>
               </div>
                <form method="post" action="{% url free_alert %}" name="alert_button">
                   {% csrf_token %}

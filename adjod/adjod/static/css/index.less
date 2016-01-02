@@ -493,7 +493,7 @@ body {
 .product_name > span {
     float: right;
     position: relative;
-    right: 0px;
+    right: 14px;
     font-size:16px;
     font-family: Varela Round;
 }
@@ -560,13 +560,10 @@ body {
 	    font-family: Varela Round;
 	    font-size: 15px;
 	    left: 14px;
-	    max-width: 390px;
-	    overflow: hidden;
+	    max-height: 25px;
 	    position: relative;
-	    text-overflow: ellipsis;
 	    top: 6px;
-	    white-space: nowrap;
-    }
+	}
 }
 .product_user {
 	left: 0px;
@@ -899,13 +896,13 @@ body {
 .button > input{
 	width:100%;
 	float:left;
-	border-radius: 6px !important;
+	border-radius: 8px 0 0 8px !important;
 	position:static;
 	padding-left:20px;
 	@media (min-width: @grid-float-breakpoint) {
     	width:350px;
     	padding-left:30px;
-    	border-radius: 0px;
+    	border-radius: 8px 0 0 8px !important;
     }
 }
 .search_b {
@@ -1365,7 +1362,7 @@ hr {
 		width:187px;
 		height:123px;
 		display:inline-block;
-		padding-left: 33px;
+		padding-left: 80px;
 		margin-top: 0px;
 	}
 }
@@ -1413,17 +1410,15 @@ hr {
 	display:block;
 	position: relative;
     top: 50px;
-    color: #c4c4c4;
+    color: #484848;
     font-family: Varela Round;
 	@media (min-width: @grid-float-breakpoint){
 		display: block;
 	    font-family: Varela Round;
-	    max-width: 435px;
-	    overflow: hidden;
 	    position: relative;
-	    text-overflow: ellipsis;
-	    top: 0;
-	    white-space: nowrap;
+	  	top: 0;
+	   	color: #484848;
+	   	max-height: 25px;
 	}
 }
 .additional_description{
@@ -1437,14 +1432,16 @@ hr {
     font-size: 14px;
     position: relative;
     top: 50px;
+    color:#858585;
     @media (min-width: @grid-float-breakpoint){
     	position: relative;
     	left: 0px;
     	top: -4px;
+    	color:#858585;
     }
 }
 .model_year1{
-	color:gray;
+	color:#858585;
 	position: relative;
     top: 35px;
 }
@@ -1637,6 +1634,7 @@ hr {
     	float: right;
     	position: relative;
     	top: 15px;
+    	right: 20px;
    	}
 }
 .recommend1 {
@@ -1645,6 +1643,7 @@ hr {
     	border:1px solid #828282;
     	width: 78%;
     	float: left;
+    	max-height: 192%;
     }
 }
 .contact_button{
@@ -4558,7 +4557,7 @@ li.offline,.product_title_for_chat { display:none !important; }
     cursor: pointer;
 }
 .spans, .spans1 , .spans2{
-	color: #484848;
+	color: #559fd9;
     display: block;
     font-family: Varela Round;
     font-size: 16px;
@@ -4568,8 +4567,11 @@ li.offline,.product_title_for_chat { display:none !important; }
 	    font-family: Varela Round;
 	    font-size: 18px;
 	    position: relative;
-	    color: #484848;
+	    color: #559fd9;
     }
+}
+.spans:hover{
+	color:#559fd9 !important;
 }
 .action{
 	color: #8491db;
@@ -5118,12 +5120,8 @@ li.offline,.product_title_for_chat { display:none !important; }
 
 .loader {
 	position: absolute;
-	top: 50%;   
-    left: 50%;
-    width: 500px;
-    height: 500px;
-    margin-top: -250px;
-    margin-left: -250px;
+	margin-left: 42%;
+    margin-top: 15%;
 }
 .handle {
     display: none;
@@ -5189,4 +5187,8 @@ li.offline,.product_title_for_chat { display:none !important; }
 .choose > p {
     position: relative;
     top: -2px !important;
+}
+.sub_category7 {
+    position: relative !important;
+    top: 15px !important;
 }
