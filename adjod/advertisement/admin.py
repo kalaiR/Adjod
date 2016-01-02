@@ -21,7 +21,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class SubCategoryAdmin(admin.ModelAdmin):
     fields=['category','name']
     list_display = ('id', 'category','name')
-    list_filter = ['name']
+    list_filter = ['category']
     search_fields = ['id', 'name']
     # readonly_fields =['id']
     list_per_page = 50
