@@ -35,13 +35,6 @@ function subscribe_center_align(){
       $('.subscription_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 }
 
-$.fn.center = function () {
-      var height = $(this).height();
-      var width = $(this).width();
-      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
-      return this;
-}
-
 function checkStrength(password){
       //initial strength
       var strength = 0
@@ -226,6 +219,13 @@ function fill_brands(sub_category_id) {
 //********** End Functions **********
 
 $( document ).ready(function() {
+
+    $.fn.center = function () {
+      var height = $(this).height();
+      var width = $(this).width();
+      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
+      return this;
+   }
       
     sign_in_center_align();
     sign_up_center_align();
