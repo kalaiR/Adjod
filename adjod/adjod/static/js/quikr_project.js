@@ -35,13 +35,6 @@ function subscribe_center_align(){
       $('.subscription_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 }
 
-$.fn.center = function () {
-      var height = $(this).height();
-      var width = $(this).width();
-      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
-      return this;
-}
-
 function checkStrength(password){
       //initial strength
       var strength = 0
@@ -226,6 +219,13 @@ function fill_brands(sub_category_id) {
 //********** End Functions **********
 
 $( document ).ready(function() {
+
+    $.fn.center = function () {
+      var height = $(this).height();
+      var width = $(this).width();
+      $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
+      return this;
+   }
       
     sign_in_center_align();
     sign_up_center_align();
@@ -247,16 +247,16 @@ $( document ).ready(function() {
         $upperimg.attr('src', this.src);
     });
 
-    //Apply center alignment for images
-    $('.product_image img').load(function(){
-        $(this).center();
-    });
-    $('.product-image img').load(function(){
-        $(this).center();
-    });
-    $('.thumbs img').load(function(){
-        $(this).center();
-    });
+    // //Apply center alignment for images
+    // $('.product_image img').load(function(){
+    //     $(this).center();
+    // });
+    // $('.product-image img').load(function(){
+    //     $(this).center();
+    // });
+    // $('.thumbs img').load(function(){
+    //     $(this).center();
+    // });
 
     // Social auth share button actions for desktop
     $(".fbtwtbutton").hide();
