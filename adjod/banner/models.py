@@ -12,7 +12,6 @@ POSITION = (
 )
 
 PAGEURL = (
-    ('All pages', 'All pages'),
     ('Home page', 'Home page'),
     ('Listing page', 'Listing page'),
     ('Details page', 'Details page'),
