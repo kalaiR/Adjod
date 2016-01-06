@@ -249,7 +249,7 @@ def post_success(request, product):
     product.expired_date=datetime.datetime.now() + datetime.timedelta(days=30)
     product.status_isactive  = True
     product.post_terms=request.POST.get('terms_of_use')
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and not request.user.is_superuser:
         if request.POST.get('premium_plan'):
             plan_price = request.POST["premium_plan"]
             product.premium_plan = PremiumPriceInfo.objects.get(premium_price=plan_price)
@@ -292,7 +292,7 @@ def product_save(request):
         product=Product() 
         try:
             error={}
-            if request.user.is_authenticated():
+            if request.user.is_authenticated() and not request.user.is_superuser:
                 product.userprofile = UserProfile.objects.get(id=request.user.id)
                 product.isregistered_user = True
                 if product.userprofile.ad_count<3:
