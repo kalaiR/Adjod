@@ -55,8 +55,6 @@ from adjod.util import *
 from paypal.standard.ipn.views import *
 from django.db import transaction
 
-from paypal.standard.ipn.views import paypal_transaction
-
 # A couple of request objects - one PJAX, one not.
 rf = RequestFactory()
 regular_request = rf.get('/')
