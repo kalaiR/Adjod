@@ -316,9 +316,15 @@ def product_save(request):
                     raise ValidationError(error['exit_count'], 6)
             else:
                 product.userprofile = None
-                post_success(request, product)
-                error['success'] = ugettext('Ad Successfully posted')
-                raise ValidationError(error['success'], 5)
+                emailfilter = Product.objects.filter(you_email=request.POST.get('your_email')).count()
+                if emailfilter < 3:
+                    post_success(request, product)
+                    error['success'] = ugettext('Ad Successfully posted')
+                    raise ValidationError(error['success'], 5)
+                else:
+                    error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium')
+                    print "error['exit_count']",error['exit_count']
+                    raise ValidationError(error['exit_count'], 6)
 
         except ValidationError as e:
             messages.add_message(request, messages.ERROR, e.messages[-1])
