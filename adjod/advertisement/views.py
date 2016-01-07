@@ -295,7 +295,7 @@ def product_save(request):
             if request.user.is_authenticated() and not request.user.is_superuser:
                 product.userprofile = UserProfile.objects.get(id=request.user.id)
                 product.isregistered_user = True
-                if product.userprofile.ad_count < 3 or product.userprofile.is_subscribed = True:
+                if product.userprofile.ad_count < 3 or product.userprofile.is_subscribed == True:
                     product_dict = post_success(request, product) 
                     #Store in Userprofile table to know the status of users post ad counts
                     product.userprofile.ad_count = int(product.userprofile.ad_count) + 1
