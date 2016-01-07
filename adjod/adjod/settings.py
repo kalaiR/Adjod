@@ -168,6 +168,7 @@ INSTALLED_APPS = (
     'paypal.standard.ipn',   
     'djmoney_rates',
     'social_auth',
+    'tracking'
     # 'communication',
     # 'smsverify',
     # 'rollyourown.seo',
@@ -355,3 +356,12 @@ PAYPAL_DICT = {
     'notify_url'    : '/paypal/'
 }
 
+#setting for send mail template subject 
+TEMPLATED_EMAIL_DJANGO_SUBJECTS = {
+    'welcome':'Welcome to Resell',
+    'post_ad':'Thanks for sharing your ads with Resell',
+    'alert'  :'Matching Ads',
+    'product_alert':'Remainder Mail for your Product',
+}
+TEMPLATED_EMAIL_TEMPLATE_DIR = 'templated_email/'
+TEMPLATED_EMAIL_FILE_EXTENSION = 'email'

@@ -221,11 +221,14 @@ function fill_brands(sub_category_id) {
 //********** End Functions **********
 
 $( document ).ready(function() {
+
       
     sign_in_center_align();
     sign_up_center_align();
     reset_div_center_align();
     
+    
+
     // Showing Image as large when click thumbnail
     var $upperimg = $('.upperimg img');
     $('.thumbs img').click(function () {
@@ -795,4 +798,6 @@ $( document ).ready(function() {
         $('input.checkbox_premium').not(this).prop('checked', false); 
     });
 
+
 });
+

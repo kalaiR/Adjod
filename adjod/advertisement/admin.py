@@ -54,8 +54,8 @@ class DropdownAdmin(admin.ModelAdmin):
         return "\n".join([p.subcategory for p in obj.brand_subcategory.all()])
 
 class FreeAlertAdmin(admin.ModelAdmin):
-    fields=['alert_user','alert_category', 'alert_subcategory', 'alert_brand', 'alert_city', 'alert_email', 'alert_mobile']
-    list_display = ('id', 'alert_user','alert_category', 'alert_subcategory', 'alert_brand', 'alert_city', 'alert_email', 'alert_mobile')
+    fields=['alert_user','alert_category', 'alert_subcategory', 'alert_brand', 'alert_city', 'alert_locality','alert_email', 'alert_mobile']
+    list_display = ('id', 'alert_user','alert_category', 'alert_subcategory', 'alert_locality','alert_brand', 'alert_city', 'alert_email', 'alert_mobile')
     list_filter = ['alert_email', 'alert_mobile']
     search_fields = ['id', 'alert_email','alert_mobile']
     # readonly_fields =['id']

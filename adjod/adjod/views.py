@@ -229,12 +229,12 @@ def send_registration_confirmation(userprofile):
     content = "http://" + settings.SITE_NAME + "/confirm/" + str(userprofile.confirmation_code) + "/" + userprofile.username
     send_templated_mail(
                 template_name = 'welcome',
-                subject = 'Welcome to Resell.com',
                 from_email = 'testmail123sample@gmail.com',
                 recipient_list = [userprofile.email],
                 context={
                          'user': userprofile,
                          'content':content,
+                         'email':userprofile.email,
                 },
             )
     print "mail send"

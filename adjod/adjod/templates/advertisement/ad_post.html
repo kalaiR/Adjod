@@ -1,6 +1,26 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
+<!--========================
+   script for scroll the page when click the active button from email template
+   ===========================-->
+<script type="text/javascript">
+  $(document).ready(function(){
+     $('.choose_plan').hide();
+    if (window.location.href.indexOf("?plan=") >= 0) {
+      $('html, body').animate({
+        scrollTop: $("#premium_ad").offset().top - 70
+    }, 2000);
+    $('.choose_plan').show();
+    (function blink() { 
+    $('.choose_plan').fadeOut(500).fadeIn(500, blink); 
+    })();
+   
+  }
+  });
+</script>
+<!--end script-->
+
     <!--======================
       	 Post form content
     ========================-->
@@ -183,6 +203,7 @@
            		<input type="checkbox" name="privacy" id="privacy" />
            		<span class="privacy_text">Maintain my Privacy (Buyers will first contact you via reply, you can decide when to reveal your phone number to them)</span>
            	</div> <!-- privacy -->
+            <div class="choose_plan"><h2>Please Select Your Plan</h2></div>
 
            	<div class="field_div form-group" id="premium_ad">
              		<div class="row premium_row">
