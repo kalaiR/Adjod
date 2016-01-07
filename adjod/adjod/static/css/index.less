@@ -3065,7 +3065,7 @@ sup , .view_example{
 }
 
 #sign_up_div .email_id{
-	font-size:16px;
+	font-size:14px;
     border: 1px solid #d8d8d8;
     height: 40px;
     width: 264px;
@@ -3083,7 +3083,7 @@ sup , .view_example{
     }
 }
 #sign_up_div .password{
-	font-size:16px;
+	font-size:14px;
     border: 1px solid #d8d8d8;
     height: 40px;
     width: 264px;
@@ -3100,7 +3100,7 @@ sup , .view_example{
 }
 
 #sign_up_div .user_id{
-	font-size:16px;
+	font-size:14px;
     border: 1px solid #d8d8d8;
     height: 40px;
     width: 264px;
@@ -3122,7 +3122,7 @@ sup , .view_example{
 	margin-left:121px;
 }
 .email_id, .password{
-    font-size:16px;
+    font-size:14px;
     border: 1px solid #d8d8d8;
     height: 40px;
    	width: 264px;
@@ -3136,7 +3136,7 @@ sup , .view_example{
     }
 }
 .select_city, .mobile_number{
-    font-size:16px;
+    font-size:14px;
     border: 1px solid #d8d8d8;
     height: 40px;
     width: 264px;
@@ -3181,10 +3181,16 @@ sup , .view_example{
 	}
 }
 #forgot_div{
-  font-size:15px;
-  color: #A20208;
-  cursor : pointer;
-  margin-bottom:20px;
+	font-size:14px;
+  	color: #A20208;
+  	cursor : pointer;
+  	margin-bottom:20px;
+	@media (min-width: @grid-float-breakpoint){
+		font-size:15px;
+		color: #A20208;
+		cursor : pointer;
+		margin-bottom:20px;
+	}
 }
 #forgot_div > input{
   margin-left : 160px;
@@ -3259,24 +3265,44 @@ sup , .view_example{
     margin-bottom:10px;
 }
 .signin{
-    display:inline-table;
-    font-size: 16px;
+	display:inline-table;
+    font-size: 14px;
     cursor:auto;
     font-family: helvetica;
     color: #000;
+	@media (min-width: @grid-float-breakpoint){
+	    display:inline-table;
+	    font-size: 16px;
+	    cursor:auto;
+	    font-family: helvetica;
+	    color: #000;
+    }
 }
 #free_signup_div{
-  	margin: 40px 0;
+	margin: 30px 0;
     text-align: center;
+	@media (min-width: @grid-float-breakpoint){
+	  	margin: 40px 0;
+	    text-align: center;
+    }
 }
 .free_button{
-  	background: none repeat scroll 0 0 transparent;
+	background: none repeat scroll 0 0 transparent;
     border: medium none;
     font-family: helvetica;
-    font-size: 17px;
+    font-size: 15px;
     margin: 0;
     padding: 0;
     color:#A20208;
+	@media (min-width: @grid-float-breakpoint){
+	  	background: none repeat scroll 0 0 transparent;
+	    border: medium none;
+	    font-family: helvetica;
+	    font-size: 17px;
+	    margin: 0;
+	    padding: 0;
+	    color:#A20208;
+    }
 }
 .fancybox-skin{
     padding:0px !important;
@@ -3404,6 +3430,7 @@ sup , .view_example{
 .category_list >li, .subcategory_list >li, .brand_list >li{
   padding:5px;
   cursor:pointer;
+  color: #a20208;
 }
 .category_list >li:hover, .subcategory_list >li:hover, .brand_list >li:hover{
   color:#fc891e;
@@ -3411,6 +3438,9 @@ sup , .view_example{
 .title_row{
   border: 0px;
   border-bottom: 1px solid #d7d7d7;
+  color: #fff;
+  text-align: center;
+  background: none repeat scroll 0 0 #eb1c24;
 }
 .content_row{
   border: 0px;
@@ -3753,7 +3783,7 @@ label >.error { color:red; }
    	}
 }
 .signin_mobile, .forgot_mobile{
-	height: 420px;
+	height: 400px;
 	@media (min-width: @grid-float-breakpoint){
 		height: 500px;
 	}
@@ -3843,11 +3873,11 @@ label >.error { color:red; }
     @media (min-width: @grid-float-breakpoint){
     	position:absolute;
 	    display:none;
-	    background: url("/static/img/close_btn.png") no-repeat 0px 0px;
+	    background: url("/static/img/close_mbl.png") no-repeat 0px 0px;
 	    width:28px;
 	    height:29px;
-	    top:-10px;
-	    right:-10px;
+	    top: 20px;
+	    right:0px;
 	    z-index: 99999;
 	    border:none;
 	    cursor:pointer;
@@ -4390,15 +4420,15 @@ li.offline,.product_title_for_chat { display:none !important; }
     background-image:linear-gradient(#EB1C24,#A20208);
     font-size: 16px;
     height: 42px;
-    left: 40px;
+    left: 60px;
     position: relative;
-    top: 5px;
+    top: 15px;
     width: 170px;
     @media (min-width: @grid-float-breakpoint) {
     	left: 6px;
 	    position: relative;
-	    top: 10px;
-	   background-image:linear-gradient(#EB1C24,#A20208);
+	    top: 12px;
+	   	background-image:linear-gradient(#EB1C24,#A20208);
 	    width: 262px;
     }
 }
@@ -4451,7 +4481,9 @@ li.offline,.product_title_for_chat { display:none !important; }
 	}
 }
 .forget_password_content{
-	line-height:1;
+	line-height:2;
+	padding: 0 5px;
+	font-family: helvetica;
 }
 #home_menu,
 #home_menu ul,
@@ -5159,20 +5191,35 @@ li.offline,.product_title_for_chat { display:none !important; }
 	background:url("../img/button_online.png") no-repeat;
 }
 .signup_tooltip{
-	background: black none repeat scroll 0 0;
+    background: none repeat scroll 0 0 black;
+    border-radius: 6px;
+    bottom: 44px;
     color: white;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 12px;
     font-weight: 400;
-  	bottom: 52px;
-    visibility: visible;
-   	position: absolute;
-    right: 50px;
-    visibility: visible;
-    width: 32%;
-    z-index: 9999;
     padding: 3px;
-    border-radius: 6px;
+    position: absolute;
+    right: 8px;
+    visibility: visible;
+    width: 82%;
+    z-index: 9999;
+	@media (min-width: @grid-float-breakpoint){
+		background: black none repeat scroll 0 0;
+	    color: white;
+	    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	    font-size: 12px;
+	    font-weight: 400;
+	  	bottom: 52px;
+	    visibility: visible;
+	   	position: absolute;
+	    right: 50px;
+	    visibility: visible;
+	    width: 32%;
+	    z-index: 9999;
+	    padding: 3px;
+	    border-radius: 6px;
+    }
 }
 .search_city {
     left : -19%;
@@ -5294,8 +5341,12 @@ li.offline,.product_title_for_chat { display:none !important; }
     width: 215%;
 }
 .facebook {
-    margin-left: 160px;
+	margin-left: 0px;
     margin-right: 64px;
+	@media (min-width: @grid-float-breakpoint) {
+	    margin-left: 160px;
+	    margin-right: 64px;
+    }
 }
 #sorteddata > option {
     padding: 6px 4px;
@@ -5360,7 +5411,9 @@ nav li a:hover {
 .header_middle {
 	width: 100%;
 	@media (min-width: @grid-float-breakpoint){
-		width: 42%;
+		width: 48%;
+		height:164px;
+		display:block;
 	}
 }
 .heading {
@@ -5421,4 +5474,7 @@ nav li a:hover {
 }
 .choose_plan{
 	color:red;
+}
+.pwd_reset_iframe{
+	 margin: 20px 0 0;
 }

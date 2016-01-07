@@ -215,8 +215,9 @@
 
                 <input type="text" name="q" id="q" class="form-control input-lg" placeholder="Search here"  value="{% if recent_viewed_search %}{% for cat in recent_viewed_search|slice:'1' %}{% if cat.activity_view %}{{ cat.activity_view }}{% else %}{% endif %}{% endfor %}{% else %}{% endif %}"/>
                 {% endif %}
+                <button type="submit"class="btn btn-lg btn-success search_btn" value="Search">Search</button>
             </div> <!-- form -->
-            <button type="submit"class="btn btn-lg btn-success search_btn" value="Search">Search</button>
+            
         </form>
       </div>
     </div> <!-- header_search -->
@@ -556,7 +557,7 @@
 
             </div> -->
 
-            <iframe src="{% url password_reset %}" height= "215" width="288" scrolling="no" frameBorder="0" style="border:none;"></iframe>
+            <iframe src="{% url password_reset %}" height= "215" width="288" scrolling="no" frameBorder="0" style="border:none;" class="pwd_reset_iframe"></iframe>
            </form>
             <div id="" class="form-group">
               <hr class="photos_line" noshade="noshade">
