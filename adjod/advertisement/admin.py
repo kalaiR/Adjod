@@ -21,7 +21,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class SubCategoryAdmin(admin.ModelAdmin):
     fields=['category','name']
     list_display = ('id', 'category','name')
-    list_filter = ['name']
+    list_filter = ['category']
     search_fields = ['id', 'name']
     # readonly_fields =['id']
     list_per_page = 50
@@ -61,15 +61,15 @@ class FreeAlertAdmin(admin.ModelAdmin):
     # readonly_fields =['id']
     list_per_page = 50
 
-class ProductAdmin(admin.ModelAdmin):
-    fields=['userprofile','category', 'subcategory', 'adtype', 'title', 'photos', 'video','condition', 'price', 
-            'ad_brand','ad_year','city', 'locality', 'description', 'you_are', 'you_email','you_phone','created_date','modified_date']
-    list_display = ('id', 'userprofile','category', 'subcategory', 'adtype', 'title', 'photos', 'thumbnail', 'imagecount', 'video','condition', 'price', 
-            'ad_brand','ad_year','city', 'locality', 'description', 'you_are', 'you_email','you_phone','created_date','modified_date')
-    # list_filter = ['alert_email', 'alert_mobile']
-    search_fields = ['id', 'you_email','you_phone']
-    # readonly_fields =['id']
-    list_per_page = 50
+# class ProductAdmin(admin.ModelAdmin):
+#     fields=['userprofile','category', 'subcategory', 'adtype', 'title', 'photos', 'video','condition', 'price', 
+#             'ad_brand','ad_year','city', 'locality', 'description', 'you_are', 'you_email','you_phone','created_date','modified_date']
+#     list_display = ('id', 'userprofile','category', 'subcategory', 'adtype', 'title', 'photos', 'thumbnail', 'imagecount', 'video','condition', 'price', 
+#             'ad_brand','ad_year','city', 'locality', 'description', 'you_are', 'you_email','you_phone','created_date','modified_date')
+#     # list_filter = ['alert_email', 'alert_mobile']
+#     search_fields = ['id', 'you_email','you_phone']
+#     # readonly_fields =['id']
+#     list_per_page = 50
 
 class PremiumPriceInfoAdmin(admin.ModelAdmin):
     fields=['premium_price','base_currency','purpose','duration']
@@ -77,6 +77,33 @@ class PremiumPriceInfoAdmin(admin.ModelAdmin):
     list_filter = ['premium_price','base_currency','purpose']
     search_fields = ['premium_price','base_currency','purpose']
     # readonly_fields =['id']
+    list_per_page = 50
+
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('id', 'userprofile','category', 'subcategory', 'adtype', 'title', 'photos', 'thumbnail', 'imagecount','condition', 'price', 
+            'ad_brand','ad_year','city', 'locality', 'description', 'you_are','you_name', 'you_email','you_phone','ispremium','premium_plan','created_date','modified_date')
+    list_filter = ['category', 'subcategory','ispremium','premium_plan']
+    search_fields = ['id','category','subcategory', 'you_email','you_phone']
+    readonly_fields =['city']
+    fieldsets = [
+      ('Product Details', {
+          'fields': [ 'category', 'subcategory','ad_brand','title', 'description', 
+                      'photos', 'condition', 'price','ad_year','city','locality']
+      }),
+
+      ('Personal information', {
+          'fields': ['userprofile','you_are', 'you_name','you_email', 'you_phone'],
+          
+      }),
+      
+      ('Product Subscription Details', {
+          'fields': ['ispremium', 'premium_plan']
+      }),
+
+      ('Date', {
+          'fields': ['created_date', 'modified_date']
+      }),
+    ]
     list_per_page = 50
     
 admin.site.register(PremiumPriceInfo, PremiumPriceInfoAdmin)

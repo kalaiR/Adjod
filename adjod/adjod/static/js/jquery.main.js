@@ -890,7 +890,7 @@ $( document ).ready(function() {
                                     <span class='direct-chat-name pull-right'>" + val.sender + "</span>\
                                     <span class='direct-chat-timestamp pull-left'>" + get_format_date(val.received_at) + "</span>\
                                   </div>\
-                                  <img class='direct-chat-img' src='' alt='message user image' />\
+                                  <img class='direct-chat-img' src='"+ val.sender_image +"' alt='message user image' />\
                                   <div class='direct-chat-text'>\
                                     <div>" + val.message + "</div>\
                                   </div>\
@@ -902,7 +902,7 @@ $( document ).ready(function() {
                                     <span class='direct-chat-name pull-left'>" + val.sender + "</span>\
                                     <span class='direct-chat-timestamp pull-right'>" + get_format_date(val.received_at) + "</span>\
                                   </div>\
-                                  <img class='direct-chat-img' src='' alt='message user image' />\
+                                  <img class='direct-chat-img' src="+ val.receiver_image +"' alt='message user image' />\
                                   <div class='direct-chat-text'>\
                                     <div>" + val.message + "</div>\
                                   </div>\

@@ -16,7 +16,7 @@
   <div class="row row-1">
    <div class="col-md-6 second-column">
               <div class="visible-lg">
-                  <h3>{{adinfo.title}}</h3>
+                  <h4>{{adinfo.title}}</h4>
                   <span class="Ad-ID">Ad ID:{{adinfo.id}} | {{adinfo.created_date}} | 19 views</span>
               </div>
               
@@ -99,8 +99,8 @@
                 <div class="other-buttons visible-lg">
                 <span href="" class="btn btn-default share_button"> Share
                 <i class="fa fa-share-alt"></i></span>
-                <span href="" class="btn btn-default favourite_button"> Add as favourite
-                <i class="fa fa-heart heart_detail"></i></span>
+                <!-- <span href="" class="btn btn-default favourite_button"> Add as favourite
+                <i class="fa fa-heart heart_detail"></i></span> -->
               </div>
 
               <div class="fbtwtbutton">
@@ -146,7 +146,7 @@
               </div>
               {% endif %}
               <div class="contact-seller visible-lg">
-                <h3 class="seller">Contact Seller</h3>
+                <h4 class="seller">Contact Seller</h4>
                 <div class="owner_contact">
                     <p class="owner_name">
                     {% if adinfo.userprofile %}
@@ -175,7 +175,7 @@
               </div>
 
                <div class="contact-seller_mobile hidden-lg">
-                <h3 class="seller_mobile">Seller details</h3>
+                <h4 class="seller_mobile">Seller details</h4>
                 <div class="owner_contact">
                     <p class="owner_name">
                     {% if adinfo.userprofile %}
@@ -206,7 +206,7 @@
               </div>
             
               <div class="description_box">
-                <h3>Description</h3>
+                <h4>Description</h4>
                 <p>{{adinfo.description}}
                 </p>
               </div>
@@ -254,7 +254,7 @@
                     <div class="details">
                         <div class="product_name1">  
                             <a href="" class="spans"> {{related_products.object.title}}</a>
-                            <span class="product_description1 visible-lg">{{related_products.object.description}}
+                            <span class="product_description1 visible-lg">{{related_products.object.description|truncatewords:10}}
                             </span>
                             <span class="model_year1 visible-lg"> {{related_products.object.condition}} | in {{related_products.object.city}} | By {{related_products.object.you_are}}</span>
                             <span class="year visible-lg">{{related_products.object.created_date}}</span>
@@ -270,11 +270,7 @@
               </ul>
         {% endif %}
         </div> <!-- col-md-8 -->
-        <div class="col-md-4 column-ad visible-lg">
-            <div class="adv_part">
-              <a href="" class=""><code><i class="fa fa-times-circle closebtn"></i></code></a>
-            </div>
-        </div>
+        
         {% if recommendresults %}
             <div class="col-md-4 column-ad visible-lg">
               <div class="adv_part">
@@ -295,7 +291,14 @@
             </div> <!-- container fifth_part-->
         {% endif %}  
       </div> <!-- row row2 -->
-    </div> <!-- container -->
+ </div> <!-- container -->
+
+  <div class="col-md-2 column-ad visible-lg">
+      <div class="adv_part">
+          <img src="{{MEDIA_URL}}banners/car_banner.jpg" /><br><br>
+          <img src="{{MEDIA_URL}}banners/ac_banner.png" style="height:160px;width:162px;"/>
+      </div>
+  </div>
 
 
     
@@ -342,7 +345,7 @@
         </div> <!-- col-md-8 -->
         <div class="col-md-4 column-ad visible-lg">
             <div class="adv_part">
-              <a href="" class=""><code><i class="fa fa-times-circle closebtn"></i></code></a>
+              <a href="" class=""><img src=""></a>
             </div>
         </div>
         {% if recommendresults %}

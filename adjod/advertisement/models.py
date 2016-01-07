@@ -4,6 +4,7 @@ from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from haystack.query import SearchQuerySet
+from datetime import timedelta
 import datetime
 from adjod.models import *
 
@@ -106,6 +107,12 @@ class Product(models.Model):
     def __unicode__(self):
         return self.title
 
+    def save(self, force_insert=False, force_update=False):
+        self.city = City.objects.get(id=1)
+        self.country_code = self.city.country_code
+        self.expired_date = self.created_date + timedelta(days=30)
+        super(Product, self).save(force_insert, force_update)
+
     @classmethod
     def get_related(cls,product):
         if product.ad_brand:
@@ -122,6 +129,7 @@ class Product(models.Model):
           qs =  SearchQuerySet().all().exclude(id=product.id)
           related_product=qs
         return related_product
+
 
 class FreeAlert(models.Model):
     alert_user=models.ForeignKey(UserProfile,null=True)

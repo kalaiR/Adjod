@@ -24,11 +24,12 @@
     <!--======================
       	 Post form content
     ========================-->
+     
     <div class="container center">
       <div class="inner_container">
       <form method="post" action="{% url product_save %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">
           {% csrf_token %}
-     	    <div class="{% if request.REQUEST.pt %} labelError {% endif %}">{% for message in messages%}{{message}}{% endfor %}</div>
+     	    <div class="{% if request.REQUEST.pt %} labelError success_post {% endif %}">{% for message in messages%}{{message}}{% endfor %}</div>
        		<!-- <div class="field_title form-group" id="type_of_ad_title">
        				<span class="title">Type of ad</span>
        				<span class="mandatory">*</span>
@@ -214,8 +215,11 @@
              		<div class="row premium_row">
         					<div id="premium_col_1" class="col-md-4">
           						<span class="premium_row_1">Urgent Ad</span>
-          						<span class="premium_row_2"><a href="#">View Example</a></span>
-          						<span class="premium_row_3">S$ 9.99 per ad</a></span>
+          						<span class="premium_row_2"><a href="#" class="urgent_ad">View Example</a></span>
+                      <div> <code class="close_btn cancel_btn"> </code>
+                        <img src="../static/img/urgent.jpg" class="urgentad_popup">
+                      </div>
+                      <span class="premium_row_3">S$ 9.99 per ad</a></span>
           						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan1" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
                       <span class="premium_row_4 select_premium">
                         <input type="checkbox" id="premium_plan1" name="premium_plan" class="check_disable checkbox_premium" value="9.99"><span class="premium_new">Select</span>
