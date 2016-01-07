@@ -845,7 +845,6 @@ $( document ).ready(function() {
           $('.leftslide1').css({position :'absolute', top: 382} );
         }
      });
->>>>>>> aefc198c5ea4b251900d3c2d5c1d7d3448b3ad56
 
 });
 
