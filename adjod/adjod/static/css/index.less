@@ -198,15 +198,16 @@ body {
 .select_area {
     -webkit-appearance: none;
     -moz-appearance: none;
-    background: #E1E1E1 none repeat scroll 0 0;
+    background: #fff none repeat scroll 0 0;
     border: medium none;
-    color: white;
+    color: #000;
     cursor: pointer;
     display: block;
     float: right;
     font-family: Arial;
     font-size: 17px;
     padding: 5px;
+    outline: none;
     @media (min-width: @grid-float-breakpoint){
     	display: none;
 	}
@@ -227,6 +228,7 @@ body {
       width:500px;
       border-radius: 0px;
       top:0px;
+      float:left;
     }
 }
 .form > i{
@@ -480,8 +482,8 @@ body {
 }
 .alert_btn{
 	display:block;
-	border: 1px solid #eb8216;
-    color: #eb8216;
+	border: 1px solid #EB1C24;
+    color: #A20208;
     height: 42px;
  	padding-top: 9px;
     position: relative;
@@ -493,7 +495,7 @@ body {
 		display:none;
 	}
 }
-
+.alert_btn:hover{color: #000;}
 .products , .enquiry_form{
 	list-style-type:none;
 	padding-left:0px;
@@ -789,10 +791,12 @@ body {
     background: black none repeat scroll 0 0;
     color: white;
     height: 43px;
-    width: 150px;
+    width: 180px;
     display:block;
     -moz-appearance:none;
+    -webkit-appearance:none;
     cursor: pointer;
+    border: medium none #000;
     @media (min-width: @grid-float-breakpoint) {
 		display:none;
 	}
@@ -2543,6 +2547,7 @@ input[type="checkbox"] {
 .has_sub{
 	padding-left:0px !important;
 	color:#A20208;
+	font-size: 15px;
 }
 .has-sub > a {
     padding-left: 52px;
@@ -3188,9 +3193,11 @@ sup , .view_example{
 	}
 }
 #confirm_div > span{
-   margin: 9px 0 0 20px;
+   font-size: 11px;
+   margin: 12px 0 0 15px;
    @media (min-width: @grid-float-breakpoint){
    		margin : 0px 0px 0px 20px;
+   		font-size: 13px;
 	}
 }
 #select_city_div, #confirm_div{
@@ -3225,7 +3232,7 @@ sup , .view_example{
   background-image:linear-gradient(#EB1C24,#A20208);
   color: #ffffff;
   font-size: 18px;
-  margin-left : 20px;
+  margin-left : 0px;
   cursor:pointer;
   left: -12px;
   position: relative;
@@ -3235,7 +3242,7 @@ sup , .view_example{
 	  	background-image:linear-gradient(#EB1C24,#A20208);
 	  	color: #ffffff;
 	  	font-size: 18px;
-	  	margin-left : 50px;
+	  	margin-left : 58px;
 	  	cursor:pointer;
 	  	position: relative;
 	  	left: -20px;
@@ -3549,6 +3556,8 @@ label >.error { color:red; }
 	font-size:12px;
 	display:block;
 	width:320px;
+	height: 5px;
+    margin: 0;
 }
 .choose_error {
     width: 220px !important;
@@ -3578,6 +3587,8 @@ label >.error { color:red; }
 	font-size:12px;
 	display:block;
 	width:178px;
+	margin: 0;
+  	height: 5px;
 }
 .signup_error{
 	color:red;
@@ -3616,7 +3627,7 @@ label >.error { color:red; }
 	/*border: 1px solid #ccc;*/
     height: 100px;
     position: absolute;
-    right: 15px;
+    right: 0px;
     top: 382px;
     width: 165px;
     display:block;
@@ -3635,7 +3646,7 @@ label >.error { color:red; }
 	/*border: 1px solid #ccc;*/
     height: 221px;
     position: absolute;
-    left: 0px;
+    left: -20px;
     top: 382px;
     width: 188px;
 }
@@ -3652,20 +3663,47 @@ label >.error { color:red; }
 	width:61px;
 	height:65px;
 	position:absolute;
+	margin: 0 0 0 45px;
+	z-index: 9999;
+	@media (min-width: @grid-float-breakpoint){
+		background: url("/static/img/premium_urgent.jpeg") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+		width:61px;
+		height:65px;
+		position:absolute;
+		margin: 0px;
+	}
 }
 
 .premium-img2{
+	margin: 0 50px;
+	z-index: 9999;
 	background: url("/static/img/urgent.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 	width:61px;
 	height:65px;
 	position:absolute;
+	@media (min-width: @grid-float-breakpoint){
+		background: url("/static/img/urgent.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+		width:61px;
+		height:65px;
+		position:absolute;
+		margin: 0px;
+	}
 }
 
 .premium-img3{
+	margin: 0 60px;
+	z-index: 9999;
 	background: url("/static/img/premium.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 	width:61px;
 	height:65px;
 	position:absolute;
+	@media (min-width: @grid-float-breakpoint){
+		background: url("/static/img/premium.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+		width:61px;
+		height:65px;
+		position:absolute;
+		margin: 0px;
+	}
 }
 
 #richmedia_6{
@@ -3832,7 +3870,10 @@ label >.error { color:red; }
 	    background-color:transparent;
 }
 #user_id_div .signup_labelError{
-	margin-left:131px;
+	margin-left:13px;
+	@media (min-width: @grid-float-breakpoint){
+		margin-left:131px;
+	}
 }
 
 #mobile_number_div{
@@ -3883,6 +3924,7 @@ li.offline,.product_title_for_chat { display:none !important; }
 	position:relative;
 	margin-top:-15px;
 	font-family: helvetica;
+	height: 18px;
 }
 .form-group-email{
 	position:relative;
@@ -3985,7 +4027,7 @@ li.offline,.product_title_for_chat { display:none !important; }
     top: 58%;
 }
 .transparent_bg a {
-    color: white;
+    color: #373737;
     display: inline-block;
     font-size: 14px;
     overflow: hidden;
@@ -3994,12 +4036,12 @@ li.offline,.product_title_for_chat { display:none !important; }
     width: 100%;
     font-weight: bolder;
 }
+.transparent_bg a:hover{ color:#A20208; }
 .transparent_bg > span {
-    color: white;
+    color: #5C5C63;
     display: inherit;
     font-size: 12px;
     position: relative;
-    font-weight: bolder;
 }
 .mobile_img {
     left: 0;
@@ -4007,8 +4049,7 @@ li.offline,.product_title_for_chat { display:none !important; }
     position: absolute;
 }
 .transparent_bg{
-	background: #b4a9aa none repeat scroll 0 0;
-	 opacity: 0.6;
+	background: rgba(20,0,60,0.08);
 }
 .app_filter{
 	background: #fafafa none repeat scroll 0 0;
@@ -4313,8 +4354,9 @@ li.offline,.product_title_for_chat { display:none !important; }
     top: 6px;
 }
 .select_area > option {
-    background: #6a79c9 none repeat scroll 0 0;
+    background: #a20208 none repeat scroll 0 0;
     padding: 4px;
+    color: #fff;
 }
 #post_ad {
     margin: 25px;
@@ -4487,12 +4529,13 @@ li.offline,.product_title_for_chat { display:none !important; }
 }
 #home_menu ul ul a {
   display: block;
-  color:#559fd9;
+  color:#A20208;
   font-size: 16px;
   font-family:helvetica;
+  font-weight: bold;
 }
 #home_menu ul ul a:hover {
-  color: #8391DB;
+  color: #000;
 }
 .hide_list.hidelist1.subclick {
     padding-left: 32px !important;
@@ -5158,7 +5201,7 @@ li.offline,.product_title_for_chat { display:none !important; }
 	display:block;
 	background:url("../img/resell_mobile.png") no-repeat;
 	height: 44px;
-    left: 18%;
+    left: 6%;
     position: absolute;
     width: 100px;
 	@media (min-width: @grid-float-breakpoint) {

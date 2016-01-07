@@ -822,29 +822,29 @@ $( document ).ready(function() {
     });
 
 //sticky ads for home page and search page
-    var stickyTop = $('.leftslide').offset().top; // returns number
+    // var stickyTop = $('.leftslide').offset().top; // returns number
  
-      $(window).scroll(function(){ // scroll event 
-        var windowTop = $(window).scrollTop(); // returns number
-         if (stickyTop < windowTop) {
-          $('.leftslide').css({ position: 'fixed', top: 0 });
-        }
-        else {
-          $('.leftslide').css({position :'absolute', top: 382} );
-        }
-     });
+    //   $(window).scroll(function(){ // scroll event 
+    //     var windowTop = $(window).scrollTop(); // returns number
+    //      if (stickyTop < windowTop) {
+    //       $('.leftslide').css({ position: 'fixed', top: 0 });
+    //     }
+    //     else {
+    //       $('.leftslide').css({position :'absolute', top: 382} );
+    //     }
+    //  });
 
-      var stickyTop = $('.leftslide1').offset().top; // returns number
+    //   var stickyTop = $('.leftslide1').offset().top; // returns number
      
-      $(window).scroll(function(){ // scroll event 
-        var windowTop = $(window).scrollTop(); // returns number
-         if (stickyTop < windowTop) {
-          $('.leftslide1').css({ position: 'fixed', top: 0 });
-        }
-        else {
-          $('.leftslide1').css({position :'absolute', top: 382} );
-        }
-     });
+    //   $(window).scroll(function(){ // scroll event 
+    //     var windowTop = $(window).scrollTop(); // returns number
+    //      if (stickyTop < windowTop) {
+    //       $('.leftslide1').css({ position: 'fixed', top: 0 });
+    //     }
+    //     else {
+    //       $('.leftslide1').css({position :'absolute', top: 382} );
+    //     }
+    //  });
 
 });
 
