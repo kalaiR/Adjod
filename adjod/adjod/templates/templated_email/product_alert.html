@@ -10,38 +10,67 @@
 <title>Remainder for Product</title>
  </head>
 
-<body >
-<div style="background-image: url(&quot;https://pro-bee-user-content-eu-west-1.s3.amazonaws.com/public/users/BeeFree/754de35f-e3a1-42ed-994e-b0550048af0e/FREE ALERTS1.jpg &quot;); border: 6px outset; width: 800px; height: 600px;">
-    <div class="content">
-          <p style="margin-top: 10%; float: left; margin-left: 31%;"> Dear {{ user }}</p>
-          <p style="float: left; margin-left: 31%;">
-            These Products are going to expired in 3days.
-            If you want extend please visit our website.</p>
-           <table style="float: left;margin-left: 44%; margin-top: 3%;">
-              <tbody>
-                  <tr>
-                    <td width="222" style="line-height: 18px; color: rgb(0, 0, 0);"><b>Category:</b></td>
-                    <td style="color:#4c4c4c;">{{ cat }}</td>
-                  </tr>
-                  <tr height="50px">
-                    <td style="color: rgb(0, 0, 0); line-height: 18px;"><b>Subcategory:</b></td>
-                    <td style="color:#4c4c4c;">{{ subcat }}</td>
-                  </tr>
-                  <tr height="25px">
-                    <td style="color: rgb(0, 0, 0); line-height: 18px;"><b>Brand:</b></td>
-                    <td style="color:#4c4c4c;">{{ brand }}</td>
-                  </tr>
-                  <tr height="50px">
-                      <td style="color: rgb(0, 0, 0); line-height: 18px;"><b>Title:</b></td>
-                      <td style="color:#4c4c4c;">{{ title }}</td>
-                  </tr>
-              </tbody>
-          </table>
-          <a href="{{ con }}" style="background: #fc891e none repeat scroll 0 0; border: 1px solid #fc891e; color: white; float: left;margin-left: -212px;margin-top: 26%;padding: 10px 17px 7px 14px;text-align: center;">ACTIVE</a>
-         <!--  <p>{{ con }}</p> -->
-     </div>  
-  </div>
+<body>
+<div style="width: 744px; border-radius: 4px; border: 1px solid; height: 530px;">  
+    <div style="padding-left: 37%; padding-top: 2%; padding-bottom: 6px;">
+       <img is-full-width="false" style="max-width: 126px; margin-left: 29px;" src="https://pro-bee-user-content-eu-west-1.s3.amazonaws.com/public/users/BeeFree/754de35f-e3a1-42ed-994e-b0550048af0e/registered logo.jpg" ng-src="https://pro-bee-user-content-eu-west-1.s3.amazonaws.com/public/users/BeeFree/754de35f-e3a1-42ed-994e-b0550048af0e/registered logo.jpg" class="" alt="Image" title="Image" href="" ng-load="updateModelImageWidth()" ng-style="{'max-width': maxWidth}" ng-show="!isPlaceholder()"><br>
+    </div>  
+    <div class="content" style="padding: 7px 0px 0px 114px; width: 670px; height: auto;">
+      <table>
+        <tbody>
+          <tr>
+            <td style="font-size: 25px; font-family: calibri; text-align: center; padding-bottom: 10px; color: rgb(78, 78, 78); background: rgb(235, 235, 235) none repeat scroll 0% 0%;">Your Ad "{{title}}" on Resell has been removed 
+            </td>
+          </tr>
+          <tr>
+           <td style="font-size: 18px; font-family: calibri; text-align: center; padding-bottom: 10px; padding-top: 23px;">DEAR <span style="color:#FE002D;">{{user}}</span></td>
+          </tr>          
+          <tr>
+            <td style="font-family: calibri; padding-bottom: 10px; text-align: center; color: rgb(78, 78, 78); font-size: 17px;">
+              Your Ad "{{title}}" on Resell has been removed in accordance with our lisiting plan.
+            </td>
+          </tr>          
+        </tbody>
+      </table>
+      </div>
+      <div style="float: left; padding-top: 14px;">
+        <img width="191" height="255" emb-block-render-image="" draggable="false" unselectable="on" class="emb-unselectable" ng-src="https://img.createsend1.com/resize/ei/i/71/44F/C61/csimport/email_notification1.jpg?w=600" src="https://img.createsend1.com/resize/ei/i/71/44F/C61/csimport/email_notification1.jpg?w=600">
+      </div>
+      <div style="float: left; font-family: calibiri; padding-left: 23px; color: rgb(78, 78, 78); text-align: center; font-size: 16px;">
+        <p>Your ad was removed as it was found to be a spam ad.</p>
+        <p>For more information, please through <br> Resell's lisiting plan.</p>        
+      </div><br/>
+
+      <div style="float: left; margin-left: 178px; margin-top: 10px;">
+        <table>
+          <tbody>
+            <tr>
+              <td style="pagging-left:0px;">
+                <a style="background-image: linear-gradient(rgb(235, 28, 36), rgb(162, 2, 8)); text-decoration:none; color: white;  padding: 8px 17px 12px 18px;" href="{{active_link}}?plan=" class="active">Active</a>
+              </td>
+            </tr>           
+          </tbody>
+        </table>
+      </div>
+      <div style="float: right; padding-right: 50px; padding-top: 43px;">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <img ng-show="!isPlaceholder()" ng-style="{'max-width': maxWidth}" ng-load="updateModelImageWidth()" href="" title="Image" alt="Image" class="" ng-src="https://pro-bee-user-content-eu-west-1.s3.amazonaws.com/public/users/BeeFree/754de35f-e3a1-42ed-994e-b0550048af0e/editor_images/registered red3.jpg" src="https://pro-bee-user-content-eu-west-1.s3.amazonaws.com/public/users/BeeFree/754de35f-e3a1-42ed-994e-b0550048af0e/editor_images/registered red3.jpg" style="max-width: 105px; float:right;" is-full-width="false">
+              </td>           
+            </tr>
+            <tr>
+              <td>
+                    <span style="font-size: 18px; color: rgb(78, 78, 78); font-family: calibri; float: right; padding-bottom: 10px;"> Team Resell</span>
+              </td>
+          </tr></tbody>
+        </table>
+    </div>
+</div>
+
 </body>
 </html>
 {% endblock %}
 {% endblock %}
+

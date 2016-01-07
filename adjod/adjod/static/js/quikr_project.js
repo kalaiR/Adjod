@@ -223,20 +223,20 @@ function fill_brands(sub_category_id) {
 //********** End Functions **********
 
 $( document ).ready(function() {
-   
+  
   $.fn.center = function () {
       var height = $(this).height();
       var width = $(this).width();
       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
       return this;
    }
-  
+
     sign_in_center_align();
     sign_up_center_align();
     reset_div_center_align();
     subscribe_center_align();
-    urgent_ad_center_align();
-    
+    urgent_ad_center_align();  
+
      $(".urgent_ad").click(function(){
         urgent_ad_center_align();
         $('.popup_fade').show();
@@ -252,7 +252,7 @@ $( document ).ready(function() {
         document.body.style.overflow = 'hidden';
     });
 
-    // Showing Image as large when click thumbnail
+   // Showing Image as large when click thumbnail
     var $upperimg = $('.upperimg img');
     $('.thumbs img').click(function () {
         $upperimg.attr('src', this.src);
