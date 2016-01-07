@@ -223,20 +223,20 @@ function fill_brands(sub_category_id) {
 //********** End Functions **********
 
 $( document ).ready(function() {
-   
+  
   $.fn.center = function () {
       var height = $(this).height();
       var width = $(this).width();
       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
       return this;
    }
-  
+
     sign_in_center_align();
     sign_up_center_align();
     reset_div_center_align();
     subscribe_center_align();
-    urgent_ad_center_align();
-    
+    urgent_ad_center_align();  
+
      $(".urgent_ad").click(function(){
         urgent_ad_center_align();
         $('.popup_fade').show();
@@ -252,7 +252,7 @@ $( document ).ready(function() {
         document.body.style.overflow = 'hidden';
     });
 
-    // Showing Image as large when click thumbnail
+   // Showing Image as large when click thumbnail
     var $upperimg = $('.upperimg img');
     $('.thumbs img').click(function () {
         $upperimg.attr('src', this.src);
@@ -825,29 +825,29 @@ $( document ).ready(function() {
     });
 
 //sticky ads for home page and search page
-    var stickyTop = $('.leftslide').offset().top; // returns number
+    // var stickyTop = $('.leftslide').offset().top; // returns number
  
-      $(window).scroll(function(){ // scroll event 
-        var windowTop = $(window).scrollTop(); // returns number
-         if (stickyTop < windowTop) {
-          $('.leftslide').css({ position: 'fixed', top: 0 });
-        }
-        else {
-          $('.leftslide').css({position :'absolute', top: 382} );
-        }
-     });
+    //   $(window).scroll(function(){ // scroll event 
+    //     var windowTop = $(window).scrollTop(); // returns number
+    //      if (stickyTop < windowTop) {
+    //       $('.leftslide').css({ position: 'fixed', top: 0 });
+    //     }
+    //     else {
+    //       $('.leftslide').css({position :'absolute', top: 382} );
+    //     }
+    //  });
 
-      var stickyTop = $('.leftslide1').offset().top; // returns number
+    //   var stickyTop = $('.leftslide1').offset().top; // returns number
      
-      $(window).scroll(function(){ // scroll event 
-        var windowTop = $(window).scrollTop(); // returns number
-         if (stickyTop < windowTop) {
-          $('.leftslide1').css({ position: 'fixed', top: 0 });
-        }
-        else {
-          $('.leftslide1').css({position :'absolute', top: 382} );
-        }
-     });
+    //   $(window).scroll(function(){ // scroll event 
+    //     var windowTop = $(window).scrollTop(); // returns number
+    //      if (stickyTop < windowTop) {
+    //       $('.leftslide1').css({ position: 'fixed', top: 0 });
+    //     }
+    //     else {
+    //       $('.leftslide1').css({position :'absolute', top: 382} );
+    //     }
+    //  });
 
 });
 
