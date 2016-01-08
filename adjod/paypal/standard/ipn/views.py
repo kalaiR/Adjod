@@ -71,9 +71,7 @@ def store_transaction(request,ipn_obj):
 			userprofile.save()
 	return 
 
-
-
-@transaction.commit_on_success
+# @transaction.commit_on_success
 @csrf_exempt
 @require_POST
 def ipn(request, item_check_callable=None):
@@ -125,25 +123,3 @@ def ipn(request, item_check_callable=None):
 		response.delete_cookie('product_id')
 	return response
 
-def paypal_transaction(request, product_dict):
-	current_site = Site.objects.get_current()
-	print "product_dict", product_dict
-	plan = PremiumPriceInfo.objects.get(id=product_dict['premium_plan'])
-	ctx = { 'business': settings.PAYPAL_RECEIVER_EMAIL,
-			'amount': plan.premium_price,
-			'item_name': product_dict['title'],
-			'notify_url': current_site.domain + settings.PAYPAL_DICT['notify_url'],
-			'cancel_return': current_site.domain + settings.PAYPAL_DICT['cancel_return'],
-			'return': current_site.domain + settings.PAYPAL_DICT['success_return'],
-			'custom':product_dict['you_name'],
-			# 'currency_code': plan.base_currency,
-			'currency_code': "USD",
-			'sandbox_url':settings.SANDBOX_URL
-	}
-	response = render_to_response('paypal_integration/payment.html', ctx , context_instance=RequestContext(request))
-	try:
-		product_id = Product.objects.get(title=product_dict['title'],userprofile=UserProfile.objects.get(id=product_dict['userprofile']))
-		response.set_cookie("product_id", product_id.id)
-	except:
-		pass
-	return response
