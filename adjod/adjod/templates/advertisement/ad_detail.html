@@ -235,7 +235,9 @@
                 {% for related_products in related_product|slice:":6" %}
                 <li class="product_list1">
                    <div class="product_images1">
-                      <a href="#" class="">              
+
+                      <a href="/ads/{{related_products.object.id}}/" class="">              
+
                           {% if related_products.object.photos = '' %}
                           <img src="{{STATIC_URL}}img/bg-img1.png">
                           {% else %}

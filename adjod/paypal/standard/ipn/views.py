@@ -32,7 +32,7 @@ def store_transaction(request,ipn_obj):
 		if Product.objects.filter(id=request.COOKIES.get('product_id')).exists():
 			product = Product.objects.get(id=request.COOKIES.get('product_id'))
 			if ipn_obj.payment_status == "Pending":
-				product.delete()
+				product.status_isactive = False			
 			else:
 				if product.premium_plan.purpose == "urgent_subscription" or product.premium_plan.purpose == "top_subscription" or product.premium_plan.purpose == "urgent_top_subscription":
 					order = Order()
@@ -50,7 +50,8 @@ def store_transaction(request,ipn_obj):
 					transaction.save()
 				else:
 					print "pending"
-					product.delete()
+					product.status_isactive = False
+			product.save()
 
 	if request.COOKIES.get('transaction_type') and request.COOKIES.get('transaction_type') == "Account Subscription":
 			premium_plan = PremiumPriceInfo.objects.get(purpose="account_subscription")

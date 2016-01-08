@@ -142,7 +142,7 @@ class Product(models.Model):
     locality=models.ForeignKey(Locality, null=False,help_text='Choose your Locality',verbose_name='Locality')
     country_code=models.CharField(max_length=10,help_text="Enter Country ISO code (First two letters with Capital letters).Please refer as <a href='https://countrycode.org/'>https://countrycode.org/</a>",verbose_name='Country code')
     description = models.TextField(max_length=100, verbose_name="Description", null=False,help_text='Description about your product')
-    you_are = models.CharField(max_length=20,choices=YOU,default='individual', null=False,help_text='Choose ad creaded user status',verbose_name='status')
+    you_are = models.CharField(max_length=20,choices=YOU,default='individual', null=False,help_text='Choose ad creaded user status',verbose_name='User Type')
     you_name = models.CharField(max_length=20, null=True,help_text='Enter ad creater name',verbose_name='Name')
     you_email = models.EmailField(max_length=30, null=False,help_text='Enter ad creater email',verbose_name='Email')
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
@@ -153,7 +153,7 @@ class Product(models.Model):
     ispremium=models.BooleanField(default=False)
     premium_plan=models.ForeignKey(PremiumPriceInfo, null=True, blank=True)
     expired_date=models.DateField(null=True,blank=True)
-    status_isactive=models.BooleanField(default=False)
+    status_isactive=models.BooleanField(default=False,verbose_name='Product Status')
     post_term_status=models.BooleanField(default=False)
     class Admin:
         pass
