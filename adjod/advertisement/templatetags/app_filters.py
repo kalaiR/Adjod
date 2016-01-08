@@ -42,8 +42,9 @@ def get_brandforsubcategory(subCategoryId):
 
 @register.filter
 def get_banner(banner):
-	banner=PostBanner.objects.all()
-	return banner
+	banners=PostBanner.objects.all()
+	print banners
+	return banners
 
 @register.filter
 def conversion(price):

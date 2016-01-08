@@ -49,6 +49,7 @@ class ProductSearchFilter(FacetedSearchForm):
     # lang = forms.CharField(required=False)
     city=forms.CharField(required=False)
     groupby = forms.CharField(required=False)
+    status_isactive = forms.BooleanField(required=True)
    
     def no_query_found(self): 
       data = self.searchqueryset.all()  

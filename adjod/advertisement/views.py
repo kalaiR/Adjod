@@ -52,7 +52,6 @@ import simplejson as json
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from adjod.util import *
-from paypal.standard.ipn.views import *
 from django.db import transaction
 
 # A couple of request objects - one PJAX, one not.
@@ -154,6 +153,29 @@ def product_form(request, name=None, subname=None):
             if userprofile.ad_count>=3 and userprofile.is_subscribed == 0:
                 return HttpResponseRedirect('/')        
     return TemplateResponse(request, 'advertisement/ad_post.html')
+
+def paypal_transaction(request, product_dict):
+    current_site = Site.objects.get_current()
+    print "product_dict", product_dict
+    plan = PremiumPriceInfo.objects.get(id=product_dict['premium_plan'])
+    ctx = { 'business': settings.PAYPAL_RECEIVER_EMAIL,
+            'amount': plan.premium_price,
+            'item_name': product_dict['title'],
+            'notify_url': current_site.domain + settings.PAYPAL_DICT['notify_url'],
+            'cancel_return': current_site.domain + settings.PAYPAL_DICT['cancel_return'],
+            'return': current_site.domain + settings.PAYPAL_DICT['success_return'],
+            'custom':product_dict['you_name'],
+            # 'currency_code': plan.base_currency,
+            'currency_code': "USD",
+            'sandbox_url':settings.SANDBOX_URL
+    }
+    response = render_to_response('paypal_integration/payment.html', ctx , context_instance=RequestContext(request))
+    try:
+        product_id = Product.objects.get(title=product_dict['title'],userprofile=UserProfile.objects.get(id=product_dict['userprofile']))
+        response.set_cookie("product_id", product_id.id)
+    except:
+        pass
+    return response
 
 #Fuction for storing in images or vidoes in our folder
 def handle_uploaded_file(f):
@@ -288,7 +310,7 @@ def post_success(request, product):
     
 
 #Check whether to save the product or not
-@transaction.commit_on_success
+# @transaction.commit_on_success
 def product_save(request):
     if request.method == 'POST':
         print "product_save"

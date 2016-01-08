@@ -34,21 +34,7 @@ function subscribe_center_align(){
       var width=$('.subscription_popup').width();
       $('.subscription_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 }
-function urgent_ad_center_align(){
-      var height=$('.urgentad_popup').height();
-      var width=$('.urgentad_popup').width();
-      $('.urgentad_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
-}
-function premium_ad_center_align(){
-      var height=$('.premium_ad_popup').height();
-      var width=$('.premium_ad_popup').width();
-      $('.premium_ad_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
-}
-function premium_urgent_ad_center_align(){
-      var height=$('.premium_urgent_ad_popup').height();
-      var width=$('.premium_urgent_ad_popup').width();
-      $('.premium_urgent_ad_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
-}
+
 function checkStrength(password){
       //initial strength
       var strength = 0
@@ -204,8 +190,14 @@ function fill_brands(sub_category_id) {
         $.getJSON("/brand_for_subcategory/", {sub_category_id: sub_category_id},
           function(ret, textStatus) {
             if(ret.length == 0){
-              $('#id_brand').hide();
-              $('.div_brand').css({'opacity':0.5});
+              $('.select_post_brand').hide();
+              $('.select_container_brand').css({"opacity":0.5});
+              $('.brand_folder').hide();
+             }
+             else{
+              $('.select_post_brand').show();
+               $('.select_container_brand').css({"opacity":1});
+              $('.brand_folder').show();
              }
             var options = '';
              if (window.location.href.indexOf("search") >= 0) {
@@ -233,51 +225,29 @@ function fill_brands(sub_category_id) {
 //********** End Functions **********
 
 $( document ).ready(function() {
-  
-  $.fn.center = function () {
+
+    $.fn.center = function () {
       var height = $(this).height();
       var width = $(this).width();
       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
       return this;
    }
-
+      
     sign_in_center_align();
     sign_up_center_align();
     reset_div_center_align();
     subscribe_center_align();
-    urgent_ad_center_align();  
-    premium_ad_center_align(); 
-    premium_urgent_ad_center_align();
-
-    // PostAd page view example popup
-     $(".urgent_ad").click(function(){
-        urgent_ad_center_align();
-        $('.popup_fade').show();
-        $('.urgentad_popup ,.close_btn').show();
-        document.body.style.overflow = 'hidden';
-    });
-      $(".premium_ad").click(function(){
-        premium_ad_center_align();
-        $('.popup_fade').show();
-        $('.premium_ad_popup ,.close_btn').show();
-        document.body.style.overflow = 'hidden';
-    });
-       $(".premium_urgent_ad").click(function(){
-        premium_urgent_ad_center_align();
-        $('.popup_fade').show();
-        $('.premium_urgent_ad_popup ,.close_btn').show();
-        document.body.style.overflow = 'hidden';
-    });
 
     // subscription popup
+   
     $(".link_tooltip").click(function(){
         subscribe_center_align();
         $('.popup_fade').show();
-        $('.subscription_popup ,.cancel_btn').show();
+        $('.subscription_popup ,.close_btn').show();
         document.body.style.overflow = 'hidden';
     });
 
-   // Showing Image as large when click thumbnail
+    // Showing Image as large when click thumbnail
     var $upperimg = $('.upperimg img');
     $('.thumbs img').click(function () {
         $upperimg.attr('src', this.src);
@@ -291,9 +261,6 @@ $( document ).ready(function() {
         $(this).center();
     });
     $('.thumbs img').load(function(){
-        $(this).center();
-    });
-    $('.product_images1 img').load(function(){
         $(this).center();
     });
 
@@ -317,7 +284,6 @@ $( document ).ready(function() {
       $('.menu_active').removeClass('active');
       $(this).addClass('active');
     });
-    
 
    //user profile check and uncheck functionality   by ramya  
     $('.check_all_act').on('click', function(){
@@ -451,7 +417,7 @@ $( document ).ready(function() {
     });
     $('.cancel_btn').click(function(){
         $('.popup_fade').hide();
-        $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile,.subscription_popup,.urgentad_popup,.premium_ad_popup,.premium_urgent_ad_popup').hide();
+        $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile,.subscription_popup').hide();
         document.body.style.overflow = 'auto';
     });
     // Forgot Password Popup
@@ -506,6 +472,7 @@ $( document ).ready(function() {
 
     // init plugin
     telInput.intlTelInput({
+       preferredCountries: [ "sg", "gb" ],
       utilsScript: "../../static/lib/libphonenumber/build/utils.js"
     });
 
@@ -532,6 +499,7 @@ $( document ).ready(function() {
 
     // init plugin
       telInput.intlTelInput({
+      preferredCountries: [ "sg", "gb" ],
       utilsScript: "../../static/lib/libphonenumber/build/utils.js"
     });
 
@@ -559,6 +527,7 @@ $( document ).ready(function() {
 
       // init plugin
         telInput.intlTelInput({
+        preferredCountries: [ "sg", "gb" ],
         utilsScript: "../../static/lib/libphonenumber/build/utils.js"
       });
 
@@ -802,6 +771,12 @@ $( document ).ready(function() {
           $('#your_email').siblings('.labelError').hide();
         }
         }
+        if($('#terms_of_use').attr('checked')){
+          $('#terms_required').hide();          
+        }
+        else{
+          $('#terms_required').show(); 
+        }
         if ($(":input").hasClass("error_input_field") || $(".select_container_city").hasClass("error_input_field") || $(".select_container_locality").hasClass("error_input_field") || $("#buy,#sell").hasClass("error_input_field") || $("#individual,#dealer").hasClass("error_input_field")){
         return false;
         }
@@ -927,7 +902,7 @@ $( document ).ready(function() {
     // });
     
 
-  // Tooltip for signup popup 
+
     $('.signup_tooltip').hide();
     $(".signup_confirm_button").on('hover', function(){
     if ($(".confirm").prop('checked')==false){ 
@@ -937,7 +912,18 @@ $( document ).ready(function() {
          $('.signup_tooltip').hide();
        }
     });
-  // Update_profile dropdown in home page header part
+    
+     // Tooltip for Post ad
+    // $('.postad_tooltip').hide();
+    // $(".post_form_send").on('hover', function(){
+    // if ($("#terms_of_use").prop('checked')==false){ 
+    //     $('.postad_tooltip').show();
+    // }
+    // else{
+    //      $('.postad_tooltip').hide();
+    //    }
+    // });
+
     $(".user_dropdown").hide();
     $(".caret_user").click(function(){
         $('.user_dropdown').toggle();
@@ -953,49 +939,6 @@ $( document ).ready(function() {
         $('input.checkbox_premium').not(this).prop('checked', false); 
     });
   
-
-    $('.lang_dropdown').hide();
-    $(".fa-caret-down").click(function(){
-      $('.lang_dropdown').show();
-    });
-
-//sticky ads for home page and search page
-    // var stickyTop = $('.leftslide').offset().top; // returns number
- 
-    //   $(window).scroll(function(){ // scroll event 
-    //     var windowTop = $(window).scrollTop(); // returns number
-    //      if (stickyTop < windowTop) {
-    //       $('.leftslide').css({ position: 'fixed', top: 0 });
-    //     }
-    //     else {
-    //       $('.leftslide').css({position :'absolute', top: 382} );
-    //     }
-    //  });
-
-    //   var stickyTop = $('.leftslide1').offset().top; // returns number
-     
-    //   $(window).scroll(function(){ // scroll event 
-    //     var windowTop = $(window).scrollTop(); // returns number
-    //      if (stickyTop < windowTop) {
-    //       $('.leftslide1').css({ position: 'fixed', top: 0 });
-    //     }
-    //     else {
-    //       $('.leftslide1').css({position :'absolute', top: 382} );
-    //     }
-    //  });
-
-    //allow characters for price
-    $('.your_price').keypress(function(e) {
-         var theEvent = e || window.event;
-          var key = theEvent.keyCode || theEvent.which;
-          key = String.fromCharCode(key);
-          if (key.length == 0) return;
-          var regex = /^[0-9.\b]+$/;
-          if (!regex.test(key)) {
-              theEvent.returnValue = false;
-              if (theEvent.preventDefault) theEvent.preventDefault();
-          }
-    });
 
 });
 

@@ -87,12 +87,20 @@
 
 <div class="leftslide visible-lg">
  <!--  <code class="closeimg"> </code> -->
-  <img src="{{MEDIA_URL}}banners/banner3.jpg" class="ad1" />
+ {% for banners in banner|get_banner %}
+    {% if banners.bannerplan_id == 1 %}
+      <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad1" />
+    {% endif %}
+  {% endfor %}
 </div><!--leftslide-->
 
 <div class="leftslide1 visible-lg">
   <!-- <code class="closeimg"> </code> -->
-  <img src="{{MEDIA_URL}}banners/banner4.jpeg" class="ad2" />
+  {% for banners in banner|get_banner %}
+    {% if banners.bannerplan_id == 2 %}
+      <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad2" />
+   {% endif %}
+  {% endfor %}
 </div><!--leftslide-->
 
 <div class="container third_part">
@@ -151,7 +159,7 @@
               </ul>
           </div> <!-- col-md-7 -->
 
-          <div class="col-md-5 free_content">
+          <div class="col-md-5 free_content" id="free_mbl">
               <div class="free_alert">
                 <h4>Create free alert</h4>
                 <code class="close_btn closemobile_btn cancel_btn hidden-lg" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}"> </code>
@@ -191,7 +199,7 @@
                         </li>
                         <li>
                           <div class="select_container_brand" id="select_container_brand">
-                            <div class="select_div">
+                            <div class="select_div" id="select_brand">
                               <p id="select_post_brand">Select Brand</p>
                               <i class="city_fa fa fa-caret-down">
                               </i>
@@ -285,5 +293,17 @@
 
   </div> <!-- row3 -->
 </div> <!-- container fourth part -->
+<div class="container fifth_part">
+      <div class="hp_ad banner_ad">
+      <ul class="fifth_part">
+        {% for banners in banner|get_banner %}
 
+          {% if banners.bannerplan_id == 3 %}
+          
+            <img src="{{MEDIA_URL}}{{banners.banner}}" style="height:120px;width:970px;" />
+          {% endif %}
+        {% endfor %}
+      </ul>
+      </div> <!-- hp ad -->
+    </div> <!-- container fifth_part-->
 {% endblock %}

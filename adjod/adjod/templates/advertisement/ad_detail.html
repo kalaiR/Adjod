@@ -23,9 +23,9 @@
               <div class="product-image visible-lg">
                     <div class="upperimg">
                       {% if largephoto = '' %}
-                          <img src="{{STATIC_URL}}img/bg-img1.png">
+                          <img  src="{{MEDIA_URL}}img/bg-img1.png">
                       {% else %}
-                        <img src="{{ MEDIA_URL }}{{ largephoto }}">
+                        <img  src="{{ MEDIA_URL }}{{ largephoto }}">
                       {% endif %}
                     </div><!--upperimg-->
                     <div class="thumb_holder">
@@ -97,7 +97,7 @@
         <div class="col-md-6 first-column">
               <div class="column-height">
                 <div class="other-buttons visible-lg">
-                <span href="" class="btn btn-default share_button"> Share
+                <span href="" class="btn btn-default share_button" onclick="fbshare()"> Share
                 <i class="fa fa-share-alt"></i></span>
                 <!-- <span href="" class="btn btn-default favourite_button"> Add as favourite
                 <i class="fa fa-heart heart_detail"></i></span> -->
@@ -235,7 +235,9 @@
                 {% for related_products in related_product|slice:":6" %}
                 <li class="product_list1">
                    <div class="product_images1">
-                      <a href="{% url product_detail related_products.object.id %}" class="">              
+
+                      <a href="/ads/{{related_products.object.id}}/" class="">              
+
                           {% if related_products.object.photos = '' %}
                           <img src="{{STATIC_URL}}img/bg-img1.png">
                           {% else %}
@@ -292,8 +294,19 @@
 
   <div class="col-md-2 column-ad visible-lg">
       <div class="adv_part">
-          <img src="{{MEDIA_URL}}banners/car_banner.jpg" /><br><br>
-          <img src="{{MEDIA_URL}}banners/ac_banner.png" style="height:160px;width:162px;"/>
+          {% for banners in banner|get_banner %}
+            {% if banners.bannerplan_id == 6 %}
+              <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad1" />
+            {% endif %}
+          {% endfor %}
+          <br>
+          <br>
+          {% for banners in banner|get_banner %}
+            {% if banners.bannerplan_id == 7 %}
+              <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad1" style="height:160px;width:162px;" />
+            {% endif %}
+          {% endfor %}
+          
       </div>
   </div>
 
@@ -370,4 +383,56 @@
         {% endif %}  
       </div> <!-- row row2 -->
     </div> <!-- container -->
+    <br>
+    <br>
+<div class="container fifth_part">
+      <div class="hp_ad banner_ad">
+      <ul class="fifth_part">
+        {% for banners in banner|get_banner %}
+
+          {% if banners.bannerplan_id == 11 %}
+          
+            <img src="{{MEDIA_URL}}{{banners.banner}}" style="height:120px;width:970px;" />
+          {% endif %}
+        {% endfor %}
+      </ul>
+      </div> <!-- hp ad -->
+    </div> <!-- container fifth_part-->
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1157881127573603',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+<script>
+function fbshare(){
+FB.ui({
+ method: 'share',
+ href: '{{request.META.HTTP_HOST}}{{ request.get_full_path }}',
+ picture: '{{request.META.HTTP_HOST}}/media/{{photos}}',
+ caption: '{{adinfo.title}}',
+ description: '{{adinfo.description}}'
+}, 
+}
+function send_message() {
+    FB.ui({
+        method: 'send',
+        name: '{{adinfo.title}}',
+        description: '{{adinfo.description}}',
+        link: '{{request.META.HTTP_HOST}}{{ request.get_full_path }}',
+        picture: '{{request.META.HTTP_HOST}}/media/{{photos}}'
+    });
+}
+</script>
 {% endblock %}
