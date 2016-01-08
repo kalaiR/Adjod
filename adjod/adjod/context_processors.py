@@ -1,4 +1,4 @@
-from django.contrib.gis.geoip import GeoIP
+#from django.contrib.gis.geoip import GeoIP
 from adjod import globals
 from advertisement.models import *
 
@@ -21,7 +21,7 @@ from core.config import country_language_dict
 # 	# print "city", city
 # 	current_country_cities = City.objects.filter(country_code=country) # get current country cities from database
 # 	# print "current_country_cities", current_country_cities
-# 	#store city if not available in database 
+# 	#store city if not available in database
 # 	try:
 # 		if City.objects.filter(city=city).exists():
 # 			city = City.objects.get(city=city)
@@ -61,7 +61,7 @@ from core.config import country_language_dict
 # 		print "userprofile in context processors", userprofile
 # 	else:
 # 		userprofile=None
-	 
+
 # 	return {'country':country,'city': city,'current_country_cities':current_country_cities,
 # 			'city_id':city_id,'language':global_language,'path':path,'category':category,
 # 			'subcategory':subcategory, 'recentad':recentad,'user_det':userprofile,
@@ -73,12 +73,12 @@ def global_activity(request):
 	if user_ip.startswith('127.0.0') or user_ip.startswith('192.168.1'):
 		user_ip = '114.69.235.2'
 		# user_ip  = '219.75.27.16'
-	
-	path =  request.path	
+
+	path =  request.path
 	category = Category.objects.all()
 	subcategory = SubCategory.objects.all()
 	dropdown=Dropdown.objects.all()
-		
+
 	country = "Singapore"
 	country_code = "SG"
 	city="Singapore"
@@ -104,15 +104,15 @@ def global_activity(request):
 		else:
 			userprofile=None
 	else:
-		userprofile=None	
-		 
+		userprofile=None
+
 	return {'country':country,'country_code':country_code,'city': city,'city_id':city_id,'language':language,'path':path,'category':category,
 			'subcategory':subcategory,'dropdown':dropdown, 'recentad':recentad,'userprofile':userprofile,'user_ip':user_ip,
 			'locality':locality,'premium_info_account':premium_info_account, 'paypal_receiver_email':settings.PAYPAL_RECEIVER_EMAIL,
 			'cancel_return': settings.PAYPAL_DICT['cancel_return'],'success_return': settings.PAYPAL_DICT['success_return'],
 			'notify_url': settings.PAYPAL_DICT['notify_url'],'sandbox_url':settings.SANDBOX_URL}
 
-# def global_activity(request):	
+# def global_activity(request):
 # 	path =  request.path
 # 	category = Category.objects.all()
 # 	subcategory = SubCategory.objects.all()

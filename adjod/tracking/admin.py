@@ -19,14 +19,23 @@ class VisitorAdmin(admin.ModelAdmin):
             return timedelta(seconds=obj.time_on_site)
     pretty_time_on_site.short_description = 'Time on site'
 
+    def has_add_permission(self, request):
+        return False
+
 
 admin.site.register(Visitor, VisitorAdmin)
 
 
 class PageviewAdmin(admin.ModelAdmin):
     date_hierarchy = 'view_time'
-
+    #fields =['visitor','url','referer','query_string','method','view_time']
     list_display = ('url', 'view_time')
+
+    def has_add_permission(self, request):
+        return False
+
+    def get_readonly_fields(self, request, obj=None):
+        return self.readonly_fields + ('id', 'visitor','url','referer','query_string','method','view_time')
 
 
 if TRACK_PAGEVIEWS:
