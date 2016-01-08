@@ -7,7 +7,7 @@
           <ul>
           <li class="menu_active"><a href="#" class="My_ads">My Ads</a></li>
           <li class="menu_active"><a href="#" class="My_profile">Update My Profile</a></li>
-          <li class="menu_active"><a href="#" class="">My Chats</a></li>
+          <!-- <li class="menu_active"><a href="#" class="">My Chats</a></li> -->
         </div><!--menu_profile-->
 </div> <!-- left_part_profile -->
 
@@ -16,7 +16,7 @@
           <ul>
           <li class="menu_active"><a href="#" class="My_ads">My Ads</a></li>
           <li class="menu_active"><a href="#" class="My_profile">Update My Profile</a></li>
-          <li class="menu_active"><a href="#" class="">My Chats</a></li>
+          <!-- <li class="menu_active"><a href="#" class="">My Chats</a></li> -->
         </div><!--menu_profile-->
 </div> <!-- left_part_profile -->
 
@@ -78,97 +78,106 @@
  
  <div class="container center">
       <div class="profile_content">
-      <div class="personal_details">
-      <div class="personal_center">
-          <div class="field_title form-group">
-            <span class="title">Upload Photos</span>
-          </div> <!-- field_title -->
-          <div class="field_div form-group" id="upload_photos_div">
-              <input type='file' id='photos' name='photos[]' multiple='multiple' />
-              <span class="photo_labelError"></span>
-          </div> <!-- upload_photos_div -->
+        <div class="personal_details">
+          <div class="personal_center">
+              <div class="field_title form-group">
+                <span class="title">Upload Photos</span>
+              </div> <!-- field_title -->
+              <div class="field_div form-group" id="upload_photos_div">
+                  <input type='file' id='photos' name='photos[]'/>
+                  <span class="photo_labelError"></span>
+              </div> <!-- upload_photos_div -->
+              
+              <div class="field_div form-group">
+                <input class="full_name" name="your_name" id="your_name" placeholder="Full Name"/>
+                <label class="labelError" style="display:none;">Enter your Full Name</label>
+                <input class="last_name" name="your_name" id="your_name" placeholder="Last Name"/>
+                <label class="labelError" style="display:none;">Enter your Last Name</label>
+              </div> <!-- form-group -->
 
-          <div class="field_div form-group" id="name_div">
-            <input class="email_profile" name="name" id="name" placeholder="Email"/>
-          </div> <!-- name_div -->
-          <div class="field_div form-group" id="name_div">
-            {% if user.is_authenticated %}
-            <input class="your_name" name="your_name" id="your_name" value="{{request.user.username}}" disabled/>
-            {% else %}
-            <input class="age_profile" name="your_name" id="your_name" placeholder="Full Name"/>
-            {% endif %}
-            <input type="hidden" class="country" name="country" id="country" value="{{country}}" />
-            <input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" type="tel"  onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
-          </div> <!-- name_div -->
+              <div class="field_div form-group">
+                <input class="email_profile" name="email" placeholder="Email"/>
+                <label class="labelError" style="display:none;">Enter your Email</label>
+                <input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" type="tel"  onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
+                <label class="labelError" style="display:none;">Enter your mobile no</label>
+              </div> <!-- form-group -->
 
-           <div class="field_div form-group" id="city_div">
-            <div class="select_container_city fl" id="select_container_city">
-                <div class="select_profile">
-                  <p id="select_post_city">Select city *</p>
-                  <i class="city_fa fa fa-caret-down">   
-                  </i>
-                </div> <!-- select_profile -->
-                <select id="id_city" class="select_post_city" name="your_city">
-                <option value="Select City">Select City</option>
-                {% for cityitem in current_country_cities %} 
-                <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
-                {% endfor %}
-                </select>
-                <label id="city_required" class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
-            </div> <!-- select_container_city -->
-            <div class="select_container_locality fl" id="select_container_locality">
-                <div class="select_profile">
-                  <p id="select_post_locality">Select locality *</p>
-                  <i class="city_fa fa fa-caret-down">     
-                  </i>
-                </div> <!-- select_profile -->
-                <select id="id_locality" class="select_post_locality" name="your_locality" id="your_locality">
-                <option value=""></option>   
-                </select>
-                <label id="locality_required" class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
-            </div> <!-- select_container_city -->
-            <div class="clear_both"></div>   
-           <div class="clear_both"></div>   
-          </div> <!-- city_div -->
-          <div class="field_title form-group" id="you_are_title">
-              <span class="title">You are</span>
-              <span class="mandatory">*</span>
-          </div> <!-- you_are_title -->
+              <div class="field_div form-group">
+                  <div class="city_select fl">
+                      <div class="post_city">
+                        <p>Select city *</p>
+                        <i class="city_fa fa fa-caret-down">   
+                        </i>
+                      </div> <!-- post_city -->
+                      <select>
+                      <option value="Select City">Select City</option>
+                      {% for cityitem in current_country_cities %} 
+                      <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
+                      {% endfor %}
+                      </select>
+                      <label class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
+                  </div> <!-- city_select -->
+                  <div class="locality_select fl">
+                      <div class="post_city">
+                        <p>Select locality *</p>
+                        <i class="city_fa fa fa-caret-down">     
+                        </i>
+                      </div> <!-- post_city -->
+                      <select>
+                      <option value=""></option>   
+                      </select>
+                      <label class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
+                  </div> <!-- locality_select -->
+                  <div class="clear_both"></div>   
+                  <div class="clear_both"></div>   
+            </div> <!-- form-group -->
 
-          <div class="field_div form-group" id="you_are_content">
-              <input type="radio" name="you_are_radio" id="individual" value="individual">
-              <label for="individual" class="you_are"><span><span></span></span>Individual</label>
-              <input type="radio" name="you_are_radio" id="dealer" value="dealer">
-              <label for="dealer" class="you_are"><span><span></span></span>Delear</label>
-              <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>
-              <div class="clear_both"></div>
-          </div> <!-- type_of_ad_content -->
-         </div><!--personal_center-->
-        </div><!--personal_details-->
-        <div class="additional_info">  
+        </div><!--personal_center-->
+      </div><!--personal_details-->
+      
+      <div class="additional_info">  
         <span class="additional_txt">Additional Information</span>
         <div class="additional_center">
           <div class="field_div form-group">
-            <div class="select_container_city fl">
+            <div class="gender_select fl">
                 <div class="select_profile">
                   <p>Gender</p>
                   <i class="city_fa fa fa-caret-down">   
                   </i>
-                </div> <!-- select_div -->
-                <select class="select_post_city" name="gender">
-                <option value="gender">Gender</option>
-                <option value="">Male</option>
-                <option value="">Female</option>
-               
+                </div> <!-- select_profile -->
+                <select name="gender">
+                  <option value="gender">Gender</option>
+                  <option value="">Male</option>
+                  <option value="">Female</option>
                 </select>
-                <label id="city_required" class="labelError" style="font-size:35px;display:none;"></label>
-                </div></div>
-           
-           <div class="field_div form-group" id="name_div">
-            <input class="age_profile" name="name" id="name" placeholder="Age"/>
-          </div> <!-- name_div --> 
-        <div class="field_div form-group" id="description_div">
-            <textarea class="address_profile" maxlength="500" onchange="updateCountdownDesc()" onkeyup="updateCountdownDesc()" name="description" id="your_description" placeholder="Address" value=""></textarea>
+                <label class="labelError" style="font-size:35px;display:none;">Please choose Gender</label>
+                </div><!--gender_select-->
+            </div><!--form-group-->
+
+            <div class="field_div form-group">
+              <input class="age_profile" name="name" id="name" placeholder="Age"/>
+              <label class="labelError" style="display:none;">Enter your age</label>
+            </div> <!-- form-group --> 
+
+            <div class="field_div form-group">
+              <textarea class="address_profile" maxlength="500" onchange="updateCountdownDesc()" onkeyup="updateCountdownDesc()" name="description" placeholder="Address" value=""></textarea>
+              <label class="labelError" style="display:none;">Enter your address</label>
+            </div><!--form-group-->
+
+            <div class="form-group">
+              <div class="field_title form-group">
+                <span class="title">You are</span>
+                <span class="mandatory">*</span>
+              </div> <!-- form-group -->
+
+              <div class="field_div form-group">
+                <input type="radio" name="you_are_radio" id="individual" value="individual">
+                <label for="individual" class="you_are"><span><span></span></span>Individual</label>
+                <input type="radio" name="you_are_radio" id="dealer" value="dealer">
+                <label for="dealer" class="you_are"><span><span></span></span>Delear</label>
+                <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>
+            </div><!--form-group-->
+
          </div> <!-- description_div -->
          </div><!--additional_center-->
        </div><!--additional_info-->
@@ -184,38 +193,30 @@
       </div><!--marketing-->
 
       <div class="set_password">
-      <span class="password_txt">Set Your Password</span>
-      <div class="password_center">
-          <div class="field_div form-group" id="name_div">
-            <input class="pwd_profile" name="name" id="name" placeholder="New password"/>
-          </div> <!-- name_div -->
-          <div class="field_div form-group" id="name_div">
-            <input class="newpwd_profile" name="name" id="name" placeholder="Retype new password"/>
-          </div> <!-- name_div -->
+        <span class="password_txt">Set Your Password</span>
+          <div class="password_center">
+            <div class="field_div form-group">
+              <input class="pwd_profile" name="name" placeholder="New password"/>
+               <label class="labelError" style="display:none;">Enter your new password</label>
+            </div> <!-- form-group -->
+
+          <div class="field_div form-group">
+            <input class="newpwd_profile" name="name" placeholder="Retype new password"/>
+             <label class="labelError" style="display:none;"></label>
+          </div> <!-- form-group -->
+
           <div class="sms_alert">
             <input type="checkbox" name="description" value=""><span class="sms_txt">I wish to receive SMS alerts.</span>
           </div><!--sms_alert-->
+
           <div class="profile_btn">
-            <button type="button" class="btn btn-warning delete_btn">Update</button>
-            <button type="button" class="btn btn-warning delete_btn">Cancel</button>
+            <button type="submit" class="btn btn-warning delete_btn">Update</button>
+            <button type="submit" class="btn btn-warning delete_btn">Cancel</button>
           </div><!--profile_btn-->
-      </div><!--password_center-->
-      </div><!--set_password-->
-
-
-
-
-
-
-
-
-    </div> <!-- profile_content -->
-  </div> <!-- container center -->
-
-
-      
-      
-
+    </div><!--password_center-->
+  </div><!--set_password-->
+ </div> <!-- profile_content -->
+</div> <!-- container center -->
 </div><!--update_profile-->
 </div><!--profile_text-->
 {% endblock %}

@@ -50,7 +50,7 @@
                           <ul class="hide_list categoryclick">
                            {% for categories in initial_load|get_categories %}
                               <li class="list_folder">
-                                <img src="../{{categories.icon}}" class="category_icon">
+                                <img src="{{ MEDIA_URL }}{{categories.icon}}" class="category_icon">
                               <a class="has_sub categoryselected get">
                                {{categories}}
                                  <!-- <span class="hidelist1 ajax_categoryid">
