@@ -1,4 +1,4 @@
-#from django.contrib.gis.geoip import GeoIP
+# from django.contrib.gis.geoip import GeoIP
 from adjod import globals
 from advertisement.models import *
 

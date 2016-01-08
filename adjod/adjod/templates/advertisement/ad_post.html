@@ -1,14 +1,35 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
+<!--========================
+   script for scroll the page when click the active button from email template
+   ===========================-->
+<script type="text/javascript">
+  $(document).ready(function(){
+     $('.choose_plan').hide();
+    if (window.location.href.indexOf("?plan=") >= 0) {
+      $('html, body').animate({
+        scrollTop: $("#premium_ad").offset().top - 70
+    }, 2000);
+    $('.choose_plan').show();
+    (function blink() { 
+    $('.choose_plan').fadeOut(500).fadeIn(500, blink); 
+    })();
+   
+  }
+  });
+</script>
+<!--end script-->
+
     <!--======================
       	 Post form content
     ========================-->
+     
     <div class="container center">
       <div class="inner_container">
       <form method="post" action="{% url product_save %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">
           {% csrf_token %}
-     	    <div class="{% if request.REQUEST.pt %} labelError {% endif %}">{% for message in messages%}{{message}}{% endfor %}</div>
+     	    <div class="{% if request.REQUEST.pt %} labelError success_post {% endif %}">{% for message in messages%}{{message}}{% endfor %}</div>
        		<!-- <div class="field_title form-group" id="type_of_ad_title">
        				<span class="title">Type of ad</span>
        				<span class="mandatory">*</span>
@@ -42,7 +63,7 @@
          	</div> <!-- ad_title_div -->
 
           <div style="display: block;" class="field_div form-group" id="price_div">
-            <input type="text" class="your_price input" name="your_price" id="your_price" placeholder="Price" value="" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"/>
+            <input type="text" class="your_price input" name="your_price" id="your_price" placeholder="Price" value=""/>
             <input type="text" class="your_year" name="your_year" id="your_year" placeholder="Year" value="" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" />
             <span class="price_icon">{{country_code|get_symbol}}</span>
             <label id="price_required" class="labelError" style="display:none;">Please enter price.</label>
@@ -183,6 +204,7 @@
            		<input type="checkbox" name="privacy" id="privacy" />
            		<span class="privacy_text">Maintain my Privacy (Buyers will first contact you via reply, you can decide when to reveal your phone number to them)</span>
            	</div> <!-- privacy -->
+            <div class="choose_plan"><h2>Please Select Your Plan</h2></div>
 
            	<div class="field_div form-group" id="premium_ad">
              		<div class="row premium_row">
@@ -193,7 +215,11 @@
              		<div class="row premium_row">
         					<div id="premium_col_1" class="col-md-4">
           						<span class="premium_row_1">Urgent Ad</span>
-          						<span class="premium_row_2"><a href="#">View Example</a></span>
+          						<span class="premium_row_2"><a href="#" class="urgent_ad">View Example</a></span>
+                      <div> 
+                        <code class="close_btn cancel_btn"> </code>
+                        <img src="../static/img/urgent_ad.png" class="urgentad_popup">
+                      </div>
                       <span class="premium_row_3">S$ 9.99 per ad</a></span>
           						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan1" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
                       <span class="premium_row_4 select_premium">
@@ -202,7 +228,11 @@
       					  </div> <!-- premium_col_1 -->
         					<div id="premium_col_2" class="col-md-4">
           						<span class="premium_row_1">Top of the page Ad</span>
-          						<span class="premium_row_2"><a href="#">View Example</a></span>
+          						<span class="premium_row_2"><a href="#" class="premium_ad">View Example</a></span>
+                      <div> 
+                        <code class="close_btn cancel_btn"> </code>
+                        <img src="../static/img/premium_ad.png" class="premium_ad_popup">
+                      </div>
           						<span class="premium_row_3">S$ 14.99 per ad</a></span>
           						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan2" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
                       <span class="premium_row_4 select_premium">
@@ -211,7 +241,11 @@
       					</div> <!-- premium_col_2 -->
       					<div id="premium_col_3" class="col-md-4">
           						<span class="premium_row_1">Top of the page Ad + Urgent Ad</span>
-          						<span class="premium_row_2"><a href="#">View Example</a></span>
+          						<span class="premium_row_2"><a href="#" class="premium_urgent_ad">View Example</a></span>
+                      <div> 
+                        <code class="close_btn cancel_btn"> </code>
+                        <img src="../static/img/premium_urgent_ad.png" class="premium_urgent_ad_popup">
+                      </div>
           						<span class="premium_row_3">S$ 19.99 per ad</a></span>
           						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan3" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
                       <span class="premium_row_4 select_premium">

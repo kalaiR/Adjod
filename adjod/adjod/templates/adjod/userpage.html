@@ -22,7 +22,7 @@
                               {% endif %}">
                               <!-- <a href="/addproduct/" class=""><code></code></a> -->
                               <a href="/addproduct/" class=""><img src="{{ MEDIA_URL }}{{categories.icon}}"></a>
-                                <div>
+                                <div class="cate_name">
                                 <a href="/search/?q=&category={{categories.id}}" class=""><h4>{% trans categories.name %}</h4></a>
                                 <span class="brand">{{categories.category_type}}<i class="fa fa-chevron-right arrow_right"></i>
                                 </span>
@@ -50,7 +50,7 @@
                           <ul class="hide_list categoryclick">
                            {% for categories in initial_load|get_categories %}
                               <li class="list_folder">
-                                <img src="../{{categories.icon}}" class="category_icon">
+                                <img src="{{ MEDIA_URL }}{{categories.icon}}" class="category_icon">
                               <a class="has_sub categoryselected get">
                                {{categories}}
                                  <!-- <span class="hidelist1 ajax_categoryid">
@@ -87,12 +87,12 @@
 
 <div class="leftslide visible-lg">
  <!--  <code class="closeimg"> </code> -->
-  <img src="{{MEDIA_URL}}banners/banner3.jpg" />
+  <img src="{{MEDIA_URL}}banners/banner3.jpg" class="ad1" />
 </div><!--leftslide-->
 
 <div class="leftslide1 visible-lg">
   <!-- <code class="closeimg"> </code> -->
-  <img src="{{MEDIA_URL}}banners/banner4.jpeg" />
+  <img src="{{MEDIA_URL}}banners/banner4.jpeg" class="ad2" />
 </div><!--leftslide-->
 
 <div class="container third_part">
@@ -111,7 +111,7 @@
 
       <div class="col-md-5">
         <h4 class="sell"><i class="fa  fa-shield"></i> How to sell safely ?</h4>
-        <p>Try to take the full payment at the time of delivery.<br>Remember to use the safe location to meet <a href="#">Read more</a></p>
+        <p>Try to take the full payment at the time of delivery.<br>Remember to use the safe location to meet <a href="#" class="read-more">Read more</a></p>
       </div> <!-- col-md-5 -->
 
   </div> <!-- row2 -->
@@ -129,9 +129,9 @@
                 <li class="product_lists ">
                   <div class="product_image">
                     <p class="{% if recentads.premium_plan_id = None %} premium-img {% elif recentads.premium_plan_id = 1 %} premium-img1 {% elif recentads.premium_plan_id = 2 %} premium-img2 {% elif recentads.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>
-                    <a href="" class="">
+                    <a href="{% url product_detail recentads.id %}" class="">
                       {% if recentads.photos = '' %}
-                        <img src="{{MEDIA_URL}}img/bg-img1.png">
+                        <img src="{{STATIC_URL}}img/bg-img1.png">
                       {% else %}
                         <img src="{{MEDIA_URL}}{{recentads.photos|get_photos}}">
                       {% endif %}
@@ -220,7 +220,12 @@
                         </li>
                         <li>
                           <div class="form1">
+                          {% if user.is_authenticated %}
+                            <input type="text" class="form-control inputs" value="{% if user.is_authenticated %}{{request.user.email}}{% endif %}" placeholder="Your email" name="email" id="email" disabled="disabled">
+                            <input type="hidden" name="email" value="{{request.user.email}}">
+                          {% else %}
                             <input type="text" class="form-control inputs" value="" placeholder="Your email" name="email" id="email">
+                            {% endif %}
                           </div>
                            <span id="email_required" class="email_labelError" style="font-size:12px;display:none;">Please enter email address</span>
                         </li>
