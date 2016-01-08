@@ -293,6 +293,9 @@ $( document ).ready(function() {
     $('.thumbs img').load(function(){
         $(this).center();
     });
+    $('.product_images1 img').load(function(){
+        $(this).center();
+    });
 
     // Social auth share button actions for desktop
     $(".fbtwtbutton").hide();
@@ -870,6 +873,19 @@ $( document ).ready(function() {
     //       $('.leftslide1').css({position :'absolute', top: 382} );
     //     }
     //  });
+
+    //allow characters for price
+    $('.your_price').keypress(function(e) {
+         var theEvent = e || window.event;
+          var key = theEvent.keyCode || theEvent.which;
+          key = String.fromCharCode(key);
+          if (key.length == 0) return;
+          var regex = /^[0-9.\b]+$/;
+          if (!regex.test(key)) {
+              theEvent.returnValue = false;
+              if (theEvent.preventDefault) theEvent.preventDefault();
+          }
+    });
 
 });
 

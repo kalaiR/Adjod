@@ -173,7 +173,7 @@
                      <p class="{% if product.object.premium_plan_id = 1 %} premium-img1 {% elif product.object.premium_plan_id = 2 %} premium-img2 {% elif product.object.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>
                     {% if product.object.photos = '' %}
                     <a href="{% url product_detail product.object.id %}">
-                    <img src="{{MEDIA_URL}}img/bg-img1.png">
+                    <img src="{{STATIC_URL}}img/bg-img1.png">
                     </a>
                     {% else %}
                     <a href="{% url product_detail product.object.id %}">
@@ -192,7 +192,7 @@
                       <span class="product_description1">{{product.object.description|truncatewords:10}}</span>
                       <!-- <span class="additional_description">{{product.object.description}}</span> -->
 
-                      <span class="model_year1 visible-lg"> {{product.object.condition}} | in {{product.object.city.city}} | By {{product.object.you_are}}</span>
+                      <span class="model_year1 visible-lg"> {{product.object.condition}} | in {{product.object.locality.locality}} | By {{product.object.you_are}}</span>
                       <span class="year">{{product.object.created_date}}</span>
                   </div>
                   <div class="additional_details">
