@@ -402,21 +402,58 @@ class LoginError(View):
         return HttpResponse(status=401)
 
 # changes made by ramya for update profile
+@csrf_exempt
 def my_ads(request):
-    if request.user.is_authenticated():                 
+    if request.user.is_authenticated():
         userprofile_id = request.user.id
         my_products = Product.objects.filter(userprofile_id=userprofile_id)
-        # print 'my_products', my_products
-        return render_to_response('adjod/updateprofile.html', {'my_products':my_products}, context_instance=RequestContext(request))
-    
-    else:
-        return HttpResponseRedirect('/')
+        userprofile = UserProfile.objects.get(id=request.user.id)
+        print 'userprofile', userprofile
+        if request.method == 'POST':
+            print 'POST'
+            mobile = request.POST.get('mobile')
+            locality=Locality.objects.get(id=request.POST['user_locality'])
+            user_age = request.POST.get('user_age')
+            gender = request.POST.get('gender')
+            user_address = request.POST.get('user_address')
+            person_is = request.POST.get('person_is')
+            is_marketing_person = request.POST.get('is_marketing_person')
+            is_allow_sms = request.POST.get('is_allow_sms')
 
-def update_profile(request):   
-    return render_to_response('adjod/updateprofile.html', context_instance=RequestContext(request))
+            def handle_uploaded_file(f):
+                print "settings.MEDIA_ROOT", settings.MEDIA_ROOT
+                profile_picture = open(
+                    settings.MEDIA_ROOT + '/profile/' + '%s' % f.name, 'wb+')
+                for chunk in f.chunks():
+                    profile_picture.write(chunk)
+                profile_picture.close()
 
-def my_chats(request):
-	return render_to_response('adjod/updateprofile.html', context_instance=RequestContext(request))
+            if 'profile_poster' in request.FILES:
+                profile_picture = request.FILES['profile_poster']
+                print 'profile_picture', profile_picture
+                handle_uploaded_file(profile_picture)
+                profile_picture = '/profile/' + str(profile_picture)
+
+            if userprofile:
+                print 'yes'                
+                userprofile.mobile = mobile
+                userprofile.locality = locality
+                userprofile.user_age = user_age
+                userprofile.gender = gender
+                userprofile.user_address = user_address
+                print 'addewess'
+                userprofile.person_is = person_is
+                userprofile.is_marketing_person = is_marketing_person
+                userprofile.is_allow_sms = is_allow_sms             
+                if 'profile_poster' in request.FILES:
+                    userprofile.profile_picture = request.FILES.get('profile_poster')
+                    print 'if pic', userprofile.profile_picture               
+                userprofile.save()        
+            ctx={'my_products':my_products, 'userprofile':userprofile}
+
+        else:
+            ctx={'my_products':my_products, 'userprofile':userprofile} 
+        return render_to_response('adjod/updateprofile.html', ctx, context_instance=RequestContext(request))
 
 def edit_postad_detail(request , pk):    
     print "view_postad_detail"

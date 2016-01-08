@@ -129,9 +129,8 @@ urlpatterns = patterns('',
     url(r'^loadbasecurrency/$', 'adjod.views.loadbasecurrency',name='loadbasecurrency'),
     
     #  url for user_profile updated by Ramya
-    url(r'^my_ads/$', 'adjod.views.my_ads',name='my_ads'),
-    url(r'^update_profile/$', 'adjod.views.update_profile',name='update_profile'),
-    url(r'^my_chats/$', 'adjod.views.my_chats',name='my_chats'),
+    url(r'^my_ads/$', 'adjod.views.my_ads',name='my_ads'),   
+    # url(r'^my_chats/$', 'adjod.views.my_chats',name='my_chats'),
     url(r'^edit_postad_detail/(?P<pk>\d+)/$', 'adjod.views.edit_postad_detail',name='edit_postad_detail'),
     url(r'^delete_ad/$', 'adjod.views.delete_ad',name='delete_ad'),
     url(r'^update_product/(?P<pk>\d+)/$', 'adjod.views.update_product',name='update_product'),

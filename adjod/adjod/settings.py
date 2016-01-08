@@ -112,11 +112,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 # settings for social auth redirect for home by priya
-TEMPLATE_CONTEXT_PROCESSORS += (
-     'social_auth.context_processors.social_auth_by_name_backends',
-     'social_auth.context_processors.social_auth_backends',
-     'social_auth.context_processors.social_auth_by_type_backends',
-     'social_auth.context_processors.social_auth_login_redirect',
+TEMPLATE_CONTEXT_PROCESSORS += (     
      'django.core.context_processors.request',
      'django.core.context_processors.i18n',
      'django.core.context_processors.csrf',
@@ -124,11 +120,12 @@ TEMPLATE_CONTEXT_PROCESSORS += (
      'django.core.context_processors.static',
      'django.core.context_processors.debug',
      'adjod.context_processors.global_activity',
+     'social_auth.context_processors.social_auth_by_name_backends',
+     'social_auth.context_processors.social_auth_backends',
+     'social_auth.context_processors.social_auth_by_type_backends',
+     'social_auth.context_processors.social_auth_login_redirect',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = TCP + (
-    'django.core.context_processors.request',
-)
 #set the Language tranlation path for accessing .po file
 LOCALE_PATHS = (
     os.path.join(os.path.dirname(__file__), '../locale'),

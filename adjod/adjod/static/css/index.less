@@ -5588,4 +5588,45 @@ nav li a:hover {
     top: 30px;
     width: 100%;
 }
-
+input[name=condition ]:not(old),
+input[name=person_is ]:not(old){
+width : 2em;
+margin : 0;
+padding : 0;
+font-size : 1em;
+opacity : 0;
+}
+input[name=condition ]:not(old) + label,
+input[name=person_is ]:not(old) + label{
+display : inline-block;
+margin-left : -0.3em;
+line-height : 1.5em;
+}
+input[name=condition ]:not(old) + label > span,
+input[name=person_is ]:not(old) + label > span{
+display : inline-block;
+width : 22px; //0.875em;
+height : 22px; //0.875em;
+margin : 0.25em 0.5em 0.25em 0.25em;
+border-radius : 22px; //0.875em;
+background : rgb(224,224,224);
+vertical-align : bottom;
+}
+input[name=condition]:not(old):checked + label > span > span,
+input[name=person_is]:not(old):checked + label > span > span{
+display : block;
+width : 0.5em;
+height : 0.5em;
+margin : 0.355em; //0.125em;
+border-radius : 0.5em;
+background : rgb(137,137,137);
+}
+.Ad-ID{
+color: #858585;
+}
+.check_individual,.check_dealer {
+    float: left;
+    left: 25px;
+    position: relative;
+    top: 8px;
+}
