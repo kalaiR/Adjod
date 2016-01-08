@@ -28,7 +28,7 @@
     <div class="container center">
       <div class="inner_container">
       
-      <form method="post" action="{% if path == '/postad/' %}/product_save/{% else %}{% url update_product edit_product.id %}{% endif %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">      
+      <form method="post" action="{% if path == '/postad/' %}{% url product_save %}{% else %}{% url update_product edit_product.id %}{% endif %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">      
           {% csrf_token %}
      	    <div class="{% if request.REQUEST.pt %} labelError success_post {% endif %}">{% for message in messages%}{{message}}{% endfor %}</div>
        		<!-- <div class="field_title form-group" id="type_of_ad_title">
