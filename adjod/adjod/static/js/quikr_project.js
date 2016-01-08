@@ -331,24 +331,68 @@ $( document ).ready(function() {
     });
 
 
-  $(document).on('change','.poster',function(){
-      files = this.files;
-      size = files[0].size;
-      var oFReader = new FileReader();
-      oFReader.readAsDataURL(this.files[0]);
-      oFReader.onload = function (oFREvent) {
-          var image = new Image();
-          image.src = oFREvent.target.result;
-          $('#uploaded_image').remove();
-          // $(".after_save").each(function(){
-          // alert('srd'+$(this).attr('src'));
-          //  $(this).removeAttr('src');
-          //   // var selected_img = $(this).removeAttr('src');
-          //   // $(selected_img).siblings().find('.after_save').attr("disabled", "false");
-          // });
-         
-      };
-  }); 
+  // $(document).on('change','.poster', function(){
+  //     files = this.files;
+  //     size = files[0].size;
+  //     var oFReader = new FileReader();
+  //     oFReader.readAsDataURL(this.files[0]);
+  //     oFReader.onload = function (oFREvent) {
+  //       var image = new Image();
+  //       image.src = oFREvent.target.result;
+  //       $('#clean_img').remove();
+  //       image.onload = function () {         
+  //       if (this.width < 500 ) {
+  //         alert("Image width should be above 500 px");
+  //         return false;
+  //       }         
+  //       else if (this.height < 500 ) {
+  //         alert("Image height should above be 500 px");
+  //         return false;
+  //       }
+  //       else if (this.size >1024*1000 ) {
+       
+  //         alert("please upload less than 1MB");
+  //         return false;
+  //       }
+  //       else{
+  //         return true;
+  //       }
+    
+  //     };
+
+  //     };
+  // }); 
+    //select  locality in user profile
+    $( ".profile_locality" ).change(function () {
+            var selected_option = $( ".profile_locality option:selected" ).text();
+            $('#profile_locality').html(selected_option);
+      });
+
+    //select gender
+    $( ".profile_gender" ).change(function () {
+          var selected_option = $( ".profile_gender option:selected" ).text();
+          $('#profile_gender').html(selected_option);
+    });
+
+
+  //userprofile ajax form submit
+    $('#update_user').submit(function() {                 
+      $.ajax({ 
+          data: $(this).serialize(), 
+          type: $(this).attr('method'), 
+          url: $(this).attr('action'), 
+          success: function(response) { 
+          alert('success');
+
+          },
+          error: function(response){
+            alert('error');
+          }
+        
+      });    
+        return false;
+  });
+
         
    //For SignIn and SignUp Popup
     $('.popup_sign_up, .footer_signup').click(function(){
