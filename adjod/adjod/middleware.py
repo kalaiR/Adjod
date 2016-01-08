@@ -12,7 +12,7 @@ class Global(object):
     global_ip=''
     global_city=''
     global_city_id=''
-    
+
     def process_request(self, request):
         globals.request = request
         globals.user = getattr(request, 'user', None)
@@ -32,7 +32,7 @@ class Global(object):
                 request.user.save()
             except Exception, e:
                 pass
-    
+
     def process_response(self, request, response):
         """while response set cookie for language"""
         if self.global_language:

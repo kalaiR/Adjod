@@ -319,7 +319,72 @@ $( document ).ready(function() {
     });
     
 
-    //For SignIn and SignUp Popup
+   //user profile check and uncheck functionality   by ramya  
+    $('.check_all_act').on('click', function(){
+      $('.check').prop('checked', true);
+    });
+
+    $('.uncheck_all_act').on('click', function(){
+      $('.check').prop('checked', false);
+    });
+
+    function getSelectedVals(){
+     var tmp =[];
+     $("input[name='title_box']").each(function() {
+     if ($(this).attr('checked'))
+     {
+        checked = ($(this).val());
+        tmp.push(checked);
+     }
+     });
+     var filters = tmp.join(',');
+     alert(filters)
+     return filters;
+    }
+
+    $('.delete_act').on('click', function() {
+      if ($(".check").prop('checked')==false){
+         $('.delete_act').prop('disabled', true);
+         alert('you must select atleast one ad to complete your action');
+      }
+      else{
+        selected = getSelectedVals();
+        alert(selected);
+        var myurl = "/delete_ad/"                 
+        $.ajax({ 
+                  type: "POST",
+                  url: myurl,
+                  data: "selected="+selected,
+                  success: function(response) {
+                    window.location.reload(true);
+                  },
+                        
+        });           
+        return false;
+      }
+    });
+
+
+  $(document).on('change','.poster',function(){
+      files = this.files;
+      size = files[0].size;
+      var oFReader = new FileReader();
+      oFReader.readAsDataURL(this.files[0]);
+      oFReader.onload = function (oFREvent) {
+          var image = new Image();
+          image.src = oFREvent.target.result;
+          $('#uploaded_image').remove();
+          // $(".after_save").each(function(){
+          // alert('srd'+$(this).attr('src'));
+          //  $(this).removeAttr('src');
+          //   // var selected_img = $(this).removeAttr('src');
+          //   // $(selected_img).siblings().find('.after_save').attr("disabled", "false");
+          // });
+         
+      };
+  }); 
+        
+   //For SignIn and SignUp Popup
     $('.popup_sign_up, .footer_signup').click(function(){
         sign_up_center_align();
         $('.popup_fade').show();
@@ -843,6 +908,7 @@ $( document ).ready(function() {
     $('input.checkbox_premium').on('change', function(){
         $('input.checkbox_premium').not(this).prop('checked', false); 
     });
+  
 
     $('.lang_dropdown').hide();
     $(".fa-caret-down").click(function(){
@@ -888,4 +954,5 @@ $( document ).ready(function() {
     });
 
 });
+
 

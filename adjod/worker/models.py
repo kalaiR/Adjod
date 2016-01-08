@@ -15,9 +15,9 @@ WorkerTaskStatus = (
 
 class Worker(models.Model):
 
-  id = models.CharField(max_length=128, unique=True, primary_key=True)
-  name = models.CharField(max_length=128)
-  cls_path = models.CharField(max_length=512)
+  id = models.CharField(max_length=128, unique=True, primary_key=True,help_text="specify which worker is start")
+  name = models.CharField(max_length=128,help_text="name of worker")
+  cls_path = models.CharField(max_length=512,help_text="specify path for worker")
 
   interval = models.BigIntegerField(default=60*5, help_text="interval in seconds")
   wait_for_approval = models.BigIntegerField(default=60*60*2, help_text="prepare the task and wait for approval")
@@ -54,14 +54,14 @@ class UserTracking(models.Model):
   email_sent_count = models.PositiveIntegerField(default=0, help_text="Total number of email sent to this user")
   email_read_count = models.PositiveIntegerField(default=0, help_text="Number of times user have read an email")
   email_view_count = models.PositiveIntegerField(default=0, help_text="Number of times user have clicked the link")
-  recent_email_fail_count = models.PositiveIntegerField(default=0)  
+  recent_email_fail_count = models.PositiveIntegerField(default=0)
   last_email_sent = models.DateTimeField(null=True)
 
 class WorkerNoticeEmailTask(models.Model):
 
   task = models.ForeignKey(WorkerTask)
   created_alert=models.ForeignKey(FreeAlert)
-  product = models.ManyToManyField(Product, null=True, blank=True)  
+  product = models.ManyToManyField(Product, null=True, blank=True)
   tracking_code = models.CharField(max_length=256, blank=True, null=True)
   iteration_count = models.PositiveIntegerField(default=0)
 
@@ -74,10 +74,10 @@ class WorkerNoticeEmailTask(models.Model):
   #     wtask = WorkerTask(worker=worker)
   #     wtask.save()
 
-  #     task = WorkerNoticeEmailTask(task=wtask, created_alert=created_alert, 
+  #     task = WorkerNoticeEmailTask(task=wtask, created_alert=created_alert,
   #       tracking_code=helper.randomkey(26))
   #     task.save()
-   
+
   def __unicode__(self):
     return str(self.created_alert.id)
 
@@ -86,7 +86,3 @@ class ProductExpiredAdTracking(models.Model):
   product=models.ForeignKey(Product)
   email_sent_count=models.PositiveIntegerField(default=0, help_text="Total number of email sent")
   last_email_sent = models.DateTimeField(null=True)
-
-
-
-

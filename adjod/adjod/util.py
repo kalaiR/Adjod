@@ -4,7 +4,7 @@ import string
 import uuid
 import urllib2
 from django.conf import settings
-from django.contrib.gis.geoip import GeoIP
+#from django.contrib.gis.geoip import GeoIP
 from adjod import globals
 from advertisement.models import *
 

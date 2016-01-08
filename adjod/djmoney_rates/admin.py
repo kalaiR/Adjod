@@ -12,4 +12,4 @@ class RateSourceAdmin(admin.ModelAdmin):
     ]
 
 
-admin.site.register(RateSource, RateSourceAdmin)
+#admin.site.register(RateSource, RateSourceAdmin)
