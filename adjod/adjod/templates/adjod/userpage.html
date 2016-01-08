@@ -50,7 +50,7 @@
                           <ul class="hide_list categoryclick">
                            {% for categories in initial_load|get_categories %}
                               <li class="list_folder">
-                                <img src="../{{categories.icon}}" class="category_icon">
+                                <img src="{{ MEDIA_URL }}{{categories.icon}}" class="category_icon">
                               <a class="has_sub categoryselected get">
                                {{categories}}
                                  <!-- <span class="hidelist1 ajax_categoryid">
@@ -129,9 +129,9 @@
                 <li class="product_lists ">
                   <div class="product_image">
                     <p class="{% if recentads.premium_plan_id = None %} premium-img {% elif recentads.premium_plan_id = 1 %} premium-img1 {% elif recentads.premium_plan_id = 2 %} premium-img2 {% elif recentads.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>
-                    <a href="" class="">
+                    <a href="{% url product_detail recentads.id %}" class="">
                       {% if recentads.photos = '' %}
-                        <img src="{{MEDIA_URL}}img/bg-img1.png">
+                        <img src="{{STATIC_URL}}img/bg-img1.png">
                       {% else %}
                         <img src="{{MEDIA_URL}}{{recentads.photos|get_photos}}">
                       {% endif %}
@@ -191,7 +191,7 @@
                         </li>
                         <li>
                           <div class="select_container_brand" id="select_container_brand">
-                            <div class="select_div">
+                            <div class="select_div" id="select_brand">
                               <p id="select_post_brand">Select Brand</p>
                               <i class="city_fa fa fa-caret-down">
                               </i>
@@ -220,7 +220,12 @@
                         </li>
                         <li>
                           <div class="form1">
+                          {% if user.is_authenticated %}
+                            <input type="text" class="form-control inputs" value="{% if user.is_authenticated %}{{request.user.email}}{% endif %}" placeholder="Your email" name="email" id="email" disabled="disabled">
+                            <input type="hidden" name="email" value="{{request.user.email}}">
+                          {% else %}
                             <input type="text" class="form-control inputs" value="" placeholder="Your email" name="email" id="email">
+                            {% endif %}
                           </div>
                            <span id="email_required" class="email_labelError" style="font-size:12px;display:none;">Please enter email address</span>
                         </li>

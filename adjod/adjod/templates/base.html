@@ -47,15 +47,16 @@
     <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
     <script src="{% static "js/intlTelInput.min.js" %}"></script>
     <script type="text/javascript">
-    function updateCountdownTitle() {
-        var remaining = 70 - $('.ad_title').val().length;
-        $('#ad_title_count').text(remaining);
-    }
-    function updateCountdownDesc() {
-        var remaining = 500 - $('#your_description').val().length;
-        $('#desc_count').text(remaining);
-    }     
-    </script>
+      function updateCountdownTitle() {
+          var remaining = 70 - $('.ad_title').val().length;
+          $('#ad_title_count').text(remaining);
+      }
+      function updateCountdownDesc() {
+          var remaining = 500 - $('#your_description').val().length;
+          $('#desc_count').text(remaining);
+      }
+    </script>  
+
 </head>
 <body>
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/nkAydfUqi1s" frameborder="0" allowfullscreen></iframe> -->
@@ -64,23 +65,21 @@
         <nav class="navbar navbar-inverse navigation_bar logo_contain">
           <div class="navbar-header">
           {% if path == '/' %}
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
+            <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
-            </button>
+            </button> -->
             <div class="logo_mobile">
               <a href="#"><code></code></a>
             </div><!--logo_mobile-->
             <div class="select_area">
               <i class="fa fa-map-marker location_font"></i>
                 <select class="select_area">
-                          <option  id="currentid" value="{{request.COOKIES.global_city_id}}">Select area{{ request.COOKIES.city }}</option>
-                          {% for cities in current_country_cities %}
-                            {% if cities.city != request.COOKIES.city %}
-                              <option value="{{cities.id}}" id="ajax_cityid">{{ cities.city }} </option>
-                            {% endif %}
-                          {% endfor%}
+                          <option  id="currentid" value="Select Locality">Select Locality</option>
+                            {% for localities in locality %}
+                                <option value="{{localities.id}}" id="ajax_cityid">{{ localities.locality }} </option>
+                            {% endfor%}
                   </select>
                  <i class="fa fa-chevron-down down_font"></i>
               </div><!--select_area-->
@@ -115,20 +114,22 @@
              </div><!--postad_page-->
           {% endif %}
 
+       <!-- CHANGES MADE BY RAMYA FOR USER PROFILE -->
           <div id="navbar" class="collapse navbar-collapse">
               <a class="quikr_logo fl" href="/"> </a>
               <ul class="nav navbar-nav navbar-right">
-                    {% if user.is_authenticated %}
-                    <li class="user_name"><a href="/">{{request.user.email}}</a><i class="fa fa-caret-down caret_user"></i>
-                       <div class="user_dropdown"> 
+                  {% if user.is_authenticated %}
+                    <li class="user_name"><a href="/">{{request.user.email}}</a>
+                      <i class="fa fa-caret-down caret_user"></i>
+                      <div class="user_dropdown"> 
                          <ul>
-                            <a><li>My Ads</li></a>
-                           <a><li>Update My Profile</li></a>
-                           <a><li>My Chats</li></a>
+                            <a href="/my_ads"><li>My Ads</li></a>
+                           <a href="/update_profile/?profile="><li>Update My Profile</li></a>
+                          <!--  <a href="/my_chats"><li>My Chats</li></a> -->
                          </ul>
                       </div> <!--user_dropdown-->
                     </li>
-                    {% endif %}
+                  {% endif %}
                     <!-- {% if 'search' in path %}
                     <li>
                       <div class="custom_select language_custom_select">
@@ -217,8 +218,9 @@
 
                 <input type="text" name="q" id="q" class="form-control input-lg" placeholder="Search here"  value="{% if recent_viewed_search %}{% for cat in recent_viewed_search|slice:'1' %}{% if cat.activity_view %}{{ cat.activity_view }}{% else %}{% endif %}{% endfor %}{% else %}{% endif %}"/>
                 {% endif %}
+                <button type="submit"class="btn btn-lg btn-success search_btn" value="Search">Search</button>
             </div> <!-- form -->
-            <button type="submit"class="btn btn-lg btn-success search_btn" value="Search">Search</button>
+            
         </form>
       </div>
     </div> <!-- header_search -->
@@ -558,7 +560,7 @@
 
             </div> -->
 
-            <iframe src="{% url password_reset %}" height= "215" width="288" scrolling="no" frameBorder="0" style="border:none;"></iframe>
+            <iframe src="{% url password_reset %}" height= "215" width="288" scrolling="no" frameBorder="0" style="border:none;" class="pwd_reset_iframe"></iframe>
            </form>
             <div id="" class="form-group">
               <hr class="photos_line" noshade="noshade">

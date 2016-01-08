@@ -7,7 +7,9 @@ from banner.models import PostBanner, BannerPlan
 from django.conf import settings
 
 TRANS_MODE = (('online', 'Online'), ('offline', 'Offline'))
-TRANS_TYPE = (('banner', 'Banner'), ('account_subcscription', 'Account Subscription'), ('product_subcscription', 'Product Subscription'))
+TRANS_TYPE = (('banner', 'Banner'), ('account_subcscription', 'Account Subscription'), ('urgent_subscription', 'Urgent Subscription'),
+('top_subscription', 'Top Subscription'),
+('urgent_top_subscription', 'Urgent and Top Subscription'))
 PAYMENT_STATUS = (('pending', 'Pending'), ('completed', 'Completed'))
 
 class Order(models.Model):
@@ -21,7 +23,7 @@ class Order(models.Model):
         return unicode(self.pk)
 
 class Transaction(models.Model):
-  
+
   userprofile = models.ForeignKey(UserProfile)
   transaction_mode = models.CharField(max_length=50, choices=TRANS_MODE, help_text='User used transaction type', verbose_name='Transaction')
   amount = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, help_text="Total paid amount including TAX")

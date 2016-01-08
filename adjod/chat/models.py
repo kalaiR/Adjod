@@ -17,7 +17,7 @@ class ChatMessage(models.Model):
     receiver_image = models.CharField(max_length=200, null=True, blank=True)
     
     def __unicode__(self):
-        return self.user.sender    
+        return self.sender    
 
 class LastActive(models.Model):    
     user   = models.OneToOneField(UserProfile, primary_key = True)

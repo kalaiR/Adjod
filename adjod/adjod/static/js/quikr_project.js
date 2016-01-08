@@ -34,11 +34,7 @@ function subscribe_center_align(){
       var width=$('.subscription_popup').width();
       $('.subscription_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 }
-function urgent_ad_center_align(){
-      var height=$('.urgentad_popup').height();
-      var width=$('.urgentad_popup').width();
-      $('.urgentad_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
-}
+
 function checkStrength(password){
       //initial strength
       var strength = 0
@@ -194,8 +190,14 @@ function fill_brands(sub_category_id) {
         $.getJSON("/brand_for_subcategory/", {sub_category_id: sub_category_id},
           function(ret, textStatus) {
             if(ret.length == 0){
-              $('#id_brand').hide();
-              $('.div_brand').css({'opacity':0.5});
+              $('.select_post_brand').hide();
+              $('.select_container_brand').css({"opacity":0.5});
+              $('.brand_folder').hide();
+             }
+             else{
+              $('.select_post_brand').show();
+               $('.select_container_brand').css({"opacity":1});
+              $('.brand_folder').show();
              }
             var options = '';
              if (window.location.href.indexOf("search") >= 0) {
@@ -223,36 +225,29 @@ function fill_brands(sub_category_id) {
 //********** End Functions **********
 
 $( document ).ready(function() {
-  
-  $.fn.center = function () {
+
+    $.fn.center = function () {
       var height = $(this).height();
       var width = $(this).width();
       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
       return this;
    }
-
+      
     sign_in_center_align();
     sign_up_center_align();
     reset_div_center_align();
     subscribe_center_align();
-    urgent_ad_center_align();  
-
-     $(".urgent_ad").click(function(){
-        urgent_ad_center_align();
-        $('.popup_fade').show();
-        $('.urgentad_popup ,.close_btn').show();
-        document.body.style.overflow = 'hidden';
-    });
 
     // subscription popup
+   
     $(".link_tooltip").click(function(){
         subscribe_center_align();
         $('.popup_fade').show();
-        $('.subscription_popup ,.cancel_btn').show();
+        $('.subscription_popup ,.close_btn').show();
         document.body.style.overflow = 'hidden';
     });
 
-   // Showing Image as large when click thumbnail
+    // Showing Image as large when click thumbnail
     var $upperimg = $('.upperimg img');
     $('.thumbs img').click(function () {
         $upperimg.attr('src', this.src);
@@ -289,9 +284,73 @@ $( document ).ready(function() {
       $('.menu_active').removeClass('active');
       $(this).addClass('active');
     });
-    
 
-    //For SignIn and SignUp Popup
+   //user profile check and uncheck functionality   by ramya  
+    $('.check_all_act').on('click', function(){
+      $('.check').prop('checked', true);
+    });
+
+    $('.uncheck_all_act').on('click', function(){
+      $('.check').prop('checked', false);
+    });
+
+    function getSelectedVals(){
+     var tmp =[];
+     $("input[name='title_box']").each(function() {
+     if ($(this).attr('checked'))
+     {
+        checked = ($(this).val());
+        tmp.push(checked);
+     }
+     });
+     var filters = tmp.join(',');
+     alert(filters)
+     return filters;
+    }
+
+    $('.delete_act').on('click', function() {
+      if ($(".check").prop('checked')==false){
+         $('.delete_act').prop('disabled', true);
+         alert('you must select atleast one ad to complete your action');
+      }
+      else{
+        selected = getSelectedVals();
+        alert(selected);
+        var myurl = "/delete_ad/"                 
+        $.ajax({ 
+                  type: "POST",
+                  url: myurl,
+                  data: "selected="+selected,
+                  success: function(response) {
+                    window.location.reload(true);
+                  },
+                        
+        });           
+        return false;
+      }
+    });
+
+
+  $(document).on('change','.poster',function(){
+      files = this.files;
+      size = files[0].size;
+      var oFReader = new FileReader();
+      oFReader.readAsDataURL(this.files[0]);
+      oFReader.onload = function (oFREvent) {
+          var image = new Image();
+          image.src = oFREvent.target.result;
+          $('#uploaded_image').remove();
+          // $(".after_save").each(function(){
+          // alert('srd'+$(this).attr('src'));
+          //  $(this).removeAttr('src');
+          //   // var selected_img = $(this).removeAttr('src');
+          //   // $(selected_img).siblings().find('.after_save').attr("disabled", "false");
+          // });
+         
+      };
+  }); 
+        
+   //For SignIn and SignUp Popup
     $('.popup_sign_up, .footer_signup').click(function(){
         sign_up_center_align();
         $('.popup_fade').show();
@@ -314,7 +373,7 @@ $( document ).ready(function() {
     });
     $('.cancel_btn').click(function(){
         $('.popup_fade').hide();
-        $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile,.subscription_popup,.urgentad_popup').hide();
+        $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile,.subscription_popup').hide();
         document.body.style.overflow = 'auto';
     });
     // Forgot Password Popup
@@ -369,7 +428,6 @@ $( document ).ready(function() {
 
     // init plugin
     telInput.intlTelInput({
-      preferredCountries: [ "sg", "gb" ],
       utilsScript: "../../static/lib/libphonenumber/build/utils.js"
     });
 
@@ -386,7 +444,6 @@ $( document ).ready(function() {
       var countryCode = $(this).val();
       telInput.intlTelInput("selectCountry", countryCode);
     });
-     
    // ************* end country wise mobile number validation
 
    // ************* start country wise mobile number validation in free alert page
@@ -397,7 +454,6 @@ $( document ).ready(function() {
 
     // init plugin
       telInput.intlTelInput({
-      preferredCountries: [ "sg", "gb" ],
       utilsScript: "../../static/lib/libphonenumber/build/utils.js"
     });
 
@@ -425,7 +481,6 @@ $( document ).ready(function() {
 
       // init plugin
         telInput.intlTelInput({
-        preferredCountries: [ "sg", "gb" ],
         utilsScript: "../../static/lib/libphonenumber/build/utils.js"
       });
 
@@ -476,7 +531,6 @@ $( document ).ready(function() {
 
       // init plugin
         telInput.intlTelInput({
-        preferredCountries: [ "sg", "gb" ],
         utilsScript: "../../static/lib/libphonenumber/build/utils.js"
       });
 
@@ -519,7 +573,6 @@ $( document ).ready(function() {
      });
 
     //*************** start Free alert form validation ***********
-
     $("#alert_button").click(function(){
         //email
         if ($('#email').val() == "")
@@ -535,10 +588,6 @@ $( document ).ready(function() {
              $('#email').parent().next('.email_labelError').hide();
             }
         }
-        if ($('#select_post_brand').val().length == 0){
-            alert("enter");
-            $('.select_container_brand').hide();
-        }
         //category
         if ($('#select_post_category').text() == "Select Category")
           $('.select_post_category').parent().next('.labelError').show();
@@ -550,7 +599,7 @@ $( document ).ready(function() {
         else
           $('.select_post_subcategory').parent().next('.labelError').hide();
         //brand
-        if ($('#select_post_brand').text() == "Select Brand") 
+        if ($('#select_post_brand').text() == "Select Brand")
           $('.select_post_brand').parent().next('.labelError').show();
         else
           $('.select_post_brand').parent().next('.labelError').hide();
@@ -565,7 +614,6 @@ $( document ).ready(function() {
             return true;
             $('form[name="alert_button"]').submit();
           }
-
     });
     //*************** End Free alert form validation ***********
 
@@ -614,7 +662,6 @@ $( document ).ready(function() {
     //*************** Start Post Ad form validation ***********
     required = ["category", "ad_title", "your_price", "your_description", "your_email"];
     jQuery("#post").click(function(){
-      if ($('#terms_of_use').prop('checked') == true){
         for (i=0;i<required.length;i++) {
           var input = jQuery('#'+required[i]);
           if (input.val() == "")  {
@@ -626,13 +673,6 @@ $( document ).ready(function() {
             input.siblings('.labelError').hide();
           }
         }
-        // var ext = $('#photos').val().split('.').pop().toLowerCase();
-        // if($.inArray(ext, ['gif','jpg','jpeg']) == -1) {
-        //     alert('invalid extension!');
-        //     $('.photo_labelError').text("please upload valid extension");
-        // }
-
-       
         // Buy and Sell Radio
         if($('#buy').attr('checked') || $('#sell').attr('checked')){
           $('#buy,#sell').removeClass("error_input_field");
@@ -684,18 +724,19 @@ $( document ).ready(function() {
           $('#your_email').siblings('.labelError').hide();
         }
         }
+        if($('#terms_of_use').attr('checked')){
+          $('#terms_required').hide();          
+        }
+        else{
+          $('#terms_required').show(); 
+        }
         if ($(":input").hasClass("error_input_field") || $(".select_container_city").hasClass("error_input_field") || $(".select_container_locality").hasClass("error_input_field") || $("#buy,#sell").hasClass("error_input_field") || $("#individual,#dealer").hasClass("error_input_field")){
         return false;
         }
-      
         else{
           return true;
           $('form[name="post_ad"]').submit();
         }
-      }
-      else{
-        return false;
-      }
     });
     
     //============= FOR SET PREMIUM PLAN AMOUNT ===========
@@ -814,7 +855,7 @@ $( document ).ready(function() {
     // });
     
 
-  // Tooltip for signup popup 
+
     $('.signup_tooltip').hide();
     $(".signup_confirm_button").on('hover', function(){
     if ($(".confirm").prop('checked')==false){ 
@@ -824,20 +865,18 @@ $( document ).ready(function() {
          $('.signup_tooltip').hide();
        }
     });
+    
+     // Tooltip for Post ad
+    // $('.postad_tooltip').hide();
+    // $(".post_form_send").on('hover', function(){
+    // if ($("#terms_of_use").prop('checked')==false){ 
+    //     $('.postad_tooltip').show();
+    // }
+    // else{
+    //      $('.postad_tooltip').hide();
+    //    }
+    // });
 
-    // Tooltip for Post ad
-    $('.postad_tooltip').hide();
-    $(".post_form_send").on('hover', function(){
-    if ($("#terms_of_use").prop('checked')==false){ 
-        $('.postad_tooltip').show();
-    }
-    else{
-         $('.postad_tooltip').hide();
-       }
-    });
-
-
-  // Update_profile dropdown in home page header part
     $(".user_dropdown").hide();
     $(".caret_user").click(function(){
         $('.user_dropdown').toggle();
@@ -852,50 +891,8 @@ $( document ).ready(function() {
     $('input.checkbox_premium').on('change', function(){
         $('input.checkbox_premium').not(this).prop('checked', false); 
     });
-
-    $('.lang_dropdown').hide();
-    $(".fa-caret-down").click(function(){
-      $('.lang_dropdown').show();
-    });
-
-//sticky ads for home page and search page
-    var stickyTop = $('.leftslide').offset().top; // returns number
- 
-      $(window).scroll(function(){ // scroll event 
-        var windowTop = $(window).scrollTop(); // returns number
-         if (stickyTop < windowTop) {
-          $('.leftslide').css({ position: 'fixed', top: 0 });
-        }
-        else {
-          $('.leftslide').css({position :'absolute', top: 382} );
-        }
-     });
-
-      var stickyTop = $('.leftslide1').offset().top; // returns number
-     
-      $(window).scroll(function(){ // scroll event 
-        var windowTop = $(window).scrollTop(); // returns number
-         if (stickyTop < windowTop) {
-          $('.leftslide1').css({ position: 'fixed', top: 0 });
-        }
-        else {
-          $('.leftslide1').css({position :'absolute', top: 382} );
-        }
-     });
-
-    $('.without-caption').magnificPopup({
-    type: 'image',
-    closeOnContentClick: true,
-    closeBtnInside: false,
-    mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
-    image: {
-      verticalFit: true
-    },
-    zoom: {
-      enabled: true,
-      duration: 300 // don't foget to change the duration also in CSS
-    }
-  });
+  
 
 });
+
 

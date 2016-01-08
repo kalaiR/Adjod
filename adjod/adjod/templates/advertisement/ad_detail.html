@@ -32,7 +32,7 @@
                       {%for photo in photos %}
                         <div class="thumbs nb col-md-2">  
                            {% if photo = '' %}
-                           <img src="{{MEDIA_URL}}img/bg-img1.png">  
+                           <img src="{{STATIC_URL}}img/bg-img1.png">  
                            {% else %}  
                           <img src="{{ MEDIA_URL }}{{ photo }}">
                           {% endif %}
@@ -124,7 +124,7 @@
 
                 <div class="product-details">
                   <div class="product_txt">
-                  <h3>Product Details<span class="price visible-lg">{{adinfo.price|conversion}}</span></h3>  
+                  <h3>Product Details<span class="price visible-lg">$ {{adinfo.price|conversion}}</span></h3>  
                   </div>
                   <div class="product_owner_details">
                     <p class="line_style"><span class="field_name fl">Category</span><span>:</span>
@@ -224,12 +224,10 @@
   </div> <!-- row-1 -->   
 
 
-    <div class="container recommend1 visible-lg">
-     {% if related_product %}
+    <div class="container recommend1 visible-lg">  
         <div class="recommended">
           <span>Recommended</span>
-        </div>
-     {% endif %}   
+        </div>      
       <div class="row row2">
         <div class="col-md-8">
           {% if related_product %}
@@ -237,23 +235,22 @@
                 {% for related_products in related_product|slice:":6" %}
                 <li class="product_list1">
                    <div class="product_images1">
-                      <a href="" class="">
-                        
-                        {% if related_products.object.photos = '' %}
-                        <img src="{{MEDIA_URL}}img/bg-img1.png">
-                        {% else %}
-                        <img src="{{MEDIA_URL}}{{related_products.object.photos|get_photos}}">
-                        {% endif %}
-                        <div class="count_holder1 visible-lg">
-                        <span>{% if not related_products.object.imagecount %}0{% else %}{{related_products.object.imagecount}} {%endif%}</span>
-                        <i class="fa fa-camera"></i>
-                        </div>
-                      </a>
+                      <a href="{% url product_detail related_products.object.id %}" class="">              
+                          {% if related_products.object.photos = '' %}
+                          <img src="{{STATIC_URL}}img/bg-img1.png">
+                          {% else %}
+                          <img src="{{MEDIA_URL}}{{related_products.object.photos|get_photos}}">
+                          {% endif %}
+                          <div class="count_holder1 visible-lg">
+                            <span>{% if not related_products.object.imagecount %}0{% else %}{{related_products.object.imagecount}} {%endif%}</span>
+                            <i class="fa fa-camera"></i>
+                          </div>
+                      </a>               
                     </div>
                           
                     <div class="details">
                         <div class="product_name1">  
-                            <a href="" class="spans"> {{related_products.object.title}}</a>
+                            <a href="/ads/{{related_products.object.id}}/" class="spans"> {{related_products.object.title}}</a>
                             <span class="product_description1 visible-lg">{{related_products.object.description|truncatewords:10}}
                             </span>
                             <span class="model_year1 visible-lg"> {{related_products.object.condition}} | in {{related_products.object.city}} | By {{related_products.object.you_are}}</span>

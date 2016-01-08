@@ -101,9 +101,10 @@
       // if (s<80000){
         // if (s<270000000){
           var ext = $('#photos').val().split('.').pop().toLowerCase();
-          if($.inArray(ext, ['gif','jpg','jpeg']) == -1) {
-              alert('invalid extension!');
-              $('.photo_labelError').text("please upload valid extension");
+          if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+              // alert('invalid extension!');
+              $('.error_photo').show();
+              $('.photo_labelError').text("invalid file format");
           }
 
           if (s<1000000){
