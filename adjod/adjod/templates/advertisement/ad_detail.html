@@ -235,7 +235,7 @@
                 {% for related_products in related_product|slice:":6" %}
                 <li class="product_list1">
                    <div class="product_images1">
-                      <a href="{% url product_detail related_products.object.id %}" class="">              
+                      <a href="#" class="">              
                           {% if related_products.object.photos = '' %}
                           <img src="{{STATIC_URL}}img/bg-img1.png">
                           {% else %}
@@ -292,8 +292,19 @@
 
   <div class="col-md-2 column-ad visible-lg">
       <div class="adv_part">
-          <img src="{{MEDIA_URL}}banners/car_banner.jpg" /><br><br>
-          <img src="{{MEDIA_URL}}banners/ac_banner.png" style="height:160px;width:162px;"/>
+          {% for banners in banner|get_banner %}
+            {% if banners.bannerplan_id == 6 %}
+              <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad1" />
+            {% endif %}
+          {% endfor %}
+          <br>
+          <br>
+          {% for banners in banner|get_banner %}
+            {% if banners.bannerplan_id == 7 %}
+              <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad1" style="height:160px;width:162px;" />
+            {% endif %}
+          {% endfor %}
+          
       </div>
   </div>
 
@@ -370,7 +381,21 @@
         {% endif %}  
       </div> <!-- row row2 -->
     </div> <!-- container -->
+    <br>
+    <br>
+<div class="container fifth_part">
+      <div class="hp_ad banner_ad">
+      <ul class="fifth_part">
+        {% for banners in banner|get_banner %}
 
+          {% if banners.bannerplan_id == 11 %}
+          
+            <img src="{{MEDIA_URL}}{{banners.banner}}" style="height:120px;width:970px;" />
+          {% endif %}
+        {% endfor %}
+      </ul>
+      </div> <!-- hp ad -->
+    </div> <!-- container fifth_part-->
 <script>
   window.fbAsyncInit = function() {
     FB.init({
