@@ -369,6 +369,7 @@ $( document ).ready(function() {
 
     // init plugin
     telInput.intlTelInput({
+      preferredCountries: [ "sg", "gb" ],
       utilsScript: "../../static/lib/libphonenumber/build/utils.js"
     });
 
@@ -385,6 +386,7 @@ $( document ).ready(function() {
       var countryCode = $(this).val();
       telInput.intlTelInput("selectCountry", countryCode);
     });
+     
    // ************* end country wise mobile number validation
 
    // ************* start country wise mobile number validation in free alert page
@@ -395,6 +397,7 @@ $( document ).ready(function() {
 
     // init plugin
       telInput.intlTelInput({
+      preferredCountries: [ "sg", "gb" ],
       utilsScript: "../../static/lib/libphonenumber/build/utils.js"
     });
 
@@ -422,6 +425,7 @@ $( document ).ready(function() {
 
       // init plugin
         telInput.intlTelInput({
+        preferredCountries: [ "sg", "gb" ],
         utilsScript: "../../static/lib/libphonenumber/build/utils.js"
       });
 
@@ -472,6 +476,7 @@ $( document ).ready(function() {
 
       // init plugin
         telInput.intlTelInput({
+        preferredCountries: [ "sg", "gb" ],
         utilsScript: "../../static/lib/libphonenumber/build/utils.js"
       });
 
@@ -514,6 +519,7 @@ $( document ).ready(function() {
      });
 
     //*************** start Free alert form validation ***********
+
     $("#alert_button").click(function(){
         //email
         if ($('#email').val() == "")
@@ -529,6 +535,10 @@ $( document ).ready(function() {
              $('#email').parent().next('.email_labelError').hide();
             }
         }
+        if ($('#select_post_brand').val().length == 0){
+            alert("enter");
+            $('.select_container_brand').hide();
+        }
         //category
         if ($('#select_post_category').text() == "Select Category")
           $('.select_post_category').parent().next('.labelError').show();
@@ -540,7 +550,7 @@ $( document ).ready(function() {
         else
           $('.select_post_subcategory').parent().next('.labelError').hide();
         //brand
-        if ($('#select_post_brand').text() == "Select Brand")
+        if ($('#select_post_brand').text() == "Select Brand") 
           $('.select_post_brand').parent().next('.labelError').show();
         else
           $('.select_post_brand').parent().next('.labelError').hide();
@@ -555,6 +565,7 @@ $( document ).ready(function() {
             return true;
             $('form[name="alert_button"]').submit();
           }
+
     });
     //*************** End Free alert form validation ***********
 
@@ -603,6 +614,7 @@ $( document ).ready(function() {
     //*************** Start Post Ad form validation ***********
     required = ["category", "ad_title", "your_price", "your_description", "your_email"];
     jQuery("#post").click(function(){
+      if ($('#terms_of_use').prop('checked') == true){
         for (i=0;i<required.length;i++) {
           var input = jQuery('#'+required[i]);
           if (input.val() == "")  {
@@ -614,6 +626,13 @@ $( document ).ready(function() {
             input.siblings('.labelError').hide();
           }
         }
+        // var ext = $('#photos').val().split('.').pop().toLowerCase();
+        // if($.inArray(ext, ['gif','jpg','jpeg']) == -1) {
+        //     alert('invalid extension!');
+        //     $('.photo_labelError').text("please upload valid extension");
+        // }
+
+       
         // Buy and Sell Radio
         if($('#buy').attr('checked') || $('#sell').attr('checked')){
           $('#buy,#sell').removeClass("error_input_field");
@@ -668,10 +687,15 @@ $( document ).ready(function() {
         if ($(":input").hasClass("error_input_field") || $(".select_container_city").hasClass("error_input_field") || $(".select_container_locality").hasClass("error_input_field") || $("#buy,#sell").hasClass("error_input_field") || $("#individual,#dealer").hasClass("error_input_field")){
         return false;
         }
+      
         else{
           return true;
           $('form[name="post_ad"]').submit();
         }
+      }
+      else{
+        return false;
+      }
     });
     
     //============= FOR SET PREMIUM PLAN AMOUNT ===========
@@ -800,6 +824,19 @@ $( document ).ready(function() {
          $('.signup_tooltip').hide();
        }
     });
+
+    // Tooltip for Post ad
+    $('.postad_tooltip').hide();
+    $(".post_form_send").on('hover', function(){
+    if ($("#terms_of_use").prop('checked')==false){ 
+        $('.postad_tooltip').show();
+    }
+    else{
+         $('.postad_tooltip').hide();
+       }
+    });
+
+
   // Update_profile dropdown in home page header part
     $(".user_dropdown").hide();
     $(".caret_user").click(function(){
@@ -845,6 +882,20 @@ $( document ).ready(function() {
           $('.leftslide1').css({position :'absolute', top: 382} );
         }
      });
+
+    $('.without-caption').magnificPopup({
+    type: 'image',
+    closeOnContentClick: true,
+    closeBtnInside: false,
+    mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
+    image: {
+      verticalFit: true
+    },
+    zoom: {
+      enabled: true,
+      duration: 300 // don't foget to change the duration also in CSS
+    }
+  });
 
 });
 

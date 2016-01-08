@@ -6,7 +6,7 @@
    ===========================-->
 <script type="text/javascript">
   $(document).ready(function(){
-     $('.choose_plan').hide();
+    // $('.choose_plan').hide();
     if (window.location.href.indexOf("?plan=") >= 0) {
       $('html, body').animate({
         scrollTop: $("#premium_ad").offset().top - 70
@@ -276,7 +276,7 @@
          	</div> <!-- terms_of_use_div -->
 
          	<div class="field_div form-group" id="post_button_div">
-         		<input class="btn-warning btn post_form_send" type="submit" value="Post the Ad" id="post" name="post" />
+         		<a class="tool_tip"><input class="btn-warning btn post_form_send masterTooltip" type="submit" value="Post the Ad" id="post" name="post" /><div class="postad_tooltip">you agree to our terms and policy and then post ad</div></a>
          	</div> <!-- post_button_div -->
      	</form> <!-- post_ad -->
     </div> <!-- inner_container -->

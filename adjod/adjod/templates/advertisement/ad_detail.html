@@ -23,9 +23,9 @@
               <div class="product-image visible-lg">
                     <div class="upperimg">
                       {% if largephoto = '' %}
-                          <img src="{{MEDIA_URL}}img/bg-img1.png">
+                          <img class="without-caption" src="{{MEDIA_URL}}img/bg-img1.png">
                       {% else %}
-                        <img src="{{ MEDIA_URL }}{{ largephoto }}">
+                        <img class="without-caption" src="{{ MEDIA_URL }}{{ largephoto }}">
                       {% endif %}
                     </div><!--upperimg-->
                     <div class="thumb_holder">
@@ -97,7 +97,7 @@
         <div class="col-md-6 first-column">
               <div class="column-height">
                 <div class="other-buttons visible-lg">
-                <span href="" class="btn btn-default share_button"> Share
+                <span href="" class="btn btn-default share_button" onclick="fbshare()"> Share
                 <i class="fa fa-share-alt"></i></span>
                 <!-- <span href="" class="btn btn-default favourite_button"> Add as favourite
                 <i class="fa fa-heart heart_detail"></i></span> -->
@@ -373,4 +373,42 @@
         {% endif %}  
       </div> <!-- row row2 -->
     </div> <!-- container -->
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1157881127573603',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+<script>
+function fbshare(){
+FB.ui({
+ method: 'share',
+ href: '{{request.META.HTTP_HOST}}{{ request.get_full_path }}',
+ picture: '{{request.META.HTTP_HOST}}/media/{{photos}}',
+ caption: '{{adinfo.title}}',
+ description: '{{adinfo.description}}'
+}, 
+}
+function send_message() {
+    FB.ui({
+        method: 'send',
+        name: '{{adinfo.title}}',
+        description: '{{adinfo.description}}',
+        link: '{{request.META.HTTP_HOST}}{{ request.get_full_path }}',
+        picture: '{{request.META.HTTP_HOST}}/media/{{photos}}'
+    });
+}
+</script>
 {% endblock %}
