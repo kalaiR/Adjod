@@ -31,10 +31,7 @@ def store_transaction(request,ipn_obj):
 	if request.COOKIES.get('product_id'):
 		if Product.objects.filter(id=request.COOKIES.get('product_id')).exists():
 			product = Product.objects.get(id=request.COOKIES.get('product_id'))
-			if ipn_obj.payment_status == "Pending":
-				print "pending"
-				product.delete()
-			else:
+			if ipn_obj.payment_status == "Completed":
 				if product.premium_plan.purpose == "product_subscription":
 					order = Order()
 					order.product = product
@@ -49,6 +46,10 @@ def store_transaction(request,ipn_obj):
 				transaction.paypal = ipn_obj
 				transaction.payment_status = ipn_obj.payment_status
 				transaction.save()
+			else:
+				print "pending"
+				product.delete()
+				
 	if request.COOKIES.get('transaction_type') and request.COOKIES.get('transaction_type') == "Account Subscription":
 			premium_plan = PremiumPriceInfo.objects.get(purpose="account_subscription")
 			order = Order()
@@ -63,6 +64,9 @@ def store_transaction(request,ipn_obj):
 			transaction.paypal = ipn_obj
 			transaction.payment_status = ipn_obj.payment_status
 			transaction.save()
+			userprofile = UserProfile.objects.get(id=request.user.id)
+			userprofile.is_subscribed = True
+			userprofile.save()
 	return 
 
 

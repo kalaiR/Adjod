@@ -242,12 +242,12 @@ def send_registration_confirmation(userprofile):
     content = "http://" + settings.SITE_NAME + "/confirm/" + str(userprofile.confirmation_code) + "/" + userprofile.username
     send_templated_mail(
                 template_name = 'welcome',
-                subject = 'Welcome to Resell.com',
                 from_email = 'testmail123sample@gmail.com',
                 recipient_list = [userprofile.email],
                 context={
                          'user': userprofile,
                          'content':content,
+                         'email':userprofile.email,
                 },
             )
     print "mail send"
@@ -402,7 +402,6 @@ class LoginError(View):
         return HttpResponse(status=401)
 
 # changes made by ramya for update profile
-
 def my_ads(request):
     if request.user.is_authenticated():                 
         userprofile_id = request.user.id
@@ -498,8 +497,7 @@ def update_success(request, updated_product):
                  
               },
             )
-    return response
-    
+    return response      
 
 #Check whether to save the product or not
 @transaction.commit_on_success
@@ -550,8 +548,6 @@ def update_product(request, pk):
                 return HttpResponseRedirect(redirect_url)
     else:
         return HttpResponseRedirect("/postad/")
-
-
 
 @csrf_exempt
 def delete_ad(request):   

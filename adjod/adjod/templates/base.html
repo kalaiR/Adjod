@@ -47,15 +47,16 @@
     <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
     <script src="{% static "js/intlTelInput.min.js" %}"></script>
     <script type="text/javascript">
-    function updateCountdownTitle() {
-        var remaining = 70 - $('.ad_title').val().length;
-        $('#ad_title_count').text(remaining);
-    }
-    function updateCountdownDesc() {
-        var remaining = 500 - $('#your_description').val().length;
-        $('#desc_count').text(remaining);
-    }
+      function updateCountdownTitle() {
+          var remaining = 70 - $('.ad_title').val().length;
+          $('#ad_title_count').text(remaining);
+      }
+      function updateCountdownDesc() {
+          var remaining = 500 - $('#your_description').val().length;
+          $('#desc_count').text(remaining);
+      }
     </script>  
+
 </head>
 <body>
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/nkAydfUqi1s" frameborder="0" allowfullscreen></iframe> -->
@@ -64,23 +65,21 @@
         <nav class="navbar navbar-inverse navigation_bar logo_contain">
           <div class="navbar-header">
           {% if path == '/' %}
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
+            <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
-            </button>
+            </button> -->
             <div class="logo_mobile">
               <a href="#"><code></code></a>
             </div><!--logo_mobile-->
             <div class="select_area">
               <i class="fa fa-map-marker location_font"></i>
                 <select class="select_area">
-                          <option  id="currentid" value="{{request.COOKIES.global_city_id}}">Select area{{ request.COOKIES.city }}</option>
-                          {% for cities in current_country_cities %}
-                            {% if cities.city != request.COOKIES.city %}
-                              <option value="{{cities.id}}" id="ajax_cityid">{{ cities.city }} </option>
-                            {% endif %}
-                          {% endfor%}
+                          <option  id="currentid" value="Select Locality">Select Locality</option>
+                            {% for localities in locality %}
+                                <option value="{{localities.id}}" id="ajax_cityid">{{ localities.locality }} </option>
+                            {% endfor%}
                   </select>
                  <i class="fa fa-chevron-down down_font"></i>
               </div><!--select_area-->
@@ -117,17 +116,19 @@
 
        <!-- CHANGES MADE BY RAMYA FOR USER PROFILE -->
           <div id="navbar" class="collapse navbar-collapse">
+              <a class="quikr_logo fl" href="/"> </a>
               <ul class="nav navbar-nav navbar-right">
                   {% if user.is_authenticated %}
-                    <li class="user_name"><a href="/">{{request.user.email}}</a></li>
-                    <i class="fa fa-caret-down caret_user"></i>
-                    <div class="user_dropdown"> 
-                       <ul>
-                          <a href="/my_ads"><li>My Ads</li></a>
-                         <a href="/update_profile/?profile="><li>Update My Profile</li></a>
-                         <a href="/my_chats"><li>My Chats</li></a>
-                       </ul>
-                    </div> <!--user_dropdown-->
+                    <li class="user_name"><a href="/">{{request.user.email}}</a>
+                      <i class="fa fa-caret-down caret_user"></i>
+                      <div class="user_dropdown"> 
+                         <ul>
+                            <a href="/my_ads"><li>My Ads</li></a>
+                           <a href="/update_profile/?profile="><li>Update My Profile</li></a>
+                          <!--  <a href="/my_chats"><li>My Chats</li></a> -->
+                         </ul>
+                      </div> <!--user_dropdown-->
+                    </li>
                   {% endif %}
                     <!-- {% if 'search' in path %}
                     <li>
@@ -155,9 +156,9 @@
                     </li>
                     {% endif %} -->
 
-                    <li>
+                     <li>
                         <div class="custom_select language_custom_select lang_select">
-                            <div class="select lang_select">
+                            <div class="select">
                               <p>
 
                                   {% if request.LANGUAGE_CODE == 'en' or request.REQUEST.la == 'en' %}
@@ -175,16 +176,17 @@
 
                               <i class="fa fa-caret-down"></i>
                               </div><!-- select -->
-                              <form action="/i18n/setlang/" method="post" id="language_selector">
+                               <form action="/i18n/setlang/" method="post" id="language_selector">
                                 {% csrf_token %}
                                   <input name="next" type="hidden" value="{{request.path}}{% if request.GET.urlencode %}?{{request.GET.urlencode}}{% endif %}" />
                                   <select name="language" onchange="this.form.submit();">
-                                      <option value="" style="display: none;"> </option>
-                                      <option value="en">{% trans "English" %}</option>
-                                      <option value="de">{% trans "German" %}</option>
-                                      <option value="sv">{% trans "Swedish" %}</option>
+                                      <option class="lang_hover" value="" style="display: none;"> </option>
+                                      <option class="lang_hover" value="en">{% trans "English" %}</option>
+                                      <option class="lang_hover" value="de">{% trans "German" %}</option>
+                                      <option class="lang_hover" value="sv">{% trans "Swedish" %}</option>
                                   </select>
-                                </form>
+                                </form> 
+                                
                             </div><!-- custom_select -->
 
                       </li>
@@ -197,7 +199,7 @@
                           {% endif %}
                       </li>
                 </ul>
-                
+                <div class="clear_both"> </div>
           </div> <!-- navbar collapse -->
         </nav> <!-- navigation bar -->
       </div><!-- container -->
@@ -205,10 +207,9 @@
 
     {%  if path == '/' or 'start' in path  or 'categories' in path  or 'login' in path%}
     <div class="header_search">
-      <div class="container quikr_logo">
-        <a href="/"><code></code></a>
+      <div class="container header_middle">
         <h2 class="heading">Singapore's largest marketplace</h2>
-        <form class="form" method="get" action="/search/?q=" id="f_search" name="f_search">
+        <form class="form" method="get" action="/search/?q=" id="f_search" name="f_search" style="position: relative;">
             <div class="form">
               <i class="fa fa-search"></i>
                 {% if query or request.REQUEST.q or request.REQUEST.q == '' %}
@@ -217,8 +218,9 @@
 
                 <input type="text" name="q" id="q" class="form-control input-lg" placeholder="Search here"  value="{% if recent_viewed_search %}{% for cat in recent_viewed_search|slice:'1' %}{% if cat.activity_view %}{{ cat.activity_view }}{% else %}{% endif %}{% endfor %}{% else %}{% endif %}"/>
                 {% endif %}
+                <button type="submit"class="btn btn-lg btn-success search_btn" value="Search">Search</button>
             </div> <!-- form -->
-            <button type="submit"class="btn btn-lg btn-success search_btn" value="Search">Search</button>
+            
         </form>
       </div>
     </div> <!-- header_search -->
@@ -231,8 +233,8 @@
 
     {%  if 'search' in path  or 'postad' in path  or 'ads' in path  or 'update_profile' in path %}
        <div class="search_part">
-          <div class="container logo_part visible-lg">
-            <a href="/"><code></code></a>
+          <div class="container visible-lg">
+           
                 <form class="info_form" method="get" action="/search/?q=">
                   {%  if 'search' in path  or 'update_profile' in path %}
                       <div class="custom_select language_custom_select search_city">
@@ -334,7 +336,7 @@
     </div> <!-- container -->
 
     <div class="footer_image">
-      <code></code>
+      <img src="/../static/img/SINGAPORE1.png" style="width:100%; height=170px;">
     </div> <!-- footer_image -->
 
     <div class="final_part">
@@ -431,19 +433,16 @@
             </div> <!-- hr_div -->
 
             <div class=" facebook fl" >
-              <a  href="{% url socialauth_begin 'facebook' %}" ><button class="fb_button btn-lg"><i class="fa fa-facebook"></i> Facebook</button></a>
+              <a  href="{% url socialauth_begin 'facebook' %}" ><button class="fb_button"><i class="fa fa-facebook"></i> Facebook</button></a>
             </div>
 
             <div  class=" fl">
-              <a  href="{% url socialauth_begin 'google-oauth2' %}" ><button class="gmail_button btn-lg"><i class="fa fa-google-plus"></i>Gmail </button></a>
+              <a  href="{% url socialauth_begin 'google-oauth2' %}" ><button class="gmail_button"><i class="fa fa-google-plus"></i>Gmail</button></a>
             </div>
             
             <div class="clear_both"></div>
-            <div  class="form-group">
-              <span class="signin">I don't have a account</span>
-            </div> <!-- signin_div -->
-
             <div id="free_signup_div" class="form-group">
+              <span class="signin">I don't have a account</span>
               <a class="popup_sign_up"><button class="free_button btn-lg">Sign up for free</button></a>
             </div> <!-- free_signup_div -->
 
@@ -561,17 +560,14 @@
 
             </div> -->
 
-            <iframe src="{% url password_reset %}" height= "215" width="288" scrolling="no" frameBorder="0" style="border:none;"></iframe>
+            <iframe src="{% url password_reset %}" height= "215" width="288" scrolling="no" frameBorder="0" style="border:none;" class="pwd_reset_iframe"></iframe>
            </form>
             <div id="" class="form-group">
               <hr class="photos_line" noshade="noshade">
             </div> <!-- hr_div -->
 
-            <div  class="form-group">
-              <span class="signin">I don't have a account</span>
-            </div> <!-- signin_div -->
-
             <div id="free_signup_div" class="form-group">
+              <span class="signin">I don't have a account</span>
               <a class="popup_sign_up"><button class="free_button btn-lg">Sign up for free</button></a>
             </div> <!-- free_signup_div -->
 

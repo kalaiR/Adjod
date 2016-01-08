@@ -249,7 +249,7 @@ def post_success(request, product):
     product.expired_date=datetime.datetime.now() + datetime.timedelta(days=30)
     product.status_isactive  = True
     product.post_terms=request.POST.get('terms_of_use')
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and not request.user.is_superuser:
         if request.POST.get('premium_plan'):
             plan_price = request.POST["premium_plan"]
             product.premium_plan = PremiumPriceInfo.objects.get(premium_price=plan_price)
@@ -268,16 +268,19 @@ def post_success(request, product):
     else:
         response = None
     product.save()
+    print "product.id",product.id
+    link = "http://" + settings.SITE_NAME + "/ads/" 
     current_site = Site.objects.get_current()
     send_templated_mail(
               template_name = 'post_ad',
               from_email = 'testmail123sample@gmail.com',
               recipient_list= [product.you_email],
               context = {
-                 'subject': 'Alert Products',
                  'content':product.title,
                  'user':product.you_name ,
                  'current_site':current_site,
+                 'id':product.id,
+                 'link':link,
                  
               },
             )
@@ -293,10 +296,10 @@ def product_save(request):
            
         try:
             error={}
-            if request.user.is_authenticated():
+            if request.user.is_authenticated() and not request.user.is_superuser:
                 product.userprofile = UserProfile.objects.get(id=request.user.id)
                 product.isregistered_user = True
-                if product.userprofile.ad_count<3:
+                if product.userprofile.ad_count < 3 or product.userprofile.is_subscribed == True:
                     product_dict = post_success(request, product) 
                     #Store in Userprofile table to know the status of users post ad counts
                     product.userprofile.ad_count = int(product.userprofile.ad_count) + 1
@@ -315,9 +318,15 @@ def product_save(request):
                     raise ValidationError(error['exit_count'], 6)
             else:
                 product.userprofile = None
-                post_success(request, product)
-                error['success'] = ugettext('Ad Successfully posted')
-                raise ValidationError(error['success'], 5)
+                emailfilter = Product.objects.filter(you_email=request.POST.get('your_email')).count()
+                if emailfilter < 3:
+                    post_success(request, product)
+                    error['success'] = ugettext('Ad Successfully posted')
+                    raise ValidationError(error['success'], 5)
+                else:
+                    error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium')
+                    print "error['exit_count']",error['exit_count']
+                    raise ValidationError(error['exit_count'], 6)
 
         except ValidationError as e:
             messages.add_message(request, messages.ERROR, e.messages[-1])
