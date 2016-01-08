@@ -119,17 +119,20 @@
           <div id="navbar" class="collapse navbar-collapse">
               <a class="quikr_logo fl" href="/"> </a>
               <ul class="nav navbar-nav navbar-right">
-                  {% if user.is_authenticated %}
-                    <li class="user_name"><a href="/">{{request.user.email}}</a>
+                  {% if user.is_authenticated %}                    
+                    {% if request.path != '/start/' %}
+                      <li class="user_name"><a href="/">{{request.user.email}}</a>
                       <i class="fa fa-caret-down caret_user"></i>
                       <div class="user_dropdown"> 
                          <ul>
                             <a href="/my_ads"><li>My Ads</li></a>
-                           <a href="/update_profile/?profile="><li>Update My Profile</li></a>
+                           <a href="/my_ads"><li>Update My Profile</li></a>
                           <!--  <a href="/my_chats"><li>My Chats</li></a> -->
                          </ul>
-                      </div> <!--user_dropdown-->
-                    </li>
+                      </div> <!--user_dropdown-->                                       
+                    {% else %}
+                    <li class="user_name"><a href="/my_ads">{{request.user.email}}</a>
+                    {% endif %} 
                   {% endif %}
                     <!-- {% if 'search' in path %}
                     <li>
@@ -318,18 +321,7 @@
     </div> <!-- container -->
     {% endif %}
 
-    <div class="container fifth_part">
-      <div class="hp_ad banner_ad">
-      <ul class="fifth_part">
-      {% for banners in banner|get_banner %}
-
-      {% if banners.bannerplan.page == 'Home page' and banners.bannerplan.position == 'Bottom'%}
-      <li><a class="bannerlink" href="{{banners.link}}"><img class="bannerimage" src="{{MEDIA_URL}}{{banners.banner}}" style="height:120px;width:970px;"></a></li>
-      {% endif %}
-      {% endfor %}
-      </ul>
-      </div> <!-- hp ad -->
-    </div> <!-- container fifth_part-->
+    
 
     <div class="container">
       <p class="contact">For site related issues,Check out our <a href=""><span class="span3">Help</span></a> section or email us at <a href=""><span class="span3">support@quikr.com</span>

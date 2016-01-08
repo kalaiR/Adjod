@@ -8,6 +8,8 @@ POSITION = (
     ('Bottom', 'Bottom of the page'),
     ('Center', 'Center of the page'),
     ('Right', 'Right of the page'),
+    ('Right_top', 'Right top of the page'),
+    ('Right_bottom', 'Right bottom of the page'),
     ('Left', 'Left of the page'),
 )
 

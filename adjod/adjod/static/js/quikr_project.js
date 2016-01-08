@@ -895,8 +895,6 @@ $( document ).ready(function() {
         $('input.checkbox_premium').not(this).prop('checked', false); 
         $('.premium_plan').val($(this).val());
     });
-    
-  
 
 });
 
