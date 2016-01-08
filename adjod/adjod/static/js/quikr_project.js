@@ -428,6 +428,7 @@ $( document ).ready(function() {
 
     // init plugin
     telInput.intlTelInput({
+       preferredCountries: [ "sg", "gb" ],
       utilsScript: "../../static/lib/libphonenumber/build/utils.js"
     });
 
@@ -454,6 +455,7 @@ $( document ).ready(function() {
 
     // init plugin
       telInput.intlTelInput({
+      preferredCountries: [ "sg", "gb" ],
       utilsScript: "../../static/lib/libphonenumber/build/utils.js"
     });
 
@@ -481,6 +483,7 @@ $( document ).ready(function() {
 
       // init plugin
         telInput.intlTelInput({
+        preferredCountries: [ "sg", "gb" ],
         utilsScript: "../../static/lib/libphonenumber/build/utils.js"
       });
 
