@@ -891,9 +891,11 @@ $( document ).ready(function() {
       $('form[name="paypal_account_subscription"]').submit();
     });
 
-    $('input.checkbox_premium').on('change', function(){
+    $('input.checkbox_premium').on('click', function(){
         $('input.checkbox_premium').not(this).prop('checked', false); 
+        $('.premium_plan').val($(this).val());
     });
+    
   
 
 });

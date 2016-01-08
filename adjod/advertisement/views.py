@@ -273,7 +273,9 @@ def post_success(request, product):
     product.post_terms=request.POST.get('terms_of_use')
     if request.user.is_authenticated() and not request.user.is_superuser:
         if request.POST.get('premium_plan'):
+            print "choosen premium plan"
             plan_price = request.POST["premium_plan"]
+            print "plan_price", plan_price
             product.premium_plan = PremiumPriceInfo.objects.get(premium_price=plan_price)
             product.ispremium = True
             product_dict = {'userprofile':product.userprofile.id, 'category':product.category, 'subcategory':product.subcategory,
@@ -284,11 +286,13 @@ def post_success(request, product):
                         'you_phone':product.you_phone,'isregistered_user':product.isregistered_user,'ispremium':product.ispremium,
                         'premium_plan':product.premium_plan,'expired_date':product.expired_date,'status_isactive':product.status_isactive,
                         'post_term_status':product.post_term_status,"premium_plan":product.premium_plan.id}       
+            print "product_dict", product_dict
             response = product_dict
         else:
             response = None
     else:
         response = None
+    print "before product save"
     product.save()
     print "product.id",product.id
     link = "http://" + settings.SITE_NAME + "/ads/" 

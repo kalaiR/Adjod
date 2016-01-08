@@ -245,7 +245,7 @@
 
           						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan1" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
                       <span class="premium_row_4 select_premium">
-                        <input type="checkbox" id="premium_plan1" name="premium_plan" class="check_disable checkbox_premium" value="9.99"><span class="premium_new">Select</span>
+                        <input type="checkbox" id="premium_plan1" class="check_disable checkbox_premium" value="9.99"><span class="premium_new">Select</span>
                       </span>
       					  </div> <!-- premium_col_1 -->
         					<div id="premium_col_2" class="col-md-4">
@@ -258,7 +258,7 @@
           						<span class="premium_row_3">S$ 14.99 per ad</a></span>
           						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan2" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
                       <span class="premium_row_4 select_premium">
-                      <input type="checkbox" id="premium_plan2" name="premium_plan" class="check_disable checkbox_premium"><span class="premium_new" value="14.99">Select</span>
+                      <input type="checkbox" id="premium_plan2" class="check_disable checkbox_premium" value="14.99"><span class="premium_new">Select</span>
                       </span>
       					</div> <!-- premium_col_2 -->
       					<div id="premium_col_3" class="col-md-4">
@@ -266,14 +266,15 @@
           						<span class="premium_row_2"><a href="#" class="premium_urgent_ad">View Example</a></span>
                       <div> 
                         <code class="close_btn cancel_btn"> </code>
-                        <img src="../static/img/premium_urgent_ad.png" class="premium_urgent_ad_popup">
+                        <img src="../static/img/premium_urgent_ad.png" class="premium_urgent_ad_popup ">
                       </div>
           						<span class="premium_row_3">S$ 19.99 per ad</a></span>
           						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan3" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
                       <span class="premium_row_4 select_premium">
-                      <input type="checkbox" id="premium_plan3" name="premium_plan" class="check_disable checkbox_premium" value="19.99"><span class="premium_new">Select</span>
+                      <input type="checkbox" id="premium_plan3" class="check_disable checkbox_premium" value="19.99"><span class="premium_new">Select</span>
                       </span>
     					   </div> <!-- premium_col_3 -->
+                 <input type="hidden" class="premium_plan" name="premium_plan" value="">
   				    </div> <!-- row -->
           			<!-- 	<div class="row premium_row">
                      			<div class="payable_amount col-md-12">
@@ -295,7 +296,7 @@
                      					<!-- <select class="payment_method">
                      						<option>Choose payment method</option>
                      						<option>Online payment method</option>
-                     					</select> <!-- payment_method -->
+                     					</select> <!- payment_method -->
                      				<!-- </span>
                      			</div> --> <!-- payable_amount -->
                      		<!-- </div> --> <!-- row -->
