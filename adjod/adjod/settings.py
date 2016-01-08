@@ -4,6 +4,8 @@ from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 from django.conf.urls import patterns, include, url
 import smtplib
 from django.utils.translation import ugettext_lazy, ugettext as _
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -95,7 +97,7 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
- # setting for social auth backend  and tracking by Priya  
+ # setting for social auth backend  and tracking by Priya
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -105,25 +107,28 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'adjod.middleware.Global',
-    'tracking.middleware.VisitorTrackingMiddleware',   
+    'tracking.middleware.VisitorTrackingMiddleware',
     'social_auth.middleware.SocialAuthExceptionMiddleware',
 )
 
 # settings for social auth redirect for home by priya
-TEMPLATE_CONTEXT_PROCESSORS += (    
+TEMPLATE_CONTEXT_PROCESSORS += (
      'social_auth.context_processors.social_auth_by_name_backends',
      'social_auth.context_processors.social_auth_backends',
      'social_auth.context_processors.social_auth_by_type_backends',
      'social_auth.context_processors.social_auth_login_redirect',
      'django.core.context_processors.request',
      'django.core.context_processors.i18n',
-     'django.core.context_processors.csrf',  
+     'django.core.context_processors.csrf',
      'django.core.context_processors.media',
      'django.core.context_processors.static',
-     'django.core.context_processors.debug', 
-     'adjod.context_processors.global_activity',    
+     'django.core.context_processors.debug',
+     'adjod.context_processors.global_activity',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+    'django.core.context_processors.request',
+)
 #set the Language tranlation path for accessing .po file
 LOCALE_PATHS = (
     os.path.join(os.path.dirname(__file__), '../locale'),
@@ -150,9 +155,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'suit',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    
+
     # Apps
     'adjod',
     'advertisement',
@@ -166,7 +172,7 @@ INSTALLED_APPS = (
 
     # Third Party Libs
     'haystack',
-    'paypal.standard.ipn',   
+    'paypal.standard.ipn',
     'djmoney_rates',
     'social_auth',
     'tracking'
@@ -356,8 +362,7 @@ PAYPAL_DICT = {
     'success_return': '/paypal/',
     'notify_url'    : '/paypal/'
 }
-
-#setting for send mail template subject 
+#setting for send mail template subject
 TEMPLATED_EMAIL_DJANGO_SUBJECTS = {
     'welcome':'Welcome to Resell',
     'post_ad':'Thanks for sharing your ads with Resell',

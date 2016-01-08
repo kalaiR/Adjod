@@ -31,8 +31,10 @@ def store_transaction(request,ipn_obj):
 	if request.COOKIES.get('product_id'):
 		if Product.objects.filter(id=request.COOKIES.get('product_id')).exists():
 			product = Product.objects.get(id=request.COOKIES.get('product_id'))
-			if ipn_obj.payment_status == "Completed":
-				if product.premium_plan.purpose == "product_subscription":
+			if ipn_obj.payment_status == "Pending":
+				product.delete()
+			else:
+				if product.premium_plan.purpose == "urgent_subscription" or product.premium_plan.purpose == "top_subscription" or product.premium_plan.purpose == "urgent_top_subscription":
 					order = Order()
 					order.product = product
 					order.subscription_plan = PremiumPriceInfo.objects.get(id=product.premium_plan.id)
@@ -49,7 +51,7 @@ def store_transaction(request,ipn_obj):
 			else:
 				print "pending"
 				product.delete()
-				
+
 	if request.COOKIES.get('transaction_type') and request.COOKIES.get('transaction_type') == "Account Subscription":
 			premium_plan = PremiumPriceInfo.objects.get(purpose="account_subscription")
 			order = Order()
@@ -70,7 +72,6 @@ def store_transaction(request,ipn_obj):
 	return 
 
 
-			
 
 @transaction.commit_on_success
 @csrf_exempt
@@ -81,13 +82,13 @@ def ipn(request, item_check_callable=None):
 	PayPal IPN endpoint (notify_url).
 	Used by both PayPal Payments Pro and Payments Standard to confirm transactions.
 	http://tinyurl.com/d9vu9d
-	
+
 	PayPal IPN Simulator:
 	https://developer.paypal.com/cgi-bin/devscr?cmd=_ipn-link-session
 	"""
 	flag = None
 	ipn_obj = None
-	
+
 	# Clean up the data as PayPal sends some weird values such as "N/A"
 	data = request.POST.copy()
 	date_fields = ('time_created', 'payment_date', 'next_payment_date', 'subscr_date', 'subscr_effective')
@@ -103,7 +104,7 @@ def ipn(request, item_check_callable=None):
 			flag = "Exception while processing. (%s)" % e
 	else:
 		flag = "Invalid form. (%s)" % form.errors
- 
+
 	if ipn_obj is None:
 		ipn_obj = PayPalIPN()
 
