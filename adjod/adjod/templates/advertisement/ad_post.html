@@ -6,7 +6,7 @@
    ===========================-->
 <script type="text/javascript">
   $(document).ready(function(){
-     $('.choose_plan').hide();
+    // $('.choose_plan').hide();
     if (window.location.href.indexOf("?plan=") >= 0) {
       $('html, body').animate({
         scrollTop: $("#premium_ad").offset().top - 70
@@ -91,7 +91,8 @@
               {% endfor %}              
             {% else %}
               <input type='file' id='photos' name='photos[]' multiple='multiple' class="poster" value="" />
-              <span class="photo_labelError"></span>          
+              <span class="photo_labelError"></span> 
+              <span class="error_photo" style="color:red; display:none;">Invalid file type</span>         
             {% endif %}  
                              
             <div class="photos_text" >  
@@ -99,7 +100,7 @@
             </div> <!-- photos_text -->
             <span class="photo_labelError"></span>
         </div> <!-- upload_photos_div -->
-         <!--  <div class="field_title form-group">
+         <!--  <div class="field_title form-group"> 
             <span class="title">Upload Videos</span>
           </div> <!- field_title ->
           <div class="field_div form-group" id="upload_photos_div">
@@ -224,7 +225,7 @@
            		<input type="checkbox" name="privacy" id="privacy" />
            		<span class="privacy_text">Maintain my Privacy (Buyers will first contact you via reply, you can decide when to reveal your phone number to them)</span>
            	</div> <!-- privacy -->
-            <div class="choose_plan"><h2>Please Select Your Plan</h2></div>
+            <div class="choose_plan">Please Select Your Plan</div>
 
            	<div class="field_div form-group" id="premium_ad">
              		<div class="row premium_row">
@@ -303,11 +304,12 @@
          	<div class="field_div form-group privacy_div" id="terms_of_use_div">
          		<input type="checkbox" name="terms_of_use" id="terms_of_use" />
          		<span class="privacy_text">By clicking "Post", you agree to our <a>Terms of Use</a> & <a>Privacy Policy</a></span>
+            <label id="terms_required" class="labelError choose_error" style="display:none;">Please click the checkbox</label>
          	</div> <!-- terms_of_use_div -->
 
-         	<div class="field_div form-group" id="post_button_div">
-         		<input class="btn-warning btn post_form_send" type="submit" value="Post the Ad" id="post" name="post" />
-         	</div> <!-- post_button_div -->
+         	  <div class="field_div form-group" id="post_button_div">
+            <input class="btn-warning btn post_form_send" type="submit" value="Post the Ad" id="post" name="post" />
+          </div> <!-- post_button_div -->
      	</form> <!-- post_ad -->
     </div> <!-- inner_container -->
   </div> <!-- container center -->

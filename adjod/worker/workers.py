@@ -190,7 +190,7 @@ class EmailNotification_ExpiredAds(WorkerBase):
       elif result == 40:
           # subject = "Your " + str(products.title) + " ads is expired after some extra period"
           content= "Hi...Your ad is going to be inactive, Click the blow link and Please make your ad as Premium http://localhost:8000"
-      active_link = "http://192.168.1.34:8000/postad/"
+      active_link = "http://" + settings.SITE_NAME + "/postad/"
       products.status_isactive = False      
       ctx={'cat':cat,'subcat':subcat ,'brand':brand,'title':title,'user':user,'active_link':active_link}       
       self.sendmail(title, products.you_email,ctx)
