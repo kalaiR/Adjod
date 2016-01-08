@@ -88,7 +88,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'userprofile','category', 'subcategory', 'adtype', 'title', 'photos', 'thumbnail', 'imagecount','condition', 'price',
             'ad_brand','ad_year','city', 'locality', 'description', 'you_are','you_name', 'you_email','you_phone','ispremium','premium_plan','created_date','modified_date')
     list_filter = ['category', 'subcategory','ispremium','premium_plan']
-    search_fields = ['id','category','subcategory', 'you_email','you_phone']
+    # search_fields = ['id','category','subcategory','title', 'you_email','you_phone']
     readonly_fields =['city']
     fieldsets = [
       ('Product Details', {
@@ -107,6 +107,10 @@ class ProductAdmin(admin.ModelAdmin):
 
       ('Date', {
           'fields': ['created_date', 'modified_date']
+      }),
+
+      ('Active Status', {
+          'fields': ['status_isactive']
       }),
     ]
     list_per_page = 50

@@ -28,7 +28,7 @@
     <div class="container center">
       <div class="inner_container">
       
-      <form method="post" action="{% if path == '/postad/' %}/product_save/{% else %}{% url update_product edit_product.id %}{% endif %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">      
+      <form method="post" action="{% if path == '/postad/' %}{% url product_save %}{% else %}{% url update_product edit_product.id %}{% endif %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">      
           {% csrf_token %}
      	    <div class="{% if request.REQUEST.pt %} labelError success_post {% endif %}">{% for message in messages%}{{message}}{% endfor %}</div>
        		<!-- <div class="field_title form-group" id="type_of_ad_title">
@@ -82,7 +82,6 @@
          	<div class="field_title form-group">
             <span class="title upload_txt">Upload Photos</span>
           </div> <!-- field_title -->
-
           <div class="field_div form-group upload_image" id="upload_photos_div">              
             {% if pic %}            
                {% for pics in pic %}  
@@ -394,7 +393,7 @@
                           <ul class="hide_list categoryclick">
                            {% for categories in initial_load|get_categories %}
                               <li class="list_folder">
-                                <img src="../{{categories.icon}}" class="category_icon">
+                                <img src="{{ MEDIA_URL }}{{categories.icon}}" class="category_icon">
                               <a class="has_sub categoryselected get">
                                {{categories}}
                                  <!-- <span class="hidelist1 ajax_categoryid">

@@ -40,5 +40,5 @@ class LastActiveAdmin(admin.ModelAdmin):
             return self.readonly_fields + ('user', 'received_at', 'session',)
         return self.readonly_fields
         
-admin.site.register(ChatMessage,ChatMessageAdmin)
-admin.site.register(LastActive)
+# admin.site.register(ChatMessage,ChatMessageAdmin)
+# admin.site.register(LastActive)
