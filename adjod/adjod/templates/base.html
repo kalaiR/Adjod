@@ -55,7 +55,7 @@
         var remaining = 500 - $('#your_description').val().length;
         $('#desc_count').text(remaining);
     }
-    </script>
+    </script>  
 </head>
 <body>
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/nkAydfUqi1s" frameborder="0" allowfullscreen></iframe> -->
@@ -115,18 +115,20 @@
              </div><!--postad_page-->
           {% endif %}
 
+       <!-- CHANGES MADE BY RAMYA FOR USER PROFILE -->
           <div id="navbar" class="collapse navbar-collapse">
               <ul class="nav navbar-nav navbar-right">
-                    {% if user.is_authenticated %}
-                    <li class="user_name"><a href="/">{{request.user.email}}</a></li><!-- <i class="fa fa-caret-down caret_user"></i> -->
-                   <!--  <div class="user_dropdown"> 
+                  {% if user.is_authenticated %}
+                    <li class="user_name"><a href="/">{{request.user.email}}</a></li>
+                    <i class="fa fa-caret-down caret_user"></i>
+                    <div class="user_dropdown"> 
                        <ul>
-                          <a><li>My Ads</li></a>
-                         <a><li>Update My Profile</li></a>
-                         <a><li>My Chats</li></a>
+                          <a href="/my_ads"><li>My Ads</li></a>
+                         <a href="/update_profile/?profile="><li>Update My Profile</li></a>
+                         <a href="/my_chats"><li>My Chats</li></a>
                        </ul>
-                    </div> --><!--user_dropdown-->
-                    {% endif %}
+                    </div> <!--user_dropdown-->
+                  {% endif %}
                     <!-- {% if 'search' in path %}
                     <li>
                       <div class="custom_select language_custom_select">

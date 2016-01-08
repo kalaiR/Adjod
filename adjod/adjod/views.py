@@ -53,6 +53,19 @@ from adjod.models import BaseCurrency, ExchangeRate
 # For Chat
 from chat.models import *
 
+# for delete_ad
+import requests
+
+#for transactions
+from django.db import transaction
+
+#for create path for images
+from advertisement.views import create_path_for_photos_thumbanails
+from django.contrib.sites.models import Site
+from paypal.standard.ipn.views import *
+
+
+
 def test_paypal(request):
     # What you want the button to do.
     paypal_dict = {
@@ -339,10 +352,6 @@ def loadbasecurrency(request):
         conversion.save()
     return HttpResponse('Successfully updated')
 
-
-def update_profile(request):
-    return render_to_response('adjod/updateprofile.html', context_instance=RequestContext(request))
-
 #Test geo comment this for future reference
 # def geosearch(request):
 #     starttime = time()
@@ -391,3 +400,175 @@ class AuthComplete(View):
 class LoginError(View):
     def get(self, request, *args, **kwargs):
         return HttpResponse(status=401)
+
+# changes made by ramya for update profile
+
+def my_ads(request):
+    if request.user.is_authenticated():                 
+        userprofile_id = request.user.id
+        my_products = Product.objects.filter(userprofile_id=userprofile_id)
+        # print 'my_products', my_products
+        return render_to_response('adjod/updateprofile.html', {'my_products':my_products}, context_instance=RequestContext(request))
+    
+    else:
+        return HttpResponseRedirect('/')
+
+def update_profile(request):   
+    return render_to_response('adjod/updateprofile.html', context_instance=RequestContext(request))
+
+def my_chats(request):
+	return render_to_response('adjod/updateprofile.html', context_instance=RequestContext(request))
+
+def edit_postad_detail(request , pk):    
+    print "view_postad_detail"
+    edit_product = Product.objects.get(pk=int(pk))
+    pic=[n for n in str(edit_product.thumbnail).split(',')]
+    print 'pic', pic
+
+    return render_to_response('advertisement/ad_post.html', {'edit_product':edit_product, 'pic':pic}, context_instance=RequestContext(request))
+
+def update_success(request, updated_product):
+    print 'update_success'
+    error = {}
+    updated_product.category=Category.objects.get(id=request.POST['category_name'])
+    print 'updated_product.category', updated_product.category
+    updated_product.subcategory=SubCategory.objects.get(id=request.POST['subcategory_name'])
+    print 'updated_product.subcategory', updated_product.subcategory
+    if request.POST['brand_name']:
+        updated_product.ad_brand=Dropdown.objects.get(id=request.POST['brand_name'])
+        print 'updated_product.ad_brand', updated_product.ad_brand
+    else:
+        updated_product.ad_brand=None
+        print 'updated_product.ad_brand', updated_product.ad_brand   
+    # product.adtype=request.POST.get('condition')
+    updated_product.adtype= "sell"        
+    updated_product.title=request.POST.get('ad_title')
+    updated_product.price = currency_conversion(request.POST.get('your_price'),request.COOKIES.get('country_code'))
+    updated_product.ad_year=request.POST.get('your_year')
+    updated_product.description=request.POST.get('description')
+    updated_product.you_are = request.POST.get('you_are_radio')
+    updated_product.you_name = request.POST.get('your_name')
+    updated_product.you_email = request.POST.get('your_email')
+    updated_product.you_phone = request.POST.get('your_mobile_no')
+    print "request.POST['your_city']",request.POST['your_city']
+    updated_product.city=City.objects.get(id=int(request.POST['your_city']))
+    updated_product.locality=Locality.objects.get(id=request.POST['your_locality'])
+    updated_product.country_code = request.COOKIES.get("country_code")   
+    # product.photos=request.FILES['photos']
+    if 'photos[]' in request.FILES:   
+        photos =request.FILES.getlist('photos[]')
+        print 'photos', photos
+        updated_product.photos, updated_product.imagecount, updated_product.thumbnail = create_path_for_photos_thumbanails(photos, updated_product)
+        print 'image_receive', updated_product.photos
+    updated_product.video = request.POST.get('video_url')
+    updated_product.created_date  = datetime.datetime.now()
+    updated_product.modified_date  = datetime.datetime.now()
+    updated_product.expired_date=datetime.datetime.now() + datetime.timedelta(days=30)
+    updated_product.status_isactive  = True
+    updated_product.post_terms=request.POST.get('terms_of_use')
+    if request.user.is_authenticated():
+        if request.POST.get('premium_plan'):
+            plan_price = request.POST["premium_plan"]
+            updated_product.premium_plan = PremiumPriceInfo.objects.get(premium_price=plan_price)
+            updated_product.ispremium = True
+            updated_product_dict = {'userprofile':updated_product.userprofile.id, 'category':updated_product.category, 'subcategory':updated_product.subcategory,
+                        'adtype':updated_product.adtype,'title':updated_product.title, 'photos':updated_product.photos,'thumbnail':updated_product.thumbnail,
+                        'imagecount':updated_product.imagecount,'video':updated_product.video,'condition':updated_product.condition,'price':updated_product.price,
+                        'ad_year':updated_product.ad_year, 'city':updated_product.city, 'locality':updated_product.locality,'country_code':updated_product.country_code,
+                        'description':updated_product.description,'you_are':updated_product.you_are, 'you_name':updated_product.you_name,'you_email':updated_product.you_email,
+                        'you_phone':updated_product.you_phone,'isregistered_user':updated_product.isregistered_user,'ispremium':updated_product.ispremium,
+                        'premium_plan':updated_product.premium_plan,'expired_date':updated_product.expired_date,'status_isactive':updated_product.status_isactive,
+                        'post_term_status':updated_product.post_term_status,"premium_plan":updated_product.premium_plan.id}       
+            response = updated_product_dict
+        else:
+            response = None
+    else:
+        response = None
+    updated_product.save()
+    current_site = Site.objects.get_current()
+    send_templated_mail(
+              template_name = 'post_ad',
+              from_email = 'testmail123sample@gmail.com',
+              recipient_list= [updated_product.you_email],
+              context = {
+                 'subject': 'Alert Products',
+                 'content':updated_product.title,
+                 'user':updated_product.you_name ,
+                 'current_site':current_site,
+                 
+              },
+            )
+    return response
+    
+
+#Check whether to save the product or not
+@transaction.commit_on_success
+def update_product(request, pk):
+    print 'comes'
+    if request.method == 'POST':
+        print "update_product"
+        updated_product = Product.objects.get(pk=int(pk))
+        print 'if product', updated_product       
+        if updated_product:
+            try:
+                error={}
+                if request.user.is_authenticated():
+                    print 'auth user'
+                    updated_product.userprofile = UserProfile.objects.get(id=request.user.id)                   
+                    updated_product.isregistered_user = True
+                    print 'updated_product.userprofile', updated_product.isregistered_user
+                    if updated_product.userprofile.ad_count<3:
+                        print 'updated_product.userprofile.ad_count', updated_product.userprofile.ad_count
+                        updated_product_dict = update_success(request, updated_product)
+                        print 'updated_product' , updated_product
+                        #Store in Userprofile table to know the status of users post ad counts
+                        updated_product.userprofile.ad_count = int(updated_product.userprofile.ad_count) 
+                        updated_product.userprofile.save() 
+                        if updated_product_dict is None:
+                            error['success'] = ugettext('Ad Successfully updated')
+                            raise ValidationError(error['success'], 7)
+                        else: 
+                            response = paypal_transaction(request,updated_product_dict)
+                            print "after all"
+                            return response
+                    else:
+                        # get_object_or_404('/postad/')
+                        error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium')
+                        print "error['exit_count']",error['exit_count']
+                        raise ValidationError(error['exit_count'], 8)
+                else:
+                    updated_product.userprofile = None
+                    update_success(request, updated_product)
+                    error['success'] = ugettext('Ad Successfully updated')
+                    raise ValidationError(error['success'], 7)
+
+            except ValidationError as e:
+                messages.add_message(request, messages.ERROR, e.messages[-1])
+                redirect_path = "/postad/"
+                query_string = 'pt=%d' % e.code
+                redirect_url = format_redirect_url(redirect_path, query_string)
+                return HttpResponseRedirect(redirect_url)
+    else:
+        return HttpResponseRedirect("/postad/")
+
+
+
+@csrf_exempt
+def delete_ad(request):   
+    if request.method == 'POST':     
+        get_products = []        
+        product_list = request.POST.get('selected')
+        print 'product_list', product_list
+        list_items = product_list.split(',')
+        print 'list_items', list_items
+        get_products = [int(i) for i in list_items]
+        products = Product.objects.filter(pk__in=get_products)
+        print 'products', products
+        for deactivate_product in products:
+            print 'deactivate_product', deactivate_product
+            deactivate_product.status_isactive = False
+            deactivate_product.save()
+        my_products = Product.objects.filter(userprofile_id=request.user.id, status_isactive=1)
+        print 'my_products', my_products                  
+    return render_to_response('adjod/updateprofile.html', {'my_products':my_products}, context_instance=RequestContext(request))
+

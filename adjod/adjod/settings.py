@@ -231,7 +231,7 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleBackend',
     'django.contrib.auth.backends.ModelBackend',
     'django.contrib.auth.backends.ModelBackend',
-  # 'django.contrib.auth.models.AnonymousUser ',
+    'django.contrib.auth.models.AnonymousUser ',
 )
 
 # settings for storing logs

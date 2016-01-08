@@ -289,7 +289,8 @@ def post_success(request, product):
 def product_save(request):
     if request.method == 'POST':
         print "product_save"
-        product=Product() 
+        product=Product()
+           
         try:
             error={}
             if request.user.is_authenticated():

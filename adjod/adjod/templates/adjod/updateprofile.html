@@ -24,49 +24,61 @@
   <span class="activate_ads hidden-xs">Activate Ads Management</span>
 <div class="fl filter_result_wrapper" id="search_result" style="position:relative;">           
 <p class="search_result"></p>
-      <div class="right_part">
-        <ul class="product1">
-          <li class="product_ads">
-            <div class="product_images1 bg-img">
-              <p class="{% if product.object.premium_plan_id = 1 %} premium-img1 {% elif product.object.premium_plan_id = 2 %} premium-img2 {% elif product.object.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>   
-              <a href="#"><img src="{{STATIC_URL}}img/bg-img1.png"></a>
-              <div class="count_holder1 visible-lg">
-                    <span>{{product.object.imagecount}}</span>
-                    <i class="fa fa-camera"></i>
-              </div><!--count_holder1-->
-            </div><!--product_images1-->
-            <div class="ads_details1">
-              <div class="ads_name1">
-                <a href="#" class="spans">Title</a>
-                <input type="checkbox" name="description" value=""><span class="description1">Wanted-sports equipment</span>
-                <span class="ads_id">AD ID:244827572 </span>
-                <span class="category_ads">Home & Lifestyle,Sport-<br>Fitness Equipment</span>
-             </div><!--ads_name1-->
-            <div class="ads_name2">
-                <a href="#" class="spans1">Posted Time</a>
-                <span class="post_time">Dec-08-2015<br>08.30 AM</span>
-             </div><!--ads_name2-->
-            <div class="ads_name3 hidden-xs">
-                <a href="#" class="spans2">Action</a>
-                <span class="action">View</span>
-                <span class="action">Edit</span>
-                <span class="action">Delete</span>
-            </div><!--ads_name3-->
-            <div class="ads_name3 visible-xs">
-                <a href="#" class="spans2 hidden-xs">Action</a>
-                <span class="action"><i class="fa fa-eye"></i></span>
-                <span class="action"><i class="fa fa-pencil"></i></span>
-                <span class="action"><i class="fa fa-trash-o"></i></span>
-            </div><!--ads_name3-->
+  <div class="right_part">
+     {% for my_ads in my_products %}     
+          <ul class="product1">
+            <li class="product_ads">
+              <div class="product_images1 bg-img">
+                <p class="{% if product.object.premium_plan_id = 1 %} premium-img1 {% elif product.object.premium_plan_id = 2 %} premium-img2 {% elif product.object.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>   
+                <a href="#"><img src="{{MEDIA_URL}}{{my_ads.thumbnail|get_photos}}"></a>
+                <div class="count_holder1 visible-lg">
+                      <span>{{product.object.imagecount}}</span>
+                      <i class="fa fa-camera"></i>
+                </div><!--count_holder1-->
+              </div><!--product_images1-->
+              <div class="ads_details1">
+            <form action="/delete_ad" method="post" id="userprofile_form">
+                <div class="ads_name1">
+               <!--    <a href="/ads/{{my_ads.id}}/" class="spans"></a> -->
+                  <input type="checkbox" name="title_box" value="{{my_ads.id}}" class="check"><span class="description1">
+                  <a href="/ads/{{my_ads.id}}/">{{my_ads.title}}</a></span>
+                  <span class="ads_id">AD ID:{{my_ads.id}}</span><br>
+                  <span class="category_ads">status: {{my_ads.status_isactive}}</span><br>
+                  <span class="category_ads">{{my_ads.category.name}}<br>{{my_ads.subcategory.name}}</span>
+               </div><!--ads_name1-->
+                <div class="ads_name2">
+                   <!--  <a href="#" class="spans1">Posted Time</a> -->
+                    <span class="post_time">{{my_ads.created_date}}</span>
+                    <!-- <span class="post_time">{{my_ads.created_date}}<br>08.30 AM</span> -->
+                 </div><!--ads_name2-->
+                <div class="ads_name3 hidden-xs">
+                <!--   <a href="#" class="spans2">Action</a> -->
+                  <span><a href="/ads/{{my_ads.id}}" class="action">View</a></span>
+                  <span><a href="/edit_postad_detail/{{my_ads.id}}" class="action">Edit</a></span>
+                  <span><a href="#" value="{{my_ads.id}}" class="action delete_act">Delete</a></span>
+              </div><!--ads_name3-->
+              <div class="ads_name3 visible-xs">
+                  <a href="#" class="spans2 hidden-xs">Action</a>
+                  <span class="action"><i class="fa fa-eye"></i></span>
+                  <span class="action"><i class="fa fa-pencil"></i></span>
+                  <span class="action"><i class="fa fa-trash-o"></i></span>
+              </div><!--ads_name3-->
           </li><!--product_ads-->
-        </ul><!--product1-->
+        </ul><!--product1-->      
+      {% endfor %}  
       </div> <!-- right_part -->
       <div class="bottom_ads col-md-12">
-           <p class="col-md-6">1-25 of 4046 Results</p>
-           <span class="check_all col-md-2">Check All</span>
-           <span class="uncheck_all col-md-2">Uncheck All</span>
-           <button type="button" class="btn btn-warning delete_btn">Delete</button>
-</div> <!-- bottom_part -->
+          {% if my_products %}
+           <p class="col-md-6">{{my_products.count}} Results</p>
+          {% else %}
+          <div class="right_align_ads"><span>{% trans "No Results Found" %}</span></div> 
+          {% endif %}
+           <span class="check_all col-md-2 check_all_act">Check All</span>
+           <span class="uncheck_all col-md-2 uncheck_all_act">Uncheck All</span>
+           <input name="next" type="hidden" value="{{request.path}}{% if request.GET.urlencode %}?{{request.GET.urlencode}}{% endif %}" />
+           <button type="button" class="btn btn-warning delete_btn delete_act">Delete</button>
+      </div> <!-- bottom_part -->
+    </form> 
 </div><!--filter_result_wrapper-->
 </div><!--update_ads-->
 
@@ -84,12 +96,16 @@
             <span class="title">Upload Photos</span>
           </div> <!-- field_title -->
           <div class="field_div form-group" id="upload_photos_div">
-              <input type='file' id='photos' name='photos[]' multiple='multiple' />
+              <input type='file' id="profile_poster" name="profile_poster" class="poster" />
               <span class="photo_labelError"></span>
           </div> <!-- upload_photos_div -->
 
           <div class="field_div form-group" id="name_div">
-            <input class="email_profile" name="name" id="name" placeholder="Email"/>
+          {% if user.is_authenticated %}
+             <input class="email_profile" name="user_email" id="user_email" value="{{request.user.email}}" placeholder="Email" disabled/>
+          {% else %}
+            <input class="email_profile" name="user_email" id="user_email" value="" placeholder="Email"/>
+          {% endif %}  
           </div> <!-- name_div -->
           <div class="field_div form-group" id="name_div">
             {% if user.is_authenticated %}
@@ -97,6 +113,7 @@
             {% else %}
             <input class="age_profile" name="your_name" id="your_name" placeholder="Full Name"/>
             {% endif %}
+            
             <input type="hidden" class="country" name="country" id="country" value="{{country}}" />
             <input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" type="tel"  onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
           </div> <!-- name_div -->
@@ -201,21 +218,17 @@
           </div><!--profile_btn-->
       </div><!--password_center-->
       </div><!--set_password-->
-
-
-
-
-
-
-
-
     </div> <!-- profile_content -->
   </div> <!-- container center -->
-
-
-      
-      
-
 </div><!--update_profile-->
 </div><!--profile_text-->
+<script type="text/javascript">
+      $(document).ready(function(){           
+        if (window.location.href.indexOf("?profile=") >= 0) {
+        $(".update_ads").hide();    
+        $('.profile_text').show();
+        $('.update_profile').show(); 
+        }
+      });
+</script>
 {% endblock %}

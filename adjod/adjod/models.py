@@ -9,6 +9,13 @@ LANGUAGE = (
     ('ms', 'Malay'),
 )
 
+GENDER_CHOICES = (
+    ('male', 'Male'),
+    ('female', 'Female'),
+)
+
+YOU=( ('individual','Individual'),('dealer','Dealer'))
+
 
 #Model for storing user personal details
 class UserProfile(User):
@@ -21,6 +28,16 @@ class UserProfile(User):
     ad_count=models.IntegerField(max_length=5, null=True, blank=True, default=0)
     is_subscribed=models.BooleanField(default=False)
     subscribed_plan = models.ForeignKey('advertisement.PremiumPriceInfo', null=True, blank=True)
+    #updated by ramya for  update userprofile    
+    profile_picture=models.ImageField(
+        upload_to='profile', null=True, blank=True, max_length=500)
+    person_is=models.CharField(max_length=20,choices=YOU,default='individual', null=True, blank=True)
+    gender=models.CharField(max_length=50, null=True, blank=True, choices=GENDER_CHOICES)
+    user_age=models.IntegerField(null=True, blank=True)
+    locality=models.ForeignKey('advertisement.Locality', null=True, blank=True)
+    user_address=models.TextField(null=True, blank=True)
+    is_marketing_person=models.BooleanField(default=False)
+    is_allow_sms=models.BooleanField(default=False)
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
