@@ -56,7 +56,17 @@
           var remaining = 500 - $('#your_description').val().length;
           $('#desc_count').text(remaining);
       }
-    </script>  
+    </script>
+    <script type="text/javascript">
+      $(document).ready(function(){           
+        if (window.location.href.indexOf("?user_id=") >= 0) {
+          $(".caret_user").hide();
+          $(".user_dropdown").hide();
+          $(".start_myads").show()
+        }
+        
+      });
+</script>  
 
 </head>
 <body>
@@ -119,20 +129,20 @@
           <div id="navbar" class="collapse navbar-collapse">
               <a class="quikr_logo fl" href="/"> </a>
               <ul class="nav navbar-nav navbar-right">
-                  {% if user.is_authenticated %}                    
-                    {% if request.path != '/start/' %}
-                      <li class="user_name"><a href="/">{{request.user.email}}</a>
+                  {% if user.is_authenticated %}
+                    {% if request.path != '/user_manage/' %}  
+                      <li class="user_name start_myads"><a href="/user_manage/">{{request.user.email}}</a>
+                    {% else %}                   
+                      <li class="user_name"><a href="/user_manage/">{{request.user.email}}</a>
                       <i class="fa fa-caret-down caret_user"></i>
                       <div class="user_dropdown"> 
                          <ul>
-                            <a href="/my_ads"><li>My Ads</li></a>
-                           <a href="/my_ads"><li>Update My Profile</li></a>
+                            <li class="menu_active"><a href="#" class="My_ads">My Ads</a></li>
+                           <li class="menu_active"><a href="#" class="My_profile">Update My Profile</a></li>
                           <!--  <a href="/my_chats"><li>My Chats</li></a> -->
                          </ul>
-                      </div> <!--user_dropdown-->                                       
-                    {% else %}
-                    <li class="user_name"><a href="/my_ads">{{request.user.email}}</a>
-                    {% endif %} 
+                      </div> <!--user_dropdown-->       
+                  {% endif %}  
                   {% endif %}
                     <!-- {% if 'search' in path %}
                     <li>

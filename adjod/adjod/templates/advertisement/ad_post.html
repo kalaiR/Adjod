@@ -129,9 +129,9 @@
      		  </div> <!-- you_are_title -->
           
      		  <div class="field_div form-group" id="you_are_content">
-              <input type="radio" name="you_are_radio" id="individual" value="{{edit_product.you_are}}" {% if edit_product.you_are == 'individual' %} checked="checked"{% else %}"individual"{% endif %}>
+              <input type="radio" name="you_are_radio" id="individual" checked="checked" value="individual"{% if edit_product.you_are == 'individual' %} checked="checked"{% endif %}>
               <label for="individual" class="you_are"><span><span></span></span>Individual</label>
-         			<input type="radio" name="you_are_radio" id="dealer" value="{{edit_product.you_are}}"  {% if edit_product.you_are == 'delear' %} checked="checked"{% else %}"dealer"{% endif %}>
+         			<input type="radio" name="you_are_radio" id="dealer" value="dealer"{% if edit_product.you_are == 'delear' %} checked="checked"{% endif %}>
               <label for="dealer" class="you_are"><span><span></span></span>Delear</label>
               <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>  
               <div class="clear_both"></div>

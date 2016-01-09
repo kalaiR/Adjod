@@ -403,7 +403,7 @@ class LoginError(View):
 
 # changes made by ramya for update profile
 @csrf_exempt
-def my_ads(request):
+def user_manage(request):
     if request.user.is_authenticated():
         userprofile_id = request.user.id
         my_products = Product.objects.filter(userprofile_id=userprofile_id)
@@ -411,14 +411,14 @@ def my_ads(request):
         print 'userprofile', userprofile
         if request.method == 'POST':
             print 'POST'
-            mobile = request.POST.get('mobile')
-            locality=Locality.objects.get(id=request.POST['user_locality'])
+            mobile = request.POST.get('your_mobile_no')
             user_age = request.POST.get('user_age')
             gender = request.POST.get('gender')
             user_address = request.POST.get('user_address')
             person_is = request.POST.get('person_is')
             is_marketing_person = request.POST.get('is_marketing_person')
             is_allow_sms = request.POST.get('is_allow_sms')
+            locality = Locality.objects.get(id=request.POST['user_locality'])
 
             def handle_uploaded_file(f):
                 print "settings.MEDIA_ROOT", settings.MEDIA_ROOT
@@ -426,28 +426,30 @@ def my_ads(request):
                     settings.MEDIA_ROOT + '/profile/' + '%s' % f.name, 'wb+')
                 for chunk in f.chunks():
                     profile_picture.write(chunk)
-                profile_picture.close()
-
-            if 'profile_poster' in request.FILES:
-                profile_picture = request.FILES['profile_poster']
-                print 'profile_picture', profile_picture
-                handle_uploaded_file(profile_picture)
-                profile_picture = '/profile/' + str(profile_picture)
+                profile_picture.close()           
 
             if userprofile:
                 print 'yes'                
                 userprofile.mobile = mobile
-                userprofile.locality = locality
+                userprofile.locality = Locality.objects.get(id=int(locality.id))
+                print "userprofile.locality",userprofile.locality
+                # userprofile.city = City.objects.get(id=request.POST['user_city'])
+                # print "userprofile.city", userprofile.city
                 userprofile.user_age = user_age
                 userprofile.gender = gender
                 userprofile.user_address = user_address
                 print 'addewess'
                 userprofile.person_is = person_is
                 userprofile.is_marketing_person = is_marketing_person
-                userprofile.is_allow_sms = is_allow_sms             
+                userprofile.is_allow_sms = is_allow_sms
+                userprofile.last_name = request.POST.get('last_name')
                 if 'profile_poster' in request.FILES:
-                    userprofile.profile_picture = request.FILES.get('profile_poster')
-                    print 'if pic', userprofile.profile_picture               
+                    profile_picture = request.FILES['profile_poster']
+                    print 'profile_picture', profile_picture
+                    handle_uploaded_file(profile_picture)
+                    profile_picture = '/profile/' + str(profile_picture)           
+                    userprofile.profile_picture = profile_picture
+                print 'if pic', userprofile.profile_picture               
                 userprofile.save()        
             ctx={'my_products':my_products, 'userprofile':userprofile}
 

@@ -86,7 +86,7 @@
 
 <div class="profile_text">
    <span class="hidden-xs">Update My Profile</span>
-<form id="update_user" method="POST" action="/my_ads/" enctype="multipart/form-data"> 
+<form id="update_user" method="POST" action="/user_manage/" enctype="multipart/form-data"> 
   {% csrf_token %}  
   <div class="update_profile col-md-9"> 
     <span class="personal_txt">Personals Details</span>   
@@ -115,11 +115,9 @@
                   {% endif %}
                   <label class="labelError" style="display:none;">Enter your Full Name</label>
 
-                  {% if updated.last_name %}
-                    <input class="last_name" name="your_name" id="your_name" value="{{updated.last_name}}" placeholder="Last Name"/>
-                  {% else %}
-                    <input class="last_name" name="your_name" id="your_name" value=""  placeholder="Last Name"/>
-                  {% endif %}
+                  
+                  <input class="last_name" name="your_name" id="your_name" value="{% if userprofile.last_name %}{{userprofile.last_name}}{% endif %}" placeholder="Last Name"/>     
+                  
                   <label class="labelError" style="display:none;">Enter your Last Name</label>
                 </div> <!-- form-group -->
 
@@ -130,7 +128,7 @@
                     <input class="email_profile" name="email" value="" placeholder="Email"/>
                   {% endif %}  
                   <label class="labelError" style="display:none;">Enter your Email</label>
-                  <input class="your_mobile_no" name="mobile" id="mobile" value="{%if userprofile.mobile%}{{userprofile.mobile}}{%endif%}" type="tel"/>
+                  <input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" value="{%if userprofile.your_mobile_no%}{{userprofile.your_mobile_no}}{%endif%}" type="tel"/>
                   <label class="labelError" style="display:none;">Enter your mobile no</label>
                 </div> <!-- form-group -->
 
@@ -149,6 +147,8 @@
                         </select>
                         <label class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
                     </div> <!-- city_select -->
+                     <input type="hidden" name="user_city" value="{{city_id}}">
+
 
                     <div class="locality_select fl">
                         <div class="post_city">
@@ -176,7 +176,7 @@
             <div class="field_div form-group">
               <div class="gender_select fl">
                   <div class="select_profile">
-                    <p id="profile_gender">{% if userprofile.gender %}{{userprofile.gender}}{% else %}Gender{% endif %}</p>
+                    <p id="profile_gender">{% if userprofile.gender %}{{userprofile.gender}}{% endif %}</p>
                     <i class="city_fa fa fa-caret-down">    
                     </i>
                   </div> <!-- select_profile -->
@@ -210,9 +210,9 @@
                 </div> <!-- form-group -->
 
                 <div class="field_div form-group">
-                  <input type="radio" class="check_individual" name="person_is" value="{{userprofile.person_is}}"{%if userprofile.person_is == 'individual' %}checked="checked"{% else %}"individual"{% endif %}>
+                  <input type="radio" class="check_individual" name="person_is" value="individual"{% if edit_product.person_is == 'individual' %} checked="checked"{% endif %}>
                   <label for="individual" class="you_are"><span><span></span></span>Individual</label>
-                  <input type="radio" class="check_dealer" name="person_is" value=value="{{userprofile.person_is}}"{%if userprofile.person_is == 'dealer' %}checked="checked"{% else %}"dealer"{% endif %}>
+                  <input type="radio" class="check_dealer" name="person_is" value="dealer"{%if userprofile.person_is == 'dealer' %}checked="checked"{% endif %}>
                   <label for="dealer" class="you_are"><span><span></span></span>Delear</label>
                   <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>
               </div><!--form-group-->
@@ -223,12 +223,12 @@
            
         <div class="marketing visible-lg">
             <span class="marketing_txt">Marketing communication</span>
-            <input type="checkbox" name="is_marketing_person" class="mark_box" value="{{userprofile.is_marketing_person}}"{%if userprofile.is_marketing_person == 'checked' %}checked="checked"{% else %}{% endif %}><span class="mailing_txt">Include me in marketing mailing communication</span>
+            <input type="checkbox" name="is_marketing_person" class="mark_box" {% if userprofile.is_marketing_person  %}checked="checked" {% endif %}><span class="mailing_txt">Include me in marketing mailing communication</span>
         </div><!--marketing-->
 
         <div class="marketing visible-xs">
             <span class="marketing_txt">Marketing communication</span><br>
-            <input type="checkbox" name="is_allow_sms" class="mark_box" value="{{userprofile.is_allow_sms}}"{%if userprofile.is_allow_sms == 'checked' %}checked="checked"{% else %}{% endif %}><span class="mailing_txt">Include me in marketing mailing communication</span>
+            <input type="checkbox" name="is_marketing_person" class="mark_box"{% if userprofile.is_marketing_person %}checked="checked" {% endif %}><span class="mailing_txt">Include me in marketing mailing communication</span>
         </div><!--marketing-->
 
         <div class="set_password">
@@ -245,7 +245,7 @@
             </div> <!-- form-group -->
 
             <div class="sms_alert">
-              <input type="checkbox" name="is_allow_sms" value=""><span class="sms_txt">I wish to receive SMS alerts.</span>
+              <input type="checkbox" name="is_allow_sms" {% if userprofile.is_allow_sms %}checked="checked" {% endif %}><span class="sms_txt">I wish to receive SMS alerts.</span>
             </div><!--sms_alert-->
 
             <div class="profile_btn">
