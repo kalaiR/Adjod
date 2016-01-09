@@ -100,13 +100,23 @@
     // if (s<140000){
       // if (s<80000){
         // if (s<270000000){
-          var ext = $('#photos').val().split('.').pop().toLowerCase();
-          if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
-              // alert('invalid extension!');
-              $('.error_photo').show();
-              $('.photo_labelError').text("invalid file format");
-          }
-
+          // alert($('#photos').val().length);
+          // if($('#photos').val().length >= 1){
+          //   var ext = $('#photos').val().split('.').pop().toLowerCase();
+          //   if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+          //       // alert('invalid extension!');
+          //       $('.error_photo').show();
+          //       $('.photo_labelError').text("invalid file format");
+          //   }
+          // }
+          // else{
+          //   var ext = $('#photos').val();
+          //   if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+          //       // alert('invalid extension!');
+          //       $('.error_photo').show();
+          //       $('.photo_labelError').text("invalid file format");
+          //   }
+          // }
           if (s<1000000){
           $('.photo_labelError').text("");
           var p = $(this).parents('.simpleFilePreview');
