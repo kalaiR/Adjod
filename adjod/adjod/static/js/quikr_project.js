@@ -940,6 +940,19 @@ $( document ).ready(function() {
         $('.premium_plan').val($(this).val());
     });
 
+    //allow characters for price
+    $('.your_price').keypress(function(e) {
+         var theEvent = e || window.event;
+          var key = theEvent.keyCode || theEvent.which;
+          key = String.fromCharCode(key);
+          if (key.length == 0) return;
+          var regex = /^[0-9.\b]+$/;
+          if (!regex.test(key)) {
+              theEvent.returnValue = false;
+              if (theEvent.preventDefault) theEvent.preventDefault();
+          }
+    });
+
 });
 
 
