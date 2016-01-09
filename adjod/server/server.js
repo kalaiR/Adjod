@@ -3,24 +3,25 @@ server   = require('http').createServer(),
 io       = require('socket.io').listen(server),
 crypto   = require('crypto'),
 users = {}, socks = {};
+var fs = require('fs'); 
 
-var mysql = require('mysql');
+// var mysql = require('mysql');
 
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'root',
-  port     : '3306',
-  database : 'adjod',
-});
+// var connection = mysql.createConnection({
+//   host     : 'localhost',
+//   user     : 'root',
+//   password : 'root',
+//   port     : '3306',
+//   database : 'adjod',
+// });
 
-connection.connect(function(err){
-  if(err){
-    console.log('Error connecting to Db');
-    return;
-  }
-  console.log('Connection established');
-});
+// connection.connect(function(err){
+//   if(err){
+//     console.log('Error connecting to Db');
+//     return;
+//   }
+//   console.log('Connection established');
+// });
 
 // var sender_message=[], receiver_message=[];
 
@@ -31,7 +32,6 @@ var chat_message = [];
 //   // Ensures all previously enqueued queries are still
 //   // before sending a COM_QUIT packet to the MySQL server.
 // });
-
 
 // Avatar config
 //var avatar_url = "http://cdn.libravatar.org/avatar/";
@@ -59,18 +59,44 @@ io.sockets.on('connection', function (socket) {
 		//mysql code
 		console.log(recv.name);
 		
-		var message = 'SELECT * FROM chat_chatmessage where sender="' +  recv.name + '" OR receiver="' +  recv.name + '"';
-		console.log(message);
-		connection.query(message, function(err,rows){
-		  if(err) 
-		  	console.log('Error received from Db'+err);
-		  else{
-		  	 console.log('Data received from Db:\n');
-		  	// console.log(rows);
-		  	chat_message=rows;
-		  }	 
+		// var message = 'SELECT * FROM chat_chatmessage where sender="' +  recv.name + '" OR receiver="' +  recv.name + '"';
+		// console.log(message);
+		// connection.query(message, function(err,rows){
+		//   if(err) 
+		//   	console.log('Error received from Db'+err);
+		//   else{
+		//   	 console.log('Data received from Db:\n');
+		//   	// console.log(rows);
+		//   	chat_message=rows;
+		//   }	 
+		// });
+		socket.on('chat_history', function (record) {
+			var current_user_record = [];
+			console.log("chat_history function");
+			var configFile = fs.readFileSync('chat.json');
+			var config = JSON.parse(configFile);
+			data = config.chat_record
+			console.log("data"+data);
+			for ( var i in data) {	
+				console.log("data product id"+data[i].product)
+				console.log("chat_history product id"+record.product)
+				if (data[i].product == record.product){
+					console.log("product match");
+					if(((record.sender == data[i].sender) || (record.sender == data[i].receiver)) && ((record.receiver == data[i].sender) || (record.receiver == data[i].receiver))){
+						// current_user_record.push(data[i]);
+						current_user_record.push({'sender':data[i].sender,'receiver':data[i].receiver,
+												'product':data[i].product,'message':data[i].message,'sender_image':data[i].sender_image,
+												'receiver_image':data[i].receiver_image});
+						console.log("current_user_record"+ JSON.stringify(current_user_record));
+						// socket.emit('chat_history_data', {'current_user_record': current_user_record, 'product':record.product});
+					}
+				}
+			}
+			socket.emit('chat_history_data', { "current_user_record": current_user_record });
 		});
-		console.log(chat_message);
+
+		
+		// console.log(chat_message);
 		// var receiver_querystring = 'SELECT * FROM chat_chatmessage where receiver="' +  recv.name + '"';
 		// // console.log(receiver_querystring);
 		// connection.query(receiver_querystring, function(err,rows){
@@ -98,18 +124,18 @@ io.sockets.on('connection', function (socket) {
 			// socket.emit('chat', JSON.stringify( { 'action': 'usrlist', 'user': users,'sender_message':sender_message,'receiver_message':receiver_message } ));
 			{
 				console.log("users"+JSON.stringify(users));
-				socket.emit('chat', JSON.stringify( { 'action': 'usrlist', 'user': users,'chat_message':chat_message} ));
+				socket.emit('chat', JSON.stringify( { 'action': 'usrlist', 'user': users} ));
 			}
 			
 
 		// Set new uid
 		// uid = new Uid();
-		socket.user = recv.user;
+		socket.user = recv.name;
 		my_avatar = get_avatar_url(socket.user);
 		socket.product =recv.data;
 
 		// Add the new data user
-		users[socket.user] = {'uid': recv.uid, 'user': socket.user, 'name': recv.name, 'status': 'online', 'avatar': my_avatar, 'product': socket.product,'chat_message':chat_message}
+		users[socket.user] = {'uid': recv.uid, 'user': socket.user, 'status': 'online', 'avatar': my_avatar, 'product': socket.product}
 		socks[socket.user] = {'socket': socket}
 		// console.log("users[socket.user]" + users[socket.user])
 		// console.log("socks[socket.user]" + socks[socket.user])
@@ -166,6 +192,26 @@ io.sockets.on('connection', function (socket) {
 			delete users[socket.user];
 			delete socks[socket.user];
 		}
+	});
+
+	// chat json
+	socket.on('chat_json', function (recv) {
+		console.log("chat_json");
+		console.log("recv"+JSON.stringify(recv));
+		console.log("after received only sender"+recv.chat_record.sender);
+		message ={			
+				"sender": recv.chat_record.sender,
+				"receiver": recv.chat_record.receiver,
+				"message": recv.chat_record.message,
+				"product" : recv.chat_record.product,
+				"sender_image" : recv.chat_record.sender_image, 
+				"receiver_image" : recv.chat_record.receiver_image				
+			}
+	   	var configFile = fs.readFileSync('chat.json');
+  		var config = JSON.parse(configFile);
+  		config.chat_record.push(message);
+  		var configJSON = JSON.stringify(config);
+  		fs.writeFileSync('chat.json', configJSON);
 	});
 });
 

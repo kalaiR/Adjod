@@ -104,7 +104,7 @@ def user_login(request):
             next_url = request.POST['next'].split('?')[0]
         print "next_url", next_url
         try:
-            
+
             if '@' in username:
                 if not User.objects.filter(email=username).exists():
                     error['email_exists'] = ugettext('Email Doesnot exists')
@@ -192,8 +192,8 @@ def register(request):
     if request.method == 'POST' and request.user.is_anonymous():
         error={}
         email=request.POST['email_id']
-        username=request.POST['user_id']        
-        try:   
+        username=request.POST['user_id']
+        try:
             if User.objects.filter(email=email).exists():
                 error['email_exists'] = ugettext('Email already exists')
                 print "error['email_exists']",error['email_exists']
@@ -207,7 +207,7 @@ def register(request):
             redirect_path = "/"
             query_string = 'st=%d' % e.code
             redirect_url = format_redirect_url(redirect_path, query_string)
-            return HttpResponseRedirect(redirect_url)     
+            return HttpResponseRedirect(redirect_url)
         if not error:
             userprofile = UserProfile()
             userprofile.is_active = True
@@ -217,21 +217,21 @@ def register(request):
             userprofile.set_password(userprofile.password)
             userprofile.first_name=request.POST['user_id']
             userprofile.mobile=request.POST['your_mobile_number']
-            try: 
+            try:
                 userprofile.city=City.objects.get(city=request.COOKIES.get('city'))
             except:
                 userprofile.city=None
-            try: 
+            try:
                 userprofile.language=request.COOKIES.get('adjod_language')
             except:
                 userprofile.language=None
-            try: 
+            try:
                 userprofile.country_code=request.COOKIES.get('country_code')
             except:
-                userprofile.country_code=None   
+                userprofile.country_code=None
             userprofile.age_status=request.POST.get('confirm')
-            userprofile.confirmation_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for x in range(33))      
-            userprofile.save()           
+            userprofile.confirmation_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for x in range(33))
+            userprofile.save()
             send_registration_confirmation(userprofile)
             auto_login(request, userprofile)
             return HttpResponseRedirect('/start/?user_id=' + str(userprofile.id))
@@ -264,12 +264,12 @@ def confirm(request, confirmation_code, username):
         return HttpResponseRedirect('/')
 
 
-def start(request):    
+def start(request):
     try:
         last_active = LastActive.objects.create(user = UserProfile.objects.get(id=request.user.id), session = Session.objects.get(session_key = request.session.session_key))
         last_active.save()
     except:
-        pass  
+        pass
     response = render_to_response('adjod/userpage.html',context_instance=RequestContext(request))
     response.set_cookie("chat_email", request.user.email)
     response.set_cookie("chat_user", request.user.username)
@@ -429,7 +429,7 @@ def user_manage(request):
                 profile_picture.close()           
 
             if userprofile:
-                print 'yes'                
+                print 'yes'
                 userprofile.mobile = mobile
                 userprofile.locality = Locality.objects.get(id=int(locality.id))
                 print "userprofile.locality",userprofile.locality
@@ -451,13 +451,17 @@ def user_manage(request):
                     userprofile.profile_picture = profile_picture
                 print 'if pic', userprofile.profile_picture               
                 userprofile.save()        
-            ctx={'my_products':my_products, 'userprofile':userprofile}
+                # if 'profile_poster' in request.FILES:
+                #     userprofile.profile_picture = request.FILES.get('profile_poster')
+                #     print 'if pic', userprofile.profile_picture
+                # userprofile.save()
 
+            ctx={'my_products':my_products, 'userprofile':userprofile}
         else:
-            ctx={'my_products':my_products, 'userprofile':userprofile} 
+            ctx={'my_products':my_products, 'userprofile':userprofile}
         return render_to_response('adjod/updateprofile.html', ctx, context_instance=RequestContext(request))
 
-def edit_postad_detail(request , pk):    
+def edit_postad_detail(request , pk):
     print "view_postad_detail"
     edit_product = Product.objects.get(pk=int(pk))
     pic=[n for n in str(edit_product.thumbnail).split(',')]
@@ -477,9 +481,9 @@ def update_success(request, updated_product):
         print 'updated_product.ad_brand', updated_product.ad_brand
     else:
         updated_product.ad_brand=None
-        print 'updated_product.ad_brand', updated_product.ad_brand   
+        print 'updated_product.ad_brand', updated_product.ad_brand
     # product.adtype=request.POST.get('condition')
-    updated_product.adtype= "sell"        
+    updated_product.adtype= "sell"
     updated_product.title=request.POST.get('ad_title')
     updated_product.price = currency_conversion(request.POST.get('your_price'),request.COOKIES.get('country_code'))
     updated_product.ad_year=request.POST.get('your_year')
@@ -491,9 +495,9 @@ def update_success(request, updated_product):
     print "request.POST['your_city']",request.POST['your_city']
     updated_product.city=City.objects.get(id=int(request.POST['your_city']))
     updated_product.locality=Locality.objects.get(id=request.POST['your_locality'])
-    updated_product.country_code = request.COOKIES.get("country_code")   
+    updated_product.country_code = request.COOKIES.get("country_code")
     # product.photos=request.FILES['photos']
-    if 'photos[]' in request.FILES:   
+    if 'photos[]' in request.FILES:
         photos =request.FILES.getlist('photos[]')
         print 'photos', photos
         updated_product.photos, updated_product.imagecount, updated_product.thumbnail = create_path_for_photos_thumbanails(photos, updated_product)
@@ -516,7 +520,7 @@ def update_success(request, updated_product):
                         'description':updated_product.description,'you_are':updated_product.you_are, 'you_name':updated_product.you_name,'you_email':updated_product.you_email,
                         'you_phone':updated_product.you_phone,'isregistered_user':updated_product.isregistered_user,'ispremium':updated_product.ispremium,
                         'premium_plan':updated_product.premium_plan,'expired_date':updated_product.expired_date,'status_isactive':updated_product.status_isactive,
-                        'post_term_status':updated_product.post_term_status,"premium_plan":updated_product.premium_plan.id}       
+                        'post_term_status':updated_product.post_term_status,"premium_plan":updated_product.premium_plan.id}
             response = updated_product_dict
         else:
             response = None
@@ -533,10 +537,10 @@ def update_success(request, updated_product):
                  'content':updated_product.title,
                  'user':updated_product.you_name ,
                  'current_site':current_site,
-                 
+
               },
             )
-    return response      
+    return response
 
 #Check whether to save the product or not
 @transaction.commit_on_success
@@ -545,13 +549,13 @@ def update_product(request, pk):
     if request.method == 'POST':
         print "update_product"
         updated_product = Product.objects.get(pk=int(pk))
-        print 'if product', updated_product       
+        print 'if product', updated_product
         if updated_product:
             try:
                 error={}
                 if request.user.is_authenticated():
                     print 'auth user'
-                    updated_product.userprofile = UserProfile.objects.get(id=request.user.id)                   
+                    updated_product.userprofile = UserProfile.objects.get(id=request.user.id)
                     updated_product.isregistered_user = True
                     print 'updated_product.userprofile', updated_product.isregistered_user
                     if updated_product.userprofile.ad_count<3:
@@ -559,12 +563,12 @@ def update_product(request, pk):
                         updated_product_dict = update_success(request, updated_product)
                         print 'updated_product' , updated_product
                         #Store in Userprofile table to know the status of users post ad counts
-                        updated_product.userprofile.ad_count = int(updated_product.userprofile.ad_count) 
-                        updated_product.userprofile.save() 
+                        updated_product.userprofile.ad_count = int(updated_product.userprofile.ad_count)
+                        updated_product.userprofile.save()
                         if updated_product_dict is None:
                             error['success'] = ugettext('Ad Successfully updated')
                             raise ValidationError(error['success'], 7)
-                        else: 
+                        else:
                             response = paypal_transaction(request,updated_product_dict)
                             print "after all"
                             return response
@@ -589,9 +593,9 @@ def update_product(request, pk):
         return HttpResponseRedirect("/postad/")
 
 @csrf_exempt
-def delete_ad(request):   
-    if request.method == 'POST':     
-        get_products = []        
+def delete_ad(request):
+    if request.method == 'POST':
+        get_products = []
         product_list = request.POST.get('selected')
         print 'product_list', product_list
         list_items = product_list.split(',')
@@ -604,6 +608,5 @@ def delete_ad(request):
             deactivate_product.status_isactive = False
             deactivate_product.save()
         my_products = Product.objects.filter(userprofile_id=request.user.id, status_isactive=1)
-        print 'my_products', my_products                  
+        print 'my_products', my_products
     return render_to_response('adjod/updateprofile.html', {'my_products':my_products}, context_instance=RequestContext(request))
-

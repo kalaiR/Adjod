@@ -935,10 +935,25 @@ $( document ).ready(function() {
       $('form[name="paypal_account_subscription"]').submit();
     });
 
-    $('input.checkbox_premium').on('change', function(){
+    $('input.checkbox_premium').on('click', function(){
         $('input.checkbox_premium').not(this).prop('checked', false); 
+        $('.premium_plan').val($(this).val());
     });
-  
+
+    //allow characters for price
+    $('.your_price').keypress(function(e) {
+      alert("your_price");
+         var theEvent = e || window.event;
+          var key = theEvent.keyCode || theEvent.which;
+          key = String.fromCharCode(key);
+          if (key.length == 0) return;
+          // var regex = /^[0-9.\b]+$/;
+          var regex = ^\d+(?:[\.\,]\d+)?$;
+          if (!regex.test(key)) {
+              theEvent.returnValue = false;
+              if (theEvent.preventDefault) theEvent.preventDefault();
+          }
+    });
 
 });
 
