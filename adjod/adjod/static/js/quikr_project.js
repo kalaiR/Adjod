@@ -941,14 +941,16 @@ $( document ).ready(function() {
       $('form[name="paypal_account_subscription"]').submit();
     });
 
-    $('input.checkbox_premium').on('click', function(){
+    $('input.checkbox_premium').on('change', function(){
         $('input.checkbox_premium').not(this).prop('checked', false); 
-        $('.premium_plan').val($(this).val());
+        if($(this).is(':checked'))
+          $('.premium_plan').val($(this).val());
+        else
+          $('.premium_plan').val('');
     });
 
     //allow characters for price
     $('.your_price').keypress(function(e) {
-      alert("your_price");
          var theEvent = e || window.event;
           var key = theEvent.keyCode || theEvent.which;
           key = String.fromCharCode(key);

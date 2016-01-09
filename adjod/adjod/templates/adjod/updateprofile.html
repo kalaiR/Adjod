@@ -32,18 +32,26 @@
                 <p class="{% if product.object.premium_plan_id = 1 %} premium-img1 {% elif product.object.premium_plan_id = 2 %} premium-img2 {% elif product.object.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>   
                 <a href="#"><img src="{{MEDIA_URL}}{{my_ads.thumbnail|get_photos}}"></a>
                 <div class="count_holder1 visible-lg">
-                      <span>{{product.object.imagecount}}</span>
+                      <span>{{my_ads.imagecount}}</span>
                       <i class="fa fa-camera"></i>
                 </div><!--count_holder1-->
               </div><!--product_images1-->
               <div class="ads_details1">
             <form action="/delete_ad" method="post" id="userprofile_form">
-                <div class="ads_name1">
+                <div class="ads_name1 hidden-xs">
                <!--    <a href="/ads/{{my_ads.id}}/" class="spans"></a> -->
                   <input type="checkbox" name="title_box" value="{{my_ads.id}}" class="check"><span class="description1">
                   <a href="/ads/{{my_ads.id}}/">{{my_ads.title}}</a></span>
                   <span class="ads_id">AD ID:{{my_ads.id}}</span><br>
                   <span class="category_ads">status: {{my_ads.status_isactive}}</span><br>
+                  <span class="category_ads">{{my_ads.category.name}}<br>{{my_ads.subcategory.name}}</span>
+               </div><!--ads_name1-->
+               <div class="ads_name1 visible-xs">
+               <!--    <a href="/ads/{{my_ads.id}}/" class="spans"></a> -->
+                  <input type="checkbox" name="title_box" value="{{my_ads.id}}" class="check"><span class="description1">
+                  <a href="/ads/{{my_ads.id}}/">{{my_ads.title}}</a></span>
+                  <!-- <span class="ads_id">AD ID:{{my_ads.id}}</span> -->
+                  <span class="category_ads">status: {{my_ads.status_isactive}}</span>
                   <span class="category_ads">{{my_ads.category.name}}<br>{{my_ads.subcategory.name}}</span>
                </div><!--ads_name1-->
                 <div class="ads_name2">
@@ -59,17 +67,18 @@
               </div><!--ads_name3-->
               <div class="ads_name3 visible-xs">
                   <a href="#" class="spans2 hidden-xs">Action</a>
-                  <span class="action"><i class="fa fa-eye"></i></span>
-                  <span class="action"><i class="fa fa-pencil"></i></span>
-                  <span class="action"><i class="fa fa-trash-o"></i></span>
+                  <span class="action"><a href="/ads/{{my_ads.id}}" class="action"><i class="fa fa-eye"></i></a></span>
+                  <span class="action"><a href="/edit_postad_detail/{{my_ads.id}}" class="action"><i class="fa fa-pencil"></i></a></span>
+                  <span class="action"><a href="#" value="{{my_ads.id}}" class="action delete_act"><i class="fa fa-trash-o"></i></a></span>
               </div><!--ads_name3-->
           </li><!--product_ads-->
         </ul><!--product1-->      
       {% endfor %}  
       </div> <!-- right_part -->
+      <p class="col-md-6 hidden-lg">{{my_products.count}} Results</p>
       <div class="bottom_ads col-md-12">
           {% if my_products %}
-           <p class="col-md-6">{{my_products.count}} Results</p>
+           <p class="col-md-6 hidden-xs">{{my_products.count}} Results</p>
             <span class="check_all col-md-2 check_all_act">Check All</span>
            <span class="uncheck_all col-md-2 uncheck_all_act">Uncheck All</span>
            <input name="next" type="hidden" value="{{request.path}}{% if request.GET.urlencode %}?{{request.GET.urlencode}}{% endif %}" />
@@ -116,7 +125,7 @@
                   <label class="labelError" style="display:none;">Enter your Full Name</label>
 
                   
-                  <input class="last_name" name="your_name" id="your_name" value="{% if userprofile.last_name %}{{userprofile.last_name}}{% endif %}" placeholder="Last Name"/>     
+                  <input class="last_name" name="last_name" id="your_name" value="{% if userprofile.last_name %}{{userprofile.last_name}}{% endif %}" placeholder="Last Name"/>     
                   
                   <label class="labelError" style="display:none;">Enter your Last Name</label>
                 </div> <!-- form-group -->
@@ -176,7 +185,7 @@
             <div class="field_div form-group">
               <div class="gender_select fl">
                   <div class="select_profile">
-                    <p id="profile_gender">{% if userprofile.gender %}{{userprofile.gender}}{% endif %}</p>
+                    <p id="profile_gender">{% if userprofile.gender %}{{userprofile.gender}}{% else %}Gender{% endif %}</p>
                     <i class="city_fa fa fa-caret-down">    
                     </i>
                   </div> <!-- select_profile -->
@@ -194,55 +203,22 @@
                 <label class="labelError" style="display:none;">Enter your age</label>
               </div> <!-- form-group --> 
 
-              <div class="field_div form-group">
-                  <div class="city_select fl">
-                      <div class="post_city">
-                        <p>Select city *</p>
-                        <i class="city_fa fa fa-caret-down">   
-                        </i>
-                      </div> <!-- post_city -->
-                      <select>
-                      <option value="Select City">Select City</option>
-                      {% for cityitem in current_country_cities %} 
-                      <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
-                      {% endfor %}
-                      </select>
-                      <label class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
-                  </div> <!-- city_select -->
-                  <div class="locality_select fl">
-                      <div class="post_city profile_city">
-                        <p>Select locality *</p>
-                        <i class="city_fa fa fa-caret-down">     
-                        </i>
-                      </div> <!-- post_city -->
-                      <select>
-                      <option value=""></option>   
-                      </select>
-                      <label class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
-                  </div> <!-- locality_select -->
-                  <div class="clear_both"></div>   
-                  <div class="clear_both"></div>   
-            </div> <!-- form-group -->
-             {% if userprofile.user_age %}
+              {% if userprofile.user_age %}
                 <textarea class="address_profile" maxlength="500" name="user_address" placeholder="Address" value="">{{userprofile.user_address}}</textarea>
               {% else %}  
               <textarea class="address_profile" maxlength="500" name="user_address" placeholder="Address" value=""></textarea>
               {% endif %}  
                 <label class="labelError" style="display:none;">Enter your address</label>
-              </div><!--form-group-->
-            
-            <div class="form-group">
-               <div class="field_title form-group">
-                  <span class="title">You are</span>
-                 <!--  <span class="mandatory">*</span> -->
-                </div> <!-- form-group -->
-
-                <div class="field_div form-group">
+                <div class="field_title form-group">
+                  <span class="title_you_are">You are</span>
+                </div><!--form-group-->
+                <div class="field_div form-group you_are_mobile">
                   <input type="radio" class="check_individual" name="person_is" value="individual"{% if edit_product.person_is == 'individual' %} checked="checked"{% endif %}>
                   <label for="individual" class="you_are"><span><span></span></span>Individual</label>
                   <input type="radio" class="check_dealer" name="person_is" value="dealer"{%if userprofile.person_is == 'dealer' %}checked="checked"{% endif %}>
                   <label for="dealer" class="you_are"><span><span></span></span>Delear</label>
                   <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>
+                  <div class="clear_both"></div>
               </div><!--form-group-->
 
            </div> <!-- description_div -->
