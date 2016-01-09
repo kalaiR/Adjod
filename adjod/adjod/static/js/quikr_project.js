@@ -55,7 +55,7 @@ function checkStrength(password){
       if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/))  strength += 1
       //if it has two special characters, increase strength value
       if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,",%,&,@,#,$,^,*,?,_,~])/)) strength += 1
-      
+
       //now we have calculated strength value, we can return messages
       //if value is less than 2
       if (strength < 2 ) {
@@ -148,7 +148,7 @@ function fill_localities(city_id) {
       } else {
         $.getJSON("/localities_for_city/", {city_id: city_id},
           function(ret, textStatus) {
-            var options = '';      
+            var options = '';
             $('#select_post_locality').text("Select Locality");
             options +='<option>Select Locality</option>';
             for (var i in ret) {
@@ -232,14 +232,14 @@ $( document ).ready(function() {
       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
       return this;
    }
-      
+
     sign_in_center_align();
     sign_up_center_align();
     reset_div_center_align();
     subscribe_center_align();
 
     // subscription popup
-   
+
     $(".link_tooltip").click(function(){
         subscribe_center_align();
         $('.popup_fade').show();
@@ -275,7 +275,7 @@ $( document ).ready(function() {
     $(".My_ads").click(function(){
       $(".update_ads").show();
       $(".profile_text").hide();
-    });     
+    });
     $(".My_profile").click(function(){
       $(".profile_text").show();
       $(".update_ads").hide();
@@ -285,7 +285,7 @@ $( document ).ready(function() {
       $(this).addClass('active');
     });
 
-   //user profile check and uncheck functionality   by ramya  
+   //user profile check and uncheck functionality   by ramya
     $('.check_all_act').on('click', function(){
       $('.check').prop('checked', true);
     });
@@ -316,16 +316,16 @@ $( document ).ready(function() {
       else{
         selected = getSelectedVals();
         alert(selected);
-        var myurl = "/delete_ad/"                 
-        $.ajax({ 
+        var myurl = "/delete_ad/"
+        $.ajax({
                   type: "POST",
                   url: myurl,
                   data: "selected="+selected,
                   success: function(response) {
                     window.location.reload(true);
                   },
-                        
-        });           
+
+        });
         return false;
       }
     });
@@ -340,28 +340,28 @@ $( document ).ready(function() {
   //       var image = new Image();
   //       image.src = oFREvent.target.result;
   //       $('#clean_img').remove();
-  //       image.onload = function () {         
+  //       image.onload = function () {
   //       if (this.width < 500 ) {
   //         alert("Image width should be above 500 px");
   //         return false;
-  //       }         
+  //       }
   //       else if (this.height < 500 ) {
   //         alert("Image height should above be 500 px");
   //         return false;
   //       }
   //       else if (this.size >1024*1000 ) {
-       
+
   //         alert("please upload less than 1MB");
   //         return false;
   //       }
   //       else{
   //         return true;
   //       }
-    
+
   //     };
 
   //     };
-  // }); 
+  // });
     //select  locality in user profile
     $( ".profile_locality" ).change(function () {
             var selected_option = $( ".profile_locality option:selected" ).text();
@@ -376,24 +376,42 @@ $( document ).ready(function() {
 
 
   //userprofile ajax form submit
-    $('#update_user').submit(function() {                 
-      $.ajax({ 
-          data: $(this).serialize(), 
-          type: $(this).attr('method'), 
-          url: $(this).attr('action'), 
-          success: function(response) { 
+    $('#update_user').submit(function() {
+        var file_data = $("#profile_poster").prop("file")[0];
+        var form_data = new FormData();
+        form_data.append($(this).serialize())                   // Creating object of FormData class
+        form_data.append("profile_poster", file_data)
+      $.ajax({
+          data: form_data,
+          type: 'POST',
+          url: '/user_manage/',
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function(response) {
           alert('success');
 
           },
           error: function(response){
             alert('error');
           }
-        
-      });    
+
+      });
         return false;
   });
 
-        
+  //change image upload in user update profile
+  $('.profile_poster_update').change(function(){
+      $('.upload_image_change').remove();
+      $('#clean_img').remove();
+  });
+  //remove image upload in user update profile
+  // $('.upload_image_remove').click(function(){
+  //     $('.upload_image_change').remove();
+  //     $('#clean_img').remove();
+  //     $('.upload_image_remove').remove();
+  //
+  // });
    //For SignIn and SignUp Popup
     $('.popup_sign_up, .footer_signup').click(function(){
         sign_up_center_align();
@@ -751,7 +769,7 @@ $( document ).ready(function() {
         }
         // Dropdown locality
         if (($('#select_post_locality').text() == "Select locality *") || ($('#select_post_locality').text() == "Select Locality")) {
-          $('.select_container_locality').addClass("error_input_field");  
+          $('.select_container_locality').addClass("error_input_field");
           $('.select_container_locality').find('.labelError').show();
         }
         else{
@@ -772,10 +790,10 @@ $( document ).ready(function() {
         }
         }
         if($('#terms_of_use').attr('checked')){
-          $('#terms_required').hide();          
+          $('#terms_required').hide();
         }
         else{
-          $('#terms_required').show(); 
+          $('#terms_required').show();
         }
         if ($(":input").hasClass("error_input_field") || $(".select_container_city").hasClass("error_input_field") || $(".select_container_locality").hasClass("error_input_field") || $("#buy,#sell").hasClass("error_input_field") || $("#individual,#dealer").hasClass("error_input_field")){
         return false;
@@ -785,7 +803,7 @@ $( document ).ready(function() {
           $('form[name="post_ad"]').submit();
         }
     });
-    
+
     //============= FOR SET PREMIUM PLAN AMOUNT ===========
     $('input[name=premium_plan]').click(function(){
           var premium_id=this.id;
@@ -900,23 +918,23 @@ $( document ).ready(function() {
     //     $(".left_sidead").show();
     //     $(".leftslide1").hide();
     // });
-    
+
 
 
     $('.signup_tooltip').hide();
     $(".signup_confirm_button").on('hover', function(){
-    if ($(".confirm").prop('checked')==false){ 
+    if ($(".confirm").prop('checked')==false){
         $('.signup_tooltip').show();
     }
     else{
          $('.signup_tooltip').hide();
        }
     });
-    
+
      // Tooltip for Post ad
     // $('.postad_tooltip').hide();
     // $(".post_form_send").on('hover', function(){
-    // if ($("#terms_of_use").prop('checked')==false){ 
+    // if ($("#terms_of_use").prop('checked')==false){
     //     $('.postad_tooltip').show();
     // }
     // else{
@@ -936,19 +954,18 @@ $( document ).ready(function() {
     });
 
     $('input.checkbox_premium').on('click', function(){
-        $('input.checkbox_premium').not(this).prop('checked', false); 
+        $('input.checkbox_premium').not(this).prop('checked', false);
         $('.premium_plan').val($(this).val());
     });
 
     //allow characters for price
     $('.your_price').keypress(function(e) {
-      alert("your_price");
          var theEvent = e || window.event;
           var key = theEvent.keyCode || theEvent.which;
           key = String.fromCharCode(key);
           if (key.length == 0) return;
-          // var regex = /^[0-9.\b]+$/;
-          var regex = ^\d+(?:[\.\,]\d+)?$;
+          var regex = /^[0-9.\b]+$/;
+          //var regex = '^\d+(?:[\.\,]\d+)?$';
           if (!regex.test(key)) {
               theEvent.returnValue = false;
               if (theEvent.preventDefault) theEvent.preventDefault();
@@ -956,5 +973,3 @@ $( document ).ready(function() {
     });
 
 });
-
-

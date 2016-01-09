@@ -4,6 +4,8 @@ import string
 import uuid
 import urllib2
 from django.conf import settings
+from django.shortcuts import render_to_response, render, redirect
+from django.template import RequestContext
 #from django.contrib.gis.geoip import GeoIP
 from adjod import globals
 from advertisement.models import *
@@ -95,3 +97,9 @@ def currency_conversion(price,country):
     currency_code = currency_of_country(country)
     adjod_exchange_rate = ExchangeRate.objects.get(currency=currency_code)
     return float(price)/float(adjod_exchange_rate.value)
+
+def error_404(request):
+    return render_to_response('404.html', context_instance=RequestContext(request))
+
+def error_500(request):
+    return render_to_response('500.html', context_instance=RequestContext(request))

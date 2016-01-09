@@ -3,25 +3,25 @@
  * Copyright notice and license must remain intact for legal use
  * Requires: jQuery 1.2+
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN 
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- * 
+ *
  * Fore more usage documentation and examples, visit:
  *          http://jordankasper.com/jquery
- * 
+ *
  * Basic usage (shown with defaults, except for "existingFiles"):
- *  
+ *
     <form ... enctype='multipart/form-data'>
       ...
       <input type='file' name='upload' id='upload' multiple="multiple" />
       ...
     </form>
-    
+
     var files = {"file_id": "file_name", ...};
     $('input[type=file]').simpleFilePreview({
       'buttonContent': 'Add File',             // String HTML content for the button to add a new file
@@ -33,58 +33,58 @@
       'defaultIcon': 'preview_file.png',       // String The file name to use for the defualt preview icon (when a proper file-type-specific icon cannot be found)
       'icons': {'png': 'preview_png.png', ...} // Object A mapping of file type (second half of mime type) to icon image file (used in combination with the "iconPath" option)
     });
- * 
+ *
  * TODO:
  *   - add events for binding to various actions
  *   - add example of html produced
- * 
+ *
  * REVISIONS:
  *   0.1 Initial release
- *   
+ *
  */
 // function readImage(file) {
   // var k='';
     // var reader = new FileReader();
     // var image  = new Image();
-//   
-    // reader.readAsDataURL(file);  
+//
+    // reader.readAsDataURL(file);
     // reader.onload = function(_file) {
-        // image.src    = _file.target.result;      
+        // image.src    = _file.target.result;
         // image.onload = function() {
             // var s = ~~(file.size/1024);
-//  
+//
         // };
-//     
+//
     // };
-// 
+//
 // }
 ;(function($) {
-  
+
   $.fn.simpleFilePreview = function(o) {
     var n = this;
     if (!n || !n.length) { return n; }
-    
+
     // Set up options (and defaults)
     o = (o)?o:{};
     o = $.extend({}, $.simpleFilePreview.defaults, o);
-    
+
     n.each(function() {
       setup($(this), o);
     });
-    
+
     // set up global events
     if (!$.simpleFilePreview.init) {
       $.simpleFilePreview.init = true;
       $('body')
-        
+
         // open file browser dialog on click of styled "button"
         .on('click', '.simpleFilePreview_input', function(e) {
           $(this).parents('.simpleFilePreview').find('input.simpleFilePreview_formInput').trigger('click');
           e.preventDefault();
           return false;
         })
-        
-        // on click of the actual input (which is invisible), check to see if 
+
+        // on click of the actual input (which is invisible), check to see if
         // we need to clear the input (which is the default action for this plugin)
         .on('click', '.simpleFilePreview input.simpleFilePreview_formInput', function(e) {
           if ($(this).val().length) {
@@ -93,14 +93,14 @@
             return false;
           }
         })
-        
+
         // when file input changes, get file contents and show preview (if it's an image)
         .on('change', '.simpleFilePreview input.simpleFilePreview_formInput', function(e) {
     var s=this.files[0].size;
     // if (s<140000){
       // if (s<80000){
         // if (s<270000000){
-          var ext = $('#photos').val().split('.').pop().toLowerCase();
+          var ext = $('#photos,#profile_poster').val().split('.').pop().toLowerCase();
           if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
               // alert('invalid extension!');
               $('.error_photo').show();
@@ -110,7 +110,7 @@
           if (s<1000000){
           $('.photo_labelError').text("");
           var p = $(this).parents('.simpleFilePreview');
-          
+
           // if it's a multi-select, add another selection box to the end
           // NOTE: this is done first since we clone the previous input
           // NOTE: the second check is there because IE 8 fires multiple change events for no good reason
@@ -125,12 +125,12 @@
                .find('.simpleFilePreview_shiftRight')
                .click();
             }
-           
+
           }
-          
+
           if (this.files && this.files[0]) {
             if ((new RegExp("^image\/("+$.simpleFilePreview.previewFileTypes+")$")).test(this.files[0].type.toLowerCase())) {
-              
+
               if (window.FileReader) {
                 if ((new RegExp("^image\/("+$.simpleFilePreview.previewFileTypes+")$")).test(this.files[0].type.toLowerCase())) {
                   // show preview of image file
@@ -139,10 +139,10 @@
                     addOrChangePreview(p, e.target.result);
                   };
                   r.readAsDataURL(this.files[0]);
-                  
+
                 }
               }
-              
+
             } else {
               // show icon if not an image upload
               var m = this.files[0].type.toLowerCase().match(/^\s*[^\/]+\/([a-zA-Z0-9\-\.]+)\s*$/);
@@ -152,22 +152,22 @@
                 addOrChangePreview(p, o.iconPath+o.defaultIcon, getFilename(this.value));
               }
             }
-            
+
           } else {
             // Any browser not supporting the File API (and FileReader)
-            
+
             // Some versions of IE don't have real paths, and can't support
             // any other way to do file preview without uploading to the server
-            // If a browser does report a valid path (IE or otherwise), then 
+            // If a browser does report a valid path (IE or otherwise), then
             // we'll try to get the file preview
-            
+
             var e = getFileExt(this.value);
             e = (e)?e.toLowerCase():null;
             if (e && !(/fakepath/.test(this.value.toLowerCase())) && (new RegExp("^("+$.simpleFilePreview.previewFileTypes+")$")).test(e)) {
-              // older versions of IE (and some other browsers) report the local 
+              // older versions of IE (and some other browsers) report the local
               // file path, so try to get a preview that way
               addOrChangePreview(p, "file://"+this.value);
-              
+
             } else {
               // not an image (or using fakepath), so no preview anyway
               if (o.icons[e]) {
@@ -183,76 +183,76 @@
           // alert('file exceede');
           $('.photo_labelError').text("file size should be less than 1 MB");
           var p = $(this).parents('.simpleFilePreview');
-          
+
           // if it's a multi-select, add another selection box to the end
           // NOTE: this is done first since we clone the previous input
           // NOTE: the second check is there because IE 8 fires multiple change events for no good reason
-          if (p.attr('data-sfpallowmultiple') == 1 && !p.find('.simpleFilePreview_preview').length) 
+          if (p.attr('data-sfpallowmultiple') == 1 && !p.find('.simpleFilePreview_preview').length)
           {
             var newId = $.simpleFilePreview.uid++;
             var newN = p.clone(true).attr('id', "simpleFilePreview_"+newId);
             newN.find('input.simpleFilePreview_formInput').attr('id', newN.find('input.simpleFilePreview_formInput').attr('id')+'_'+newId).val('');
             p.after(newN);
             var nw = p.parents('.simpleFilePreview_multi').width('+='+newN.outerWidth(true)).width();
-            if (nw > p.parents('.simpleFilePreview_multiClip').width()) 
+            if (nw > p.parents('.simpleFilePreview_multiClip').width())
               {
                 p.parents('.simpleFilePreview_multiUI')
                  .find('.simpleFilePreview_shiftRight')
                  .click();
                 p.remove();
               }
-           
+
           }
-          
-          if (this.files && this.files[0]) 
+
+          if (this.files && this.files[0])
           {
-            if ((new RegExp("^image\/("+$.simpleFilePreview.previewFileTypes+")$")).test(this.files[0].type.toLowerCase())) 
+            if ((new RegExp("^image\/("+$.simpleFilePreview.previewFileTypes+")$")).test(this.files[0].type.toLowerCase()))
             {
-                if (window.FileReader) 
+                if (window.FileReader)
                 {
-                    if ((new RegExp("^image\/("+$.simpleFilePreview.previewFileTypes+")$")).test(this.files[0].type.toLowerCase())) 
+                    if ((new RegExp("^image\/("+$.simpleFilePreview.previewFileTypes+")$")).test(this.files[0].type.toLowerCase()))
                     {
                       // show preview of image file
                       var r = new FileReader();
-                      r.onload = function (e) 
+                      r.onload = function (e)
                         {
                           addOrChangePreview(p, e.target.result);
                         };
                       r.readAsDataURL(this.files[0]);
-                      
+
                     }
                 }
-              
-            } 
-            else 
+
+            }
+            else
             {
               // show icon if not an image upload
               var m = this.files[0].type.toLowerCase().match(/^\s*[^\/]+\/([a-zA-Z0-9\-\.]+)\s*$/);
-                if (m && m[1] && o.icons[m[1]]) 
+                if (m && m[1] && o.icons[m[1]])
                 {
                   addOrChangePreview(p, o.iconPath+o.icons[m[1]], getFilename(this.value));
-                } 
-                else 
+                }
+                else
                 {
                   addOrChangePreview(p, o.iconPath+o.defaultIcon, getFilename(this.value));
                 }
             }
-            
+
           } else {
             // Any browser not supporting the File API (and FileReader)
-            
+
             // Some versions of IE don't have real paths, and can't support
             // any other way to do file preview without uploading to the server
-            // If a browser does report a valid path (IE or otherwise), then 
+            // If a browser does report a valid path (IE or otherwise), then
             // we'll try to get the file preview
-            
+
             var e = getFileExt(this.value);
             e = (e)?e.toLowerCase():null;
             if (e && !(/fakepath/.test(this.value.toLowerCase())) && (new RegExp("^("+$.simpleFilePreview.previewFileTypes+")$")).test(e)) {
-              // older versions of IE (and some other browsers) report the local 
+              // older versions of IE (and some other browsers) report the local
               // file path, so try to get a preview that way
               addOrChangePreview(p, "file://"+this.value);
-              
+
             } else {
               // not an image (or using fakepath), so no preview anyway
               if (o.icons[e]) {
@@ -264,10 +264,10 @@
           }
         }
     }
-        
-        
+
+
         )
-        
+
         // show or hide "remove" icon for file preview/icon
         .on('mouseover', '.simpleFilePreview_preview, .simpleFilePreview input.simpleFilePreview_formInput', function() {
           var p = $(this).parents('.simpleFilePreview');
@@ -278,19 +278,19 @@
         .on('mouseout', '.simpleFilePreview_preview, .simpleFilePreview input.simpleFilePreview_formInput', function() {
           $(this).parents('.simpleFilePreview').find('.simpleFilePreview_remove').hide();
         })
-        
+
         // remove file when preview/icon is clicked
         .on('click', '.simpleFilePreview_preview', function() {
           var p = $(this).parents('.simpleFilePreview');
-          
+
           if (p.attr('data-sfpallowmultiple') == 1 && p.siblings('.simpleFilePreview').length) {
             if (p.hasClass('simpleFilePreview_existing')) {
               p.parent().append("<input type='hidden' id='"+p.attr('id')+"_remove' name='removeFiles[]' value='"+p.attr('data-sfprid')+"' />");
             }
-            
+
             p.parents('.simpleFilePreview_multi').width('-='+p.width());
             p.remove();
-            
+
           } else {
             // if it was an existing file, show file input and add "removeFiles" hidden input
             if (p.hasClass('simpleFilePreview_existing')) {
@@ -298,11 +298,11 @@
               p.append("<input type='hidden' id='"+p.attr('id')+"_remove' name='removeFiles[]' value='"+p.attr('data-sfprid')+"' />");
               p.removeClass('simpleFilePreview_existing'); // no longer needed
             }
-            
+
             // kill value in the input
             var i = p.find('input.simpleFilePreview_formInput').val('');
-            
-            // Some browsers (*cough*IE*cough*) do not allow us to set val() 
+
+            // Some browsers (*cough*IE*cough*) do not allow us to set val()
             // on a file input, so we have to clone it without the value
             if (i && i.length && i.val().length) {
               var attr = i.get(0).attributes;
@@ -316,7 +316,7 @@
               i.before(ni);
               i.remove();
             }
-            
+
             // remove the preview element
             $(this).remove();
             p.find('.simpleFilePreview_filename').remove();
@@ -325,7 +325,7 @@
              .find('.simpleFilePreview_input').show();
           }
         })
-        
+
         // shift buttons for multi-selects
         .on('click', '.simpleFilePreview_shiftRight', function() {
           var ul = $(this).parents('.simpleFilePreview_multiUI').find('.simpleFilePreview_multi');
@@ -344,11 +344,11 @@
           }
         });
     }
-    
+
     // return node for fluid chain calling
     return n;
   };
-  
+
   var setup = function(n, o) {
     var isMulti = n.is('[multiple]');
     // "multiple" removed because it's handled later manually
@@ -360,15 +360,15 @@
               "<span class='simpleFilePreview_remove'>"+o.removeContent+"</span>"+
               "</"+((isMulti)?'li':'div')+">");
     n.before(c);
-    c.append(n);  
-    
-    // mostly for IE, the file input must be sized the same as the container, 
+    c.append(n);
+
+    // mostly for IE, the file input must be sized the same as the container,
     // opacity 0, and z-indexed above other elements within the preview container
     n.css({
       width: c.width()+'px',
       height: c.height()+'px'
     });
-    
+
     // if it's a multi-select we use multiple separate inputs instead to support file preview
     if (isMulti) {
       c.wrap("<div class='simpleFilePreview_multiUI'><div class='simpleFilePreview_multiClip'><ul class='simpleFilePreview_multi'></ul></div></div>");
@@ -376,7 +376,7 @@
         .prepend("<span class='simpleFilePreview_shiftRight simpleFilePreview_shifter'>"+o.shiftRight+"</span>")
         .append("<span class='simpleFilePreview_shiftLeft simpleFilePreview_shifter'>"+o.shiftLeft+"</span>");
     }
-    
+
     var ex = o.existingFiles;
     if (ex) {
       if (isMulti) {
@@ -389,7 +389,7 @@
             .attr('data-sfprid', (arr)?ex[i]:i)
             .find('input.simpleFilePreview_formInput').remove();
           c.before(nn);
-          
+
           var e = getFileExt(ex[i]);
           e = (e)?e.toLowerCase():null;
           if (e && (new RegExp("^("+$.simpleFilePreview.previewFileTypes+")$")).test(e)) {
@@ -400,7 +400,7 @@
             addOrChangePreview(nn, o.iconPath+o.defaultIcon, getFilename(ex[i]));
           }
         }
-        
+
       } else {
         // for single inputs we only take the last file
         var f = null;
@@ -413,7 +413,7 @@
           c.attr('data-sfprid', f['id'])
            .addClass('simpleFilePreview_existing')
            .find('input.simpleFilePreview_formInput').hide();
-          
+
           var e = getFileExt(f['file']);
           e = (e)?e.toLowerCase():null;
           if (e && (new RegExp("^("+$.simpleFilePreview.previewFileTypes+")$")).test(e)) {
@@ -426,16 +426,16 @@
         }
       }
     }
-    
+
     if (isMulti) {
       $('.simpleFilePreview_multi').width(c.outerWidth(true) * c.parent().find('.simpleFilePreview').length);
     }
-    
+
   };
-  
+
   var addOrChangePreview = function(p, src, fn) {
     fn = (fn)?(""+fn):null;
-    
+
     p.find('.simpleFilePreview_input').hide();
     var i = p.find('.simpleFilePreview_preview');
     if (i && i.length) {
@@ -444,11 +444,11 @@
       p.append("<img src='"+src+"' class='simpleFilePreview_preview "+((fn)?'simpleFilePreview_hasFilename':'')+"' alt='"+((fn)?fn:'File Preview')+"' title='Remove "+((fn)?fn:'this file')+"' />");
       // for tooltips
       p.find('input.simpleFilePreview_formInput').attr('title', "Remove "+((fn)?fn:'this file'));
-      
+
       //customise
       $('.simpleFilePreview').css('background-color','#ffffff !important');
     }
-    
+
     if (fn) {
       var f = p.find('.simpleFilePreview_filename');
       if (f && f.length) {
@@ -459,7 +459,7 @@
       }
     }
   };
-  
+
   var getFilename = function(p) {
     var m = p.match(/[\/\\]([^\/\\]+)$/);
     if (m && m[1] && m[1].length) {
@@ -467,7 +467,7 @@
     }
     return null;
   };
-  
+
   var getFileExt = function(p) {
     var m = p.match(/[\.]([^\/\\\.]+)$/);
     if (m && m[1] && m[1].length) {
@@ -475,7 +475,7 @@
     }
     return null;
   };
-  
+
   // Static properties
   $.simpleFilePreview = {
     defaults: {
@@ -532,5 +532,5 @@
     // previewFileTypes: 'p?jpe?g|png|gif|bmp|svg|mp4'
     previewFileTypes:'p?jpe?g|png|gif|bmp|svg|mp4|mp3'
   };
-  
+
 })(jQuery);

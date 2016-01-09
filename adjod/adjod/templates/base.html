@@ -23,13 +23,13 @@
     <script src="{% static "js/jquery-1.11.3.min.js" %}"></script>
     <script src="{% static "js/jquery-migrate-1.2.1.js" %}"></script>
     <script src="{% static "js/jquery-ui-1.10.4.custom.min.js" %}"></script>
-    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <!-- <script src="{% static "js/bootstrap.min.js" %}"></script> -->
     <script src="{% static "js/jquery.ui.chatbox.js" %}"></script>
     <script src="{% static "js/jquery.ui.slider.js" %}"></script>
     <script src="{% static "js/jquery.switchButton.js" %}"></script>
     <script src="{% static "js/html5shiv.js" %}"></script>
     <script src="{% static "js/less.js" %}"></script>
-    <script src="{% static "js/action.js" %}"></script>
+    <!-- <script src="{% static "js/action.js" %}"></script> -->
     <link href="{% static "AdminLTE/dist/css/AdminLTE.css" %}" rel="stylesheet" type="text/css" />
     <link id='theme' rel='stylesheet' />
     <link rel='stylesheet' href="{% static "css/chat.css" %}" />
@@ -42,19 +42,19 @@
     <script src="{% static "js/i18n_en.js" %}"></script>
     <script src="{% static "js/quikr_project.js" %}"></script>
     <script src="{% static "js/search.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script>
+    <!-- <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script> -->
     <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script>
-    <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
+    <!-- <script src="{% static "js/jquery.iframe-transport.js" %}"></script> -->
     <script src="{% static "js/intlTelInput.min.js" %}"></script>
-     <script src="{% static "js/mobile_action.js" %}"></script> 
+     <script src="{% static "js/mobile_action.js" %}"></script>
     <script type="text/javascript">
-      // $(document).ready(function(){           
+      // $(document).ready(function(){
       //   if (window.location.href.indexOf("?user_id=") >= 0) {
       //     $(".caret_user").hide();
       //     $(".user_dropdown").hide();
       //     $(".start_myads").show()
       //   }
-        
+
       // });
       function updateCountdownTitle() {
           var remaining = 70 - $('.ad_title').val().length;
@@ -65,7 +65,7 @@
           $('#desc_count').text(remaining);
       }
     </script>
-   
+
 </head>
 <body>
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/nkAydfUqi1s" frameborder="0" allowfullscreen></iframe> -->
@@ -128,9 +128,9 @@
               <a class="quikr_logo fl" href="/"> </a>
               <ul class="nav navbar-nav navbar-right">
                   {% if user.is_authenticated %}
-                    {% if request.path != '/user_manage/' %}  
+                    {% if request.path != '/user_manage/' %}
                       <li class="user_name start_myads"><a href="/user_manage/">{{request.user.email}}</a>
-                    {% else %}                   
+                    {% else %}
                       <li class="user_name"><a href="/user_manage/">{{request.user.email}}</a>
                       <i class="fa fa-caret-down caret_user"></i>
                       <div class="user_dropdown">
@@ -139,8 +139,8 @@
                            <li class="menu_active"><a href="#" class="My_profile">Update My Profile</a></li>
                           <!--  <a href="/my_chats"><li>My Chats</li></a> -->
                          </ul>
-                      </div> <!--user_dropdown-->       
-                  {% endif %}  
+                      </div> <!--user_dropdown-->
+                  {% endif %}
                   {% endif %}
                     <!-- {% if 'search' in path %}
                     <li>
@@ -329,7 +329,7 @@
     </div> <!-- container -->
     {% endif %}
 
-    
+
 
     <div class="container">
       <p class="contact">For site related issues,Check out our <a href=""><span class="span3">Help</span></a> section or email us at <a href=""><span class="span3">support@quikr.com</span>

@@ -226,9 +226,11 @@ body {
     left: 3px;
 	@media (min-width: @grid-float-breakpoint) {
       width:500px;
-      border-radius: 0px;
       top:0px;
       float:left;
+      border-top-left-radius: 3px !important;
+      border-bottom-left-radius: 3px !important;
+      padding-left:34px;
     }
 }
 .form > i{
@@ -239,9 +241,9 @@ body {
     top: 10px;
     z-index: 9999;
 	@media (min-width: @grid-float-breakpoint) {
-		left: 9px;
+		left: 16px;
     	position: absolute;
-    	top: 14px;
+    	top: 16px;
 	}
 }
 .btn-success {
@@ -1570,7 +1572,7 @@ hr {
 	    width: 36px;
 	    color: gray;
 	    bottom:0px;
-	    right:3px;
+	    right:0px;
 	    display:block;
     }
 }
@@ -1630,7 +1632,7 @@ hr {
         border-left: 1px solid;
 	    border-top: 1px solid;
 	    position: absolute;
-	    width: 36px;
+	    width: 38px;
 	    color: gray;
 	    bottom:0px;
 	    right:0px;
@@ -5063,7 +5065,7 @@ li.offline,.product_title_for_chat { display:none !important; }
     width:70%;
     height:126px;
     @media (min-width: @grid-float-breakpoint){
-    	height:129px;
+    	height:125px;
     	width:745px;
     	border: 1px solid #828282;
 	    margin-bottom: 10px;
@@ -5452,6 +5454,8 @@ li.offline,.product_title_for_chat { display:none !important; }
 	bottom: 107px;
     left: 15px;
     position: relative;
+    height: 92px;
+    width: 92px;
 }
 .upload_image{
 	position: relative;
@@ -5537,6 +5541,7 @@ nav li a:hover {
 }
 .category li {
     padding: 0 0 14px;
+    cursor: pointer;
 }
 .sub_category5 > a {
     position: relative;
@@ -5795,3 +5800,21 @@ color: #858585;
 .postad_page {
     background: none repeat scroll 0 0 #eb1c24;
 }
+.count_holder i,.count_holder span,.count_holder1 i,.count_holder1 span {
+    left: 5px;
+    position: relative;
+}
+.upload_image_change{
+    color: red;
+    font-weight: bold;
+    left: 36px;
+    position: absolute;
+    top: 35px;
+}
+// .upload_image_remove {
+//     color: red;
+//     left: 33px;
+//     position: absolute;
+//     top: 103px;
+//     cursor: pointer;
+// }
