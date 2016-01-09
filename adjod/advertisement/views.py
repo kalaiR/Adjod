@@ -150,7 +150,7 @@ def product_form(request, name=None, subname=None):
     if request.user.is_authenticated():
         if not request.user.is_superuser:
             userprofile = UserProfile.objects.get(id=request.user.id)
-            if userprofile.ad_count>=3 and userprofile.is_subscribed == 0:
+            if userprofile.ad_count>3 and userprofile.is_subscribed == 0:
                 return HttpResponseRedirect('/')
     return TemplateResponse(request, 'advertisement/ad_post.html')
 
