@@ -203,7 +203,7 @@ function fill_brands(sub_category_id) {
              if (window.location.href.indexOf("search") >= 0) {
               // alert("search");
               for (var i in ret) {
-                options += '<li><input type="checkbox" class="css-checkbox sme brandtype"  name ="brandtype" value ="' + ret[i].id + '"><label for="checkbox1" name="checkbox1_lbl" class="css-label sme depressed">'+ ret[i].name + '</label></li>';
+                options += '<li class="list"><input type="checkbox" class="css-checkbox sme brandtype"  name ="brandtype" value ="' + ret[i].id + '"><label for="checkbox1" name="checkbox1_lbl" class="css-label sme depressed">'+ ret[i].name + '</label></li>';
               }
               $(".hiddenclass").html(options);
              }
@@ -953,8 +953,7 @@ $( document ).ready(function() {
           var key = theEvent.keyCode || theEvent.which;
           key = String.fromCharCode(key);
           if (key.length == 0) return;
-          // var regex = /^[0-9.\b]+$/;
-          var regex = ^\d+(?:[\.\,]\d+)?$;
+          var regex = /^[0-9.\b]+$/;
           if (!regex.test(key)) {
               theEvent.returnValue = false;
               if (theEvent.preventDefault) theEvent.preventDefault();
