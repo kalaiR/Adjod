@@ -226,9 +226,11 @@ body {
     left: 14px;
 	@media (min-width: @grid-float-breakpoint) {
       width:500px;
-      border-radius: 0px;
       top:0px;
       float:left;
+      border-top-left-radius: 3px !important;
+      border-bottom-left-radius: 3px !important;
+      padding-left:34px;
     }
 }
 .form > i{
@@ -1639,7 +1641,7 @@ hr {
         border-left: 1px solid;
 	    border-top: 1px solid;
 	    position: absolute;
-	    width: 36px;
+	    width: 38px;
 	    color: gray;
 	    bottom:0px;
 	    right:0px;
@@ -4700,7 +4702,7 @@ li.offline,.product_title_for_chat { display:none !important; }
     }
 }
 .ads_name2{
-	
+
     bottom: 134px;
     color: #484848;
     display: inline-flex;
@@ -5148,7 +5150,7 @@ li.offline,.product_title_for_chat { display:none !important; }
     width:70%;
     height:126px;
     @media (min-width: @grid-float-breakpoint){
-    	height:129px;
+    	height:125px;
     	width:745px;
     	border: 1px solid #828282;
 	    margin-bottom: 10px;
@@ -5537,6 +5539,8 @@ li.offline,.product_title_for_chat { display:none !important; }
 	bottom: 107px;
     left: 15px;
     position: relative;
+    height: 92px;
+    width: 92px;
 }
 .upload_image{
 	position: relative;
@@ -5622,6 +5626,7 @@ nav li a:hover {
 }
 .category li {
     padding: 0 0 14px;
+    cursor: pointer;
 }
 .sub_category5 > a {
     position: relative;
@@ -5999,6 +6004,10 @@ color: #858585;
     	margin: 0px;
 	}
 }
+
+.brand_name{
+	font-weight:700;
+}
 .you_are_mobile {
 	display: inline-flex;
     width: 260px;
@@ -6010,3 +6019,21 @@ color: #858585;
     position: relative;
     top: 12px;
 }
+.count_holder i,.count_holder span,.count_holder1 i,.count_holder1 span {
+    left: 5px;
+    position: relative;
+}
+.upload_image_change{
+    color: red;
+    font-weight: bold;
+    left: 36px;
+    position: absolute;
+    top: 35px;
+}
+// .upload_image_remove {
+//     color: red;
+//     left: 33px;
+//     position: absolute;
+//     top: 103px;
+//     cursor: pointer;
+// }
