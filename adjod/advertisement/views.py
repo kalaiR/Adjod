@@ -52,7 +52,6 @@ import simplejson as json
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from adjod.util import *
-from paypal.standard.ipn.views import *
 from django.db import transaction
 
 # A couple of request objects - one PJAX, one not.
@@ -148,12 +147,35 @@ def product_detail(request, pk):
 
 @pjax("pjax.html")
 def product_form(request, name=None, subname=None):
-    if request.user.is_authenticated():       
+    if request.user.is_authenticated():
         if not request.user.is_superuser:
             userprofile = UserProfile.objects.get(id=request.user.id)
             if userprofile.ad_count>=3 and userprofile.is_subscribed == 0:
-                return HttpResponseRedirect('/')        
+                return HttpResponseRedirect('/')
     return TemplateResponse(request, 'advertisement/ad_post.html')
+
+def paypal_transaction(request, product_dict):
+    current_site = Site.objects.get_current()
+    print "product_dict", product_dict
+    plan = PremiumPriceInfo.objects.get(id=product_dict['premium_plan'])
+    ctx = { 'business': settings.PAYPAL_RECEIVER_EMAIL,
+            'amount': plan.premium_price,
+            'item_name': product_dict['title'],
+            'notify_url': current_site.domain + settings.PAYPAL_DICT['notify_url'],
+            'cancel_return': current_site.domain + settings.PAYPAL_DICT['cancel_return'],
+            'return': current_site.domain + settings.PAYPAL_DICT['success_return'],
+            'custom':product_dict['you_name'],
+            # 'currency_code': plan.base_currency,
+            'currency_code': "USD",
+            'sandbox_url':settings.SANDBOX_URL
+    }
+    response = render_to_response('paypal_integration/payment.html', ctx , context_instance=RequestContext(request))
+    try:
+        product_id = Product.objects.get(title=product_dict['title'],userprofile=UserProfile.objects.get(id=product_dict['userprofile']))
+        response.set_cookie("product_id", product_id.id)
+    except:
+        pass
+    return response
 
 #Fuction for storing in images or vidoes in our folder
 def handle_uploaded_file(f):
@@ -178,9 +200,9 @@ def create_path_for_photos_thumbanails(photos, product):
     # Creating path for thumbnail photos
     photo=str(large_photos)
     photos=photo.split(',')
-    
+
     imagecount= len(photos)
-    
+
     thumbnail_group=''
     if large_photos:
         from PIL import Image as ImageObj
@@ -214,7 +236,7 @@ def create_path_for_photos_thumbanails(photos, product):
             # print thumbnail_group
         except ImportError:
             pass
-    thumbnail_photos = thumbnail_group           
+    thumbnail_photos = thumbnail_group
     return large_photos, imagecount, thumbnail_photos
 
 #Here Save the post ad after checked the required condition
@@ -225,9 +247,9 @@ def post_success(request, product):
     if request.POST['brand_name']:
         product.ad_brand=Dropdown.objects.get(id=request.POST['brand_name'])
     else:
-        product.ad_brand=None   
+        product.ad_brand=None
     # product.adtype=request.POST.get('condition')
-    product.adtype= "sell"        
+    product.adtype= "sell"
     product.title=request.POST.get('ad_title')
     product.price = currency_conversion(request.POST.get('your_price'),request.COOKIES.get('country_code'))
     product.ad_year=request.POST.get('your_year')
@@ -239,9 +261,9 @@ def post_success(request, product):
     print "request.POST['your_city']",request.POST['your_city']
     product.city=City.objects.get(id=int(request.POST['your_city']))
     product.locality=Locality.objects.get(id=request.POST['your_locality'])
-    product.country_code = request.COOKIES.get("country_code")   
+    product.country_code = request.COOKIES.get("country_code")
     # product.photos=request.FILES['photos']
-    photos =request.FILES.getlist('photos[]')   
+    photos =request.FILES.getlist('photos[]')
     product.photos, product.imagecount, product.thumbnail = create_path_for_photos_thumbanails(photos, product)
     product.video = request.POST.get('video_url')
     product.created_date  = datetime.datetime.now()
@@ -251,7 +273,9 @@ def post_success(request, product):
     product.post_terms=request.POST.get('terms_of_use')
     if request.user.is_authenticated() and not request.user.is_superuser:
         if request.POST.get('premium_plan'):
+            print "choosen premium plan"
             plan_price = request.POST["premium_plan"]
+            print "plan_price", plan_price
             product.premium_plan = PremiumPriceInfo.objects.get(premium_price=plan_price)
             product.ispremium = True
             product_dict = {'userprofile':product.userprofile.id, 'category':product.category, 'subcategory':product.subcategory,
@@ -261,15 +285,16 @@ def post_success(request, product):
                         'description':product.description,'you_are':product.you_are, 'you_name':product.you_name,'you_email':product.you_email,
                         'you_phone':product.you_phone,'isregistered_user':product.isregistered_user,'ispremium':product.ispremium,
                         'premium_plan':product.premium_plan,'expired_date':product.expired_date,'status_isactive':product.status_isactive,
-                        'post_term_status':product.post_term_status,"premium_plan":product.premium_plan.id}       
+                        'post_term_status':product.post_term_status,"premium_plan":product.premium_plan.id}
             response = product_dict
         else:
             response = None
     else:
         response = None
+    print "before product save"
     product.save()
     print "product.id",product.id
-    link = "http://" + settings.SITE_NAME + "/ads/" 
+    link = "http://" + settings.SITE_NAME + "/ads/"
     current_site = Site.objects.get_current()
     send_templated_mail(
               template_name = 'post_ad',
@@ -281,39 +306,39 @@ def post_success(request, product):
                  'current_site':current_site,
                  'id':product.id,
                  'link':link,
-                 
+
               },
             )
     return response
-    
+
 
 #Check whether to save the product or not
-@transaction.commit_on_success
+# @transaction.commit_on_success
 def product_save(request):
     if request.method == 'POST':
         print "product_save"
         product=Product()
-           
+
         try:
             error={}
             if request.user.is_authenticated() and not request.user.is_superuser:
                 product.userprofile = UserProfile.objects.get(id=request.user.id)
                 product.isregistered_user = True
                 if product.userprofile.ad_count < 3 or product.userprofile.is_subscribed == True:
-                    product_dict = post_success(request, product) 
+                    product_dict = post_success(request, product)
                     #Store in Userprofile table to know the status of users post ad counts
                     product.userprofile.ad_count = int(product.userprofile.ad_count) + 1
-                    product.userprofile.save() 
+                    product.userprofile.save()
                     if product_dict is None:
-                        error['success'] = ugettext('Ad Successfully posted')
+                        error['success'] = ugettext('Congratulations...Your Ad Successfully posted')#Ad Successfully posted
                         raise ValidationError(error['success'], 5)
-                    else: 
+                    else:
                         response = paypal_transaction(request,product_dict)
                         print "after all"
                         return response
                 else:
                     # get_object_or_404('/postad/')
-                    error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium')
+                    error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium. ')#
                     print "error['exit_count']",error['exit_count']
                     raise ValidationError(error['exit_count'], 6)
             else:
@@ -321,10 +346,10 @@ def product_save(request):
                 emailfilter = Product.objects.filter(you_email=request.POST.get('your_email')).count()
                 if emailfilter < 3:
                     post_success(request, product)
-                    error['success'] = ugettext('Ad Successfully posted')
+                    error['success'] = ugettext('Congratulations...Your Ad Successfully posted')#Ad Successfully posted
                     raise ValidationError(error['success'], 5)
                 else:
-                    error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium')
+                    error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium. ')#
                     print "error['exit_count']",error['exit_count']
                     raise ValidationError(error['exit_count'], 6)
 

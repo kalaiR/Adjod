@@ -34,6 +34,7 @@ class ProductIndex(SearchIndex, Indexable):
     # country=CharField(model_attr='country__id') 
     ispremium=CharField(model_attr='ispremium') 
     premium_plan_id=CharField(model_attr='premium_plan_id',null=True)
+    status_isactive=BooleanField()
 
     def autoUpdateRebuild_index(self):
         update_index.Command().handle()

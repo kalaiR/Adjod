@@ -67,7 +67,7 @@ $(document).ready(function() {
             $('.product_images1 img').each(function () {
                 $(this).center();
             });
-
+            // $('.brand_folder').hide();
             $("li.brand_folder > ul").hide();
             attach_pagination_events();
 

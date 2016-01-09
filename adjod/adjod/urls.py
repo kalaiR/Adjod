@@ -57,11 +57,11 @@ urlpatterns = patterns('',
 
     # For save product
     url(r'^addproduct/$', 'advertisement.views.product_save',name='product_save'),
-    
+
     # Paypal
     url(r'^paypal/$', include('paypal.standard.ipn.urls')),
     url(r'^test_paypal/$', 'adjod.views.test_paypal',name='test_paypal'),
-    
+
     # Find locality for city when ajax call
     url(r'^localities_for_city/$','advertisement.views.localities_for_city', name='localities_for_city'),
 
@@ -127,11 +127,10 @@ urlpatterns = patterns('',
 
     url(r'^get_user_products/$', 'advertisement.views.get_user_products',name='get_user_products'),
     url(r'^loadbasecurrency/$', 'adjod.views.loadbasecurrency',name='loadbasecurrency'),
-    
+
     #  url for user_profile updated by Ramya
-    url(r'^my_ads/$', 'adjod.views.my_ads',name='my_ads'),
-    url(r'^update_profile/$', 'adjod.views.update_profile',name='update_profile'),
-    url(r'^my_chats/$', 'adjod.views.my_chats',name='my_chats'),
+    url(r'^user_manage/$', 'adjod.views.user_manage',name='user_manage'),   
+    # url(r'^my_chats/$', 'adjod.views.my_chats',name='my_chats'),
     url(r'^edit_postad_detail/(?P<pk>\d+)/$', 'adjod.views.edit_postad_detail',name='edit_postad_detail'),
     url(r'^delete_ad/$', 'adjod.views.delete_ad',name='delete_ad'),
     url(r'^update_product/(?P<pk>\d+)/$', 'adjod.views.update_product',name='update_product'),
@@ -141,11 +140,11 @@ urlpatterns = patterns('',
     # url for login using social Auth By Priya
     url(r'', include('social_auth.urls')),
     url(r'^complete/(?P<backend>[^/]+)/$', AuthComplete.as_view()),
-    
+
     # Test for geo location (comment for future reference)
     # url(r'^(?i)testpage/$', 'adjod.views.geosearch'),
 
     url(r'^(?i)handler404/$', 'adjod.views.custom_404', name='custom_404'),
-    
+
 
 )+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

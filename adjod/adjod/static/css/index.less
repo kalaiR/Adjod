@@ -930,7 +930,7 @@ body {
 .logo_part code{
 	display:none;
 	@media (min-width: @grid-float-breakpoint) {
-	    
+
 		display:block;
 		width: 160px;height: 83px;
 		position: relative;
@@ -1264,7 +1264,8 @@ hr {
 .share_button{
     height: 40px;
     width: 100px;
-    padding-left: 32px;
+    padding: 8px 0 0 31px;
+    float: right;
 }
 .favourite_button{
     height: 40px;
@@ -1801,6 +1802,9 @@ hr {
 		margin:5px 0px 0px 0px;
 		color: #202020;
 		display: inline;
+        position: absolute;
+        right: 199px;
+        top: 5px
 	}
 }
 .refine_results{
@@ -1915,6 +1919,7 @@ input[type="checkbox"] {
 .sort_part{
 	text-align: right;
 	font-family: helvetica;
+    position: relative;
 }
 .new_icon{
 	color:#737373 !important;
@@ -4054,7 +4059,7 @@ li.offline,.product_title_for_chat { display:none !important; }
 
 }
 #cityselected {
-    
+
     padding: 5px 14px;
     position: relative;
 }
@@ -4475,7 +4480,7 @@ li.offline,.product_title_for_chat { display:none !important; }
 	    margin: 8px 0 4px;
 	    position: relative;
 	    width:260px;
-	    
+
     }
 }
 .inputs {
@@ -5027,7 +5032,7 @@ li.offline,.product_title_for_chat { display:none !important; }
     	line-height: 6;
 	}
 }
-.active{ 
+.active{
 	background:#EB1C24;
  	color:#fff;
 }
@@ -5236,7 +5241,7 @@ li.offline,.product_title_for_chat { display:none !important; }
     color: white;
     float: right;
     padding: 0;
-} 
+}
 .link_tooltip:hover{ color:white; }
 .subscription_popup {
 	background: white none repeat scroll 0 0;
@@ -5259,6 +5264,16 @@ li.offline,.product_title_for_chat { display:none !important; }
 	   	z-index:9999;
 	   	display:none;
    	}
+}
+.postad_success_popup{
+    background: white none repeat scroll 0 0;
+    border: 1px solid;
+    height: 215px;
+    width: 28%;
+    top:50%;
+   	left:50%;
+  	position:fixed;
+   	z-index:9999;
 }
 .subscribe_title {
     background: #EB1C24 none repeat scroll 0 0;
@@ -5481,9 +5496,9 @@ li.offline,.product_title_for_chat { display:none !important; }
     top: 15px !important;
 }
 /* right align ads results added by ramya */
-.right_align_ads{	
+.right_align_ads{
  	font-size: 15px;
-    margin-left: 50px !important;   
+    margin-left: 50px !important;
     position: relative;
 }
 
@@ -5494,6 +5509,11 @@ li.offline,.product_title_for_chat { display:none !important; }
 }
 .upload_image{
 	position: relative;
+}
+
+.start_myads {
+	display:none;
+    left:-3px;
 }
 /* end */
 
@@ -5618,8 +5638,75 @@ nav li a:hover {
     }
 }
 .choose_plan{
-	color:red;
+	color: red;
+    display: none;
+    text-align: center;
+    font-size: 12px;
 }
+.without-caption{
+	cursor: -webkit-zoom-in;
+  cursor: -moz-zoom-in;
+  cursor: zoom-in;
+}
+.mfp-with-zoom .mfp-container,
+.mfp-with-zoom.mfp-bg {
+	opacity: 0;
+	-webkit-backface-visibility: hidden;
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+}
+
+.mfp-with-zoom.mfp-ready .mfp-container {
+		opacity: 1;
+}
+.mfp-with-zoom.mfp-ready.mfp-bg {
+		opacity: 0.8;
+}
+
+.mfp-with-zoom.mfp-removing .mfp-container,
+.mfp-with-zoom.mfp-removing.mfp-bg {
+	opacity: 0;
+}
+
+
+
+/* padding-bottom and top for image */
+.mfp-no-margins img.mfp-img {
+	padding: 0;
+}
+/* position of shadow behind the image */
+.mfp-no-margins .mfp-figure:after {
+	top: 0;
+	bottom: 0;
+}
+/* padding for main container */
+.mfp-no-margins .mfp-container {
+	padding: 0;
+}
+
+
+
+/* aligns caption to center */
+.mfp-title {
+  text-align: center;
+  padding: 6px 0;
+}
+.image-source-link {
+  color: #DDD;
+}
+.postad_tooltip{
+	background: black none repeat scroll 0 0;
+    border-radius: 7px;
+    color: white;
+    left: 164px;
+    position: relative;
+    top: 3px;
+    width: 32%;
+}
+
+
 .pwd_reset_iframe{
 	 margin: 20px 0 0;
 }
@@ -5754,6 +5841,52 @@ nav li a:hover {
     position: absolute;
     top: 10px;
     width: 100%;
+}
+input[name=condition ]:not(old),
+input[name=person_is ]:not(old){
+width : 2em;
+margin : 0;
+padding : 0;
+font-size : 1em;
+opacity : 0;
+}
+input[name=condition ]:not(old) + label,
+input[name=person_is ]:not(old) + label{
+display : inline-block;
+margin-left : -0.3em;
+line-height : 1.5em;
+}
+input[name=condition ]:not(old) + label > span,
+input[name=person_is ]:not(old) + label > span{
+display : inline-block;
+width : 22px; //0.875em;
+height : 22px; //0.875em;
+margin : 0.25em 0.5em 0.25em 0.25em;
+border-radius : 22px; //0.875em;
+background : rgb(224,224,224);
+vertical-align : bottom;
+}
+input[name=condition]:not(old):checked + label > span > span,
+input[name=person_is]:not(old):checked + label > span > span{
+display : block;
+width : 0.5em;
+height : 0.5em;
+margin : 0.355em; //0.125em;
+border-radius : 0.5em;
+background : rgb(137,137,137);
+}
+.Ad-ID{
+color: #858585;
+}
+.check_individual,.check_dealer {
+    float: left;
+    left: 25px;
+    position: relative;
+    top: 8px;
+}
+
+.brand_folder{
+	display:none;
 }
 .mobile_caret {
     color: #fff;

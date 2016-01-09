@@ -227,16 +227,16 @@ HAYSTACK_CUSTOM_HIGHLIGHTER ='adjod.search_sites.SearchHighlighter'
 # LOGIN_REDIRECT_URL = '/'
 # LOGIN_ERROR_URL = '/login_error/'
 
-# AUTHENTICATION_BACKENDS = (
-#     # setting for authenticate facebook and gmail login by priya
-#     'social_auth.backends.facebook.FacebookBackend',
-#     'social_auth.backends.google.GoogleOAuthBackend',
-#     'social_auth.backends.google.GoogleOAuth2Backend',
-#     'social_auth.backends.google.GoogleBackend',
-#     'django.contrib.auth.backends.ModelBackend',
-#     'django.contrib.auth.backends.ModelBackend',
-#     'django.contrib.auth.models.AnonymousUser ',
-# )
+AUTHENTICATION_BACKENDS = (
+    # setting for authenticate facebook and gmail login by priya
+    'django.contrib.auth.backends.ModelBackend',
+    #'django.contrib.auth.models.AnonymousUser ',
+    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.google.GoogleOAuthBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'social_auth.backends.google.GoogleBackend',
+
+)
 
 # settings for storing logs
 LOGGING = {

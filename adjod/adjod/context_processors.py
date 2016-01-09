@@ -86,7 +86,7 @@ def global_activity(request):
 	language= "en"
 
 	locality = Locality.objects.all()
-	recentad=Product.objects.filter(city=city_id).order_by('-id')[:4]
+	recentad=Product.objects.filter(city=city_id, status_isactive=1).order_by('-id')[:4]
 	if not recentad:
 		recentad=Product.objects.filter().order_by('-id')[:4]
 
