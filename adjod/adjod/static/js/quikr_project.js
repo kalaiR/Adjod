@@ -947,8 +947,8 @@ $( document ).ready(function() {
           var key = theEvent.keyCode || theEvent.which;
           key = String.fromCharCode(key);
           if (key.length == 0) return;
-          // var regex = /^[0-9.\b]+$/;
-          var regex = ^\d+(?:[\.\,]\d+)?$;
+          var regex = /^[0-9.\b]+$/;
+          // var regex = ^\d+(?:[\.\,]\d+)?$;
           if (!regex.test(key)) {
               theEvent.returnValue = false;
               if (theEvent.preventDefault) theEvent.preventDefault();
