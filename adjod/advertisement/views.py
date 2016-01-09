@@ -349,14 +349,14 @@ def product_save(request):
                     print "error['exit_count']",error['exit_count']
                     raise ValidationError(error['exit_count'], 6)
 
-		except ValidationError as e:
-			messages.add_message(request, messages.ERROR, e.messages[-1])
-			redirect_path = "/postad/"
-			query_string = 'pt=%d' % e.code
-			redirect_url = format_redirect_url(redirect_path, query_string)
-			return HttpResponseRedirect(redirect_url)
-	else:
-		return HttpResponseRedirect("/postad/")
+        except ValidationError as e:
+            messages.add_message(request, messages.ERROR, e.messages[-1])
+            redirect_path = "/postad/"
+            query_string = 'pt=%d' % e.code
+            redirect_url = format_redirect_url(redirect_path, query_string)
+            return HttpResponseRedirect(redirect_url)
+    else:
+        return HttpResponseRedirect("/postad/")
 
 def freealert_save(request):
 	# try:
