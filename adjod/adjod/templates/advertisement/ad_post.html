@@ -28,7 +28,7 @@
     <div class="container center">
       <div class="inner_container">
       
-      <form method="post" action="{% if path == '/postad/' %}/product_save/{% else %}{% url update_product edit_product.id %}{% endif %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">      
+      <form method="post" action="{% if path == '/postad/' %}/addproduct/{% else %}{% url update_product edit_product.id %}{% endif %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">      
           {% csrf_token %}
      	    <div class="{% if request.REQUEST.pt %} labelError success_post {% endif %}">{% for message in messages%}{{message}}{% endfor %}</div>
        		<!-- <div class="field_title form-group" id="type_of_ad_title">
@@ -397,7 +397,7 @@
                                  <!-- <span class="hidelist1 ajax_categoryid">
                                       {{categories.id}}
                                   </span>  -->
-                                <span class="product_quantity"> {{ categories.count }}
+                                <span class="product_quantity hidden-xs"> {{ categories.count }}
                                 </span>
                               </a>
                               <ul class="hide_list hidelist1 subclick">
@@ -408,7 +408,7 @@
                                       <!-- <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="{{subcategories.id}} " name="subcategoryid"/>  --><span class="has_sub hidelist1 ajax_subid">
                                       {{subcategories.id}}
                                       </span>
-                                       <span class="product_quantity">{{subcategories.id|get_subcategoriesCount}}
+                                       <span class="product_quantity hidden-xs">{{subcategories.id|get_subcategoriesCount}}
                                         </span>
                                        </li>
                                       {% endfor %}

@@ -88,13 +88,13 @@
 
           {% if 'search' in path  %}
             <div class="result_page">
-              <i class="fa fa-angle-left left_angle"></i>
+              <a href="/"><i class="fa fa-angle-left left_angle"></i></a>
               <i class="fa fa-bell bell_font"></i>
              </div><!--result_page-->
           {% endif %}
           {% if 'ads' in path  %}
             <div class="detail_page">
-              <i class="fa fa-angle-left angle_icon"> <span class="detail_list">List</span></i>
+               <a href="/"><i class="fa fa-angle-left angle_icon"> <span class="detail_list">List</span></i></a>
               <div class="detail_icon">
                   <i class="fa fa-heart heart_font"></i>
                     <div class="share hidden-lg">
@@ -110,11 +110,15 @@
           </div> <!-- navbar header -->
           {% if 'postad' in path  %}
             <div class="postad_page">
-              <a href="/"><i class="fa fa-angle-left left_angle"></i></a>
-
-             </div><!--postad_page-->
+              <a href="/"><i class="fa fa-angle-left left_angle"></i>
+              <span class="post_ad_first hidden-lg">Post an Ad in just 30 seconds</span></a>
+            </div><!--postad_page-->
           {% endif %}
-
+          {% if 'update_profile' in path %}
+          <div class="user_mgnt_page">
+            <a href="/"><i class="fa fa-angle-left left_angle"></i></a>
+          </div><!--user_mgnt_page-->
+          {% endif %}
        <!-- CHANGES MADE BY RAMYA FOR USER PROFILE -->
           <div id="navbar" class="collapse navbar-collapse">
               <a class="quikr_logo fl" href="/"> </a>
@@ -288,7 +292,7 @@
         {% endif %}
            {%  if 'postad' in path %}
             <div class="container">
-              <div class="post_ad_first">Post an Ad in just 30 seconds</div>
+              <div class="post_ad_first hidden-xs">Post an Ad in just 30 seconds</div>
                 <div class="post_ad_second">DO NOT post multiple ads for the same items or service. All duplicate, spam and wrongly categorized ads will be deleted.</div>
             </div>
           {% endif %}

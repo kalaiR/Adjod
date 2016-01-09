@@ -235,7 +235,7 @@
                 {% for related_products in related_product|slice:":6" %}
                 <li class="product_list1">
                    <div class="product_images1">
-                      <a href="{% url product_detail related_products.object.id %}" class="">              
+                      <a href="#" class="">              
                           {% if related_products.object.photos = '' %}
                           <img src="{{STATIC_URL}}img/bg-img1.png">
                           {% else %}
@@ -323,7 +323,7 @@
                         <div class="details">
                             <div class="product_name1_mobile">  
                               <div class="tran_bg">
-                                <a href="" class="spans"> {{related_products.object.title}}</a>
+                                <a href="" class="spans product_hover"> {{related_products.object.title}}</a>
                                   <div class="additional_details_mobile">
                                     <h3>$ {{related_products.object.price}}</h3>
                                     <a href="" class="btn btn-default contact_button visible-lg">Contact</a>
