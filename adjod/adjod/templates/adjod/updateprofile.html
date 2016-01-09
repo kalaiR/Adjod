@@ -195,16 +195,44 @@
               </div> <!-- form-group --> 
 
               <div class="field_div form-group">
-              {% if userprofile.user_age %}
+                  <div class="city_select fl">
+                      <div class="post_city">
+                        <p>Select city *</p>
+                        <i class="city_fa fa fa-caret-down">   
+                        </i>
+                      </div> <!-- post_city -->
+                      <select>
+                      <option value="Select City">Select City</option>
+                      {% for cityitem in current_country_cities %} 
+                      <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
+                      {% endfor %}
+                      </select>
+                      <label class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
+                  </div> <!-- city_select -->
+                  <div class="locality_select fl">
+                      <div class="post_city profile_city">
+                        <p>Select locality *</p>
+                        <i class="city_fa fa fa-caret-down">     
+                        </i>
+                      </div> <!-- post_city -->
+                      <select>
+                      <option value=""></option>   
+                      </select>
+                      <label class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
+                  </div> <!-- locality_select -->
+                  <div class="clear_both"></div>   
+                  <div class="clear_both"></div>   
+            </div> <!-- form-group -->
+             {% if userprofile.user_age %}
                 <textarea class="address_profile" maxlength="500" name="user_address" placeholder="Address" value="">{{userprofile.user_address}}</textarea>
               {% else %}  
               <textarea class="address_profile" maxlength="500" name="user_address" placeholder="Address" value=""></textarea>
               {% endif %}  
                 <label class="labelError" style="display:none;">Enter your address</label>
               </div><!--form-group-->
-
-              <div class="form-group">
-                <div class="field_title form-group">
+            
+            <div class="form-group">
+               <div class="field_title form-group">
                   <span class="title">You are</span>
                  <!--  <span class="mandatory">*</span> -->
                 </div> <!-- form-group -->

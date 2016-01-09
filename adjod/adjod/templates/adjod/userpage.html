@@ -239,7 +239,9 @@
                         </li>
                         <li>
                             <div class="form1">
-                              <input type="text" class="form-control inputs mobile" name="mobilenumber" id="mobilenumber">
+                              <input type="tel" class="form-control inputs mobile" name="mobilenumber" id="mobilenumber">
+                              <!-- <span id="valid-msg" class="hide">✓ Valid</span> -->
+                              <span id="error-msg" class="hide">Invalid number</span>
                              </div>
                              <span id="mobilenumber_required" class="labelError" style="font-size:12px;display:none;">Please enter the mobile number</span>
                         </li>
@@ -267,7 +269,7 @@
                 <li class="mobile_product_lists" >
                    <div class="mobile_product_image">
                    {% endif %}
-                    <p class="{% if recentads.premium_plan_id = None %} premium-img {% elif recentads.premium_plan_id = 1 %} premium-img1 {% elif recentads.premium_plan_id = 2 %} premium-img2 {% elif recentads.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>
+                    <p class="{% if recentads.premium_plan_id = None %} premium-img {% elif recentads.premium_plan_id = 1 %} premium-img1_mobile {% elif recentads.premium_plan_id = 2 %} premium-img2_mobile {% elif recentads.premium_plan_id = 3 %} premium-img3_mobile {% endif%} "></p>
                     <a href="" class="">
                       {% if recentads.photos = '' %}
                       <img src="{{MEDIA_URL}}img/bg-img1.png">

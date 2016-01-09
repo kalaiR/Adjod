@@ -27,7 +27,7 @@
 
     <div class="container center">
       <div class="inner_container">
-      <form method="post" action="{% if path == '/postad/' %}{% url product_save %}{% else %}{% url update_product edit_product.id %}{% endif %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">
+         <form method="post" action="{% if path == '/postad/' %}/addproduct/{% else %}{% url update_product edit_product.id %}{% endif %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">      
           {% csrf_token %}
      	    <!--div class="{% if request.REQUEST.pt %} labelError success_post {% endif %}">{# for message in messages%}{{message}}{% endfor #}</div-->
        		<!-- <div class="field_title form-group" id="type_of_ad_title">
@@ -130,7 +130,7 @@
      		  <div class="field_div form-group" id="you_are_content">
               <input type="radio" name="you_are_radio" id="individual" checked="checked" value="individual"{% if edit_product.you_are == 'individual' %} checked="checked"{% endif %}>
               <label for="individual" class="you_are"><span><span></span></span>Individual</label>
-         			<input type="radio" name="you_are_radio" id="dealer" value="dealer"{% if edit_product.you_are == 'delear' %} checked="checked"{% endif %}>
+              <input type="radio" name="you_are_radio" id="dealer" value="dealer"{% if edit_product.you_are == 'delear' %} checked="checked"{% endif %}>
               <label for="dealer" class="you_are"><span><span></span></span>Delear</label>
               <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>
               <div class="clear_both"></div>
@@ -159,7 +159,9 @@
             {% else %}
             <input class="your_name" name="your_name" id="your_name" placeholder="Your name"/>
             {% endif %}
-            <input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" type="tel"  onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
+            <input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" type="tel" />
+            <!-- <span id="valid-msg" class="hide mgs">Valid</span> -->
+            <label id="error-msg" class="hide mgs">Invalid number</label>
           </div> <!-- name_div -->
 
          	<div class="field_div form-group" id="email_div">
@@ -303,6 +305,7 @@
 
          	<div class="field_div form-group privacy_div" id="terms_of_use_div">
          		<input type="checkbox" name="terms_of_use" id="terms_of_use" />
+
          		<span class="privacy_text">By clicking "Post", you agree to our <a>Terms of Use</a> & <a>Privacy Policy</a></span>
             <label id="terms_required" class="labelError choose_error" style="display:none;">Please click the checkbox</label>
          	</div> <!-- terms_of_use_div -->
@@ -399,7 +402,7 @@
                                  <!-- <span class="hidelist1 ajax_categoryid">
                                       {{categories.id}}
                                   </span>  -->
-                                <span class="product_quantity"> {{ categories.count }}
+                                <span class="product_quantity hidden-xs"> {{ categories.count }}
                                 </span>
                               </a>
                               <ul class="hide_list hidelist1 subclick">
@@ -410,7 +413,7 @@
                                       <!-- <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="{{subcategories.id}} " name="subcategoryid"/>  --><span class="has_sub hidelist1 ajax_subid">
                                       {{subcategories.id}}
                                       </span>
-                                       <span class="product_quantity">{{subcategories.id|get_subcategoriesCount}}
+                                       <span class="product_quantity hidden-xs">{{subcategories.id|get_subcategoriesCount}}
                                         </span>
                                        </li>
                                       {% endfor %}
