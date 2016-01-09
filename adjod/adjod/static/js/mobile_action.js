@@ -7,10 +7,11 @@ $( document ).ready(function() {
     });
 
     $('.option_value').hide();
-    $('.footer_lang').click(function(){
+    $('.mobile_caret').click(function(){
       	$(".option_value").slideUp();
     });
 
+    
     $('.alert_btn').click(function(){
 	    $('.popup_fade').show();
 	    $('.free_content, .close_btn').show();
