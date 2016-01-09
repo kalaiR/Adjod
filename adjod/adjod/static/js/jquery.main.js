@@ -1338,8 +1338,9 @@ $( document ).ready(function() {
         // alert("if");  
         main_append_dialog( recv.data.user.uid, recv.data.user.user, recv.data.product_id);
         // append_previous_chat_message( recv.data.user.uid, recv.data.user.user, recv.data.product_id, recv.data.user.chat_message)
-        main_set_dialog( recv.data.user.uid, recv.data.user.user, recv.data.product_id);
         append_previous_chat_message(recv.data.user.user,user_name,recv.data.product_id);
+        main_set_dialog( recv.data.user.uid, recv.data.user.user, recv.data.product_id);
+        
         }
         // alert("after main_set_dialog");
 
