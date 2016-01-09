@@ -55,7 +55,7 @@ function checkStrength(password){
       if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/))  strength += 1
       //if it has two special characters, increase strength value
       if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,",%,&,@,#,$,^,*,?,_,~])/)) strength += 1
-      
+
       //now we have calculated strength value, we can return messages
       //if value is less than 2
       if (strength < 2 ) {
@@ -148,7 +148,7 @@ function fill_localities(city_id) {
       } else {
         $.getJSON("/localities_for_city/", {city_id: city_id},
           function(ret, textStatus) {
-            var options = '';      
+            var options = '';
             $('#select_post_locality').text("Select Locality");
             options +='<option>Select Locality</option>';
             for (var i in ret) {
@@ -226,14 +226,15 @@ $( document ).ready(function() {
       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
       return this;
    }
-      
+
     sign_in_center_align();
     sign_up_center_align();
     reset_div_center_align();
     subscribe_center_align();
+    post_ad_center_align();
 
     // subscription popup
-   
+
     $(".link_tooltip").click(function(){
         subscribe_center_align();
         $('.popup_fade').show();
@@ -269,7 +270,7 @@ $( document ).ready(function() {
     $(".My_ads").click(function(){
       $(".update_ads").show();
       $(".profile_text").hide();
-    });     
+    });
     $(".My_profile").click(function(){
       $(".profile_text").show();
       $(".update_ads").hide();
@@ -302,7 +303,7 @@ $( document ).ready(function() {
     });
     $('.cancel_btn').click(function(){
         $('.popup_fade').hide();
-        $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile,.subscription_popup').hide();
+        $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile,.subscription_popup,.postad_success_popup').hide();
         document.body.style.overflow = 'auto';
     });
     // Forgot Password Popup
@@ -633,7 +634,7 @@ $( document ).ready(function() {
         }
         // Dropdown locality
         if (($('#select_post_locality').text() == "Select locality *") || ($('#select_post_locality').text() == "Select Locality")) {
-          $('.select_container_locality').addClass("error_input_field");  
+          $('.select_container_locality').addClass("error_input_field");
           $('.select_container_locality').find('.labelError').show();
         }
         else{
@@ -661,7 +662,7 @@ $( document ).ready(function() {
           $('form[name="post_ad"]').submit();
         }
     });
-    
+
     //============= FOR SET PREMIUM PLAN AMOUNT ===========
     $('input[name=premium_plan]').click(function(){
           var premium_id=this.id;
@@ -776,19 +777,19 @@ $( document ).ready(function() {
     //     $(".left_sidead").show();
     //     $(".leftslide1").hide();
     // });
-    
+
 
 
     $('.signup_tooltip').hide();
     $(".signup_confirm_button").on('hover', function(){
-    if ($(".confirm").prop('checked')==false){ 
+    if ($(".confirm").prop('checked')==false){
         $('.signup_tooltip').show();
     }
     else{
          $('.signup_tooltip').hide();
        }
     });
-    
+
     $(".user_dropdown").hide();
     $(".caret_user").click(function(){
         $('.user_dropdown').toggle();
@@ -801,7 +802,7 @@ $( document ).ready(function() {
     });
 
     $('input.checkbox_premium').on('change', function(){
-        $('input.checkbox_premium').not(this).prop('checked', false); 
+        $('input.checkbox_premium').not(this).prop('checked', false);
     });
 
 });

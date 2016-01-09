@@ -12,10 +12,10 @@
         scrollTop: $("#premium_ad").offset().top - 70
     }, 2000);
     $('.choose_plan').show();
-    (function blink() { 
-    $('.choose_plan').fadeOut(500).fadeIn(500, blink); 
+    (function blink() {
+    $('.choose_plan').fadeOut(500).fadeIn(500, blink);
     })();
-   
+
   }
   });
 </script>
@@ -24,13 +24,13 @@
     <!--======================
       	 Post form content
     ========================-->
-     
+
     <div class="container center">
       <div class="inner_container">
-      
-      <form method="post" action="{% if path == '/postad/' %}/product_save/{% else %}{% url update_product edit_product.id %}{% endif %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">      
+
+      <form method="post" action="{% if path == '/postad/' %}{% url product_save %}{% else %}{% url update_product edit_product.id %}{% endif %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">
           {% csrf_token %}
-     	    <div class="{% if request.REQUEST.pt %} labelError success_post {% endif %}">{% for message in messages%}{{message}}{% endfor %}</div>
+     	    <!--div class="{% if request.REQUEST.pt %} labelError success_post {% endif %}">{# for message in messages%}{{message}}{% endfor #}</div-->
        		<!-- <div class="field_title form-group" id="type_of_ad_title">
        				<span class="title">Type of ad</span>
        				<span class="mandatory">*</span>
@@ -49,22 +49,22 @@
                 <input type="hidden" name="category_name" id="category_name" value="{% if edit_product.category%}{{edit_product.category.id}}{%endif%}">
                 <input type="hidden" name="subcategory_name" id="subcategory_name" value="{% if edit_product.subcategory%}{{edit_product.subcategory.id}}{%endif%}">
                 <input type="hidden" name="brand_name" id="brand_name" value="">
-              </div> 
-              
-              <input type="text" class="choose_category" name="category1" id="category" placeholder="Choose a category" value="{% if edit_product.category and edit_product.subcategory  %}{{edit_product.category}}>>{{edit_product.subcategory}}{% endif %}" disabled="disabled" />             
+              </div>
+
+              <input type="text" class="choose_category" name="category1" id="category" placeholder="Choose a category" value="{% if edit_product.category and edit_product.subcategory  %}{{edit_product.category}}>>{{edit_product.subcategory}}{% endif %}" disabled="disabled" />
            		<a class="btn choose_button">Choose</a>
            		<label for="category" id="category_required" class="labelError" style="display:none;">Please choose category, Subcategory and Brand.</label>
               <div class="clear_both"></div>
          	</div> <!-- category_div -->
 
-         	<div class="field_div form-group" id="ad_title_div">         
+         	<div class="field_div form-group" id="ad_title_div">
          		<input type="text" class="ad_title" maxlength="70" onchange="updateCountdownTitle()" onkeyup="updateCountdownTitle()" name="ad_title" id="ad_title" value="{% if edit_product.title  %}{{edit_product.title}}{% endif %}" placeholder="Give a title to your Ad*"/><br/>
          		<div class="char_left"><span id="ad_title_count">70</span> characters left</div>
          		<label id="ad_title_required" class="labelError" style="display:none;">Please enter title to your ad.</label>
          	</div> <!-- ad_title_div -->
 
-          <div style="display: block;" class="field_div form-group" id="price_div">          
-            <input type="text" class="your_price input" name="your_price" id="your_price" value="{% if edit_product.price  %}{{edit_product.price}}{% endif %}" placeholder="Price" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"/>    
+          <div style="display: block;" class="field_div form-group" id="price_div">
+            <input type="text" class="your_price input" name="your_price" id="your_price" value="{% if edit_product.price  %}{{edit_product.price}}{% endif %}" placeholder="Price" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"/>
 
             <input type="text" class="your_year" name="your_year" id="your_year" placeholder="Year" value="{% if edit_product.ad_year%}{{edit_product.ad_year}}{% endif %}" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" />
 
@@ -72,7 +72,7 @@
             <label id="price_required" class="labelError" style="display:none;">Please enter price.</label>
           </div>
 
-         	<div class="field_div form-group" id="description_div">          
+         	<div class="field_div form-group" id="description_div">
          		<textarea class="description" maxlength="500" onchange="updateCountdownDesc()" onkeyup="updateCountdownDesc()" name="description" id="your_description" placeholder="Give description to your Ad*" value="">{% if edit_product.description %}{{edit_product.description}}{% endif %}</textarea>
           	<br />
          		<div class="char_left"><span id="desc_count">500</span> characters left</div>
@@ -83,19 +83,19 @@
             <span class="title upload_txt">Upload Photos</span>
           </div> <!-- field_title -->
 
-          <div class="field_div form-group upload_image" id="upload_photos_div">              
-            {% if pic %}            
-               {% for pics in pic %}  
-               <input type='file' id='photos' name='photos' class="poster" value="{{MEDIA_URL}}{{pics}}" />               
+          <div class="field_div form-group upload_image" id="upload_photos_div">
+            {% if pic %}
+               {% for pics in pic %}
+               <input type='file' id='photos' name='photos' class="poster" value="{{MEDIA_URL}}{{pics}}" />
                 <img id="uploaded_img_{{forloop.counter0}}" class="after_save" alt="" src="{{MEDIA_URL}}{{pics}}" style="width: 92px; height: 92px;">
-                <span class="photo_labelError"></span>         
-              {% endfor %}              
+                <span class="photo_labelError"></span>
+              {% endfor %}
             {% else %}
               <input type='file' id='photos' name='photos[]' multiple='multiple' class="poster" value="" />
-              <span class="photo_labelError"></span>          
-            {% endif %}  
-                             
-            <div class="photos_text" >  
+              <span class="photo_labelError"></span>
+            {% endif %}
+
+            <div class="photos_text" >
               Ads with photos sell faster
             </div> <!-- photos_text -->
             <span class="photo_labelError"></span>
@@ -111,8 +111,8 @@
           </div> <!- upload_photos_div -> -->
 
           <div class="field_div form-group" id="upload_videos_div">
-            <span class="title upload_txt">Upload Videos</span>            
-              <textarea class="videos" name="video_url" id="videos1" Placeholder="Embed online video URL (Ex: http://youtube.com/sample)">{% if edit_product.video %}{{edit_product.video}}{% endif %}</textarea>       
+            <span class="title upload_txt">Upload Videos</span>
+              <textarea class="videos" name="video_url" id="videos1" Placeholder="Embed online video URL (Ex: http://youtube.com/sample)">{% if edit_product.video %}{{edit_product.video}}{% endif %}</textarea>
           </div> <!-- description_div -->
           <!-- <hr noshade="noshade" class="photos_line" /> -->
 
@@ -127,16 +127,16 @@
          			<span class="title">You are</span>
          			<span class="mandatory">*</span>
      		  </div> <!-- you_are_title -->
-          
+
      		  <div class="field_div form-group" id="you_are_content">
               <input type="radio" name="you_are_radio" id="individual" value="{{edit_product.you_are}}" {% if edit_product.you_are == 'individual' %} checked="checked"{% else %}"individual"{% endif %}>
               <label for="individual" class="you_are"><span><span></span></span>Individual</label>
          			<input type="radio" name="you_are_radio" id="dealer" value="{{edit_product.you_are}}"  {% if edit_product.you_are == 'delear' %} checked="checked"{% else %}"dealer"{% endif %}>
               <label for="dealer" class="you_are"><span><span></span></span>Delear</label>
-              <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>  
+              <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>
               <div class="clear_both"></div>
           </div> <!-- type_of_ad_content -->
-         
+
             <!-- <div class="field_div form-group" id="you_are_content">
                 <input type="radio" name="you_are_radio" id="individual" value="individual">
                 <label for="individual" class="you_are"><span><span></span></span>Individual</label>
@@ -145,7 +145,7 @@
                 <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>
                 <div class="clear_both"></div>
             </div>  --><!-- type_of_ad_content -->
-         
+
 
 
           <!-- <div class="field_div form-group" id="name_div">
@@ -176,7 +176,7 @@
 
 
           <div class="field_div form-group" id="city_div">
-       <!-- Comment for future --> 
+       <!-- Comment for future -->
              <!--  <div class="select_container_city fl" id="select_container_city">
                   <div class="select_div">
                   <p id="select_post_city">Select city *</p>
@@ -190,7 +190,7 @@
                 {% endfor %}
                 </select><!-select_post_city->
                 <label id="city_required" class="labelError" style="display:none;">Please Choose city</label>
-            </div> <!-select_container_city-> -->            
+            </div> <!-select_container_city-> -->
               <div class="select_container_city fl" id="select_container_city">
                   <div class="select_div select_disable">
                     <p id="select_post_city">{% if edit_product.city %}{{edit_product.city}}{% else %}{{city}}{% endif %}</p>
@@ -201,10 +201,10 @@
                   <option value="{{ city_id }}">{{ city }}</option>
                   </select>
                   <label id="city_required" class="labelError" style="display:none;">Please Choose city</label>
-              </div>           
+              </div>
             <input type="hidden" name="your_city" value="{{city_id}}">
 
-         
+
             <div class="select_container_locality fl" id="select_container_locality">
                 <div class="select_div">
                   <p id="select_post_locality"> {% if edit_product.locality %}{{edit_product.locality}}{% else %}Select locality *{% endif %}</p>
@@ -217,7 +217,7 @@
                 {% endfor %}
                 </select>
                 <label id="locality_required" class="labelError choose_error" style="display:none;">Please Choose locality</label>
-            </div> <!-- select_container_city -->          
+            </div> <!-- select_container_city -->
             <div class="clear_both"></div>
           </div> <!-- city_div -->
 
@@ -237,7 +237,7 @@
         					<div id="premium_col_1" class="col-md-4">
           						<span class="premium_row_1">Urgent Ad</span>
           						<span class="premium_row_2"><a href="#" class="urgent_ad">View Example</a></span>
-                      <div> 
+                      <div>
                         <code class="close_btn cancel_btn"> </code>
                         <img src="../static/img/urgent_ad.png" class="urgentad_popup">
                       </div>
@@ -251,7 +251,7 @@
         					<div id="premium_col_2" class="col-md-4">
           						<span class="premium_row_1">Top of the page Ad</span>
           						<span class="premium_row_2"><a href="#" class="premium_ad">View Example</a></span>
-                      <div> 
+                      <div>
                         <code class="close_btn cancel_btn"> </code>
                         <img src="../static/img/premium_ad.png" class="premium_ad_popup">
                       </div>
@@ -264,7 +264,7 @@
       					<div id="premium_col_3" class="col-md-4">
           						<span class="premium_row_1">Top of the page Ad + Urgent Ad</span>
           						<span class="premium_row_2"><a href="#" class="premium_urgent_ad">View Example</a></span>
-                      <div> 
+                      <div>
                         <code class="close_btn cancel_btn"> </code>
                         <img src="../static/img/premium_urgent_ad.png" class="premium_urgent_ad_popup">
                       </div>

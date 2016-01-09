@@ -53,10 +53,9 @@
                <span class="sortclass">{% trans "Sort by" %}</span>
               <div class="choose_select sorting_custom_select">
                           <div class="choose">
-                            <p id="prov_custom_sort_value_act">{% trans "select" %}</p>
+                            <p id="prov_custom_sort_value_act"></p>
                             <i class="fa fa-caret-down new_icon"></i>
                           <select class="prov_custom_sort_value_act option_color" id ="sorteddata"  name="{{form.sorteddata.html_name}}" value="{{form.sorteddata.value|default:''}}">
-                            <option value="">{% trans "select" %}</option>
                             <option value="">{% trans "None" %}</option>
                             <!-- <option value="createddate">{% trans "Created Date" %}</option> -->
                             <!-- <option value="onlineusers">{% trans  "online users" %}</option> -->
@@ -225,7 +224,7 @@
                 <li>
                   <div id="richmedia_6">
                     <img width="745" height="90" border="0" src="../media/banners/hp_ad.png">
-                  
+
                 </div>
                 </li>
                 {% endif %}
@@ -234,7 +233,7 @@
                 <li>
                   <div id="richmedia_6">
                   <img width="745" height="90" border="0" src="../media/banners/hp_ad.png">
-                   
+
                 </div>
                 </li>
                 {% endif %}
@@ -312,33 +311,33 @@
               </div>
                <form method="post" action="{% url free_alert %}" name="alert_button">
                   {% csrf_token %}
-                  
+
                   <ul class="enquiry_form">
                         <li>
                           <div class="select_container_category" id="select_container_category">
                             <div class="select_div">
                               <p id="select_post_category">Select Category</p>
-                              <i class="city_fa fa fa-caret-down">   
+                              <i class="city_fa fa fa-caret-down">
                               </i>
                             </div> <!-- select_div -->
                             <select id="id_category" class="select_post_category" name="your_category">
                             <option value="Select Category">Select Category</option>
-                            {% for categories in category %} 
+                            {% for categories in category %}
                             <option value="{{ categories.id }}">{{ categories.name }}</option>
                             {% endfor %}
-                            </select>   
+                            </select>
                           </div> <!-- select_container_city -->
                           <span id="id_category_required" class="labelError" style="font-size:12px;display:none;">Please Choose category</span>
                         </li>
-                        <li>  
+                        <li>
                           <div class="select_container_subcategory" id="select_container_subcategory">
                             <div class="select_div">
                               <p id="select_post_subcategory">Select SubCategory</p>
-                              <i class="city_fa fa fa-caret-down">     
+                              <i class="city_fa fa fa-caret-down">
                               </i>
                             </div> <!-- select_div -->
                             <select id="id_subcategory" class="select_post_subcategory" name="your_subcategory">
-                            <option value=""></option> 
+                            <option value=""></option>
                             </select>
                            </div> <!-- select_container_city -->
                            <span id="id_subcategory_required" class="labelError" style="font-size:12px;display:none;">Please Choose sub category</span>
@@ -347,10 +346,10 @@
                           <div class="select_container_brand" id="select_container_brand">
                             <div class="select_div">
                               <p id="select_post_brand">Select Brand</p>
-                              <i class="city_fa fa fa-caret-down">                    
+                              <i class="city_fa fa fa-caret-down">
                               </i>
                             </div> <!-- select_div -->
-                            <select id="id_brand" class="select_post_brand" name="your_brand">  
+                            <select id="id_brand" class="select_post_brand" name="your_brand">
                             <option value=""></option>
                             </select>
                           </div> <!-- select_container_city -->
@@ -360,27 +359,27 @@
                           <div class="select_container_city" id="select_container_city">
                             <div class="select_div">
                               <p id="select_post_city">Select City</p>
-                              <i class="city_fa fa fa-caret-down">                    
+                              <i class="city_fa fa fa-caret-down">
                               </i>
                             </div> <!-- select_div -->
                             <select id="id_city" class="select_post_city" name="your_city">
                               <option value="Select City">Select City</option>
-                              {% for cityitem in current_country_cities %} 
+                              {% for cityitem in current_country_cities %}
                               <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
                               {% endfor %}
-                            </select>   
+                            </select>
                           </div> <!-- select_container_city -->
                            <span id="id_city_required" class="labelError" style="font-size:12px;display:none;">Please Choose city</span>
                         </li>
                         <li>
                           <div class="form1">
-                            <input type="text" class="form-control inputs" value="" placeholder="Your email" name="email" id="email">    
+                            <input type="text" class="form-control inputs" value="" placeholder="Your email" name="email" id="email">
                           </div>
                            <span id="email_required" class="email_labelError" style="font-size:12px;display:none;">Please enter email address</span>
                         </li>
                         <li>
                             <div class="form1">
-                              <input type="text" class="form-control inputs mobile" name="mobilenumber" id="mobilenumber">   
+                              <input type="text" class="form-control inputs mobile" name="mobilenumber" id="mobilenumber">
                              </div>
                              <span id="mobilenumber_required" class="labelError" style="font-size:12px;display:none;">Please enter the mobile number</span>
                         </li>
@@ -390,9 +389,9 @@
                   <!-- <button type="submit" class="btn btn-lg alert_button">Create alert</button> -->
                     <input type="submit" value="Create alert" class="btn btn-lg alert_button" id="alert_button"/>
                   </div>
-                </form>     
+                </form>
           </div> <!-- col-md-5 -->
-      </div> 
+      </div>
       </div> <!--col-md-7 -->
       <div class="col-md-5">
         <h4 class="sell"><i class="fa  fa-shield"></i> How to sell safely ?</h4>
