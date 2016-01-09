@@ -460,7 +460,8 @@ def user_manage(request):
         else:
             ctx={'my_products':my_products, 'userprofile':userprofile}
         return render_to_response('adjod/updateprofile.html', ctx, context_instance=RequestContext(request))
-
+    else:
+        return HttpResponseRedirect('/')
 def edit_postad_detail(request , pk):
     print "view_postad_detail"
     edit_product = Product.objects.get(pk=int(pk))
