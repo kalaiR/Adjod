@@ -86,7 +86,7 @@ class PremiumPriceInfoAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'userprofile','category', 'subcategory', 'adtype', 'title', 'photos', 'thumbnail', 'imagecount','condition', 'price',
-            'ad_brand','ad_year','city', 'locality', 'description', 'you_are','you_name', 'you_email','you_phone','ispremium','premium_plan','created_date','modified_date')
+            'ad_brand','ad_year','city', 'locality', 'description', 'you_are','you_name', 'you_email','you_phone','ispremium','premium_plan','created_date','modified_date','status_isactive')
     list_filter = ['category', 'subcategory','ispremium','premium_plan']
     search_fields = ['^userprofile__username']
     readonly_fields =['city']
@@ -107,6 +107,10 @@ class ProductAdmin(admin.ModelAdmin):
 
       ('Date', {
           'fields': ['created_date', 'modified_date']
+      }),
+
+      ('Active Status', {
+          'fields': ['status_isactive']
       }),
     ]
     list_per_page = 50

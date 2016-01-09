@@ -113,7 +113,6 @@ MIDDLEWARE_CLASSES = (
 
 # settings for social auth redirect for home by priya
 TEMPLATE_CONTEXT_PROCESSORS += (
-
      'django.core.context_processors.request',
      'django.core.context_processors.i18n',
      'django.core.context_processors.csrf',

@@ -23,9 +23,9 @@
               <div class="product-image visible-lg">
                     <div class="upperimg">
                       {% if largephoto = '' %}
-                          <img src="{{STATIC_URL}}img/bg-img1.png">
+                          <img  src="{{STATIC_URL}}img/bg-img1.png">
                       {% else %}
-                        <img src="{{ MEDIA_URL }}{{ largephoto }}">
+                        <img  src="{{ MEDIA_URL }}{{ largephoto }}">
                       {% endif %}
                     </div><!--upperimg-->
                     <div class="thumb_holder">
@@ -55,7 +55,7 @@
     <div class="product-image hidden-lg">
                     <div class="upperimg">
                       {% if largephoto = '' %}
-                          <img src="{{MEDIA_URL}}img/bg-img1.png">
+                          <img src="{{STATIC_URL}}img/bg-img1.png">
                       {% else %}
                         <img src="{{ MEDIA_URL }}{{ largephoto }}">
                       {% endif %}
@@ -64,7 +64,7 @@
                           {%for photo in photos %}
                             <div class="thumbs nb col-md-2">
                                {% if photo = '' %}
-                               <img src="{{MEDIA_URL}}img/bg-img1.png">
+                               <img src="{{STATIC_URL}}img/bg-img1.png">
                                {% else %}
                               <img src="{{ MEDIA_URL }}{{ photo }}">
                               {% endif %}
@@ -97,6 +97,7 @@
         <div class="col-md-6 first-column">
               <div class="column-height">
                 <div class="other-buttons visible-lg" id="fb-root">
+
                 <span href="" class="btn btn-default share_button" onclick="fbshare()"> Share
                 <i class="fa fa-share-alt"></i></span>
                 <!-- <span href="" class="btn btn-default favourite_button"> Add as favourite
@@ -246,7 +247,7 @@
                 {% for related_products in related_product|slice:":6" %}
                 <li class="product_list1">
                    <div class="product_images1">
-                      <a href="{% url product_detail related_products.object.id %}" class="">
+                      <a href="/ads/{{related_products.object.id}}/" class="">
                           {% if related_products.object.photos = '' %}
                           <img src="{{STATIC_URL}}img/bg-img1.png">
                           {% else %}
@@ -303,8 +304,19 @@
 
   <div class="col-md-2 column-ad visible-lg">
       <div class="adv_part">
-          <img src="{{MEDIA_URL}}banners/car_banner.jpg" /><br><br>
-          <img src="{{MEDIA_URL}}banners/ac_banner.png" style="height:160px;width:162px;"/>
+          {% for banners in banner|get_banner %}
+            {% if banners.bannerplan_id == 6 %}
+              <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad1" />
+            {% endif %}
+          {% endfor %}
+          <br>
+          <br>
+          {% for banners in banner|get_banner %}
+            {% if banners.bannerplan_id == 7 %}
+              <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad1" style="height:160px;width:162px;" />
+            {% endif %}
+          {% endfor %}
+
       </div>
   </div>
 

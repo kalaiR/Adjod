@@ -6,7 +6,7 @@
    ===========================-->
 <script type="text/javascript">
   $(document).ready(function(){
-     $('.choose_plan').hide();
+    // $('.choose_plan').hide();
     if (window.location.href.indexOf("?plan=") >= 0) {
       $('html, body').animate({
         scrollTop: $("#premium_ad").offset().top - 70
@@ -27,7 +27,6 @@
 
     <div class="container center">
       <div class="inner_container">
-
       <form method="post" action="{% if path == '/postad/' %}{% url product_save %}{% else %}{% url update_product edit_product.id %}{% endif %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">
           {% csrf_token %}
      	    <!--div class="{% if request.REQUEST.pt %} labelError success_post {% endif %}">{# for message in messages%}{{message}}{% endfor #}</div-->
@@ -82,7 +81,6 @@
          	<div class="field_title form-group">
             <span class="title upload_txt">Upload Photos</span>
           </div> <!-- field_title -->
-
           <div class="field_div form-group upload_image" id="upload_photos_div">
             {% if pic %}
                {% for pics in pic %}
@@ -93,10 +91,11 @@
             {% else %}
               <input type='file' id='photos' name='photos[]' multiple='multiple' class="poster" value="" />
               <span class="photo_labelError"></span>
+              <span class="error_photo" style="color:red; display:none;">Invalid file type</span>
             {% endif %}
 
             <div class="photos_text" >
-              Ads with photos sell faster
+              Ads with photos sell faster(Upload only png, jpg, jpeg, gif)
             </div> <!-- photos_text -->
             <span class="photo_labelError"></span>
         </div> <!-- upload_photos_div -->
@@ -225,7 +224,7 @@
            		<input type="checkbox" name="privacy" id="privacy" />
            		<span class="privacy_text">Maintain my Privacy (Buyers will first contact you via reply, you can decide when to reveal your phone number to them)</span>
            	</div> <!-- privacy -->
-            <div class="choose_plan"><h2>Please Select Your Plan</h2></div>
+            <div class="choose_plan">Please Select Your Plan</div>
 
            	<div class="field_div form-group" id="premium_ad">
              		<div class="row premium_row">
@@ -245,7 +244,7 @@
 
           						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan1" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
                       <span class="premium_row_4 select_premium">
-                        <input type="checkbox" id="premium_plan1" name="premium_plan" class="check_disable checkbox_premium" value="9.99"><span class="premium_new">Select</span>
+                        <input type="checkbox" id="premium_plan1" class="check_disable checkbox_premium" value="9.99"><span class="premium_new">Select</span>
                       </span>
       					  </div> <!-- premium_col_1 -->
         					<div id="premium_col_2" class="col-md-4">
@@ -258,7 +257,7 @@
           						<span class="premium_row_3">S$ 14.99 per ad</a></span>
           						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan2" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
                       <span class="premium_row_4 select_premium">
-                      <input type="checkbox" id="premium_plan2" name="premium_plan" class="check_disable checkbox_premium"><span class="premium_new" value="14.99">Select</span>
+                      <input type="checkbox" id="premium_plan2" class="check_disable checkbox_premium" value="14.99"><span class="premium_new">Select</span>
                       </span>
       					</div> <!-- premium_col_2 -->
       					<div id="premium_col_3" class="col-md-4">
@@ -266,14 +265,15 @@
           						<span class="premium_row_2"><a href="#" class="premium_urgent_ad">View Example</a></span>
                       <div>
                         <code class="close_btn cancel_btn"> </code>
-                        <img src="../static/img/premium_urgent_ad.png" class="premium_urgent_ad_popup">
+                        <img src="../static/img/premium_urgent_ad.png" class="premium_urgent_ad_popup ">
                       </div>
           						<span class="premium_row_3">S$ 19.99 per ad</a></span>
           						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan3" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
                       <span class="premium_row_4 select_premium">
-                      <input type="checkbox" id="premium_plan3" name="premium_plan" class="check_disable checkbox_premium" value="19.99"><span class="premium_new">Select</span>
+                      <input type="checkbox" id="premium_plan3" class="check_disable checkbox_premium" value="19.99"><span class="premium_new">Select</span>
                       </span>
     					   </div> <!-- premium_col_3 -->
+                 <input type="hidden" class="premium_plan" name="premium_plan" value="">
   				    </div> <!-- row -->
           			<!-- 	<div class="row premium_row">
                      			<div class="payable_amount col-md-12">
@@ -295,7 +295,7 @@
                      					<!-- <select class="payment_method">
                      						<option>Choose payment method</option>
                      						<option>Online payment method</option>
-                     					</select> <!-- payment_method -->
+                     					</select> <!- payment_method -->
                      				<!-- </span>
                      			</div> --> <!-- payable_amount -->
                      		<!-- </div> --> <!-- row -->
@@ -304,11 +304,12 @@
          	<div class="field_div form-group privacy_div" id="terms_of_use_div">
          		<input type="checkbox" name="terms_of_use" id="terms_of_use" />
          		<span class="privacy_text">By clicking "Post", you agree to our <a>Terms of Use</a> & <a>Privacy Policy</a></span>
+            <label id="terms_required" class="labelError choose_error" style="display:none;">Please click the checkbox</label>
          	</div> <!-- terms_of_use_div -->
 
-         	<div class="field_div form-group" id="post_button_div">
-         		<input class="btn-warning btn post_form_send" type="submit" value="Post the Ad" id="post" name="post" />
-         	</div> <!-- post_button_div -->
+         	  <div class="field_div form-group" id="post_button_div">
+            <input class="btn-warning btn post_form_send" type="submit" value="Post the Ad" id="post" name="post" />
+          </div> <!-- post_button_div -->
      	</form> <!-- post_ad -->
     </div> <!-- inner_container -->
   </div> <!-- container center -->
@@ -392,7 +393,7 @@
                           <ul class="hide_list categoryclick">
                            {% for categories in initial_load|get_categories %}
                               <li class="list_folder">
-                                <img src="../{{categories.icon}}" class="category_icon">
+                                <img src="{{ MEDIA_URL }}{{categories.icon}}" class="category_icon">
                               <a class="has_sub categoryselected get">
                                {{categories}}
                                  <!-- <span class="hidelist1 ajax_categoryid">

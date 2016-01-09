@@ -119,7 +119,7 @@
                       </li>
                       <!--  All PriceOptions to Display in Advance Search-->
                       <li class="list_folder"><b>Price</b>
-                          <ul class="hide_list hidelist1">
+                          <ul class="hide_list ">
                                <li class="list_folder">
                                <input type="checkbox" class="css-checkbox sme pricerange" name="pricerange" value ="0.0#21.27" />
                                <label for="checkbox1">{{country_code|get_symbol}}{{21.27|conversion|quantize}} &amp; Below</label>
@@ -287,13 +287,19 @@
 <div class="clear_both"> </div>
 
 <div class="leftslide visible-lg">
- <!--  <code class="closeimg"> </code> -->
-  <img src="{{MEDIA_URL}}banners/banner3.jpg" />
+  {% for banners in banner|get_banner %}
+    {% if banners.bannerplan_id == 8 %}
+      <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad1" />
+    {% endif %}
+  {% endfor %}
 </div><!--leftslide-->
 
 <div class="leftslide1 visible-lg">
-  <!-- <code class="closeimg"> </code> -->
-  <img src="{{MEDIA_URL}}banners/banner4.jpeg" />
+  {% for banners in banner|get_banner %}
+    {% if banners.bannerplan_id == 9 %}
+      <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad1" />
+    {% endif %}
+  {% endfor %}
 </div><!--leftslide-->
 
 <div class="container third_part hidden-lg">
@@ -400,5 +406,18 @@
 
   </div> <!-- row2 -->
 </div> <!-- third part -->
+<div class="container fifth_part">
+      <div class="hp_ad banner_ad">
+      <ul class="fifth_part">
+        {% for banners in banner|get_banner %}
+
+          {% if banners.bannerplan_id == 10 %}
+          
+            <img src="{{MEDIA_URL}}{{banners.banner}}" style="height:120px;width:970px;" />
+          {% endif %}
+        {% endfor %}
+      </ul>
+      </div> <!-- hp ad -->
+    </div> <!-- container fifth_part-->
 {%endif%}
 {%endblock%}
