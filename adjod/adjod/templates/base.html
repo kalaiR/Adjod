@@ -29,7 +29,7 @@
     <script src="{% static "js/jquery.switchButton.js" %}"></script>
     <script src="{% static "js/html5shiv.js" %}"></script>
     <script src="{% static "js/less.js" %}"></script>
-    <script src="{% static "js/action.js" %}"></script> 
+    <script src="{% static "js/action.js" %}"></script>
     <link href="{% static "AdminLTE/dist/css/AdminLTE.css" %}" rel="stylesheet" type="text/css" />
     <link id='theme' rel='stylesheet' />
     <link rel='stylesheet' href="{% static "css/chat.css" %}" />
@@ -56,7 +56,7 @@
           var remaining = 500 - $('#your_description').val().length;
           $('#desc_count').text(remaining);
       }
-    </script>  
+    </script>
 
 </head>
 <body>
@@ -123,7 +123,7 @@
                     {% if request.path != '/start/' %}
                       <li class="user_name"><a href="/">{{request.user.email}}</a>
                       <i class="fa fa-caret-down caret_user"></i>
-                      <div class="user_dropdown"> 
+                      <div class="user_dropdown">
                          <ul>
                             <a href="/my_ads"><li>My Ads</li></a>
                            <a href="/my_ads"><li>Update My Profile</li></a>
@@ -189,8 +189,8 @@
                                       <option class="lang_hover" value="de">{% trans "German" %}</option>
                                       <option class="lang_hover" value="sv">{% trans "Swedish" %}</option>
                                   </select>
-                                </form> 
-                                
+                                </form>
+
                             </div><!-- custom_select -->
 
                       </li>
@@ -224,7 +224,7 @@
                 {% endif %}
                 <button type="submit"class="btn btn-lg btn-success search_btn" value="Search">Search</button>
             </div> <!-- form -->
-            
+
         </form>
       </div>
     </div> <!-- header_search -->
@@ -238,7 +238,7 @@
     {%  if 'search' in path  or 'postad' in path  or 'ads' in path  or 'update_profile' in path %}
        <div class="search_part">
           <div class="container visible-lg">
-           
+
                 <form class="info_form" method="get" action="/search/?q=">
                   {%  if 'search' in path  or 'update_profile' in path %}
                       <div class="custom_select language_custom_select search_city">
@@ -264,7 +264,7 @@
                         </div>
                       <button type="submit"class="btn btn-lg btn-success search_b">Search</button>
                      <!--  <a href="{% url product_form %}" class="btn btn-lg post-button">Post free Ad</a> -->
-                     <div class="search_tool{% if user.is_authenticated and userprofile.ad_count >= 3 and userprofile.is_subscribed == 0%} disable_post {% endif%}"> 
+                     <div class="search_tool{% if user.is_authenticated and userprofile.ad_count >= 3 and userprofile.is_subscribed == 0%} disable_post {% endif%}">
                         <a href="{% if user.is_authenticated and userprofile.ad_count >= 3 and userprofile.is_subscribed == 0%} {% else %} {% url product_form %} {% endif%}" class="btn btn-lg post-button">Post Free Ad</a>
                         <div class="searchpage_tooltip">You already add 3 posts,<br>if u want add more posts,<br>u have to make ur account as premium<button type="button" class="btn btn-link link_tooltip">Click here</button></div>
                       </div>
@@ -296,7 +296,7 @@
             </div>
           {% endif %}
       </div> <!-- search_part -->
-      {%  if 'search' in path  or 'ads' in path or 'update_profile' in path %} 
+      {%  if 'search' in path  or 'ads' in path or 'update_profile' in path %}
       <div class="page_swap">
         <div class="container page_back">
           {%block page_swap%}
@@ -432,7 +432,7 @@
             <div  class=" fl">
               <a  href="{% url socialauth_begin 'google-oauth2' %}" ><button class="gmail_button"><i class="fa fa-google-plus"></i>Gmail</button></a>
             </div>
-            
+
             <div class="clear_both"></div>
             <div id="free_signup_div" class="form-group">
               <span class="signin">I don't have a account</span>
@@ -509,7 +509,7 @@
               <input class="confirm" type="checkbox" name="confirm" />
               <span>I confirm that I am 18 years or older</span>
               <a class="tool_tip"><input class="btn signup_confirm_button masterTooltip" type="submit" value="Create" name="create" id="create"><div class="signup_tooltip">Your age must be above 18 years, please check age status and then create account</div></a>
-              
+
             </div>
 </form>
             <div id="hr_div" class="form-group">
@@ -576,8 +576,8 @@
 
       <div class="subscription_popup">
       <code class="close_btn cancel_btn" style="{% if request.REQUEST.sf %} display:block; {%else%} display: none; {% endif %}"></code>
-         <div class="subscribe_title"> 
-            <h4>Account Subscribe</h4>     
+         <div class="subscribe_title">
+            <h4>Account Subscribe</h4>
          </div><!--subscribe_title-->
          <div class="subscribe_content">
            <p>You already used our Free Limited Services. If you want to post more Ads, Please Subscribe your account.</p>
@@ -601,6 +601,66 @@
 
     <!--======================
           End Account Subscription Popup
+      ========================-->
+      <!--======================
+         Account post ad success Popup
+      ========================-->
+
+
+      {% for message in messages %}
+      <script>
+      $( document ).ready(function() {
+      var height=$('.postad_success_popup').height();
+      var width=$('.postad_success_popup').width();
+      $('.postad_success_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
+      $('.cancel_btn,.popup_fade').click(function(){
+          $('.popup_fade').hide();
+          $('.postad_success_popup').hide();
+          document.body.style.overflow = 'auto';
+      });
+        });
+      </script>
+      <div class="popup_fade " style=" display: block;left:0px;"></div>
+      {% if request.REQUEST.pt == '5' %}
+      <div class="postad_success_popup">
+      <code class="close_btn cancel_btn" style="display: block;"></code>
+         <div class="subscribe_title">
+            <h4>Message</h4>
+        </div><!--subscribe_titl-->
+         <div class="subscribe_content">
+           <p>{{ message }}</p>
+       </div><!--subscribe_content-->
+   </div><!--subscription_popup-->
+   {% elif request.REQUEST.pt == '6' %}
+   <div class="postad_success_popup">
+   <code class="close_btn cancel_btn" style="display: block;"></code>
+      <div class="subscribe_title">
+         <h4>Message</h4>
+     </div><!--subscribe_titl-->
+      <div class="subscribe_content">
+        <p>{{ message }}</p>
+         <code></code>
+    </div><!--subscribe_content-->
+    <form action='{{sandbox_url}}' method='post' name="paypal_account_subscription">
+    {%csrf_token%}
+      <input id="id_business" type="hidden" value="{{paypal_receiver_email}}" name="business">
+      <input id="id_amount" type="hidden" value="{{premium_info_account.premium_price}}" name="amount">
+      <input id="id_item_name" type="hidden" value="Account Subscription" name="item_name">
+      <input id="id_notify_url" type="hidden" value="{{notify_url}}" name="notify_url">
+      <input id="id_cancel_return" type="hidden" value="{{cancel_return}}" name="cancel_return">
+      <input id="id_return_url" type="hidden" value="{{success_return}}" name="return">
+      <input id="id_custom" type="hidden" value="{{request.user.username}}" name="custom">
+      <input id="id_cmd" type="hidden" value="_xclick" name="cmd">
+      <input id="id_charset" type="hidden" value="utf-8" name="charset">
+      <input id="id_currency_code" type="hidden" value="USD" name="currency_code">
+      <input id="id_no_shipping" type="hidden" value="1" name="no_shipping">
+    </form>
+</div><!--subscription_popup-->
+{% endif %}
+   {% endfor %}
+
+    <!--======================
+          End post ad success Popup
       ========================-->
 
 
