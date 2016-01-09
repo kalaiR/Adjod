@@ -203,7 +203,7 @@ function fill_brands(sub_category_id) {
              if (window.location.href.indexOf("search") >= 0) {
               // alert("search");
               for (var i in ret) {
-                options += '<li><input type="checkbox" class="css-checkbox sme brandtype"  name ="brandtype" value ="' + ret[i].id + '"><label for="checkbox1" name="checkbox1_lbl" class="css-label sme depressed">'+ ret[i].name + '</label></li>';
+                options += '<li class="list"><input type="checkbox" class="css-checkbox sme brandtype"  name ="brandtype" value ="' + ret[i].id + '"><label for="checkbox1" name="checkbox1_lbl" class="css-label sme depressed">'+ ret[i].name + '</label></li>';
               }
               $(".hiddenclass").html(options);
              }
@@ -483,136 +483,148 @@ $( document ).ready(function() {
     setInterval(toggleSlide, 4000);
 
     // ************* start country wise mobile number validation in post ad page
-    // get the country data from the plugin
-    var countryData = $.fn.intlTelInput.getCountryData(),
-      telInput = $("#your_mobile_no"),
-      addressDropdown = $("#country");
 
-    // init plugin
+    var telInput = $("#your_mobile_no"),
+      errorMsg = $("#error-msg"),
+      validMsg = $("#valid-msg");
+
+    // initialise plugin
     telInput.intlTelInput({
        preferredCountries: [ "sg", "gb" ],
       utilsScript: "../../static/lib/libphonenumber/build/utils.js"
     });
 
-      telInput.change(function() {
-      var countryCode = telInput.intlTelInput("getSelectedCountryData").iso2;
-      addressDropdown.val(countryCode);
+    var reset = function() {
+      telInput.removeClass("error");
+      errorMsg.addClass("hide");
+      validMsg.addClass("hide");
+    };
+
+    // on blur: validate
+    $("#your_mobile_no").blur(function() {
+      reset();
+      if ($.trim($("#your_mobile_no").val())) {
+        if ($("#your_mobile_no").intlTelInput("isValidNumber")) {
+           validMsg.removeClass("hide");
+           $("#your_mobile_no").removeClass("error");
+        } else {
+         $("#your_mobile_no").addClass("error");
+        errorMsg.removeClass("hide");
+        }
+      }
     });
 
-    // trigger a fake "change" event now, to trigger an initial sync
-      telInput.change();
+    // on keyup / change flag: reset
+    telInput.on("keyup change", reset);
+      // // ************* end country wise mobile number validation
 
-    // listen to the address dropdown for changes
-      addressDropdown.change(function() {
-      var countryCode = $(this).val();
-      telInput.intlTelInput("selectCountry", countryCode);
-    });
-   // ************* end country wise mobile number validation
+   // // ************* start country wise mobile number validation in free alert page
 
-   // ************* start country wise mobile number validation in free alert page
-    // get the country data from the plugin
-    var countryData = $.fn.intlTelInput.getCountryData(),
-      telInput = $("#mobilenumber"),
-      addressDropdown = $("#country");
+    var telInput = $("#mobilenumber"),
+      errorMsg = $("#error-msg"),
+      validMsg = $("#valid-msg");
 
-    // init plugin
-      telInput.intlTelInput({
-      preferredCountries: [ "sg", "gb" ],
+    // initialise plugin
+    telInput.intlTelInput({
+       preferredCountries: [ "sg", "gb" ],
       utilsScript: "../../static/lib/libphonenumber/build/utils.js"
     });
 
-      telInput.change(function() {
-      var countryCode = telInput.intlTelInput("getSelectedCountryData").iso2;
-      addressDropdown.val(countryCode);
+    var reset = function() {
+      telInput.removeClass("error");
+      errorMsg.addClass("hide");
+      validMsg.addClass("hide");
+    };
+
+    // on blur: validate
+    $("#mobilenumber").blur(function() {
+      reset();
+      if ($.trim($("#mobilenumber").val())) {
+        if ($("#mobilenumber").intlTelInput("isValidNumber")) {
+          validMsg.removeClass("hide");
+          $("#mobilenumber").removeClass("error");
+        } else {
+         $("#mobilenumber").addClass("error");
+      errorMsg.removeClass("hide");
+        }
+      }
     });
 
-    // trigger a fake "change" event now, to trigger an initial sync
-      telInput.change();
-
-    // listen to the address dropdown for changes
-      addressDropdown.change(function() {
-      var countryCode = $(this).val();
-      telInput.intlTelInput("selectCountry", countryCode);
-    });
-    // ************* end country wise mobile number validation
+    // on keyup / change flag: reset
+    telInput.on("keyup change", reset);
+       // ************* end country wise mobile number validation
 
     // ************* start country wise mobile number validation in sign up form
       //home
-      // get the country data from the plugin
-      var countryData = $.fn.intlTelInput.getCountryData(),
-        telInput = $("#mobile_number_sign_up_home"),
-        addressDropdown = $("#country");
 
-      // init plugin
-        telInput.intlTelInput({
-        preferredCountries: [ "sg", "gb" ],
-        utilsScript: "../../static/lib/libphonenumber/build/utils.js"
-      });
+      var telInput = $("#mobile_number_sign_up_home"),
+      errorMsg = $("#error-msg"),
+      validMsg = $("#valid-msg");
 
-        telInput.change(function() {
-        var countryCode = telInput.intlTelInput("getSelectedCountryData").iso2;
-        addressDropdown.val(countryCode);
-      });
+    // initialise plugin
+    telInput.intlTelInput({
+       preferredCountries: [ "sg", "gb" ],
+      utilsScript: "../../static/lib/libphonenumber/build/utils.js"
+    });
 
-      // trigger a fake "change" event now, to trigger an initial sync
-        telInput.change();
+    var reset = function() {
+      telInput.removeClass("error");
+      errorMsg.addClass("hide");
+      validMsg.addClass("hide");
+    };
 
-      // listen to the address dropdown for changes
-        addressDropdown.change(function() {
-        var countryCode = $(this).val();
-        telInput.intlTelInput("selectCountry", countryCode);
-      });
+    // on blur: validate
+    $("#mobile_number_sign_up_home").blur(function() {
+      reset();
+      if ($.trim($("#mobile_number_sign_up_home").val())) {
+               if ($("#mobile_number_sign_up_home").intlTelInput("isValidNumber")) {
+          errorMsg.removeClass("hide");
+           $("#mobile_number_sign_up_home").removeClass("error");
+        } else {
+         validMsg.removeClass("hide");
+         $("#mobile_number_sign_up_home").addClass("error");
 
-      //search
-      // get the country data from the plugin
-      var countryData = $.fn.intlTelInput.getCountryData(),
-        telInput = $("#mobile_number_sign_up_search"),
-        addressDropdown = $("#country");
+        }
+      }
+    });
 
-      // init plugin
-        telInput.intlTelInput({
-        utilsScript: "../../static/lib/libphonenumber/build/utils.js"
-      });
+    // on keyup / change flag: reset
+    telInput.on("keyup change", reset);
 
-        telInput.change(function() {
-        var countryCode = telInput.intlTelInput("getSelectedCountryData").iso2;
-        addressDropdown.val(countryCode);
-      });
 
-      // trigger a fake "change" event now, to trigger an initial sync
-        telInput.change();
 
-      // listen to the address dropdown for changes
-        addressDropdown.change(function() {
-        var countryCode = $(this).val();
-        telInput.intlTelInput("selectCountry", countryCode);
-      });
+      var telInput = $("#mobile_number_sign_up_postad"),
+      errorMsg = $("#error-msg"),
+      validMsg = $("#valid-msg");
 
-      //postad
-      // get the country data from the plugin
-      var countryData = $.fn.intlTelInput.getCountryData(),
-        telInput = $("#mobile_number_sign_up_postad"),
-        addressDropdown = $("#country");
+    // initialise plugin
+    telInput.intlTelInput({
+       preferredCountries: [ "sg", "gb" ],
+      utilsScript: "../../static/lib/libphonenumber/build/utils.js"
+    });
 
-      // init plugin
-        telInput.intlTelInput({
-        utilsScript: "../../static/lib/libphonenumber/build/utils.js"
-      });
+    var reset = function() {
+      telInput.removeClass("error");
+      errorMsg.addClass("hide");
+      validMsg.addClass("hide");
+    };
 
-        telInput.change(function() {
-        var countryCode = telInput.intlTelInput("getSelectedCountryData").iso2;
-        addressDropdown.val(countryCode);
-      });
+    // on blur: validate
+    $("#mobile_number_sign_up_postad").blur(function() {
+     reset();
+      if ($.trim($("#mobile_number_sign_up_postad").val())) {
+        if ($("#mobile_number_sign_up_postad").intlTelInput("isValidNumber")) {
+          validMsg.removeClass("hide");
+        } else {
+         telInput.addClass("error");
+      errorMsg.removeClass("hide");
+        }
+      }
+    });
 
-      // trigger a fake "change" event now, to trigger an initial sync
-        telInput.change();
-
-      // listen to the address dropdown for changes
-        addressDropdown.change(function() {
-        var countryCode = $(this).val();
-        telInput.intlTelInput("selectCountry", countryCode);
-      });
-     // ************* end country wise mobile number validation *************
+    // on keyup / change flag: reset
+    telInput.on("keyup change", reset);
+ // ************* end country wise mobile number validation *************
 
      // Image file upload
      $('input[type=file]').simpleFilePreview({
@@ -664,16 +676,16 @@ $( document ).ready(function() {
         else
           $('.select_post_subcategory').parent().next('.labelError').hide();
         //brand
-        if ($('#select_post_brand').text() == "Select Brand")
-          $('.select_post_brand').parent().next('.labelError').show();
-        else
-          $('.select_post_brand').parent().next('.labelError').hide();
+        // if ($('#select_post_brand').text() == "Select Brand")
+        //   $('.select_post_brand').parent().next('.labelError').show();
+        // else
+        //   $('.select_post_brand').parent().next('.labelError').hide();
          //city
         if ($('#select_post_locality').text() == "Select Locality")
           $('.select_post_locality').parent().next('.labelError').show();
         else
           $('.select_post_locality').parent().next('.labelError').hide();
-          if ($('.labelError,.email_labelError').is(":visible"))
+          if ($('.labelError,.email_labelError,.error').is(":visible"))
             return false;
           else{
             return true;
@@ -711,7 +723,7 @@ $( document ).ready(function() {
             $('#email_id').siblings('.signup_labelError').hide();
           }
           }
-           if ($(":input").hasClass("error_input_field")){
+           if ($(":input").hasClass("error_input_field") || $('#mobile_number_sign_up_home').hasClass("error")){
           return false;
           }
           else{
@@ -790,12 +802,16 @@ $( document ).ready(function() {
         }
         }
         if($('#terms_of_use').attr('checked')){
-          $('#terms_required').hide();
+          // $('#terms_required').hide();
+          $('#terms_of_use').removeClass("error_input_field");
+          $('#terms_of_use').next().siblings('.labelError').hide();
         }
         else{
-          $('#terms_required').show();
+          // $('#terms_required').show();
+          $('#terms_of_use').addClass("error_input_field");
+          $('#terms_of_use').next().siblings('.labelError').show();
         }
-        if ($(":input").hasClass("error_input_field") || $(".select_container_city").hasClass("error_input_field") || $(".select_container_locality").hasClass("error_input_field") || $("#buy,#sell").hasClass("error_input_field") || $("#individual,#dealer").hasClass("error_input_field")){
+        if ($(":input").hasClass("error_input_field") || $(".select_container_city").hasClass("error_input_field") || $(".select_container_locality").hasClass("error_input_field") || $("#buy,#sell").hasClass("error_input_field") || $("#individual,#dealer").hasClass("error_input_field") || $('#your_mobile_no').hasClass("error")){
         return false;
         }
         else{
@@ -931,17 +947,6 @@ $( document ).ready(function() {
        }
     });
 
-     // Tooltip for Post ad
-    // $('.postad_tooltip').hide();
-    // $(".post_form_send").on('hover', function(){
-    // if ($("#terms_of_use").prop('checked')==false){
-    //     $('.postad_tooltip').show();
-    // }
-    // else{
-    //      $('.postad_tooltip').hide();
-    //    }
-    // });
-
     $(".user_dropdown").hide();
     $(".caret_user").click(function(){
         $('.user_dropdown').toggle();
@@ -953,9 +958,12 @@ $( document ).ready(function() {
       $('form[name="paypal_account_subscription"]').submit();
     });
 
-    $('input.checkbox_premium').on('click', function(){
+    $('input.checkbox_premium').on('change', function(){
         $('input.checkbox_premium').not(this).prop('checked', false);
-        $('.premium_plan').val($(this).val());
+        if($(this).is(':checked'))
+          $('.premium_plan').val($(this).val());
+        else
+          $('.premium_plan').val('');
     });
 
     //allow characters for price
@@ -965,7 +973,6 @@ $( document ).ready(function() {
           key = String.fromCharCode(key);
           if (key.length == 0) return;
           var regex = /^[0-9.\b]+$/;
-          //var regex = '^\d+(?:[\.\,]\d+)?$';
           if (!regex.test(key)) {
               theEvent.returnValue = false;
               if (theEvent.preventDefault) theEvent.preventDefault();

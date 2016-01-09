@@ -4,6 +4,7 @@ from advertisement.models import *
 
 #For getting country and their language
 from core.config import country_language_dict
+from django.contrib.sites.models import Site
 
 #For Future reference when use geo
 # def global_activity(request):
@@ -105,12 +106,13 @@ def global_activity(request):
 			userprofile=None
 	else:
 		userprofile=None
+	current_site = Site.objects.get_current()
 
 	return {'country':country,'country_code':country_code,'city': city,'city_id':city_id,'language':language,'path':path,'category':category,
 			'subcategory':subcategory,'dropdown':dropdown, 'recentad':recentad,'userprofile':userprofile,'user_ip':user_ip,
 			'locality':locality,'premium_info_account':premium_info_account, 'paypal_receiver_email':settings.PAYPAL_RECEIVER_EMAIL,
 			'cancel_return': settings.PAYPAL_DICT['cancel_return'],'success_return': settings.PAYPAL_DICT['success_return'],
-			'notify_url': settings.PAYPAL_DICT['notify_url'],'sandbox_url':settings.SANDBOX_URL}
+			'notify_url': settings.PAYPAL_DICT['notify_url'],'sandbox_url':settings.SANDBOX_URL,'current_site':current_site}
 
 # def global_activity(request):
 # 	path =  request.path
