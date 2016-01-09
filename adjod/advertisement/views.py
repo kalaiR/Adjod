@@ -196,7 +196,6 @@ def create_path_for_photos_thumbanails(photos, product):
 		else:
 			photosgroup=photosgroup + 'products/' + str(uploaded_file) + ','
 	large_photos=photosgroup
-
 	# Creating path for thumbnail photos
 	photo=str(large_photos)
 	photos=photo.split(',')
@@ -308,48 +307,47 @@ def post_success(request, product):
 			  },
 			)
 	return response
-	
 
 #Check whether to save the product or not
 # @transaction.commit_on_success
 def product_save(request):
-	if request.method == 'POST':
-		print "product_save"
-		product=Product()
-		   
-		try:
-			error={}
-			if request.user.is_authenticated() and not request.user.is_superuser:
-				product.userprofile = UserProfile.objects.get(id=request.user.id)
-				product.isregistered_user = True
-				if product.userprofile.ad_count < 3 or product.userprofile.is_subscribed == True:
-					product_dict = post_success(request, product) 
-					#Store in Userprofile table to know the status of users post ad counts
-					product.userprofile.ad_count = int(product.userprofile.ad_count) + 1
-					product.userprofile.save() 
-					if product_dict is None:
-						error['success'] = ugettext('Ad Successfully posted')
-						raise ValidationError(error['success'], 5)
-					else: 
-						response = paypal_transaction(request,product_dict)
-						print "after all"
-						return response
-				else:
-					# get_object_or_404('/postad/')
-					error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium')
-					print "error['exit_count']",error['exit_count']
-					raise ValidationError(error['exit_count'], 6)
-			else:
-				product.userprofile = None
-				emailfilter = Product.objects.filter(you_email=request.POST.get('your_email')).count()
-				if emailfilter < 3:
-					post_success(request, product)
-					error['success'] = ugettext('Ad Successfully posted')
-					raise ValidationError(error['success'], 5)
-				else:
-					error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium')
-					print "error['exit_count']",error['exit_count']
-					raise ValidationError(error['exit_count'], 6)
+    if request.method == 'POST':
+        print "product_save"
+        product=Product()
+
+        try:
+            error={}
+            if request.user.is_authenticated() and not request.user.is_superuser:
+                product.userprofile = UserProfile.objects.get(id=request.user.id)
+                product.isregistered_user = True
+                if product.userprofile.ad_count < 3 or product.userprofile.is_subscribed == True:
+                    product_dict = post_success(request, product)
+                    #Store in Userprofile table to know the status of users post ad counts
+                    product.userprofile.ad_count = int(product.userprofile.ad_count) + 1
+                    product.userprofile.save()
+                    if product_dict is None:
+                        error['success'] = ugettext('Congratulations...Your Ad Successfully posted')#Ad Successfully posted
+                        raise ValidationError(error['success'], 5)
+                    else:
+                        response = paypal_transaction(request,product_dict)
+                        print "after all"
+                        return response
+                else:
+                    # get_object_or_404('/postad/')
+                    error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium. ')#
+                    print "error['exit_count']",error['exit_count']
+                    raise ValidationError(error['exit_count'], 6)
+            else:
+                product.userprofile = None
+                emailfilter = Product.objects.filter(you_email=request.POST.get('your_email')).count()
+                if emailfilter < 3:
+                    post_success(request, product)
+                    error['success'] = ugettext('Congratulations...Your Ad Successfully posted')#Ad Successfully posted
+                    raise ValidationError(error['success'], 5)
+                else:
+                    error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium. ')#
+                    print "error['exit_count']",error['exit_count']
+                    raise ValidationError(error['exit_count'], 6)
 
 		except ValidationError as e:
 			messages.add_message(request, messages.ERROR, e.messages[-1])

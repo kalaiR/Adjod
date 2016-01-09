@@ -70,13 +70,14 @@
       <div class="bottom_ads col-md-12">
           {% if my_products %}
            <p class="col-md-6">{{my_products.count}} Results</p>
-          {% else %}
-          <div class="right_align_ads"><span>{% trans "No Results Found" %}</span></div> 
-          {% endif %}
-           <span class="check_all col-md-2 check_all_act">Check All</span>
+            <span class="check_all col-md-2 check_all_act">Check All</span>
            <span class="uncheck_all col-md-2 uncheck_all_act">Uncheck All</span>
            <input name="next" type="hidden" value="{{request.path}}{% if request.GET.urlencode %}?{{request.GET.urlencode}}{% endif %}" />
            <button type="button" class="btn btn-warning delete_btn delete_act">Delete</button>
+          {% else %}
+          <div class="right_align_ads"><span>{% trans "No Results Found" %}</span></div> 
+          {% endif %}
+          
       </div> <!-- bottom_part -->
     </form> 
 </div><!--filter_result_wrapper-->
@@ -85,34 +86,113 @@
 
 <div class="profile_text">
    <span class="hidden-xs">Update My Profile</span>
-<div class="update_profile col-md-9"> 
-  <span class="personal_txt">Personals Details</span> 
- 
- <div class="container center">
-      <div class="profile_content">
-        <div class="personal_details">
-          <div class="personal_center">
-              <div class="field_title form-group">
-                <span class="title">Upload Photos</span>
-              </div> <!-- field_title -->
-              <div class="field_div form-group" id="upload_photos_div">
-                  <input type='file' id='photos' name='photos[]'/>
-                  <span class="photo_labelError"></span>
-              </div> <!-- upload_photos_div -->
-              
-              <div class="field_div form-group">
-                <input class="full_name" name="your_name" id="your_name" placeholder="Full Name"/>
-                <label class="labelError" style="display:none;">Enter your Full Name</label>
-                <input class="last_name" name="your_name" id="your_name" placeholder="Last Name"/>
-                <label class="labelError" style="display:none;">Enter your Last Name</label>
+<form id="update_user" method="POST" action="/user_manage/" enctype="multipart/form-data"> 
+  {% csrf_token %}  
+  <div class="update_profile col-md-9"> 
+    <span class="personal_txt">Personals Details</span>   
+     <div class="container center">
+        <div class="profile_content">
+          <div class="personal_details">
+            <div class="personal_center">
+                <div class="field_title form-group">
+                  <span class="title">Upload Photos</span>
+                </div> <!-- field_title -->
+                <div class="field_div form-group upload_image" id="photos_div">                
+                {% if userprofile.profile_picture %}
+                    <input type='file' id="profile_poster" class="poster" name="profile_poster" value="../media/{{userprofile.profile_picture}}"/>
+                    <img id="clean_img" class="after_save" src="../media/{{userprofile.profile_picture}}">
+                    <span class="photo_labelError"></span>
+                {% else %}
+                 <input type='file' id="profile_poster" name="profile_poster" value="" class="poster" />
+                {% endif %}     
+                </div> <!-- upload_photos_div -->
+                
+                <div class="field_div form-group">
+                  {% if user.is_authenticated %} 
+                    <input class="full_name" name="your_name" id="your_name" value="{{request.user}}" placeholder="Full Name" disabled="disabled"/>
+                  {% else %}
+                    <input class="full_name" name="your_name" id="your_name" value="" placeholder="Full Name"/>
+                  {% endif %}
+                  <label class="labelError" style="display:none;">Enter your Full Name</label>
+
+                  
+                  <input class="last_name" name="your_name" id="your_name" value="{% if userprofile.last_name %}{{userprofile.last_name}}{% endif %}" placeholder="Last Name"/>     
+                  
+                  <label class="labelError" style="display:none;">Enter your Last Name</label>
+                </div> <!-- form-group -->
+
+                <div class="field_div form-group">
+                  {% if user.is_authenticated %}
+                    <input class="email_profile" name="email" value="{{request.user.email}}" placeholder="Email" disabled="disabled"/>
+                  {% else %}  
+                    <input class="email_profile" name="email" value="" placeholder="Email"/>
+                  {% endif %}  
+                  <label class="labelError" style="display:none;">Enter your Email</label>
+                  <input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" value="{%if userprofile.your_mobile_no%}{{userprofile.your_mobile_no}}{%endif%}" type="tel"/>
+                  <label class="labelError" style="display:none;">Enter your mobile no</label>
+                </div> <!-- form-group -->
+
+                <div class="field_div form-group">
+                    <div class="city_select fl">
+                        <div class="post_city">
+                          <p id="profile_city">{{city}}</p>
+                          <i class="city_fa fa fa-caret-down">   
+                          </i>
+                        </div> <!-- post_city -->
+                        <select name="user_city" id="user_city" disabled="disabled">
+                       <!--  <option value="Select City">Select City</option>
+                        {# for cityitem in city #}  -->
+                        <option value="{{city.id}}">{{city}}</option>
+                       <!--  {# endfor #} -->
+                        </select>
+                        <label class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
+                    </div> <!-- city_select -->
+                     <input type="hidden" name="user_city" value="{{city_id}}">
+
+
+                    <div class="locality_select fl">
+                        <div class="post_city">
+                          <p id="profile_locality">{% if userprofile.locality%}{{userprofile.locality}}{% else %}Select locality{% endif%}</p>
+                          <i class="city_fa fa fa-caret-down">     
+                          </i>
+                        </div> <!-- post_city -->
+                        <select id= "user_locality" name="user_locality" class="profile_locality">
+                        {% for localities in locality %}
+                          <option value="{{localities.id}}">{{localities.locality}}</option>
+                        {% endfor %}     
+                        </select>
+                        <label class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
+                    </div> <!-- locality_select -->
+                    <div class="clear_both"></div>   
+                    <div class="clear_both"></div>   
               </div> <!-- form-group -->
 
+          </div><!--personal_center-->
+        </div><!--personal_details-->
+        
+        <div class="additional_info"> 
+          <span class="additional_txt">Additional Information</span>
+          <div class="additional_center">
+            <div class="field_div form-group">
+              <div class="gender_select fl">
+                  <div class="select_profile">
+                    <p id="profile_gender">{% if userprofile.gender %}{{userprofile.gender}}{% endif %}</p>
+                    <i class="city_fa fa fa-caret-down">    
+                    </i>
+                  </div> <!-- select_profile -->
+                  <select name="gender" class="profile_gender">
+                    <option value="gender">Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                  <label class="labelError" style="font-size:35px;display:none;">Please choose Gender</label>
+                  </div><!--gender_select-->
+              </div><!--form-group-->
+
               <div class="field_div form-group">
-                <input class="email_profile" name="email" placeholder="Email"/>
-                <label class="labelError" style="display:none;">Enter your Email</label>
-                <input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" type="tel"  onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" onkeypress="isValidMobileNo();" />
-                <label class="labelError" style="display:none;">Enter your mobile no</label>
-              </div> <!-- form-group -->
+                <input class="age_profile" name="user_age" id="user_age" value="{% if userprofile.user_age %}{{userprofile.user_age}}{% endif %}" placeholder="Age"/>
+                <label class="labelError" style="display:none;">Enter your age</label>
+              </div> <!-- form-group --> 
 
               <div class="field_div form-group">
                   <div class="city_select fl">
@@ -130,7 +210,7 @@
                       <label class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
                   </div> <!-- city_select -->
                   <div class="locality_select fl">
-                      <div class="post_city">
+                      <div class="post_city profile_city">
                         <p>Select locality *</p>
                         <i class="city_fa fa fa-caret-down">     
                         </i>
@@ -143,101 +223,68 @@
                   <div class="clear_both"></div>   
                   <div class="clear_both"></div>   
             </div> <!-- form-group -->
-
-        </div><!--personal_center-->
-      </div><!--personal_details-->
-      
-      <div class="additional_info"> 
-        <span class="additional_txt">Additional Information</span>
-        <div class="additional_center">
-          <div class="field_div form-group">
-            <div class="gender_select fl">
-                <div class="select_profile">
-                  <p>Gender</p>
-                  <i class="city_fa fa fa-caret-down">   
-                  </i>
-                </div> <!-- select_profile -->
-                <select name="gender">
-                  <option value="gender">Gender</option>
-                  <option value="">Male</option>
-                  <option value="">Female</option>
-                </select>
-                <label class="labelError" style="font-size:35px;display:none;">Please choose Gender</label>
-                </div><!--gender_select-->
-            </div><!--form-group-->
-
-            <div class="field_div form-group">
-              <input class="age_profile" name="name" id="name" placeholder="Age"/>
-              <label class="labelError" style="display:none;">Enter your age</label>
-            </div> <!-- form-group --> 
-
-            <div class="field_div form-group">
-              <textarea class="address_profile" maxlength="500" onchange="updateCountdownDesc()" onkeyup="updateCountdownDesc()" name="description" placeholder="Address" value=""></textarea>
-              <label class="labelError" style="display:none;">Enter your address</label>
-            </div><!--form-group-->
-
+             {% if userprofile.user_age %}
+                <textarea class="address_profile" maxlength="500" name="user_address" placeholder="Address" value="">{{userprofile.user_address}}</textarea>
+              {% else %}  
+              <textarea class="address_profile" maxlength="500" name="user_address" placeholder="Address" value=""></textarea>
+              {% endif %}  
+                <label class="labelError" style="display:none;">Enter your address</label>
+              </div><!--form-group-->
+            
             <div class="form-group">
-              <div class="field_title form-group">
-                <span class="title">You are</span>
-                <span class="mandatory">*</span>
+               <div class="field_title form-group">
+                  <span class="title">You are</span>
+                 <!--  <span class="mandatory">*</span> -->
+                </div> <!-- form-group -->
+
+                <div class="field_div form-group">
+                  <input type="radio" class="check_individual" name="person_is" value="individual"{% if edit_product.person_is == 'individual' %} checked="checked"{% endif %}>
+                  <label for="individual" class="you_are"><span><span></span></span>Individual</label>
+                  <input type="radio" class="check_dealer" name="person_is" value="dealer"{%if userprofile.person_is == 'dealer' %}checked="checked"{% endif %}>
+                  <label for="dealer" class="you_are"><span><span></span></span>Delear</label>
+                  <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>
+              </div><!--form-group-->
+
+           </div> <!-- description_div -->
+           </div><!--additional_center-->
+         </div><!--additional_info-->
+           
+        <div class="marketing visible-lg">
+            <span class="marketing_txt">Marketing communication</span>
+            <input type="checkbox" name="is_marketing_person" class="mark_box" {% if userprofile.is_marketing_person  %}checked="checked" {% endif %}><span class="mailing_txt">Include me in marketing mailing communication</span>
+        </div><!--marketing-->
+
+        <div class="marketing visible-xs">
+            <span class="marketing_txt">Marketing communication</span><br>
+            <input type="checkbox" name="is_marketing_person" class="mark_box"{% if userprofile.is_marketing_person %}checked="checked" {% endif %}><span class="mailing_txt">Include me in marketing mailing communication</span>
+        </div><!--marketing-->
+
+        <div class="set_password">
+          <span class="password_txt">Set Your Password</span>
+            <div class="password_center">
+              <div class="field_div form-group">
+                <input class="pwd_profile" name="pswd" placeholder="New password"/>
+                 <label class="labelError" style="display:none;">Enter your new password</label>
               </div> <!-- form-group -->
 
-              <div class="field_div form-group">
-                <input type="radio" name="you_are_radio" id="individual" value="individual">
-                <label for="individual" class="you_are"><span><span></span></span>Individual</label>
-                <input type="radio" name="you_are_radio" id="dealer" value="dealer">
-                <label for="dealer" class="you_are"><span><span></span></span>Delear</label>
-                <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>
-            </div><!--form-group-->
-
-         </div> <!-- description_div -->
-         </div><!--additional_center-->
-       </div><!--additional_info-->
-         
-      <div class="marketing visible-lg">
-          <span class="marketing_txt">Marketing communication</span>
-          <input type="checkbox" name="description" class="mark_box" value=""><span class="mailing_txt">Include me in marketing mailing communication</span>
-      </div><!--marketing-->
-
-      <div class="marketing visible-xs">
-          <span class="marketing_txt">Marketing communication</span><br>
-          <input type="checkbox" name="description" class="mark_box" value=""><span class="mailing_txt">Include me in marketing mailing communication</span>
-      </div><!--marketing-->
-
-      <div class="set_password">
-        <span class="password_txt">Set Your Password</span>
-          <div class="password_center">
             <div class="field_div form-group">
-              <input class="pwd_profile" name="name" placeholder="New password"/>
-               <label class="labelError" style="display:none;">Enter your new password</label>
+              <input class="newpwd_profile" name="repswd" placeholder="Retype new password"/>
+               <label class="labelError" style="display:none;"></label>
             </div> <!-- form-group -->
 
-          <div class="field_div form-group">
-            <input class="newpwd_profile" name="name" placeholder="Retype new password"/>
-             <label class="labelError" style="display:none;"></label>
-          </div> <!-- form-group -->
+            <div class="sms_alert">
+              <input type="checkbox" name="is_allow_sms" {% if userprofile.is_allow_sms %}checked="checked" {% endif %}><span class="sms_txt">I wish to receive SMS alerts.</span>
+            </div><!--sms_alert-->
 
-          <div class="sms_alert">
-            <input type="checkbox" name="description" value=""><span class="sms_txt">I wish to receive SMS alerts.</span>
-          </div><!--sms_alert-->
-
-          <div class="profile_btn">
-            <button type="submit" class="btn btn-warning delete_btn">Update</button>
-            <button type="submit" class="btn btn-warning delete_btn">Cancel</button>
-          </div><!--profile_btn-->
-    </div><!--password_center-->
-  </div><!--set_password-->
- </div> <!-- profile_content -->
-</div> <!-- container center -->
-</div><!--update_profile-->
+            <div class="profile_btn">
+              <button type="submit" class="btn btn-warning delete_btn">Update</button>
+              <button type="submit" class="btn btn-warning delete_btn">Cancel</button>
+            </div><!--profile_btn-->
+      </div><!--password_center-->
+    </div><!--set_password-->
+   </div> <!-- profile_content -->
+  </div> <!-- container center -->
+  </div><!--update_profile-->
+</form>
 </div><!--profile_text-->
-<script type="text/javascript">
-      $(document).ready(function(){           
-        if (window.location.href.indexOf("?profile=") >= 0) {
-        $(".update_ads").hide();    
-        $('.profile_text').show();
-        $('.update_profile').show(); 
-        }
-      });
-</script>
 {% endblock %}
