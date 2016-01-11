@@ -453,7 +453,7 @@ def user_manage(request):
                 else:
                     userprofile.profile_picture = userprofile.profile_picture
                 userprofile.save()
-                if 'pswd' in request.POST:
+                if request.POST['pswd']:
                     u = User.objects.get(username=request.user.username)
                     u.set_password(request.POST.get('pswd'))
                     u.save()
