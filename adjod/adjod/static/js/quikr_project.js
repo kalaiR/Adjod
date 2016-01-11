@@ -469,12 +469,12 @@ $( document ).ready(function() {
     });
 
     // Code for banner rotation based on interval
-    $('.banner_ad ul li:first').addClass('banneractive');
+    $('.banner_rotation ul li:first').addClass('banneractive');
     toggleSlide = function() {
-        var active = $(".banner_ad ul li.banneractive");
+        var active = $(".banner_rotation ul li.banneractive");
         var next   = active.next();
         if (next.length === 0) {
-            next = $('.banner_ad ul li:first');
+            next = $('.banner_rotation ul li:first');
         }
 
         active.removeClass('banneractive');
