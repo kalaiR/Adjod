@@ -34,7 +34,21 @@ function subscribe_center_align(){
       var width=$('.subscription_popup').width();
       $('.subscription_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 }
-
+function urgent_ad_center_align(){
+      var height=$('.urgentad_popup').height();
+      var width=$('.urgentad_popup').width();
+      $('.urgentad_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
+}
+function premium_ad_center_align(){
+      var height=$('.premium_ad_popup').height();
+      var width=$('.premium_ad_popup').width();
+      $('.premium_ad_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
+}
+function premium_urgent_ad_center_align(){
+      var height=$('.premium_urgent_ad_popup').height();
+      var width=$('.premium_urgent_ad_popup').width();
+      $('.premium_urgent_ad_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
+}
 function checkStrength(password){
       //initial strength
       var strength = 0
@@ -221,7 +235,23 @@ function fill_brands(sub_category_id) {
       response_cache4 = {}
 }
 //********** End Ajax Function **********
-
+function passwordChanged() {
+    $('#strength').show();
+    var strength = document.getElementById("strength");
+    var strongRegex = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).*$", "g");
+    var mediumRegex = new RegExp("^(?=.{7,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$", "g");
+    var enoughRegex = new RegExp("(?=.{6,}).*", "g");
+    var pwd = document.getElementById("pswd1");
+    if (false == enoughRegex.test(pwd.value)) {
+        strength.innerHTML = "More Character";
+    } else if (strongRegex.test(pwd.value)) {
+        strength.innerHTML = '<span style="color:green">Strong!</span>';
+    } else if (mediumRegex.test(pwd.value)) {
+        strength.innerHTML = '<span style="color:orange">Medium!</span>';
+    } else {
+        strength.innerHTML = '<span style="color:red">Weak!</span>';
+    }
+}
 //********** End Functions **********
 
 $( document ).ready(function() {
@@ -237,6 +267,32 @@ $( document ).ready(function() {
     sign_up_center_align();
     reset_div_center_align();
     subscribe_center_align();
+    urgent_ad_center_align();
+    premium_ad_center_align();
+    premium_urgent_ad_center_align();
+
+    //Post ad page view example popup
+    $(".urgent_ad").click(function(){
+       urgent_ad_center_align();
+        $('.popup_fade').show();
+        $('.urgentad_popup ,.close_btn').show();
+        document.body.style.overflow = 'hidden';
+    });
+
+    $(".premium_ad").click(function(){
+        premium_ad_center_align();
+        $('.popup_fade').show();
+        $('.premium_ad_popup ,.close_btn').show();
+        document.body.style.overflow = 'hidden';
+    });
+
+    $(".premium_urgent_ad").click(function(){
+        premium_urgent_ad_center_align();
+        $('.popup_fade').show();
+        $('.premium_urgent_ad_popup ,.close_btn').show();
+        document.body.style.overflow = 'hidden';
+    });
+
 
     // subscription popup
 
@@ -288,10 +344,12 @@ $( document ).ready(function() {
    //user profile check and uncheck functionality   by ramya
     $('.check_all_act').on('click', function(){
       $('.check').prop('checked', true);
+      $('.edit_action,.view_action,.delete_action').hide();
     });
 
     $('.uncheck_all_act').on('click', function(){
       $('.check').prop('checked', false);
+      $('.edit_action,.view_action,.delete_action').show();
     });
 
     function getSelectedVals(){
@@ -315,7 +373,6 @@ $( document ).ready(function() {
       }
       else{
         selected = getSelectedVals();
-        alert(selected);
         var myurl = "/delete_ad/"
         $.ajax({
                   type: "POST",
@@ -435,7 +492,7 @@ $( document ).ready(function() {
     });
     $('.cancel_btn').click(function(){
         $('.popup_fade').hide();
-        $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile,.subscription_popup').hide();
+        $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile,.subscription_popup,.urgentad_popup,.premium_ad_popup,.premium_urgent_ad_popup').hide();
         document.body.style.overflow = 'auto';
     });
     // Forgot Password Popup
@@ -501,7 +558,7 @@ $( document ).ready(function() {
     };
 
     // on blur: validate
-    $("#your_mobile_no").blur(function() {
+    $("#post").click(function() {
       reset();
       if ($.trim($("#your_mobile_no").val())) {
         if ($("#your_mobile_no").intlTelInput("isValidNumber")) {
@@ -537,7 +594,7 @@ $( document ).ready(function() {
     };
 
     // on blur: validate
-    $("#mobilenumber").blur(function() {
+    $("#alert_button").click(function() {
       reset();
       if ($.trim($("#mobilenumber").val())) {
         if ($("#mobilenumber").intlTelInput("isValidNumber")) {
@@ -574,7 +631,7 @@ $( document ).ready(function() {
     };
 
     // on blur: validate
-    $("#mobile_number_sign_up_home").blur(function() {
+    $("#create").click(function() {
       reset();
       if ($.trim($("#mobile_number_sign_up_home").val())) {
                if ($("#mobile_number_sign_up_home").intlTelInput("isValidNumber")) {
@@ -593,37 +650,37 @@ $( document ).ready(function() {
 
 
 
-      var telInput = $("#mobile_number_sign_up_postad"),
-      errorMsg = $("#error-msg"),
-      validMsg = $("#valid-msg");
+    //   var telInput = $("#mobile_number_sign_up_postad"),
+    //   errorMsg = $("#error-msg"),
+    //   validMsg = $("#valid-msg");
 
-    // initialise plugin
-    telInput.intlTelInput({
-       preferredCountries: [ "sg", "gb" ],
-      utilsScript: "../../static/lib/libphonenumber/build/utils.js"
-    });
+    // // initialise plugin
+    // telInput.intlTelInput({
+    //    preferredCountries: [ "sg", "gb" ],
+    //   utilsScript: "../../static/lib/libphonenumber/build/utils.js"
+    // });
 
-    var reset = function() {
-      telInput.removeClass("error");
-      errorMsg.addClass("hide");
-      validMsg.addClass("hide");
-    };
+    // var reset = function() {
+    //   telInput.removeClass("error");
+    //   errorMsg.addClass("hide");
+    //   validMsg.addClass("hide");
+    // };
 
-    // on blur: validate
-    $("#mobile_number_sign_up_postad").blur(function() {
-     reset();
-      if ($.trim($("#mobile_number_sign_up_postad").val())) {
-        if ($("#mobile_number_sign_up_postad").intlTelInput("isValidNumber")) {
-          validMsg.removeClass("hide");
-        } else {
-         telInput.addClass("error");
-      errorMsg.removeClass("hide");
-        }
-      }
-    });
+    // // on blur: validate
+    // $("#mobile_number_sign_up_postad").blur(function() {
+    //  reset();
+    //   if ($.trim($("#mobile_number_sign_up_postad").val())) {
+    //     if ($("#mobile_number_sign_up_postad").intlTelInput("isValidNumber")) {
+    //       validMsg.removeClass("hide");
+    //     } else {
+    //      telInput.addClass("error");
+    //   errorMsg.removeClass("hide");
+    //     }
+    //   }
+    // });
 
-    // on keyup / change flag: reset
-    telInput.on("keyup change", reset);
+    // // on keyup / change flag: reset
+    // telInput.on("keyup change", reset);
  // ************* end country wise mobile number validation *************
 
      // Image file upload
@@ -947,6 +1004,7 @@ $( document ).ready(function() {
        }
     });
 
+    
     $(".user_dropdown").hide();
     $(".caret_user").click(function(){
         $('.user_dropdown').toggle();
@@ -978,5 +1036,62 @@ $( document ).ready(function() {
               if (theEvent.preventDefault) theEvent.preventDefault();
           }
     });
+    $("#password2").keyup(function() {
+        var password = $(".pwd_profile").val();
+        $("#pswd_label_error1").html(password == $(this).val()? "Passwords match.": "Passwords do not match!");
+        if(password == $(this).val()){
+            $('.delete_btn').removeAttr('disabled');
+        }
+        else{
+            $('.delete_btn').attr('disabled','disabled');
+        }
+    });
 
+    $('.pwd_profile').focus(function(){
+        $('.delete_btn').attr('disabled','disabled');
+    });
+    $('.pwd_profile').blur(function(){
+        var value = $(this).val();
+        if(value.length <= 0){
+            $('.delete_btn').removeAttr('disabled');
+            // $('#result').hide();
+            // $('#pswd_label_error1').hide();
+        }
+    });
+
+
+//Show more and show less desciption in detail page
+    var showChar = 100;  // How many characters are shown by default
+    var ellipsestext = "...";
+    var moretext = "Show more";
+    var lesstext = "Show less";
+    
+    $('.more').each(function() {
+        var content = $(this).html();
+ 
+        if(content.length > showChar) {
+ 
+            var c = content.substr(0, showChar);
+            var h = content.substr(showChar, content.length - showChar);
+ 
+    var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+ 
+            $(this).html(html);
+        }
+ 
+    });
+    $(".morelink").click(function(){
+        if($(this).hasClass("less")) {
+            $(this).removeClass("less");
+            $(this).html(moretext);
+        } else {
+            $(this).addClass("less");
+            $(this).html(lesstext);
+        }
+        $(this).parent().prev().toggle();
+        $(this).prev().toggle();
+        return false;
+    });
+   
+   
 });

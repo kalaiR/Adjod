@@ -27,7 +27,7 @@
 
     <div class="container center">
       <div class="inner_container">
-         <form method="post" action="{% if path == '/postad/' %}/addproduct/{% else %}{% url update_product edit_product.id %}{% endif %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">      
+         <form method="post" action="{% if path == '/postad/' %}/addproduct/{% else %}{% url update_product edit_product.id %}{% endif %}" name="post_ad" id="post_ad" enctype="multipart/form-data" novalidate="novalidate">
           {% csrf_token %}
      	    <!--div class="{% if request.REQUEST.pt %} labelError success_post {% endif %}">{# for message in messages%}{{message}}{% endfor #}</div-->
        		<!-- <div class="field_title form-group" id="type_of_ad_title">
@@ -48,18 +48,20 @@
                 <input type="hidden" name="category_name" id="category_name" value="{% if edit_product.category%}{{edit_product.category.id}}{%endif%}">
                 <input type="hidden" name="subcategory_name" id="subcategory_name" value="{% if edit_product.subcategory%}{{edit_product.subcategory.id}}{%endif%}">
                 <input type="hidden" name="brand_name" id="brand_name" value="">
+                <input type="hidden" name="ad_title" id="ad_title" value="{% if edit_product.title%}{{edit_product.title}}{%endif%}">
               </div>
-
-              <input type="text" class="choose_category" name="category1" id="category" placeholder="Choose a category" value="{% if edit_product.category and edit_product.subcategory  %}{{edit_product.category}}>>{{edit_product.subcategory}}{% endif %}" disabled="disabled" />
-           		<a class="btn choose_button">{% trans "Choose" %}</a>
-           		<label for="category" id="category_required" class="labelError" style="display:none;">{% trans "Please choose category, Subcategory and Brand." %}</label>
+              <input type="text" class="choose_category" name="category1" id="category" placeholder="Choose a category" value="{% if edit_product.category and edit_product.subcategory  %}{{edit_product.category}}>>{{edit_product.subcategory}}{% endif %}" disabled="disabled" {% if edit_product.category and edit_product.subcategory  %}style="width:530px!important"{% endif %}/>
+                {% if not edit_product.category %}
+                <a class="btn choose_button">Choose</a>
+                {% endif %}
+           		<label for="category" id="category_required" class="labelError" style="display:none;">Please choose category, Subcategory and Brand.</label>
               <div class="clear_both"></div>
          	</div> <!-- category_div -->
 
          	<div class="field_div form-group" id="ad_title_div">
-         		<input type="text" class="ad_title" maxlength="70" onchange="updateCountdownTitle()" onkeyup="updateCountdownTitle()" name="ad_title" id="ad_title" value="{% if edit_product.title  %}{{edit_product.title}}{% endif %}" placeholder="Give a title to your Ad*"/><br/>
-         		<div class="char_left"><span id="ad_title_count">70</span>{% trans "characters left" %}</div>
-         		<label id="ad_title_required" class="labelError" style="display:none;">{% trans "Please enter title to your ad." %}</label>
+         		<input type="text" class="ad_title" maxlength="70" onchange="updateCountdownTitle()" onkeyup="updateCountdownTitle()" name="ad_title" id="ad_title" value="{% if edit_product.title  %}{{edit_product.title}}{% endif %}" placeholder="Give a title to your Ad*" {% if edit_product.title  %}disabled{% endif %}/><br/>
+         		<div class="char_left"><span id="ad_title_count">70</span> characters left</div>
+         		<label id="ad_title_required" class="labelError" style="display:none;">Please enter title to your ad.</label>
          	</div> <!-- ad_title_div -->
 
           <div style="display: block;" class="field_div form-group" id="price_div">
@@ -91,13 +93,13 @@
             {% else %}
               <input type='file' id='photos' name='photos[]' multiple='multiple' class="poster" value="" />
               <span class="photo_labelError"></span>
-              <span class="error_photo" style="color:red; display:none;">{% trans "Invalid file type" %}</span>
+              <span class="error_photo" style="color:red; display:none; line-height:3;">{% trans "Invalid file type" %}</span>
             {% endif %}
 
             <div class="photos_text" >
               {% trans "Ads with photos sell faster(Upload only png, jpg, jpeg, gif)" %}
             </div> <!-- photos_text -->
-            <span class="photo_labelError"></span>
+           <!--  <span class="photo_labelError"></span> -->
         </div> <!-- upload_photos_div -->
          <!--  <div class="field_title form-group">
             <span class="title">Upload Videos</span>
@@ -161,7 +163,7 @@
             {% endif %}
             <input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" type="tel" />
             <!-- <span id="valid-msg" class="hide mgs">Valid</span> -->
-            <label id="error-msg" class="hide mgs">Invalid number</label>
+            <label id="error-msg" class="hide mgs_error">please enter valid mobile number</label>
           </div> <!-- name_div -->
 
          	<div class="field_div form-group" id="email_div">
