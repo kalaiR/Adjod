@@ -320,6 +320,10 @@ $( document ).ready(function() {
         $(this).center();
     });
 
+    $('.product_images1 img').load(function(){
+        $(this).center();
+    });   
+
     // Social auth share button actions for desktop
     $(".fbtwtbutton").hide();
     $(".share_button").click(function(){
