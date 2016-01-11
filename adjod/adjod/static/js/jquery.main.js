@@ -222,17 +222,17 @@ $( document ).ready(function() {
       }
     }
     //Validate the e-mail.
-    if($('#email_id').val() != ''){
-    if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#email_id').val())) {
-      $('#email_id').addClass("error_input_field");
-      $('#email_id').siblings('.signup_labelError').text("Please enter valid email address");
-      $('.signup_labelError').show();
+    if($('#emailid_signup').val() != '' && $('#emailid_signup').val().indexOf('@') > -1){
+    if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#emailid_signup').val())) {
+      $('#emailid_signup').addClass("error_input_field");
+      $('#emailid_signup').siblings('.labelError').text("Please enter valid email address");
+      $('#emailid_signup').siblings('.labelError').show();
       //email.val(emailerror);
     }
     else
     {
-      $('#email_id').removeClass("error_input_field");
-      $('#email_id').siblings('.signup_labelError').hide();
+      $('#emailid_signup').removeClass("error_input_field");
+      $('#emailid_signup').siblings('.labelError').hide();
     }
     }
      if ($(":input").hasClass("error_input_field")){

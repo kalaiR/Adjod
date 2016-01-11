@@ -17,7 +17,7 @@
    <div class="col-md-6 second-column">
               <div class="visible-lg">
                   <h4>{{adinfo.title}}</h4>
-                  <span class="Ad-ID">{% trans "Ad ID:" %}{{adinfo.id}} | {{adinfo.created_date}} | 19 views</span>
+                  <span class="Ad-ID">{% trans "Ad ID:" %}{{adinfo.id}} | {{adinfo.created_date}}</span>
               </div>
 
               <div class="product-image visible-lg">
@@ -88,7 +88,7 @@
                   <h3>{{adinfo.title}}</h3>
                   </div></div>
                   <div class="product_id">
-                  <span class="Ad-ID">Ad ID:{{adinfo.id}} | {{adinfo.created_date}} | 19 views</span>
+                  <span class="Ad-ID">Ad ID:{{adinfo.id}} | {{adinfo.created_date}} </span>
                 </div>
                 <div class="price_mobile hidden-lg">
                  <span class="price_info">{{adinfo.price|conversion}}</span>
@@ -97,8 +97,7 @@
         <div class="col-md-6 first-column">
               <div class="column-height">
                 <div class="other-buttons visible-lg" id="fb-root">
-
-                <span href="" class="btn btn-default share_button" onclick="fbshare()">{% trans "Share" %}
+                 <span href="" class="btn btn-default share_button" onclick="fbshare()">{% trans "Share" %}
                 <i class="fa fa-share-alt"></i></span>
                 <!-- <span href="" class="btn btn-default favourite_button"> Add as favourite
                 <i class="fa fa-heart heart_detail"></i></span> -->
@@ -146,7 +145,7 @@
                     <p class="line_style"><span class="field_name fl">{% trans "Brand" %}</span><span>:</span>
                     <span class="parallel_line">{{adinfo.ad_brand}}</span></p>
                     <p><span class="field_name fl">Located In</span><span>:</span>
-                    <span class="parallel_line">{{adinfo.city}}</span></p>
+                    <span class="parallel_line">{{adinfo.locality}}</span></p>
                     <p class="line_style"><span class="field_name fl">{% trans "Posted By" %}</span><span>:</span>
                     <span class="parallel_line">{{adinfo.you_are}}</span></p>
                   </div>
@@ -160,16 +159,18 @@
               <div class="contact-seller visible-lg">
                 <h4 class="seller">{% trans "Contact Seller" %}</h4>
                 <div class="owner_contact">
-                    <p class="owner_name">
+                    <!-- <p class="owner_name">
                     {% if adinfo.userprofile %}
                     {{adinfo.userprofile.user.email}}
                     {% else %}
                     {% trans "Anonymous" %}
                     {% endif %}
-                    </p>
+                    </p> -->
                     <p class="owner_number">
                     {% if adinfo.you_phone %}
                     {{adinfo.you_phone}}
+                    {% else %}
+                    No Contact Details, You can contact via chat when they are in online
                     {% endif %}
                     </p>
                     <!-- <span class="number_verify_1"><i class="fa fa-check-circle"></i> Number verified</span></p>
@@ -346,7 +347,7 @@
                         <div class="details">
                             <div class="product_name1_mobile">
                               <div class="tran_bg">
-                                <a href="" class="spans"> {{related_products.object.title}}</a>
+                                <a href="" class="spans product_hover"> {{related_products.object.title}}</a>
                                   <div class="additional_details_mobile">
                                     <h3>$ {{related_products.object.price}}</h3>
                                     <a href="" class="btn btn-default contact_button visible-lg">Contact</a>

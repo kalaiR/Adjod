@@ -6,6 +6,7 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.tokens import default_token_generator
+from django.http import Http404
 
 #Different ways of rendering HTML page
 from django.shortcuts import render_to_response, render, redirect
@@ -406,11 +407,13 @@ class LoginError(View):
 def user_manage(request):
     if request.user.is_authenticated():
         userprofile_id = request.user.id
-        my_products = Product.objects.filter(userprofile_id=userprofile_id)
-        userprofile = UserProfile.objects.get(id=request.user.id)
+        try:
+            my_products = Product.objects.filter(userprofile_id=userprofile_id)
+            userprofile = UserProfile.objects.get(id=request.user.id)
+        except UserProfile.DoesNotExist:
+            return render_to_response('404.html', context_instance=RequestContext(request))
         print 'userprofile', userprofile
         if request.method == 'POST':
-            print 'POST'
             mobile = request.POST.get('your_mobile_no')
             user_age = request.POST.get('user_age')
             gender = request.POST.get('gender')
@@ -426,7 +429,7 @@ def user_manage(request):
                     settings.MEDIA_ROOT + '/profile/' + '%s' % f.name, 'wb+')
                 for chunk in f.chunks():
                     profile_picture.write(chunk)
-                profile_picture.close()           
+                profile_picture.close()
 
             if userprofile:
                 print 'yes'
@@ -447,10 +450,11 @@ def user_manage(request):
                     profile_picture = request.FILES['profile_poster']
                     print 'profile_picture', profile_picture
                     handle_uploaded_file(profile_picture)
-                    profile_picture = '/profile/' + str(profile_picture)           
+                    profile_picture = '/profile/' + str(profile_picture)
                     userprofile.profile_picture = profile_picture
-                print 'if pic', userprofile.profile_picture               
-                userprofile.save()        
+                else:
+                    userprofile.profile_picture = userprofile.profile_picture
+                userprofile.save()
                 # if 'profile_poster' in request.FILES:
                 #     userprofile.profile_picture = request.FILES.get('profile_poster')
                 #     print 'if pic', userprofile.profile_picture
@@ -460,17 +464,15 @@ def user_manage(request):
         else:
             ctx={'my_products':my_products, 'userprofile':userprofile}
         return render_to_response('adjod/updateprofile.html', ctx, context_instance=RequestContext(request))
-
+    else:
+        return HttpResponseRedirect('/')
 def edit_postad_detail(request , pk):
-    print "view_postad_detail"
     edit_product = Product.objects.get(pk=int(pk))
     pic=[n for n in str(edit_product.thumbnail).split(',')]
-    print 'pic', pic
-
     return render_to_response('advertisement/ad_post.html', {'edit_product':edit_product, 'pic':pic}, context_instance=RequestContext(request))
 
 def update_success(request, updated_product):
-    print 'update_success'
+    print 'update_success>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',request.POST
     error = {}
     updated_product.category=Category.objects.get(id=request.POST['category_name'])
     print 'updated_product.category', updated_product.category

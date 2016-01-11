@@ -5,3 +5,4 @@
 {{ object.subcategoryid }}
 {{ object.brandtype }}
 {{ object.city}}
+{{ object.status_isactive}}

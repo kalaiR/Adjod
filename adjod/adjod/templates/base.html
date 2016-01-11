@@ -23,13 +23,13 @@
     <script src="{% static "js/jquery-1.11.3.min.js" %}"></script>
     <script src="{% static "js/jquery-migrate-1.2.1.js" %}"></script>
     <script src="{% static "js/jquery-ui-1.10.4.custom.min.js" %}"></script>
-    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <!-- <script src="{% static "js/bootstrap.min.js" %}"></script> -->
     <script src="{% static "js/jquery.ui.chatbox.js" %}"></script>
     <script src="{% static "js/jquery.ui.slider.js" %}"></script>
     <script src="{% static "js/jquery.switchButton.js" %}"></script>
     <script src="{% static "js/html5shiv.js" %}"></script>
     <script src="{% static "js/less.js" %}"></script>
-    <script src="{% static "js/action.js" %}"></script>
+    <!-- <script src="{% static "js/action.js" %}"></script> -->
     <link href="{% static "AdminLTE/dist/css/AdminLTE.css" %}" rel="stylesheet" type="text/css" />
     <link id='theme' rel='stylesheet' />
     <link rel='stylesheet' href="{% static "css/chat.css" %}" />
@@ -42,11 +42,11 @@
     <script src="{% static "js/i18n_en.js" %}"></script>
     <script src="{% static "js/quikr_project.js" %}"></script>
     <script src="{% static "js/search.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script>
+    <!-- <script type="text/javascript" src="{% static "js/jquery.fancybox.js" %}"></script> -->
     <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script>
-    <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
+    <!-- <script src="{% static "js/jquery.iframe-transport.js" %}"></script> -->
     <script src="{% static "js/intlTelInput.min.js" %}"></script>
-     <script src="{% static "js/mobile_action.js" %}"></script> 
+    <script src="{% static "js/mobile_action.js" %}"></script> 
     <script type="text/javascript">    
       function updateCountdownTitle() {
           var remaining = 70 - $('.ad_title').val().length;
@@ -57,7 +57,7 @@
           $('#desc_count').text(remaining);
       }
     </script>
-   
+
 </head>
 <body>
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/nkAydfUqi1s" frameborder="0" allowfullscreen></iframe> -->
@@ -88,13 +88,13 @@
 
           {% if 'search' in path  %}
             <div class="result_page">
-              <i class="fa fa-angle-left left_angle"></i>
+              <a href="/"><i class="fa fa-angle-left left_angle"></i></a>
               <i class="fa fa-bell bell_font"></i>
              </div><!--result_page-->
           {% endif %}
           {% if 'ads' in path  %}
             <div class="detail_page">
-              <i class="fa fa-angle-left angle_icon"> <span class="detail_list">List</span></i>
+               <a href="/"><i class="fa fa-angle-left angle_icon"> <span class="detail_list">List</span></i></a>
               <div class="detail_icon">
                   <i class="fa fa-heart heart_font"></i>
                     <div class="share hidden-lg">
@@ -110,19 +110,23 @@
           </div> <!-- navbar header -->
           {% if 'postad' in path  %}
             <div class="postad_page">
-              <a href="/"><i class="fa fa-angle-left left_angle"></i></a>
-
-             </div><!--postad_page-->
+              <a href="/"><i class="fa fa-angle-left left_angle"></i>
+              <span class="post_ad_first hidden-lg">Post an Ad in just 30 seconds</span></a>
+            </div><!--postad_page-->
           {% endif %}
-
+          {% if 'user_manage' in path %}
+          <div class="user_mgnt_page">
+            <a href="/"><i class="fa fa-angle-left left_angle"></i></a>
+          </div><!--user_mgnt_page-->
+          {% endif %}
        <!-- CHANGES MADE BY RAMYA FOR USER PROFILE -->
           <div id="navbar" class="collapse navbar-collapse">
               <a class="quikr_logo fl" href="/"> </a>
               <ul class="nav navbar-nav navbar-right">
                   {% if user.is_authenticated %}
-                    {% if request.path != '/user_manage/' %}  
+                    {% if request.path != '/user_manage/' %}
                       <li class="user_name start_myads"><a href="/user_manage/">{{request.user.email}}</a>
-                    {% else %}                   
+                    {% else %}
                       <li class="user_name"><a href="/user_manage/">{{request.user.email}}</a>
                       <i class="fa fa-caret-down caret_user"></i>
                       <div class="user_dropdown">
@@ -131,8 +135,8 @@
                            <li class="menu_active"><a href="#" class="My_profile">Update My Profile</a></li>
                           <!--  <a href="/my_chats"><li>My Chats</li></a> -->
                          </ul>
-                      </div> <!--user_dropdown-->       
-                  {% endif %}  
+                      </div> <!--user_dropdown-->
+                  {% endif %}
                   {% endif %}
                     <!-- {% if 'search' in path %}
                     <li>
@@ -243,9 +247,9 @@
                   {%  if 'search' in path  or 'user_manage' in path %}
                       <div class="custom_select language_custom_select search_city">
                           <div class="select select_new">
-                          <p id="cityselected">Select Locality</p>
+                          <p id="localityselected">Select Locality</p>
                           <i class="fa fa-caret-down"></i>
-                           <select class="city">
+                           <select class="locality">
                             <option  id="currentid" value="Select Locality">Select Locality</option>
                             {% for localities in locality %}
                                 <option value="{{localities.id}}" id="ajax_cityid">{{ localities.locality }} </option>
@@ -306,7 +310,6 @@
       <hr class="photos_line" noshade="noshade">
       {% endif %}
     {% endif %}
-
     <div class="container second_part">
       {% block content %}
       {% endblock %}
@@ -321,7 +324,7 @@
     </div> <!-- container -->
     {% endif %}
 
-    
+
 
     <div class="container">
       <p class="contact">{% trans "For site related issues,Check out our" %}<a href=""><span class="span3">{% trans "Help" %}</span></a>{% trans "section or email us at" %} <a href=""><span class="span3">{% trans "support@quikr.com" %}</span>
@@ -484,7 +487,8 @@
 
 
               <div id="mobile_number_div" class="form-group fr">
-                <input class="mobile_number" name="your_mobile_number" id="mobile_number_sign_up_home" placeholder="Your mobile number"/>
+                <input class="mobile_number" name="your_mobile_number" id="mobile_number_sign_up_home"  type="tel"/><br><br>
+                <label id="valid-msg" class="hide">Invalid number</label>
               </div>
 
               <!-- <div id="mobile_number_div" class="form-group">
@@ -553,7 +557,7 @@
 
             </div> -->
 
-            <iframe src="{% url password_reset %}" height= "215" width="288" scrolling="no" frameBorder="0" style="border:none;" class="pwd_reset_iframe"></iframe>
+            <iframe src="{% url password_reset %}" height= "215" scrolling="no" frameBorder="0" style="border:none;" class="pwd_reset_iframe"></iframe>
            </form>
             <div id="" class="form-group">
               <hr class="photos_line" noshade="noshade">
@@ -588,9 +592,9 @@
           <input id="id_business" type="hidden" value="{{paypal_receiver_email}}" name="business">
           <input id="id_amount" type="hidden" value="{{premium_info_account.premium_price}}" name="amount">
           <input id="id_item_name" type="hidden" value="Account Subscription" name="item_name">
-          <input id="id_notify_url" type="hidden" value="{{notify_url}}" name="notify_url">
-          <input id="id_cancel_return" type="hidden" value="{{cancel_return}}" name="cancel_return">
-          <input id="id_return_url" type="hidden" value="{{success_return}}" name="return">
+          <input id="id_notify_url" type="hidden" value="{{current_site}}{{notify_url}}" name="notify_url">
+          <input id="id_cancel_return" type="hidden" value="{{current_site}}{{cancel_return}}" name="cancel_return">
+          <input id="id_return_url" type="hidden" value="{{current_site}}{{success_return}}" name="return">
           <input id="id_custom" type="hidden" value="{{request.user.username}}" name="custom">
           <input id="id_cmd" type="hidden" value="_xclick" name="cmd">
           <input id="id_charset" type="hidden" value="utf-8" name="charset">
@@ -621,40 +625,41 @@
         });
       </script>
       <div class="popup_fade " style=" display: block;left:0px;"></div>
-      {% if request.REQUEST.pt == '5' %}
+      {% if request.REQUEST.pt == '5' or request.REQUEST.pt == '7'%}
       <div class="postad_success_popup">
-      <code class="close_btn cancel_btn" style="display: block;"></code>
-         <div class="subscribe_title">
-            <h4>{% trans "Message" %}</h4>
-        </div><!--subscribe_titl-->
-         <div class="subscribe_content">
-           <p>{{ message }}</p>
-       </div><!--subscribe_content-->
-   </div><!--subscription_popup-->
-   {% elif request.REQUEST.pt == '6' %}
+        <code class="close_btn cancel_btn" style="display: block;"></code>
+           <div class="subscribe_title">
+              <h4>{% trans "Message" %}</h4>
+           </div><!--subscribe_titl-->
+           <div class="subscribe_content">
+             <p>{{ message }}</p>
+           </div><!--subscribe_content-->
+      </div><!--postad_success_popup-->
+   {% elif request.REQUEST.pt == '6' or request.REQUEST.pt == '8'%}
    <div class="postad_success_popup">
-   <code class="close_btn cancel_btn" style="display: block;"></code>
-      <div class="subscribe_title">
-         <h4>{% trans "Message" %}</h4>
-     </div><!--subscribe_titl-->
-      <div class="subscribe_content">
-        <p>{{ message }}</p>
-         <code></code>
-    </div><!--subscribe_content-->
-    <form action='{{sandbox_url}}' method='post' name="paypal_account_subscription">
-    {%csrf_token%}
-      <input id="id_business" type="hidden" value="{{paypal_receiver_email}}" name="business">
-      <input id="id_amount" type="hidden" value="{{premium_info_account.premium_price}}" name="amount">
-      <input id="id_item_name" type="hidden" value="Account Subscription" name="item_name">
-      <input id="id_notify_url" type="hidden" value="{{notify_url}}" name="notify_url">
-      <input id="id_cancel_return" type="hidden" value="{{cancel_return}}" name="cancel_return">
-      <input id="id_return_url" type="hidden" value="{{success_return}}" name="return">
-      <input id="id_custom" type="hidden" value="{{request.user.username}}" name="custom">
-      <input id="id_cmd" type="hidden" value="_xclick" name="cmd">
-      <input id="id_charset" type="hidden" value="utf-8" name="charset">
-      <input id="id_currency_code" type="hidden" value="USD" name="currency_code">
-      <input id="id_no_shipping" type="hidden" value="1" name="no_shipping">
-    </form>
+     <code class="close_btn cancel_btn" style="display: block;"></code>
+        <div class="subscribe_title">
+           <h4>{% trans "Message" %}</h4>
+       </div><!--subscribe_titl-->
+        <div class="subscribe_content">
+          <p>{{ message }}</p>
+           <code></code>
+      </div><!--subscribe_content-->
+      <form action='{{sandbox_url}}' method='post' name="paypal_account_subscription">
+      {%csrf_token%}
+        <input id="id_business" type="hidden" value="{{paypal_receiver_email}}" name="business">
+        <input id="id_amount" type="hidden" value="{{premium_info_account.premium_price}}" name="amount">
+        <input id="id_item_name" type="hidden" value="Account Subscription" name="item_name">
+        <input id="id_item_name" type="hidden" value="{{current_site}}" name="item_name">
+        <input id="id_notify_url" type="hidden" value="{{current_site}}{{notify_url}}" name="notify_url">
+        <input id="id_cancel_return" type="hidden" value="{{current_site}}{{cancel_return}}" name="cancel_return">
+        <input id="id_return_url" type="hidden" value="{{current_site}}{{success_return}}" name="return">
+        <input id="id_custom" type="hidden" value="{{request.user.username}}" name="custom">
+        <input id="id_cmd" type="hidden" value="_xclick" name="cmd">
+        <input id="id_charset" type="hidden" value="utf-8" name="charset">
+        <input id="id_currency_code" type="hidden" value="USD" name="currency_code">
+        <input id="id_no_shipping" type="hidden" value="1" name="no_shipping">
+      </form>
 </div><!--subscription_popup-->
 {% endif %}
    {% endfor %}

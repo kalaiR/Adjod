@@ -2,9 +2,11 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from adjod.views import *
+from adjod.util import error_404,error_500
 from advertisement.views import *
 from django.contrib import admin
 from advertisement.models import Product
+
 # from haystack.views import SearchView, FacetedSearchView
 
 # Custom Search View
@@ -15,6 +17,7 @@ from search.searchform import ProductSearchFilter
 #For language translation
 from django.conf.urls.i18n import i18n_patterns
 from django.utils.translation import ugettext_lazy as _
+from django.conf.urls.defaults import handler404, handler500
 from paypal.standard.ipn import *
 
 admin.autodiscover()
@@ -129,7 +132,7 @@ urlpatterns = patterns('',
     url(r'^loadbasecurrency/$', 'adjod.views.loadbasecurrency',name='loadbasecurrency'),
 
     #  url for user_profile updated by Ramya
-    url(r'^user_manage/$', 'adjod.views.user_manage',name='user_manage'),   
+    url(r'^user_manage/$', 'adjod.views.user_manage',name='user_manage'),
     # url(r'^my_chats/$', 'adjod.views.my_chats',name='my_chats'),
     url(r'^edit_postad_detail/(?P<pk>\d+)/$', 'adjod.views.edit_postad_detail',name='edit_postad_detail'),
     url(r'^delete_ad/$', 'adjod.views.delete_ad',name='delete_ad'),

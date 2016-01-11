@@ -188,7 +188,7 @@ class FreeAlert(models.Model):
     alert_user=models.ForeignKey(UserProfile,verbose_name='User',help_text='Choose user',null=True)
     alert_category = models.ForeignKey(Category, verbose_name='Category',help_text='Choose category', null=False)
     alert_subcategory =models.ForeignKey(SubCategory,verbose_name='Subcategory',help_text='Choose subcategory',null=False)
-    alert_brand=models.ForeignKey(Dropdown,null=False,verbose_name='Brand',help_text='Choose Brand',)
+    alert_brand=models.ForeignKey(Dropdown,null=True,verbose_name='Brand',help_text='Choose Brand',)
     alert_city=models.ForeignKey(City, null=False,verbose_name='City',help_text='Choose city',)
     alert_locality=models.ForeignKey(Locality, null=False,verbose_name='Locality',help_text='Choose Locality',)
     alert_email=models.EmailField(max_length=30, null=False,verbose_name='Email',help_text='Enter valid email',)

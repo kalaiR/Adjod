@@ -68,7 +68,7 @@ $(document).ready(function() {
                 $(this).center();
             });
             // $('.brand_folder').hide();
-            $("li.brand_folder > ul").hide();
+            // $("li.brand_folder > ul").hide();
             attach_pagination_events();
 
             var url = window.location.href;
@@ -80,6 +80,13 @@ $(document).ready(function() {
             $('.list_folder').on('click',function(e){
                 e.stopImmediatePropagation();
                 $(this).find('.hide_list:first').slideToggle();
+
+                //perform_search();
+            });
+           $('.brand_name').on('click',function(e){
+                e.stopImmediatePropagation();
+                $('.list').slideToggle();
+
                 //perform_search();
             });
             $('.get').on('click',function(e){
@@ -94,7 +101,9 @@ $(document).ready(function() {
                 $('.list_display_subcat').html(text + " <i class='fa fa-angle-right right'></i>");
 
             });
-
+             $('.categoryselected').click(function(){
+                $('.brand_folder').hide();
+             });
 
     //subcategory list choose
     $('.subclick > li .subcategory_choose').click(function () {
@@ -110,6 +119,7 @@ $(document).ready(function() {
         // alert(subid);
         var trim_subid = $.trim(subid);
         var ajax_subid = $('input[type="hidden"]#subcategoryid').val(trim_subid);
+        $('input[type="hidden"]#locality').val('');
         $('[name=subcategoryid]').text(trim_subid);
          var trim_subid = $.trim(subid);
          // alert($.trim(subid));
@@ -155,12 +165,12 @@ $(document).ready(function() {
     // });
 
 	// city based search
-	 $(document).on("change", '.city', function () {
+	 $(document).on("change", '.locality', function () {
 
 	    // $( ".city" ).change(function () {
-		var selected_option = $( ".city option:selected" ).val();
-		$('p#cityselected').html($( ".city option:selected" ).text());
-		var city = $('input[type="hidden"]#city').val($(this).val());
+		var selected_option = $( ".locality option:selected" ).val();
+		$('p#localityselected').html($( ".locality option:selected" ).text());
+		var locality = $('input[type="hidden"]#locality').val($(this).val());
         $('input[name="page"]').val('');
 		perform_search();
 	});
