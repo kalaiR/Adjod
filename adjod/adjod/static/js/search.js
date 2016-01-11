@@ -119,6 +119,7 @@ $(document).ready(function() {
         // alert(subid);
         var trim_subid = $.trim(subid);
         var ajax_subid = $('input[type="hidden"]#subcategoryid').val(trim_subid);
+        $('input[type="hidden"]#locality').val('');
         $('[name=subcategoryid]').text(trim_subid);
          var trim_subid = $.trim(subid);
          // alert($.trim(subid));
@@ -164,12 +165,12 @@ $(document).ready(function() {
     // });
 
 	// city based search
-	 $(document).on("change", '.city', function () {
+	 $(document).on("change", '.locality', function () {
 
 	    // $( ".city" ).change(function () {
-		var selected_option = $( ".city option:selected" ).val();
-		$('p#cityselected').html($( ".city option:selected" ).text());
-		var city = $('input[type="hidden"]#city').val($(this).val());
+		var selected_option = $( ".locality option:selected" ).val();
+		$('p#localityselected').html($( ".locality option:selected" ).text());
+		var locality = $('input[type="hidden"]#locality').val($(this).val());
         $('input[name="page"]').val('');
 		perform_search();
 	});

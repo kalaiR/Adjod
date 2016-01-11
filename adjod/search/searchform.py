@@ -48,8 +48,9 @@ class ProductSearchFilter(FacetedSearchForm):
     premium_plan_id=forms.CharField(required=False)
     # lang = forms.CharField(required=False)
     city=forms.CharField(required=False)
+    locality=forms.CharField(required=False)
     groupby = forms.CharField(required=False)
-    status_isactive = forms.BooleanField(required=True)
+    status_isactive = forms.BooleanField(required=False)
    
     def no_query_found(self): 
       data = self.searchqueryset.all()  
@@ -110,7 +111,8 @@ class ProductSearchFilter(FacetedSearchForm):
         'country',
         'ispremium',
         'premium_plan_id',
-        'city',    
+        'city', 
+        'locality',
         'pricelow',
         'pricehigh',
       ]
