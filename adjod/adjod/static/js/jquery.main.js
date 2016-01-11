@@ -787,7 +787,7 @@ $( document ).ready(function() {
       $( "#Dialog" + product_id ).data( "status", status );
     }
 
-    function main_chat_user_new ( id, status, name, product ) {
+    function main_chat_user_new ( id, status, name, product,action ) {
       //Append in the chat!
       // alert("main_chat_user_new");
       // alert("product"+product);
@@ -805,7 +805,8 @@ $( document ).ready(function() {
         // $('.box-title').text($('.product_users').next('.product_title_for_chat').text());
         // });
         // alert(product_id);
-        append_previous_chat_message(user_name,name,product_id);
+        if (action == "usrlist")
+          append_previous_chat_message(user_name,name,product_id);
         }
      
       
@@ -1338,8 +1339,8 @@ $( document ).ready(function() {
         // alert("if");  
         main_append_dialog( recv.data.user.uid, recv.data.user.user, recv.data.product_id);
         // append_previous_chat_message( recv.data.user.uid, recv.data.user.user, recv.data.product_id, recv.data.user.chat_message)
-        append_previous_chat_message(recv.data.user.user,user_name,recv.data.product_id);
         main_set_dialog( recv.data.user.uid, recv.data.user.user, recv.data.product_id);
+        append_previous_chat_message(recv.data.user.user,user_name,recv.data.product_id);
         
         }
         // alert("after main_set_dialog");
@@ -1379,6 +1380,7 @@ $( document ).ready(function() {
         chat_record['product']=product_id;
         chat_record['sender_image']=user_avatar;
         chat_record['receiver_image']=avatar;
+        
   
         // JSONstr=JSON.stringify(chat_record);
         // $.post("/store_chat_record/", {data:JSONstr}, function(data){ console.log("success")});  
@@ -1399,7 +1401,7 @@ $( document ).ready(function() {
         // main_set_dialog( recv.user.uid, recv.user.user);
 
         //Append the user to chat
-        main_chat_user_new( recv.user.uid, recv.user.status, recv.user.user, recv.user.product );
+        main_chat_user_new( recv.user.uid, recv.user.status, recv.user.user, recv.user.product, "newuser");
 
         // if ( $( "#Dialog" + own_products ).length == 0 ) {
         //   // alert("if");  
@@ -1475,7 +1477,7 @@ $( document ).ready(function() {
           // main_set_dialog( recv.user[i].uid, recv.user[i].user);
 
           //Append the user to chat
-          main_chat_user_new( recv.user[i].uid, recv.user[i].status, recv.user[i].user, recv.user[i].product );
+          main_chat_user_new( recv.user[i].uid, recv.user[i].status, recv.user[i].user, recv.user[i].product,"usrlist");
           // main_chat_user_new( recv.user[i].uid, recv.user[i].status, recv.user[i].name);
           }
           // else{
