@@ -840,7 +840,7 @@ $( document ).ready(function() {
     });
 
     //============= CHOOSE LANGUAGE DROPDOWN ===========
-      $( ".custom_select_value_act" ).change(function () {
+      $( ".custom_select_value_act" ).change(function () {          
           var selected_option = $( ".custom_select_value_act option:selected" ).text();
           $('#custom_select_value_act').html(selected_option);
     });

@@ -3,7 +3,7 @@
 {% load static from staticfiles %}
 {%block page_swap%}
     <span>
-      <a href="/" class="previous_page2">Back to my search results</a>
+      <a href="/" class="previous_page2">{% trans "Back to my search results" %}</a>
       {% if 'ads' in path %}
       <i class="fa fa-angle-right right"></i>
       <a href="/search/?q=" class="previous_page1">{{adinfo.category}}</a>
@@ -17,7 +17,7 @@
    <div class="col-md-6 second-column">
               <div class="visible-lg">
                   <h4>{{adinfo.title}}</h4>
-                  <span class="Ad-ID">Ad ID:{{adinfo.id}} | {{adinfo.created_date}} </span>
+                  <span class="Ad-ID">{% trans "Ad ID:" %}{{adinfo.id}} | {{adinfo.created_date}}</span>
               </div>
 
               <div class="product-image visible-lg">
@@ -97,8 +97,7 @@
         <div class="col-md-6 first-column">
               <div class="column-height">
                 <div class="other-buttons visible-lg" id="fb-root">
-
-                <span href="" class="btn btn-default share_button" onclick="fbshare()"> Share
+                 <span href="" class="btn btn-default share_button" onclick="fbshare()">{% trans "Share" %}
                 <i class="fa fa-share-alt"></i></span>
                 <!-- <span href="" class="btn btn-default favourite_button"> Add as favourite
                 <i class="fa fa-heart heart_detail"></i></span> -->
@@ -139,32 +138,32 @@
                   <h3>Product Details<span class="price visible-lg">$ {{adinfo.price|conversion}}</span></h3>
                   </div>
                   <div class="product_owner_details">
-                    <p class="line_style"><span class="field_name fl">Category</span><span>:</span>
+                    <p class="line_style"><span class="field_name fl">{% trans "Category" %}</span><span>:</span>
                     <span class="parallel_line">{{adinfo.category}}</span></p>
                     <p><span class="field_name fl">SubCategory</span><span>:</span>
                     <span class="parallel_line">{{adinfo.subcategory}}</span></p>
-                    <p class="line_style"><span class="field_name fl">Brand</span><span>:</span>
+                    <p class="line_style"><span class="field_name fl">{% trans "Brand" %}</span><span>:</span>
                     <span class="parallel_line">{{adinfo.ad_brand}}</span></p>
                     <p><span class="field_name fl">Located In</span><span>:</span>
                     <span class="parallel_line">{{adinfo.locality}}</span></p>
-                    <p class="line_style"><span class="field_name fl">Posted By</span><span>:</span>
+                    <p class="line_style"><span class="field_name fl">{% trans "Posted By" %}</span><span>:</span>
                     <span class="parallel_line">{{adinfo.you_are}}</span></p>
                   </div>
                 </div>
               </div>
               {% if adinfo.video%}
               <div class="video_url">
-                <span> Video URL: <a target="__blank" href="{{adinfo.video}}">{{adinfo.video}}</a></span>
+                <span>{% trans "Video URL:" %}<a target="__blank" href="{{adinfo.video}}">{{adinfo.video}}</a></span>
               </div>
               {% endif %}
               <div class="contact-seller visible-lg">
-                <h4 class="seller">Contact Seller</h4>
+                <h4 class="seller">{% trans "Contact Seller" %}</h4>
                 <div class="owner_contact">
                     <!-- <p class="owner_name">
                     {% if adinfo.userprofile %}
                     {{adinfo.userprofile.user.email}}
                     {% else %}
-                    Anonymous
+                    {% trans "Anonymous" %}
                     {% endif %}
                     </p> -->
                     <p class="owner_number">
@@ -189,13 +188,13 @@
               </div>
 
                <div class="contact-seller_mobile hidden-lg">
-                <h4 class="seller_mobile">Seller details</h4>
+                <h4 class="seller_mobile">{% trans "Seller details" %}</h4>
                 <div class="owner_contact">
                     <p class="owner_name">
                     {% if adinfo.userprofile %}
                     {{adinfo.userprofile.user.email}}
                     {% else %}
-                    Anonymous
+                    {% trans "Anonymous" %}
                     {% endif %}
                     </p>
                     <p class="owner_number">
@@ -203,14 +202,14 @@
                     {{adinfo.you_phone}}
                     {% endif %}
                     </p>
-                    <span class="number_verify_1"><i class="fa fa-check-circle"></i> Number verified</span></p>
+                    <span class="number_verify_1"><i class="fa fa-check-circle"></i>{% trans "Number verified" %}</span></p>
 
                 </div>
                 <div class="send_msg">
-                  <span>Send free SMS <i class="fa fa-caret-down caret-down"></i>
+                  <span>{% trans "Send free SMS" %}<i class="fa fa-caret-down caret-down"></i>
                         <div class="login_holder">
                   <form id="login_form" method="post" action="">
-                    Number: <input type="text" name="username" value="" size="30" />
+                    {% trans "Number:" %}<input type="text" name="username" value="" size="30" />
                     <br /><br />
                     <input type="submit" value="send" />
                     </form>
@@ -220,7 +219,7 @@
               </div>
 
               <div class="description_box">
-                <h4>Description</h4>
+                <h4>{% trans "Description" %}</h4>
                 <p>{{adinfo.description}}
                 </p>
               </div>
@@ -240,7 +239,7 @@
 
     <div class="container recommend1 visible-lg">
         <div class="recommended">
-          <span>Recommended</span>
+          <span>{% trans "Recommended" %}</span>
         </div>
       <div class="row row2">
         <div class="col-md-8">
@@ -327,7 +326,7 @@
 <div class="container recommend1 hidden-lg">
      {% if related_product %}
         <div class="related">
-          <span>Related posts</span>
+          <span>{% trans "Related posts" %}</span>
         </div>
       {% endif %}
       <div class="row row2">
@@ -379,7 +378,7 @@
         {% else %}
 
           <div class="call_seller hidden-lg">
-             <button class="footer_seller">Call seller</button>
+             <button class="footer_seller">{% trans "Call seller" %}</button>
           </div><!--call_seller-->
             <div class="container fifth_part">
               <div class="hp_ad banner_ad">

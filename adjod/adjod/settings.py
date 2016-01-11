@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy, ugettext as _
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -38,7 +39,7 @@ TIME_ZONE = 'America/Chicago'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en'
-LANGUAGE_COOKIE_NAME = 'adjod_language'
+LANGUAGE_COOKIE_NAME = 'adjod_language' 
 
 SITE_ID = 1
 
@@ -59,6 +60,14 @@ ugettext = lambda s: s
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
+
+LANGUAGES = (('ms', _('Malay')), 
+             ('zh', _('Chinese')),              
+             ('en', _('English')), 
+            ) 
+
+ugettext = lambda s: s 
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
