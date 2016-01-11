@@ -85,7 +85,7 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
     model_cls = Product
 
   if params is None:
-    params = OrderedDict([('locality', None), ('category', None), ('brandtype', None), ('price', None),('pricehigh', None),('pricelow', None), ('price_start', None), ('price_end', None), ('subcategory', None),('city', None),('country', None),('ispremium', None)])   
+    params = OrderedDict([('locality', None), ('category', None), ('brandtype', None), ('price', None),('pricehigh', None),('pricelow', None), ('price_start', None), ('price_end', None), ('subcategory', None),('city', None),('country', None),('ispremium', None), ('locality', None)])   
   
   if orderby is None:
     # orderby = 'created_date'  

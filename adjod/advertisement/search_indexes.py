@@ -30,11 +30,12 @@ class ProductIndex(SearchIndex, Indexable):
     # geolocation = LocationField(model_attr='get_geolocation', null=True)
 #     city = CharField(null=True, faceted=True)
     city = CharField(model_attr='city__id')
+    locality = CharField(model_attr='locality__id')
     # country= CharField(model_attr='country__id')
     # country=CharField(model_attr='country__id') 
     ispremium=CharField(model_attr='ispremium') 
     premium_plan_id=CharField(model_attr='premium_plan_id',null=True)
-    status_isactive=BooleanField()
+    status_isactive=BooleanField(model_attr='status_isactive')
 
     def autoUpdateRebuild_index(self):
         update_index.Command().handle()
@@ -72,8 +73,8 @@ class ProductIndex(SearchIndex, Indexable):
         return Product
     
     def index_queryset(self, **kwargs):
-        # product = Product.objects.filter(status_isactive=1)
-        product = Product.objects.all()
+        product = Product.objects.filter(status_isactive=1)
+        # product = Product.objects.all()
         return product
 
 # register_model_for_search(Product, ProductIndex)
