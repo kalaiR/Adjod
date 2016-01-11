@@ -47,15 +47,7 @@
     <script src="{% static "js/jquery.iframe-transport.js" %}"></script>
     <script src="{% static "js/intlTelInput.min.js" %}"></script>
      <script src="{% static "js/mobile_action.js" %}"></script> 
-    <script type="text/javascript">
-      // $(document).ready(function(){           
-      //   if (window.location.href.indexOf("?user_id=") >= 0) {
-      //     $(".caret_user").hide();
-      //     $(".user_dropdown").hide();
-      //     $(".start_myads").show()
-      //   }
-        
-      // });
+    <script type="text/javascript">    
       function updateCountdownTitle() {
           var remaining = 70 - $('.ad_title').val().length;
           $('#ad_title_count').text(remaining);
@@ -177,12 +169,12 @@
                                     {% trans "English" %}
                                   {% endif %}
 
-                                  {% if request.LANGUAGE_CODE == 'de' or request.REQUEST.la == 'de' %}
-                                    {% trans "German" %}
+                                  {% if request.LANGUAGE_CODE == 'zh' or request.REQUEST.la == 'zh' %}
+                                    {% trans "Chinese" %}
                                   {% endif %}
 
-                                  {% if request.LANGUAGE_CODE == 'sv' or request.REQUEST.la == 'sv' %}
-                                    {% trans "Swedish" %}
+                                  {% if request.LANGUAGE_CODE == 'ms' or request.REQUEST.la == 'ms' %}
+                                    {% trans "Malay" %}
                                   {% endif %}
                               </p>
 
@@ -194,8 +186,8 @@
                                   <select name="language" onchange="this.form.submit();">
                                       <option class="lang_hover" value="" style="display: none;"> </option>
                                       <option class="lang_hover" value="en">{% trans "English" %}</option>
-                                      <option class="lang_hover" value="de">{% trans "German" %}</option>
-                                      <option class="lang_hover" value="sv">{% trans "Swedish" %}</option>
+                                      <option class="lang_hover" value="zh">{% trans "Chinese" %}</option>
+                                      <option class="lang_hover" value="ms">{% trans "Malay" %}</option>
                                   </select>
                                 </form>
 
@@ -204,10 +196,10 @@
                       </li>
                        <li>
                           {% if user.is_authenticated %}
-                          <a href="/logout/" class="user_logout">Logout</a>
+                          <a href="/logout/" class="user_logout">{% trans "Logout" %}</a>
                           {% else %}
-                          <a class="popup_sign_in">Login</a>
-                          <li><a class="popup_sign_up">Sign up</a></li></a>
+                          <a class="popup_sign_in">{% trans "Login" %}</a>
+                          <li><a class="popup_sign_up">{% trans "Sign up" %}</a></li></a>
                           {% endif %}
                       </li>
                 </ul>
@@ -220,7 +212,7 @@
     {%  if path == '/' or 'start' in path  or 'categories' in path  or 'login' in path%}
     <div class="header_search">
       <div class="container header_middle">
-        <h2 class="heading">Singapore's largest marketplace</h2>
+        <h2 class="heading">{% trans "Singapore's largest marketplace" %}</h2>
         <form class="form" method="get" action="/search/?q=" id="f_search" name="f_search" style="position: relative;">
             <div class="form">
               <i class="fa fa-search"></i>
@@ -230,7 +222,7 @@
 
                 <input type="text" name="q" id="q" class="form-control input-lg" placeholder="Search here"  value="{% if recent_viewed_search %}{% for cat in recent_viewed_search|slice:'1' %}{% if cat.activity_view %}{{ cat.activity_view }}{% else %}{% endif %}{% endfor %}{% else %}{% endif %}"/>
                 {% endif %}
-                <button type="submit"class="btn btn-lg btn-success search_btn" value="Search">Search</button>
+                <button type="submit"class="btn btn-lg btn-success search_btn" value="Search">{% trans "Search" %}</button>
             </div> <!-- form -->
 
         </form>
@@ -238,17 +230,17 @@
     </div> <!-- header_search -->
     <div class="header_first_line">
       <div class="container">
-        <h4 class="first_line">To Buy or Find anything select an option below:</h4>
+        <h4 class="first_line">{% trans "To Buy or Find anything select an option below:" %}</h4>
       </div> <!-- container -->
     </div> <!-- header_first_line -->
     {% endif %}
 
-    {%  if 'search' in path  or 'postad' in path  or 'ads' in path  or 'update_profile' in path %}
+    {%  if 'search' in path  or 'postad' in path  or 'ads' in path  or 'user_manage' in path %}
        <div class="search_part">
           <div class="container visible-lg">
 
                 <form class="info_form" method="get" action="/search/?q=">
-                  {%  if 'search' in path  or 'update_profile' in path %}
+                  {%  if 'search' in path  or 'user_manage' in path %}
                       <div class="custom_select language_custom_select search_city">
                           <div class="select select_new">
                           <p id="cityselected">Select Locality</p>
@@ -274,9 +266,9 @@
                      <!--  <a href="{% url product_form %}" class="btn btn-lg post-button">Post free Ad</a> -->
                      <div class="search_tool{% if user.is_authenticated and userprofile.ad_count >= 3 and userprofile.is_subscribed == 0%} disable_post {% endif%}">
                         <a href="{% if user.is_authenticated and userprofile.ad_count >= 3 and userprofile.is_subscribed == 0%} {% else %} {% url product_form %} {% endif%}" class="btn btn-lg post-button">Post Free Ad</a>
-                        <div class="searchpage_tooltip">You already add 3 posts,<br>if u want add more posts,<br>u have to make ur account as premium<button type="button" class="btn btn-link link_tooltip">Click here</button></div>
+                        <div class="searchpage_tooltip">{% trans "You already add 3 posts," %}<br>{% trans "if u want add more posts," %}<br>{% trans "u have to make ur account as premium" %}<button type="button" class="btn btn-link link_tooltip">{% trans "Click here" %}</button></div>
                       </div>
-                      <a href="/" class="btn btn-lg alert-button">Create free alert</a>
+                      <a href="/" class="btn btn-lg alert-button">{% trans "Create free alert" %}</a>
 
                 </form> <!-- info_form -->
           </div> <!-- container logo_part -->
@@ -291,20 +283,20 @@
                           <input type="text" name="q" id="q" class="form-control input-lg" placeholder="" value="{% if recent_viewed_search %}{% for cat in recent_viewed_search|slice:'1' %}{% if cat.activity_view %}{{ cat.activity_view }}{% else %}{% endif %}{% endfor %}{% else %}{% endif %}" />
                         {% endif %}
                         </div>
-                      <button type="submit"class="btn btn-lg btn-success search_b">Search</button>
-                      <a href="{% url product_form %}" class="btn btn-lg post-button">Post free Ad</a>
-                      <a href="/" class="btn btn-lg alert-button">Create free alert</a>
+                      <button type="submit"class="btn btn-lg btn-success search_b">{% trans "Search" %}</button>
+                      <a href="{% url product_form %}" class="btn btn-lg post-button">{% trans "Post free Ad" %}</a>
+                      <a href="/" class="btn btn-lg alert-button">{% trans "Create free alert" %}</a>
                 </form> <!-- info_form -->
           </div> <!-- container logo_part -->
         {% endif %}
            {%  if 'postad' in path %}
             <div class="container">
-              <div class="post_ad_first">Post an Ad in just 30 seconds</div>
-                <div class="post_ad_second">DO NOT post multiple ads for the same items or service. All duplicate, spam and wrongly categorized ads will be deleted.</div>
+              <div class="post_ad_first">{% trans "Post an Ad in just 30 seconds" %}</div>
+                <div class="post_ad_second">{% trans "DO NOT post multiple ads for the same items or service. All duplicate, spam and wrongly categorized ads will be deleted." %}</div>
             </div>
           {% endif %}
       </div> <!-- search_part -->
-      {%  if 'search' in path  or 'ads' in path or 'update_profile' in path %}
+      {%  if 'search' in path  or 'ads' in path or 'user_manage' in path %}
       <div class="page_swap">
         <div class="container page_back">
           {%block page_swap%}
@@ -332,8 +324,8 @@
     
 
     <div class="container">
-      <p class="contact">For site related issues,Check out our <a href=""><span class="span3">Help</span></a> section or email us at <a href=""><span class="span3">support@quikr.com</span>
-      </a><br>You can also call our support team@65-67119979S(M-F:10AM to 6PM)</p>
+      <p class="contact">{% trans "For site related issues,Check out our" %}<a href=""><span class="span3">{% trans "Help" %}</span></a>{% trans "section or email us at" %} <a href=""><span class="span3">{% trans "support@quikr.com" %}</span>
+      </a><br>{% trans "You can also call our support team@65-67119979S(M-F:10AM to 6PM)" %}</p>
     </div> <!-- container -->
 
     <div class="footer_image">
@@ -345,26 +337,26 @@
         <div class="row row_4 footer_content">
           <div class="col-md-2">
                            <ul>
-                            <li><a href="" class="footer">Help</a></li>
-                            <li><a href="" class="footer">Terms of use</a></li>
-                            <li><a href="" class="footer">How it works</a></li>
+                            <li><a href="" class="footer">{% trans "Help" %}</a></li>
+                            <li><a href="" class="footer">{% trans "Terms of use" %}</a></li>
+                            <li><a href="" class="footer">{% trans "How it works" %}</a></li>
                             </ul>
           </div>
           <div class="col-md-2">
                            <ul>
-                            <li><a href="" class="footer">Privacy policy</a></li>
-                            <li><a href="" class="footer">Locations map</a></li>
-                            <li><a href="" class="footer">Contact us</a></li>
+                            <li><a href="" class="footer">{% trans "Privacy policy" %}</a></li>
+                            <li><a href="" class="footer">{% trans "Locations map" %}</a></li>
+                            <li><a href="" class="footer">{% trans "Contact us" %}</a></li>
                             </ul>
           </div>
           <div class="col-md-2">
                             <ul>
-                            <li><a href="" class="footer">Popular searches</a></li>
-                            <li><a href="" class="footer">who we are</a></li>
+                            <li><a href="" class="footer">{% trans "Popular searches" %}</a></li>
+                            <li><a href="" class="footer">{% trans "who we are" %}</a></li>
           </div>
           <div class="col-md-2"></div>
-          <div class="col-md-4 foot"><span class="footer1">you can also call our support team<br>
-                            <span class="phone">phone:65-67119979</span><br>M-F:10AM to 6PM<br>
+          <div class="col-md-4 foot"><span class="footer1">{% trans "you can also call our support team" %}<br>
+                            <span class="phone">{% trans "phone:65-67119979" %}</span><br>{% trans "M-F:10AM to 6PM " %}<br>
                             <a href="#facebook"><i class="fa fa-facebook-official"></i></a>
                             <a href="#linkedin"><i class="fa fa-linkedin-square"></i></a>
                             <a href="#twitter"><i class="fa fa-twitter-square"></i></a>
@@ -378,13 +370,13 @@
       {%  if path == '/' or 'start' in path  or 'search' in path %}
         <div class="col-md-2 footer_responsive">
               <select class="footer_lang">
-                        <option selected="" disabled="">Select language : </option>
-                        <option>English</option>
-                        <option>German</option>
-                        <option>Swedish</option>
+                        <option selected="" disabled="">{% trans "Select language :" %} </option>
+                        <option>{% trans "English" %}</option>
+                        <option>{% trans "German" %}</option>
+                        <option>{% trans "Swedish" %}</option>
               </select>
-              <button class="footer_login">Login</button>
-              <button class="footer_signup">Sign up</button>
+              <button class="footer_login">{% trans "Login" %}</button>
+              <button class="footer_signup">{% trans "Sign up" %}</button>
         </div><!--footer_responsive-->
       {% endif %}
 
@@ -399,11 +391,11 @@
           <code class="close_btn cancel_btn" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}"> </code>
 
             <div class="sign_in_title">
-              <span>Sign in</span>
+              <span>{% trans "Sign in" %}</span>
             </div> <!-- sign_in_title -->
 
             <div id="account" class="form-group">
-                <span>I have a account already</span>
+                <span>{% trans "I have a account already" %}</span>
               </div> <!-- account -->
                <span class="signup_error" style="{% if request.REQUEST.si %} display:block; {%else%} display: none; {% endif %}">
                 {%for message in messages%}{{message}}{% endfor %}</span>
@@ -411,12 +403,12 @@
            {% csrf_token %}
             <div id="email_userid_div" class="form-group">
                 <input class="email_id" name="email_id" id="emailid_signup" placeholder="Username" />
-                <label for="emailid_signup" id="emailid_required" class="labelError" style="display:none;">Please enter Email or User ID</label>
+                <label for="emailid_signup" id="emailid_required" class="labelError" style="display:none;">{% trans "Please enter Email or User ID" %}</label>
               </div> <!-- email_id_div -->
 
               <div id="password_signup_div" class="form-group">
                 <input class="password" type="password" name="password" id="password_signup" placeholder="Password*" />
-                <label for="password" id="password_required" class="labelError" style="display:none;">Please enter Password</label>
+                <label for="password" id="password_required" class="labelError" style="display:none;">{% trans "Please enter Password" %}</label>
               </div> <!-- password_div -->
 
               <input type="hidden" value="{{ request.get_full_path }}" name="next" />
@@ -424,7 +416,7 @@
 
 
             <div id="forgot_div" class="form-group">
-              <span class="forgot_act">Forgot you password?</span>
+              <span class="forgot_act">{% trans "Forgot you password?" %}</span>
               <input class="btn confirm_button" type="button" value="Sign in" name="create" id="signin" />
 
             </div> <!-- forgot_div -->
@@ -434,17 +426,17 @@
             </div> <!-- hr_div -->
 
             <div class=" facebook fl" >
-              <a  href="{% url socialauth_begin 'facebook' %}" ><button class="fb_button"><i class="fa fa-facebook"></i> Facebook</button></a>
+              <a  href="{% url socialauth_begin 'facebook' %}" ><button class="fb_button"><i class="fa fa-facebook"></i>{% trans "Facebook" %}</button></a>
             </div>
 
             <div  class=" fl">
-              <a  href="{% url socialauth_begin 'google-oauth2' %}" ><button class="gmail_button"><i class="fa fa-google-plus"></i>Gmail</button></a>
+              <a  href="{% url socialauth_begin 'google-oauth2' %}" ><button class="gmail_button"><i class="fa fa-google-plus"></i>{% trans "Gmail" %}</button></a>
             </div>
 
             <div class="clear_both"></div>
             <div id="free_signup_div" class="form-group">
-              <span class="signin">I don't have a account</span>
-              <a class="popup_sign_up"><button class="free_button btn-lg">Sign up for free</button></a>
+              <span class="signin">{% trans "I don't have a account" %}</span>
+              <a class="popup_sign_up"><button class="free_button btn-lg">{% trans "Sign up for free" %}</button></a>
             </div> <!-- free_signup_div -->
 
         </div> <!-- sign_in_div -->
@@ -462,32 +454,32 @@
         <div id="sign_up_div" class="sign_up_div" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}">
         <code class="close_btn cancel_btn" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}"> </code>
           <div class="sign_up_title">
-            <span>Sign up</span>
+            <span>{% trans "Sign up" %}</span>
           </div> <!-- sign_up_title -->
           <span class="signup_error" style="{% if request.REQUEST.st %} display:block; {%else%} display: none; {% endif %}">
           {%for message in messages%}{{message}}{% endfor %}</span>
         <form id="user_form" method="post" action="/new_user/" name="sign_up" enctype="multipart/form-data">
         {% csrf_token %}
           <div id="register_now" class="form-group">
-              <span>Register now for free</span>
+              <span>{% trans "Register now for free" %}</span>
             </div> <!-- register_now -->
 
 
           <div id="email_id_div" class="form-group">
               <input class="email_id" name="email_id" id="email_id" placeholder="Email ID*" />
-              <label id="email_required" class="signup_labelError" style="display:none;">Please enter Email</span>
-              <span id="valid_signup_email_required" class="hide_error_message error_message">Please enter valid Email.</span>
+              <label id="email_required" class="signup_labelError" style="display:none;">{% trans "Please enter Email " %}</span>
+              <span id="valid_signup_email_required" class="hide_error_message error_message">{% trans "Please enter valid Email." %}</span>
             </div> <!-- email_id_div -->
 
             <div id="password_div" class="form-group">
               <input class="password" type="password" name="password" id="password" placeholder="Password*" />
               <span id="result"></span>
-              <label for="password" id="signup_password_required" class="signup_labelError" style="display:none;">Please enter Password</label>
+              <label for="password" id="signup_password_required" class="signup_labelError" style="display:none;">{% trans "Please enter Password" %}</label>
             </div> <!-- password_div -->
 
              <div id="user_id_div" class="form-group fl">
               <input class="user_id" name="user_id" id="user_id" placeholder="Username*" />
-              <label for="user_id" id="user_required" class="signup_labelError" style="display:none;">Please enter Username</label>
+              <label for="user_id" id="user_required" class="signup_labelError" style="display:none;">{% trans "Please enter Username" %}</label>
             </div> <!--user _id_div -->
 
 
@@ -515,8 +507,8 @@
             </div> <!- password_div -->
             <div id="confirm_div" class="form-group">
               <input class="confirm" type="checkbox" name="confirm" />
-              <span>I confirm that I am 18 years or older</span>
-              <a class="tool_tip"><input class="btn signup_confirm_button masterTooltip" type="submit" value="Create" name="create" id="create"><div class="signup_tooltip">Your age must be above 18 years, please check age status and then create account</div></a>
+              <span>{% trans "I confirm that I am 18 years or older" %}</span>
+              <a class="tool_tip"><input class="btn signup_confirm_button masterTooltip" type="submit" value="Create" name="create" id="create"><div class="signup_tooltip">{% trans "Your age must be above 18 years, please check age status and then create account" %}</div></a>
 
             </div>
 </form>
@@ -525,7 +517,7 @@
             </div> <!-- hr_div -->
 
             <div id="signin_div" class="form-group">
-              <span class="signin">I have a account already <a class="popup_sign_in">Sign in</a> </span>
+              <span class="signin">{% trans "I have a account already" %}<a class="popup_sign_in">{% trans "Sign in" %}</a> </span>
             </div> <!-- signin_div -->
 
         </div> <!-- sign_up_div -->
@@ -541,7 +533,7 @@
           <div id="forgot_div" class="forgot_div forgot_mobile" style="{% if request.REQUEST.sf %} display:block; {%else%} display: none; {% endif %}">
           <code class="close_btn cancel_btn" style="{% if request.REQUEST.sf %} display:block; {%else%} display: none; {% endif %}"> </code>
             <div class="forgot_title">
-              <span>Forgot Password</span>
+              <span>{% trans "Forgot Password" %}</span>
             </div> <!-- sign_in_title -->
 
 
@@ -568,8 +560,8 @@
             </div> <!-- hr_div -->
 
             <div id="free_signup_div" class="form-group">
-              <span class="signin">I don't have a account</span>
-              <a class="popup_sign_up"><button class="free_button btn-lg">Sign up for free</button></a>
+              <span class="signin">{% trans "I don't have a account" %}</span>
+              <a class="popup_sign_up"><button class="free_button btn-lg">{% trans "Sign up for free" %}</button></a>
             </div> <!-- free_signup_div -->
 
         </div> <!-- forget_div -->
@@ -585,10 +577,10 @@
       <div class="subscription_popup">
       <code class="close_btn cancel_btn" style="{% if request.REQUEST.sf %} display:block; {%else%} display: none; {% endif %}"></code>
          <div class="subscribe_title">
-            <h4>Account Subscribe</h4>
+            <h4>{% trans "Account Subscribe" %}</h4>
          </div><!--subscribe_title-->
          <div class="subscribe_content">
-           <p>You already used our Free Limited Services. If you want to post more Ads, Please Subscribe your account.</p>
+           <p>{% trans "You already used our Free Limited Services. If you want to post more Ads, Please Subscribe your account." %}</p>
            <code></code>
         </div><!--subscribe_content-->
         <form action='{{sandbox_url}}' method='post' name="paypal_account_subscription">
@@ -633,7 +625,7 @@
       <div class="postad_success_popup">
       <code class="close_btn cancel_btn" style="display: block;"></code>
          <div class="subscribe_title">
-            <h4>Message</h4>
+            <h4>{% trans "Message" %}</h4>
         </div><!--subscribe_titl-->
          <div class="subscribe_content">
            <p>{{ message }}</p>
@@ -643,7 +635,7 @@
    <div class="postad_success_popup">
    <code class="close_btn cancel_btn" style="display: block;"></code>
       <div class="subscribe_title">
-         <h4>Message</h4>
+         <h4>{% trans "Message" %}</h4>
      </div><!--subscribe_titl-->
       <div class="subscribe_content">
         <p>{{ message }}</p>

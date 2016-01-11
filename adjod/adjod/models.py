@@ -57,8 +57,9 @@ class ExchangeRate(models.Model):
     class Meta:
         ordering = ['id']
 
-    def __str__(self):
-        return _("%s at %.6f") % (self.currency, self.value)
+    #commented by ramya for language translation    
+    # def __str__(self):
+    #     return _("%s at %.6f") % (self.currency, self.value)
 
 class BaseCurrency(models.Model):
     base_currency = models.CharField(
@@ -71,6 +72,7 @@ class BaseCurrency(models.Model):
         verbose_name = "Base Currency"
         verbose_name_plural = "Base Currency"
 
-    def __str__(self):
-        return _("%s rates update %s") % (
-            self.base_currency, self.last_update)
+    #commented by ramya for language translation
+    # def __str__(self):
+    #     return _("%s rates update %s") % (
+    #         self.base_currency, self.last_update)

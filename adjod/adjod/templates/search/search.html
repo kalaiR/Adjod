@@ -4,7 +4,7 @@
   {%block page_swap%}
       <span>
       <div class="breadcrumbs">
-        <a href="/" class="previous_page2">Back to my search results</a>
+        <a href="/" class="previous_page2">{% trans "Back to my search results" %}</a>
         <i class="fa fa-angle-right right"></i>
         {%if query%}
         <!-- {% for product in page.object_list%}
@@ -14,7 +14,7 @@
         <i class="fa fa-angle-right right"></i>
         <a href="" class="current_page">{{query}}</a>
         {%else%}
-        <a href="" class="current_page all">All Results</a>
+        <a href="" class="current_page all">{% trans "All Results" %}</a>
         <i class="fa fa-angle-right right all"></i>
         <!-- {% for categories in initial_load|get_categories %}
         <span id="add" value=""></span>
@@ -49,7 +49,7 @@
               </a>
          </div>
           <div class="sort_part">
-               <div class="app col-md-2 hidden-lg"><p class="app_filter">Apply filters</p></div><!--app-->
+               <div class="app col-md-2 hidden-lg"><p class="app_filter">{% trans "Apply filters" %}</p></div><!--app-->
                <span class="sortclass">{% trans "Sort by" %}</span>
               <div class="choose_select sorting_custom_select">
                           <div class="choose">
@@ -69,7 +69,7 @@
             </div> <!-- top_part -->
 
         <div class="left_part visible-lg">
-          <div class="refine_results"><h4>Refine Your Results</h4></div>
+          <div class="refine_results"><h4>{% trans "Refine Your Results" %}</h4></div>
         <div id="cssmenu">
 
         <!-- Normal Search and Advance Form Start -->
@@ -80,7 +80,7 @@
 
              <ul class="main_list">
                   <!--  All Categories & Sub-Categories to Display in Advance Search-->
-                    <li class="list_folder"><span class="all_category">All Category</span>
+                    <li class="list_folder"><span class="all_category">{% trans "All Category" %}</span>
                         <ul class="hide_list categoryclick">
                             {% for categories in initial_load|get_categories %}
                               <li class="list_folder">
@@ -103,7 +103,7 @@
                         <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="" name="subcategoryid"/>
                     </li>
                       <!--  All Brands Type to Display in Advance Search-->
-                      <li class="brand_folder list_folder"> <b>Brands </b>
+                      <li class="brand_folder list_folder"> <b>{% trans "Brands" %}</b>
                           <ul class="hiddenclass hide_list" id="brand_toggle">
                             <!-- Location Auto complete -->
                            <!--  <div class="location_holder">     -->
@@ -118,11 +118,11 @@
                            <input type="hidden" id="brandsubcategoryid" name ="brandtype" value="" />
                       </li>
                       <!--  All PriceOptions to Display in Advance Search-->
-                      <li class="list_folder"><b>Price</b>
+                      <li class="list_folder"><b>{% trans "Price" %}</b>
                           <ul class="hide_list ">
                                <li class="list_folder">
                                <input type="checkbox" class="css-checkbox sme pricerange" name="pricerange" value ="0.0#21.27" />
-                               <label for="checkbox1">{{country_code|get_symbol}}{{21.27|conversion|quantize}} &amp; Below</label>
+                               <label for="checkbox1">{{country_code|get_symbol}}{{21.27|conversion|quantize}} &amp; {% trans "Below" %}</label>
                                </li>
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="21.27#106.37"/>
@@ -143,7 +143,7 @@
 
                                <li class="list_folder">
                                <input type="checkbox" class="pricerange" name="pricerange" value ="1063.68#21278.61"/>
-                                    <label for="checkbox1">{{country_code|get_symbol}}{{1063.68|conversion|quantize}} & Above</label>
+                                    <label for="checkbox1">{{country_code|get_symbol}}{{1063.68|conversion|quantize}} & {% trans "Above" %}</label>
                                </li>
 
                                <input type="hidden" id="price_start" value="" name="price_start"/>
@@ -305,11 +305,11 @@
 <div class="container third_part hidden-lg">
   <div class="row row_2">
       <div class="col-md-7">
-        <h4 class="post_ad">Sell or Advertise anything</h4>
+        <h4 class="post_ad">{% trans "Sell or Advertise anything" %}</h4>
         <a href="{% url product_form %}" class="#postbutton btn btn-lg btn-warning post_button" style="{% if user.is_authenticated %}{% if userprofile.ad_count > 3 and userprofile.is_emailverified == 0 and userprofile.is_subscribed == 0 %} cursor:default;opacity:0.4; {% elif userprofile.ad_count > 3 and userprofile.is_emailverified == 1 and userprofile.is_subscribed == 0 %} cursor:default;opacity:0.4; {% elif userprofile.is_subscribed == 1 %} cursor:pointer; pointer-events:auto;{% endif %} {% endif %}" title="{% if user.is_authenticated %}{% if userprofile.ad_count > 3 and userprofile.is_emailverified == 0 and userprofile.is_subscribed == 0 %} You already add 3 posts and also did not verified ur email, if u want add more posts, u have to verify ur email and also make ur account as premium {% elif userprofile.ad_count > 3 and userprofile.is_emailverified == 1 and userprofile.is_subscribed == 0 %} You already add 3 posts, if u want add more posts, u have to make ur account as premium{% endif %}{% endif %}">Post Free Ad</a>
         <div class="alert_content">
-        <h4 class="need_txt">Tell us your need</h4>
-        <a href="#" class="alert_btn">Create alert</a>
+        <h4 class="need_txt">{% trans "Tell us your need "%}</h4>
+        <a href="#" class="alert_btn">{% trans "Create alert" %}</a>
         <div class="col-md-5 free_content">
               <div class="free_alert">
                 <h4>Create free alert</h4>
@@ -322,12 +322,12 @@
                         <li>
                           <div class="select_container_category" id="select_container_category">
                             <div class="select_div">
-                              <p id="select_post_category">Select Category</p>
+                              <p id="select_post_category">{% trans "Select Category" %}</p>
                               <i class="city_fa fa fa-caret-down">
                               </i>
                             </div> <!-- select_div -->
                             <select id="id_category" class="select_post_category" name="your_category">
-                            <option value="Select Category">Select Category</option>
+                            <option value="Select Category">{% trans "Select Category" %}</option>
                             {% for categories in category %}
                             <option value="{{ categories.id }}">{{ categories.name }}</option>
                             {% endfor %}
@@ -338,7 +338,7 @@
                         <li>
                           <div class="select_container_subcategory" id="select_container_subcategory">
                             <div class="select_div">
-                              <p id="select_post_subcategory">Select SubCategory</p>
+                              <p id="select_post_subcategory">{% trans "Select SubCategory" %}</p>
                               <i class="city_fa fa fa-caret-down">
                               </i>
                             </div> <!-- select_div -->
@@ -346,12 +346,12 @@
                             <option value=""></option>
                             </select>
                            </div> <!-- select_container_city -->
-                           <span id="id_subcategory_required" class="labelError" style="font-size:12px;display:none;">Please Choose sub category</span>
+                           <span id="id_subcategory_required" class="labelError" style="font-size:12px;display:none;">{% trans "Please Choose sub category" %}</span>
                         </li>
                         <li>
                           <div class="select_container_brand" id="select_container_brand">
                             <div class="select_div">
-                              <p id="select_post_brand">Select Brand</p>
+                              <p id="select_post_brand">{% trans "Select Brand" %}</p>
                               <i class="city_fa fa fa-caret-down">
                               </i>
                             </div> <!-- select_div -->
@@ -359,35 +359,35 @@
                             <option value=""></option>
                             </select>
                           </div> <!-- select_container_city -->
-                          <span id="id_brand_required" class="labelError" style="font-size:12px;display:none;">Please Choose brand</span>
+                          <span id="id_brand_required" class="labelError" style="font-size:12px;display:none;">{% trans "Please Choose brand" %}</span>
                         </li>
                         <li>
                           <div class="select_container_city" id="select_container_city">
                             <div class="select_div">
-                              <p id="select_post_city">Select City</p>
+                              <p id="select_post_city">{% trans "Select City" %}</p>
                               <i class="city_fa fa fa-caret-down">
                               </i>
                             </div> <!-- select_div -->
                             <select id="id_city" class="select_post_city" name="your_city">
-                              <option value="Select City">Select City</option>
+                              <option value="Select City">{% trans "Select City "%}</option>
                               {% for cityitem in current_country_cities %}
                               <option value="{{ cityitem.id }}">{{ cityitem.city }}</option>
                               {% endfor %}
                             </select>
                           </div> <!-- select_container_city -->
-                           <span id="id_city_required" class="labelError" style="font-size:12px;display:none;">Please Choose city</span>
+                           <span id="id_city_required" class="labelError" style="font-size:12px;display:none;">{% trans "Please Choose city "%}</span>
                         </li>
                         <li>
                           <div class="form1">
                             <input type="text" class="form-control inputs" value="" placeholder="Your email" name="email" id="email">
                           </div>
-                           <span id="email_required" class="email_labelError" style="font-size:12px;display:none;">Please enter email address</span>
+                           <span id="email_required" class="email_labelError" style="font-size:12px;display:none;">{% trans "Please enter email address" %}</span>
                         </li>
                         <li>
                             <div class="form1">
                               <input type="text" class="form-control inputs mobile" name="mobilenumber" id="mobilenumber">
                              </div>
-                             <span id="mobilenumber_required" class="labelError" style="font-size:12px;display:none;">Please enter the mobile number</span>
+                             <span id="mobilenumber_required" class="labelError" style="font-size:12px;display:none;">{% trans "Please enter the mobile number" %}</span>
                         </li>
                   </ul>
                   <div class="{% if request.REQUEST.fst %} freealert_labelError {% endif %}">{% for message in messages%}{{message}}{% endfor %}</div>
@@ -400,8 +400,8 @@
       </div>
       </div> <!--col-md-7 -->
       <div class="col-md-5">
-        <h4 class="sell"><i class="fa  fa-shield"></i> How to sell safely ?</h4>
-        <p>Try to take the full payment at the time of delivery.<br>Remember to use the safe location to meet <a href="#">Read more</a></p>
+        <h4 class="sell"><i class="fa  fa-shield"></i>{% trans "How to sell safely ?" %}</h4>
+        <p>{% trans "Try to take the full payment at the time of delivery." %}<br>{% trans "Remember to use the safe location to meet" %}<a href="#">{% trans "Read more" %}</a></p>
       </div> <!-- col-md-5 -->
 
   </div> <!-- row2 -->

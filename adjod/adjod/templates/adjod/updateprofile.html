@@ -5,8 +5,8 @@
 <div class="left_part_profile hidden-xs">
         <div id="menu_profile">
           <ul>
-          <li class="menu_active"><a href="#" class="My_ads">My Ads</a></li>
-          <li class="menu_active"><a href="#" class="My_profile">Update My Profile</a></li>
+          <li class="menu_active"><a href="#" class="My_ads">{% trans "My Ads" %}</a></li>
+          <li class="menu_active"><a href="#" class="My_profile">{% trans "Update My Profile" %}</a></li>
           <!-- <li class="menu_active"><a href="#" class="">My Chats</a></li> -->
         </div><!--menu_profile-->
 </div> <!-- left_part_profile -->
@@ -14,14 +14,14 @@
 <div class="left_part_profile hidden-lg">
         <div id="menu_mobile">
           <ul>
-          <li class="menu_active"><a href="#" class="My_ads">My Ads</a></li>
-          <li class="menu_active"><a href="#" class="My_profile">Update My Profile</a></li>
+          <li class="menu_active"><a href="#" class="My_ads">{% trans "My Ads" %}</a></li>
+          <li class="menu_active"><a href="#" class="My_profile">{% trans "Update My Profile" %}</a></li>
           <!-- <li class="menu_active"><a href="#" class="">My Chats</a></li> -->
         </div><!--menu_profile-->
 </div> <!-- left_part_profile -->
 
 <div class="update_ads col-md-9">  
-  <span class="activate_ads hidden-xs">Activate Ads Management</span>
+  <span class="activate_ads hidden-xs">{% trans "Activate Ads Management" %}</span>
 <div class="fl filter_result_wrapper" id="search_result" style="position:relative;">           
 <p class="search_result"></p>
   <div class="right_part">
@@ -42,8 +42,8 @@
                <!--    <a href="/ads/{{my_ads.id}}/" class="spans"></a> -->
                   <input type="checkbox" name="title_box" value="{{my_ads.id}}" class="check"><span class="description1">
                   <a href="/ads/{{my_ads.id}}/">{{my_ads.title}}</a></span>
-                  <span class="ads_id">AD ID:{{my_ads.id}}</span><br>
-                  <span class="category_ads">status: {{my_ads.status_isactive}}</span><br>
+                  <span class="ads_id">{% trans "AD ID:" %}{{my_ads.id}}</span><br>
+                  <span class="category_ads">{% trans "status:" %}{{my_ads.status_isactive}}</span><br>
                   <span class="category_ads">{{my_ads.category.name}}<br>{{my_ads.subcategory.name}}</span>
                </div><!--ads_name1-->
                 <div class="ads_name2">
@@ -53,12 +53,12 @@
                  </div><!--ads_name2-->
                 <div class="ads_name3 hidden-xs">
                 <!--   <a href="#" class="spans2">Action</a> -->
-                  <span><a href="/ads/{{my_ads.id}}" class="action">View</a></span>
-                  <span><a href="/edit_postad_detail/{{my_ads.id}}" class="action">Edit</a></span>
-                  <span><a href="#" value="{{my_ads.id}}" class="action delete_act">Delete</a></span>
+                  <span><a href="/ads/{{my_ads.id}}" class="action">{% trans "View" %}</a></span>
+                  <span><a href="/edit_postad_detail/{{my_ads.id}}" class="action">{% trans "Edit" %}</a></span>
+                  <span><a href="#" value="{{my_ads.id}}" class="action delete_act">{% trans "Delete" %}</a></span>
               </div><!--ads_name3-->
               <div class="ads_name3 visible-xs">
-                  <a href="#" class="spans2 hidden-xs">Action</a>
+                  <a href="#" class="spans2 hidden-xs">{% trans "Action" %}</a>
                   <span class="action"><i class="fa fa-eye"></i></span>
                   <span class="action"><i class="fa fa-pencil"></i></span>
                   <span class="action"><i class="fa fa-trash-o"></i></span>
@@ -69,11 +69,11 @@
       </div> <!-- right_part -->
       <div class="bottom_ads col-md-12">
           {% if my_products %}
-           <p class="col-md-6">{{my_products.count}} Results</p>
-            <span class="check_all col-md-2 check_all_act">Check All</span>
+           <p class="col-md-6">{{my_products.count}}{% trans "Results" %}</p>
+            <span class="check_all col-md-2 check_all_act">{% trans "Check All" %}</span>
            <span class="uncheck_all col-md-2 uncheck_all_act">Uncheck All</span>
            <input name="next" type="hidden" value="{{request.path}}{% if request.GET.urlencode %}?{{request.GET.urlencode}}{% endif %}" />
-           <button type="button" class="btn btn-warning delete_btn delete_act">Delete</button>
+           <button type="button" class="btn btn-warning delete_btn delete_act">{% trans "Delete" %}</button>
           {% else %}
           <div class="right_align_ads"><span>{% trans "No Results Found" %}</span></div> 
           {% endif %}
@@ -85,17 +85,17 @@
 
 
 <div class="profile_text">
-   <span class="hidden-xs">Update My Profile</span>
+   <span class="hidden-xs">{% trans "Update My Profile" %}</span>
 <form id="update_user" method="POST" action="/user_manage/" enctype="multipart/form-data"> 
   {% csrf_token %}  
   <div class="update_profile col-md-9"> 
-    <span class="personal_txt">Personals Details</span>   
+    <span class="personal_txt">{% trans "Personals Details" %}</span>   
      <div class="container center">
         <div class="profile_content">
           <div class="personal_details">
             <div class="personal_center">
                 <div class="field_title form-group">
-                  <span class="title">Upload Photos</span>
+                  <span class="title">{% trans "Upload Photos" %}</span>
                 </div> <!-- field_title -->
                 <div class="field_div form-group upload_image" id="photos_div">                
                 {% if userprofile.profile_picture %}
@@ -113,12 +113,12 @@
                   {% else %}
                     <input class="full_name" name="your_name" id="your_name" value="" placeholder="Full Name"/>
                   {% endif %}
-                  <label class="labelError" style="display:none;">Enter your Full Name</label>
+                  <label class="labelError" style="display:none;">{% trans "Enter your Full Name" %}</label>
 
                   
                   <input class="last_name" name="your_name" id="your_name" value="{% if userprofile.last_name %}{{userprofile.last_name}}{% endif %}" placeholder="Last Name"/>     
                   
-                  <label class="labelError" style="display:none;">Enter your Last Name</label>
+                  <label class="labelError" style="display:none;">{% trans "Enter your Last Name" %}</label>
                 </div> <!-- form-group -->
 
                 <div class="field_div form-group">
@@ -127,9 +127,9 @@
                   {% else %}  
                     <input class="email_profile" name="email" value="" placeholder="Email"/>
                   {% endif %}  
-                  <label class="labelError" style="display:none;">Enter your Email</label>
+                  <label class="labelError" style="display:none;">{% trans "Enter your Email" %}</label>
                   <input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" value="{%if userprofile.your_mobile_no%}{{userprofile.your_mobile_no}}{%endif%}" type="tel"/>
-                  <label class="labelError" style="display:none;">Enter your mobile no</label>
+                  <label class="labelError" style="display:none;">{% trans "Enter your mobile no" %}</label>
                 </div> <!-- form-group -->
 
                 <div class="field_div form-group">
@@ -145,7 +145,7 @@
                         <option value="{{city.id}}">{{city}}</option>
                        <!--  {# endfor #} -->
                         </select>
-                        <label class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
+                        <label class="labelError" style="font-size:35px;display:none;">{% trans "Please Choose city" %}</label>
                     </div> <!-- city_select -->
                      <input type="hidden" name="user_city" value="{{city_id}}">
 
@@ -161,7 +161,7 @@
                           <option value="{{localities.id}}">{{localities.locality}}</option>
                         {% endfor %}     
                         </select>
-                        <label class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
+                        <label class="labelError" style="font-size:35px;display:none;">{% trans "Please Choose locality" %}</label>
                     </div> <!-- locality_select -->
                     <div class="clear_both"></div>   
                     <div class="clear_both"></div>   
@@ -171,7 +171,7 @@
         </div><!--personal_details-->
         
         <div class="additional_info"> 
-          <span class="additional_txt">Additional Information</span>
+          <span class="additional_txt">{% trans "Additional Information" %}</span>
           <div class="additional_center">
             <div class="field_div form-group">
               <div class="gender_select fl">
@@ -181,17 +181,17 @@
                     </i>
                   </div> <!-- select_profile -->
                   <select name="gender" class="profile_gender">
-                    <option value="gender">Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
+                    <option value="gender">{% trans "Gender" %}</option>
+                    <option value="male">{% trans "Male" %}</option>
+                    <option value="female">{% trans "Female" %}</option>
                   </select>
-                  <label class="labelError" style="font-size:35px;display:none;">Please choose Gender</label>
+                  <label class="labelError" style="font-size:35px;display:none;">{% trans "Please choose Gender" %}</label>
                   </div><!--gender_select-->
               </div><!--form-group-->
 
               <div class="field_div form-group">
                 <input class="age_profile" name="user_age" id="user_age" value="{% if userprofile.user_age %}{{userprofile.user_age}}{% endif %}" placeholder="Age"/>
-                <label class="labelError" style="display:none;">Enter your age</label>
+                <label class="labelError" style="display:none;">{% trans "Enter your age" %}</label>
               </div> <!-- form-group --> 
 
               <div class="field_div form-group">
@@ -200,7 +200,7 @@
               {% else %}  
               <textarea class="address_profile" maxlength="500" name="user_address" placeholder="Address" value=""></textarea>
               {% endif %}  
-                <label class="labelError" style="display:none;">Enter your address</label>
+                <label class="labelError" style="display:none;">{% trans "Enter your address" %}</label>
               </div><!--form-group-->
 
               <div class="form-group">
@@ -211,10 +211,10 @@
 
                 <div class="field_div form-group">
                   <input type="radio" class="check_individual" name="person_is" value="individual"{% if edit_product.person_is == 'individual' %} checked="checked"{% endif %}>
-                  <label for="individual" class="you_are"><span><span></span></span>Individual</label>
+                  <label for="individual" class="you_are"><span><span></span></span>{% trans "Individual" %}</label>
                   <input type="radio" class="check_dealer" name="person_is" value="dealer"{%if userprofile.person_is == 'dealer' %}checked="checked"{% endif %}>
                   <label for="dealer" class="you_are"><span><span></span></span>Delear</label>
-                  <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>
+                  <label id="content_required" class="labelError" style="display:none;">{% trans "Please select You are." %}</label>
               </div><!--form-group-->
 
            </div> <!-- description_div -->
@@ -222,21 +222,21 @@
          </div><!--additional_info-->
            
         <div class="marketing visible-lg">
-            <span class="marketing_txt">Marketing communication</span>
-            <input type="checkbox" name="is_marketing_person" class="mark_box" {% if userprofile.is_marketing_person  %}checked="checked" {% endif %}><span class="mailing_txt">Include me in marketing mailing communication</span>
+            <span class="marketing_txt">{% trans "Marketing communication" %}</span>
+            <input type="checkbox" name="is_marketing_person" class="mark_box" {% if userprofile.is_marketing_person  %}checked="checked" {% endif %}><span class="mailing_txt">{% trans "Include me in marketing mailing communication" %}</span>
         </div><!--marketing-->
 
         <div class="marketing visible-xs">
-            <span class="marketing_txt">Marketing communication</span><br>
-            <input type="checkbox" name="is_marketing_person" class="mark_box"{% if userprofile.is_marketing_person %}checked="checked" {% endif %}><span class="mailing_txt">Include me in marketing mailing communication</span>
+            <span class="marketing_txt">{% trans "Marketing communication" %}</span><br>
+            <input type="checkbox" name="is_marketing_person" class="mark_box"{% if userprofile.is_marketing_person %}checked="checked" {% endif %}><span class="mailing_txt">{% trans "Include me in marketing mailing communication" %}</span>
         </div><!--marketing-->
 
         <div class="set_password">
-          <span class="password_txt">Set Your Password</span>
+          <span class="password_txt">{% trans "Set Your Password" %}</span>
             <div class="password_center">
               <div class="field_div form-group">
                 <input class="pwd_profile" name="pswd" placeholder="New password"/>
-                 <label class="labelError" style="display:none;">Enter your new password</label>
+                 <label class="labelError" style="display:none;">{% trans "Enter your new password" %}</label>
               </div> <!-- form-group -->
 
             <div class="field_div form-group">
@@ -245,12 +245,12 @@
             </div> <!-- form-group -->
 
             <div class="sms_alert">
-              <input type="checkbox" name="is_allow_sms" {% if userprofile.is_allow_sms %}checked="checked" {% endif %}><span class="sms_txt">I wish to receive SMS alerts.</span>
+              <input type="checkbox" name="is_allow_sms" {% if userprofile.is_allow_sms %}checked="checked" {% endif %}><span class="sms_txt">{% trans "I wish to receive SMS alerts." %}</span>
             </div><!--sms_alert-->
 
             <div class="profile_btn">
-              <button type="submit" class="btn btn-warning delete_btn">Update</button>
-              <button type="submit" class="btn btn-warning delete_btn">Cancel</button>
+              <button type="submit" class="btn btn-warning delete_btn">{% trans "Update" %}</button>
+              <button type="submit" class="btn btn-warning delete_btn">{% trans "Cancel" %}</button>
             </div><!--profile_btn-->
       </div><!--password_center-->
     </div><!--set_password-->
