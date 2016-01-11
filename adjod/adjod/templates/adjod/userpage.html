@@ -87,20 +87,28 @@
 
 <div class="leftslide visible-lg">
  <!--  <code class="closeimg"> </code> -->
+ <ul>
  {% for banners in banner|get_banner %}
-    {% if banners.bannerplan_id == 1 %}
+    {% if banners.bannerplan_id == 1 and banners.admin_status == 1%}
+    <li>
       <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad1" />
+    </li>
     {% endif %}
   {% endfor %}
+</ul>
 </div><!--leftslide-->
 
 <div class="leftslide1 visible-lg">
   <!-- <code class="closeimg"> </code> -->
+  <ul>
   {% for banners in banner|get_banner %}
-    {% if banners.bannerplan_id == 2 %}
+    {% if banners.bannerplan_id == 2 and banners.admin_status == 1 %}
+    <li>
       <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad2" />
+    </li>
    {% endif %}
   {% endfor %}
+  </ul>
 </div><!--leftslide-->
 
 <div class="container third_part">
@@ -296,14 +304,14 @@
   </div> <!-- row3 -->
 </div> <!-- container fourth part -->
 <div class="container fifth_part">
-      <div class="hp_ad banner_ad">
+      <div class="hp_ad banner_ad banner_rotation">
       <ul class="fifth_part">
         {% for banners in banner|get_banner %}
-
-          {% if banners.bannerplan_id == 3 %}
-          
+         {% if banners.bannerplan_id == 3 and banners.admin_status == 1 %}
+        <li>         
             <img src="{{MEDIA_URL}}{{banners.banner}}" style="height:120px;width:970px;" />
-          {% endif %}
+         </li>
+         {% endif %}
         {% endfor %}
       </ul>
       </div> <!-- hp ad -->

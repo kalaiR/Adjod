@@ -30,11 +30,11 @@ class BannerPlan(models.Model):
         unique_together = [("page", "position")]
 
     def __unicode__(self):
-        return unicode(self.id)
+        return unicode(self.page+self.position)
 
 
 class PostBanner(models.Model):
-    user = models.ForeignKey(UserProfile, null=True, blank=True,help_text='Choose which user post banner in site')
+    # user = models.ForeignKey(UserProfile, null=True, blank=True,help_text='Choose which user post banner in site')
     banner = ContentTypeRestrictedFileField(upload_to='banners',
         content_types=['image/jpeg', 'image/png'], max_upload_size=2097152,
         help_text="Please upload the banner Image with 2MB min and jpg, png \

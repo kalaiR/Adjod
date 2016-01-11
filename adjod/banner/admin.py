@@ -14,13 +14,13 @@ class BannerPlanAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 class PostBannerAdmin(admin.ModelAdmin):
-    list_display = ('id','user','banner','link', 'bannerplan', 'startdate','enddate','admin_status')
+    list_display = ('id','banner','link', 'bannerplan', 'startdate','enddate','admin_status')
     list_filter = ['bannerplan', 'admin_status']
     search_fields = ['id', 'bannerplan','admin_status']
     #readonly_fields =['id']
     fieldsets = [
       ('Add Banner', {
-          'fields': ['user','banner','link','bannerplan', 'startdate','enddate','admin_status']
+          'fields': ['banner','link','bannerplan', 'startdate','enddate','admin_status']
       }),
     ]
     list_per_page = 50
