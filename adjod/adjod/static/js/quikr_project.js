@@ -501,7 +501,7 @@ $( document ).ready(function() {
     };
 
     // on blur: validate
-    $("#your_mobile_no").blur(function() {
+    $("#post").click(function() {
       reset();
       if ($.trim($("#your_mobile_no").val())) {
         if ($("#your_mobile_no").intlTelInput("isValidNumber")) {
@@ -537,7 +537,7 @@ $( document ).ready(function() {
     };
 
     // on blur: validate
-    $("#mobilenumber").blur(function() {
+    $("#alert_button").click(function() {
       reset();
       if ($.trim($("#mobilenumber").val())) {
         if ($("#mobilenumber").intlTelInput("isValidNumber")) {
@@ -574,7 +574,7 @@ $( document ).ready(function() {
     };
 
     // on blur: validate
-    $("#mobile_number_sign_up_home").blur(function() {
+    $("#create").click(function() {
       reset();
       if ($.trim($("#mobile_number_sign_up_home").val())) {
                if ($("#mobile_number_sign_up_home").intlTelInput("isValidNumber")) {
@@ -593,37 +593,37 @@ $( document ).ready(function() {
 
 
 
-      var telInput = $("#mobile_number_sign_up_postad"),
-      errorMsg = $("#error-msg"),
-      validMsg = $("#valid-msg");
+    //   var telInput = $("#mobile_number_sign_up_postad"),
+    //   errorMsg = $("#error-msg"),
+    //   validMsg = $("#valid-msg");
 
-    // initialise plugin
-    telInput.intlTelInput({
-       preferredCountries: [ "sg", "gb" ],
-      utilsScript: "../../static/lib/libphonenumber/build/utils.js"
-    });
+    // // initialise plugin
+    // telInput.intlTelInput({
+    //    preferredCountries: [ "sg", "gb" ],
+    //   utilsScript: "../../static/lib/libphonenumber/build/utils.js"
+    // });
 
-    var reset = function() {
-      telInput.removeClass("error");
-      errorMsg.addClass("hide");
-      validMsg.addClass("hide");
-    };
+    // var reset = function() {
+    //   telInput.removeClass("error");
+    //   errorMsg.addClass("hide");
+    //   validMsg.addClass("hide");
+    // };
 
-    // on blur: validate
-    $("#mobile_number_sign_up_postad").blur(function() {
-     reset();
-      if ($.trim($("#mobile_number_sign_up_postad").val())) {
-        if ($("#mobile_number_sign_up_postad").intlTelInput("isValidNumber")) {
-          validMsg.removeClass("hide");
-        } else {
-         telInput.addClass("error");
-      errorMsg.removeClass("hide");
-        }
-      }
-    });
+    // // on blur: validate
+    // $("#mobile_number_sign_up_postad").blur(function() {
+    //  reset();
+    //   if ($.trim($("#mobile_number_sign_up_postad").val())) {
+    //     if ($("#mobile_number_sign_up_postad").intlTelInput("isValidNumber")) {
+    //       validMsg.removeClass("hide");
+    //     } else {
+    //      telInput.addClass("error");
+    //   errorMsg.removeClass("hide");
+    //     }
+    //   }
+    // });
 
-    // on keyup / change flag: reset
-    telInput.on("keyup change", reset);
+    // // on keyup / change flag: reset
+    // telInput.on("keyup change", reset);
  // ************* end country wise mobile number validation *************
 
      // Image file upload

@@ -100,13 +100,16 @@
     // if (s<140000){
       // if (s<80000){
         // if (s<270000000){
-          var ext = $('#photos,#profile_poster').val().split('.').pop().toLowerCase();
+
+          var ext = $('#photos').val().split('.').pop().toLowerCase();
           if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
               // alert('invalid extension!');
               $('.error_photo').show();
               $('.photo_labelError').text("invalid file format");
           }
-
+          else{
+            $('.error_photo').hide();
+          }
           // alert($('#photos').val().length);
           // if($('#photos').val().length >= 1){
           //   var ext = $('#photos').val().split('.').pop().toLowerCase();
