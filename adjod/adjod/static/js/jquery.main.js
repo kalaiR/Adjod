@@ -226,13 +226,13 @@ $( document ).ready(function() {
     if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test($('#emailid_signup').val())) {
       $('#emailid_signup').addClass("error_input_field");
       $('#emailid_signup').siblings('.labelError').text("Please enter valid email address");
-      $('.labelError').show();
+      $('#emailid_signup').siblings('.labelError').show();
       //email.val(emailerror);
     }
     else
     {
-      $('#email_id').removeClass("error_input_field");
-      $('#email_id').siblings('.labelError').hide();
+      $('#emailid_signup').removeClass("error_input_field");
+      $('#emailid_signup').siblings('.labelError').hide();
     }
     }
      if ($(":input").hasClass("error_input_field")){
