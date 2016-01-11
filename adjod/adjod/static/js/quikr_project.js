@@ -235,7 +235,23 @@ function fill_brands(sub_category_id) {
       response_cache4 = {}
 }
 //********** End Ajax Function **********
-
+function passwordChanged() {
+    $('#strength').show();
+    var strength = document.getElementById("strength");
+    var strongRegex = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).*$", "g");
+    var mediumRegex = new RegExp("^(?=.{7,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$", "g");
+    var enoughRegex = new RegExp("(?=.{6,}).*", "g");
+    var pwd = document.getElementById("pswd1");
+    if (false == enoughRegex.test(pwd.value)) {
+        strength.innerHTML = "More Character";
+    } else if (strongRegex.test(pwd.value)) {
+        strength.innerHTML = '<span style="color:green">Strong!</span>';
+    } else if (mediumRegex.test(pwd.value)) {
+        strength.innerHTML = '<span style="color:orange">Medium!</span>';
+    } else {
+        strength.innerHTML = '<span style="color:red">Weak!</span>';
+    }
+}
 //********** End Functions **********
 
 $( document ).ready(function() {
@@ -328,10 +344,12 @@ $( document ).ready(function() {
    //user profile check and uncheck functionality   by ramya
     $('.check_all_act').on('click', function(){
       $('.check').prop('checked', true);
+      $('.edit_action,.view_action,.delete_action').hide();
     });
 
     $('.uncheck_all_act').on('click', function(){
       $('.check').prop('checked', false);
+      $('.edit_action,.view_action,.delete_action').show();
     });
 
     function getSelectedVals(){
@@ -355,7 +373,6 @@ $( document ).ready(function() {
       }
       else{
         selected = getSelectedVals();
-        alert(selected);
         var myurl = "/delete_ad/"
         $.ajax({
                   type: "POST",
@@ -1019,6 +1036,29 @@ $( document ).ready(function() {
               if (theEvent.preventDefault) theEvent.preventDefault();
           }
     });
+    $("#password2").keyup(function() {
+        var password = $(".pwd_profile").val();
+        $("#pswd_label_error1").html(password == $(this).val()? "Passwords match.": "Passwords do not match!");
+        if(password == $(this).val()){
+            $('.delete_btn').removeAttr('disabled');
+        }
+        else{
+            $('.delete_btn').attr('disabled','disabled');
+        }
+    });
+
+    $('.pwd_profile').focus(function(){
+        $('.delete_btn').attr('disabled','disabled');
+    });
+    $('.pwd_profile').blur(function(){
+        var value = $(this).val();
+        if(value.length <= 0){
+            $('.delete_btn').removeAttr('disabled');
+            // $('#result').hide();
+            // $('#pswd_label_error1').hide();
+        }
+    });
+
 
 //Show more and show less desciption in detail page
     var showChar = 100;  // How many characters are shown by default

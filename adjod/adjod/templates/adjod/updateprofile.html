@@ -5,8 +5,8 @@
 <div class="left_part_profile hidden-xs">
         <div id="menu_profile">
           <ul>
-          <li class="menu_active"><a href="#" class="My_ads">{% trans "My Ads" %}</a></li>
-          <li class="menu_active"><a href="#" class="My_profile">{% trans "Update My Profile" %}</a></li>
+          <li class="menu_active"><a class="My_ads">{% trans "My Ads" %}</a></li>
+          <li class="menu_active"><a class="My_profile">{% trans "Update My Profile" %}</a></li>
           <!-- <li class="menu_active"><a href="#" class="">My Chats</a></li> -->
         </div><!--menu_profile-->
 </div> <!-- left_part_profile -->
@@ -20,9 +20,9 @@
         </div><!--menu_profile-->
 </div> <!-- left_part_profile -->
 
-<div class="update_ads col-md-9">  
+<div class="update_ads col-md-9">
   <span class="activate_ads hidden-xs">{% trans "Activate Ads Management" %}</span>
-   <div class="fl filter_result_wrapper" id="search_result" style="position:relative;">           
+   <div class="fl filter_result_wrapper" id="search_result" style="position:relative;">
     <p class="search_result"></p>
    <div class="right_part">
      {% for my_ads in my_products %}
@@ -62,9 +62,9 @@
                  </div><!--ads_name2-->
                 <div class="ads_name3 hidden-xs">
                 <!--   <a href="#" class="spans2">Action</a> -->
-                  <span><a href="/ads/{{my_ads.id}}" class="action">{% trans "View" %}</a></span>
-                  <span><a href="/edit_postad_detail/{{my_ads.id}}" class="action">{% trans "Edit" %}</a></span>
-                  <span><a href="#" value="{{my_ads.id}}" class="action delete_act">{% trans "Delete" %}</a></span>
+                  <span><a href="/ads/{{my_ads.id}}" class="action view_action">{% trans "View" %}</a></span>
+                  <span><a href="/edit_postad_detail/{{my_ads.id}}" class="action edit_action">{% trans "Edit" %}</a></span>
+                  <span><a href="#" value="{{my_ads.id}}" class="action delete_act delete_action">{% trans "Delete" %}</a></span>
               </div><!--ads_name3-->
               <div class="ads_name3 visible-xs">
                   <a href="#" class="spans2 hidden-xs">{% trans "Action" %}</a>
@@ -99,7 +99,7 @@
 <form id="update_user" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
   <div class="update_profile col-md-9">
-    <span class="personal_txt">{% trans "Personals Details" %}</span>   
+    <span class="personal_txt">{% trans "Personals Details" %}</span>
      <div class="container center">
         <div class="profile_content">
           <div class="personal_details">
@@ -179,14 +179,14 @@
           </div><!--personal_center-->
         </div><!--personal_details-->
 
-        <div class="additional_info"> 
+        <div class="additional_info">
           <span class="additional_txt">{% trans "Additional Information" %}</span>
           <div class="additional_center">
             <div class="field_div form-group">
               <div class="gender_select fl">
                   <div class="select_profile">
                     <p id="profile_gender">{% if userprofile.gender %}{{userprofile.gender}}{% else %}Gender{% endif %}</p>
-                    <i class="city_fa fa fa-caret-down">    
+                    <i class="city_fa fa fa-caret-down">
                     </i>
                   </div> <!-- select_profile -->
                   <select name="gender" class="profile_gender">
@@ -201,13 +201,13 @@
               <div class="field_div form-group">
                 <input class="age_profile" name="user_age" id="user_age" value="{% if userprofile.user_age %}{{userprofile.user_age}}{% endif %}" placeholder="Age"/>
                 <label class="labelError" style="display:none;">{% trans "Enter your age" %}</label>
-              </div> <!-- form-group --> 
+              </div> <!-- form-group -->
 
               {% if userprofile.user_age %}
                 <textarea class="address_profile" maxlength="500" name="user_address" placeholder="Address" value="">{{userprofile.user_address}}</textarea>
               {% else %}
               <textarea class="address_profile" maxlength="500" name="user_address" placeholder="Address" value=""></textarea>
-              {% endif %}  
+              {% endif %}
                 <label class="labelError" style="display:none;">{% trans "Enter your address" %}</label>
               </div><!--form-group-->
 
@@ -241,13 +241,14 @@
           <span class="password_txt">{% trans "Set Your Password" %}</span>
             <div class="password_center">
               <div class="field_div form-group">
-                <input class="pwd_profile" name="pswd" placeholder="New password"/>
-                 <label class="labelError" style="display:none;">{% trans "Enter your new password" %}</label>
+                <input class="pwd_profile" name="pswd" placeholder="New password" type="password" id="password" />
+                 <label id="pswd_label_error" class="labelError" style="display:none;">{% trans "Enter your new password" %}</label>
+                 <label id="result"></label>
               </div> <!-- form-group -->
 
             <div class="field_div form-group">
-              <input class="newpwd_profile" name="repswd" placeholder="Retype new password"/>
-               <label class="labelError" style="display:none;"></label>
+              <input class="newpwd_profile" name="repswd" placeholder="Retype new password" type="password" id="password2"/>
+               <label id="pswd_label_error1" class="labelError"></label>
             </div> <!-- form-group -->
 
             <div class="sms_alert">
@@ -256,7 +257,6 @@
 
             <div class="profile_btn">
               <button type="submit" class="btn btn-warning delete_btn">{% trans "Update" %}</button>
-              <button type="submit" class="btn btn-warning delete_btn">{% trans "Cancel" %}</button>
             </div><!--profile_btn-->
       </div><!--password_center-->
     </div><!--set_password-->

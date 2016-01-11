@@ -408,11 +408,10 @@ def user_manage(request):
     if request.user.is_authenticated():
         userprofile_id = request.user.id
         try:
-            my_products = Product.objects.filter(userprofile_id=userprofile_id)
+            my_products = Product.objects.filter(userprofile_id=userprofile_id,status_isactive=True)
             userprofile = UserProfile.objects.get(id=request.user.id)
         except UserProfile.DoesNotExist:
             return render_to_response('404.html', context_instance=RequestContext(request))
-        print 'userprofile', userprofile
         if request.method == 'POST':
             mobile = request.POST.get('your_mobile_no')
             user_age = request.POST.get('user_age')
@@ -432,76 +431,67 @@ def user_manage(request):
                 profile_picture.close()
 
             if userprofile:
-                print 'yes'
+
                 userprofile.mobile = mobile
                 userprofile.locality = Locality.objects.get(id=int(locality.id))
-                print "userprofile.locality",userprofile.locality
                 # userprofile.city = City.objects.get(id=request.POST['user_city'])
-                # print "userprofile.city", userprofile.city
                 userprofile.user_age = user_age
                 userprofile.gender = gender
                 userprofile.user_address = user_address
-                print 'addewess'
                 userprofile.person_is = person_is
                 userprofile.is_marketing_person = is_marketing_person
                 userprofile.is_allow_sms = is_allow_sms
                 userprofile.last_name = request.POST.get('last_name')
                 if 'profile_poster' in request.FILES:
                     profile_picture = request.FILES['profile_poster']
-                    print 'profile_picture', profile_picture
                     handle_uploaded_file(profile_picture)
                     profile_picture = '/profile/' + str(profile_picture)
                     userprofile.profile_picture = profile_picture
                 else:
                     userprofile.profile_picture = userprofile.profile_picture
                 userprofile.save()
-                # if 'profile_poster' in request.FILES:
-                #     userprofile.profile_picture = request.FILES.get('profile_poster')
-                #     print 'if pic', userprofile.profile_picture
-                # userprofile.save()
-
+                if 'pswd' in request.POST:
+                    u = User.objects.get(username=request.user.username)
+                    u.set_password(request.POST.get('pswd'))
+                    u.save()
             ctx={'my_products':my_products, 'userprofile':userprofile}
         else:
             ctx={'my_products':my_products, 'userprofile':userprofile}
         return render_to_response('adjod/updateprofile.html', ctx, context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/')
+
+@login_required
 def edit_postad_detail(request , pk):
     edit_product = Product.objects.get(pk=int(pk))
     pic=[n for n in str(edit_product.thumbnail).split(',')]
     return render_to_response('advertisement/ad_post.html', {'edit_product':edit_product, 'pic':pic}, context_instance=RequestContext(request))
 
-def update_success(request, updated_product):
-    print 'update_success>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',request.POST
+def update_success(request, pk):
     error = {}
+    updated_product = Product.objects.get(pk=int(pk))
     updated_product.category=Category.objects.get(id=request.POST['category_name'])
-    print 'updated_product.category', updated_product.category
     updated_product.subcategory=SubCategory.objects.get(id=request.POST['subcategory_name'])
-    print 'updated_product.subcategory', updated_product.subcategory
     if request.POST['brand_name']:
         updated_product.ad_brand=Dropdown.objects.get(id=request.POST['brand_name'])
-        print 'updated_product.ad_brand', updated_product.ad_brand
     else:
         updated_product.ad_brand=None
-        print 'updated_product.ad_brand', updated_product.ad_brand
-    # product.adtype=request.POST.get('condition')
     updated_product.adtype= "sell"
     updated_product.title=request.POST.get('ad_title')
-    updated_product.price = currency_conversion(request.POST.get('your_price'),request.COOKIES.get('country_code'))
+    updated_product.price = request.POST.get('your_price')
     updated_product.ad_year=request.POST.get('your_year')
     updated_product.description=request.POST.get('description')
     updated_product.you_are = request.POST.get('you_are_radio')
     updated_product.you_name = request.POST.get('your_name')
     updated_product.you_email = request.POST.get('your_email')
     updated_product.you_phone = request.POST.get('your_mobile_no')
-    print "request.POST['your_city']",request.POST['your_city']
     updated_product.city=City.objects.get(id=int(request.POST['your_city']))
     updated_product.locality=Locality.objects.get(id=request.POST['your_locality'])
     updated_product.country_code = request.COOKIES.get("country_code")
     # product.photos=request.FILES['photos']
     if 'photos[]' in request.FILES:
         photos =request.FILES.getlist('photos[]')
-        print 'photos', photos
+        print 'photos>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', photos
         updated_product.photos, updated_product.imagecount, updated_product.thumbnail = create_path_for_photos_thumbanails(photos, updated_product)
         print 'image_receive', updated_product.photos
     updated_product.video = request.POST.get('video_url')
@@ -542,7 +532,7 @@ def update_success(request, updated_product):
 
               },
             )
-    return response
+    return HttpResponseRedirect('/user_manage/')
 
 #Check whether to save the product or not
 @transaction.commit_on_success
