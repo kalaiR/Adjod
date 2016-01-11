@@ -431,7 +431,7 @@ def user_manage(request):
                 profile_picture.close()
 
             if userprofile:
-
+                # userprofile.city =City.objects.get(id=1)
                 userprofile.mobile = mobile
                 userprofile.locality = Locality.objects.get(id=int(locality.id))
                 # userprofile.city = City.objects.get(id=request.POST['user_city'])
