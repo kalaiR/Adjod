@@ -136,7 +136,7 @@ urlpatterns = patterns('',
     # url(r'^my_chats/$', 'adjod.views.my_chats',name='my_chats'),
     url(r'^edit_postad_detail/(?P<pk>\d+)/$', 'adjod.views.edit_postad_detail',name='edit_postad_detail'),
     url(r'^delete_ad/$', 'adjod.views.delete_ad',name='delete_ad'),
-    url(r'^update_product/(?P<pk>\d+)/$', 'adjod.views.update_product',name='update_product'),
+    url(r'^update_product/(?P<pk>\d+)/$', 'adjod.views.update_success',name='update_product'),
 
 
 

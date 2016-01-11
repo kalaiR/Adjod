@@ -5,7 +5,7 @@
 <div class="left_part_profile hidden-xs">
         <div id="menu_profile">
           <ul>
-          <li class="menu_active"><a href="#" class="My_ads">My Ads</a></li>
+          <li class="menu_active"><a class="My_ads">My Ads</a></li>
           <li class="menu_active"><a class="My_profile">Update My Profile</a></li>
           <!-- <li class="menu_active"><a href="#" class="">My Chats</a></li> -->
         </div><!--menu_profile-->
@@ -62,9 +62,9 @@
                  </div><!--ads_name2-->
                 <div class="ads_name3 hidden-xs">
                 <!--   <a href="#" class="spans2">Action</a> -->
-                  <span><a href="/ads/{{my_ads.id}}" class="action">View</a></span>
-                  <span><a href="/edit_postad_detail/{{my_ads.id}}" class="action">Edit</a></span>
-                  <span><a href="#" value="{{my_ads.id}}" class="action delete_act">Delete</a></span>
+                  <span><a href="/ads/{{my_ads.id}}" class="action view_action">View</a></span>
+                  <span><a href="/edit_postad_detail/{{my_ads.id}}" class="action edit_action">Edit</a></span>
+                  <span><a href="#" value="{{my_ads.id}}" class="action delete_act delete_action">Delete</a></span>
               </div><!--ads_name3-->
               <div class="ads_name3 visible-xs">
                   <a href="#" class="spans2 hidden-xs">Action</a>
@@ -186,7 +186,7 @@
               <div class="gender_select fl">
                   <div class="select_profile">
                     <p id="profile_gender">{% if userprofile.gender %}{{userprofile.gender}}{% else %}Gender{% endif %}</p>
-                    <i class="city_fa fa fa-caret-down">    
+                    <i class="city_fa fa fa-caret-down">
                     </i>
                   </div> <!-- select_profile -->
                   <select name="gender" class="profile_gender">
@@ -239,13 +239,14 @@
           <span class="password_txt">Set Your Password</span>
             <div class="password_center">
               <div class="field_div form-group">
-                <input class="pwd_profile" name="pswd" placeholder="New password"/>
-                 <label class="labelError" style="display:none;">Enter your new password</label>
+                <input class="pwd_profile" name="pswd" placeholder="New password" type="password" id="password" />
+                 <label id="pswd_label_error" class="labelError" style="display:none;">Enter strong password</label>
+                 <label id="result"></label>
               </div> <!-- form-group -->
 
             <div class="field_div form-group">
-              <input class="newpwd_profile" name="repswd" placeholder="Retype new password"/>
-               <label class="labelError" style="display:none;"></label>
+              <input class="newpwd_profile" name="repswd" placeholder="Retype new password" type="password" id="password2"/>
+               <label id="pswd_label_error1" class="labelError"></label>
             </div> <!-- form-group -->
 
             <div class="sms_alert">
@@ -254,7 +255,7 @@
 
             <div class="profile_btn">
               <button type="submit" class="btn btn-warning delete_btn">Update</button>
-              <button type="submit" class="btn btn-warning delete_btn">Cancel</button>
+
             </div><!--profile_btn-->
       </div><!--password_center-->
     </div><!--set_password-->
