@@ -427,7 +427,7 @@
 
 
             <div id="forgot_div" class="form-group">
-              <span class="forgot_act">Forgot you password?</span>
+              <span class="forgot_act">Forgot your password?</span>
               <input class="btn confirm_button" type="button" value="Sign in" name="create" id="signin" />
 
             </div> <!-- forgot_div -->
@@ -496,7 +496,7 @@
 
               <div id="mobile_number_div" class="form-group fr">
                 <input class="mobile_number" name="your_mobile_number" id="mobile_number_sign_up_home"  type="tel"/><br><br>
-                <span id="valid-msg" class="hide">Invalid number</span>
+                <label id="valid-msg" class="hide">Invalid number</label>
               </div>
 
               <!-- <div id="mobile_number_div" class="form-group">
@@ -633,17 +633,17 @@
         });
       </script>
       <div class="popup_fade " style=" display: block;left:0px;"></div>
-      {% if request.REQUEST.pt == '5' %}
+      {% if request.REQUEST.pt == '5' or request.REQUEST.pt == '7'%}
       <div class="postad_success_popup">
-      <code class="close_btn cancel_btn" style="display: block;"></code>
-         <div class="subscribe_title">
-            <h4>Message</h4>
-        </div><!--subscribe_titl-->
-         <div class="subscribe_content">
-           <p>{{ message }}</p>
-       </div><!--subscribe_content-->
-   </div><!--subscription_popup-->
-   {% elif request.REQUEST.pt == '6' %}
+           <code class="close_btn cancel_btn" style="display: block;"></code>
+           <div class="subscribe_title">
+              <h4>Message</h4>
+           </div><!--subscribe_titl-->
+           <div class="subscribe_content">
+             <p>{{ message }}</p>
+           </div><!--subscribe_content-->
+      </div><!--postad_success_popup-->
+   {% elif request.REQUEST.pt == '6' or request.REQUEST.pt == '8'%}
    <div class="postad_success_popup">
      <code class="close_btn cancel_btn" style="display: block;"></code>
         <div class="subscribe_title">
