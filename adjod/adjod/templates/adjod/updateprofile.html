@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
-   
+
 <div class="left_part_profile hidden-xs">
         <div id="menu_profile">
           <ul>
           <li class="menu_active"><a href="#" class="My_ads">My Ads</a></li>
-          <li class="menu_active"><a href="#" class="My_profile">Update My Profile</a></li>
+          <li class="menu_active"><a class="My_profile">Update My Profile</a></li>
           <!-- <li class="menu_active"><a href="#" class="">My Chats</a></li> -->
         </div><!--menu_profile-->
 </div> <!-- left_part_profile -->
@@ -20,30 +20,39 @@
         </div><!--menu_profile-->
 </div> <!-- left_part_profile -->
 
-<div class="update_ads col-md-9">  
+<div class="update_ads col-md-9">
   <span class="activate_ads hidden-xs">Activate Ads Management</span>
-<div class="fl filter_result_wrapper" id="search_result" style="position:relative;">           
+<div class="fl filter_result_wrapper" id="search_result" style="position:relative;">
 <p class="search_result"></p>
   <div class="right_part">
-     {% for my_ads in my_products %}     
+     {% for my_ads in my_products %}
+
           <ul class="product1">
             <li class="product_ads">
               <div class="product_images1 bg-img">
-                <p class="{% if product.object.premium_plan_id = 1 %} premium-img1 {% elif product.object.premium_plan_id = 2 %} premium-img2 {% elif product.object.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>   
-                <a href="#"><img src="{{MEDIA_URL}}{{my_ads.thumbnail|get_photos}}"></a>
+                <p class="{% if my_ads.premium_plan_id = 1 %} premium-img1 {% elif my_ads.premium_plan_id = 2 %} premium-img2 {% elif my_ads.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>
+                <a><img src="{{MEDIA_URL}}{{my_ads.thumbnail|get_photos}}"></a>
                 <div class="count_holder1 visible-lg">
-                      <span>{{product.object.imagecount}}</span>
+                      <span>{{my_ads.imagecount}}</span>
                       <i class="fa fa-camera"></i>
                 </div><!--count_holder1-->
               </div><!--product_images1-->
               <div class="ads_details1">
             <form action="/delete_ad" method="post" id="userprofile_form">
-                <div class="ads_name1">
+                <div class="ads_name1 hidden-xs">
                <!--    <a href="/ads/{{my_ads.id}}/" class="spans"></a> -->
                   <input type="checkbox" name="title_box" value="{{my_ads.id}}" class="check"><span class="description1">
                   <a href="/ads/{{my_ads.id}}/">{{my_ads.title}}</a></span>
                   <span class="ads_id">AD ID:{{my_ads.id}}</span><br>
                   <span class="category_ads">status: {{my_ads.status_isactive}}</span><br>
+                  <span class="category_ads">{{my_ads.category.name}}<br>{{my_ads.subcategory.name}}</span>
+               </div><!--ads_name1-->
+               <div class="ads_name1 visible-xs">
+               <!--    <a href="/ads/{{my_ads.id}}/" class="spans"></a> -->
+                  <input type="checkbox" name="title_box" value="{{my_ads.id}}" class="check"><span class="description1">
+                  <a href="/ads/{{my_ads.id}}/">{{my_ads.title}}</a></span>
+                  <!-- <span class="ads_id">AD ID:{{my_ads.id}}</span> -->
+                  <span class="category_ads">status: {{my_ads.status_isactive}}</span>
                   <span class="category_ads">{{my_ads.category.name}}<br>{{my_ads.subcategory.name}}</span>
                </div><!--ads_name1-->
                 <div class="ads_name2">
@@ -59,37 +68,38 @@
               </div><!--ads_name3-->
               <div class="ads_name3 visible-xs">
                   <a href="#" class="spans2 hidden-xs">Action</a>
-                  <span class="action"><i class="fa fa-eye"></i></span>
-                  <span class="action"><i class="fa fa-pencil"></i></span>
-                  <span class="action"><i class="fa fa-trash-o"></i></span>
+                  <span class="action"><a href="/ads/{{my_ads.id}}" class="action"><i class="fa fa-eye"></i></a></span>
+                  <span class="action"><a href="/edit_postad_detail/{{my_ads.id}}" class="action"><i class="fa fa-pencil"></i></a></span>
+                  <span class="action"><a href="#" value="{{my_ads.id}}" class="action delete_act"><i class="fa fa-trash-o"></i></a></span>
               </div><!--ads_name3-->
           </li><!--product_ads-->
-        </ul><!--product1-->      
-      {% endfor %}  
+        </ul><!--product1-->
+      {% endfor %}
       </div> <!-- right_part -->
+      <p class="col-md-6 hidden-lg">{{my_products.count}} Results</p>
       <div class="bottom_ads col-md-12">
           {% if my_products %}
-           <p class="col-md-6">{{my_products.count}} Results</p>
+           <p class="col-md-6 hidden-xs">{{my_products.count}} Results</p>
             <span class="check_all col-md-2 check_all_act">Check All</span>
            <span class="uncheck_all col-md-2 uncheck_all_act">Uncheck All</span>
            <input name="next" type="hidden" value="{{request.path}}{% if request.GET.urlencode %}?{{request.GET.urlencode}}{% endif %}" />
            <button type="button" class="btn btn-warning delete_btn delete_act">Delete</button>
           {% else %}
-          <div class="right_align_ads"><span>{% trans "No Results Found" %}</span></div> 
+          <div class="right_align_ads"><span>{% trans "No Results Found" %}</span></div>
           {% endif %}
-          
+
       </div> <!-- bottom_part -->
-    </form> 
+    </form>
 </div><!--filter_result_wrapper-->
 </div><!--update_ads-->
 
 
 <div class="profile_text">
    <span class="hidden-xs">Update My Profile</span>
-<form id="update_user" method="POST" action="/my_ads/" enctype="multipart/form-data"> 
-  {% csrf_token %}  
-  <div class="update_profile col-md-9"> 
-    <span class="personal_txt">Personals Details</span>   
+<form id="update_user" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="update_profile col-md-9">
+    <span class="personal_txt">Personals Details</span>
      <div class="container center">
         <div class="profile_content">
           <div class="personal_details">
@@ -97,40 +107,37 @@
                 <div class="field_title form-group">
                   <span class="title">Upload Photos</span>
                 </div> <!-- field_title -->
-                <div class="field_div form-group upload_image" id="photos_div">                
+                <div class="field_div form-group upload_image" id="photos_div">
                 {% if userprofile.profile_picture %}
-                    <input type='file' id="profile_poster" class="poster" name="profile_poster" value="../media/{{userprofile.profile_picture}}"/>
+                    <input type='file' id="profile_poster" class="poster profile_poster_update" name="profile_poster" value=""/>
                     <img id="clean_img" class="after_save" src="../media/{{userprofile.profile_picture}}">
+                    <span class="upload_image_change">Change</span>
+                    <!-- <span class="upload_image_remove">Remove</span> -->
                     <span class="photo_labelError"></span>
                 {% else %}
                  <input type='file' id="profile_poster" name="profile_poster" value="" class="poster" />
-                {% endif %}     
+                {% endif %}
                 </div> <!-- upload_photos_div -->
-                
+
                 <div class="field_div form-group">
-                  {% if user.is_authenticated %} 
+                  {% if user.is_authenticated %}
                     <input class="full_name" name="your_name" id="your_name" value="{{request.user}}" placeholder="Full Name" disabled="disabled"/>
                   {% else %}
                     <input class="full_name" name="your_name" id="your_name" value="" placeholder="Full Name"/>
                   {% endif %}
                   <label class="labelError" style="display:none;">Enter your Full Name</label>
-
-                  {% if updated.last_name %}
-                    <input class="last_name" name="your_name" id="your_name" value="{{updated.last_name}}" placeholder="Last Name"/>
-                  {% else %}
-                    <input class="last_name" name="your_name" id="your_name" value=""  placeholder="Last Name"/>
-                  {% endif %}
+                  <input class="last_name" name="last_name" id="your_name" value="{% if userprofile.last_name %}{{userprofile.last_name}}{% endif %}" placeholder="Last Name"/>
                   <label class="labelError" style="display:none;">Enter your Last Name</label>
                 </div> <!-- form-group -->
 
                 <div class="field_div form-group">
                   {% if user.is_authenticated %}
                     <input class="email_profile" name="email" value="{{request.user.email}}" placeholder="Email" disabled="disabled"/>
-                  {% else %}  
+                  {% else %}
                     <input class="email_profile" name="email" value="" placeholder="Email"/>
-                  {% endif %}  
+                  {% endif %}
                   <label class="labelError" style="display:none;">Enter your Email</label>
-                  <input class="your_mobile_no" name="mobile" id="mobile" value="{%if userprofile.mobile%}{{userprofile.mobile}}{%endif%}" type="tel"/>
+                  <input class="your_mobile_no" name="your_mobile_no" id="your_mobile_no" value="{%if userprofile.mobile%}{{userprofile.mobile}}{%endif%}" type="tel"/>
                   <label class="labelError" style="display:none;">Enter your mobile no</label>
                 </div> <!-- form-group -->
 
@@ -138,7 +145,7 @@
                     <div class="city_select fl">
                         <div class="post_city">
                           <p id="profile_city">{{city}}</p>
-                          <i class="city_fa fa fa-caret-down">   
+                          <i class="city_fa fa fa-caret-down">
                           </i>
                         </div> <!-- post_city -->
                         <select name="user_city" id="user_city" disabled="disabled">
@@ -149,28 +156,30 @@
                         </select>
                         <label class="labelError" style="font-size:35px;display:none;">Please Choose city</label>
                     </div> <!-- city_select -->
+                     <input type="hidden" name="user_city" value="{{city_id}}">
+
 
                     <div class="locality_select fl">
                         <div class="post_city">
                           <p id="profile_locality">{% if userprofile.locality%}{{userprofile.locality}}{% else %}Select locality{% endif%}</p>
-                          <i class="city_fa fa fa-caret-down">     
+                          <i class="city_fa fa fa-caret-down">
                           </i>
                         </div> <!-- post_city -->
                         <select id= "user_locality" name="user_locality" class="profile_locality">
                         {% for localities in locality %}
                           <option value="{{localities.id}}">{{localities.locality}}</option>
-                        {% endfor %}     
+                        {% endfor %}
                         </select>
                         <label class="labelError" style="font-size:35px;display:none;">Please Choose locality</label>
                     </div> <!-- locality_select -->
-                    <div class="clear_both"></div>   
-                    <div class="clear_both"></div>   
+                    <div class="clear_both"></div>
+                    <div class="clear_both"></div>
               </div> <!-- form-group -->
 
           </div><!--personal_center-->
         </div><!--personal_details-->
-        
-        <div class="additional_info"> 
+
+        <div class="additional_info">
           <span class="additional_txt">Additional Information</span>
           <div class="additional_center">
             <div class="field_div form-group">
@@ -192,43 +201,38 @@
               <div class="field_div form-group">
                 <input class="age_profile" name="user_age" id="user_age" value="{% if userprofile.user_age %}{{userprofile.user_age}}{% endif %}" placeholder="Age"/>
                 <label class="labelError" style="display:none;">Enter your age</label>
-              </div> <!-- form-group --> 
+              </div> <!-- form-group -->
 
-              <div class="field_div form-group">
               {% if userprofile.user_age %}
                 <textarea class="address_profile" maxlength="500" name="user_address" placeholder="Address" value="">{{userprofile.user_address}}</textarea>
-              {% else %}  
+              {% else %}
               <textarea class="address_profile" maxlength="500" name="user_address" placeholder="Address" value=""></textarea>
-              {% endif %}  
+              {% endif %}
                 <label class="labelError" style="display:none;">Enter your address</label>
-              </div><!--form-group-->
-
-              <div class="form-group">
                 <div class="field_title form-group">
-                  <span class="title">You are</span>
-                 <!--  <span class="mandatory">*</span> -->
-                </div> <!-- form-group -->
-
-                <div class="field_div form-group">
-                  <input type="radio" class="check_individual" name="person_is" value="{{userprofile.person_is}}"{%if userprofile.person_is == 'individual' %}checked="checked"{% else %}"individual"{% endif %}>
+                  <span class="title_you_are">You are</span>
+                </div><!--form-group-->
+                <div class="field_div form-group you_are_mobile">
+                  <input type="radio" class="check_individual" name="person_is" value="individual"{% if edit_product.person_is == 'individual' %} checked="checked"{% endif %}>
                   <label for="individual" class="you_are"><span><span></span></span>Individual</label>
-                  <input type="radio" class="check_dealer" name="person_is" value=value="{{userprofile.person_is}}"{%if userprofile.person_is == 'dealer' %}checked="checked"{% else %}"dealer"{% endif %}>
+                  <input type="radio" class="check_dealer" name="person_is" value="dealer"{%if userprofile.person_is == 'dealer' %}checked="checked"{% endif %}>
                   <label for="dealer" class="you_are"><span><span></span></span>Delear</label>
                   <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>
+                  <div class="clear_both"></div>
               </div><!--form-group-->
 
            </div> <!-- description_div -->
            </div><!--additional_center-->
          </div><!--additional_info-->
-           
+
         <div class="marketing visible-lg">
             <span class="marketing_txt">Marketing communication</span>
-            <input type="checkbox" name="is_marketing_person" class="mark_box" value="{{userprofile.is_marketing_person}}"{%if userprofile.is_marketing_person == 'checked' %}checked="checked"{% else %}{% endif %}><span class="mailing_txt">Include me in marketing mailing communication</span>
+            <input type="checkbox" name="is_marketing_person" class="mark_box" {% if userprofile.is_marketing_person  %}checked="checked" {% endif %}><span class="mailing_txt">Include me in marketing mailing communication</span>
         </div><!--marketing-->
 
         <div class="marketing visible-xs">
             <span class="marketing_txt">Marketing communication</span><br>
-            <input type="checkbox" name="is_allow_sms" class="mark_box" value="{{userprofile.is_allow_sms}}"{%if userprofile.is_allow_sms == 'checked' %}checked="checked"{% else %}{% endif %}><span class="mailing_txt">Include me in marketing mailing communication</span>
+            <input type="checkbox" name="is_marketing_person" class="mark_box"{% if userprofile.is_marketing_person %}checked="checked" {% endif %}><span class="mailing_txt">Include me in marketing mailing communication</span>
         </div><!--marketing-->
 
         <div class="set_password">
@@ -245,7 +249,7 @@
             </div> <!-- form-group -->
 
             <div class="sms_alert">
-              <input type="checkbox" name="is_allow_sms" value=""><span class="sms_txt">I wish to receive SMS alerts.</span>
+              <input type="checkbox" name="is_allow_sms" {% if userprofile.is_allow_sms %}checked="checked" {% endif %}><span class="sms_txt">I wish to receive SMS alerts.</span>
             </div><!--sms_alert-->
 
             <div class="profile_btn">

@@ -11,12 +11,16 @@ from adjod.models import UserProfile
 
 from django.contrib.sites.models import Site
 from advertisement.models import PremiumPriceInfo, Product
-from adjod.util import currency_of_country
+from adjod.util import currency_of_country, format_redirect_url
 from django.conf import settings
 from django.template import RequestContext
 from django.shortcuts import render_to_response, render
 from django.db import transaction
 from commerce.models import *
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext
+from django.contrib import messages
+import urllib
 
 def show_me_the_money(sender, **kwargs):
 	print "show_me_the_money"
@@ -29,10 +33,14 @@ payment_was_successful.connect(show_me_the_money)
 
 def store_transaction(request,ipn_obj):
 	if request.COOKIES.get('product_id'):
+		sub_type="product"
 		if Product.objects.filter(id=request.COOKIES.get('product_id')).exists():
 			product = Product.objects.get(id=request.COOKIES.get('product_id'))
 			if ipn_obj.payment_status == "Pending":
-				product.status_isactive = False			
+				product.ispremium =False
+				product.premium_plan =None
+				product.status_isactive = False
+				status = "pending"
 			else:
 				if product.premium_plan.purpose == "urgent_subscription" or product.premium_plan.purpose == "top_subscription" or product.premium_plan.purpose == "urgent_top_subscription":
 					order = Order()
@@ -48,13 +56,13 @@ def store_transaction(request,ipn_obj):
 					transaction.paypal = ipn_obj
 					transaction.payment_status = ipn_obj.payment_status
 					transaction.save()
-				else:
-					print "pending"
-					product.status_isactive = False
+					status = "completed"
 			product.save()
-
-	if request.COOKIES.get('transaction_type') and request.COOKIES.get('transaction_type') == "Account Subscription":
-			premium_plan = PremiumPriceInfo.objects.get(purpose="account_subscription")
+	if request.COOKIES.get('transaction_type'):
+		print "transaction_type"
+		sub_type="account"	
+		premium_plan = PremiumPriceInfo.objects.get(purpose="account_subscription")
+		if ipn_obj.payment_status == "Completed":
 			order = Order()
 			order.subscription_plan = PremiumPriceInfo.objects.get(id=premium_plan.id)
 			order.save()
@@ -70,7 +78,12 @@ def store_transaction(request,ipn_obj):
 			userprofile = UserProfile.objects.get(id=request.user.id)
 			userprofile.is_subscribed = True
 			userprofile.save()
-	return 
+			status = "completed"					
+		else:
+			status = "pending"
+		print "status", status
+	return status, sub_type	
+				
 
 # @transaction.commit_on_success
 @csrf_exempt
@@ -118,9 +131,47 @@ def ipn(request, item_check_callable=None):
 			ipn_obj.verify(item_check_callable)
 	ipn_obj.user =  UserProfile.objects.get(id=request.user.id)
 	ipn_obj.save()
-	transaction = store_transaction(request, ipn_obj)
-	response = HttpResponseRedirect("/postad/")
+	# own code
+	error ={}
+	status,sub_type = store_transaction(request, ipn_obj)
+	print "status", status
+	print "sub_type", sub_type
+	if sub_type == "product":
+		try:	
+			print "try"
+			if status == "completed":
+				print "if"
+				error['success'] = ugettext('Your Ad Successfully posted with succesfull payment')
+				print "error['success']", error['success']
+				raise ValidationError(error['success'], 5)
+			else:
+				print "else"
+				error['success'] = ugettext('Error In Transaction')
+				print "error['success']", error['success']
+				raise ValidationError(error['success'], 6)
+		except ValidationError as e:
+				print "except"
+				messages.add_message(request, messages.ERROR, e.messages[-1])
+				redirect_path = "/postad/"
+				print "redirect_path", redirect_path
+				query_string = 'pt=%d' % e.code
+				redirect_url = format_redirect_url(redirect_path, query_string)
+	if sub_type == "account":
+		try:        
+			if status == "completed":
+				error['success'] = ugettext('Your account Successfully subscribed')
+				raise ValidationError(error['success'], 5)
+			else:
+				error['success'] = ugettext('Error In Transaction')
+				raise ValidationError(error['success'], 6)
+		except ValidationError as e:
+				messages.add_message(request, messages.ERROR, e.messages[-1])
+				redirect_path = "/"
+				query_string = 'pt=%d' % e.code
+				redirect_url = format_redirect_url(redirect_path, query_string)
+	response = HttpResponseRedirect(redirect_url)		
 	if request.COOKIES.get('product_id'):
 		response.delete_cookie('product_id')
 	return response
+	
 
