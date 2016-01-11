@@ -34,7 +34,21 @@ function subscribe_center_align(){
       var width=$('.subscription_popup').width();
       $('.subscription_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
 }
-
+function urgent_ad_center_align(){
+      var height=$('.urgentad_popup').height();
+      var width=$('.urgentad_popup').width();
+      $('.urgentad_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
+}
+function premium_ad_center_align(){
+      var height=$('.premium_ad_popup').height();
+      var width=$('.premium_ad_popup').width();
+      $('.premium_ad_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
+}
+function premium_urgent_ad_center_align(){
+      var height=$('.premium_urgent_ad_popup').height();
+      var width=$('.premium_urgent_ad_popup').width();
+      $('.premium_urgent_ad_popup').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
+}
 function checkStrength(password){
       //initial strength
       var strength = 0
@@ -237,6 +251,32 @@ $( document ).ready(function() {
     sign_up_center_align();
     reset_div_center_align();
     subscribe_center_align();
+    urgent_ad_center_align();
+    premium_ad_center_align();
+    premium_urgent_ad_center_align();
+
+    //Post ad page view example popup
+    $(".urgent_ad").click(function(){
+       urgent_ad_center_align();
+        $('.popup_fade').show();
+        $('.urgentad_popup ,.close_btn').show();
+        document.body.style.overflow = 'hidden';
+    });
+
+    $(".premium_ad").click(function(){
+        premium_ad_center_align();
+        $('.popup_fade').show();
+        $('.premium_ad_popup ,.close_btn').show();
+        document.body.style.overflow = 'hidden';
+    });
+
+    $(".premium_urgent_ad").click(function(){
+        premium_urgent_ad_center_align();
+        $('.popup_fade').show();
+        $('.premium_urgent_ad_popup ,.close_btn').show();
+        document.body.style.overflow = 'hidden';
+    });
+
 
     // subscription popup
 
@@ -435,7 +475,7 @@ $( document ).ready(function() {
     });
     $('.cancel_btn').click(function(){
         $('.popup_fade').hide();
-        $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile,.subscription_popup').hide();
+        $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile,.subscription_popup,.urgentad_popup,.premium_ad_popup,.premium_urgent_ad_popup').hide();
         document.body.style.overflow = 'auto';
     });
     // Forgot Password Popup
@@ -947,6 +987,7 @@ $( document ).ready(function() {
        }
     });
 
+    
     $(".user_dropdown").hide();
     $(".caret_user").click(function(){
         $('.user_dropdown').toggle();
@@ -979,4 +1020,38 @@ $( document ).ready(function() {
           }
     });
 
+//Show more and show less desciption in detail page
+    var showChar = 100;  // How many characters are shown by default
+    var ellipsestext = "...";
+    var moretext = "Show more";
+    var lesstext = "Show less";
+    
+    $('.more').each(function() {
+        var content = $(this).html();
+ 
+        if(content.length > showChar) {
+ 
+            var c = content.substr(0, showChar);
+            var h = content.substr(showChar, content.length - showChar);
+ 
+    var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+ 
+            $(this).html(html);
+        }
+ 
+    });
+    $(".morelink").click(function(){
+        if($(this).hasClass("less")) {
+            $(this).removeClass("less");
+            $(this).html(moretext);
+        } else {
+            $(this).addClass("less");
+            $(this).html(lesstext);
+        }
+        $(this).parent().prev().toggle();
+        $(this).prev().toggle();
+        return false;
+    });
+   
+   
 });

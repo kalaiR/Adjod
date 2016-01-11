@@ -240,7 +240,7 @@ body {
     top: 10px;
     z-index: 9999;
 	@media (min-width: @grid-float-breakpoint) {
-		left: 20px;
+		left: 24px;
     	position: absolute;
     	top: 14px;
     	z-index: 1;
@@ -1284,7 +1284,7 @@ hr {
     position:relative;
     margin-top:-28px;
     @media (min-width: @grid-float-breakpoint){
-    	height: 360px;
+    	height: 392px;
 	    border: 1px solid lightgray;
 	    position:relative;
 	    margin: 15 55px 0 0;
@@ -3588,6 +3588,7 @@ sup , .view_example{
     }
     .fa_small{
         font-size: 30px !important;
+        color: #eb1c24 !important;
     }
     .simpleFilePreview_remove{
         right: 20px !important;
@@ -4038,7 +4039,7 @@ li.offline,.product_title_for_chat { display:none !important; }
 	font-size:20px;
 }
 /* newly added by nithya */
-.categoryf_icon {
+.category_icon {
     float: left;
     height: 25px;
     position: relative;
@@ -5420,11 +5421,8 @@ li.offline,.product_title_for_chat { display:none !important; }
 	}
 }
 .user_dropdown {
-    background: none repeat scroll 0 0 #a20208;
-   	position: absolute;
-    top: 52px;
-    width: 160px;
-    z-index: 9999;
+    height: 10px;
+   	position: relative;
 }
 .caret_user {
     bottom: 32px;
@@ -5434,12 +5432,13 @@ li.offline,.product_title_for_chat { display:none !important; }
     position: relative;
 }
 .user_dropdown > ul {
+	background: none repeat scroll 0 0 #a20208;
     cursor: pointer;
-    height: 57px;
     line-height: 2;
     list-style: outside none none;
     padding: 0;
-    width: 160px;
+    position: relative;
+    z-index: 9999;
 }
 .user_dropdown li {
     color: #fff;
@@ -5745,9 +5744,11 @@ nav li a:hover {
 .pwd_reset_iframe{
 	margin: 20px 0 0;
 	width:288px;
+	height:215px;
 	@media (min-width: @grid-float-breakpoint){
 		margin: 20px 0 0;
 		width:380px;
+		height:230px;
 	}
 }
 .full_name{
@@ -6036,3 +6037,28 @@ color: #858585;
 //     top: 103px;
 //     cursor: pointer;
 // }
+
+.morecontent span {
+    display: none;
+}
+.morelink {
+    display: inline-table;
+}
+.reset_button{
+	background-image:linear-gradient(#EB1C24,#A20208);
+	color:white;
+	position: relative;
+}
+.reset_button:hover,.login_btn:hover{ background-image:linear-gradient(#A20208,#EB1C24);}
+.reset_content {
+    padding: 40px 60px;
+}
+.reset_text {
+    margin: 20px 0 0;
+    text-align: center;
+}
+.login_btn{
+	background-image:linear-gradient(#EB1C24,#A20208);
+	color:white;
+	margin: 0 245px;
+}

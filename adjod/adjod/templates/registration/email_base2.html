@@ -30,6 +30,7 @@
     <script type="text/javascript" src="{% static "js/jquery.simpleFilePreview.js" %}"></script>   
     <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
     <script type="text/javascript">
+     
     {% if 'falert' in request.REQUEST %}
       alert("Free alert created Successfully");
     {% endif %}
@@ -59,6 +60,7 @@
     //   // document.body.style.overflow = 'hidden';
     // }
     </script>
+
 </head>
 
 <body class="{% block bodyclass %}{% endblock %}">
