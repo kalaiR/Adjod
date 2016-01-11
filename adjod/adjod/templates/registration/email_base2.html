@@ -89,12 +89,12 @@
                               {% trans "English" %}
                             {% endif %}
                             
-                            {% if request.LANGUAGE_CODE == 'de' or request.REQUEST.la == 'de' %}
-                              {% trans "German" %}
+                            {% if request.LANGUAGE_CODE == 'zh' or request.REQUEST.la == 'zh' %}
+                              {% trans "Chinese" %}
                             {% endif %}
 
-                            {% if request.LANGUAGE_CODE == 'sv' or request.REQUEST.la == 'sv' %}
-                              {% trans "Swedish" %}
+                            {% if request.LANGUAGE_CODE == 'ms' or request.REQUEST.la == 'ms' %}
+                              {% trans "Malay" %}
                             {% endif %}
                         </p>
                         
@@ -106,8 +106,8 @@
                             <select name="language" onchange="this.form.submit();">
                                 <option value="" style="display: none;"> </option>                                  
                                 <option value="en">{% trans "English" %}</option>
-                                <option value="de">{% trans "German" %}</option>
-                                <option value="sv">{% trans "Swedish" %}</option>
+                                <option value="zh">{% trans "Chinese" %}</option>
+                               <!--  <option value="ms">{% trans "Malay" %}</option> -->
                             </select>
                           </form>
                       </div><!-- custom_select -->

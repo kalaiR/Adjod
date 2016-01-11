@@ -509,12 +509,12 @@ $( document ).ready(function() {
     });
 
     // Code for banner rotation based on interval
-    $('.banner_ad ul li:first').addClass('banneractive');
+    $('.banner_rotation ul li:first').addClass('banneractive');
     toggleSlide = function() {
-        var active = $(".banner_ad ul li.banneractive");
+        var active = $(".banner_rotation ul li.banneractive");
         var next   = active.next();
         if (next.length === 0) {
-            next = $('.banner_ad ul li:first');
+            next = $('.banner_rotation ul li:first');
         }
 
         active.removeClass('banneractive');
@@ -541,7 +541,7 @@ $( document ).ready(function() {
     };
 
     // on blur: validate
-    $("#your_mobile_no").blur(function() {
+    $("#post").click(function() {
       reset();
       if ($.trim($("#your_mobile_no").val())) {
         if ($("#your_mobile_no").intlTelInput("isValidNumber")) {
@@ -577,7 +577,7 @@ $( document ).ready(function() {
     };
 
     // on blur: validate
-    $("#mobilenumber").blur(function() {
+    $("#alert_button").click(function() {
       reset();
       if ($.trim($("#mobilenumber").val())) {
         if ($("#mobilenumber").intlTelInput("isValidNumber")) {
@@ -614,7 +614,7 @@ $( document ).ready(function() {
     };
 
     // on blur: validate
-    $("#mobile_number_sign_up_home").blur(function() {
+    $("#create").click(function() {
       reset();
       if ($.trim($("#mobile_number_sign_up_home").val())) {
                if ($("#mobile_number_sign_up_home").intlTelInput("isValidNumber")) {
@@ -633,37 +633,37 @@ $( document ).ready(function() {
 
 
 
-      var telInput = $("#mobile_number_sign_up_postad"),
-      errorMsg = $("#error-msg"),
-      validMsg = $("#valid-msg");
+    //   var telInput = $("#mobile_number_sign_up_postad"),
+    //   errorMsg = $("#error-msg"),
+    //   validMsg = $("#valid-msg");
 
-    // initialise plugin
-    telInput.intlTelInput({
-       preferredCountries: [ "sg", "gb" ],
-      utilsScript: "../../static/lib/libphonenumber/build/utils.js"
-    });
+    // // initialise plugin
+    // telInput.intlTelInput({
+    //    preferredCountries: [ "sg", "gb" ],
+    //   utilsScript: "../../static/lib/libphonenumber/build/utils.js"
+    // });
 
-    var reset = function() {
-      telInput.removeClass("error");
-      errorMsg.addClass("hide");
-      validMsg.addClass("hide");
-    };
+    // var reset = function() {
+    //   telInput.removeClass("error");
+    //   errorMsg.addClass("hide");
+    //   validMsg.addClass("hide");
+    // };
 
-    // on blur: validate
-    $("#mobile_number_sign_up_postad").blur(function() {
-     reset();
-      if ($.trim($("#mobile_number_sign_up_postad").val())) {
-        if ($("#mobile_number_sign_up_postad").intlTelInput("isValidNumber")) {
-          validMsg.removeClass("hide");
-        } else {
-         telInput.addClass("error");
-      errorMsg.removeClass("hide");
-        }
-      }
-    });
+    // // on blur: validate
+    // $("#mobile_number_sign_up_postad").blur(function() {
+    //  reset();
+    //   if ($.trim($("#mobile_number_sign_up_postad").val())) {
+    //     if ($("#mobile_number_sign_up_postad").intlTelInput("isValidNumber")) {
+    //       validMsg.removeClass("hide");
+    //     } else {
+    //      telInput.addClass("error");
+    //   errorMsg.removeClass("hide");
+    //     }
+    //   }
+    // });
 
-    // on keyup / change flag: reset
-    telInput.on("keyup change", reset);
+    // // on keyup / change flag: reset
+    // telInput.on("keyup change", reset);
  // ************* end country wise mobile number validation *************
 
      // Image file upload
@@ -880,7 +880,7 @@ $( document ).ready(function() {
     });
 
     //============= CHOOSE LANGUAGE DROPDOWN ===========
-      $( ".custom_select_value_act" ).change(function () {
+      $( ".custom_select_value_act" ).change(function () {          
           var selected_option = $( ".custom_select_value_act option:selected" ).text();
           $('#custom_select_value_act').html(selected_option);
     });

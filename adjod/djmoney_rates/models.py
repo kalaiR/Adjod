@@ -11,9 +11,10 @@ class RateSource(models.Model):
     last_update = models.DateTimeField(auto_now=True)
     base_currency = models.CharField(max_length=3)
 
-    def __str__(self):
-        return _("%s rates in %s update %s") % (
-            self.name, self.base_currency, self.last_update)
+    #commented by ramya for language translation
+    # def __str__(self):
+    #     return _("%s rates in %s update %s") % (
+    #         self.name, self.base_currency, self.last_update)
 
 
 @python_2_unicode_compatible
@@ -25,5 +26,6 @@ class Rate(models.Model):
     class Meta:
         unique_together = ('source', 'currency')
 
-    def __str__(self):
-        return _("%s at %.6f") % (self.currency, self.value)
+    #commented by ramya for language translation
+    # def __str__(self):
+    #     return _("%s at %.6f") % (self.currency, self.value)
