@@ -435,7 +435,10 @@ def user_manage(request):
                 userprofile.mobile = mobile
                 userprofile.locality = Locality.objects.get(id=int(locality.id))
                 # userprofile.city = City.objects.get(id=request.POST['user_city'])
-                userprofile.user_age = user_age
+                if user_age:
+                    userprofile.user_age = user_age
+                else:
+                    userprofile.user_age = None
                 userprofile.gender = gender
                 userprofile.user_address = user_address
                 userprofile.person_is = person_is
