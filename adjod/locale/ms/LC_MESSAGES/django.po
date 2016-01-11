@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-09 17:49+0530\n"
+"POT-Creation-Date: 2016-01-11 15:43+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,262 +17,272 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: adjod/views.py:110
-msgid "Email Doesnot exists"
-msgstr "E-mel doesnot wujud"
+#: adjod/settings.py:57 adjod/templates/base.html:182
+#: adjod/templates/base.html.py:195
+#: adjod/templates/registration/email_base2.html:95
+#: adjod/templates/registration/email_base2.html:108
+msgid "Malay"
+msgstr "Melayu"
 
-#: adjod/views.py:115
-msgid "Username Does not exists"
-msgstr "Nama pengguna Tidakkah wujud"
+#: adjod/settings.py:58 adjod/templates/base.html:178
+#: adjod/templates/base.html.py:194
+#: adjod/templates/registration/email_base2.html:91
+#: adjod/templates/registration/email_base2.html:107
+msgid "Chinese"
+msgstr "Cina"
 
-#: adjod/views.py:137
-msgid "Wrong password"
-msgstr "Salah kata laluan"
-
-#: adjod/views.py:168
-msgid "Your Account is already inactive due to non-maintanence"
-msgstr "Akaun anda telah aktif kerana tidak maintanence -"
-
-#: adjod/views.py:198
-msgid "Email already exists"
-msgstr "E-mel sudah wujud"
-
-#: adjod/views.py:202
-msgid "Username already exists"
-msgstr "Nama pengguna sudah wujud"
-
-#: adjod/views.py:569 adjod/views.py:583
-msgid "Ad Successfully updated"
-msgstr "Iklan Berjaya dikemaskini"
-
-#: adjod/views.py:577
-msgid "U already post 3 ads....U have to make the account premium"
-msgstr "U sudah hantar 3 iklan .... U perlu membuat akaun premium"
-
-#: adjod/templates/base.html:169 adjod/templates/base.html.py:188
-#: adjod/templates/base.html:374
+#: adjod/settings.py:59 adjod/templates/base.html:174
+#: adjod/templates/base.html.py:193 adjod/templates/base.html:379
 #: adjod/templates/registration/email_base2.html:87
 #: adjod/templates/registration/email_base2.html:106
 msgid "English"
 msgstr "Bahasa Inggeris"
 
-#: adjod/templates/base.html:173 adjod/templates/base.html.py:189
-#: adjod/templates/base.html:375
-#: adjod/templates/registration/email_base2.html:91
-#: adjod/templates/registration/email_base2.html:107
-msgid "German"
-msgstr "Jerman"
+#: adjod/views.py:111
+msgid "Email Doesnot exists"
+msgstr "E-mel doesnot wujud"
 
-#: adjod/templates/base.html:177 adjod/templates/base.html.py:190
-#: adjod/templates/base.html:376
-#: adjod/templates/registration/email_base2.html:95
-#: adjod/templates/registration/email_base2.html:108
-msgid "Swedish"
-msgstr "Sweden"
+#: adjod/views.py:116
+msgid "Username Does not exists"
+msgstr "Nama pengguna Tidakkah wujud"
 
-#: adjod/templates/base.html:199
+#: adjod/views.py:138
+msgid "Wrong password"
+msgstr "Salah kata laluan"
+
+#: adjod/views.py:169
+msgid "Your Account is already inactive due to non-maintanence"
+msgstr "Akaun anda telah aktif kerana tidak maintanence -"
+
+#: adjod/views.py:199
+msgid "Email already exists"
+msgstr "E-mel sudah wujud"
+
+#: adjod/views.py:203
+msgid "Username already exists"
+msgstr "Nama pengguna sudah wujud"
+
+#: adjod/views.py:571 adjod/views.py:585
+msgid "Ad Successfully updated"
+msgstr "Iklan Berjaya dikemaskini"
+
+#: adjod/views.py:579
+msgid "U already post 3 ads....U have to make the account premium"
+msgstr "U sudah hantar 3 iklan .... U perlu membuat akaun premium"
+
+#: adjod/templates/base.html:205
 msgid "Logout"
 msgstr "Log keluar"
 
-#: adjod/templates/base.html:201 adjod/templates/base.html.py:378
+#: adjod/templates/base.html:207 adjod/templates/base.html.py:383
 msgid "Login"
 msgstr "Log masuk"
 
-#: adjod/templates/base.html:202 adjod/templates/base.html.py:379
-#: adjod/templates/base.html:457
+#: adjod/templates/base.html:208 adjod/templates/base.html.py:384
+#: adjod/templates/base.html:462
 msgid "Sign up"
 msgstr "Daftar"
 
-#: adjod/templates/base.html:215
+#: adjod/templates/base.html:221
 msgid "Singapore's largest marketplace"
 msgstr "Pasaran terbesar di Singapura"
 
-#: adjod/templates/base.html:225 adjod/templates/base.html.py:286
+#: adjod/templates/base.html:231 adjod/templates/base.html.py:292
 #: suit/templates/admin/search_form.html:26
 #: suit/templates/admin/filer/tools/search_form.html:12
 msgid "Search"
 msgstr "carian"
 
-#: adjod/templates/base.html:233
+#: adjod/templates/base.html:239
 msgid "To Buy or Find anything select an option below:"
 msgstr "Untuk Beli atau Cari apa-apa buat pilihan di bawah:"
 
-#: adjod/templates/base.html:269 adjod/templates/adjod/userpage.html:112
+#: adjod/templates/base.html:275 adjod/templates/adjod/userpage.html:112
 msgid "You already add 3 posts,"
 msgstr "Anda sudah menambah 3 jawatan,"
 
-#: adjod/templates/base.html:269 adjod/templates/adjod/userpage.html:112
+#: adjod/templates/base.html:275 adjod/templates/adjod/userpage.html:112
 msgid "if u want add more posts,"
 msgstr "jika u mahu menambah lebih banyak jawatan,"
 
-#: adjod/templates/base.html:269 adjod/templates/adjod/userpage.html:112
+#: adjod/templates/base.html:275 adjod/templates/adjod/userpage.html:112
 msgid "u have to make ur account as premium"
 msgstr "u perlu membuat akaun ur sebagai premium"
 
-#: adjod/templates/base.html:269 adjod/templates/adjod/userpage.html:112
+#: adjod/templates/base.html:275 adjod/templates/adjod/userpage.html:112
 msgid "Click here"
 msgstr "Klik di sini"
 
-#: adjod/templates/base.html:271 adjod/templates/base.html.py:288
+#: adjod/templates/base.html:277 adjod/templates/base.html.py:294
 #: adjod/templates/adjod/userpage.html:164
 msgid "Create free alert"
 msgstr "Buat amaran percuma"
 
-#: adjod/templates/base.html:287
+#: adjod/templates/base.html:293
 msgid "Post free Ad"
 msgstr "Post Ad percuma"
 
-#: adjod/templates/base.html:294
+#: adjod/templates/base.html:300
 msgid "Post an Ad in just 30 seconds"
 msgstr "Masukkan Iklan dalam masa 30 saat"
 
-#: adjod/templates/base.html:295
+#: adjod/templates/base.html:301
 msgid ""
 "DO NOT post multiple ads for the same items or service. All duplicate, spam "
 "and wrongly categorized ads will be deleted."
 msgstr ""
 
-#: adjod/templates/base.html:327
+#: adjod/templates/base.html:332
 msgid "For site related issues,Check out our"
 msgstr "Untuk isu-isu berkaitan tapak, Semak kamis"
 
-#: adjod/templates/base.html:327 adjod/templates/base.html.py:340
+#: adjod/templates/base.html:332 adjod/templates/base.html.py:345
 msgid "Help"
 msgstr "Bantuan"
 
-#: adjod/templates/base.html:327
+#: adjod/templates/base.html:332
 msgid "section or email us at"
 msgstr "seksyen atau email kami di"
 
-#: adjod/templates/base.html:327
+#: adjod/templates/base.html:332
 msgid "support@quikr.com"
 msgstr "support@quikr.com"
 
-#: adjod/templates/base.html:328
+#: adjod/templates/base.html:333
 msgid "You can also call our support team@65-67119979S(M-F:10AM to 6PM)"
-msgstr "Anda juga boleh menghubungi pasukan sokongan kami @ 65-67119979S ( MF: 10:00-6:00 )"
+msgstr ""
+"Anda juga boleh menghubungi pasukan sokongan kami @ 65-67119979S ( MF: "
+"10:00-6:00 )"
 
-#: adjod/templates/base.html:341
+#: adjod/templates/base.html:346
 msgid "Terms of use"
 msgstr "Terma penggunaan"
 
-#: adjod/templates/base.html:342
+#: adjod/templates/base.html:347
 msgid "How it works"
 msgstr "Bagaimana ia berfungsi"
 
-#: adjod/templates/base.html:347
+#: adjod/templates/base.html:352
 msgid "Privacy policy"
 msgstr "dasar privasi"
 
-#: adjod/templates/base.html:348
+#: adjod/templates/base.html:353
 msgid "Locations map"
 msgstr "lokasi peta"
 
-#: adjod/templates/base.html:349
+#: adjod/templates/base.html:354
 msgid "Contact us"
 msgstr "Hubungi kami"
 
-#: adjod/templates/base.html:354
+#: adjod/templates/base.html:359
 msgid "Popular searches"
 msgstr "Paling Popular"
 
-#: adjod/templates/base.html:355
+#: adjod/templates/base.html:360
 msgid "who we are"
 msgstr "siapa kita"
 
-#: adjod/templates/base.html:358
+#: adjod/templates/base.html:363
 msgid "you can also call our support team"
 msgstr "anda juga boleh menghubungi pasukan sokongan kami"
 
-#: adjod/templates/base.html:359
+#: adjod/templates/base.html:364
 msgid "phone:65-67119979"
 msgstr "telefon: 65-67119979"
 
-#: adjod/templates/base.html:359
+#: adjod/templates/base.html:364
 msgid "M-F:10AM to 6PM "
 msgstr "M- F: 10:00-6:00"
 
-#: adjod/templates/base.html:373
+#: adjod/templates/base.html:378
 msgid "Select language :"
 msgstr "Pilih Bahasa :"
 
-#: adjod/templates/base.html:394 adjod/templates/base.html.py:520
+#: adjod/templates/base.html:380
+msgid "German"
+msgstr "Jerman"
+
+#: adjod/templates/base.html:381
+msgid "Swedish"
+msgstr "Sweden"
+
+#: adjod/templates/base.html:399 adjod/templates/base.html.py:526
 msgid "Sign in"
 msgstr "Daftar masuk"
 
-#: adjod/templates/base.html:398 adjod/templates/base.html.py:520
+#: adjod/templates/base.html:403 adjod/templates/base.html.py:526
 msgid "I have a account already"
 msgstr "Saya mempunyai akaun yang telah"
 
-#: adjod/templates/base.html:406
+#: adjod/templates/base.html:411
 msgid "Please enter Email or User ID"
 msgstr "Sila masukkan E-mel atau ID Pengguna"
 
-#: adjod/templates/base.html:411 adjod/templates/base.html.py:477
+#: adjod/templates/base.html:416 adjod/templates/base.html.py:482
 msgid "Please enter Password"
 msgstr "Sila masukkan kata laluan"
 
-#: adjod/templates/base.html:419
+#: adjod/templates/base.html:424
 msgid "Forgot you password?"
 msgstr "Lupa kata laluan anda ?"
 
-#: adjod/templates/base.html:429
+#: adjod/templates/base.html:434
 msgid "Facebook"
 msgstr "Facebook"
 
-#: adjod/templates/base.html:433
+#: adjod/templates/base.html:438
 msgid "Gmail"
 msgstr "Gmail"
 
-#: adjod/templates/base.html:438 adjod/templates/base.html.py:563
+#: adjod/templates/base.html:443 adjod/templates/base.html.py:569
 msgid "I don't have a account"
 msgstr "Saya tidak mempunyai akaun"
 
-#: adjod/templates/base.html:439 adjod/templates/base.html.py:564
+#: adjod/templates/base.html:444 adjod/templates/base.html.py:570
 msgid "Sign up for free"
 msgstr "Daftar secara percuma"
 
-#: adjod/templates/base.html:464
+#: adjod/templates/base.html:469
 msgid "Register now for free"
 msgstr "Daftar sekarang secara percuma"
 
-#: adjod/templates/base.html:470
+#: adjod/templates/base.html:475
 msgid "Please enter Email "
 msgstr "Sila masukkan E-mel"
 
-#: adjod/templates/base.html:471
+#: adjod/templates/base.html:476
 msgid "Please enter valid Email."
 msgstr "sila masukkan email yang sah"
 
-#: adjod/templates/base.html:482
+#: adjod/templates/base.html:487
 msgid "Please enter Username"
 msgstr "Sila masukkan Nama Pengguna"
 
-#: adjod/templates/base.html:510
+#: adjod/templates/base.html:516
 msgid "I confirm that I am 18 years or older"
 msgstr "Saya mengesahkan bahawa saya 18 tahun atau lebih tua"
 
-#: adjod/templates/base.html:511
+#: adjod/templates/base.html:517
 msgid ""
 "Your age must be above 18 years, please check age status and then create "
 "account"
 msgstr ""
 
-#: adjod/templates/base.html:536
+#: adjod/templates/base.html:542
 msgid "Forgot Password"
 msgstr "Lupa kata laluan"
 
-#: adjod/templates/base.html:580
+#: adjod/templates/base.html:586
 msgid "Account Subscribe"
 msgstr "akaun Langgan"
 
-#: adjod/templates/base.html:583
+#: adjod/templates/base.html:589
 msgid ""
 "You already used our Free Limited Services. If you want to post more Ads, "
 "Please Subscribe your account."
 msgstr ""
 
-#: adjod/templates/base.html:628 adjod/templates/base.html.py:638
+#: adjod/templates/base.html:634 adjod/templates/base.html.py:644
 msgid "Message"
 msgstr "mesej"
 
@@ -283,7 +293,7 @@ msgstr "Iklan Saya"
 
 #: adjod/templates/adjod/updateprofile.html:9
 #: adjod/templates/adjod/updateprofile.html:18
-#: adjod/templates/adjod/updateprofile.html:88
+#: adjod/templates/adjod/updateprofile.html:98
 msgid "Update My Profile"
 msgstr "Kemas kini Profil Saya"
 
@@ -291,24 +301,24 @@ msgstr "Kemas kini Profil Saya"
 msgid "Activate Ads Management"
 msgstr "Aktifkan Pengurusan Iklan"
 
-#: adjod/templates/adjod/updateprofile.html:45
+#: adjod/templates/adjod/updateprofile.html:46
 msgid "AD ID:"
 msgstr "AD ID:"
 
-#: adjod/templates/adjod/updateprofile.html:46
+#: adjod/templates/adjod/updateprofile.html:47
 msgid "status:"
 msgstr "status:"
 
-#: adjod/templates/adjod/updateprofile.html:56
+#: adjod/templates/adjod/updateprofile.html:65
 msgid "View"
 msgstr "Lihat"
 
-#: adjod/templates/adjod/updateprofile.html:57
+#: adjod/templates/adjod/updateprofile.html:66
 msgid "Edit"
 msgstr "Edit"
 
-#: adjod/templates/adjod/updateprofile.html:58
-#: adjod/templates/adjod/updateprofile.html:76
+#: adjod/templates/adjod/updateprofile.html:67
+#: adjod/templates/adjod/updateprofile.html:86
 #: suit/templates/admin/delete_confirmation.html:18
 #: suit/templates/admin/delete_confirmation.html:49
 #: suit/templates/admin/page_submit_line.html:8
@@ -318,125 +328,125 @@ msgstr "Edit"
 msgid "Delete"
 msgstr "Padam"
 
-#: adjod/templates/adjod/updateprofile.html:61
+#: adjod/templates/adjod/updateprofile.html:70
 #: suit/templates/admin/object_history.html:29
 msgid "Action"
 msgstr "tindakan"
 
-#: adjod/templates/adjod/updateprofile.html:72
+#: adjod/templates/adjod/updateprofile.html:82
 msgid "Results"
 msgstr "keputusan"
 
-#: adjod/templates/adjod/updateprofile.html:73
+#: adjod/templates/adjod/updateprofile.html:83
 msgid "Check All"
 msgstr "Memeriksa semua"
 
-#: adjod/templates/adjod/updateprofile.html:78
-#: adjod/templates/search/search.html:281
+#: adjod/templates/adjod/updateprofile.html:88
+#: adjod/templates/search/search.html:282
 msgid "No Results Found"
 msgstr "Tiada keputusan dijumpai"
 
-#: adjod/templates/adjod/updateprofile.html:92
+#: adjod/templates/adjod/updateprofile.html:102
 msgid "Personals Details"
 msgstr "Maklumat Peribadi"
 
-#: adjod/templates/adjod/updateprofile.html:98
+#: adjod/templates/adjod/updateprofile.html:108
 #: adjod/templates/advertisement/ad_post.html:82
 msgid "Upload Photos"
 msgstr "memuat naik foto"
 
-#: adjod/templates/adjod/updateprofile.html:116
+#: adjod/templates/adjod/updateprofile.html:128
 msgid "Enter your Full Name"
 msgstr "Masukkan nama penuh anda"
 
-#: adjod/templates/adjod/updateprofile.html:121
+#: adjod/templates/adjod/updateprofile.html:130
 msgid "Enter your Last Name"
 msgstr "Masukkan Nama Keluarga anda"
 
-#: adjod/templates/adjod/updateprofile.html:130
+#: adjod/templates/adjod/updateprofile.html:139
 msgid "Enter your Email"
 msgstr "Masukkan email anda"
 
-#: adjod/templates/adjod/updateprofile.html:132
+#: adjod/templates/adjod/updateprofile.html:141
 msgid "Enter your mobile no"
 msgstr "Masukkan tidak ada telefon anda"
 
-#: adjod/templates/adjod/updateprofile.html:148
-#: adjod/templates/advertisement/ad_post.html:202
+#: adjod/templates/adjod/updateprofile.html:157
+#: adjod/templates/advertisement/ad_post.html:204
 msgid "Please Choose city"
 msgstr "Sila Pilihkan"
 
-#: adjod/templates/adjod/updateprofile.html:164
-#: adjod/templates/advertisement/ad_post.html:218
+#: adjod/templates/adjod/updateprofile.html:173
+#: adjod/templates/advertisement/ad_post.html:220
 msgid "Please Choose locality"
 msgstr "Sila Pilih kawasan"
 
-#: adjod/templates/adjod/updateprofile.html:174
+#: adjod/templates/adjod/updateprofile.html:183
 msgid "Additional Information"
 msgstr "informasi tambahan"
 
-#: adjod/templates/adjod/updateprofile.html:184
+#: adjod/templates/adjod/updateprofile.html:193
 msgid "Gender"
 msgstr "jantina"
 
-#: adjod/templates/adjod/updateprofile.html:185
+#: adjod/templates/adjod/updateprofile.html:194
 msgid "Male"
 msgstr "lelaki"
 
-#: adjod/templates/adjod/updateprofile.html:186
+#: adjod/templates/adjod/updateprofile.html:195
 msgid "Female"
 msgstr "Wanita"
 
-#: adjod/templates/adjod/updateprofile.html:188
+#: adjod/templates/adjod/updateprofile.html:197
 msgid "Please choose Gender"
 msgstr "Pilih Jantina"
 
-#: adjod/templates/adjod/updateprofile.html:194
+#: adjod/templates/adjod/updateprofile.html:203
 msgid "Enter your age"
 msgstr "Masukkan umur anda"
 
-#: adjod/templates/adjod/updateprofile.html:203
+#: adjod/templates/adjod/updateprofile.html:211
 msgid "Enter your address"
 msgstr "Masukkan alamat anda"
 
-#: adjod/templates/adjod/updateprofile.html:214
+#: adjod/templates/adjod/updateprofile.html:220
 #: adjod/templates/advertisement/ad_post.html:132
 msgid "Individual"
 msgstr "individu"
 
-#: adjod/templates/adjod/updateprofile.html:217
+#: adjod/templates/adjod/updateprofile.html:222
 #: adjod/templates/advertisement/ad_post.html:135
 msgid "Please select You are."
 msgstr "Sila pilih Anda di"
 
-#: adjod/templates/adjod/updateprofile.html:225
-#: adjod/templates/adjod/updateprofile.html:230
+#: adjod/templates/adjod/updateprofile.html:231
+#: adjod/templates/adjod/updateprofile.html:236
 msgid "Marketing communication"
 msgstr "komunikasi pemasaran"
 
-#: adjod/templates/adjod/updateprofile.html:226
-#: adjod/templates/adjod/updateprofile.html:231
+#: adjod/templates/adjod/updateprofile.html:232
+#: adjod/templates/adjod/updateprofile.html:237
 msgid "Include me in marketing mailing communication"
 msgstr "Termasuk saya dalam pemasaran komunikasi surat-menyurat"
 
-#: adjod/templates/adjod/updateprofile.html:235
+#: adjod/templates/adjod/updateprofile.html:241
 msgid "Set Your Password"
 msgstr "Tetapkan Kata Laluan Anda"
 
-#: adjod/templates/adjod/updateprofile.html:239
+#: adjod/templates/adjod/updateprofile.html:245
 msgid "Enter your new password"
 msgstr "Masukkan kata laluan baru anda"
 
-#: adjod/templates/adjod/updateprofile.html:248
+#: adjod/templates/adjod/updateprofile.html:254
 msgid "I wish to receive SMS alerts."
 msgstr "Saya ingin menerima amaran SMS."
 
-#: adjod/templates/adjod/updateprofile.html:252
+#: adjod/templates/adjod/updateprofile.html:258
 #: suit/templates/admin/import_export/import.html:71
 msgid "Update"
 msgstr "Update"
 
-#: adjod/templates/adjod/updateprofile.html:253
+#: adjod/templates/adjod/updateprofile.html:259
 #: suit/templates/admin/cms/page/plugin_change_form.html:129
 msgid "Cancel"
 msgstr "Batal"
@@ -446,7 +456,7 @@ msgid "Ads"
 msgstr "iklan"
 
 #: adjod/templates/adjod/userpage.html:109
-#: adjod/templates/search/search.html:308
+#: adjod/templates/search/search.html:309
 msgid "Sell or Advertise anything"
 msgstr "Menjual atau apa-apa Iklan"
 
@@ -455,7 +465,7 @@ msgid "Tell us your need"
 msgstr "Beritahu kami keperluan anda"
 
 #: adjod/templates/adjod/userpage.html:116
-#: adjod/templates/search/search.html:312
+#: adjod/templates/search/search.html:313
 msgid "Create alert"
 msgstr "Buat amaran"
 
@@ -464,49 +474,49 @@ msgid "to sell safely ?"
 msgstr "untuk menjual dengan selamat?"
 
 #: adjod/templates/adjod/userpage.html:122
-#: adjod/templates/search/search.html:404
+#: adjod/templates/search/search.html:405
 msgid "Try to take the full payment at the time of delivery."
 msgstr "Cuba untuk mengambil bayaran penuh pada masa penghantaran."
 
 #: adjod/templates/adjod/userpage.html:122
-#: adjod/templates/search/search.html:404
+#: adjod/templates/search/search.html:405
 msgid "Remember to use the safe location to meet"
 msgstr "Ingat untuk menggunakan lokasi yang selamat untuk memenuhi"
 
 #: adjod/templates/adjod/userpage.html:122
-#: adjod/templates/search/search.html:404
+#: adjod/templates/search/search.html:405
 msgid "Read more"
 msgstr "Baca lebih lanjut"
 
 #: adjod/templates/adjod/userpage.html:132
-#: adjod/templates/adjod/userpage.html:262
+#: adjod/templates/adjod/userpage.html:264
 msgid "Recently added"
 msgstr "yang baru ditambah"
 
 #: adjod/templates/adjod/userpage.html:174
 #: adjod/templates/adjod/userpage.html:179
-#: adjod/templates/search/search.html:325
-#: adjod/templates/search/search.html:330
+#: adjod/templates/search/search.html:326
+#: adjod/templates/search/search.html:331
 msgid "Select Category"
 msgstr "Pilih Kategori"
 
 #: adjod/templates/adjod/userpage.html:190
-#: adjod/templates/search/search.html:341
+#: adjod/templates/search/search.html:342
 msgid "Select SubCategory"
 msgstr "Pilih SubKategori"
 
 #: adjod/templates/adjod/userpage.html:198
-#: adjod/templates/search/search.html:349
+#: adjod/templates/search/search.html:350
 msgid "Please Choose sub category"
 msgstr "Sila Pilih kategori sub"
 
 #: adjod/templates/adjod/userpage.html:203
-#: adjod/templates/search/search.html:354
+#: adjod/templates/search/search.html:355
 msgid "Select Brand"
 msgstr "Pilih jenama"
 
 #: adjod/templates/adjod/userpage.html:211
-#: adjod/templates/search/search.html:362
+#: adjod/templates/search/search.html:363
 msgid "Please Choose brand"
 msgstr "Sila Pilih jenama"
 
@@ -520,12 +530,12 @@ msgid "Please Choose Locality"
 msgstr "Sila Pilih Kampung"
 
 #: adjod/templates/adjod/userpage.html:238
-#: adjod/templates/search/search.html:384
+#: adjod/templates/search/search.html:385
 msgid "Please enter email address"
 msgstr "Sila masukkan alamat e-mel"
 
-#: adjod/templates/adjod/userpage.html:244
-#: adjod/templates/search/search.html:390
+#: adjod/templates/adjod/userpage.html:246
+#: adjod/templates/search/search.html:391
 msgid "Please enter the mobile number"
 msgstr "Sila masukkan nombor telefon bimbit"
 
@@ -538,65 +548,65 @@ msgstr "Kembali ke hasil carian saya"
 msgid "Ad ID:"
 msgstr "Ad ID:"
 
-#: adjod/templates/advertisement/ad_detail.html:101
+#: adjod/templates/advertisement/ad_detail.html:100
 msgid "Share"
 msgstr "Kongsi"
 
-#: adjod/templates/advertisement/ad_detail.html:142
-#: adjod/templates/advertisement/ad_post.html:351
+#: adjod/templates/advertisement/ad_detail.html:141
+#: adjod/templates/advertisement/ad_post.html:353
 msgid "Category"
 msgstr "kategori"
 
-#: adjod/templates/advertisement/ad_detail.html:146
+#: adjod/templates/advertisement/ad_detail.html:145
 msgid "Brand"
 msgstr "jenama"
 
-#: adjod/templates/advertisement/ad_detail.html:150
+#: adjod/templates/advertisement/ad_detail.html:149
 msgid "Posted By"
 msgstr "Dihantar oleh"
 
-#: adjod/templates/advertisement/ad_detail.html:157
+#: adjod/templates/advertisement/ad_detail.html:156
 msgid "Video URL:"
 msgstr "URL Video:"
 
-#: adjod/templates/advertisement/ad_detail.html:161
+#: adjod/templates/advertisement/ad_detail.html:160
 msgid "Contact Seller"
 msgstr "Butiran penjual"
 
-#: adjod/templates/advertisement/ad_detail.html:167
-#: adjod/templates/advertisement/ad_detail.html:196
+#: adjod/templates/advertisement/ad_detail.html:166
+#: adjod/templates/advertisement/ad_detail.html:197
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: adjod/templates/advertisement/ad_detail.html:190
+#: adjod/templates/advertisement/ad_detail.html:191
 msgid "Seller details"
 msgstr "butiran penjual"
 
-#: adjod/templates/advertisement/ad_detail.html:204
+#: adjod/templates/advertisement/ad_detail.html:205
 msgid "Number verified"
 msgstr "nombor disahkan"
 
-#: adjod/templates/advertisement/ad_detail.html:208
+#: adjod/templates/advertisement/ad_detail.html:209
 msgid "Send free SMS"
 msgstr "Hantar SMS percuma"
 
-#: adjod/templates/advertisement/ad_detail.html:211
+#: adjod/templates/advertisement/ad_detail.html:212
 msgid "Number:"
 msgstr "nombor"
 
-#: adjod/templates/advertisement/ad_detail.html:221
+#: adjod/templates/advertisement/ad_detail.html:222
 msgid "Description"
 msgstr "Penerangan"
 
-#: adjod/templates/advertisement/ad_detail.html:241
+#: adjod/templates/advertisement/ad_detail.html:242
 msgid "Recommended"
 msgstr "disyorkan"
 
-#: adjod/templates/advertisement/ad_detail.html:328
+#: adjod/templates/advertisement/ad_detail.html:329
 msgid "Related posts"
 msgstr "jawatan yang berkaitan"
 
-#: adjod/templates/advertisement/ad_detail.html:380
+#: adjod/templates/advertisement/ad_detail.html:381
 msgid "Call seller"
 msgstr "penjual Call"
 
@@ -653,85 +663,85 @@ msgstr ""
 msgid "Delear"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:168
-#: adjod/templates/advertisement/ad_post.html:172
+#: adjod/templates/advertisement/ad_post.html:170
+#: adjod/templates/advertisement/ad_post.html:174
 msgid "Please enter email id."
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:209
+#: adjod/templates/advertisement/ad_post.html:211
 msgid "Select locality *"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:225
+#: adjod/templates/advertisement/ad_post.html:227
 msgid ""
 "Maintain my Privacy (Buyers will first contact you via reply, you can decide "
 "when to reveal your phone number to them)"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:227
+#: adjod/templates/advertisement/ad_post.html:229
 msgid "Please Select Your Plan"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:232
+#: adjod/templates/advertisement/ad_post.html:234
 msgid "Make your Ad Premium"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:237
+#: adjod/templates/advertisement/ad_post.html:239
 msgid "Urgent Ad"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:238
-#: adjod/templates/advertisement/ad_post.html:252
+#: adjod/templates/advertisement/ad_post.html:240
+#: adjod/templates/advertisement/ad_post.html:254
 msgid "View Example"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:243
+#: adjod/templates/advertisement/ad_post.html:245
 msgid "S$ 9.99 per ad"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:247
-#: adjod/templates/advertisement/ad_post.html:260
-#: adjod/templates/advertisement/ad_post.html:273
+#: adjod/templates/advertisement/ad_post.html:249
+#: adjod/templates/advertisement/ad_post.html:262
+#: adjod/templates/advertisement/ad_post.html:275
 msgid "Select"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:251
+#: adjod/templates/advertisement/ad_post.html:253
 msgid "Top of the page Ad"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:257
+#: adjod/templates/advertisement/ad_post.html:259
 msgid "S$ 14.99 per ad"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:264
+#: adjod/templates/advertisement/ad_post.html:266
 msgid "Top of the page Ad + Urgent Ad"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:270
+#: adjod/templates/advertisement/ad_post.html:272
 msgid "S$ 19.99 per ad"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:306
+#: adjod/templates/advertisement/ad_post.html:308
 msgid "By clicking 'Post', you agree to our"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:306
+#: adjod/templates/advertisement/ad_post.html:308
 msgid "Terms of Use"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:306
+#: adjod/templates/advertisement/ad_post.html:308
 msgid "Privacy Policy"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:307
+#: adjod/templates/advertisement/ad_post.html:309
 msgid "Please click the checkbox"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:352
+#: adjod/templates/advertisement/ad_post.html:354
 msgid "Sub Category"
 msgstr ""
 
-#: adjod/templates/advertisement/ad_post.html:392
+#: adjod/templates/advertisement/ad_post.html:394
 msgid "All category"
 msgstr ""
 
@@ -798,13 +808,13 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: adjod/templates/registration/password_reset_done.html:14
+#: adjod/templates/registration/password_reset_done.html:8
 msgid ""
 "We've e-mailed you instructions for setting your password to the e-mail "
 "address you submitted"
 msgstr ""
 
-#: adjod/templates/registration/password_reset_done.html:17
+#: adjod/templates/registration/password_reset_done.html:11
 msgid "You should be receiving it shortly"
 msgstr ""
 
@@ -855,7 +865,7 @@ msgid "Reset my password"
 msgstr ""
 
 #: adjod/templates/registration/password_reset_subject.txt:2
-msgid "Password reset for Quikr"
+msgid "Password reset for Resell"
 msgstr ""
 
 #: adjod/templates/search/search.html:17
@@ -914,23 +924,23 @@ msgstr ""
 msgid "Above"
 msgstr ""
 
-#: adjod/templates/search/search.html:311
+#: adjod/templates/search/search.html:312
 msgid "Tell us your need "
 msgstr ""
 
-#: adjod/templates/search/search.html:367
+#: adjod/templates/search/search.html:368
 msgid "Select City"
 msgstr ""
 
-#: adjod/templates/search/search.html:372
+#: adjod/templates/search/search.html:373
 msgid "Select City "
 msgstr ""
 
-#: adjod/templates/search/search.html:378
+#: adjod/templates/search/search.html:379
 msgid "Please Choose city "
 msgstr ""
 
-#: adjod/templates/search/search.html:403
+#: adjod/templates/search/search.html:404
 msgid "How to sell safely ?"
 msgstr ""
 
@@ -982,21 +992,34 @@ msgstr ""
 msgid "here"
 msgstr ""
 
-#: advertisement/views.py:333 advertisement/views.py:349
+#: advertisement/views.py:329 advertisement/views.py:345
 msgid "Congratulations...Your Ad Successfully posted"
 msgstr ""
 
-#: advertisement/views.py:341 advertisement/views.py:352
+#: advertisement/views.py:337 advertisement/views.py:348
 msgid "U already post 3 ads....U have to make the account premium. "
 msgstr ""
 
-#: core/extra.py:40
+#: core/extra.py:42
 msgid "Please keep filesize under %s.  %(Current filesize)s"
 msgstr ""
 
-#: core/extra.py:42
+#: core/extra.py:44
 msgid "Filetype not supported."
 msgstr ""
+
+#: paypal/standard/ipn/views.py:144
+msgid "Your Ad Successfully posted with succesfull payment"
+msgstr ""
+
+#: paypal/standard/ipn/views.py:149 paypal/standard/ipn/views.py:165
+msgid "Error In Transaction"
+msgstr ""
+
+#: paypal/standard/ipn/views.py:162
+#, fuzzy
+msgid "Your account Successfully subscribed"
+msgstr "akaun Langgan"
 
 #: suit/widgets.py:104 suit/tests/widgets.py:63
 msgid "Date:"
@@ -1951,3 +1974,6 @@ msgstr ""
 #: suit/tests/templates/form_tabs.py:15
 msgid "Tab2"
 msgstr ""
+
+#~ msgid "Cars & Bikes"
+#~ msgstr "Kereta & Basikal"

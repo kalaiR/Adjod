@@ -651,7 +651,7 @@ msgstr ""
 
 #: adjod/templates/advertisement/ad_post.html:134
 msgid "Delear"
-msgstr ""
+msgstr "零售商"
 
 #: adjod/templates/advertisement/ad_post.html:168
 #: adjod/templates/advertisement/ad_post.html:172
@@ -1951,3 +1951,9 @@ msgstr ""
 #: suit/tests/templates/form_tabs.py:15
 msgid "Tab2"
 msgstr ""
+
+msgid "Chinese"
+msgstr "中文"
+
+msgid "Malay"
+msgstr "马来语"
