@@ -32,7 +32,8 @@ def show_me_the_money(sender, **kwargs):
 payment_was_successful.connect(show_me_the_money)
 
 def store_transaction(request,ipn_obj):
-	if request.COOKIES.get('product_id'):
+	if request.COOKIES.get('product_id') and request.COOKIES.get('premiumplan'):
+		print "product if"
 		sub_type="product"
 		if Product.objects.filter(id=request.COOKIES.get('product_id')).exists():
 			product = Product.objects.get(id=request.COOKIES.get('product_id'))
@@ -42,10 +43,16 @@ def store_transaction(request,ipn_obj):
 				product.status_isactive = False
 				status = "pending"
 			else:
-				if product.premium_plan.purpose == "urgent_subscription" or product.premium_plan.purpose == "top_subscription" or product.premium_plan.purpose == "urgent_top_subscription":
+				print "completed"
+				premiumpriceinfo = PremiumPriceInfo.objects.get(id=request.COOKIES.get('premiumplan'))
+				print "premiumpriceinfo", premiumpriceinfo
+				if premiumpriceinfo.purpose == "urgent_subscription" or premiumpriceinfo.purpose == "top_subscription" or premiumpriceinfo.purpose == "urgent_top_subscription":
+					product.ispremium = True
+					product.premium_plan = PremiumPriceInfo.objects.get(id=request.COOKIES.get('premiumplan'))
+					product.status_isactive = True
 					order = Order()
 					order.product = product
-					order.subscription_plan = PremiumPriceInfo.objects.get(id=product.premium_plan.id)
+					order.subscription_plan = PremiumPriceInfo.objects.get(id=request.COOKIES.get('premiumplan'))
 					order.save()
 					transaction =  Transaction()
 					transaction.userprofile = UserProfile.objects.get(id=request.user.id)
@@ -58,7 +65,7 @@ def store_transaction(request,ipn_obj):
 					transaction.save()
 					status = "completed"
 			product.save()
-	if request.COOKIES.get('transaction_type'):
+	elif request.COOKIES.get('transaction_type'):
 		print "transaction_type"
 		sub_type="account"	
 		premium_plan = PremiumPriceInfo.objects.get(purpose="account_subscription")
@@ -82,6 +89,9 @@ def store_transaction(request,ipn_obj):
 		else:
 			status = "pending"
 		print "status", status
+	else:
+		status = "failed"
+		sub_type = "failed"
 	return status, sub_type	
 				
 
@@ -156,7 +166,7 @@ def ipn(request, item_check_callable=None):
 				print "redirect_path", redirect_path
 				query_string = 'pt=%d' % e.code
 				redirect_url = format_redirect_url(redirect_path, query_string)
-	if sub_type == "account":
+	elif sub_type == "account":
 		try:        
 			if status == "completed":
 				error['success'] = ugettext('Your account Successfully subscribed')
@@ -169,9 +179,15 @@ def ipn(request, item_check_callable=None):
 				redirect_path = "/"
 				query_string = 'pt=%d' % e.code
 				redirect_url = format_redirect_url(redirect_path, query_string)
+	else:
+		redirect_url = "/"
 	response = HttpResponseRedirect(redirect_url)		
 	if request.COOKIES.get('product_id'):
 		response.delete_cookie('product_id')
+	if request.COOKIES.get('premiumplan'):
+		response.delete_cookie('premiumplan')
+	if request.COOKIES.get('transaction_type'):
+		response.delete_cookie('transaction_type')
 	return response
 	
 

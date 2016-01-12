@@ -48,7 +48,6 @@
                 <input type="hidden" name="category_name" id="category_name" value="{% if edit_product.category%}{{edit_product.category.id}}{%endif%}">
                 <input type="hidden" name="subcategory_name" id="subcategory_name" value="{% if edit_product.subcategory%}{{edit_product.subcategory.id}}{%endif%}">
                 <input type="hidden" name="brand_name" id="brand_name" value="">
-                <input type="hidden" name="ad_title" id="ad_title" value="{% if edit_product.title%}{{edit_product.title}}{%endif%}">
               </div>
               <input type="text" class="choose_category" name="category1" id="category" placeholder="Choose a category" value="{% if edit_product.category and edit_product.subcategory  %}{{edit_product.category}}>>{{edit_product.subcategory}}{% endif %}" disabled="disabled" {% if edit_product.category and edit_product.subcategory  %}style="width:530px!important"{% endif %}/>
                 {% if not edit_product.category %}
@@ -59,7 +58,10 @@
          	</div> <!-- category_div -->
 
          	<div class="field_div form-group" id="ad_title_div">
-         		<input type="text" class="ad_title" maxlength="70" onchange="updateCountdownTitle()" onkeyup="updateCountdownTitle()" name="ad_title" id="ad_title" value="{% if edit_product.title  %}{{edit_product.title}}{% endif %}" placeholder="Give a title to your Ad*" {% if edit_product.title  %}disabled{% endif %}/><br/>
+         		<input type="text" class="ad_title" maxlength="70" onchange="updateCountdownTitle()" onkeyup="updateCountdownTitle()" name="ad_title" id="ad_title" value="{% if edit_product.title  %}{{edit_product.title}}{% endif %}" placeholder="Give a title to your Ad*" {% if edit_product.title  %}disabled{% endif %}/><br/>   
+            {% if edit_product.title%}
+              <input type="hidden" name="ad_title" id="ad_title" value="{{edit_product.title}}">    
+            {%endif%}    
          		<div class="char_left"><span id="ad_title_count">70</span> characters left</div>
          		<label id="ad_title_required" class="labelError" style="display:none;">Please enter title to your ad.</label>
          	</div> <!-- ad_title_div -->
@@ -130,9 +132,9 @@
      		  </div> <!-- you_are_title -->
 
      		  <div class="field_div form-group" id="you_are_content">
-              <input type="radio" name="you_are_radio" id="individual" checked="checked" value="individual"{% if edit_product.you_are == 'individual' %} checked="checked"{% endif %}>
+              <input type="radio" name="you_are_radio" id="individual" value="individual" checked={% if edit_product.you_are == 'individual' %}"checked"{% endif %}>
               <label for="individual" class="you_are"><span><span></span></span>{% trans "Individual" %}</label>
-         			<input type="radio" name="you_are_radio" id="dealer" value="dealer"{% if edit_product.you_are == 'delear' %} checked="checked"{% endif %}>
+         			<input type="radio" name="you_are_radio" id="dealer" value="dealer" checked={% if edit_product.you_are == 'delear' %}"checked"{% endif %}>
               <label for="dealer" class="you_are"><span><span></span></span>{% trans "Delear" %}</label>
               <label id="content_required" class="labelError" style="display:none;">{% trans "Please select You are." %}</label>
               <div class="clear_both"></div>
@@ -210,7 +212,7 @@
 
             <div class="select_container_locality fl" id="select_container_locality">
                 <div class="select_div">
-                  <p id="select_post_locality"> {% if edit_product.locality %}{{edit_product.locality}}{% else %}{% trans "Select locality *" %}{% endif %}</p>
+                  <p id="select_post_locality">{% if edit_product.locality %}{{edit_product.locality}}{% else %}Select locality *{% endif %}</p>
                   <i class="city_fa fa fa-caret-down">
                   </i>
                 </div> <!-- select_div -->
@@ -306,7 +308,7 @@
           </div>	<!-- premium_ad -->
 
          	<div class="field_div form-group privacy_div" id="terms_of_use_div">
-         		<input type="checkbox" name="terms_of_use" id="terms_of_use" />
+         		<input type="checkbox" name="terms_of_use" id="terms_of_use" checked={% if edit_product.post_term_status == 1 %}"checked"{% endif %}/>
          		<span class="privacy_text">{% trans "By clicking 'Post', you agree to our" %}<a>{% trans "Terms of Use" %}</a> & <a>{% trans "Privacy Policy" %}</a></span>
             <label id="terms_required" class="labelError choose_error" style="display:none;">{% trans "Please click the checkbox" %}</label>
          	</div> <!-- terms_of_use_div -->

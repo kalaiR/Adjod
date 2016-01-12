@@ -170,6 +170,7 @@ def paypal_transaction(request, product_dict):
 			'sandbox_url':settings.SANDBOX_URL
 	}
 	response = render_to_response('paypal_integration/payment.html', ctx , context_instance=RequestContext(request))
+	response.set_cookie("premiumplan", plan.id)
 	try:
 		product_id = Product.objects.get(title=product_dict['title'],userprofile=UserProfile.objects.get(id=product_dict['userprofile']))
 		response.set_cookie("product_id", product_id.id)
@@ -273,16 +274,18 @@ def post_success(request, product):
 	if request.user.is_authenticated() and not request.user.is_superuser:
 		if request.POST.get('premium_plan'):
 			plan_price = request.POST["premium_plan"]
-			product.premium_plan = PremiumPriceInfo.objects.get(premium_price=plan_price)
-			product.ispremium = True
+			# product.premium_plan = PremiumPriceInfo.objects.get(premium_price=plan_price)
+			# product.ispremium = True
+			premium_plan = PremiumPriceInfo.objects.get(premium_price=plan_price)
+			product.status_isactive = False
 			product_dict = {'userprofile':product.userprofile.id, 'category':product.category, 'subcategory':product.subcategory,
 						'adtype':product.adtype,'title':product.title, 'photos':product.photos,'thumbnail':product.thumbnail,
 						'imagecount':product.imagecount,'video':product.video,'condition':product.condition,'price':product.price,
 						'ad_year':product.ad_year, 'city':product.city, 'locality':product.locality,'country_code':product.country_code,
 						'description':product.description,'you_are':product.you_are, 'you_name':product.you_name,'you_email':product.you_email,
 						'you_phone':product.you_phone,'isregistered_user':product.isregistered_user,'ispremium':product.ispremium,
-						'premium_plan':product.premium_plan,'expired_date':product.expired_date,'status_isactive':product.status_isactive,
-						'post_term_status':product.post_term_status,"premium_plan":product.premium_plan.id}       
+						'expired_date':product.expired_date,'status_isactive':product.status_isactive,
+						'post_term_status':product.post_term_status,"premium_plan":premium_plan.id}       
 			response = product_dict
 		else:
 			response = None
@@ -291,7 +294,7 @@ def post_success(request, product):
 	product.save()
 	print "product.id",product.id
 	link = "http://" + settings.SITE_NAME + "/ads/" 
-	update_link ="http://" + settings.SITE_NAME + "/update_profile/" 
+	update_link ="http://" + settings.SITE_NAME + "/user_manage/" 
 	current_site = Site.objects.get_current()
 	send_templated_mail(
 			  template_name = 'post_ad',

@@ -44,7 +44,7 @@
                   <input type="checkbox" name="title_box" value="{{my_ads.id}}" class="check"><span class="description1">
                   <a href="/ads/{{my_ads.id}}/">{{my_ads.title}}</a></span>
                   <span class="ads_id">{% trans "AD ID:" %}{{my_ads.id}}</span><br>
-                  <span class="category_ads">{% trans "status:" %}{{my_ads.status_isactive}}</span><br>
+                  <span class="category_ads">{% trans "status:" %}{% if my_ads.status_isactive %}Active{%endif%}</span><br>
                   <span class="category_ads">{{my_ads.category.name}}<br>{{my_ads.subcategory.name}}</span>
                </div><!--ads_name1-->
                <div class="ads_name1 visible-xs">
