@@ -86,7 +86,7 @@ io.sockets.on('connection', function (socket) {
 						// current_user_record.push(data[i]);
 						current_user_record.push({'sender':data[i].sender,'receiver':data[i].receiver,
 												'product':data[i].product,'message':data[i].message,'sender_image':data[i].sender_image,
-												'receiver_image':data[i].receiver_image});
+												'receiver_image':data[i].receiver_image,'received_at':data[i].received_at});
 						console.log("current_user_record"+ JSON.stringify(current_user_record));
 						// socket.emit('chat_history_data', {'current_user_record': current_user_record, 'product':record.product});
 					}
@@ -205,7 +205,8 @@ io.sockets.on('connection', function (socket) {
 				"message": recv.chat_record.message,
 				"product" : recv.chat_record.product,
 				"sender_image" : recv.chat_record.sender_image, 
-				"receiver_image" : recv.chat_record.receiver_image				
+				"receiver_image" : recv.chat_record.receiver_image,
+				"received_at": recv.chat_record.received_at			
 			}
 	   	var configFile = fs.readFileSync('chat.json');
   		var config = JSON.parse(configFile);

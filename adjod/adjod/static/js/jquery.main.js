@@ -1380,7 +1380,8 @@ $( document ).ready(function() {
         chat_record['product']=product_id;
         chat_record['sender_image']=user_avatar;
         chat_record['receiver_image']=avatar;
-        
+        var d = new Date();
+        chat_record['received_at']=d;
   
         // JSONstr=JSON.stringify(chat_record);
         // $.post("/store_chat_record/", {data:JSONstr}, function(data){ console.log("success")});  
