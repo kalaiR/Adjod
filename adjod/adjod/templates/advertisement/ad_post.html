@@ -89,15 +89,13 @@
             {% if pic %}
                {% for pics in pic %}
                <input type='file' id='photos' name='photos' class="poster" value="{{MEDIA_URL}}{{pics}}" />
-                <img id="uploaded_img_{{forloop.counter0}}" class="after_save" alt="" src="{{MEDIA_URL}}{{pics}}" style="width: 92px; height: 92px;">
-                <span class="photo_labelError"></span>
+                <img id="uploaded_img_{{forloop.counter0}}" class="after_save" alt="" src="{{MEDIA_URL}}{{pics}}" style="width: 92px; height: 92px;">           
               {% endfor %}
             {% else %}
-              <input type='file' id='photos' name='photos[]' multiple='multiple' class="poster" value="" />
-              <span class="photo_labelError"></span>
+              <input type='file' id='photos' name='photos[]' multiple='multiple' class="poster" value="" />             
               <span class="error_photo" style="color:red; display:none; line-height:3;">{% trans "Invalid file type" %}</span>
             {% endif %}
-
+            <span class="photo_labelError"></span>
             <div class="photos_text" >
               {% trans "Ads with photos sell faster(Upload only png, jpg, jpeg, gif)" %}
             </div> <!-- photos_text -->

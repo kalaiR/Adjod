@@ -101,15 +101,15 @@
       // if (s<80000){
         // if (s<270000000){
 
-          var ext = $('#photos').val().split('.').pop().toLowerCase();
-          if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
-              // alert('invalid extension!');
-              $('.error_photo').show();
-              $('.photo_labelError').text("invalid file format");
-          }
-          else{
-            $('.error_photo').hide();
-          }
+          // var ext = $('#photos').val().split('.').pop().toLowerCase();
+          // if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+          //     // alert('invalid extension!');
+          //     $('.error_photo').show();
+          //     $('.photo_labelError').text("invalid file format");
+          // }
+          // else{
+          //   $('.error_photo').hide();
+          // }
           // alert($('#photos').val().length);
           // if($('#photos').val().length >= 1){
           //   var ext = $('#photos').val().split('.').pop().toLowerCase();
@@ -127,8 +127,9 @@
           //       $('.photo_labelError').text("invalid file format");
           //   }
           // }
+          var e = getFileExt(this.value);
           if (s<1000000){
-          $('.photo_labelError').text("");
+          $('.photo_labelError').hide();
           var p = $(this).parents('.simpleFilePreview');
 
           // if it's a multi-select, add another selection box to the end
@@ -197,11 +198,16 @@
               }
             }
           }
+
+          if($.inArray(e, ['gif','png','jpg','jpeg']) == -1){
+             $('.photo_labelError').text('Invalid File Format. We allow only gif, png, jpg, jpeg').show();
+          }
+
         }
        else
         {
           // alert('file exceede');
-          $('.photo_labelError').text("file size should be less than 1 MB");
+          $('.photo_labelError').text('File size should be less than 1 MB').show();
           var p = $(this).parents('.simpleFilePreview');
 
           // if it's a multi-select, add another selection box to the end
@@ -550,7 +556,7 @@
     uid: 0,
     init: false,
     // previewFileTypes: 'p?jpe?g|png|gif|bmp|svg|mp4'
-    previewFileTypes:'p?jpe?g|png|gif|bmp|svg|mp4|mp3'
+    previewFileTypes:'p?jpe?g|png|gif'
   };
 
 })(jQuery);
