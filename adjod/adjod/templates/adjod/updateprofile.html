@@ -44,7 +44,7 @@
                   <input type="checkbox" name="title_box" value="{{my_ads.id}}" class="check"><span class="description1">
                   <a href="/ads/{{my_ads.id}}/">{{my_ads.title}}</a></span>
                   <span class="ads_id">{% trans "AD ID:" %}{{my_ads.id}}</span><br>
-                  <span class="category_ads">{% trans "status:" %}{{my_ads.status_isactive}}</span><br>
+                  <span class="category_ads">{% trans "status:" %}{% if my_ads.status_isactive %}Active{%endif%}</span><br>
                   <span class="category_ads">{{my_ads.category.name}}<br>{{my_ads.subcategory.name}}</span>
                </div><!--ads_name1-->
                <div class="ads_name1 visible-xs">
@@ -212,14 +212,15 @@
               </div><!--form-group-->
 
               <div class="form-group">
-                <div class="field_title form-group">
+                <div class="field_title form-group field_title_profile">
                   <span class="title_you_are">You are</span>
                 </div><!--form-group-->
-                <div class="field_div form-group you_are_mobile">
+                <div class="field_div form-group you_are_mobile you_are_mobile_profile">
                   <input type="radio" class="check_individual" name="person_is" value="individual"{% if edit_product.person_is == 'individual' %} checked="checked"{% endif %}>
-                  <label for="individual" class="you_are"><span><span></span></span>{% trans "Individual" %}</label>
+                  <label for="individual" class="you_are"><span><span></span></span>Individual</label>
                   <input type="radio" class="check_dealer" name="person_is" value="dealer"{%if userprofile.person_is == 'dealer' %}checked="checked"{% endif %}>
-                  <label id="content_required" class="labelError" style="display:none;">{% trans "Please select You are." %}</label>
+                  <label for="dealer" class="you_are"><span><span></span></span>Delear</label>
+                  <label id="content_required" class="labelError" style="display:none;">Please select You are.</label>
                   <div class="clear_both"></div>
               </div><!--form-group-->
 

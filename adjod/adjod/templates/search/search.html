@@ -115,7 +115,7 @@
                                 <!-- <input type="hidden" id="brandsubcategoryid" name ="brandtype" value="" /> -->
                             <!-- </div> -->
                           </ul>
-                           <input type="hidden" id="brandsubcategoryid" name ="brandtype" value="" />
+                           <!-- <input type="hidden" id="brandsubcategoryid" name ="brandtype" value="" /> -->
                       </li>
                       <!--  All PriceOptions to Display in Advance Search-->
                       <li class="list_folder"><b>{% trans "Price" %}</b>
@@ -188,7 +188,7 @@
                   <div class="product_name1">
                       <a href="{% url product_detail product.object.id %}" class="spans"> {{product.object.title}}</a>
 
-                      <span class="product_description1 visible-lg">{{product.object.description|truncatewords:10}}</span>
+                      <span class="product_description1 visible-lg">{{product.object.description|truncatewords:9}}</span>
                       <span class="product_description1 hidden-lg">{{product.object.description|truncatewords:7}}</span>
                       <!-- <span class="additional_description">{{product.object.description}}</span> -->
 

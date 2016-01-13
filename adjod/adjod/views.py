@@ -431,11 +431,14 @@ def user_manage(request):
                 profile_picture.close()
 
             if userprofile:
-
+                # userprofile.city =City.objects.get(id=1)
                 userprofile.mobile = mobile
                 userprofile.locality = Locality.objects.get(id=int(locality.id))
                 # userprofile.city = City.objects.get(id=request.POST['user_city'])
-                userprofile.user_age = user_age
+                if user_age:
+                    userprofile.user_age = user_age
+                else:
+                    userprofile.user_age = None
                 userprofile.gender = gender
                 userprofile.user_address = user_address
                 userprofile.person_is = person_is
@@ -450,7 +453,7 @@ def user_manage(request):
                 else:
                     userprofile.profile_picture = userprofile.profile_picture
                 userprofile.save()
-                if 'pswd' in request.POST:
+                if request.POST['pswd']:
                     u = User.objects.get(username=request.user.username)
                     u.set_password(request.POST.get('pswd'))
                     u.save()

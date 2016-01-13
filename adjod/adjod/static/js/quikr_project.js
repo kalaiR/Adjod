@@ -320,6 +320,10 @@ $( document ).ready(function() {
         $(this).center();
     });
 
+    $('.product_images1 img').load(function(){
+        $(this).center();
+    });   
+
     // Social auth share button actions for desktop
     $(".fbtwtbutton").hide();
     $(".share_button").click(function(){
@@ -1096,5 +1100,19 @@ $( document ).ready(function() {
         $(this).prev().toggle();
         return false;
     });
-   
+
+    // Trigger signin button when keyup last input text
+    $("#password_signup").keyup(function(event){
+      if(event.keyCode == 13){
+          $("#signin").click();
+      }
+    });
+
+    // Trigger signup button when keyup last input text
+    $("#mobile_number_sign_up_home").keyup(function(event){
+      if(event.keyCode == 13){
+          $("#create").click();
+      }
+    });
+  
 });
