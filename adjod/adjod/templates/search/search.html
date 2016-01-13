@@ -53,10 +53,10 @@
                <span class="sortclass">{% trans "Sort by" %}</span>
               <div class="choose_select sorting_custom_select">
                           <div class="choose">
-                            <p id="prov_custom_sort_value_act">None</p>
+                            <p id="prov_custom_sort_value_act">Created Date</p>
                             <i class="fa fa-caret-down new_icon"></i>
                           <select class="prov_custom_sort_value_act option_color" id ="sorteddata"  name="{{form.sorteddata.html_name}}" value="{{form.sorteddata.value|default:''}}">
-                            <option value="">{% trans "None" %}</option>
+                            <option value="createddate">{% trans "Created Date" %}</option>
                             <!-- <option value="createddate">{% trans "Created Date" %}</option> -->
                             <!-- <option value="onlineusers">{% trans  "online users" %}</option> -->
                             <option value="pricelow" {% ifequal sort "Price -Low to High" %} selected {% endifequal %}>{% trans "Price Low to High" %}</option>
