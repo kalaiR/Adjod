@@ -239,10 +239,17 @@
              		<div class="row premium_row">
         					<div id="premium_col_1" class="col-md-4">
           						<span class="premium_row_1">{% trans "Urgent Ad" %}</span>
-          						<span class="premium_row_2"><a href="#" class="urgent_ad">{% trans "View Example" %}</a></span>
-                      <div>
-                        <code class="close_btn cancel_btn"> </code>
+          						<span class="premium_row_2">
+                        <a href="#" class="urgent_ad visible-lg">{% trans "View Example" %}</a>
+                        <a href="#" class="urgent_ad_mbl hidden-lg">{% trans "View Example" %}</a>
+                      </span>
+                      <div class="visible-lg">
                         <img src="../static/img/urgent_ad.png" class="urgentad_popup">
+                        <img src="../static/img/close_btn.png" class="popup_close cancel_btn">
+                      </div>
+                      <div class="hidden-lg">
+                       <img src="../static/img/urgent_mobile.png" class="urgentad_popup_mobile">
+                       <img src="../static/img/close_btn.png" class="popup_close cancel_btn">
                       </div>
                       <span class="premium_row_3">{% trans "S$ 9.99 per ad" %}</a></span>
 
@@ -253,11 +260,19 @@
       					  </div> <!-- premium_col_1 -->
         					<div id="premium_col_2" class="col-md-4">
           						<span class="premium_row_1">{% trans "Top of the page Ad" %}</span>
-          						<span class="premium_row_2"><a href="#" class="premium_ad">{% trans "View Example" %}</a></span>
-                      <div>
-                        <code class="close_btn cancel_btn"> </code>
+          						<span class="premium_row_2">
+                        <a href="#" class="premium_ad visible-lg">{% trans "View Example" %}</a>
+                        <a href="#" class="premium_ad_mbl hidden-lg">{% trans "View Example" %}</a>
+                      </span>
+                      <div class="visible-lg">
                         <img src="../static/img/premium_ad.png" class="premium_ad_popup">
+                        <img src="../static/img/close_btn.png" class="popup_close1 cancel_btn">
                       </div>
+                      <div class="hidden-lg">
+                        <img src="../static/img/premium_mobile.png" class="premium_popup_mobile">
+                        <img src="../static/img/close_btn.png" class="popup_close1 cancel_btn">
+                      </div>
+                     
           						<span class="premium_row_3">{% trans "S$ 14.99 per ad" %}</a></span>
           						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan2" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
                       <span class="premium_row_4 select_premium">
@@ -266,10 +281,16 @@
       					</div> <!-- premium_col_2 -->
       					<div id="premium_col_3" class="col-md-4">
           						<span class="premium_row_1">{% trans "Top of the page Ad + Urgent Ad" %}</span>
-          						<span class="premium_row_2"><a href="#" class="premium_urgent_ad">{% trans "View Example" %}</a></span>
-                      <div>
-                        <code class="close_btn cancel_btn"> </code>
-                        <img src="../static/img/premium_urgent_ad.png" class="premium_urgent_ad_popup ">
+          						<span class="premium_row_2">
+                        <a href="#" class="premium_urgent_ad visible-lg">{% trans "View Example" %}</a>
+                        <a href="#" class="premium_urgent_mbl hidden-lg">{% trans "View Example" %}</a></span>
+                      <div class="visible-lg">
+                        <img src="../static/img/premium_urgent_ad.png" class="premium_urgent_ad_popup">
+                        <img src="../static/img/close_btn.png" class="popup_close2 cancel_btn">
+                      </div>
+                      <div class="hidden-lg">
+                        <img src="../static/img/premium_urgent_mobile.png" class="premium_urgent_mobile">
+                        <img src="../static/img/close_btn.png" class="popup_close2 cancel_btn">
                       </div>
           						<span class="premium_row_3">{% trans "S$ 19.99 per ad" %}</a></span>
           						<!-- <span class="premium_row_4"><input class="btn btn-default" type="button" value="Select" id="premium_plan3" name="premium_plan" title="{% if not user.is_authenticated %}Please register in our website and then make ur ad premium {% endif %}"></span> -->
@@ -382,52 +403,35 @@
       <!--======================
       	   End Category popup
       ========================-->
-<div class="container hidden-lg">
-      <div id="category_popup" class="choose_category_div_mobile" style="display:none;">
-      <code class="close_btn close_mobile cancel_btn" style="display: none;"> </code>
-      <div id="cssmenu">
-         <!-- Normal Search and Advance Form Start -->
-        <form id="form_search_filter" class="form_search_filter">
-             <input id="search_form" type="hidden" name="{{form.q.html_name}}"  value="{{form.q.value|default:''}}"/>
-             <input type="hidden" name="page"  value="{{page.number}}"/>
-             <input type="hidden" name="city" id="city" value="">
-              <ul class="main_list_mobile" id="list_mobile">
-                  <!--  All Categories & Sub-Categories to Display in Advance Search-->
-                      <li class="list_folder"><b>{% trans "All category" %}</b>
-                          <ul class="hide_list categoryclick">
-                           {% for categories in initial_load|get_categories %}
-                              <li class="list_folder">
-                                <img src="{{ MEDIA_URL }}{{categories.icon}}" class="category_icon">
-                              <a class="has_sub categoryselected get">
-                               {{categories}}
-                                 <!-- <span class="hidelist1 ajax_categoryid">
-                                      {{categories.id}}
-                                  </span>  -->
-                                <span class="product_quantity hidden-xs"> {{ categories.count }}
-                                </span>
-                              </a>
-                              <ul class="hide_list hidelist1 subclick">
-                                  {% for subcategories in categories.id|get_subcategories %}
-                                      <li class="list_folder parent_li">
-                                      <span class="has_sub subcategory_choose get1">{{subcategories}}
-                                      </span>
-                                      <!-- <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="{{subcategories.id}} " name="subcategoryid"/>  --><span class="has_sub hidelist1 ajax_subid">
-                                      {{subcategories.id}}
-                                      </span>
-                                       <span class="product_quantity hidden-xs">{{subcategories.id|get_subcategoriesCount}}
-                                        </span>
-                                       </li>
-                                      {% endfor %}
-                                </ul>
-                              </li>
-                          {% endfor %}
-                        </ul>
-                     <!--    <input type="hidden"  id="categoryid"  value="" name="categoryid"> -->
-                         <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="" name="subcategoryid"/>
-                      </li>
-                </ul>
-           </form>
-           </div>
-           </div>
- </div> <!-- container -->
+
+
+      <div class="container hidden-lg">
+        <div id="category_popup" class="choose_category_div" style="display:none;">
+          <code class="close_btn cancel_btn" style="display: none;"> </code>
+          <div class="category_list_div col-md-4">
+            <div class="col-md-4 title_mbl">{% trans "Category" %}</div>
+            <ul class="category_list">
+              {% for categories in category %}
+              <li class=""><img height="30" width="30" src="{{ MEDIA_URL }}{{ categories.icon }}" />
+              <input type="hidden" value="{{categories.id}}" name="category">{{categories.name}}</li>
+              {% endfor %}
+            </ul>
+          </div> <!-- category_list_div -->
+          <div class="col-md-4 subcategory_list_div subcategory_mobile">
+            <i class="fa fa-angle-left mbl_left"></i>
+            <div class="col-md-4 subcategory_previous">{% trans "Sub Category" %}</div>
+              <ul class="subcategory_list">
+                <li class=""><input type="hidden" value="" name="subcategory"></li>
+              </ul>
+          </div> <!-- subcategory_list_div -->
+          <div class="col-md-4 brand_list_div brand_mobile">
+            <i class="fa fa-angle-left mbl_left"></i>
+            <div class="col-md-4 brand_previous" id="brand"></div>
+              <ul style="display: none;" class="brand_list"> 
+                <li class=""><input type="hidden" value="" name="brand"></li>
+              </ul>
+          </div>
+        </div> <!-- choose_category_div -->
+      </div> <!-- container -->
+
 {% endblock %}

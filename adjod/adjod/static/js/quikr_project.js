@@ -12,7 +12,6 @@ function sign_up_center_align(){
 }
 
 function category_popup_center_align(){
-
       var height=$('.choose_category_div,.choose_category_div_mobile').height();
       var width=$('.choose_category_div,.choose_category_div_mobile').width();
       $('.choose_category_div,.choose_category_div_mobile').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
@@ -270,26 +269,27 @@ $( document ).ready(function() {
     urgent_ad_center_align();
     premium_ad_center_align();
     premium_urgent_ad_center_align();
+    
 
     //Post ad page view example popup
     $(".urgent_ad").click(function(){
        urgent_ad_center_align();
         $('.popup_fade').show();
-        $('.urgentad_popup ,.close_btn').show();
+        $('.urgentad_popup ,.popup_close').show();
         document.body.style.overflow = 'hidden';
     });
 
     $(".premium_ad").click(function(){
         premium_ad_center_align();
         $('.popup_fade').show();
-        $('.premium_ad_popup ,.close_btn').show();
+        $('.premium_ad_popup ,.popup_close1').show();
         document.body.style.overflow = 'hidden';
     });
 
     $(".premium_urgent_ad").click(function(){
         premium_urgent_ad_center_align();
         $('.popup_fade').show();
-        $('.premium_urgent_ad_popup ,.close_btn').show();
+        $('.premium_urgent_ad_popup ,.popup_close2').show();
         document.body.style.overflow = 'hidden';
     });
 
@@ -492,7 +492,7 @@ $( document ).ready(function() {
     });
     $('.cancel_btn').click(function(){
         $('.popup_fade').hide();
-        $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .choose_category_div,.choose_category_div_mobile,.subscription_popup,.urgentad_popup,.premium_ad_popup,.premium_urgent_ad_popup').hide();
+        $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .popup_close,.popup_close1,.popup_close2,.choose_category_div,.choose_category_div_mobile,.subscription_popup,.urgentad_popup,.premium_ad_popup,.premium_urgent_ad_popup').hide();
         document.body.style.overflow = 'auto';
     });
     // Forgot Password Popup
@@ -994,16 +994,20 @@ $( document ).ready(function() {
 
 
 
+    // SignUp tooltip
     $('.signup_tooltip').hide();
-    $(".signup_confirm_button").on('hover', function(){
-    if ($(".confirm").prop('checked')==false){
-        $('.signup_tooltip').show();
-    }
-    else{
-         $('.signup_tooltip').hide();
-       }
+    $('.signup_confirm_button').mouseover(function () {
+      if ($(".confirm").prop('checked')==false){
+      $('.signup_tooltip').show(); 
+      }
+      else{
+        $('.signup_tooltip').hide(); 
+      }     
     });
-
+    
+    $('.signup_confirm_button').mouseout(function () {
+       $('.signup_tooltip').hide(); 
+    });
     
     $(".user_dropdown").hide();
     $(".caret_user").click(function(){
@@ -1092,6 +1096,5 @@ $( document ).ready(function() {
         $(this).prev().toggle();
         return false;
     });
-   
    
 });

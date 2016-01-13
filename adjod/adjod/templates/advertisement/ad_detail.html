@@ -13,8 +13,14 @@
     </span>
 {%endblock%}
 {%block content%}
-  <div class="row row-1">
+  <div class="row">
    <div class="col-md-6 second-column">
+            <div id="fb-root" class="other-buttons visible-lg fb_reset">
+                 <span onclick="fbshare()" class="btn btn-default share_button" href="">Share
+                <i class="fa fa-share-alt"></i></span>
+                <!-- <span href="" class="btn btn-default favourite_button"> Add as favourite
+                <i class="fa fa-heart heart_detail"></i></span> -->
+            </div>
               <div class="visible-lg">
                   <h4>{{adinfo.title}}</h4>
                   <span class="Ad-ID">{% trans "Ad ID:" %}{{adinfo.id}} | {{adinfo.created_date}}</span>
@@ -47,9 +53,9 @@
                     <div class="thumbnails2">
                       <a href=""><img class="img2"src="img/Product_pic2.png"></a>
                     </div> -->
-                    <div class="div">
+                    <!-- <div class="div">
                        <i class="fa fa-camera"></i><span>{{adinfo.imagecount}}</span>
-                    </div>
+                    </div> -->
               </div>
         </div> <!-- second-column -->
     <div class="product-image hidden-lg">
@@ -94,14 +100,46 @@
                  <span class="price_info">{{adinfo.price|conversion}}</span>
                   </div>
               </div>
-        <div class="col-md-6 first-column">
+              <div class="contact-seller visible-lg">
+                <h4 class="seller">{% trans "Contact Seller" %}</h4>
+                <div class="owner_contact">
+                    <!-- <p class="owner_name">
+                    {% if adinfo.userprofile %}
+                    {{adinfo.userprofile.user.email}}
+                    {% else %}
+                    {% trans "Anonymous" %}
+                    {% endif %}
+                    </p> -->
+                    <div><span class="name_detail">Contact Name :</span></div>
+                    <p class="owner_number"><i class="fa fa-mobile"></i>
+                    {% if adinfo.you_phone %}
+                    {{adinfo.you_phone}}
+                    {% else %}
+                   <!--  No Contact Details, You can contact via chat when they are in online -->
+                    {% endif %}
+                   </p>
+                    <!-- <span class="number_verify_1"><i class="fa fa-check-circle"></i> Number verified</span></p>
+                    <p>{{adinfo.you_phone}}<span class="reply"><a href="" class="btn btn-default replybutton">REPLY</a></span></p> -->
+                    
+                    <div><button type="button" class="btn btn-warning detail_chat">Chat Now</button></div>
+                </div>
+                <!-- <span>Send free SMS <i class="fa fa-caret-down caret-down"></i>
+                        <div class="login_holder">
+                  <form id="login_form" method="post" action="">
+                    Number: <input type="text" name="username" value="" size="30" />
+                    <br /><br />
+                    <input type="submit" value="send" />
+                    </form>
+                  </div>
+                </span> -->
+              </div>
+              <div class="detail_add1">
+                <img src="/../media/banners/watsapp_ad.png">
+                <a href="https://www.whatsapp.com/"><img src="/../media/banners/download_ad.png" class="click_link"></a>
+              </div>
+        <div class="col-md-8 first-column">
               <div class="column-height">
-                <div class="other-buttons visible-lg" id="fb-root">
-                 <span href="" class="btn btn-default share_button" onclick="fbshare()">{% trans "Share" %}
-                <i class="fa fa-share-alt"></i></span>
-                <!-- <span href="" class="btn btn-default favourite_button"> Add as favourite
-                <i class="fa fa-heart heart_detail"></i></span> -->
-            </div><div class="clear_both"></div>
+              <div class="clear_both"></div>
 
               <script>
                 window.fbAsyncInit = function() {
@@ -149,43 +187,16 @@
                     <p class="line_style"><span class="field_name fl">{% trans "Posted By" %}</span><span>:</span>
                     <span class="parallel_line">{{adinfo.you_are}}</span></p>
                   </div>
-                </div>
-              </div>
-              {% if adinfo.video%}
+                  {% if adinfo.video%}
               <div class="video_url">
                 <span>{% trans "Video URL:" %}<a target="__blank" href="{{adinfo.video}}">{{adinfo.video}}</a></span>
               </div>
               {% endif %}
-              <div class="contact-seller visible-lg">
-                <h4 class="seller">{% trans "Contact Seller" %}</h4>
-                <div class="owner_contact">
-                    <!-- <p class="owner_name">
-                    {% if adinfo.userprofile %}
-                    {{adinfo.userprofile.user.email}}
-                    {% else %}
-                    {% trans "Anonymous" %}
-                    {% endif %}
-                    </p> -->
-                    <p class="owner_number">
-                    {% if adinfo.you_phone %}
-                    {{adinfo.you_phone}}
-                    {% else %}
-                    No Contact Details, You can contact via chat when they are in online
-                    {% endif %}
-                    </p>
-                    <!-- <span class="number_verify_1"><i class="fa fa-check-circle"></i> Number verified</span></p>
-                    <p>{{adinfo.you_phone}}<span class="reply"><a href="" class="btn btn-default replybutton">REPLY</a></span></p> -->
                 </div>
-                <!-- <span>Send free SMS <i class="fa fa-caret-down caret-down"></i>
-                        <div class="login_holder">
-                  <form id="login_form" method="post" action="">
-                    Number: <input type="text" name="username" value="" size="30" />
-                    <br /><br />
-                    <input type="submit" value="send" />
-                    </form>
-                  </div>
-                </span> -->
+
               </div>
+              
+              
 
                <div class="contact-seller_mobile hidden-lg">
                 <h4 class="seller_mobile">{% trans "Seller details" %}</h4>
@@ -246,7 +257,7 @@
           {% if related_product %}
               <ul class="product1">
                 {% for related_products in related_product|slice:":6" %}
-                <li class="product_list1">
+                <li class="product_list1 product_recommend">
                    <div class="product_images1">
                       <a href="/ads/{{related_products.object.id}}/" class="">
                           {% if related_products.object.photos = '' %}

@@ -126,7 +126,7 @@
       </div> <!--col-md-7 -->   
 
       <div class="col-md-5">
-        <h4 class="sell"><i class="fa  fa-shield"></i>{% trans "to sell safely ?" %}</h4>
+        <h4 class="sell"><i class="fa  fa-shield"></i>{% trans "How to sell safely ?" %}</h4>
         <p>{% trans "Try to take the full payment at the time of delivery." %}<br>{% trans "Remember to use the safe location to meet" %}<a href="#" class="read-more">{% trans "Read more" %}</a></p>
       </div> <!-- col-md-5 -->
 
@@ -157,8 +157,9 @@
                       </div><!-- count_holder -->
                     </a>
                   </div>
+                  <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a></div>
                   <div class="detail">
-                    <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a><span>{{country_code|get_symbol}}{{recentads.price|conversion|quantize}}</span></div>
+                    <span class="currency_product fr">{{country_code|get_symbol}}{{recentads.price|conversion|quantize}}</span>
                     <span class="product_description"> {{ recentads.description|truncatewords:10 }}</span>
                     <span class="product_user"> {{recentads.condition}} | in {{recentads.locality.locality}} | By {{recentads.you_are}}</span>
                   </div> <!-- detail -->
