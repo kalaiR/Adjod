@@ -121,6 +121,7 @@ $(document).ready(function() {
         var ajax_subid = $('input[type="hidden"]#subcategoryid').val(trim_subid);
         $('input[type="hidden"]#locality').val('');
         $('[name=subcategoryid]').text(trim_subid);
+        $('[name=brandtype]').val('');
          var trim_subid = $.trim(subid);
          // alert($.trim(subid));
             fill_brands(trim_subid);
@@ -172,6 +173,8 @@ $(document).ready(function() {
 		$('p#localityselected').html($( ".locality option:selected" ).text());
 		var locality = $('input[type="hidden"]#locality').val($(this).val());
         $('input[name="page"]').val('');
+        $('[name=brandtype]').val('');
+        $('input[type="hidden"]#subcategoryid').val('');
 		perform_search();
 	});
 
