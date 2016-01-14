@@ -58,11 +58,11 @@
          	</div> <!-- category_div -->
 
          	<div class="field_div form-group" id="ad_title_div">
-         		<input type="text" class="ad_title" maxlength="70" onchange="updateCountdownTitle()" onkeyup="updateCountdownTitle()" name="ad_title" id="ad_title" value="{% if edit_product.title  %}{{edit_product.title}}{% endif %}" placeholder="Give a title to your Ad*" {% if edit_product.title  %}disabled{% endif %}/><br/>   
+         		<input type="text" class="ad_title" maxlength="200" onchange="updateCountdownTitle()" onkeyup="updateCountdownTitle()" name="ad_title" id="ad_title" value="{% if edit_product.title  %}{{edit_product.title}}{% endif %}" placeholder="Give a title to your Ad*" {% if edit_product.title  %}disabled{% endif %}/><br/>   
             {% if edit_product.title%}
               <input type="hidden" name="ad_title" id="ad_title" value="{{edit_product.title}}">    
             {%endif%}    
-         		<div class="char_left"><span id="ad_title_count">70</span> characters left</div>
+         		<div class="char_left"><span id="ad_title_count">200</span> characters left</div>
          		<label id="ad_title_required" class="labelError" style="display:none;">Please enter title to your ad.</label>
          	</div> <!-- ad_title_div -->
 
@@ -76,9 +76,9 @@
           </div>
 
          	<div class="field_div form-group" id="description_div">
-         		<textarea class="description" maxlength="500" onchange="updateCountdownDesc()" onkeyup="updateCountdownDesc()" name="description" id="your_description" placeholder="Give description to your Ad*" value="">{% if edit_product.description %}{{edit_product.description}}{% endif %}</textarea>
+         		<textarea class="description" maxlength="1000" onchange="updateCountdownDesc()" onkeyup="updateCountdownDesc()" name="description" id="your_description" placeholder="Give description to your Ad*" value="">{% if edit_product.description %}{{edit_product.description}}{% endif %}</textarea>
           	<br />
-         		<div class="char_left"><span id="desc_count">500</span>{% trans "characters left" %}</div>
+         		<div class="char_left"><span id="desc_count">1000</span> {% trans "characters left" %} </div>
          		<label id="desc_required" class="labelError" style="display:none;">{% trans "Please enter description." %}</label>
          	</div> <!-- description_div -->
 
