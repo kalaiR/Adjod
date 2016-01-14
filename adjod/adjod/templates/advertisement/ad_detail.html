@@ -110,7 +110,7 @@
                     {% trans "Anonymous" %}
                     {% endif %}
                     </p> -->
-                    <div><span class="name_detail">Contact Name :</span></div>
+                    <div><span class="name_detail">Contact Name : {{adinfo.userprofile.username}}</span></div>
                     <p class="owner_number"><i class="fa fa-mobile"></i>
                     {% if adinfo.you_phone %}
                     {{adinfo.you_phone}}
@@ -121,7 +121,7 @@
                     <!-- <span class="number_verify_1"><i class="fa fa-check-circle"></i> Number verified</span></p>
                     <p>{{adinfo.you_phone}}<span class="reply"><a href="" class="btn btn-default replybutton">REPLY</a></span></p> -->
                     
-                    <div><button type="button" class="btn btn-warning detail_chat">Chat Now</button></div>
+                    <!-- <div><button type="button" class="btn btn-warning detail_chat">Chat Now</button></div> -->
                 </div>
                 <!-- <span>Send free SMS <i class="fa fa-caret-down caret-down"></i>
                         <div class="login_holder">
