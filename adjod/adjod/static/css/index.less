@@ -5266,7 +5266,7 @@ li.offline,.product_title_for_chat { display:none !important; }
 .sub_category {
 	position: relative;
 }
-.disable_post a{
+.disable_post a, .disable_post_ad{
 	box-shadow: none;
     cursor: not-allowed;
     opacity: 0.65;
@@ -5329,7 +5329,28 @@ li.offline,.product_title_for_chat { display:none !important; }
     width: 25%;
     z-index: 9999;
 }
-.disable_post:hover .tooltip{
+.postpage_tooltip{
+	background: none repeat scroll 0 0 black;
+    border-radius: 6px;
+    color: white;
+    cursor: context-menu;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    height: 80px;
+    margin-left: 204px;
+    opacity: 1;
+    position: relative;
+    right: 93px;
+    text-align: center;
+    top: -114px;
+    visibility: visible;
+    width: 55%;
+    z-index: 9999;
+    display:none;
+}
+
+.disable_post:hover .tooltip, .disable_post_ad:hover .postpage_tooltip{
 	display :block;
 }
 .disable_post:hover .searchpage_tooltip{
@@ -6277,4 +6298,3 @@ color: #858585;
     color: red;
     font-size: 25px;
 }
-
