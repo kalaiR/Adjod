@@ -259,6 +259,7 @@ $( document ).ready(function() {
       var height = $(this).height();
       var width = $(this).width();
       $(this).css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"});
+      $(this).css({'display':'block'});
       return this;
    }
 

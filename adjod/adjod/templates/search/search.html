@@ -172,11 +172,11 @@
                      <p class="{% if product.object.premium_plan_id = 1 %} premium-img1 {% elif product.object.premium_plan_id = 2 %} premium-img2 {% elif product.object.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>
                     {% if product.object.photos = '' %}
                     <a href="{% url product_detail product.object.id %}">
-                    <img src="{{STATIC_URL}}img/bg-img1.png">
+                    <img src="{{STATIC_URL}}img/bg-img1.png" class="dn">
                     </a>
                     {% else %}
                     <a href="{% url product_detail product.object.id %}">
-                    <img src="{{ MEDIA_URL }}{{ product.object.photos|get_photos }}">
+                    <img src="{{ MEDIA_URL }}{{ product.object.photos|get_photos }}" class="dn">
                     </a>
                     {% endif %}
                     <div class="count_holder1">
