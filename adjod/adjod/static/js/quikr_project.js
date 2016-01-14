@@ -437,29 +437,29 @@ $( document ).ready(function() {
 
 
   //userprofile ajax form submit
-    $('#update_user').submit(function() {
-        var file_data = $("#profile_poster").prop("file")[0];
-        var form_data = new FormData();
-        form_data.append($(this).serialize())                   // Creating object of FormData class
-        form_data.append("profile_poster", file_data)
-      $.ajax({
-          data: form_data,
-          type: 'POST',
-          url: '/user_manage/',
-          cache: false,
-          contentType: false,
-          processData: false,
-          success: function(response) {
-          alert('success');
+  //   $('#update_user').submit(function() {
+  //       var file_data = $("#profile_poster").prop("file")[0];
+  //       var form_data = new FormData();
+  //       form_data.append($(this).serialize())                   // Creating object of FormData class
+  //       form_data.append("profile_poster", file_data)
+  //     $.ajax({
+  //         data: form_data,
+  //         type: 'POST',
+  //         url: '/user_manage/',
+  //         cache: false,
+  //         contentType: false,
+  //         processData: false,
+  //         success: function(response) {
+  //         alert('success');
 
-          },
-          error: function(response){
-            alert('error');
-          }
+  //         },
+  //         error: function(response){
+  //           alert('error');
+  //         }
 
-      });
-        return false;
-  });
+  //     });
+  //       return false;
+  // });
 
   //change image upload in user update profile
   $('.profile_poster_update').change(function(){
@@ -872,7 +872,7 @@ $( document ).ready(function() {
           $('#terms_of_use').addClass("error_input_field");
           $('#terms_of_use').next().siblings('.labelError').show();
         }
-        if ($(":input").hasClass("error_input_field") || $(".select_container_city").hasClass("error_input_field") || $(".select_container_locality").hasClass("error_input_field") || $("#buy,#sell").hasClass("error_input_field") || $("#individual,#dealer").hasClass("error_input_field") || $('#your_mobile_no').hasClass("error")){
+        if ($(":input").hasClass("error_input_field") || $(".select_container_city").hasClass("error_input_field") || $(".select_container_locality").hasClass("error_input_field") || $("#buy,#sell").hasClass("error_input_field") || $("#individual,#dealer,.photo_labelError").hasClass("error_input_field") || $('#your_mobile_no').hasClass("error")){
         return false;
         }
         else{
@@ -1114,5 +1114,14 @@ $( document ).ready(function() {
           $("#create").click();
       }
     });
+
+    //Alert Button
+   $(".alert-button").click(function(){
+    window.location.href = "/?freealert=active";
+   });
+
+   $(".scroll_close").click(function(){
+    $('html, body').animate({scrollTop: '+=1700px'}, 800);
+   });
   
 });

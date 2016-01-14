@@ -31,34 +31,6 @@
     <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
     <script type="text/javascript">
      
-    {% if 'falert' in request.REQUEST %}
-      alert("Free alert created Successfully");
-    {% endif %}
-    {% if 'alert' in request.REQUEST %}
-      alert("Alert Created failed...You are not registered users");
-    {% endif %}
-
-    // {% if 'st' in request.REQUEST %}
-    //   var height=$('.sign_up_div').height();
-    //   var width=$('.sign_up_div').width();
-    //   $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
-    //   $('.popup_fade').show();
-    //   $('.sign_up_div, .close_btn').show();
-    // {% endif %}
-
-    // function get(name){
-    // if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(window.location.href))
-    //   return decodeURIComponent(name[1]);
-    // }
-    // if (get('st')){
-    //   alert(get);
-    //   var height=$('.sign_up_div').height();
-    //   var width=$('.sign_up_div').width();
-    //   $('.sign_up_div').css({'margin-top': -height / 2 + "px", 'margin-left': -width / 2 + "px"}); 
-    //   $('.popup_fade').show();
-    //   $('.sign_up_div, .close_btn').show();
-    //   // document.body.style.overflow = 'hidden';
-    // }
     </script>
 
 </head>

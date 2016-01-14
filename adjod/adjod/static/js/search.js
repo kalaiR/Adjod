@@ -167,7 +167,6 @@ $(document).ready(function() {
 
 	// city based search
 	 $(document).on("change", '.locality', function () {
-
 	    // $( ".city" ).change(function () {
 		var selected_option = $( ".locality option:selected" ).val();
 		$('p#localityselected').html($( ".locality option:selected" ).text());

@@ -65,6 +65,12 @@ from advertisement.views import create_path_for_photos_thumbanails
 from django.contrib.sites.models import Site
 from paypal.standard.ipn.views import *
 
+#For Auto Login After reset password
+from django.views.decorators.debug import sensitive_post_parameters
+from django.views.decorators.cache import never_cache
+from django.contrib.auth.forms import SetPasswordForm
+from django.utils.http import urlencode, base36_to_int
+from django.template.response import TemplateResponse
 
 
 def test_paypal(request):
@@ -605,3 +611,48 @@ def delete_ad(request):
         my_products = Product.objects.filter(userprofile_id=request.user.id, status_isactive=1)
         print 'my_products', my_products
     return render_to_response('adjod/updateprofile.html', {'my_products':my_products}, context_instance=RequestContext(request))
+
+# Customized view for auto login
+# Doesn't need csrf_protect since no-one can guess the URL
+@sensitive_post_parameters()
+@never_cache
+def password_reset_confirm(request, uidb36=None, token=None,
+                           template_name='registration/password_reset_confirm.html',
+                           token_generator=default_token_generator,
+                           set_password_form=SetPasswordForm,
+                           post_reset_redirect=None,
+                           current_app=None, extra_context=None):
+    """
+    View that checks the hash in a password reset link and presents a
+    form for entering a new password. (Customized)
+    """
+    assert uidb36 is not None and token is not None # checked by URLconf
+    if post_reset_redirect is None:
+        post_reset_redirect = reverse('django.contrib.auth.views.password_reset_complete')
+    try:
+        uid_int = base36_to_int(uidb36)
+        user = User.objects.get(id=uid_int)
+    except (ValueError, User.DoesNotExist):
+        user = None
+
+    if user is not None and token_generator.check_token(user, token):
+        validlink = True
+        if request.method == 'POST':
+            form = set_password_form(user, request.POST)
+            if form.is_valid():
+                form.save()
+                auto_login(request, user) # Auto login
+                return HttpResponseRedirect(post_reset_redirect)
+        else:
+            form = set_password_form(None)
+    else:
+        validlink = False
+        form = None
+    context = {
+        'form': form,
+        'validlink': validlink,
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+    return TemplateResponse(request, template_name, context,
+                            current_app=current_app)

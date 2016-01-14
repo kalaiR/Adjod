@@ -129,6 +129,7 @@
           // }
           var e = getFileExt(this.value);
           if (s<1000000){
+          $('.photo_labelError').removeClass('error_input_field'); 
           $('.photo_labelError').hide();
           var p = $(this).parents('.simpleFilePreview');
 
@@ -200,6 +201,7 @@
           }
 
           if($.inArray(e, ['gif','png','jpg','jpeg']) == -1){
+             $('.photo_labelError').addClass('error_input_field'); 
              $('.photo_labelError').text('Invalid File Format. We allow only gif, png, jpg, jpeg').show();
           }
 
@@ -207,6 +209,7 @@
        else
         {
           // alert('file exceede');
+          $('.photo_labelError').addClass('error_input_field'); 
           $('.photo_labelError').text('File size should be less than 1 MB').show();
           var p = $(this).parents('.simpleFilePreview');
 
