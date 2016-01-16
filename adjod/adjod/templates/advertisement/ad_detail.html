@@ -25,7 +25,6 @@
                   <h4>{{adinfo.title}}</h4>
                   <span class="Ad-ID">{% trans "Ad ID:" %}{{adinfo.id}} | {{adinfo.created_date}}</span>
               </div>
-
               <div class="product-image visible-lg">
                     <div class="upperimg">
                       {% if largephoto = '' %}
@@ -56,8 +55,8 @@
                     <!-- <div class="div">
                        <i class="fa fa-camera"></i><span>{{adinfo.imagecount}}</span>
                     </div> -->
-              </div>
-        </div> <!-- second-column -->
+              </div><!--product-image visible-lg-->
+    </div> <!-- second-column -->
     <div class="product-image hidden-lg">
                     <div class="upperimg">
                       {% if largephoto = '' %}
@@ -90,16 +89,17 @@
                     </div>
 
                   <div class="product_text hidden-lg">
-                  <div class="trans_product">
-                  <h3>{{adinfo.title}}</h3>
-                  </div></div>
+                    <div class="trans_product">
+                        <h3>{{adinfo.title}}</h3>
+                    </div><!--trans_product-->
+                  </div><!--product_text hidden-lg-->
                   <div class="product_id">
-                  <span class="Ad-ID">Ad ID:{{adinfo.id}} | {{adinfo.created_date}} </span>
-                </div>
-                <div class="price_mobile hidden-lg">
-                 <span class="price_info">{{adinfo.price|conversion}}</span>
-                  </div>
-              </div>
+                    <span class="Ad-ID">Ad ID:{{adinfo.id}} | {{adinfo.created_date}} </span>
+                  </div><!--product_id-->
+                  <div class="price_mobile hidden-lg">
+                    <span class="price_info">{{adinfo.price|conversion}}</span>
+                  </div><!--price_mobile-->
+    </div><!-- product-image hidden-lg -->
               <div class="contact-seller visible-lg">
                 <h4 class="seller">{% trans "Contact Seller" %}</h4>
                 <div class="owner_contact">
@@ -122,7 +122,7 @@
                     <p>{{adinfo.you_phone}}<span class="reply"><a href="" class="btn btn-default replybutton">REPLY</a></span></p> -->
                     
                     <!-- <div><button type="button" class="btn btn-warning detail_chat">Chat Now</button></div> -->
-                </div>
+                </div><!--owner_contact-->
                 <!-- <span>Send free SMS <i class="fa fa-caret-down caret-down"></i>
                         <div class="login_holder">
                   <form id="login_form" method="post" action="">
@@ -132,48 +132,47 @@
                     </form>
                   </div>
                 </span> -->
-              </div>
-              <div class="detail_add1">
+              </div><!--contact-seller visible-lg-->
+              <div class="detail_add1 visible-lg">
                 <img src="/../media/banners/watsapp_ad.png">
                 <a href="https://www.whatsapp.com/"><img src="/../media/banners/download_ad.png" class="click_link"></a>
-              </div>
-        <div class="col-md-8 first-column">
-              <div class="column-height">
-              <div class="clear_both"></div>
+              </div><!--detail_add1-->
+    <div class="col-md-8 first-column">
+                <div class="column-height">
+                  <div class="clear_both"></div>
+                      <script>
+                        window.fbAsyncInit = function() {
+                          FB.init({
+                            appId      :'1157881127573603',
+                            xfbml      : true,
+                            version    : 'v2.5'
+                          });
+                        };
 
-              <script>
-                window.fbAsyncInit = function() {
-                  FB.init({
-                    appId      :'1157881127573603',
-                    xfbml      : true,
-                    version    : 'v2.5'
-                  });
-                };
-
-                (function(d, s, id){
-                   var js, fjs = d.getElementsByTagName(s)[0];
-                   if (d.getElementById(id)) {return;}
-                   js = d.createElement(s); js.id = id;
-                   js.src = "//connect.facebook.net/en_US/sdk.js";
-                   fjs.parentNode.insertBefore(js, fjs);
-                 }(document, 'script', 'facebook-jssdk'));
-              </script>
-              <script>
-              function fbshare(){
-              FB.ui({
-               method: 'share',
-               href: '{{request.META.HTTP_HOST}}{{ request.get_full_path }}',
-               picture: "{{request.META.HTTP_HOST}}{% if largephoto == '' %}{{STATIC_URL}}img/bg-img1.png{% else %}{{ MEDIA_URL }}{{ largephoto }}{% endif %}",
-               caption: '{{adinfo.title}}',
-               description: '{{adinfo.description}}'
-              }, function(response){
-              });
-              }
-              </script>
+                        (function(d, s, id){
+                           var js, fjs = d.getElementsByTagName(s)[0];
+                           if (d.getElementById(id)) {return;}
+                           js = d.createElement(s); js.id = id;
+                           js.src = "//connect.facebook.net/en_US/sdk.js";
+                           fjs.parentNode.insertBefore(js, fjs);
+                         }(document, 'script', 'facebook-jssdk'));
+                      </script>
+                      <script>
+                        function fbshare(){
+                        FB.ui({
+                         method: 'share',
+                         href: '{{request.META.HTTP_HOST}}{{ request.get_full_path }}',
+                         picture: "{{request.META.HTTP_HOST}}{% if largephoto == '' %}{{STATIC_URL}}img/bg-img1.png{% else %}{{ MEDIA_URL }}{{ largephoto }}{% endif %}",
+                         caption: '{{adinfo.title}}',
+                         description: '{{adinfo.description}}'
+                        }, function(response){
+                        });
+                        }
+                      </script>
 
                 <div class="product-details">
                   <div class="product_txt">
-                  <h3>Product Details<span class="price visible-lg">$ {{adinfo.price|conversion}}</span></h3>
+                    <h3>Product Details<span class="price visible-lg">$ {{adinfo.price|conversion}}</span></h3>
                   </div>
                   <div class="product_owner_details">
                     <p class="line_style"><span class="field_name fl">{% trans "Category" %}</span><span>:</span>
@@ -188,16 +187,14 @@
                     <span class="parallel_line">{{adinfo.you_are}}</span></p>
                   </div>
                   {% if adinfo.video%}
-              <div class="video_url">
-                <span>{% trans "Video URL:" %}<a target="__blank" href="{{adinfo.video}}">{{adinfo.video}}</a></span>
-              </div>
-              {% endif %}
+                  <div class="video_url">
+                    <span>{% trans "Video URL:" %}<a target="__blank" href="{{adinfo.video}}">{{adinfo.video}}</a></span>
+                  </div>
+                  {% endif %}
                 </div>
 
               </div>
               
-              
-
                <div class="contact-seller_mobile hidden-lg">
                 <h4 class="seller_mobile">{% trans "Seller details" %}</h4>
                 <div class="owner_contact">
@@ -214,19 +211,18 @@
                     {% endif %}
                     </p>
                     <span class="number_verify_1"><i class="fa fa-check-circle"></i>{% trans "Number verified" %}</span></p>
-
-                </div>
+                </div><!--owner_contact-->
                 <div class="send_msg">
                   <span>{% trans "Send free SMS" %}<i class="fa fa-caret-down caret-down"></i>
-                        <div class="login_holder">
-                  <form id="login_form" method="post" action="">
-                    {% trans "Number:" %}<input type="text" name="username" value="" size="30" />
-                    <br /><br />
-                    <input type="submit" value="send" />
-                    </form>
-                  </div>
+                    <div class="login_holder">
+                        <form id="login_form" method="post" action="">
+                          {% trans "Number:" %}<input type="text" name="username" value="" size="30" />
+                          <br /><br />
+                          <input type="submit" value="send" />
+                        </form>
+                    </div><!--login_holder-->
                   </span>
-                </div>
+                </div><!--send_msg-->
               </div>
 
               <div class="description_box">
@@ -234,7 +230,7 @@
                 <p class="more">{{adinfo.description}}
                 </p>
               </div>
-          </div> <!-- first-column -->
+    </div> <!-- first-column -->
        <!-- {% if adinfo.video %}
          <div class="video_content visible-lg">
                 <video width="200px" height="100px" controls="true">
@@ -314,7 +310,7 @@
       </div> <!-- row row2 -->
  </div> <!-- container -->
 
-  <div class="col-md-2 column-ad visible-lg">
+  <div class="col-md-3 column-ad visible-lg">
       <div class="adv_part">
           {% for banners in banner|get_banner %}
             {% if banners.bannerplan_id == 6 %}
