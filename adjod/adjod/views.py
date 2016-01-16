@@ -74,226 +74,232 @@ from django.template.response import TemplateResponse
 
 
 def test_paypal(request):
-    # What you want the button to do.
-    paypal_dict = {
-        "business": settings.PAYPAL_RECEIVER_EMAIL,
-        "amount": "1.00",
-        "item_name": "name of the item",
-        "notify_url": "http://192.168.1.100:8000/paypal/",
-        "return_url": "http://192.168.1.100:8000/paypal/",
-        "cancel_return": "http://192.168.1.100:8000/postad",
-        "custom": "Upgrade all users!",  # Custom command to correlate to some function later (optional)
-    }
+	# What you want the button to do.
+	paypal_dict = {
+		"business": settings.PAYPAL_RECEIVER_EMAIL,
+		"amount": "1.00",
+		"item_name": "name of the item",
+		"notify_url": "http://192.168.1.100:8000/paypal/",
+		"return_url": "http://192.168.1.100:8000/paypal/",
+		"cancel_return": "http://192.168.1.100:8000/postad",
+		"custom": "Upgrade all users!",  # Custom command to correlate to some function later (optional)
+	}
 
-    # Create the instance.
-    form = PayPalPaymentsForm(initial=paypal_dict)
-    context = {"form": form}
-    return render_to_response('paypal_integration/payment.html',context, context_instance=RequestContext(request))
+	# Create the instance.
+	form = PayPalPaymentsForm(initial=paypal_dict)
+	context = {"form": form}
+	return render_to_response('paypal_integration/payment.html',context, context_instance=RequestContext(request))
 
 #Home page defintion
 @csrf_exempt
 def home(request):
-    if request.user.is_superuser:
-        logout(request)
-        return HttpResponseRedirect('/')
-    return render_to_response('adjod/userpage.html', context_instance=RequestContext(request))
+	if request.user.is_superuser:
+		logout(request)
+		return HttpResponseRedirect('/')
+	return render_to_response('adjod/userpage.html', context_instance=RequestContext(request))
 
 
 @csrf_protect
 def user_login(request):
-    if request.method == 'POST':
-        error={}
-        username = request.POST['email_id']
-        password = request.POST['password']
-        if 'search' in request.POST['next']:
-            next_url = request.POST['next'].split('&')[0]
-        else:
-            next_url = request.POST['next'].split('?')[0]
-        print "next_url", next_url
-        try:
+	if request.method == 'POST':
+		error={}
+		username = request.POST['email_id']
+		password = request.POST['password']
+		if 'search' in request.POST['next']:
+			next_url = request.POST['next'].split('&')[0]
+		else:
+			next_url = request.POST['next'].split('?')[0]
+		print "next_url", next_url
+		try:
 
-            if '@' in username:
-                if not User.objects.filter(email=username).exists():
-                    error['email_exists'] = ugettext('Email Doesnot exists')
-                    print "error['email_exists']",error['email_exists']
-                    raise ValidationError(error['email_exists'], 1)
-            else:
-                if not User.objects.filter(username=username).exists():
-                    error['username_exists'] = ugettext('Username Does not exists')
-                    print "error['username_exists']",error['username_exists']
-                    raise ValidationError(error['username_exists'], 2)
-        except ValidationError as e:
-            messages.add_message(request, messages.ERROR, e.messages[-1])
-            if next_url == '/':
-                redirect_path = "/login/"
-            else:
-                redirect_path = next_url
-            query_string = 'si=%d' % e.code
-            redirect_url = format_redirect_url(redirect_path, query_string)
-            return HttpResponseRedirect(redirect_url)
-        if not error:
-            if not '@' in username:
-                user = User.objects.get(username=username)
-            else:
-                user = User.objects.get(email=username)
-            user.backend='django.contrib.auth.backends.ModelBackend'
-            try:
-                if user.check_password(password):
-                    print user
-                else:
-                    error['password'] = ugettext('Wrong password')
-                    raise ValidationError(error['password'], 3)
-            except ValidationError as e:
-                messages.add_message(request, messages.ERROR, e.messages[-1])
-                if next_url == '/':
-                    redirect_path = "/login/"
-                else:
-                    redirect_path = next_url
-                query_string = 'si=%d' % e.code
-                redirect_url = format_redirect_url(redirect_path, query_string)
-                return HttpResponseRedirect(redirect_url)
-            if user:
-                # Is the account active? It could have been disabled.
-                if user.is_active:
-                    # If the account is valid and active, we can log the user in.
-                    # We'll send the user back to the homepage.
-                    login(request, user)
-                    print user.id
-                    user_id=user.id
-                    # starturl=reverse('start',kwargs={ 'user_id': user.id })
-                    if next_url == '/':
-                        response=HttpResponseRedirect('/start/?user_id=' + str(user.id))
-                    else:
-                        response=HttpResponseRedirect(next_url)
-                    response.set_cookie("chat_email", user.email)
-                    response.set_cookie("chat_user", user.username)
-                    response.set_cookie("chat_userid", user_id)
-                    return response
-                else:
-                    # An inactive account was used - no logging in!
-                    try:
-                        error['inactive'] = ugettext('Your Account is already inactive due to non-maintanence')
-                        raise ValidationError(error['inactive'], 4)
-                    except ValidationError as e:
-			            messages.add_message(request, messages.ERROR, e.messages[-1])
-			            if next_url == '/':
-			                redirect_path = "/login/"
-			            else:
-			                redirect_path = next_url
-			            query_string = 'si=%d' % e.code
-			            redirect_url = format_redirect_url(redirect_path, query_string)
-			            return HttpResponseRedirect(redirect_url)
-    else:
-      return render_to_response('adjod/userpage.html', context_instance=RequestContext(request))
+			if '@' in username:
+				if not User.objects.filter(email=username).exists():
+					error['email_exists'] = ugettext('Email Doesnot exists')
+					print "error['email_exists']",error['email_exists']
+					raise ValidationError(error['email_exists'], 1)
+			else:
+				if not User.objects.filter(username=username).exists():
+					error['username_exists'] = ugettext('Username Does not exists')
+					print "error['username_exists']",error['username_exists']
+					raise ValidationError(error['username_exists'], 2)
+		except ValidationError as e:
+			messages.add_message(request, messages.ERROR, e.messages[-1])
+			if next_url == '/':
+				redirect_path = "/login/"
+			else:
+				redirect_path = next_url
+			query_string = 'si=%d' % e.code
+			redirect_url = format_redirect_url(redirect_path, query_string)
+			return HttpResponseRedirect(redirect_url)
+		if not error:
+			if not '@' in username:
+				user = User.objects.get(username=username)
+			else:
+				user = User.objects.get(email=username)
+			user.backend='django.contrib.auth.backends.ModelBackend'
+			try:
+				if user.check_password(password):
+					print user
+				else:
+					error['password'] = ugettext('Wrong password')
+					raise ValidationError(error['password'], 3)
+			except ValidationError as e:
+				messages.add_message(request, messages.ERROR, e.messages[-1])
+				if next_url == '/':
+					redirect_path = "/login/"
+				else:
+					redirect_path = next_url
+				query_string = 'si=%d' % e.code
+				redirect_url = format_redirect_url(redirect_path, query_string)
+				return HttpResponseRedirect(redirect_url)
+			if user:
+				# Is the account active? It could have been disabled.
+				if user.is_active:
+					# If the account is valid and active, we can log the user in.
+					# We'll send the user back to the homepage.
+					login(request, user)
+					print user.id
+					user_id=user.id
+					# starturl=reverse('start',kwargs={ 'user_id': user.id })
+					if next_url == '/':
+						response=HttpResponseRedirect('/start/?user_id=' + str(user.id))
+					else:
+						response=HttpResponseRedirect(next_url)
+					response.set_cookie("chat_email", user.email)
+					response.set_cookie("chat_user", user.username)
+					response.set_cookie("chat_userid", user_id)
+					return response
+				else:
+					# An inactive account was used - no logging in!
+					try:
+						# error['inactive'] = ugettext('Your Account is already inactive due to non-maintanence')
+						error['inactive'] = ugettext('Inactive Account')
+						raise ValidationError(error['inactive'], 4)
+					except ValidationError as e:
+						messages.add_message(request, messages.ERROR, e.messages[-1])
+						if next_url == '/':
+							redirect_path = "/login/"
+						else:
+							redirect_path = next_url
+						query_string = 'si=%d' % e.code
+						redirect_url = format_redirect_url(redirect_path, query_string)
+						return HttpResponseRedirect(redirect_url)
+	else:
+	  return render_to_response('adjod/userpage.html', context_instance=RequestContext(request))
 
 
 def auto_login(request, user):
-    user.backend = 'django.contrib.auth.backends.ModelBackend'
-    login(request, user)
-    request.session.set_expiry(12 * 30 * 24 * 60 * 60)
+	user.backend = 'django.contrib.auth.backends.ModelBackend'
+	login(request, user)
+	request.session.set_expiry(12 * 30 * 24 * 60 * 60)
 
 
 #User registration definition
 @csrf_protect
 def register(request):
-    if request.method == 'POST' and request.user.is_anonymous():
-        error={}
-        email=request.POST['email_id']
-        username=request.POST['user_id']
-        try:
-            if User.objects.filter(email=email).exists():
-                error['email_exists'] = ugettext('Email already exists')
-                print "error['email_exists']",error['email_exists']
-                raise ValidationError(error['email_exists'], 1)
-            if User.objects.filter(username=username).exists():
-                error['username_exists'] = ugettext('Username already exists')
-                print "error['username_exists']",error['username_exists']
-                raise ValidationError(error['username_exists'], 2)
-        except ValidationError as e:
-            messages.add_message(request, messages.ERROR, e.messages[-1])
-            redirect_path = "/"
-            query_string = 'st=%d' % e.code
-            redirect_url = format_redirect_url(redirect_path, query_string)
-            return HttpResponseRedirect(redirect_url)
-        if not error:
-            userprofile = UserProfile()
-            userprofile.is_active = True
-            userprofile.username=request.POST['user_id']
-            userprofile.email=request.POST['email_id']
-            userprofile.password=request.POST['password']
-            userprofile.set_password(userprofile.password)
-            userprofile.first_name=request.POST['user_id']
-            userprofile.mobile=request.POST['your_mobile_number']
-            try:
-                userprofile.city=City.objects.get(city=request.COOKIES.get('city'))
-            except:
-                userprofile.city=None
-            try:
-                userprofile.language=request.COOKIES.get('adjod_language')
-            except:
-                userprofile.language=None
-            try:
-                userprofile.country_code=request.COOKIES.get('country_code')
-            except:
-                userprofile.country_code=None
-            userprofile.age_status=request.POST.get('confirm')
-            userprofile.confirmation_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for x in range(33))
-            userprofile.save()
-            send_registration_confirmation(userprofile)
-            auto_login(request, userprofile)
-            return HttpResponseRedirect('/start/?user_id=' + str(userprofile.id))
+	if request.method == 'POST' and request.user.is_anonymous():
+		error={}
+		email=request.POST['email_id']
+		username=request.POST['user_id']
+		try:
+			if User.objects.filter(email=email).exists():
+				error['email_exists'] = ugettext('Email already exists')
+				print "error['email_exists']",error['email_exists']
+				raise ValidationError(error['email_exists'], 1)
+			if User.objects.filter(username=username).exists():
+				error['username_exists'] = ugettext('Username already exists')
+				print "error['username_exists']",error['username_exists']
+				raise ValidationError(error['username_exists'], 2)
+			if not error:
+				userprofile = UserProfile()
+				# userprofile.is_active = True
+				userprofile.is_active = False
+				userprofile.username=request.POST['user_id']
+				userprofile.email=request.POST['email_id']
+				userprofile.password=request.POST['password']
+				userprofile.set_password(userprofile.password)
+				userprofile.first_name=request.POST['user_id']
+				userprofile.mobile=request.POST['your_mobile_number']
+				try:
+					userprofile.city=City.objects.get(city=request.COOKIES.get('city'))
+				except:
+					userprofile.city=None
+				try:
+					userprofile.language=request.COOKIES.get('adjod_language')
+				except:
+					userprofile.language=None
+				try:
+					userprofile.country_code=request.COOKIES.get('country_code')
+				except:
+					userprofile.country_code=None
+				userprofile.age_status=request.POST.get('confirm')
+				userprofile.confirmation_code = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for x in range(33))
+				userprofile.save()
+				send_registration_confirmation(userprofile)
+				# auto_login(request, userprofile)
+				# return HttpResponseRedirect('/start/?user_id=' + str(userprofile.id))
+				error['register_success'] = ugettext('Successfully Registered. Please check the mail and confirm your account')
+				print "error['register_success']",error['register_success']
+				raise ValidationError(error['register_success'], 5)
+		except ValidationError as e:
+			messages.add_message(request, messages.ERROR, e.messages[-1])
+			redirect_path = "/"
+			query_string = 'st=%d' % e.code
+			redirect_url = format_redirect_url(redirect_path, query_string)
+			return HttpResponseRedirect(redirect_url)
 
 
 def send_registration_confirmation(userprofile):
-    title = "Resell account confirmation"
-    content = "http://" + settings.SITE_NAME + "/confirm/" + str(userprofile.confirmation_code) + "/" + userprofile.username
-    send_templated_mail(
-                template_name = 'welcome',
-                from_email = 'testmail123sample@gmail.com',
-                recipient_list = [userprofile.email],
-                context={
-                         'user': userprofile,
-                         'content':content,
-                         'email':userprofile.email,
-                },
-            )
-    print "mail send"
+	current_site = Site.objects.get_current()
+	title = "Resell account confirmation"
+	content = current_site.domain + "/confirm/" + str(userprofile.confirmation_code) + "/" + userprofile.username
+	send_templated_mail(
+				template_name = 'welcome',
+				from_email = 'testmail123sample@gmail.com',
+				recipient_list = [userprofile.email],
+				context={
+						 'user': userprofile,
+						 'content':content,
+						 'email':userprofile.email,
+				},
+			)
 
 def confirm(request, confirmation_code, username):
-    try:
-        userprofile = UserProfile.objects.get(username=username)
-        if userprofile.confirmation_code == confirmation_code:
-            userprofile.is_emailverified=True
-            userprofile.save()
-            auto_login(request, userprofile)
-        return HttpResponseRedirect('/start/?user_id=' + str(userprofile.id))
-    except:
-        return HttpResponseRedirect('/')
+	try:
+		userprofile = UserProfile.objects.get(username=username)
+		if userprofile.confirmation_code == confirmation_code:
+			userprofile.is_emailverified=True
+			userprofile.is_active=True
+			userprofile.save()
+			auto_login(request, userprofile)
+		return HttpResponseRedirect('/start/?user_id=' + str(userprofile.id))
+	except:
+		return HttpResponseRedirect('/')
 
 
 def start(request):
-    try:
-        last_active = LastActive.objects.create(user = UserProfile.objects.get(id=request.user.id), session = Session.objects.get(session_key = request.session.session_key))
-        last_active.save()
-    except:
-        pass
-    response = render_to_response('adjod/userpage.html',context_instance=RequestContext(request))
-    response.set_cookie("chat_email", request.user.email)
-    response.set_cookie("chat_user", request.user.username)
-    response.set_cookie("chat_userid", request.user.id)
-    return response
+	try:
+		last_active = LastActive.objects.create(user = UserProfile.objects.get(id=request.user.id), session = Session.objects.get(session_key = request.session.session_key))
+		last_active.save()
+	except:
+		pass
+	response = render_to_response('adjod/userpage.html',context_instance=RequestContext(request))
+	response.set_cookie("chat_email", request.user.email)
+	response.set_cookie("chat_user", request.user.username)
+	response.set_cookie("chat_userid", request.user.id)
+	return response
 
 
 #User Logout definition
 def logout_view(request):
-    if LastActive.objects.filter(user = request.user.id).exists():
-        last_active = LastActive.objects.get(user = request.user.id)
-        last_active.delete()
-    logout(request)
-    response = HttpResponseRedirect("/")
-    response.delete_cookie('chat_email')
-    response.delete_cookie('chat_user')
-    return response
+	if LastActive.objects.filter(user = request.user.id).exists():
+		last_active = LastActive.objects.get(user = request.user.id)
+		last_active.delete()
+	logout(request)
+	response = HttpResponseRedirect("/")
+	response.delete_cookie('chat_email')
+	response.delete_cookie('chat_user')
+	return response
 
 
 # /*  Auto Complete for Category based Brands */
@@ -303,16 +309,16 @@ def autocomplete_keyword(request):
   results = []
   keyterm = request.GET.get('term')
   if keyterm:
-    unsort_dict = {}
-    lead_keywords = Category.objects.filter(name__istartswith=keyterm)
-    # print 'lead_keywords',lead_keywords
-    for lead_keyword in lead_keywords:
-      keyword_strip = lead_keyword.name.strip()
-      keyword_title = keyword_strip.title()
-      unsort_dict[keyword_title] = {'id':lead_keyword.id, 'label':keyword_title, 'value':keyword_title}
-    sorted_dic = OrderedDict(sorted(unsort_dict.iteritems(), key=lambda v: v[0]))
-    for k, v in sorted_dic.iteritems():
-      results.append(v)
+	unsort_dict = {}
+	lead_keywords = Category.objects.filter(name__istartswith=keyterm)
+	# print 'lead_keywords',lead_keywords
+	for lead_keyword in lead_keywords:
+	  keyword_strip = lead_keyword.name.strip()
+	  keyword_title = keyword_strip.title()
+	  unsort_dict[keyword_title] = {'id':lead_keyword.id, 'label':keyword_title, 'value':keyword_title}
+	sorted_dic = OrderedDict(sorted(unsort_dict.iteritems(), key=lambda v: v[0]))
+	for k, v in sorted_dic.iteritems():
+	  results.append(v)
   return HttpResponse(simplejson.dumps(results), mimetype='application/json')
 
 
@@ -323,41 +329,41 @@ def autocomplete_brandlist(request):
   results = []
   keyterm = request.GET.get('term')
   if keyterm:
-    unsort_dict = {}
-    # lead_keywords = Category.objects.filter(name__istartswith=keyterm)
-    # print 'lead_keywords',lead_keywords
-    # if subCatId
-    #     lead_keywords = Category.objects.filter(name__istartswith=keyterm)
-    # else
-    lead_keywords = Dropdown.objects.filter(name__istartswith=keyterm)
-    for lead_keyword in lead_keywords:
-      keyword_strip = lead_keyword.name.strip()
-      keyword_title = keyword_strip.title()
-      unsort_dict[keyword_title] = {'id':lead_keyword.id, 'label':keyword_title, 'value':keyword_title}
-    sorted_dic = OrderedDict(sorted(unsort_dict.iteritems(), key=lambda v: v[0]))
-    for k, v in sorted_dic.iteritems():
-      results.append(v)
+	unsort_dict = {}
+	# lead_keywords = Category.objects.filter(name__istartswith=keyterm)
+	# print 'lead_keywords',lead_keywords
+	# if subCatId
+	#     lead_keywords = Category.objects.filter(name__istartswith=keyterm)
+	# else
+	lead_keywords = Dropdown.objects.filter(name__istartswith=keyterm)
+	for lead_keyword in lead_keywords:
+	  keyword_strip = lead_keyword.name.strip()
+	  keyword_title = keyword_strip.title()
+	  unsort_dict[keyword_title] = {'id':lead_keyword.id, 'label':keyword_title, 'value':keyword_title}
+	sorted_dic = OrderedDict(sorted(unsort_dict.iteritems(), key=lambda v: v[0]))
+	for k, v in sorted_dic.iteritems():
+	  results.append(v)
   return HttpResponse(simplejson.dumps(results), mimetype='application/json')
 
 
 #function for Chat
 def toolbar(request):
-    return render_to_response('views/toolbar.html', context_instance=RequestContext(request))
+	return render_to_response('views/toolbar.html', context_instance=RequestContext(request))
 
 
 def loadbasecurrency(request):
-    basecurrency = BaseCurrency.objects.get(id=1)
-    adjod_base_currency = basecurrency.base_currency
-    base_currency_rate = Rate.objects.get(currency= adjod_base_currency)
-    open_exchange_rate = Rate.objects.all()
-    ExchangeRate.objects.all().delete()
-    for rates in open_exchange_rate:
-        conversion = ExchangeRate()
-        conversion.currency = rates.currency
-        conversion.value = float(rates.value)/float(base_currency_rate.value)
-        # conversion.value = float("{0:.2f}".format(rates.value))/float("{0:.2f}".format(base_currency_rate.value))
-        conversion.save()
-    return HttpResponse('Successfully updated')
+	basecurrency = BaseCurrency.objects.get(id=1)
+	adjod_base_currency = basecurrency.base_currency
+	base_currency_rate = Rate.objects.get(currency= adjod_base_currency)
+	open_exchange_rate = Rate.objects.all()
+	ExchangeRate.objects.all().delete()
+	for rates in open_exchange_rate:
+		conversion = ExchangeRate()
+		conversion.currency = rates.currency
+		conversion.value = float(rates.value)/float(base_currency_rate.value)
+		# conversion.value = float("{0:.2f}".format(rates.value))/float("{0:.2f}".format(base_currency_rate.value))
+		conversion.save()
+	return HttpResponse('Successfully updated')
 
 #Test geo comment this for future reference
 # def geosearch(request):
@@ -395,264 +401,264 @@ from social_auth.views import complete
 
 
 class AuthComplete(View):
-    def get(self, request, *args, **kwargs):
-        backend = kwargs.pop('backend')
-        try:
-            return complete(request, backend, *args, **kwargs)
-        except :
-            messages.error(request, "Your Google Apps domain isn't authorized for this app")
-            return HttpResponseRedirect(reverse('login'))
+	def get(self, request, *args, **kwargs):
+		backend = kwargs.pop('backend')
+		try:
+			return complete(request, backend, *args, **kwargs)
+		except :
+			messages.error(request, "Your Google Apps domain isn't authorized for this app")
+			return HttpResponseRedirect(reverse('login'))
 
 
 class LoginError(View):
-    def get(self, request, *args, **kwargs):
-        return HttpResponse(status=401)
+	def get(self, request, *args, **kwargs):
+		return HttpResponse(status=401)
 
 # changes made by ramya for update profile
 @csrf_exempt
 def user_manage(request):
-    if request.user.is_authenticated():
-        userprofile_id = request.user.id
-        try:
-            my_products = Product.objects.filter(userprofile_id=userprofile_id,status_isactive=True)
-            userprofile = UserProfile.objects.get(id=request.user.id)
-        except UserProfile.DoesNotExist:
-            return render_to_response('404.html', context_instance=RequestContext(request))
-        if request.method == 'POST':
-            mobile = request.POST.get('your_mobile_no')
-            user_age = request.POST.get('user_age')
-            gender = request.POST.get('gender')
-            user_address = request.POST.get('user_address')
-            person_is = request.POST.get('person_is')
-            is_marketing_person = request.POST.get('is_marketing_person')
-            is_allow_sms = request.POST.get('is_allow_sms')
-            locality = Locality.objects.get(id=request.POST['user_locality'])
+	if request.user.is_authenticated():
+		userprofile_id = request.user.id
+		try:
+			my_products = Product.objects.filter(userprofile_id=userprofile_id,status_isactive=True)
+			userprofile = UserProfile.objects.get(id=request.user.id)
+		except UserProfile.DoesNotExist:
+			return render_to_response('404.html', context_instance=RequestContext(request))
+		if request.method == 'POST':
+			mobile = request.POST.get('your_mobile_no')
+			user_age = request.POST.get('user_age')
+			gender = request.POST.get('gender')
+			user_address = request.POST.get('user_address')
+			person_is = request.POST.get('person_is')
+			is_marketing_person = request.POST.get('is_marketing_person')
+			is_allow_sms = request.POST.get('is_allow_sms')
+			locality = Locality.objects.get(id=request.POST['user_locality'])
 
-            def handle_uploaded_file(f):
-                print "settings.MEDIA_ROOT", settings.MEDIA_ROOT
-                profile_picture = open(
-                    settings.MEDIA_ROOT + '/profile/' + '%s' % f.name, 'wb+')
-                for chunk in f.chunks():
-                    profile_picture.write(chunk)
-                profile_picture.close()
+			def handle_uploaded_file(f):
+				print "settings.MEDIA_ROOT", settings.MEDIA_ROOT
+				profile_picture = open(
+					settings.MEDIA_ROOT + '/profile/' + '%s' % f.name, 'wb+')
+				for chunk in f.chunks():
+					profile_picture.write(chunk)
+				profile_picture.close()
 
-            if userprofile:
-                # userprofile.city =City.objects.get(id=1)
-                userprofile.mobile = mobile
-                userprofile.locality = Locality.objects.get(id=int(locality.id))
-                # userprofile.city = City.objects.get(id=request.POST['user_city'])
-                if user_age:
-                    userprofile.user_age = user_age
-                else:
-                    userprofile.user_age = None
-                userprofile.gender = gender
-                userprofile.user_address = user_address
-                userprofile.person_is = person_is
-                userprofile.is_marketing_person = is_marketing_person
-                userprofile.is_allow_sms = is_allow_sms
-                userprofile.last_name = request.POST.get('last_name')
-                if 'profile_poster' in request.FILES:
-                    profile_picture = request.FILES['profile_poster']
-                    handle_uploaded_file(profile_picture)
-                    profile_picture = '/profile/' + str(profile_picture)
-                    userprofile.profile_picture = profile_picture
-                else:
-                    userprofile.profile_picture = userprofile.profile_picture
-                userprofile.save()
-                if request.POST['pswd']:
-                    u = User.objects.get(username=request.user.username)
-                    u.set_password(request.POST.get('pswd'))
-                    u.save()
-            ctx={'my_products':my_products, 'userprofile':userprofile}
-        else:
-            ctx={'my_products':my_products, 'userprofile':userprofile}
-        return render_to_response('adjod/updateprofile.html', ctx, context_instance=RequestContext(request))
-    else:
-        return HttpResponseRedirect('/')
+			if userprofile:
+				# userprofile.city =City.objects.get(id=1)
+				userprofile.mobile = mobile
+				userprofile.locality = Locality.objects.get(id=int(locality.id))
+				# userprofile.city = City.objects.get(id=request.POST['user_city'])
+				if user_age:
+					userprofile.user_age = user_age
+				else:
+					userprofile.user_age = None
+				userprofile.gender = gender
+				userprofile.user_address = user_address
+				userprofile.person_is = person_is
+				userprofile.is_marketing_person = is_marketing_person
+				userprofile.is_allow_sms = is_allow_sms
+				userprofile.last_name = request.POST.get('last_name')
+				if 'profile_poster' in request.FILES:
+					profile_picture = request.FILES['profile_poster']
+					handle_uploaded_file(profile_picture)
+					profile_picture = '/profile/' + str(profile_picture)
+					userprofile.profile_picture = profile_picture
+				else:
+					userprofile.profile_picture = userprofile.profile_picture
+				userprofile.save()
+				if request.POST['pswd']:
+					u = User.objects.get(username=request.user.username)
+					u.set_password(request.POST.get('pswd'))
+					u.save()
+			ctx={'my_products':my_products, 'userprofile':userprofile}
+		else:
+			ctx={'my_products':my_products, 'userprofile':userprofile}
+		return render_to_response('adjod/updateprofile.html', ctx, context_instance=RequestContext(request))
+	else:
+		return HttpResponseRedirect('/')
 
 @login_required
 def edit_postad_detail(request , pk):
-    edit_product = Product.objects.get(pk=int(pk))
-    pic=[n for n in str(edit_product.thumbnail).split(',')]
-    return render_to_response('advertisement/ad_post.html', {'edit_product':edit_product, 'pic':pic}, context_instance=RequestContext(request))
+	edit_product = Product.objects.get(pk=int(pk))
+	pic=[n for n in str(edit_product.thumbnail).split(',')]
+	return render_to_response('advertisement/ad_post.html', {'edit_product':edit_product, 'pic':pic}, context_instance=RequestContext(request))
 
 def update_success(request, pk):
-    error = {}
-    updated_product = Product.objects.get(pk=int(pk))
-    updated_product.category=Category.objects.get(id=request.POST['category_name'])
-    updated_product.subcategory=SubCategory.objects.get(id=request.POST['subcategory_name'])
-    if request.POST['brand_name']:
-        updated_product.ad_brand=Dropdown.objects.get(id=request.POST['brand_name'])
-    else:
-        updated_product.ad_brand=None
-    updated_product.adtype= "sell"
-    updated_product.title=request.POST.get('ad_title')
-    updated_product.price = request.POST.get('your_price')
-    updated_product.ad_year=request.POST.get('your_year')
-    updated_product.description=request.POST.get('description')
-    updated_product.you_are = request.POST.get('you_are_radio')
-    updated_product.you_name = request.POST.get('your_name')
-    updated_product.you_email = request.POST.get('your_email')
-    updated_product.you_phone = request.POST.get('your_mobile_no')
-    updated_product.city=City.objects.get(id=int(request.POST['your_city']))
-    updated_product.locality=Locality.objects.get(id=request.POST['your_locality'])
-    updated_product.country_code = request.COOKIES.get("country_code")
-    # product.photos=request.FILES['photos']
-    if 'photos[]' in request.FILES:
-        photos =request.FILES.getlist('photos[]')
-        print 'photos>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', photos
-        updated_product.photos, updated_product.imagecount, updated_product.thumbnail = create_path_for_photos_thumbanails(photos, updated_product)
-        print 'image_receive', updated_product.photos
-    updated_product.video = request.POST.get('video_url')
-    updated_product.created_date  = datetime.datetime.now()
-    updated_product.modified_date  = datetime.datetime.now()
-    updated_product.expired_date=datetime.datetime.now() + datetime.timedelta(days=30)
-    updated_product.status_isactive  = True
-    updated_product.post_terms=request.POST.get('terms_of_use')
-    if request.user.is_authenticated():
-        if request.POST.get('premium_plan'):
-            plan_price = request.POST["premium_plan"]
-            updated_product.premium_plan = PremiumPriceInfo.objects.get(premium_price=plan_price)
-            updated_product.ispremium = True
-            updated_product_dict = {'userprofile':updated_product.userprofile.id, 'category':updated_product.category, 'subcategory':updated_product.subcategory,
-                        'adtype':updated_product.adtype,'title':updated_product.title, 'photos':updated_product.photos,'thumbnail':updated_product.thumbnail,
-                        'imagecount':updated_product.imagecount,'video':updated_product.video,'condition':updated_product.condition,'price':updated_product.price,
-                        'ad_year':updated_product.ad_year, 'city':updated_product.city, 'locality':updated_product.locality,'country_code':updated_product.country_code,
-                        'description':updated_product.description,'you_are':updated_product.you_are, 'you_name':updated_product.you_name,'you_email':updated_product.you_email,
-                        'you_phone':updated_product.you_phone,'isregistered_user':updated_product.isregistered_user,'ispremium':updated_product.ispremium,
-                        'premium_plan':updated_product.premium_plan,'expired_date':updated_product.expired_date,'status_isactive':updated_product.status_isactive,
-                        'post_term_status':updated_product.post_term_status,"premium_plan":updated_product.premium_plan.id}
-            response = updated_product_dict
-        else:
-            response = None
-    else:
-        response = None
-    updated_product.save()
-    current_site = Site.objects.get_current()
-    send_templated_mail(
-              template_name = 'post_ad',
-              from_email = 'testmail123sample@gmail.com',
-              recipient_list= [updated_product.you_email],
-              context = {
-                 'subject': 'Alert Products',
-                 'content':updated_product.title,
-                 'user':updated_product.you_name ,
-                 'current_site':current_site,
+	error = {}
+	updated_product = Product.objects.get(pk=int(pk))
+	updated_product.category=Category.objects.get(id=request.POST['category_name'])
+	updated_product.subcategory=SubCategory.objects.get(id=request.POST['subcategory_name'])
+	if request.POST['brand_name']:
+		updated_product.ad_brand=Dropdown.objects.get(id=request.POST['brand_name'])
+	else:
+		updated_product.ad_brand=None
+	updated_product.adtype= "sell"
+	updated_product.title=request.POST.get('ad_title')
+	updated_product.price = request.POST.get('your_price')
+	updated_product.ad_year=request.POST.get('your_year')
+	updated_product.description=request.POST.get('description')
+	updated_product.you_are = request.POST.get('you_are_radio')
+	updated_product.you_name = request.POST.get('your_name')
+	updated_product.you_email = request.POST.get('your_email')
+	updated_product.you_phone = request.POST.get('your_mobile_no')
+	updated_product.city=City.objects.get(id=int(request.POST['your_city']))
+	updated_product.locality=Locality.objects.get(id=request.POST['your_locality'])
+	updated_product.country_code = request.COOKIES.get("country_code")
+	# product.photos=request.FILES['photos']
+	if 'photos[]' in request.FILES:
+		photos =request.FILES.getlist('photos[]')
+		print 'photos>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', photos
+		updated_product.photos, updated_product.imagecount, updated_product.thumbnail = create_path_for_photos_thumbanails(photos, updated_product)
+		print 'image_receive', updated_product.photos
+	updated_product.video = request.POST.get('video_url')
+	updated_product.created_date  = datetime.datetime.now()
+	updated_product.modified_date  = datetime.datetime.now()
+	updated_product.expired_date=datetime.datetime.now() + datetime.timedelta(days=30)
+	updated_product.status_isactive  = True
+	updated_product.post_terms=request.POST.get('terms_of_use')
+	if request.user.is_authenticated():
+		if request.POST.get('premium_plan'):
+			plan_price = request.POST["premium_plan"]
+			updated_product.premium_plan = PremiumPriceInfo.objects.get(premium_price=plan_price)
+			updated_product.ispremium = True
+			updated_product_dict = {'userprofile':updated_product.userprofile.id, 'category':updated_product.category, 'subcategory':updated_product.subcategory,
+						'adtype':updated_product.adtype,'title':updated_product.title, 'photos':updated_product.photos,'thumbnail':updated_product.thumbnail,
+						'imagecount':updated_product.imagecount,'video':updated_product.video,'condition':updated_product.condition,'price':updated_product.price,
+						'ad_year':updated_product.ad_year, 'city':updated_product.city, 'locality':updated_product.locality,'country_code':updated_product.country_code,
+						'description':updated_product.description,'you_are':updated_product.you_are, 'you_name':updated_product.you_name,'you_email':updated_product.you_email,
+						'you_phone':updated_product.you_phone,'isregistered_user':updated_product.isregistered_user,'ispremium':updated_product.ispremium,
+						'premium_plan':updated_product.premium_plan,'expired_date':updated_product.expired_date,'status_isactive':updated_product.status_isactive,
+						'post_term_status':updated_product.post_term_status,"premium_plan":updated_product.premium_plan.id}
+			response = updated_product_dict
+		else:
+			response = None
+	else:
+		response = None
+	updated_product.save()
+	current_site = Site.objects.get_current()
+	send_templated_mail(
+			  template_name = 'post_ad',
+			  from_email = 'testmail123sample@gmail.com',
+			  recipient_list= [updated_product.you_email],
+			  context = {
+				 'subject': 'Alert Products',
+				 'content':updated_product.title,
+				 'user':updated_product.you_name ,
+				 'current_site':current_site,
 
-              },
-            )
-    return HttpResponseRedirect('/user_manage/')
+			  },
+			)
+	return HttpResponseRedirect('/user_manage/')
 
 #Check whether to save the product or not
 @transaction.commit_on_success
 def update_product(request, pk):
-    print 'comes'
-    if request.method == 'POST':
-        print "update_product"
-        updated_product = Product.objects.get(pk=int(pk))
-        print 'if product', updated_product
-        if updated_product:
-            try:
-                error={}
-                if request.user.is_authenticated():
-                    print 'auth user'
-                    updated_product.userprofile = UserProfile.objects.get(id=request.user.id)
-                    updated_product.isregistered_user = True
-                    print 'updated_product.userprofile', updated_product.isregistered_user
-                    if updated_product.userprofile.ad_count<3:
-                        print 'updated_product.userprofile.ad_count', updated_product.userprofile.ad_count
-                        updated_product_dict = update_success(request, updated_product)
-                        print 'updated_product' , updated_product
-                        #Store in Userprofile table to know the status of users post ad counts
-                        updated_product.userprofile.ad_count = int(updated_product.userprofile.ad_count)
-                        updated_product.userprofile.save()
-                        if updated_product_dict is None:
-                            error['success'] = ugettext('Ad Successfully updated')
-                            raise ValidationError(error['success'], 7)
-                        else:
-                            response = paypal_transaction(request,updated_product_dict)
-                            print "after all"
-                            return response
-                    else:
-                        # get_object_or_404('/postad/')
-                        error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium')
-                        print "error['exit_count']",error['exit_count']
-                        raise ValidationError(error['exit_count'], 8)
-                else:
-                    updated_product.userprofile = None
-                    update_success(request, updated_product)
-                    error['success'] = ugettext('Ad Successfully updated')
-                    raise ValidationError(error['success'], 7)
+	print 'comes'
+	if request.method == 'POST':
+		print "update_product"
+		updated_product = Product.objects.get(pk=int(pk))
+		print 'if product', updated_product
+		if updated_product:
+			try:
+				error={}
+				if request.user.is_authenticated():
+					print 'auth user'
+					updated_product.userprofile = UserProfile.objects.get(id=request.user.id)
+					updated_product.isregistered_user = True
+					print 'updated_product.userprofile', updated_product.isregistered_user
+					if updated_product.userprofile.ad_count<3:
+						print 'updated_product.userprofile.ad_count', updated_product.userprofile.ad_count
+						updated_product_dict = update_success(request, updated_product)
+						print 'updated_product' , updated_product
+						#Store in Userprofile table to know the status of users post ad counts
+						updated_product.userprofile.ad_count = int(updated_product.userprofile.ad_count)
+						updated_product.userprofile.save()
+						if updated_product_dict is None:
+							error['success'] = ugettext('Ad Successfully updated')
+							raise ValidationError(error['success'], 7)
+						else:
+							response = paypal_transaction(request,updated_product_dict)
+							print "after all"
+							return response
+					else:
+						# get_object_or_404('/postad/')
+						error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium')
+						print "error['exit_count']",error['exit_count']
+						raise ValidationError(error['exit_count'], 8)
+				else:
+					updated_product.userprofile = None
+					update_success(request, updated_product)
+					error['success'] = ugettext('Ad Successfully updated')
+					raise ValidationError(error['success'], 7)
 
-            except ValidationError as e:
-                messages.add_message(request, messages.ERROR, e.messages[-1])
-                redirect_path = "/postad/"
-                query_string = 'pt=%d' % e.code
-                redirect_url = format_redirect_url(redirect_path, query_string)
-                return HttpResponseRedirect(redirect_url)
-    else:
-        return HttpResponseRedirect("/postad/")
+			except ValidationError as e:
+				messages.add_message(request, messages.ERROR, e.messages[-1])
+				redirect_path = "/postad/"
+				query_string = 'pt=%d' % e.code
+				redirect_url = format_redirect_url(redirect_path, query_string)
+				return HttpResponseRedirect(redirect_url)
+	else:
+		return HttpResponseRedirect("/postad/")
 
 @csrf_exempt
 def delete_ad(request):
-    if request.method == 'POST':
-        get_products = []
-        product_list = request.POST.get('selected')
-        print 'product_list', product_list
-        list_items = product_list.split(',')
-        print 'list_items', list_items
-        get_products = [int(i) for i in list_items]
-        products = Product.objects.filter(pk__in=get_products)
-        print 'products', products
-        for deactivate_product in products:
-            print 'deactivate_product', deactivate_product
-            deactivate_product.status_isactive = False
-            deactivate_product.save()
-        my_products = Product.objects.filter(userprofile_id=request.user.id, status_isactive=1)
-        print 'my_products', my_products
-    return render_to_response('adjod/updateprofile.html', {'my_products':my_products}, context_instance=RequestContext(request))
+	if request.method == 'POST':
+		get_products = []
+		product_list = request.POST.get('selected')
+		print 'product_list', product_list
+		list_items = product_list.split(',')
+		print 'list_items', list_items
+		get_products = [int(i) for i in list_items]
+		products = Product.objects.filter(pk__in=get_products)
+		print 'products', products
+		for deactivate_product in products:
+			print 'deactivate_product', deactivate_product
+			deactivate_product.status_isactive = False
+			deactivate_product.save()
+		my_products = Product.objects.filter(userprofile_id=request.user.id, status_isactive=1)
+		print 'my_products', my_products
+	return render_to_response('adjod/updateprofile.html', {'my_products':my_products}, context_instance=RequestContext(request))
 
 # Customized view for auto login
 # Doesn't need csrf_protect since no-one can guess the URL
 @sensitive_post_parameters()
 @never_cache
 def password_reset_confirm(request, uidb36=None, token=None,
-                           template_name='registration/password_reset_confirm.html',
-                           token_generator=default_token_generator,
-                           set_password_form=SetPasswordForm,
-                           post_reset_redirect=None,
-                           current_app=None, extra_context=None):
-    """
-    View that checks the hash in a password reset link and presents a
-    form for entering a new password. (Customized)
-    """
-    assert uidb36 is not None and token is not None # checked by URLconf
-    if post_reset_redirect is None:
-        post_reset_redirect = reverse('django.contrib.auth.views.password_reset_complete')
-    try:
-        uid_int = base36_to_int(uidb36)
-        user = User.objects.get(id=uid_int)
-    except (ValueError, User.DoesNotExist):
-        user = None
+						   template_name='registration/password_reset_confirm.html',
+						   token_generator=default_token_generator,
+						   set_password_form=SetPasswordForm,
+						   post_reset_redirect=None,
+						   current_app=None, extra_context=None):
+	"""
+	View that checks the hash in a password reset link and presents a
+	form for entering a new password. (Customized)
+	"""
+	assert uidb36 is not None and token is not None # checked by URLconf
+	if post_reset_redirect is None:
+		post_reset_redirect = reverse('django.contrib.auth.views.password_reset_complete')
+	try:
+		uid_int = base36_to_int(uidb36)
+		user = User.objects.get(id=uid_int)
+	except (ValueError, User.DoesNotExist):
+		user = None
 
-    if user is not None and token_generator.check_token(user, token):
-        validlink = True
-        if request.method == 'POST':
-            form = set_password_form(user, request.POST)
-            if form.is_valid():
-                form.save()
-                auto_login(request, user) # Auto login
-                return HttpResponseRedirect(post_reset_redirect)
-        else:
-            form = set_password_form(None)
-    else:
-        validlink = False
-        form = None
-    context = {
-        'form': form,
-        'validlink': validlink,
-    }
-    if extra_context is not None:
-        context.update(extra_context)
-    return TemplateResponse(request, template_name, context,
-                            current_app=current_app)
+	if user is not None and token_generator.check_token(user, token):
+		validlink = True
+		if request.method == 'POST':
+			form = set_password_form(user, request.POST)
+			if form.is_valid():
+				form.save()
+				auto_login(request, user) # Auto login
+				return HttpResponseRedirect(post_reset_redirect)
+		else:
+			form = set_password_form(None)
+	else:
+		validlink = False
+		form = None
+	context = {
+		'form': form,
+		'validlink': validlink,
+	}
+	if extra_context is not None:
+		context.update(extra_context)
+	return TemplateResponse(request, template_name, context,
+							current_app=current_app)
