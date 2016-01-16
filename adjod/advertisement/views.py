@@ -64,6 +64,9 @@ from moneyed import Money
 from djmoney_rates.utils import convert_money_without_symbol
 from djmoney_rates.data import CURRENCIES_BY_COUNTRY_CODE
 
+#For storing no of views for products
+from tracking.utils import update_product_viewed_count
+
 class JSONResponse(HttpResponse):
 	def __init__(self, data):
 		super(JSONResponse, self).__init__(
@@ -139,9 +142,15 @@ def product_detail(request, pk):
 	# print "recommendresults", recommendresults
 	# for recommendresult in recommendresults:
 	#     print "searchresults:", recommendresult
+	if request.GET.get('ad') == "active":
+		adinfo=Product.objects.get(pk=int(pk))
+		adinfo.status_isactive = True
+		adinfo.save()
 	related_product=Product.get_related(adinfo)
 	print "related_product", related_product
-	ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto,'related_product':related_product}
+	update_product_viewed_count(request, pk)
+	product_viewed_count = ProductStatistic.objects.filter(product=int(pk)).count()
+	ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto,'related_product':related_product,'product_viewed_count':product_viewed_count}
 	return render_to_response('advertisement/ad_detail.html',ctx, context_instance=RequestContext(request))
 	# return TemplateResponse(request, 'advertisement/ad_detail.html', ctx)
 
@@ -269,7 +278,6 @@ def post_success(request, product):
 	product.created_date  = datetime.datetime.now()
 	product.modified_date  = datetime.datetime.now()
 	product.expired_date=datetime.datetime.now() + datetime.timedelta(days=30)
-	product.status_isactive  = True
 	product.post_terms=request.POST.get('terms_of_use')
 	if request.user.is_authenticated() and not request.user.is_superuser:
 		if request.POST.get('premium_plan'):
@@ -293,9 +301,9 @@ def post_success(request, product):
 		response = None
 	product.save()
 	print "product.id",product.id
-	link = "http://" + settings.SITE_NAME + "/ads/" 
-	update_link ="http://" + settings.SITE_NAME + "/user_manage/" 
 	current_site = Site.objects.get_current()
+	link = current_site.domain + "/ads/" 
+	# update_link ="http://" + settings.SITE_NAME + "/user_manage/" 	
 	send_templated_mail(
 			  template_name = 'post_ad',
 			  from_email = 'testmail123sample@gmail.com',
@@ -306,7 +314,7 @@ def post_success(request, product):
 				 'current_site':current_site,
 				 'id':product.id,
 				 'link':link,
-				 'update_link':update_link,
+				 # 'update_link':update_link,
 			  },
 			)
 	return response
@@ -317,12 +325,12 @@ def product_save(request):
     if request.method == 'POST':
         print "product_save"
         product=Product()
-
         try:
             error={}
             if request.user.is_authenticated() and not request.user.is_superuser:
                 product.userprofile = UserProfile.objects.get(id=request.user.id)
                 product.isregistered_user = True
+                product.status_isactive  = True
                 if product.userprofile.ad_count < 3 or product.userprofile.is_subscribed == True:
                     product_dict = post_success(request, product)
                     #Store in Userprofile table to know the status of users post ad counts
@@ -342,10 +350,11 @@ def product_save(request):
                     raise ValidationError(error['exit_count'], 6)
             else:
                 product.userprofile = None
+                product.status_isactive  = False
                 emailfilter = Product.objects.filter(you_email=request.POST.get('your_email')).count()
                 if emailfilter < 3:
                     post_success(request, product)
-                    error['success'] = ugettext('Congratulations...Your Ad Successfully posted')#Ad Successfully posted
+                    error['success'] = ugettext('Your Ad Successfully posted. Please confirm your ad in email to make active')#Ad Successfully posted
                     raise ValidationError(error['success'], 5)
                 else:
                     error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium. ')#
