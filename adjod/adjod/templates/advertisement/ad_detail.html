@@ -26,20 +26,23 @@
                   <span class="Ad-ID">{% trans "Ad ID:" %}{{adinfo.id}} | {{adinfo.created_date}} | {{product_viewed_count}} views</span>
               </div>
               <div class="product-image visible-lg">
-                    <div class="upperimg">
+                    {%for photo in photos %}
+                    <div class="upperimg lightbox" data-big="{{ MEDIA_URL }}{{ photo }}">
                       {% if largephoto = '' %}
                           <img  src="{{STATIC_URL}}img/bg-img1.png" class="dn">
                       {% else %}
-                        <img  src="{{ MEDIA_URL }}{{ largephoto }}" class="dn">
+                        <img  src="{{ MEDIA_URL }}{{ photo }}" class="dn">
                       {% endif %}
                     </div><!--upperimg-->
+                    {%endfor%}
                     <div class="thumb_holder">
-                      {%for photo in photos %}
-                        <div class="thumbs nb col-md-2 lightbox" data-big="{{ MEDIA_URL }}{{ photo }}">
-                           {% if photo = '' %}
-                           <img src="{{STATIC_URL}}img/bg-img1.png">
+                      {%for thumbnail in thumbnails %}
+                        <!-- <div class="thumbs nb col-md-2 lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
+                         <div class="thumbs nb col-md-2">
+                           {% if thumbnail = '' %}
+                           <img src="{{STATIC_URL}}img/bg-img1.png" class="dn">
                            {% else %}
-                          <img src="{{ MEDIA_URL }}{{ photo }}">
+                          <img src="{{ MEDIA_URL }}{{ thumbnail }}" class="dn">
                           {% endif %}
                         </div><!--thumbs-->
                       {%endfor%}

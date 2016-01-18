@@ -21,11 +21,11 @@
         {% endfor %}  -->
        <!--  <a href="#" class="current_page list_folder1 ">All category</a> -->
 
-        <a class="list_display current_page">
+        <a class="list_display current_page" data-target="">
           <!-- <i class="fa fa-angle-right right"></i> -->
            </a>
         <!-- <i class="fa fa-angle-right right"></i> -->
-         <a class="list_display_subcat current_page">
+         <a class="list_display_subcat current_page" data-target="">
          <!--  <i class="fa fa-angle-right right"></i> -->
            </a>
         <a class="list_display_brand current_page"></a>
@@ -43,11 +43,20 @@
           <!-- <p>{{ page.number }} of {{page.paginator.num_pages}} Results</p> -->
           <div class="founded_no">
           </div>
-          <div id="richmedia_6">
+          <!-- <div id="richmedia_6">
               <a href="http://a.tribalfusion.com/h.click/agmP8qpTB45FM5VrfZaW671Pqf0QV3pStZbM1WZbxVPbw3Vv1XUUDUmPq5mQ9P6MC2HBq1HQAndEn5PvQ3sUeTGQ8WcngR6FmTWFRWrjP3F2oVa7tTT39QTrZaQVZbCQUiwRHY7UVv55Fquodyq0qmp2HbGSGbA26rEptiyTtZb6XFbcYUF6XqarPbJstnXsdv/http://download.mywebface.com/index.jhtml?partner=GRxdm059&amp;offer_id=869&amp;a=302&amp;oc=1204&amp;c=3440&amp;dm=1&amp;s1=225556&amp;s2=&amp;s3=&amp;s4=&amp;s5=" target="_blank">
               <img width="728" height="90" border="0" src="http://cdnx.tribalfusion.com/media/3794856.gif">
               </a>
-         </div>
+         </div> -->
+         {% for banners in banner|get_banner %}
+         {% if banners.bannerplan.page == "Listing page" and banners.bannerplan.position == "Top" and banners.bannerplan.bannertype == "Google" %}
+         <div align="center" id="richmedia_6">
+          <a href="{{banners.link}}" target="_blank">
+            <img width="728" height="90" border="0" src="{{MEDIA_URL}}{{banners.banner}}">
+          </a>
+          </div>
+         {% endif %}
+         {% endfor %}
           <div class="sort_part">
                <div class="app col-md-2 hidden-lg"><p class="app_filter">{% trans "Apply filters" %}</p></div><!--app-->
                <span class="sortclass">{% trans "Sort by" %}</span>
@@ -77,6 +86,7 @@
              <input id="search_form" type="hidden" name="{{form.q.html_name}}"  value="{{form.q.value|default:''}}"/>
              <input type="hidden" name="page"  value="{{page.number}}"/>
              <input type="hidden" name="locality" id="locality" value="">
+             <input type="hidden" name="category" id="category" value="{{ categories.id }}">
 
              <ul class="main_list">
                   <!--  All Categories & Sub-Categories to Display in Advance Search-->
@@ -85,7 +95,7 @@
                             {% for categories in initial_load|get_categories %}
                               <li class="list_folder">
                                   <img src="{{ MEDIA_URL }}{{categories.icon}}" class="category_icon">
-                                  <a class="has_sub categoryselected get">
+                                  <a class="has_sub categoryselected get" data-target="{{categories.id}}">
                                       {{categories}} <span class="product_quantity"> {{ categories.count }} </span>
                                   </a>
                                     <ul class="hide_list hidelist1 subclick">
@@ -289,7 +299,7 @@
 
 <div class="leftslide visible-lg">
   {% for banners in banner|get_banner %}
-    {% if banners.bannerplan_id == 8 %}
+    {% if banners.bannerplan.page == "Listing page" and banners.bannerplan.position == "Left" and banners.bannerplan.bannertype == "Own" %}
       <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad1" />
     {% endif %}
   {% endfor %}
@@ -297,7 +307,7 @@
 
 <div class="leftslide1 visible-lg">
   {% for banners in banner|get_banner %}
-    {% if banners.bannerplan_id == 9 %}
+    {% if banners.bannerplan.page == "Listing page" and banners.bannerplan.position == "Right" and banners.bannerplan.bannertype == "Own" %}
       <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad1" />
     {% endif %}
   {% endfor %}
@@ -412,9 +422,9 @@
       <ul class="fifth_part">
         {% for banners in banner|get_banner %}
 
-          {% if banners.bannerplan_id == 10 %}
+          {% if banners.bannerplan.page == "Listing page" and banners.bannerplan.position == "Bottom" and banners.bannerplan.bannertype == "Own" %}
           
-            <img src="{{MEDIA_URL}}{{banners.banner}}" style="height:120px;width:970px;" />
+            <img src="{{MEDIA_URL}}{{banners.banner}}" style="height:120px;width:970px;"/>
           {% endif %}
         {% endfor %}
       </ul>

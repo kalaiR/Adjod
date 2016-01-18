@@ -314,8 +314,9 @@ $( document ).ready(function() {
     $('.product_image img').load(function(){
         $(this).center();
     });
-    $('.product-image img').load(function(){
+    $('.upperimg img').load(function(){
         $(this).center();
+        $('.upperimg img:not(:first)').hide();
     });
     $('.thumbs img').load(function(){
         $(this).center();
@@ -1125,5 +1126,8 @@ $( document ).ready(function() {
    $(".scroll_close").click(function(){
     $('html, body').animate({scrollTop: '+=1700px'}, 800);
    });
-  
+
+   $('.upperimg img').on('hover', function(){
+    $('.view_icon').show();
+   });
 });
