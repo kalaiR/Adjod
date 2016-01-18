@@ -2,13 +2,13 @@ from django.contrib import admin
 from banner.models import *
 
 class BannerPlanAdmin(admin.ModelAdmin):
-    list_display = ('id','page','position', 'price', 'plan_duration')
-    list_filter = ['page', 'position',]
-    search_fields = ['id', 'page','position','price','plan_duration']
+    list_display = ('id','page','position', 'price', 'plan_duration','bannertype')
+    list_filter = ['page', 'position','bannertype']
+    search_fields = ['id', 'page','position','price','plan_duration','bannertype']
     # readonly_fields =['id']
     fieldsets = [
       ('Add BannerPlan', {
-          'fields': [ 'page','position','price', 'plan_duration']
+          'fields': [ 'page','position','price', 'plan_duration','bannertype']
       }),
     ]
     list_per_page = 50

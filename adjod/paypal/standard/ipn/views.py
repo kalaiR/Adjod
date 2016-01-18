@@ -32,6 +32,9 @@ def show_me_the_money(sender, **kwargs):
 payment_was_successful.connect(show_me_the_money)
 
 def store_transaction(request,ipn_obj):
+	query = ipn_obj.query.split('&')
+	data = dict(item.split("=") for item in ipn_obj.query.split("&"))
+	print "data", data
 	if request.COOKIES.get('product_id') and request.COOKIES.get('premiumplan'):
 		print "product if"
 		sub_type="product"
@@ -65,7 +68,8 @@ def store_transaction(request,ipn_obj):
 					transaction.save()
 					status = "completed"
 			product.save()
-	elif request.COOKIES.get('transaction_type'):
+	# elif request.COOKIES.get('transaction_type'):
+	elif data['item_name'] == "Account+Subscription":
 		print "transaction_type"
 		sub_type="account"	
 		premium_plan = PremiumPriceInfo.objects.get(purpose="account_subscription")
@@ -186,8 +190,8 @@ def ipn(request, item_check_callable=None):
 		response.delete_cookie('product_id')
 	if request.COOKIES.get('premiumplan'):
 		response.delete_cookie('premiumplan')
-	if request.COOKIES.get('transaction_type'):
-		response.delete_cookie('transaction_type')
+	# if request.COOKIES.get('transaction_type'):
+	# 	response.delete_cookie('transaction_type')
 	return response
 	
 

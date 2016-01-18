@@ -19,18 +19,23 @@ PAGEURL = (
     ('Details page', 'Details page'),
 )
 
+BANNERTYPE = (
+    ('Own', 'Own Banner'),
+    ('Google', 'Google Banner'),
+)
+
 class BannerPlan(models.Model):
     page = models.CharField(max_length=50, choices=PAGEURL,help_text='Choose which page you want show your banner')
     position = models.CharField(max_length=50, choices=POSITION,help_text='Choose position of your banner')
     price = models.FloatField(null=True, default=0.0,help_text='Amount of the banner based on page and position')
     plan_duration = models.BigIntegerField(
         null=True, help_text="No of days allowed")
-
+    bannertype = models.CharField(max_length=50, choices=BANNERTYPE, help_text='Choose BannerType of your banner')
     class Meta:
-        unique_together = [("page", "position")]
+        unique_together = ("page", "position", "bannertype")
 
     def __unicode__(self):
-        return unicode(self.page+self.position)
+        return unicode(self.page+' '+self.position+' '+self.bannertype)
 
 
 class PostBanner(models.Model):

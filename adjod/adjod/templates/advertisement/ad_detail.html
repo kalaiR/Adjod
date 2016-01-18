@@ -35,7 +35,7 @@
                     </div><!--upperimg-->
                     <div class="thumb_holder">
                       {%for photo in photos %}
-                        <div class="thumbs nb col-md-2">
+                        <div class="thumbs nb col-md-2 lightbox" data-big="{{ MEDIA_URL }}{{ photo }}">
                            {% if photo = '' %}
                            <img src="{{STATIC_URL}}img/bg-img1.png">
                            {% else %}
@@ -135,7 +135,7 @@
               </div><!--contact-seller visible-lg-->
               <div class="detail_add1 visible-lg">
                 <img src="/../media/banners/watsapp_ad.png">
-                <a href="https://www.whatsapp.com/"><img src="/../media/banners/download_ad.png" class="click_link"></a>
+                <a href="https://www.whatsapp.com/" target="__blank"><img src="/../media/banners/download_ad.png" class="click_link"></a>
               </div><!--detail_add1-->
     <div class="col-md-8 first-column">
                 <div class="column-height">

@@ -18,6 +18,7 @@
     <link href="{% static "css/jquery.ui.chatbox.css" %}" rel="stylesheet">
     <link href="{% static "css/simpleFilePreview.css" %}" rel="stylesheet">
     <link href="{% static "css/intlTelInput.css" %}" rel="stylesheet">
+    <link href="{% static "css/lightbox.css" %}"  rel="stylesheet">
     <!-- <script src="{% static "js/jquery-1.9.1.js" %}"></script>
     <script src="{% static "js/jquery-ui.min.js" %}"></script> -->
     <script src="{% static "js/jquery-1.11.3.min.js" %}"></script>
@@ -48,6 +49,7 @@
     <script src="{% static "js/intlTelInput.min.js" %}"></script>
     <script src="{% static "js/mobile_action.js" %}"></script>
     <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script> 
+    <script src="{% static "js/lightbox.js" %}"></script>
     <script type="text/javascript">    
       function updateCountdownTitle() {
           var remaining = 200 - $('.ad_title').val().length;
@@ -64,6 +66,10 @@
           $('html, body').animate({scrollTop: '+=1000px'}, 800);
       }
     }
+    document.addEventListener("DOMContentLoaded", function() {
+      // alert("DOMContentLoaded");
+    var init = new lightBox();
+  });
     </script>
 
 </head>

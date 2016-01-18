@@ -144,7 +144,7 @@
 
                 <li class="product_lists ">
                   <div class="product_image">
-                    <p class="{% if recentads.premium_plan_id = None %} premium-img {% elif recentads.premium_plan_id = 1 %} premium-img1 {% elif recentads.premium_plan_id = 2 %} premium-img2 {% elif recentads.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>
+                    <p class="{% if recentads.premium_plan_id = None %} premium-img {% elif recentads.premium_plan_id = 4 %} premium-img1 {% elif recentads.premium_plan_id = 3 %} premium-img2 {% elif recentads.premium_plan_id = 2 %} premium-img3 {% endif%} "></p>
                     <a href="{% url product_detail recentads.id %}" class="">
                       {% if recentads.photos = '' %}
                         <img src="{{STATIC_URL}}img/bg-img1.png" class="dn">

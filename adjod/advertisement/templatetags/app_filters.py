@@ -11,13 +11,13 @@ register = template.Library()
 
 @register.filter
 def get_photos(photo):
-    photo=str(photo).split(',')
-    return photo[0]
+	photo=str(photo).split(',')
+	return photo[0]
 
 @register.filter
 def get_videos(video):
-    video=str(video).split(',')
-    return video[0]
+	video=str(video).split(',')
+	return video[0]
 
 @register.filter
 def get_categories(initial_load):
@@ -48,7 +48,7 @@ def get_banner(banner):
 
 @register.filter
 def conversion(price):
-    return convert(price)
+	return convert(price)
 
 @register.filter
 def get_symbol(country):
@@ -95,3 +95,13 @@ def quantize(value,arg=None):
 	elif rounding=="rhu": rounding=decimal.ROUND_HALF_UP
 	newnum=num.quantize(decimal.Decimal(precision),rounding=rounding)
 	return newnum
+
+# @register.filter
+# def order_by_data(queryset, args):
+# 	# args = [x.strip() for x in args.split(',')]
+# 	# print "args", args
+# 	queryset = [x for x in args.split(' ')]
+# 	print "queryset", queryset
+# 	queryset = queryset.order_by('-premium_plan_id')
+# 	print "order by queryset", queryset
+# 	return queryset
