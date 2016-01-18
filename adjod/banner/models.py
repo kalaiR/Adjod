@@ -41,9 +41,9 @@ class BannerPlan(models.Model):
 class PostBanner(models.Model):
     # user = models.ForeignKey(UserProfile, null=True, blank=True,help_text='Choose which user post banner in site')
     banner = ContentTypeRestrictedFileField(upload_to='banners',
-        content_types=['image/jpeg', 'image/png'], max_upload_size=2097152,
+        content_types=['image/jpeg', 'image/png','image/gif'], max_upload_size=2097152,
         help_text="Please upload the banner Image with 2MB min and jpg, png \
-        format only allowed")
+        , gif format only allowed")
     link = models.CharField(max_length=200, null=True,
                             blank=True,
                             help_text="Please enter the website link")
