@@ -34,7 +34,7 @@ class ProductIndex(SearchIndex, Indexable):
     # country= CharField(model_attr='country__id')
     # country=CharField(model_attr='country__id') 
     ispremium=CharField(model_attr='ispremium') 
-    premium_plan_id=CharField(model_attr='premium_plan_id',null=True)
+    premium_plan_id=CharField(model_attr='premium_plan__id',null=True)
     status_isactive=BooleanField(model_attr='status_isactive')
 
     def autoUpdateRebuild_index(self):
@@ -73,7 +73,8 @@ class ProductIndex(SearchIndex, Indexable):
         return Product
     
     def index_queryset(self, **kwargs):
-        product = Product.objects.filter(status_isactive=1)
+        product = Product.objects.filter(status_isactive=1).order_by('-premium_plan','-created_date')
+        print "product index_queryset", product
         # product = Product.objects.all()
         return product
 

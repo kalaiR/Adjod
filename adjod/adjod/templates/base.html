@@ -279,7 +279,7 @@
                         {% if query or request.REQUEST.q or request.REQUEST.q == '' %}
                           <input type="text" name="q" id="q" class="form-control input-lg" placeholder="Search here" value="{% if query %}{{ query }}{% elif request.REQUEST.q %}{{request.REQUEST.q}}{% elif request.REQUEST.q == '' %}{% else %}{% endif %}" />
                         {% else %}
-                          <input type="text" name="q" id="q" class="form-control input-lg" placeholder="Search here" value="{% if recent_viewed_search %}{% for cat in recent_viewed_search|slice:'1' %}{% if cat.activity_view %}{{ cat.activity_view }}{% else %}{% endif %}{% endfor %}{% else %}{% endif %}" />
+                          <input type="text" name="q" id="q" class="form-control input-lg" placeholder="Search here" value=""/>
                         {% endif %}
                         </div>
                       <button type="submit"class="btn btn-lg btn-success search_b">Search</button>
