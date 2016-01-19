@@ -285,7 +285,7 @@
                         </div>
                         <div class="additional_details">
                           <h3>$ {{related_products.object.price}}</h3>
-                          <span class="product_time">8 minutes ago</span>
+                          <span class="product_time">{{related_products.object.created_date|timesince}}</span>
                           <!-- <span class="number_verify1 visible-lg">Number verified<i class="fa fa-check-circle checkcircle"></i></span>
                           <a href="" class="btn btn-default contact_button visible-lg">Contact</a> -->
                         </div>

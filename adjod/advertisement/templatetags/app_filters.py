@@ -95,13 +95,3 @@ def quantize(value,arg=None):
 	elif rounding=="rhu": rounding=decimal.ROUND_HALF_UP
 	newnum=num.quantize(decimal.Decimal(precision),rounding=rounding)
 	return newnum
-
-# @register.filter
-# def order_by_data(queryset, args):
-# 	# args = [x.strip() for x in args.split(',')]
-# 	# print "args", args
-# 	queryset = [x for x in args.split(' ')]
-# 	print "queryset", queryset
-# 	queryset = queryset.order_by('-premium_plan_id')
-# 	print "order by queryset", queryset
-# 	return queryset
