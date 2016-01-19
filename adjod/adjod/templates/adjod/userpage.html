@@ -163,12 +163,17 @@
                   </div>
                   <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a></div>
                   <div class="detail">
-                    <span class="currency_product fr">{{country_code|get_symbol}}{{recentads.price|conversion|quantize}}</span>
-                    <span class="product_time_user">8 minutes ago</span>
-                    <span class="product_description"> {{ recentads.description|truncatewords:10 }}</span>
-                    <span class="product_date">Jan18,2016</span>
-                    <span class="product_user"> {{recentads.condition}} | in {{recentads.locality.locality}} | By {{recentads.you_are}}</span>
+                    <div class="user_detail1">
+                      <span class="product_description"> {{ recentads.description|truncatewords:10 }}</span>
+                      <!-- <span class="product_date">Jan18,2016</span> -->
+                      <span class="product_user"> {{recentads.condition}} | in {{recentads.locality.locality}} | By {{recentads.you_are}}</span>
+                    </div><!--user_detail1-->
+                    <div class="user_detail2">
+                      <span class="currency_product fr">{{country_code|get_symbol}}{{recentads.price|conversion|quantize}}</span>
+                      <span class="product_time_user">8 minutes ago</span>
+                  </div><!--user_detail2-->
                   </div> <!-- detail -->
+                  
                 </li>
                 {% endfor %}
               </ul>
