@@ -17,7 +17,7 @@
     {% endif %}
     {% endfor %}
    
-    <div class="row row_1 col-md-12 visible-lg">
+    <div class="row row_1 col-md-12">
             {% for categories in category %}
                     {% if forloop.counter0|divisibleby:4 %}
                     <div class="col-md-4">
@@ -33,8 +33,8 @@
                               <!-- <a href="/addproduct/" class=""><code></code></a> -->
                               <a href="/addproduct/" class=""><img src="{{ MEDIA_URL }}{{categories.icon}}"></a>
                                 <div class="cate_name">
-                                <a href="/search/?q=&category={{categories.id}}" class=""><h4>{% trans categories.name %}</h4></a>
-                                <span class="brand">{{categories.category_type}}<i class="fa fa-chevron-right arrow_right"></i>
+                                <a href="/search/?q=&category={{categories.id}}" class=""><h4>{% trans categories.name %}</h4><i class="fa fa-chevron-right arrow_right"></i></a>
+                                <span class="brand">{{categories.category_type}}
                                 </span>
                                 </div>
                               </li>
@@ -47,7 +47,7 @@
     </div> <!-- row1 -->
 
 
-<div class="row col-md-12 hidden-lg">
+<div class="row col-md-12 hidden-lg hidden-xs">
         <div id="home_menu">
          <!-- Normal Search and Advance Form Start -->
         <form id="form_search_filter" class="form_search_filter">
@@ -170,7 +170,9 @@
                   <div class="product_name"><a href="{% url product_detail recentads.id %}" class="span"> {{recentads.title}}</a></div>
                   <div class="detail">
                     <span class="currency_product fr">{{country_code|get_symbol}}{{recentads.price|conversion|quantize}}</span>
+                    <span class="product_time_user">8 minutes ago</span>
                     <span class="product_description"> {{ recentads.description|truncatewords:10 }}</span>
+                    <span class="product_date">Jan18,2016</span>
                     <span class="product_user"> {{recentads.condition}} | in {{recentads.locality.locality}} | By {{recentads.you_are}}</span>
                   </div> <!-- detail -->
                 </li>

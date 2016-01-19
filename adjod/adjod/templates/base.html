@@ -77,9 +77,9 @@
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/nkAydfUqi1s" frameborder="0" allowfullscreen></iframe> -->
     <div class="top_header">
       <div class="container">
-        <nav class="navbar navbar-inverse navigation_bar logo_contain">
-          <div class="navbar-header">
-          {% if path == '/' %}
+      <nav class="navbar navbar-inverse navigation_bar logo_contain">
+        <div class="navbar-header">
+          {% if path == '/' or 'start' in path  %}
             <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -88,23 +88,65 @@
             <div class="logo_mobile">
               <a href="#"><code></code></a>
             </div><!--logo_mobile-->
-            <div class="select_area">
-              <i class="fa fa-map-marker location_font"></i>
-                <select class="select_area">
-                          <option  id="currentid" value="Select Locality">Select Locality</option>
-                            {% for localities in locality %}
-                                <option value="{{localities.id}}" id="ajax_cityid">{{ localities.locality }} </option>
-                            {% endfor%}
-                  </select>
-                 <i class="fa fa-chevron-down down_font"></i>
-              </div><!--select_area-->
-           {% endif %}
+            <div class="custom_select language_custom_select lang_select hidden-lg">
+              <div class="select">
+                  <p>
+                      {% if request.LANGUAGE_CODE == 'en' or request.REQUEST.la == 'en' %}
+                        {% trans "English" %}
+                      {% endif %}
+
+                      {% if request.LANGUAGE_CODE == 'zh' or request.REQUEST.la == 'zh' %}
+                        {% trans "Chinese" %}
+                      {% endif %}
+
+                      {% if request.LANGUAGE_CODE == 'ms' or request.REQUEST.la == 'ms' %}
+                        {% trans "Malay" %}
+                      {% endif %}
+                  </p>
+                  <i class="fa fa-caret-down"></i>
+              </div><!-- select -->
+              <form action="/i18n/setlang/" method="post" id="language_selector">
+                  {% csrf_token %}
+                    <input name="next" type="hidden" value="{{request.path}}{% if request.GET.urlencode %}?{{request.GET.urlencode}}{% endif %}" />
+                    <select name="language" onchange="this.form.submit();">
+                        <option class="lang_hover" value="" style="display: none;"> </option>
+                        <option class="lang_hover" value="en">{% trans "English" %}</option>
+                        <option class="lang_hover" value="zh">{% trans "Chinese" %}</option>
+                        <!-- <option class="lang_hover" value="ms">{% trans "Malay" %}</option> -->
+                    </select>
+              </form>
+            </div><!-- custom_select -->
+            <div class="user_mobile  hidden-lg">
+              <ul class="nav navbar-nav navbar-right">
+                  {% if user.is_authenticated %}
+                    {% if request.path != '/user_manage/' %}
+                      <li class="user_name start_myads"><a href="/user_manage/">{{request.user.email}}</a></li>
+                    {% else %}
+                      <li class="user_name"><a href="/user_manage/">{{request.user.email}}</a></li>
+                      <i class="fa fa-caret-down caret_user"></i>
+                      <div class="user_dropdown">
+                         <ul>
+                            <li class="menu_active"><a href="#" class="My_ads">My Ads</a></li>
+                           <li class="menu_active"><a href="#" class="My_profile">Update My Profile</a></li>
+                          <!--  <a href="/my_chats"><li>My Chats</li></a> -->
+                         </ul>
+                      </div> <!--user_dropdown-->
+                      {% endif %}
+                      {% endif %}
+                     <li>
+                        {% if user.is_authenticated %}
+                        <a href="/logout/" class="user_logout">{% trans "Logout" %}</a>
+                        {% endif %}
+                      </li>
+              </ul>
+          </div><!--user_mobile-->
+          {% endif %}
 
           {% if 'search' in path  %}
             <div class="result_page">
               <a href="/"><i class="fa fa-angle-left left_angle"></i></a>
-              <i class="fa fa-bell bell_font"></i>
-             </div><!--result_page-->
+              <i class="fa fa-filter filter_font"></i>
+            </div><!--result_page-->
           {% endif %}
           {% if 'ads' in path  %}
             <div class="detail_page">
@@ -121,8 +163,9 @@
                   </div><!--detail_icon-->
                </div><!--detail_page-->
          {% endif %}
-          </div> <!-- navbar header -->
-          {% if 'postad' in path  %}
+    </div> <!-- navbar header -->
+ 
+    {% if 'postad' in path  %}
             <div class="postad_page">
               <a href="/"><i class="fa fa-angle-left left_angle"></i>
               <span class="post_ad_first hidden-lg">Post an Ad in just 30 seconds</span></a>
@@ -139,14 +182,14 @@
               <ul class="nav navbar-nav navbar-right">
                   {% if user.is_authenticated %}
                     {% if request.path != '/user_manage/' %}
-                      <li class="user_name start_myads"><a href="/user_manage/">{{request.user.email}}</a>
+                      <li class="user_name start_myads"><a href="/user_manage/">{{request.user.email}}</a></li>
                     {% else %}
-                      <li class="user_name"><a href="/user_manage/">{{request.user.email}}</a>
+                      <li class="user_name"><a href="/user_manage/">{{request.user.email}}</a></li>
                       <i class="fa fa-caret-down caret_user"></i>
                       <div class="user_dropdown">
                          <ul>
                             <li class="menu_active"><a href="#" class="My_ads">My Ads</a></li>
-                           <li class="menu_active"><a href="#" class="My_profile">Update My Profile</a></li>
+                            <li class="menu_active"><a href="#" class="My_profile">Update My Profile</a></li>
                           <!--  <a href="/my_chats"><li>My Chats</li></a> -->
                          </ul>
                       </div> <!--user_dropdown-->
@@ -226,7 +269,7 @@
           </div> <!-- navbar collapse -->
         </nav> <!-- navigation bar -->
       </div><!-- container -->
-    </div><!-- top_header -->
+</div><!-- top_header -->
 
     {%  if path == '/' or 'start' in path  or 'categories' in path  or 'login' in path%}
     <div class="header_search">
@@ -256,9 +299,8 @@
 
     {%  if 'search' in path  or 'postad' in path  or 'ads' in path  or 'user_manage' in path %}
        <div class="search_part">
-          <div class="container visible-lg">
-
-                <form class="info_form" method="get" action="/search/?q=">
+          <div class="container">
+              <form class="info_form" method="get" action="/search/?q=">
                   {%  if 'search' in path %}
                       <div class="custom_select language_custom_select search_city">
                           <div class="select select_new">
@@ -273,7 +315,7 @@
                            </div><!-- select -->
                       </div><!-- custom_select -->
                   {% endif %}
-                      <div class="button">
+                      <div class="button visible-lg">
                         <i class="fa fa-search search_icon"></i>
                         {% if query or request.REQUEST.q or request.REQUEST.q == '' %}
                           <input type="text" name="q" id="q" class="form-control input-lg" placeholder="Search here" value="{% if query %}{{ query }}{% elif request.REQUEST.q %}{{request.REQUEST.q}}{% elif request.REQUEST.q == '' %}{% else %}{% endif %}" />
@@ -387,13 +429,13 @@
   </div> <!-- final_part -->
       {%  if path == '/' or 'start' in path  or 'search' in path %}
         <div class="col-md-2 footer_responsive">
-              <select class="footer_lang">
+              <!-- <select class="footer_lang">
                         <option selected="" disabled="">{% trans "Select language :" %} </option>
                         <option>{% trans "English" %}</option>
                         <option>{% trans "Chinese" %}</option>
-               </select>
-              <button class="footer_login">{% trans "Login" %}</button>
+               </select> -->
               <button class="footer_signup">{% trans "Sign up" %}</button>
+              <button class="footer_login">{% trans "Login" %}</button>
         </div><!--footer_responsive-->
       {% endif %}
 

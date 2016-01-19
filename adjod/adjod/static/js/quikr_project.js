@@ -1125,5 +1125,6 @@ $( document ).ready(function() {
    $(".scroll_close").click(function(){
     $('html, body').animate({scrollTop: '+=1700px'}, 800);
    });
-  
+
+ 
 });

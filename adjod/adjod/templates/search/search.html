@@ -49,7 +49,9 @@
               </a>
          </div>
           <div class="sort_part">
-               <div class="app col-md-2 hidden-lg"><p class="app_filter">{% trans "Apply filters" %}</p></div><!--app-->
+               <div class="app col-md-2 hidden-lg">
+               <!-- <p class="app_filter">{% trans "Apply filters" %}</p> -->
+               </div><!--app-->
                <span class="sortclass">{% trans "Sort by" %}</span>
               <div class="choose_select sorting_custom_select">
                           <div class="choose">
@@ -155,6 +157,95 @@
            </form>
            </div>
         </div> <!-- left_part -->
+
+
+        <!--For mobile-->
+        <div class="left_part_mobile">
+        <div id="cssmenu">
+        <!-- Normal Search and Advance Form Start -->
+        <form id="form_search_filter" class="form_search_filter">
+             <input id="search_form" type="hidden" name="{{form.q.html_name}}"  value="{{form.q.value|default:''}}"/>
+             <input type="hidden" name="page"  value="{{page.number}}"/>
+             <input type="hidden" name="locality" id="locality" value="">
+
+             <ul class="main_list">
+                  <!--  All Categories & Sub-Categories to Display in Advance Search-->
+                    <li class="">
+                      <i class="fa fa-angle-left left_font"></i><span class="all_category">{% trans "All Category" %}</span>
+                        <ul class="hide_list categoryclick">
+                            {% for categories in initial_load|get_categories %}
+                              <li class="list_folder_mobile">
+                                  <img src="{{ MEDIA_URL }}{{categories.icon}}" class="category_icon">
+                                  <a class="has_sub categoryselected get">
+                                      {{categories}} <span class="product_quantity"> {{ categories.count }} </span>
+                                  </a>
+                                  <ul class="hide_list hidelist1 subclick">
+                                        {% for subcategories in categories.id|get_subcategories %}
+                                            <li class="list_folder parent_li list_folder_mobile">
+                                                <span class="has_sub subcategory_choose get1">{{subcategories}}</span>
+                                                <span class="has_sub hidelist1 ajax_subid">{{subcategories.id}}</span>
+                                                <span class="product_quantity">{{subcategories.id|get_subcategoriesCount}}</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <input type="hidden" class="has_sub subcategory_chooseid" id="subcategoryid"  value="" name="subcategoryid"/>
+                    </li>
+                      <!--  All Brands Type to Display in Advance Search-->
+                      <li class="brand_folder"> <p class="brand_name">{% trans "Brands" %}</p>
+                          <ul class="hiddenclass hide_list">
+                            <!-- Location Auto complete -->
+                           <!--  <div class="location_holder">     -->
+                                <!-- <input type="text" class="location" style="size: 12" id="typeandbrandtxt" name= "typeandbrandtxt" value="{{form.name.value|default:''}}" placeholder="Type any brand"/> -->
+
+                                <!-- <input type="hidden" class="location" style="size: 12" id="typeandbrand" name="{{form.name.html_name}}"value="{{form.name.value|default:''}}" placeholder="Type any brand"/> -->
+                           <!--  </div> -->
+                            <!-- <div id="listbrandtypes"> -->
+                                <!-- <input type="hidden" id="brandsubcategoryid" name ="brandtype" value="" /> -->
+                            <!-- </div> -->
+                          </ul>
+                           <!-- <input type="hidden" id="brandsubcategoryid" name ="brandtype" value="" /> -->
+                      </li>
+                      <!--  All PriceOptions to Display in Advance Search-->
+                      <li class="list_folder_mobile price_list_mobile"><b>{% trans "Price" %}</b>
+                          <ul class="hide_list">
+                               <li class="list_folder_mobile">
+                               <input type="checkbox" class="css-checkbox sme pricerange" name="pricerange" value ="0.0#21.27" />
+                               <label for="checkbox1" class="check_price">{{country_code|get_symbol}}{{21.27|conversion|quantize}} &amp; {% trans "Below" %}</label>
+                               </li>
+                               <li class="list_folder_mobile">
+                               <input type="checkbox" class="pricerange" name="pricerange" value ="21.27#106.37"/>
+                                    <label for="checkbox1" class="check_price">{{country_code|get_symbol}}{{21.27|conversion|quantize}} - {{country_code|get_symbol}}{{106.37|conversion|quantize}}</label>
+                               </li>
+                               <li class="list_folder_mobile">
+                               <input type="checkbox" class="pricerange" name="pricerange" value ="106.37#106.37"/>
+                                    <label for="checkbox1" class="check_price">{{country_code|get_symbol}}{{106.37|conversion|quantize}} - {{country_code|get_symbol}}{{106.37|conversion|quantize}}</label>
+                               </li>
+                               <li class="list_folder_mobile">
+                               <input type="checkbox" class="pricerange" name="pricerange" value ="319.1#531.84"/>
+                                    <label for="checkbox1" class="check_price">{{country_code|get_symbol}}{{319.1|conversion|quantize}} - {{country_code|get_symbol}}{{531.84|conversion|quantize}}</label>
+                               </li>
+                               <li class="list_folder_mobile">
+                               <input type="checkbox" class="pricerange" name="pricerange" value ="531.84#1063.68"/>
+                                    <label for="checkbox1" class="check_price">{{country_code|get_symbol}}{{531.84|conversion|quantize}} - {{country_code|get_symbol}}{{1063.68|conversion|quantize}}</label>
+                               </li>
+ 
+                               <li class="list_folder_mobile">
+                               <input type="checkbox" class="pricerange" name="pricerange" value ="1063.68#21278.61"/>
+                                    <label for="checkbox1" class="check_price">{{country_code|get_symbol}}{{1063.68|conversion|quantize}} & {% trans "Above" %}</label>
+                               </li>
+
+                               <input type="hidden" id="price_start" value="" name="price_start"/>
+                               <input type="hidden" id="price_end" value="" name="price_end"/>
+
+                          </ul>
+                      </li>
+            </ul>
+           </form>
+           </div>
+        </div> <!-- left_part_mobile-->
     {%endblock%}
 {%endif%}
 
@@ -194,9 +285,11 @@
 
                       <span class="model_year1 visible-lg"> {{product.object.condition}} | in {{product.object.locality.locality}} | By {{product.object.you_are}}</span>
                       <span class="year">{{product.object.created_date}}</span>
+                      <span class="product_time visible-xs">8 minutes ago</span>
                   </div>
                   <div class="additional_details">
                     <h3>{{country_code|get_symbol}}{{product.object.price|conversion|quantize}}</h3>
+                    <span class="product_time visible-lg">8 minutes ago</span>
                     <div class="number_verify_control visible-lg">
                       <span class="number_verify1"><i class="fa fa-check-circle checkcircle">
                       </i></span>

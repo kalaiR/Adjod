@@ -56,6 +56,7 @@ function brand_mobile_center_align(){
     subcategory_mobile_center_align();
     brand_mobile_center_align();
 
+    // Popup for postad page view example
     $('.cancel_btn').click(function(){
         $('.popup_fade').hide();
         $('.urgentad_popup_mobile,.premium_popup_mobile,.premium_urgent_mobile').hide();
@@ -83,7 +84,7 @@ function brand_mobile_center_align(){
         document.body.style.overflow = 'hidden';
     });
 
-    
+    //Choose product for posting ad in postad page
     $(".category_list").click(function () {
         var effect = 'slide';
         var options = { direction: 'right' };
@@ -108,5 +109,30 @@ function brand_mobile_center_align(){
         $('.subcategory_list_div').hide();
     });
     
+    //Filter for search page
+    $(".filter_font").click(function () {
+        var effect = 'slide';
+        var options = { direction: 'right' };
+        var duration = 500;
+        $('.left_part_mobile').toggle(effect, options, duration);
+    });
+
+    $('.list_folder_mobile').on('click',function(e){
+        e.stopImmediatePropagation();
+        var effect = 'slide';
+        var options = { direction: 'right' };
+        var duration = 500;
+        $(this).find('.hide_list').toggle(effect, options, duration);
+    });
+    // $(".categoryselected").click(function () {
+    //   $('.categoryselected,.category_icon').hide();
+    // });
+    // $(".all_category").click(function () {
+    //   $('.main_list').show();
+    // });  
+    
+    $(".left_font").click(function(){
+      $('.left_part_mobile').hide();
+    })
 
 });
