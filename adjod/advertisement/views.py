@@ -132,7 +132,14 @@ def product_detail(request, pk):
 	large=str(adinfo.photos).split(',')
 	largephoto=large[0]
 	photos=[n for n in str(adinfo.photos).split(',')]
-	#Comment For Future Reference
+	# photos = photos[::-1]
+	print "photos",photos
+	thumbnails=[n for n in str(adinfo.photos).split(',')]
+	# For reverse the list of data
+	# photos = photos[::-1]
+	# thumbnails=[n for n in str(adinfo.thumbnail).split(',')]
+	# print "thumbnails", thumbnails
+	# Comment For Future Reference
 	# results = SearchQuerySet().all()
 	# sqs = SearchQuerySet().filter(content=adinfo.title)
 	# print "sqs",sqs
@@ -150,7 +157,7 @@ def product_detail(request, pk):
 	print "related_product", related_product
 	update_product_viewed_count(request, pk)
 	product_viewed_count = ProductStatistic.objects.filter(product=int(pk)).count()
-	ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto,'related_product':related_product,'product_viewed_count':product_viewed_count}
+	ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto,'related_product':related_product,'product_viewed_count':product_viewed_count,'thumbnails':thumbnails}
 	return render_to_response('advertisement/ad_detail.html',ctx, context_instance=RequestContext(request))
 	# return TemplateResponse(request, 'advertisement/ad_detail.html', ctx)
 

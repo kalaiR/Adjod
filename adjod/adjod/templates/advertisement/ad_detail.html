@@ -26,25 +26,32 @@
                   <span class="Ad-ID">{% trans "Ad ID:" %}{{adinfo.id}} | {{adinfo.created_date}} | {{product_viewed_count}} views</span>
               </div>
               <div class="product-image visible-lg">
-                    <div class="upperimg">
+              <div class="upperimg">
+                  <ul id="portfolio" class="clearfix">
+                    {%for photo in photos %}
+                    <!-- <div class="upperimg lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
+                    <li>
                       {% if largephoto = '' %}
-                          <img  src="{{STATIC_URL}}img/bg-img1.png" class="dn">
+                        <a href="{{STATIC_URL}}img/bg-img1.png"><img  src="{{STATIC_URL}}img/bg-img1.png" class="dn"></a>
                       {% else %}
-                        <img  src="{{ MEDIA_URL }}{{ largephoto }}" class="dn">
+                        <a href="{{ MEDIA_URL }}{{ photo }}"><img  src="{{ MEDIA_URL }}{{ photo }}" class="dn"></a>
                       {% endif %}
-                    </div><!--upperimg-->
-                    <div class="thumb_holder">
-                      {%for photo in photos %}
-                        <div class="thumbs nb col-md-2 lightbox" data-big="{{ MEDIA_URL }}{{ photo }}">
-                           {% if photo = '' %}
-                           <img src="{{STATIC_URL}}img/bg-img1.png">
-                           {% else %}
-                          <img src="{{ MEDIA_URL }}{{ photo }}">
-                          {% endif %}
-                        </div><!--thumbs-->
-                      {%endfor%}
-                    </div><!-- thumb_holder -->
-
+                    </li>
+                    {%endfor%}
+                  </ul>
+              </div><!--upperimg-->
+              <div class="thumb_holder">
+                {%for thumbnail in thumbnails %}
+                  <!-- <div class="thumbs nb col-md-2 lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
+                   <div class="thumbs nb col-md-2">
+                     {% if thumbnail = '' %}
+                     <img src="{{STATIC_URL}}img/bg-img1.png" class="dn">
+                     {% else %}
+                    <img src="{{ MEDIA_URL }}{{ thumbnail }}" class="dn">
+                    {% endif %}
+                  </div><!--thumbs-->
+                {%endfor%}
+              </div><!-- thumb_holder -->
                     <!-- <div class=""></div> -->
                     <!-- <div class="thumbnails1">
                       <a href=""><img class="img1"src="img/Product_pic1.png"></a>

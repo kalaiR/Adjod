@@ -90,6 +90,8 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
   if orderby is None:
     # orderby = 'created_date'  
      orderby = '-ispremium'
+  if orderby:
+     orderby_date = '-created_date'
 
   mappings = param_mappings or default_param_mappings
 
@@ -113,7 +115,7 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
     sqs = sqs.filter(**sq_params)
     
   if orderby:
-    sqs = sqs.order_by(orderby)
+    sqs = sqs.order_by(orderby,orderby_date)
 
   if groupby:
     sqs = sqs.facet(groupby)

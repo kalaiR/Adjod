@@ -8,7 +8,7 @@
       </a>
     </div> -->
     {% for banners in banner|get_banner %}
-    {% if banners.bannerplan_id == 2 %}
+    {% if banners.bannerplan.page == "Home page" and banners.bannerplan.position == "Top" and banners.bannerplan.bannertype == "Google" %}
      <div align="center" id="richmedia_6">
       <a href="{{banners.link}}" target="_blank">
         <img width="800" height="90" border="0" src="{{MEDIA_URL}}{{banners.banner}}">
@@ -23,15 +23,10 @@
                     <div class="col-md-4">
                             <ul class="category">
                             {% endif %}
-                              <li class="{% if categories.id == 1 %} sub_category {% elif categories.id == 2 %} sub_category1
-                              {% elif categories.id == 3 %} sub_category2 {% elif categories.id == 4 %} sub_category3
-                              {% elif categories.id == 5 %} sub_category4 {% elif categories.id == 6 %} sub_category5
-                              {% elif categories.id == 7 %} sub_category6 {% elif categories.id == 8 %} sub_category7
-                              {% elif categories.id == 9 %} sub_category8 {% elif categories.id == 10 %} sub_category9
-                              {% elif categories.id == 11 %} sub_category10 {% elif categories.id == 12 %} sub_category11
-                              {% endif %}">
+                              <li class="subcategory">
                               <!-- <a href="/addproduct/" class=""><code></code></a> -->
-                              <a href="/addproduct/" class=""><img src="{{ MEDIA_URL }}{{categories.icon}}"></a>
+                              <a href="/search/?q=&category={{categories.id}}" class="">
+                                <img src="{{ MEDIA_URL }}{{categories.icon}}"></a>
                                 <div class="cate_name">
                                 <a href="/search/?q=&category={{categories.id}}" class=""><h4>{% trans categories.name %}</h4><i class="fa fa-chevron-right arrow_right"></i></a>
                                 <span class="brand">{{categories.category_type}}
@@ -39,7 +34,6 @@
                                 </div>
                               </li>
                             {% if forloop.counter|divisibleby:4 %}
-
                             </ul>
                   </div> <!-- row1 3rd col-md-4 -->
             {% endif %}
@@ -99,7 +93,7 @@
  <!--  <code class="closeimg"> </code> -->
  <ul>
  {% for banners in banner|get_banner %}
-    {% if banners.bannerplan == "Home page Left Own"%}
+    {% if banners.bannerplan.page == "Home page" and banners.bannerplan.position == "Left" and banners.bannerplan.bannertype == "Own" %}
     <li>
       <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad1" />
     </li>
@@ -112,7 +106,7 @@
   <!-- <code class="closeimg"> </code> -->
   <ul>
   {% for banners in banner|get_banner %}
-    {% if banners.bannerplan == "Home page Right Own" %}
+    {% if banners.bannerplan.page == "Home page" and banners.bannerplan.position == "Right" and banners.bannerplan.bannertype == "Own" %}
     <li>
       <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad2" />
     </li>
@@ -320,7 +314,7 @@
       <div class="hp_ad banner_ad banner_rotation">
       <ul class="fifth_part">
         {% for banners in banner|get_banner %}
-         {% if banners.bannerplan_id == 3 and banners.admin_status == 1 %}
+         {% if banners.bannerplan.page == "Home page" and banners.bannerplan.position == "Bottom" and banners.bannerplan.bannertype == "Own" %}
         <li>         
             <img src="{{MEDIA_URL}}{{banners.banner}}" style="height:120px;width:970px;" />
          </li>
