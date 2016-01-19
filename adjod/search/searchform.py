@@ -148,7 +148,7 @@ class ProductSearchFilter(FacetedSearchForm):
         'pricelow': 'price',
         'pricehigh': '-price',
         'ispremium': '-ispremium',
-        'premium_plan_id': 'premium_plan_id',
+        'premium_plan_id': '-premium_plan_id',
       }
       
       # if self.cleaned_data['groupby']:
@@ -166,7 +166,7 @@ class ProductSearchFilter(FacetedSearchForm):
         return sqs
 
       if not orderby:
-        orderby = orderby_mappings['createddate']
+        orderby = orderby_mappings['premium_plan_id'] 
 
       return productsearch(q, params, orderby, groupby, model_cls=self.get_model_class(), 
         default_filters=self.get_default_filters(), 

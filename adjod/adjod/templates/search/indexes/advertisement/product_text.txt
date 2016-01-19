@@ -6,3 +6,4 @@
 {{ object.brandtype }}
 {{ object.city}}
 {{ object.status_isactive}}
+{{ object.premium_plan}}
