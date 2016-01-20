@@ -1164,12 +1164,12 @@ hr {
 }
 .product-details {
     position: relative;
-    margin-top: 60px;
+    margin-top: 100px;
     font-family:helvetica;
     font-size: 15px;
     @media (min-width: @grid-float-breakpoint){
       position: relative;
-       margin-top: 0px;
+       margin-top: 60px;
        font-family:helvetica;
    	}
 }
@@ -1186,6 +1186,11 @@ hr {
 }
 .contact-seller{
 	border: 1px solid lightgray;
+    float: none;
+    height: 130px;
+    position: relative;
+    top: 90px;
+    width: 335px;
 	@media (min-width: @grid-float-breakpoint){
 		float: right;
 	    height: 200px;
@@ -1195,15 +1200,19 @@ hr {
 	}
 }
 .seller{
-	margin:0px;
-	background:#eb1c24;
-	color:white;
-	font-family: helvetica;
+	background: none repeat scroll 0 0 #eb1c24;
+    color: white;
+    font-family: helvetica;
+    height: 30px;
+    padding: 6px 0 0 10px;
+    margin: 0;
 	@media (min-width: @grid-float-breakpoint){
 		height:45px;
 		padding-left: 6px;
     	padding-top: 9px;
     	font-family: helvetica;
+    	background: none repeat scroll 0 0 #eb1c24;
+    	color: white;
 	}
 }
 .number_verify_1 {
@@ -1340,6 +1349,7 @@ hr {
 	    border: 1px solid lightgray;
 	    position:relative;
 	    margin: 15 55px 0 0;
+	    background: url("/static/img/background_img.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
     }
 }
 
@@ -1554,11 +1564,11 @@ hr {
     display: block;
 }
 .year {
-	font-family: helvetica;
-    font-size: 13px;
+	color: #5c5c5c;
+    font-family: helvetica;
+    font-size: 10px;
     position: relative;
-    top: 60px;
-   	color: #5c5c5c;
+    top: 65px;
     @media (min-width: @grid-float-breakpoint){
     	color: #5c5c5c;
 	    font-family: helvetica;
@@ -4032,6 +4042,7 @@ list-style:none;
 	position:relative;
 	padding:0px;
 	margin: 0 7px 0 0;
+	cursor: pointer;
 }
 .container1 {
     border: 1px solid;
@@ -5007,8 +5018,8 @@ li.offline,.product_title_for_chat { display:none !important; }
 .post_time{
 	color: #484848;
     font-family: helvetica;
-    font-size: 13px;
-    left: 20px;
+    font-size: 10px;
+    left: -5px;
     position: relative;
     top: 30px;
    	@media (min-width: @grid-float-breakpoint){
@@ -5668,15 +5679,19 @@ li.offline,.product_title_for_chat { display:none !important; }
 	}
 }
 .user_dropdown {
-    height: 10px;
-   	position: relative;
+    float: left;
+    height: 60px;
+    margin: 39px 0 0;
+    position: absolute;
 }
 .caret_user {
     bottom: 32px;
     color: #eb1c24;
     cursor: pointer;
+    float: left;
     left: -6px;
     position: relative;
+    top: 18px;
 }
 .user_dropdown > ul {
 	background: none repeat scroll 0 0 #a20208;
@@ -5749,7 +5764,7 @@ li.offline,.product_title_for_chat { display:none !important; }
 	    border: medium none #43609c;
 	    color: white;
 	    height: 8%;
-	    width: 160%;
+	    width: 172%;
 	    left: 0px;
     	position: relative;
     }
@@ -5767,7 +5782,7 @@ li.offline,.product_title_for_chat { display:none !important; }
 	    border: medium none #43609c;
 	    color: white;
 	    height: 8%;
-	    width: 215%;
+	    width: 250%;
 	    position: relative;
     	right: 0px;
     }
@@ -5776,8 +5791,8 @@ li.offline,.product_title_for_chat { display:none !important; }
 	margin-left: 0px;
     margin-right: 92px;
 	@media (min-width: @grid-float-breakpoint) {
-	    margin-left: 160px;
-	    margin-right: 64px;
+	    margin-left: 164px;
+	    margin-right: 75px;
     }
 }
 #sorteddata > option {
@@ -5910,7 +5925,7 @@ nav li a:hover {
     font-family: helvetica;
 }
 .category li {
-	padding: 0px;
+	padding: 2px;
     cursor: pointer;
 	@media (min-width: @grid-float-breakpoint){
 	    padding: 0 0 14px;
@@ -6450,8 +6465,9 @@ color: #858585;
 	font-family: helvetica;
     font-weight: bold;
     position: relative;
-    right: 10px;
+    right: 0px;
     font-size: 15px;
+    width:100px;
 }
 .product_recommend{
 	@media (min-width: @grid-float-breakpoint){
@@ -6496,10 +6512,10 @@ color: #858585;
 .product_time {
     color: #5c5c5c;
     font-family: helvetica;
-    font-size: 13px;
-    left: 110px;
+    font-size: 10px;
+    left: 75px;
     position: relative;
-    top: 42px;
+    top: 50px;
     @media (min-width: @grid-float-breakpoint){
 	    color: #5c5c5c;
 	    font-family: helvetica;
@@ -6562,4 +6578,9 @@ ul, ol { list-style: none; }
 .user_detail1 {
     float: left;
     width: 297px;
+}
+.mfp-image-holder .mfp-close, .mfp-iframe-holder .mfp-close {
+    background: url("../img/close_img1.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    right: -95% !important;
+    top: 12px !important;
 }
