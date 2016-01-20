@@ -122,16 +122,6 @@
                   {% if user.is_authenticated %}
                     {% if request.path != '/user_manage/' %}
                       <li class="user_name start_myads"><a href="/user_manage/">{{request.user.email}}</a></li>
-                    {% else %}
-                      <li class="user_name"><a href="/user_manage/">{{request.user.email}}</a></li>
-                      <i class="fa fa-caret-down caret_user"></i>
-                      <div class="user_dropdown">
-                         <ul>
-                            <li class="menu_active"><a href="#" class="My_ads">My Ads</a></li>
-                           <li class="menu_active"><a href="#" class="My_profile">Update My Profile</a></li>
-                          <!--  <a href="/my_chats"><li>My Chats</li></a> -->
-                         </ul>
-                      </div> <!--user_dropdown-->
                       {% endif %}
                       {% endif %}
                      <li>
@@ -158,7 +148,7 @@
                       <span class="share_dropdown"><i class="fa fa-share-alt share_font"></i></span>
                       <ul class="share_dropdownmenu">
                         <li><i class="fa fa-facebook-square"></i></li>
-                        <li><i class="fa fa-twitter-square"></i></li>
+                        <!-- <li><i class="fa fa-twitter-square"></i></li> -->
                       </ul>
                     </div> <!--share-->
                   </div><!--detail_icon-->

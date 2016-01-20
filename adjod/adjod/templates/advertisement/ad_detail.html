@@ -26,13 +26,14 @@
                   <span class="Ad-ID">{% trans "Ad ID:" %}{{adinfo.id}} | {{adinfo.created_date}} | {{product_viewed_count}} views</span>
               </div>
               <div class="product-image visible-lg">
+              <!-- <p class="{% if adinfo.premium_plan_id = 4 %} premium-img1 {% elif adinfo.premium_plan_id = 3 %} premium-img2 {% elif adinfo.premium_plan_id = 2 %} premium-img3 {% endif%} "></p> -->
               <div class="upperimg">
                   <ul id="portfolio" class="clearfix">
                     {%for photo in photos %}
                     <!-- <div class="upperimg lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
                     <li>
                       {% if largephoto = '' %}
-                        <a href="{{STATIC_URL}}img/bg-img1.png"><img  src="{{STATIC_URL}}img/bg-img1.png" class="dn"></a>
+                        <a href="{{STATIC_URL}}img/no_imageonly.png"><img  src="{{STATIC_URL}}img/no_imageonly.png" class="dn"></a>
                       {% else %}
                         <a href="{{ MEDIA_URL }}{{ photo }}"><img  src="{{ MEDIA_URL }}{{ photo }}" class="dn"></a>
                       {% endif %}
@@ -45,7 +46,7 @@
                   <!-- <div class="thumbs nb col-md-2 lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
                    <div class="thumbs nb col-md-2">
                      {% if thumbnail = '' %}
-                     <img src="{{STATIC_URL}}img/bg-img1.png" class="dn">
+                     <img src="{{STATIC_URL}}img/no_imageonly.png" class="dn">
                      {% else %}
                     <img src="{{ MEDIA_URL }}{{ thumbnail }}" class="dn">
                     {% endif %}
@@ -65,24 +66,32 @@
               </div><!--product-image visible-lg-->
     </div> <!-- second-column -->
     <div class="product-image hidden-lg">
-                    <div class="upperimg">
+                   <div class="upperimg">
+                  <ul id="portfolio" class="clearfix">
+                    {%for photo in photos %}
+                    <!-- <div class="upperimg lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
+                    <li>
                       {% if largephoto = '' %}
-                          <img src="{{STATIC_URL}}img/bg-img1.png" class="dn">
+                        <a href="{{STATIC_URL}}img/no_imageonly.png"><img  src="{{STATIC_URL}}img/no_imageonly.png" class="dn"></a>
                       {% else %}
-                        <img src="{{ MEDIA_URL }}{{ largephoto }}" class="dn">
+                        <a href="{{ MEDIA_URL }}{{ photo }}"><img  src="{{ MEDIA_URL }}{{ photo }}" class="dn"></a>
                       {% endif %}
-                    </div><!--upperimg-->
-                    <div class="thumb_holder hidden-xs">
-                          {%for photo in photos %}
-                            <div class="thumbs nb col-md-2">
-                               {% if photo = '' %}
-                               <img src="{{STATIC_URL}}img/bg-img1.png">
-                               {% else %}
-                              <img src="{{ MEDIA_URL }}{{ photo }}">
-                              {% endif %}
-                            </div><!--thumbs-->
-                          {%endfor%}
-                    </div><!-- thumb_holder -->
+                    </li>
+                    {%endfor%}
+                  </ul>
+              </div><!--upperimg-->
+                   <div class="thumb_holder hidden-xs">
+                {%for thumbnail in thumbnails %}
+                  <!-- <div class="thumbs nb col-md-2 lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
+                   <div class="thumbs nb col-md-2">
+                     {% if thumbnail = '' %}
+                     <img src="{{STATIC_URL}}img/no_imageonly.png" class="dn">
+                     {% else %}
+                    <img src="{{ MEDIA_URL }}{{ thumbnail }}" class="dn">
+                    {% endif %}
+                  </div><!--thumbs-->
+                {%endfor%}
+              </div><!-- thumb_holder -->
 
                     <!-- <div class=""></div> -->
                     <!-- <div class="thumbnails1">
@@ -107,7 +116,7 @@
                     <span class="price_info">{{adinfo.price|conversion}}</span>
                   </div><!--price_mobile-->
     </div><!-- product-image hidden-lg -->
-              <div class="contact-seller visible-lg">
+              <div class="contact-seller">
                 <h4 class="seller">{% trans "Contact Seller" %}</h4>
                 <div class="owner_contact">
                     <!-- <p class="owner_name">
@@ -169,7 +178,7 @@
                         FB.ui({
                          method: 'share',
                          href: '{{request.META.HTTP_HOST}}{{ request.get_full_path }}',
-                         picture: "{{request.META.HTTP_HOST}}{% if largephoto == '' %}{{STATIC_URL}}img/bg-img1.png{% else %}{{ MEDIA_URL }}{{ largephoto }}{% endif %}",
+                         picture: "{{request.META.HTTP_HOST}}{% if largephoto == '' %}{{STATIC_URL}}img/no_imageonly.png{% else %}{{ MEDIA_URL }}{{ largephoto }}{% endif %}",
                          caption: '{{adinfo.title}}',
                          description: '{{adinfo.description}}'
                         }, function(response){
@@ -202,9 +211,9 @@
 
               </div>
               
-               <div class="contact-seller_mobile hidden-lg">
-                <h4 class="seller_mobile">{% trans "Seller details" %}</h4>
-                <div class="owner_contact">
+               <!-- <div class="contact-seller_mobile hidden-lg"> -->
+                <!-- <h4 class="seller_mobile">{% trans "Seller details" %}</h4> -->
+                <!-- <div class="owner_contact">
                     <p class="owner_name">
                     {% if adinfo.userprofile %}
                     {{adinfo.userprofile.user.email}}
@@ -218,8 +227,8 @@
                     {% endif %}
                     </p>
                     <span class="number_verify_1"><i class="fa fa-check-circle"></i>{% trans "Number verified" %}</span></p>
-                </div><!--owner_contact-->
-                <div class="send_msg">
+                </div><!--owner_contact--> 
+                 <!-- <div class="send_msg">
                   <span>{% trans "Send free SMS" %}<i class="fa fa-caret-down caret-down"></i>
                     <div class="login_holder">
                         <form id="login_form" method="post" action="">
@@ -228,9 +237,9 @@
                           <input type="submit" value="send" />
                         </form>
                     </div><!--login_holder-->
-                  </span>
-                </div><!--send_msg-->
-              </div>
+                  <!-- </span> -->
+                <!-- </div>send_msg   -->
+              <!-- </div> -->
 
               <div class="description_box">
                 <h4>{% trans "Description" %}</h4>
@@ -264,7 +273,7 @@
                    <div class="product_images1">
                       <a href="/ads/{{related_products.object.id}}/" class="">
                           {% if related_products.object.photos = '' %}
-                          <img src="{{STATIC_URL}}img/bg-img1.png">
+                          <img src="{{STATIC_URL}}img/no_imageonly.png">
                           {% else %}
                           <img src="{{MEDIA_URL}}{{related_products.object.photos|get_photos}}">
                           {% endif %}
@@ -341,7 +350,7 @@
 <div class="container recommend1 hidden-lg">
      {% if related_product %}
         <div class="related">
-          <span>{% trans "Related posts" %}</span>
+          <span>{% trans "Recommended" %}</span>
         </div>
       {% endif %}
       <div class="row row2">
@@ -355,7 +364,7 @@
                     {% endif %}
                       <a href="" class="">
                         {% if related_products.object.photos = '' %}
-                        <img src="{{MEDIA_URL}}img/bg-img1.png">
+                        <img src="{{MEDIA_URL}}img/no_imageonly.png">
                         {% else %}
                         <img src="{{MEDIA_URL}}{{related_products.object.photos|get_photos}}">
                         {% endif %}
@@ -393,7 +402,7 @@
         {% else %}
 
           <div class="call_seller hidden-lg">
-             <button class="footer_seller">{% trans "Call seller" %}</button>
+            <!--  <button class="footer_seller">{% trans "Call seller" %}</button> -->
           </div><!--call_seller-->
             <div class="container fifth_part">
               <div class="hp_ad banner_ad">
