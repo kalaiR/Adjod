@@ -43,7 +43,7 @@ def get_brandforsubcategory(subCategoryId):
 @register.filter
 def get_banner(banner):
 	banners=PostBanner.objects.filter(admin_status = 1)
-	print banners
+	# print banners
 	return banners
 
 @register.filter

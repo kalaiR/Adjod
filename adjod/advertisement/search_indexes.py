@@ -45,13 +45,13 @@ class ProductIndex(SearchIndex, Indexable):
         text = []
         if obj.title:
             text.append(obj.title)
-            print"text title", text
+            # print"text title", text
         if obj.description:
             text.append(obj.description)
-            print"text description", text 
+            # print"text description", text 
         # text += self.prepare_locations(obj)
         # text += obj.country
-        print "text", text
+        # print "text", text
         search = []
         for t in text:
             t = re.sub(r'[^\w]', ' ', t, flags=re.UNICODE).split(' ')
@@ -73,9 +73,7 @@ class ProductIndex(SearchIndex, Indexable):
         return Product
     
     def index_queryset(self, **kwargs):
-        product = Product.objects.filter(status_isactive=1).order_by('-premium_plan','-created_date')
-        print "product index_queryset", product
-        # product = Product.objects.all()
+        product = Product.objects.filter(status_isactive=1)
         return product
 
 # register_model_for_search(Product, ProductIndex)
