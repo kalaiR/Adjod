@@ -84,6 +84,7 @@ $(document).ready(function() {
             });
             $('.categoryselected').on('click',function(e){
                 $('[name=subcategoryid]').val('');
+                $('#sorteddata').val('');
                 $('[name=category]').val($(this).attr('data-target'));
                 perform_search();
             });
@@ -134,7 +135,7 @@ $(document).ready(function() {
         $('input[type="hidden"]#locality').val('');
         $('[name=subcategoryid]').text(trim_subid);
         $('[name=brandtype]').val('');
-        $('[name=sorteddata]').val('');
+        $('#sorteddata').val('');
          var trim_subid = $.trim(subid);
          // alert($.trim(subid));
             fill_brands(trim_subid);
