@@ -12,9 +12,9 @@ from haystack.query import SQ
 
 default_param_mappings = OrderedDict(
   #FieldName = Form Variable
-  locality = 'locality__in',
+  locality = 'locality',
   price = 'price',
-  category = 'category__in',
+  category = 'category',
   brandtype = 'brandtype',
   subcategoryid = 'subcategoryid',
   price_start = 'price__gte',
@@ -89,7 +89,8 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
   
   if orderby is None:
     # orderby = 'created_date'  
-     orderby = '-ispremium'
+     orderby = '-premium_plan_id'
+
   if orderby:
      orderby_date = '-created_date'
 
@@ -121,7 +122,7 @@ def searchresults(q=None, params=None, orderby=None, groupby=None,
     sqs = sqs.facet(groupby)
 
   print "Created query", unicode(sqs.query), geo_location, geo_params
-  print "Created query", sqs
+  # print "Created query", sqs
   return sqs
 
 def has(dictobj, key):

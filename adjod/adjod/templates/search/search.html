@@ -64,9 +64,11 @@
                <span class="sortclass">{% trans "Sort by" %}</span>
               <div class="choose_select sorting_custom_select">
                           <div class="choose">
-                            <p id="prov_custom_sort_value_act">Created Date</p>
+                            <p id="prov_custom_sort_value_act">Select Sort</p>
                             <i class="fa fa-caret-down new_icon"></i>
-                          <select class="prov_custom_sort_value_act option_color" id ="sorteddata"  name="{{form.sorteddata.html_name}}" value="{{form.sorteddata.value|default:''}}">
+                          <!-- <select class="prov_custom_sort_value_act option_color" id ="sorteddata"  name="{{form.sorteddata.html_name}}" value="{{form.sorteddata.value|default:''}}"> -->
+                          <select class="prov_custom_sort_value_act option_color" id ="sorteddata">
+                            <option value="">{% trans "Select Sort" %}</option>
                             <option value="createddate">{% trans "Created Date" %}</option>
                             <!-- <option value="createddate">{% trans "Created Date" %}</option> -->
                             <!-- <option value="onlineusers">{% trans  "online users" %}</option> -->
