@@ -169,12 +169,12 @@ def product_detail(request, pk):
 
 @pjax("pjax.html")
 def product_form(request, name=None, subname=None):
-    if request.user.is_authenticated():
-        if not request.user.is_superuser:
-            userprofile = UserProfile.objects.get(id=request.user.id)
-            if userprofile.ad_count>3 and userprofile.is_subscribed == 0:
-                return HttpResponseRedirect('/')
-    return TemplateResponse(request, 'advertisement/ad_post.html')
+	if request.user.is_authenticated():
+		if not request.user.is_superuser:
+			userprofile = UserProfile.objects.get(id=request.user.id)
+			if userprofile.ad_count>3 and userprofile.is_subscribed == 0:
+				return HttpResponseRedirect('/')
+	return TemplateResponse(request, 'advertisement/ad_post.html')
 
 def paypal_transaction(request, product_dict):
 	current_site = Site.objects.get_current()
@@ -202,20 +202,15 @@ def paypal_transaction(request, product_dict):
 
 #Fuction for storing in images or vidoes in our folder
 def handle_uploaded_file(f,product):
+	# 1st method
 	# file_data = open(settings.MEDIA_ROOT + '/products/' + '%s' % f.name, 'wb+')
 	# for chunk in f.chunks():
 	# 	file_data.write(chunk)
 	# file_data.close()
+
 	filename, file_ext = splitext(basename(f.name))
-	temp_filepath = settings.MEDIA_ROOT + '/temp/' + '%s' % f.name
-	file_data = open(temp_filepath, 'wb+')
-	for chunk in f.chunks():
-		file_data.write(chunk)
-	temp= open(temp_filepath, 'r+')
-	suf = SimpleUploadedFile(filename + file_ext,temp.read())
+	suf = SimpleUploadedFile(filename + file_ext,f.read())
 	product.photos.save(filename + '_photo' + file_ext, suf, save=False)
-	print "file_data", temp
-	os.remove(temp_filepath)
 
 def create_path_for_photos_thumbanails(photos, product):
 	#Creating path for large photos
@@ -232,46 +227,46 @@ def create_path_for_photos_thumbanails(photos, product):
 	print "large_photos", large_photos
 	
 	# Creating path for thumbnail photos
-	# photo=str(large_photos)
-	# photos=photo.split(',')
+	photo=str(large_photos)
+	photos=photo.split(',')
 	
 	imagecount= len(photos)
 	print "imagecount", imagecount
 	
-	# thumbnail_group=''
-	# if large_photos:
-	# 	try:
-	# 		count =len(photos)
-	# 		for photo in photos:
-	# 			print "photos", photo
-	# 			count=count-1
-	# 			THUMBNAIL_SIZE = (100, 100) # dimensions
-	# 			image = ImageObj.open(settings.MEDIA_ROOT + '/' + photo)
-	# 			print "image", image
-	# 			print "THUMBNAIL_SIZE", THUMBNAIL_SIZE
-	# 			# Convert to RGB if necessary
-	# 			if image.mode not in ('L', 'RGB'): image = image.convert('RGB')
-	# 			# create a thumbnail + use antialiasing for a smoother thumbnail
-	# 			image.thumbnail(THUMBNAIL_SIZE, ImageObj.ANTIALIAS)
-	# 			# fetch image into memory
-	# 			temp_handle = StringIO()
-	# 			# print "temp", temp_handle
-	# 			image.save(temp_handle, 'png')
-	# 			temp_handle.seek(0)
-	# 			disassembled = urlparse(photo)
-	# 			filename, file_ext = splitext(basename(disassembled.path))
-	# 			suf = SimpleUploadedFile(filename + file_ext, temp_handle.read(), content_type='image/png')
-	# 			product.thumbnail.save(filename + '_thumbnail' +'.png', suf, save=False)
-	# 			# print product.thumbnail
-	# 			if count == 0:
-	# 				thumbnail_group = thumbnail_group + str(product.thumbnail)
-	# 			else:
-	# 				thumbnail_group = thumbnail_group + str(product.thumbnail) + ','
-	# 		# print thumbnail_group
-	# 	except ImportError:
-	# 		pass
-	# thumbnail_photos = thumbnail_group 
-	# return large_photos, imagecount, thumbnail_photos          
+	thumbnail_group=''
+	if large_photos:
+		try:
+			count =len(photos)
+			for photo in photos:
+				print "photos", photo
+				count=count-1
+				THUMBNAIL_SIZE = (100, 100) # dimensions
+				image = ImageObj.open(settings.MEDIA_ROOT + '/' + photo)
+				print "image", image
+				print "THUMBNAIL_SIZE", THUMBNAIL_SIZE
+				# Convert to RGB if necessary
+				if image.mode not in ('L', 'RGB'): image = image.convert('RGB')
+				# create a thumbnail + use antialiasing for a smoother thumbnail
+				image.thumbnail(THUMBNAIL_SIZE, ImageObj.ANTIALIAS)
+				# fetch image into memory
+				temp_handle = StringIO()
+				# print "temp", temp_handle
+				image.save(temp_handle, 'png')
+				temp_handle.seek(0)
+				disassembled = urlparse(photo)
+				filename, file_ext = splitext(basename(disassembled.path))
+				suf = SimpleUploadedFile(filename + file_ext, temp_handle.read(), content_type='image/png')
+				product.thumbnail.save(filename + '_thumbnail' +'.png', suf, save=False)
+				# print product.thumbnail
+				if count == 0:
+					thumbnail_group = thumbnail_group + str(product.thumbnail)
+				else:
+					thumbnail_group = thumbnail_group + str(product.thumbnail) + ','
+			# print thumbnail_group
+		except ImportError:
+			pass
+	thumbnail_photos = thumbnail_group 
+	return large_photos, imagecount, thumbnail_photos          
 	return large_photos, imagecount
 
 #Here Save the post ad after checked the required condition
@@ -299,8 +294,7 @@ def post_success(request, product):
 	product.country_code = request.COOKIES.get("country_code")   
 	# product.photos=request.FILES['photos']
 	photos =request.FILES.getlist('photos[]')   
-	# product.photos, product.imagecount, product.thumbnail = create_path_for_photos_thumbanails(photos, product)
-	product.photos, product.imagecount = create_path_for_photos_thumbanails(photos, product)
+	product.photos, product.imagecount, product.thumbnail = create_path_for_photos_thumbanails(photos, product)
 	product.video = request.POST.get('video_url')
 	product.created_date  = datetime.datetime.now()
 	product.modified_date  = datetime.datetime.now()
@@ -349,53 +343,53 @@ def post_success(request, product):
 #Check whether to save the product or not
 # @transaction.commit_on_success
 def product_save(request):
-    if request.method == 'POST':
-        print "product_save"
-        product=Product()
-        try:
-            error={}
-            if request.user.is_authenticated() and not request.user.is_superuser:
-                product.userprofile = UserProfile.objects.get(id=request.user.id)
-                product.isregistered_user = True
-                product.status_isactive  = True
-                if product.userprofile.ad_count < 3 or product.userprofile.is_subscribed == True:
-                    product_dict = post_success(request, product)
-                    #Store in Userprofile table to know the status of users post ad counts
-                    product.userprofile.ad_count = int(product.userprofile.ad_count) + 1
-                    product.userprofile.save()
-                    if product_dict is None:
-                        error['success'] = ugettext('Congratulations...Your Ad Successfully posted')#Ad Successfully posted
-                        raise ValidationError(error['success'], 5)
-                    else:
-                        response = paypal_transaction(request,product_dict)
-                        print "after all"
-                        return response
-                else:
-                    # get_object_or_404('/postad/')
-                    error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium. ')#
-                    print "error['exit_count']",error['exit_count']
-                    raise ValidationError(error['exit_count'], 6)
-            else:
-                product.userprofile = None
-                product.status_isactive  = False
-                emailfilter = Product.objects.filter(you_email=request.POST.get('your_email')).count()
-                if emailfilter < 3:
-                    post_success(request, product)
-                    error['success'] = ugettext('Your Ad Successfully posted. Please confirm your ad in email to make active')#Ad Successfully posted
-                    raise ValidationError(error['success'], 5)
-                else:
-                    error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium. ')#
-                    print "error['exit_count']",error['exit_count']
-                    raise ValidationError(error['exit_count'], 6)
+	if request.method == 'POST':
+		print "product_save"
+		product=Product()
+		try:
+			error={}
+			if request.user.is_authenticated() and not request.user.is_superuser:
+				product.userprofile = UserProfile.objects.get(id=request.user.id)
+				product.isregistered_user = True
+				product.status_isactive  = True
+				if product.userprofile.ad_count < 3 or product.userprofile.is_subscribed == True:
+					product_dict = post_success(request, product)
+					#Store in Userprofile table to know the status of users post ad counts
+					product.userprofile.ad_count = int(product.userprofile.ad_count) + 1
+					product.userprofile.save()
+					if product_dict is None:
+						error['success'] = ugettext('Congratulations...Your Ad Successfully posted')#Ad Successfully posted
+						raise ValidationError(error['success'], 5)
+					else:
+						response = paypal_transaction(request,product_dict)
+						print "after all"
+						return response
+				else:
+					# get_object_or_404('/postad/')
+					error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium. ')#
+					print "error['exit_count']",error['exit_count']
+					raise ValidationError(error['exit_count'], 6)
+			else:
+				product.userprofile = None
+				product.status_isactive  = False
+				emailfilter = Product.objects.filter(you_email=request.POST.get('your_email')).count()
+				if emailfilter < 3:
+					post_success(request, product)
+					error['success'] = ugettext('Your Ad Successfully posted. Please confirm your ad in email to make active')#Ad Successfully posted
+					raise ValidationError(error['success'], 5)
+				else:
+					error['exit_count'] = ugettext('U already post 3 ads....U have to make the account premium. ')#
+					print "error['exit_count']",error['exit_count']
+					raise ValidationError(error['exit_count'], 6)
 
-        except ValidationError as e:
-            messages.add_message(request, messages.ERROR, e.messages[-1])
-            redirect_path = "/postad/"
-            query_string = 'pt=%d' % e.code
-            redirect_url = format_redirect_url(redirect_path, query_string)
-            return HttpResponseRedirect(redirect_url)
-    else:
-        return HttpResponseRedirect("/postad/")
+		except ValidationError as e:
+			messages.add_message(request, messages.ERROR, e.messages[-1])
+			redirect_path = "/postad/"
+			query_string = 'pt=%d' % e.code
+			redirect_url = format_redirect_url(redirect_path, query_string)
+			return HttpResponseRedirect(redirect_url)
+	else:
+		return HttpResponseRedirect("/postad/")
 
 def freealert_save(request):
 	# try:
