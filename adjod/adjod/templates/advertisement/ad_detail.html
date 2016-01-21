@@ -273,14 +273,16 @@
                    <div class="product_images1">
                       <a href="/ads/{{related_products.object.id}}/" class="">
                           {% if related_products.object.photos = '' %}
-                          <img src="{{STATIC_URL}}img/no_imageonly.png">
+                          <img src="{{STATIC_URL}}img/bg-img2.png">
                           {% else %}
                           <img src="{{MEDIA_URL}}{{related_products.object.photos|get_photos}}">
                           {% endif %}
+                          {% if related_products.object.imagecount != 0 %}
                           <div class="count_holder1 visible-lg">
-                            <span>{% if not related_products.object.imagecount %}0{% else %}{{related_products.object.imagecount}} {%endif%}</span>
+                            <span>{{related_products.object.imagecount}}</span>
                             <i class="fa fa-camera"></i>
                           </div>
+                          {% endif %}
                       </a>
                     </div>
 
@@ -364,7 +366,7 @@
                     {% endif %}
                       <a href="" class="">
                         {% if related_products.object.photos = '' %}
-                        <img src="{{MEDIA_URL}}img/no_imageonly.png">
+                        <img src="{{STATIC_URL}}img/bg-img2.png">
                         {% else %}
                         <img src="{{MEDIA_URL}}{{related_products.object.photos|get_photos}}">
                         {% endif %}

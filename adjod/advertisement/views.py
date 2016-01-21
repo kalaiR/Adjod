@@ -67,6 +67,12 @@ from djmoney_rates.data import CURRENCIES_BY_COUNTRY_CODE
 #For storing no of views for products
 from tracking.utils import update_product_viewed_count
 
+# For Images
+from PIL import Image as ImageObj
+from cStringIO import StringIO
+from django.core.files.uploadedfile import SimpleUploadedFile
+import os
+
 class JSONResponse(HttpResponse):
 	def __init__(self, data):
 		super(JSONResponse, self).__init__(
@@ -195,11 +201,21 @@ def paypal_transaction(request, product_dict):
 	return response
 
 #Fuction for storing in images or vidoes in our folder
-def handle_uploaded_file(f):
-	file_data = open(settings.MEDIA_ROOT + '/products/' + '%s' % f.name, 'wb+')
+def handle_uploaded_file(f,product):
+	# file_data = open(settings.MEDIA_ROOT + '/products/' + '%s' % f.name, 'wb+')
+	# for chunk in f.chunks():
+	# 	file_data.write(chunk)
+	# file_data.close()
+	filename, file_ext = splitext(basename(f.name))
+	temp_filepath = settings.MEDIA_ROOT + '/temp/' + '%s' % f.name
+	file_data = open(temp_filepath, 'wb+')
 	for chunk in f.chunks():
 		file_data.write(chunk)
-	file_data.close()
+	temp= open(temp_filepath, 'r+')
+	suf = SimpleUploadedFile(filename + file_ext,temp.read())
+	product.photos.save(filename + '_photo' + file_ext, suf, save=False)
+	print "file_data", temp
+	os.remove(temp_filepath)
 
 def create_path_for_photos_thumbanails(photos, product):
 	#Creating path for large photos
@@ -207,53 +223,56 @@ def create_path_for_photos_thumbanails(photos, product):
 	count=len(photos)
 	for uploaded_file in photos:
 		count=count-1
-		handle_uploaded_file(uploaded_file)
+		handle_uploaded_file(uploaded_file,product)
 		if count==0:
-			photosgroup=photosgroup + 'products/' + str(uploaded_file)
+			photosgroup=photosgroup + str(product.photos)
 		else:
-			photosgroup=photosgroup + 'products/' + str(uploaded_file) + ','
+			photosgroup=photosgroup + str(product.photos) + ','
 	large_photos=photosgroup
+	print "large_photos", large_photos
+	
 	# Creating path for thumbnail photos
-	photo=str(large_photos)
-	photos=photo.split(',')
+	# photo=str(large_photos)
+	# photos=photo.split(',')
 	
 	imagecount= len(photos)
+	print "imagecount", imagecount
 	
-	thumbnail_group=''
-	if large_photos:
-		from PIL import Image as ImageObj
-		from cStringIO import StringIO
-		from django.core.files.uploadedfile import SimpleUploadedFile
-		import os
-		try:
-			count =len(photos)
-			for photo in photos:
-				count=count-1
-				THUMBNAIL_SIZE = (100, 100) # dimensions
-				image = ImageObj.open(settings.MEDIA_ROOT + '/' + photo)
-				# Convert to RGB if necessary
-				if image.mode not in ('L', 'RGB'): image = image.convert('RGB')
-				# create a thumbnail + use antialiasing for a smoother thumbnail
-				image.thumbnail(THUMBNAIL_SIZE, ImageObj.ANTIALIAS)
-				# fetch image into memory
-				temp_handle = StringIO()
-				# print "temp", temp_handle
-				image.save(temp_handle, 'png')
-				temp_handle.seek(0)
-				disassembled = urlparse(photo)
-				filename, file_ext = splitext(basename(disassembled.path))
-				suf = SimpleUploadedFile(filename + file_ext, temp_handle.read(), content_type='image/png')
-				product.thumbnail.save(filename + '_thumbnail' +'.png', suf, save=False)
-				# print product.thumbnail
-				if count == 0:
-					thumbnail_group = thumbnail_group + str(product.thumbnail)
-				else:
-					thumbnail_group = thumbnail_group + str(product.thumbnail) + ','
-			# print thumbnail_group
-		except ImportError:
-			pass
-	thumbnail_photos = thumbnail_group           
-	return large_photos, imagecount, thumbnail_photos
+	# thumbnail_group=''
+	# if large_photos:
+	# 	try:
+	# 		count =len(photos)
+	# 		for photo in photos:
+	# 			print "photos", photo
+	# 			count=count-1
+	# 			THUMBNAIL_SIZE = (100, 100) # dimensions
+	# 			image = ImageObj.open(settings.MEDIA_ROOT + '/' + photo)
+	# 			print "image", image
+	# 			print "THUMBNAIL_SIZE", THUMBNAIL_SIZE
+	# 			# Convert to RGB if necessary
+	# 			if image.mode not in ('L', 'RGB'): image = image.convert('RGB')
+	# 			# create a thumbnail + use antialiasing for a smoother thumbnail
+	# 			image.thumbnail(THUMBNAIL_SIZE, ImageObj.ANTIALIAS)
+	# 			# fetch image into memory
+	# 			temp_handle = StringIO()
+	# 			# print "temp", temp_handle
+	# 			image.save(temp_handle, 'png')
+	# 			temp_handle.seek(0)
+	# 			disassembled = urlparse(photo)
+	# 			filename, file_ext = splitext(basename(disassembled.path))
+	# 			suf = SimpleUploadedFile(filename + file_ext, temp_handle.read(), content_type='image/png')
+	# 			product.thumbnail.save(filename + '_thumbnail' +'.png', suf, save=False)
+	# 			# print product.thumbnail
+	# 			if count == 0:
+	# 				thumbnail_group = thumbnail_group + str(product.thumbnail)
+	# 			else:
+	# 				thumbnail_group = thumbnail_group + str(product.thumbnail) + ','
+	# 		# print thumbnail_group
+	# 	except ImportError:
+	# 		pass
+	# thumbnail_photos = thumbnail_group 
+	# return large_photos, imagecount, thumbnail_photos          
+	return large_photos, imagecount
 
 #Here Save the post ad after checked the required condition
 def post_success(request, product):
@@ -280,7 +299,8 @@ def post_success(request, product):
 	product.country_code = request.COOKIES.get("country_code")   
 	# product.photos=request.FILES['photos']
 	photos =request.FILES.getlist('photos[]')   
-	product.photos, product.imagecount, product.thumbnail = create_path_for_photos_thumbanails(photos, product)
+	# product.photos, product.imagecount, product.thumbnail = create_path_for_photos_thumbanails(photos, product)
+	product.photos, product.imagecount = create_path_for_photos_thumbanails(photos, product)
 	product.video = request.POST.get('video_url')
 	product.created_date  = datetime.datetime.now()
 	product.modified_date  = datetime.datetime.now()

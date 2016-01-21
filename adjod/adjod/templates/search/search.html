@@ -282,10 +282,12 @@
                     <img src="{{ MEDIA_URL }}{{ product.object.photos|get_photos }}" class="dn">
                     </a>
                     {% endif %}
-                    <div class="count_holder1">
-                        <span>{{product.object.imagecount}}</span>
-                        <i class="fa fa-camera"></i>
-                    </div>
+                    {% if product.object.imagecount != 0 %}
+                      <div class="count_holder1">
+                          <span>{{product.object.imagecount}}</span>
+                          <i class="fa fa-camera"></i>
+                      </div>
+                    {% endif %}
                 </div>
                 <div class="details">
                   <div class="product_name1">
