@@ -347,20 +347,56 @@ $( document ).ready(function() {
       $(this).addClass('active');
     });
 
-   //user profile check and uncheck functionality   by ramya
+   // userprofile edit and delete by ramya
+   //multiple check and uncheck functionalities for delete and edit in user profile my ads
+
+    $('.edit_action, .delete_action').hide();  
+    $('input[type="checkbox"].check_individual_act').change(function(){
+      
+        if($(this).prop('checked')==true){
+           $(this).parent().siblings().find('.edit_action, .delete_action').show();
+
+             if ($('input[type="checkbox"].check_individual_act:checked').size() > 1){
+              // alert($('input[type="checkbox"].check_individual_act:checked').size());
+              $('.delete_act').prop('disabled', false);      
+            }         
+        }
+        else{
+            $(this).parent().siblings().find('.edit_action, .delete_action').hide();
+             if ($('input[type="checkbox"].check_individual_act:checked').size() < 2){
+                 $('.delete_act').prop('disabled', true);      
+            } 
+        }           
+    });
+
+    //disable delete act when non one is checked 
+
+    if ($(".check_individual_act").prop('checked')==true){
+         $('.delete_act').prop('disabled', false);        
+      } 
+     if ($(".check_individual_act").prop('checked')==false){
+         $('.delete_act').prop('disabled', true);        
+      }
+
+    // check and uncheck functionality
+
     $('.check_all_act').on('click', function(){
       $('.check').prop('checked', true);
-      $('.edit_action,.view_action,.delete_action').hide();
+      $('.delete_act').prop('disabled', false);        
+      $('.view_action, .edit_action, .delete_action').hide();
     });
 
     $('.uncheck_all_act').on('click', function(){
       $('.check').prop('checked', false);
-      $('.edit_action,.view_action,.delete_action').show();
+       $('.delete_act').prop('disabled', true);        
+      $('.view_action').show();
     });
+
+    //get values for selected ads
 
     function getSelectedVals(){
      var tmp =[];
-     $("input[name='title_box']").each(function() {
+     $("input[name='title_box'].check_individual_act").each(function() {
      if ($(this).attr('checked'))
      {
         checked = ($(this).val());
@@ -368,30 +404,27 @@ $( document ).ready(function() {
      }
      });
      var filters = tmp.join(',');
-     alert(filters)
+     // alert('filters'+filters);
      return filters;
     }
 
-    $('.delete_act').on('click', function() {
-      if ($(".check").prop('checked')==false){
-         $('.delete_act').prop('disabled', true);
-         alert('you must select atleast one ad to complete your action');
-      }
-      else{
+    //delete act for selected items
+    
+    $('.delete_act, .delete_action').on('click', function() {
         selected = getSelectedVals();
-        var myurl = "/delete_ad/"
-        $.ajax({
+        // alert('selected' + selected);
+        var myurl = "/delete_ad/"                 
+        $.ajax({ 
                   type: "POST",
                   url: myurl,
                   data: "selected="+selected,
                   success: function(response) {
                     window.location.reload(true);
                   },
-
-        });
+                        
+        });           
         return false;
-      }
-    });
+      });
 
 
   // $(document).on('change','.poster', function(){

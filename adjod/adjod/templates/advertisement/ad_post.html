@@ -129,14 +129,14 @@
          			<span class="mandatory">*</span>
      		  </div> <!-- you_are_title -->
 
-     		  <div class="field_div form-group" id="you_are_content">
-              <input type="radio" name="you_are_radio" id="individual" value="individual" checked={% if edit_product.you_are == 'individual' %}"checked"{% endif %}>
+          <div class="field_div form-group" id="you_are_content">
+              <input type="radio" name="you_are_radio" id="individual" value="individual" {% if edit_product.you_are == 'individual' %} checked="checked"{% endif %}>
               <label for="individual" class="you_are"><span><span></span></span>{% trans "Individual" %}</label>
-         			<input type="radio" name="you_are_radio" id="dealer" value="dealer" checked={% if edit_product.you_are == 'delear' %}"checked"{% endif %}>
+                     <input type="radio" name="you_are_radio" id="dealer" value="dealer" {%if edit_product.you_are == 'dealer' %}checked="checked"{% endif %}>
               <label for="dealer" class="you_are"><span><span></span></span>{% trans "Delear" %}</label>
               <label id="content_required" class="labelError" style="display:none;">{% trans "Please select You are." %}</label>
               <div class="clear_both"></div>
-          </div> <!-- type_of_ad_content -->
+          </div> <!-- type_of_ad_content --> 
 
             <!-- <div class="field_div form-group" id="you_are_content">
                 <input type="radio" name="you_are_radio" id="individual" value="individual">
@@ -332,8 +332,12 @@
             <label id="terms_required" class="labelError choose_error" style="display:none;">{% trans "Please click the checkbox" %}</label>
          	</div> <!-- terms_of_use_div -->
 
-         	  <div class="field_div form-group {% if user.is_authenticated and userprofile.ad_count >= 3 and userprofile.is_subscribed == 0%}disable_post_ad{% endif%}" id="post_button_div">
+         	 <!--  <div class="field_div form-group {% if user.is_authenticated and userprofile.ad_count >= 3 and userprofile.is_subscribed == 0%}disable_post_ad{% endif%}" id="post_button_div">
             <input class="btn-warning btn post_form_send" type="submit" value="Post the Ad" id="post" name="post" {% if user.is_authenticated and userprofile.ad_count >= 3 and userprofile.is_subscribed == 0%}disabled{% endif%}/>
+            <p class="postpage_tooltip">{% trans "You already add 3 posts," %}<br>{% trans "if u want add more posts," %}<br>{% trans "u have to make ur account as premium" %}<a type="button" class="btn btn-link link_tooltip">{% trans "Click here" %}</a></p>
+          </div> --> 
+          <div class="field_div form-group {% if user.is_authenticated and userprofile.ad_count >= 3 and userprofile.is_subscribed == 0 and 'edit_postad_detail' in path %}{% elif user.is_authenticated and userprofile.ad_count >= 3 and userprofile.is_subscribed == 0 %}disabled{% endif%}" id="post_button_div">
+            <input class="btn-warning btn post_form_send" type="submit" value="Post the Ad" id="post" name="post" {% if user.is_authenticated and userprofile.ad_count >= 3 and userprofile.is_subscribed == 0 and 'edit_postad_detail' in path %}{% elif user.is_authenticated and userprofile.ad_count >= 3 and userprofile.is_subscribed == 0 %}disabled{% endif%}/>
             <p class="postpage_tooltip">{% trans "You already add 3 posts," %}<br>{% trans "if u want add more posts," %}<br>{% trans "u have to make ur account as premium" %}<a type="button" class="btn btn-link link_tooltip">{% trans "Click here" %}</a></p>
           </div> <!-- post_button_div -->
      	</form> <!-- post_ad -->

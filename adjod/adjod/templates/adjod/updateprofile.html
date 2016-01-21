@@ -31,7 +31,7 @@
             <li class="product_ads">
               <div class="product_images1 bg-img">
                 <p class="{% if my_ads.premium_plan_id = 1 %} premium-img1 {% elif my_ads.premium_plan_id = 2 %} premium-img2 {% elif my_ads.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>
-                <a><img src="{{MEDIA_URL}}{{my_ads.thumbnail|get_photos}}"></a>
+                <a><img src="{{MEDIA_URL}}{{my_ads.photos|get_photos}}"></a>
                 <div class="count_holder1 visible-lg">
                       <span>{{my_ads.imagecount}}</span>
                       <i class="fa fa-camera"></i>
@@ -41,18 +41,18 @@
             <form action="/delete_ad" method="post" id="userprofile_form">
                 <div class="ads_name1 hidden-xs">
                <!--    <a href="/ads/{{my_ads.id}}/" class="spans"></a> -->
-                  <input type="checkbox" name="title_box" value="{{my_ads.id}}" class="check"><span class="description1">
+                  <input type="checkbox" name="title_box" value="{{my_ads.id}}" class="check check_individual_act"><span class="description1">
                   <a href="/ads/{{my_ads.id}}/">{{my_ads.title}}</a></span>
                   <span class="ads_id">{% trans "AD ID:" %}{{my_ads.id}}</span><br>
-                  <span class="category_ads">{% trans "status:" %}{% if my_ads.status_isactive %}Active{%endif%}</span><br>
+                  <span class="category_ads">{% trans "status:" %}{% if my_ads.status_isactive == 1 %}Active{%else%}Inactive{%endif%}</span><br>
                   <span class="category_ads">{{my_ads.category.name}}<br>{{my_ads.subcategory.name}}</span>
                </div><!--ads_name1-->
                <div class="ads_name1 visible-xs">
                <!--    <a href="/ads/{{my_ads.id}}/" class="spans"></a> -->
-                  <input type="checkbox" name="title_box" value="{{my_ads.id}}" class="check"><span class="description1">
+                  <input type="checkbox" name="title_box" value="{{my_ads.id}}" class="check check_individual_act"><span class="description1">
                   <a href="/ads/{{my_ads.id}}/">{{my_ads.title}}</a></span>
                   <!-- <span class="ads_id">AD ID:{{my_ads.id}}</span> -->
-                  <span class="category_ads">status: {{my_ads.status_isactive}}</span>
+                  <span class="category_ads">{% trans "status:" %}{% if my_ads.status_isactive == 1 %}Active{%else%}Inactive{%endif%}</span><br> 
                   <span class="category_ads">{{my_ads.category.name}}<br>{{my_ads.subcategory.name}}</span>
                </div><!--ads_name1-->
                 <div class="ads_name2">
@@ -64,13 +64,13 @@
                 <!--   <a href="#" class="spans2">Action</a> -->
                   <span><a href="/ads/{{my_ads.id}}" class="action view_action">{% trans "View" %}</a></span>
                   <span><a href="/edit_postad_detail/{{my_ads.id}}" class="action edit_action">{% trans "Edit" %}</a></span>
-                  <span><a href="#" value="{{my_ads.id}}" class="action delete_act delete_action">{% trans "Delete" %}</a></span>
+                  <span><a href="#" value="{{my_ads.id}}" class="action delete_action">{% trans "Delete" %}</a></span>
               </div><!--ads_name3-->
               <div class="ads_name3 visible-xs">
-                  <a href="#" class="spans2 hidden-xs">{% trans "Action" %}</a>
-                  <span class="action"><a href="/ads/{{my_ads.id}}" class="action"><i class="fa fa-eye"></i></a></span>
-                  <span class="action"><a href="/edit_postad_detail/{{my_ads.id}}" class="action"><i class="fa fa-pencil"></i></a></span>
-                  <span class="action"><a href="#" value="{{my_ads.id}}" class="action delete_act"><i class="fa fa-trash-o"></i></a></span>
+                  <!-- <a href="#" class="spans2 hidden-xs">{% trans "Action" %}</a> -->
+                  <span class="action"><a href="/ads/{{my_ads.id}}" class="action view_action"><i class="fa fa-eye"></i></a></span>
+                  <span class="action"><a href="/edit_postad_detail/{{my_ads.id}}" class="action edit_action"><i class="fa fa-pencil"></i></a></span>
+                  <span class="action"><a href="#" value="{{my_ads.id}}" class="action delete_action"><i class="fa fa-trash-o"></i></a></span>
               </div><!--ads_name3-->
           </li><!--product_ads-->
         </ul><!--product1-->

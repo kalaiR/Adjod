@@ -420,7 +420,8 @@ def user_manage(request):
 	if request.user.is_authenticated():
 		userprofile_id = request.user.id
 		try:
-			my_products = Product.objects.filter(userprofile_id=userprofile_id,status_isactive=True)
+			# my_products = Product.objects.filter(userprofile_id=userprofile_id,status_isactive=True)
+			my_products = Product.objects.filter(userprofile_id=userprofile_id).order_by('-created_date') 
 			userprofile = UserProfile.objects.get(id=request.user.id)
 		except UserProfile.DoesNotExist:
 			return render_to_response('404.html', context_instance=RequestContext(request))
@@ -479,7 +480,7 @@ def user_manage(request):
 @login_required
 def edit_postad_detail(request , pk):
 	edit_product = Product.objects.get(pk=int(pk))
-	pic=[n for n in str(edit_product.thumbnail).split(',')]
+	pic=[n for n in str(edit_product.photos).split(',')]
 	return render_to_response('advertisement/ad_post.html', {'edit_product':edit_product, 'pic':pic}, context_instance=RequestContext(request))
 
 def update_success(request, pk):
