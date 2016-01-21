@@ -26,7 +26,7 @@
                   <span class="Ad-ID">{% trans "Ad ID:" %}{{adinfo.id}} | {{adinfo.created_date}} | {{product_viewed_count}} views</span>
               </div>
               <div class="product-image visible-lg">
-              <!-- <p class="{% if adinfo.premium_plan_id = 4 %} premium-img1 {% elif adinfo.premium_plan_id = 3 %} premium-img2 {% elif adinfo.premium_plan_id = 2 %} premium-img3 {% endif%} "></p> -->
+              <p class="{% if adinfo.premium_plan_id = 4 %} tag_img1 {% elif adinfo.premium_plan_id = 3 %} tag_img2 {% elif adinfo.premium_plan_id = 2 %} tag_img3 {% endif%} "></p>
               <div class="upperimg">
                   <ul id="portfolio" class="clearfix">
                     {%for photo in photos %}
