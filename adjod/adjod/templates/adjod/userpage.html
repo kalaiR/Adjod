@@ -8,10 +8,10 @@
       </a>
     </div> -->
     {% for banners in banner|get_banner %}
-    {% if banners.bannerplan.page == "Home page" and banners.bannerplan.position == "Top" and banners.bannerplan.bannertype == "Google" %}
+    {% if banners.bannerplan.page == "Home page" and banners.bannerplan.position == "Top" and banners.bannerplan.bannertype == "Other" %}
      <div align="center" id="richmedia_6">
       <a href="{{banners.link}}" target="_blank">
-        <img width="800" height="90" border="0" src="{{MEDIA_URL}}{{banners.banner}}">
+        <img width="800" height="90" border="0" src="">
       </a>
      </div>
     {% endif %}

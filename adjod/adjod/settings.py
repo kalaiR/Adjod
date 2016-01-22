@@ -6,8 +6,6 @@ import smtplib
 from django.utils.translation import ugettext_lazy, ugettext as _
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
-
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
