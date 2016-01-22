@@ -7,15 +7,20 @@
       <img width="800" height="90" border="0" src="http://cdnx.tribalfusion.com/media/3794856.gif">
       </a>
     </div> -->
-    {% for banners in banner|get_banner %}
-    {% if banners.bannerplan.page == "Home page" and banners.bannerplan.position == "Top" and banners.bannerplan.bannertype == "Other" %}
-     <div align="center" id="richmedia_6">
-      <a href="{{banners.link}}" target="_blank">
-        <img width="800" height="90" border="0" src="">
-      </a>
-     </div>
-    {% endif %}
-    {% endfor %}
+
+    <div align="center" class="banner_rotation banner_ad">
+    <ul>
+      {% for banners in banner|get_banner %}
+      {% if banners.bannerplan.page == "Home page" and banners.bannerplan.position == "Top" and banners.bannerplan.bannertype == "Other" and banners.source != None %}
+       <li>
+        <a href="{{banners.link}}" target="_blank">
+          <img width="800" height="90" border="0" src="{{banners.source}}">
+        </a>
+       </li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+    </div>
    
     <div class="row row_1 col-md-12">
             {% for categories in category %}
@@ -89,26 +94,30 @@
   <a class="handle" >{% trans "Ads" %}</a>
 </div><!--left_side ad-->
 
-<div class="leftslide visible-lg">
+<div class="leftslide visible-lg banner_rotation banner_ad">
  <!--  <code class="closeimg"> </code> -->
  <ul>
  {% for banners in banner|get_banner %}
-    {% if banners.bannerplan.page == "Home page" and banners.bannerplan.position == "Left" and banners.bannerplan.bannertype == "Own" %}
+    {% if banners.bannerplan.page == "Home page" and banners.bannerplan.position == "Right" and banners.bannerplan.bannertype == "Own" and banners.banner != None %}
     <li>
+     <a href="{{banners.link}}" target="_blank">
       <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad1" />
+    </a>
     </li>
     {% endif %}
   {% endfor %}
 </ul>
 </div><!--leftslide-->
 
-<div class="leftslide1 visible-lg">
+<div class="leftslide1 visible-lg banner_rotation banner_ad">
   <!-- <code class="closeimg"> </code> -->
   <ul>
   {% for banners in banner|get_banner %}
-    {% if banners.bannerplan.page == "Home page" and banners.bannerplan.position == "Right" and banners.bannerplan.bannertype == "Own" %}
+    {% if banners.bannerplan.page == "Home page" and banners.bannerplan.position == "Left" and banners.bannerplan.bannertype == "Own" and banners.banner != None %}
     <li>
+     <a href="{{banners.link}}" target="_blank">
       <img src="{{MEDIA_URL}}{{banners.banner}}" class="ad2" />
+     </a>
     </li>
    {% endif %}
   {% endfor %}
@@ -318,12 +327,14 @@
   </div> <!-- row3 -->
 </div> <!-- container fourth part -->
 <div class="container fifth_part">
-      <div class="hp_ad banner_ad banner_rotation">
+      <div class="banner_ad banner_rotation">
       <ul class="fifth_part">
         {% for banners in banner|get_banner %}
          {% if banners.bannerplan.page == "Home page" and banners.bannerplan.position == "Bottom" and banners.bannerplan.bannertype == "Own" %}
-        <li>         
+        <li>    
+         <a href="{{banners.link}}" target="_blank">     
             <img src="{{MEDIA_URL}}{{banners.banner}}" style="height:120px;width:970px;" />
+          </a>
          </li>
          {% endif %}
         {% endfor %}

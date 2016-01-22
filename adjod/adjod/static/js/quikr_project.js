@@ -564,19 +564,35 @@ $( document ).ready(function() {
         }
     });
 
-    // Code for banner rotation based on interval
-    $('.banner_rotation ul li:first').addClass('banneractive');
-    toggleSlide = function() {
-        var active = $(".banner_rotation ul li.banneractive");
+    // Code for banner rotation top based on interval 
+    $('.banner_rotation').each(function(){
+      $(this).find('ul li:first').addClass('banneractive');
+    });
+    setInterval(function() {
+      $('.banner_rotation').each(function(){
+        var active = $(this).find('ul li.banneractive');
         var next   = active.next();
         if (next.length === 0) {
-            next = $('.banner_rotation ul li:first');
+            next = $(this).find('ul li:first'); 
         }
-
         active.removeClass('banneractive');
         next.addClass('banneractive');
-    }
-    setInterval(toggleSlide, 4000);
+      });
+    }, 5000);
+    
+    // // Code for banner rotation top based on interval
+    // $('.banner_rotation_top ul li:first').addClass('banneractive');
+    // toggleSlide1 = function() {
+    //     var active = $(".banner_rotation_top ul li.banneractive");
+    //     var next   = active.next();
+    //     if (next.length === 0) {
+    //         next = $('.banner_rotation_top ul li:first');
+    //     }
+
+    //     active.removeClass('banneractive');
+    //     next.addClass('banneractive');
+    // }
+    // setInterval(toggleSlide1, 4000);
 
     // ************* start country wise mobile number validation in post ad page
 
