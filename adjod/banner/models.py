@@ -40,7 +40,10 @@ class BannerPlan(models.Model):
     plan_duration = models.BigIntegerField(
         null=True, help_text="No of days allowed")
     bannertype = models.CharField(max_length=50, choices=BANNERTYPE, help_text='Choose BannerType of your banner')
-    
+    height = models.BigIntegerField(
+        null=True, blank=True, help_text="Please enter the height to be allowed for this banner plan")
+    width = models.BigIntegerField(
+        null=True, blank=True, help_text="Please enter the width to be allowed for this banner plan")
     class Meta:
         unique_together = ("page", "position", "bannertype")
 

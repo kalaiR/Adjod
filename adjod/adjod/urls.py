@@ -148,6 +148,7 @@ urlpatterns = patterns('',
     # url(r'^(?i)testpage/$', 'adjod.views.geosearch'),
 
     url(r'^(?i)handler404/$', 'adjod.views.custom_404', name='custom_404'),
+    url(r'^(?i)get_banner_height_width/$', 'banner.views.get_banner_height_width', name='get_banner_height_width'),
 
 
 )+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
