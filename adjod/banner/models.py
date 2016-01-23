@@ -60,8 +60,7 @@ class PostBanner(models.Model):
     source = models.CharField(max_length=500, null=True,
                             blank=True,
                             help_text="Please enter the source for API banners")
-    link = models.CharField(max_length=200, null=True,
-                            blank=True,
+    link = models.CharField(max_length=200,
                             help_text="Please enter website redirect link for the banner")
     bannerplan = models.ForeignKey(BannerPlan,help_text='Choose bannerplan')
     startdate = models.DateTimeField(

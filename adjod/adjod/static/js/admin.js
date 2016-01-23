@@ -42,26 +42,34 @@ $('#id_bannertype').change(function(){
         $('.field-width').hide();
     }
 });
-$('#id_banner').on('change', function(){
-    var selected_option = $( "#id_bannerplan option:selected" ).val();
-    size = $('#id_banner')[0].files[0].height();
-    alert(size);
-    height = $(this).height();
-    width = $(this).width();
-    $.ajax({ 
-          type: "POST",
-          url: '/get_banner_height_width/',
-          data: "selected_option="+selected_option,
-          success: function(response) {
-            banner_height = JSON.stringify(response.banner_height);
-            banner_width = JSON.stringify(response.banner_width);
-            alert("height="+height+"banner_height="+banner_height);
-            alert("width="+width+"banner_width="+banner_width);
-            if (height>banner_height)
-                alert("Banner height is too large");
-            if (width>banner_width)
-                alert("Banner width is too large");
-          },
-        });  
+$("#id_banner").change(function(e) {
+    var _URL = window.URL || window.webkitURL;
+    var file, img;
+    if ((file = this.files[0])) {
+        img = new Image();
+        img.onload = function() {
+            height = this.height;
+            width = this.width;
+            var selected_option = $( "#id_bannerplan option:selected" ).val();
+            $.ajax({ 
+              type: "POST",
+              url: '/get_banner_height_width/',
+              data: "selected_option="+selected_option,
+              success: function(response) {
+                banner_height = JSON.stringify(response.banner_height);
+                banner_width = JSON.stringify(response.banner_width);
+                if ( height>banner_height || width>banner_width || height<banner_height || width<banner_width) {
+                    $("#id_banner").next('.help-inline').text('Please upload the banner Image with '+ banner_height +' height *'+ banner_width +' width').css({'color':'red'});
+                    $("#id_banner").val('');
+                }  
+                else{
+                    $("#id_banner").next('.help-inline').text('');
+                }             
+              },
+            });  
+        };
+        img.src = _URL.createObjectURL(file);
+    }
 });
 });
+
