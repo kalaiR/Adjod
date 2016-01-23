@@ -350,46 +350,58 @@ $( document ).ready(function() {
    // userprofile edit and delete by ramya
    //multiple check and uncheck functionalities for delete and edit in user profile my ads
 
-    $('.edit_action, .delete_action').hide();  
     $('input[type="checkbox"].check_individual_act').change(function(){
       
         if($(this).prop('checked')==true){
-           $(this).parent().siblings().find('.edit_action, .delete_action').show();
+           $(this).parent().siblings().find('.edit_action, .delete_action').removeClass('disable_post');
 
              if ($('input[type="checkbox"].check_individual_act:checked').size() > 1){
-              // alert($('input[type="checkbox"].check_individual_act:checked').size());
+              $('input[type="checkbox"].check_individual_act:checked').each(function(){
+                $(this).parent().siblings().find('.view_action, .edit_action, .delete_action').hide();
+              });
               $('.delete_act').prop('disabled', false);      
             }         
         }
         else{
-            $(this).parent().siblings().find('.edit_action, .delete_action').hide();
+            $(this).parent().siblings().find('.edit_action, .delete_action').addClass('disable_post');
              if ($('input[type="checkbox"].check_individual_act:checked').size() < 2){
+                 $(this).parent().siblings().find('.view_action, .edit_action, .delete_action').show();                
                  $('.delete_act').prop('disabled', true);      
             } 
         }           
     });
 
-    //disable delete act when non one is checked 
+    //remove edit action href when add disable post class
+    // $('.remove_class').on('click',function(){
+    //   $(this).off('click');
+    // });
 
-    if ($(".check_individual_act").prop('checked')==true){
+    //disable delete act when non one is checked 
+    // $('.view_action,.edit_action').attr('disabled', true);
+
+    if ($('input[type="checkbox"].check_individual_act').prop('checked')==true){
+        // $(this).parent().siblings().find('span .edit_action, span .delete_action').removeClass('disable_post');
          $('.delete_act').prop('disabled', false);        
       } 
-     if ($(".check_individual_act").prop('checked')==false){
+     if ($('input[type="checkbox"].check_individual_act').prop('checked')==false){
+         // $(this).parent().siblings().find('span .edit_action, span .delete_action').addClass('disable_post');        
          $('.delete_act').prop('disabled', true);        
       }
 
     // check and uncheck functionality
-
+    $('.delete_act').prop('disabled', true);
     $('.check_all_act').on('click', function(){
       $('.check').prop('checked', true);
       $('.delete_act').prop('disabled', false);        
       $('.view_action, .edit_action, .delete_action').hide();
     });
 
+    $('a.edit_action').contents().unwrap();
+    $('.view_action,.edit_action,.delete_action').show();
     $('.uncheck_all_act').on('click', function(){
       $('.check').prop('checked', false);
        $('.delete_act').prop('disabled', true);        
-      $('.view_action').show();
+      $('.view_action,.edit_action,.delete_action').show();
     });
 
     //get values for selected ads
@@ -404,7 +416,6 @@ $( document ).ready(function() {
      }
      });
      var filters = tmp.join(',');
-     // alert('filters'+filters);
      return filters;
     }
 
@@ -412,7 +423,6 @@ $( document ).ready(function() {
     
     $('.delete_act, .delete_action').on('click', function() {
         selected = getSelectedVals();
-        // alert('selected' + selected);
         var myurl = "/delete_ad/"                 
         $.ajax({ 
                   type: "POST",

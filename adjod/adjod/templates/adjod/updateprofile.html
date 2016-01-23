@@ -61,11 +61,11 @@
                     <!-- <span class="post_time">{{my_ads.created_date}}<br>08.30 AM</span> -->
                  </div><!--ads_name2-->
                 <div class="ads_name3 hidden-xs">
-                <!--   <a href="#" class="spans2">Action</a> -->
-                  <span><a href="/ads/{{my_ads.id}}" class="action view_action">{% trans "View" %}</a></span>
-                  <span><a href="/edit_postad_detail/{{my_ads.id}}" class="action edit_action">{% trans "Edit" %}</a></span>
-                  <span><a href="#" value="{{my_ads.id}}" class="action delete_action">{% trans "Delete" %}</a></span>
-              </div><!--ads_name3-->
+                    <!--   <a href="#" class="spans2">Action</a> -->
+                    <span class="{%if my_ads.status_isactive == 1 %}action view_action{%else%}disable_post{%endif%}"><a href="{%if my_ads.status_isactive == 1 %}/ads/{{my_ads.id}}{%else%}#{%endif%}" class="action view_action">{% trans "View" %}</a></span>
+                    <span class="edit_action disable_post"><a href="/edit_postad_detail/{{my_ads.id}}" id="for_edit" class="action remove_class">{% trans "Edit" %}</a></span>
+                    <span class="action delete_action disable_post"><a href="#" value="{{my_ads.id}}" class="action delete_action remove_class">{% trans "Delete" %}</a></span>            
+               </div><!--ads_name3-->
               <div class="ads_name3 visible-xs">
                   <!-- <a href="#" class="spans2 hidden-xs">{% trans "Action" %}</a> -->
                   <span class="action"><a href="/ads/{{my_ads.id}}" class="action view_action"><i class="fa fa-eye"></i></a></span>
