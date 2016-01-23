@@ -58,7 +58,7 @@ $("#id_banner").change(function(e) {
               success: function(response) {
                 banner_height = JSON.stringify(response.banner_height);
                 banner_width = JSON.stringify(response.banner_width);
-                if ( height>banner_height || width>banner_width || height<banner_height || width<banner_width) {
+                if ( height>banner_height || width>banner_width) {
                     $("#id_banner").next('.help-inline').text('Please upload the banner Image with '+ banner_height +' height *'+ banner_width +' width').css({'color':'red'});
                     $("#id_banner").val('');
                 }  
