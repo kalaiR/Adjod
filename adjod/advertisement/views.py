@@ -194,7 +194,8 @@ def paypal_transaction(request, product_dict):
 	response = render_to_response('paypal_integration/payment.html', ctx , context_instance=RequestContext(request))
 	response.set_cookie("premiumplan", plan.id)
 	try:
-		product_id = Product.objects.get(title=product_dict['title'],userprofile=UserProfile.objects.get(id=product_dict['userprofile']))
+		# product_id = Product.objects.get(title=product_dict['title'],userprofile=UserProfile.objects.get(id=product_dict['userprofile']))
+		product_id = Product.objects.get(title=product_dict['title'])
 		response.set_cookie("product_id", product_id.id)
 	except:
 		pass
