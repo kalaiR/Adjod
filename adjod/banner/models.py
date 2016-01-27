@@ -57,10 +57,13 @@ class PostBanner(models.Model):
         content_types=['image/jpg','image/jpeg', 'image/png','image/gif'], max_upload_size=2097152,
         help_text="Please upload the banner Image with 2MB min and jpg, jpeg, png \
         , gif format only allowed", null=True, blank=True)
-    source = models.CharField(max_length=500, null=True,
+    # source = models.CharField(max_length=500, null=True,
+    #                         blank=True,
+    #                         help_text="Please enter the source for API banners")
+    source = models.TextField(null=True,
                             blank=True,
                             help_text="Please enter the source for API banners")
-    link = models.CharField(max_length=200,
+    link = models.CharField(max_length=200, blank = True,
                             help_text="Please enter website redirect link for the banner")
     bannerplan = models.ForeignKey(BannerPlan,help_text='Choose bannerplan')
     startdate = models.DateTimeField(

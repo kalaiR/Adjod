@@ -627,6 +627,7 @@
          </div><!--subscribe_title-->
          <div class="subscribe_content">
            <p>{% trans "You already used our Free Limited Services. If you want to post more Ads, Please Subscribe your account." %}</p>
+           <p class="account_amount"> $ {{premium_info_account.premium_price}} </p>
            <code></code>
         </div><!--subscribe_content-->
         <form action='{{sandbox_url}}' method='post' name="paypal_account_subscription">
@@ -685,6 +686,7 @@
        </div><!--subscribe_titl-->
         <div class="subscribe_content">
           <p>{{ message }}</p>
+          <p class="account_amount"> $ {{premium_info_account.premium_price}} </p>
            <code></code>
       </div><!--subscribe_content-->
       <form action='{{sandbox_url}}' method='post' name="paypal_account_subscription">

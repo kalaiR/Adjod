@@ -3,7 +3,7 @@
 {% load static from staticfiles %}
 {%block page_swap%}
     <span>
-      <a href="/" class="previous_page2">{% trans "Back to my search results" %}</a>
+      <a href="/search/?q=" class="previous_page2">{% trans "Back to my search results" %}</a>
       {% if 'ads' in path %}
       <i class="fa fa-angle-right right"></i>
       <a href="/search/?q=" class="previous_page1">{{adinfo.category}}</a>
