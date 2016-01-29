@@ -88,8 +88,14 @@
           <div class="field_div form-group upload_image" id="upload_photos_div">
             {% if pic %}
                {% for pics in pic %}
-               <input type='file' id='photos' name='photos' class="poster" value="{{MEDIA_URL}}{{pics}}" />
-                <img id="uploaded_img_{{forloop.counter0}}" class="after_save" alt="" src="{{MEDIA_URL}}{{pics}}" style="width: 92px; height: 92px;">           
+               <input type='file' id="profile_poster" class="poster profile_poster_update" name="photos" value=""/>
+                <img id="clean_img" class="after_save" src="{{MEDIA_URL}}{{pics}}">
+                <span class="upload_image_change">Change</span>
+                <!-- <span class="upload_image_remove">Remove</span> -->
+                <span class="photo_labelError"></span>
+                
+              <!--  <input type='file' id='photos' name='photos' class="poster" value="{{MEDIA_URL}}{{pics}}" />
+                <img id="uploaded_img_{{forloop.counter0}}" class="after_save" alt="" src="{{MEDIA_URL}}{{pics}}" style="width: 92px; height: 92px;">     -->       
               {% endfor %}
             {% else %}
               <input type='file' id='photos' name='photos[]' multiple='multiple' class="poster" value="" />             

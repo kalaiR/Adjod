@@ -510,11 +510,15 @@ def update_success(request, pk):
 			print 'updated_product.locality', updated_product.locality
 			updated_product.country_code = request.COOKIES.get("country_code")
 			# product.photos=request.FILES['photos']
-			if 'photos[]' in request.FILES:
-				photos =request.FILES.getlist('photos[]')
-				print 'photos>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', photos
-				updated_product.photos, updated_product.imagecount, updated_product.thumbnail = create_path_for_photos_thumbanails(photos, updated_product)
-				print 'image_receive', updated_product.photos
+			# if 'photos[]' in request.FILES:
+			# 	photos =request.FILES.getlist('photos[]')
+			# 	print 'photos>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', photos
+			# 	updated_product.photos, updated_product.imagecount, updated_product.thumbnail = create_path_for_photos_thumbanails(photos, updated_product)
+			# 	print 'image_receive', updated_product.photos
+			photos =request.FILES.getlist('photos[]')
+			print 'photos>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', photos
+			updated_product.photos, updated_product.imagecount, updated_product.thumbnail = create_path_for_photos_thumbanails(photos, updated_product)
+			print 'image_receive', updated_product.photos
 			updated_product.video = request.POST.get('video_url')
 			updated_product.created_date  = datetime.datetime.now()
 			updated_product.modified_date  = datetime.datetime.now()
