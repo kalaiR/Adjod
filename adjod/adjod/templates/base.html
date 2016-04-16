@@ -26,7 +26,7 @@
     <script src="{% static "js/jquery-ui-1.10.4.custom.min.js" %}"></script>
     <!-- <script src="{% static "js/bootstrap.min.js" %}"></script> -->
     <script src="{% static "js/jquery.ui.chatbox.js" %}"></script>
-    <script src="{% static "js/jquery.ui.slider.js" %}"></script>
+    <script src="{% static "js/jquery.ui.slider.js" %}"></script> 
     <script src="{% static "js/jquery.switchButton.js" %}"></script>
     <script src="{% static "js/html5shiv.js" %}"></script>
     <script src="{% static "js/less.js" %}"></script>
@@ -120,11 +120,12 @@
                     </select>
               </form>
             </div><!-- custom_select -->
-            <div class="user_mobile  hidden-lg">
+            <!-- newly comment by kalai -- >
+            <!-- <div class="user_mobile hidden-lg">
               <ul class="nav navbar-nav navbar-right">
                   {% if user.is_authenticated %}
                     {% if request.path != '/user_manage/' %}
-                      <li class="user_name start_myads"><a href="/user_manage/">{{request.user.email}}</a></li>
+                      <li class="user_name start_myads"><a href="/user_manage/">My Account</a></li>
                       {% endif %}
                       {% endif %}
                      <li>
@@ -133,7 +134,7 @@
                         {% endif %}
                       </li>
               </ul>
-          </div><!--user_mobile-->
+          </div> --><!--user_mobile-->
           {% endif %}
 
           {% if 'search' in path  %}
@@ -146,7 +147,7 @@
             <div class="detail_page">
                <a href="/"><i class="fa fa-angle-left angle_icon"> <span class="detail_list">List</span></i></a>
               <div class="detail_icon">
-                  <i class="fa fa-heart heart_font"></i>
+                  <!-- <i class="fa fa-heart heart_font"></i> -->
                     <div class="share hidden-lg">
                       <span class="share_dropdown"><i class="fa fa-share-alt share_font"></i></span>
                       <ul class="share_dropdownmenu">
@@ -176,9 +177,11 @@
               <ul class="nav navbar-nav navbar-right">
                   {% if user.is_authenticated %}
                     {% if request.path != '/user_manage/' %}
-                      <li class="user_name start_myads"><a href="/user_manage/">{{request.user.email}}</a></li>
+                      <!-- <li class="user_name start_myads"><a href="/user_manage/">{{request.user.email}}</a></li> -->
+                      <li class="user_name start_myads"><a href="/user_manage/">My Account</a></li>
                     {% else %}
-                      <li class="user_name"><a href="/user_manage/">{{request.user.email}}</a></li>
+                      <!-- <li class="user_name"><a href="/user_manage/">{{request.user.email}}</a></li> -->
+                      <li class="user_name"><a href="/user_manage/">My Account</a></li>
                       <i class="fa fa-caret-down caret_user"></i>
                       <div class="user_dropdown">
                          <ul>
@@ -428,8 +431,17 @@
                         <option>{% trans "English" %}</option>
                         <option>{% trans "Chinese" %}</option>
                </select> -->
-              <button class="footer_signup">{% trans "Sign up" %}</button>
-              <button class="footer_login">{% trans "Login" %}</button>
+               <!-- comment nithya code by kalai -->
+              <!-- <button class="footer_signup">{% trans "Sign up" %}</button>
+              <button class="footer_login">{% trans "Login" %}</button> -->
+              <!-- newly added by kalai -->
+              {% if user.is_authenticated %}
+              <a href="/logout/">{% trans "Logout" %}</a>
+              <a href="/user_manage/">{% trans "My Account" %}</a>
+              {% else %}
+              <a class="footer_signup">{% trans "Sign up" %}</a>
+              <a class="footer_login">{% trans "Login" %}</a>
+              {% endif %}
         </div><!--footer_responsive-->
       {% endif %}
 
@@ -721,7 +733,7 @@
       ========================-->
 <script type="text/javascript">
 $(function(){
-  $('#portfolio').magnificPopup({
+  $('.portfolio').magnificPopup({
     delegate: 'a',
     type: 'image',
     image: {

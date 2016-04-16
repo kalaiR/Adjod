@@ -31,7 +31,11 @@
             <li class="product_ads">
               <div class="product_images1 bg-img">
                 <p class="{% if my_ads.premium_plan_id = 1 %} premium-img1 {% elif my_ads.premium_plan_id = 2 %} premium-img2 {% elif my_ads.premium_plan_id = 3 %} premium-img3 {% endif%} "></p>
+                {% if my_ads.status_isactive == 1 %}
+                <a href="/ads/{{my_ads.id}}/"><img src="{{MEDIA_URL}}{{my_ads.photos|get_photos}}"></a>
+                {% else %}
                 <a><img src="{{MEDIA_URL}}{{my_ads.photos|get_photos}}"></a>
+                {% endif %}
                 <div class="count_holder1 visible-lg">
                       <span>{{my_ads.imagecount}}</span>
                       <i class="fa fa-camera"></i>
@@ -68,9 +72,13 @@
                </div><!--ads_name3-->
               <div class="ads_name3 visible-xs">
                   <!-- <a href="#" class="spans2 hidden-xs">{% trans "Action" %}</a> -->
-                  <span class="action"><a href="/ads/{{my_ads.id}}" class="action view_action"><i class="fa fa-eye"></i></a></span>
+                  <span class="{%if my_ads.status_isactive == 1 %}action view_action{%else%}disable_post{%endif%}"><a href="{%if my_ads.status_isactive == 1 %}/ads/{{my_ads.id}}{%else%}#{%endif%}" class="action view_action"><i class="fa fa-eye"></i></a></span>
+                  <span class="edit_action disable_post"><a href="/edit_postad_detail/{{my_ads.id}}" id="for_edit" class="action remove_class"><i class="fa fa-pencil"></i></a></span>
+                  <span class="action delete_action disable_post"><a href="#" value="{{my_ads.id}}" class="action delete_action remove_class"><i class="fa fa-trash-o"></i></a></span>
+                  
+                  <!-- <span class="action"><a href="/ads/{{my_ads.id}}" class="action view_action"><i class="fa fa-eye"></i></a></span>
                   <span class="action"><a href="/edit_postad_detail/{{my_ads.id}}" class="action edit_action"><i class="fa fa-pencil"></i></a></span>
-                  <span class="action"><a href="#" value="{{my_ads.id}}" class="action delete_action"><i class="fa fa-trash-o"></i></a></span>
+                  <span class="action"><a href="#" value="{{my_ads.id}}" class="action delete_action"><i class="fa fa-trash-o"></i></a></span> -->
               </div><!--ads_name3-->
           </li><!--product_ads-->
         </ul><!--product1-->

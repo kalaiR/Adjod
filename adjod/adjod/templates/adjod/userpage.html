@@ -54,7 +54,10 @@
                               <a href="/search/?q=&category={{categories.id}}" class="">
                                 <img src="{{ MEDIA_URL }}{{categories.icon}}"></a>
                                 <div class="cate_name">
-                                <a href="/search/?q=&category={{categories.id}}" class=""><h4>{% trans categories.name %}</h4><i class="fa fa-chevron-right arrow_right"></i></a>
+                                <a href="/search/?q=&category={{categories.id}}" class="">
+                                <h4>{% trans categories.name %}</h4>
+                                <!-- <i class="fa fa-chevron-right arrow_right"></i> -->
+                                </a>
                                 <span class="brand">{{categories.category_type}}
                                 </span>
                                 </div>
@@ -322,7 +325,7 @@
                    <div class="mobile_product_image">
                    {% endif %}
                     <p class="{% if recentads.premium_plan_id = None %} premium-img {% elif recentads.premium_plan_id = 1 %} premium-img1_mobile {% elif recentads.premium_plan_id = 2 %} premium-img2_mobile {% elif recentads.premium_plan_id = 3 %} premium-img3_mobile {% endif%} "></p>
-                    <a href="" class="">
+                    <a href="{% url product_detail recentads.id %}">
                       {% if recentads.photos = '' %}
                       <img src="{{MEDIA_URL}}img/bg-img2.png">
                       {% else %}

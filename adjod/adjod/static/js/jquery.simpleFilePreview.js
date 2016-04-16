@@ -87,13 +87,13 @@
 
         // on click of the actual input (which is invisible), check to see if
         // we need to clear the input (which is the default action for this plugin)
-        // .on('click', '.simpleFilePreview input.simpleFilePreview_formInput', function(e) {
-        //   if ($(this).val().length) {
-        //     e.preventDefault();
-        //     $(this).parents('.simpleFilePreview').find('.simpleFilePreview_preview').click();
-        //     return false;
-        //   }
-        // })
+        .on('click', '.simpleFilePreview input.simpleFilePreview_formInput', function(e) {
+          if ($(this).val().length) {
+            e.preventDefault();
+            $(this).parents('.simpleFilePreview').find('.simpleFilePreview_preview').click();
+            return false;
+          }
+        })
 
         // when file input changes, get file contents and show preview (if it's an image)
         .on('change', '.simpleFilePreview input.simpleFilePreview_formInput', function(e) {

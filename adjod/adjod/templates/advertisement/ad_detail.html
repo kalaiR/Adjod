@@ -28,7 +28,7 @@
               <div class="product-image visible-lg">
               <p class="{% if adinfo.premium_plan_id = 4 %} tag_img1 {% elif adinfo.premium_plan_id = 3 %} tag_img2 {% elif adinfo.premium_plan_id = 2 %} tag_img3 {% endif%} "></p>
               <div class="upperimg">
-                  <ul id="portfolio" class="clearfix">
+                  <ul class="portfolio" class="clearfix">
                     {%for photo in photos %}
                     <!-- <div class="upperimg lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
                     <li>
@@ -66,32 +66,32 @@
               </div><!--product-image visible-lg-->
     </div> <!-- second-column -->
     <div class="product-image hidden-lg">
-                   <div class="upperimg">
-                  <ul id="portfolio" class="clearfix">
-                    {%for photo in photos %}
-                    <!-- <div class="upperimg lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
-                    <li>
-                      {% if largephoto = '' %}
-                        <a href="{{STATIC_URL}}img/no_imageonly.png"><img  src="{{STATIC_URL}}img/no_imageonly.png" class="dn"></a>
-                      {% else %}
-                        <a href="{{ MEDIA_URL }}{{ photo }}"><img  src="{{ MEDIA_URL }}{{ photo }}" class="dn"></a>
-                      {% endif %}
-                    </li>
-                    {%endfor%}
-                  </ul>
-              </div><!--upperimg-->
+                   <div class="upperimg upperimg_mob">
+                    <ul id="portfolio" class="clearfix">
+                      {%for photo in photos %}
+                      <!-- <div class="upperimg lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
+                      <li>
+                        {% if largephoto = '' %}
+                          <a href="{{STATIC_URL}}img/no_imageonly.png"><img src="{{STATIC_URL}}img/no_imageonly.png"></a>
+                        {% else %}
+                          <a href="{{ MEDIA_URL }}{{ photo }}"><img  src="{{ MEDIA_URL }}{{ photo }}"></a>
+                        {% endif %}
+                      </li>
+                      {%endfor%}
+                    </ul>
+                  </div><!--upperimg-->
                    <div class="thumb_holder hidden-xs">
-                {%for thumbnail in thumbnails %}
-                  <!-- <div class="thumbs nb col-md-2 lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
-                   <div class="thumbs nb col-md-2">
-                     {% if thumbnail = '' %}
-                     <img src="{{STATIC_URL}}img/no_imageonly.png" class="dn">
-                     {% else %}
-                    <img src="{{ MEDIA_URL }}{{ thumbnail }}" class="dn">
-                    {% endif %}
-                  </div><!--thumbs-->
-                {%endfor%}
-              </div><!-- thumb_holder -->
+                    {%for thumbnail in thumbnails %}
+                      <!-- <div class="thumbs nb col-md-2 lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
+                       <div class="thumbs nb col-md-2">
+                         {% if thumbnail = '' %}
+                         <img src="{{STATIC_URL}}img/no_imageonly.png">
+                         {% else %}
+                        <img src="{{ MEDIA_URL }}{{ thumbnail }}">
+                        {% endif %}
+                      </div><!--thumbs-->
+                    {%endfor%}
+                  </div><!-- thumb_holder -->
 
                     <!-- <div class=""></div> -->
                     <!-- <div class="thumbnails1">
@@ -364,7 +364,7 @@
                 <li class="product_mobile col-md-4">
                   <div class="product_imgmbl">
                     {% endif %}
-                      <a href="" class="">
+                      <a href="/ads/{{related_products.object.id}}/" class="">
                         {% if related_products.object.photos = '' %}
                         <img src="{{STATIC_URL}}img/bg-img2.png">
                         {% else %}
@@ -373,7 +373,7 @@
                         <div class="details">
                             <div class="product_name1_mobile">
                               <div class="tran_bg">
-                                <a href="" class="spans product_hover"> {{related_products.object.title}}</a>
+                                <a href="/ads/{{related_products.object.id}}/" class="spans product_hover"> {{related_products.object.title}}</a>
                                   <div class="additional_details_mobile">
                                     <h3>$ {{related_products.object.price}}</h3>
                                     <a href="" class="btn btn-default contact_button visible-lg">Contact</a>

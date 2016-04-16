@@ -318,6 +318,11 @@ $( document ).ready(function() {
         $(this).center();
         $('.upperimg img:not(:first)').hide();
     });
+    $('.upperimg_mob img').load(function(){
+        $(this).center();
+        // $('.upperimg img:first').show();
+        // $('.upperimg img:not(:first)').hide();
+    });
     $('.thumbs img').load(function(){
         $(this).center();
     });
