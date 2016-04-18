@@ -79,7 +79,7 @@
 
         // open file browser dialog on click of styled "button"
         .on('click', '.simpleFilePreview_input', function(e) {
-          alert("click");
+          // alert("click");
           $(this).parents('.simpleFilePreview').find('input.simpleFilePreview_formInput').trigger('click');
           e.preventDefault();
           return false;
@@ -115,7 +115,9 @@
           // if it's a multi-select, add another selection box to the end
           // NOTE: this is done first since we clone the previous input
           // NOTE: the second check is there because IE 8 fires multiple change events for no good reason
+
           if (p.attr('data-sfpallowmultiple') == 1 && !p.find('.simpleFilePreview_preview').length) {
+            // alert("if");
             var newId = $.simpleFilePreview.uid++;
             var newN = p.clone(true).attr('id', "simpleFilePreview_"+newId);
             newN.find('input.simpleFilePreview_formInput').attr('id', newN.find('input.simpleFilePreview_formInput').attr('id')+'_'+newId).val('');
@@ -188,6 +190,12 @@
           $('.photo_labelError').text('File size should be less than 1 MB').show();
           var p = $(this).parents('.simpleFilePreview');
 
+          //newly added by kalai on apr_16
+          //start
+          $('.simpleFilePreview:last').append('<img class="simpleFilePreview_preview" style="display:none;">');
+          // $('.simpleFilePreview:last').attr('data-sfpallowmultiple','0');
+          //end
+
           // if it's a multi-select, add another selection box to the end
           // NOTE: this is done first since we clone the previous input
           // NOTE: the second check is there because IE 8 fires multiple change events for no good reason
@@ -227,6 +235,7 @@
           var p = $(this).parents('.simpleFilePreview');
 
           if (p.attr('data-sfpallowmultiple') == 1 && p.siblings('.simpleFilePreview').length) {
+          // if (p.attr('data-sfpallowmultiple') == 1 && p.siblings('.simpleFilePreview').length && !p.parents('.simpleFilePreview_multiUI').siblings().hasClass('error_input_field')) {
             if (p.hasClass('simpleFilePreview_existing')) {
               p.parent().append("<input type='hidden' id='"+p.attr('id')+"_remove' name='removeFiles[]' value='"+p.attr('data-sfprid')+"' />");
             }

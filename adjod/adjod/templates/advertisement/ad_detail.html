@@ -28,7 +28,7 @@
               <div class="product-image visible-lg">
               <p class="{% if adinfo.premium_plan_id = 4 %} tag_img1 {% elif adinfo.premium_plan_id = 3 %} tag_img2 {% elif adinfo.premium_plan_id = 2 %} tag_img3 {% endif%} "></p>
               <div class="upperimg">
-                  <ul class="portfolio" class="clearfix">
+                  <ul class="portfolio clearfix">
                     {%for photo in photos %}
                     <!-- <div class="upperimg lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
                     <li>
@@ -67,7 +67,7 @@
     </div> <!-- second-column -->
     <div class="product-image hidden-lg">
                    <div class="upperimg upperimg_mob">
-                    <ul id="portfolio" class="clearfix">
+                    <ul class="portfolio clearfix">
                       {%for photo in photos %}
                       <!-- <div class="upperimg lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
                       <li>
@@ -80,7 +80,8 @@
                       {%endfor%}
                     </ul>
                   </div><!--upperimg-->
-                   <div class="thumb_holder hidden-xs">
+                   <!-- <div class="thumb_holder hidden-xs"> -->
+                   <div class="thumb_holder">
                     {%for thumbnail in thumbnails %}
                       <!-- <div class="thumbs nb col-md-2 lightbox" data-big="{{ MEDIA_URL }}{{ photo }}"> -->
                        <div class="thumbs nb col-md-2">
