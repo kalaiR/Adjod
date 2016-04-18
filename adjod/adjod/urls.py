@@ -150,5 +150,6 @@ urlpatterns = patterns('',
     url(r'^(?i)handler404/$', 'adjod.views.custom_404', name='custom_404'),
     url(r'^(?i)get_banner_height_width/$', 'banner.views.get_banner_height_width', name='get_banner_height_width'),
 
+    url(r'^(?i)autocomplete_product_search/$', 'advertisement.views.autocomplete_product_search', name='autocomplete_product_search'),
 
 )+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

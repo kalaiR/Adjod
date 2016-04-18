@@ -454,3 +454,24 @@ def get_user_products(request):
 	product_id = Product.objects.filter(userprofile=userprofile_id.id)
 	product = [productid.id for productid in product_id]
 	return JSONResponse(product)
+
+# /*  Auto Complete for Category based Brands */
+def autocomplete_product_search(request):
+  print "autocomplete_product_search"
+  from collections import OrderedDict
+  val = OrderedDict()
+  results = []
+  keyterm = request.GET.get('term')
+  if keyterm:
+	unsort_dict = {}
+	product_searchs = SearchQuerySet().filter(content=keyterm)
+	# print 'lead_keywords',lead_keywords
+	for product_search in product_searchs:
+	  print "product_search",product_search
+	  keyword_strip = product_search.title.strip()
+	  keyword_title = keyword_strip.title()
+	  unsort_dict[keyword_title] = {'id':product_search.id, 'label':keyword_title, 'value':keyword_title}
+	sorted_dic = OrderedDict(sorted(unsort_dict.iteritems(), key=lambda v: v[0]))
+	for k, v in sorted_dic.iteritems():
+	  results.append(v)
+  return HttpResponse(simplejson.dumps(results), mimetype='application/json')
