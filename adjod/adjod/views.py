@@ -137,6 +137,8 @@ def user_login(request):
 			else:
 				user = User.objects.get(email=username)
 			user.backend='django.contrib.auth.backends.ModelBackend'
+			if user.is_superuser:
+				return HttpResponseRedirect("/")
 			try:
 				if user.check_password(password):
 					print user

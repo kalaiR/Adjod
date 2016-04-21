@@ -23,6 +23,10 @@ $(function() {
         }
     });
 
+    $("#q").autocomplete({
+        source: "/autocomplete_product_search",
+        minLength: 2,
+    });
 });
 
 function perform_search(){
