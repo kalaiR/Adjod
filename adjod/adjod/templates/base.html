@@ -145,7 +145,7 @@
           {% endif %}
           {% if 'ads' in path  %}
             <div class="detail_page">
-               <a href="/"><i class="fa fa-angle-left angle_icon"> <span class="detail_list">List</span></i></a>
+               <a href="/"><i class="fa fa-angle-left angle_icon"> <span class="detail_list">Details</span></i></a>
               <div class="detail_icon">
                   <!-- <i class="fa fa-heart heart_font"></i> -->
                     <div class="share hidden-lg">
@@ -436,8 +436,8 @@
               <button class="footer_login">{% trans "Login" %}</button> -->
               <!-- newly added by kalai -->
               {% if user.is_authenticated %}
-              <a href="/logout/">{% trans "Logout" %}</a>
-              <a href="/user_manage/">{% trans "My Account" %}</a>
+              <a class="footer_login" href="/logout/">{% trans "Logout" %}</a>
+              <a class="footer_account" href="/user_manage/">{% trans "My Account" %}</a>
               {% else %}
               <a class="footer_signup">{% trans "Sign up" %}</a>
               <a class="footer_login">{% trans "Login" %}</a>
