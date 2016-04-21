@@ -24,23 +24,9 @@ $(function() {
     });
 
     $("#q").autocomplete({
-        source : "/autocomplete_product_search",
-        select : function(event, ui) {
-            $("#q").val(ui.item.value);
-        },
-
-        close : function(event, ui) {
-            valKey = $("#q").val();
-            $("#q").val(valKey);
-            if ($("#q").val().length > 15) {
-                valKey = jQuery.trim(valKey).substring(0, 15).trim(this) + "...";
-            } else {
-                valKey = $("#q").val();
-            }
-            $("#q").val(valKey);
-        }
+        source: "/autocomplete_product_search",
+        minLength: 2,
     });
-
 });
 
 function perform_search(){

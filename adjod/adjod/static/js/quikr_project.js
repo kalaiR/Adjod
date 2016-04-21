@@ -548,6 +548,8 @@ $( document ).ready(function() {
         $('.popup_fade').hide();
         $('.sign_up_div,.sign_in_div,.forgot_div,.reset_div, .close_btn, .popup_close,.popup_close1,.popup_close2,.choose_category_div,.choose_category_div_mobile,.subscription_popup,.urgentad_popup,.premium_ad_popup,.premium_urgent_ad_popup').hide();
         document.body.style.overflow = 'auto';
+        $('.labelError,.signup_labelError').hide();
+        $('.confirm').prop('checked', false);
     });
     // Forgot Password Popup
     $('.forgot_act').click(function(){
@@ -1195,3 +1197,14 @@ $( document ).ready(function() {
     $('.view_icon').show();
    });
 });
+
+// executes when complete page is fully loaded, including all frames, objects and images
+// $(window).load(function() {
+//   $('.edit_action').each(function(){
+//     if($(this).hasClass('disable_post')){
+//       // return false;
+//       // $(this).onclick = function() { return false; }
+//       $(this).css({'display':'none'});
+//     }
+//   });  
+// });

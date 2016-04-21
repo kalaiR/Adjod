@@ -134,38 +134,41 @@ def brand_for_subcategory(request):
 # this is for pjax testing
 # @pjax("pjax.html")
 def product_detail(request, pk):
-	adinfo=Product.objects.get(pk=int(pk))
-	large=str(adinfo.photos).split(',')
-	largephoto=large[0]
-	photos=[n for n in str(adinfo.photos).split(',')]
-	# photos = photos[::-1]
-	print "photos",photos
-	thumbnails=[n for n in str(adinfo.photos).split(',')]
-	# For reverse the list of data
-	# photos = photos[::-1]
-	# thumbnails=[n for n in str(adinfo.thumbnail).split(',')]
-	# print "thumbnails", thumbnails
-	# Comment For Future Reference
-	# results = SearchQuerySet().all()
-	# sqs = SearchQuerySet().filter(content=adinfo.title)
-	# print "sqs",sqs
-	# sqsresults = [ r.pk for r in sqs ]
-	# print "sqsresults", sqsresults
-	# recommendresults = Product.objects.exclude(pk=int(pk)).filter(pk__in=sqsresults)
-	# print "recommendresults", recommendresults
-	# for recommendresult in recommendresults:
-	#     print "searchresults:", recommendresult
-	if request.GET.get('ad') == "active":
+	try:
 		adinfo=Product.objects.get(pk=int(pk))
-		adinfo.status_isactive = True
-		adinfo.save()
-	related_product=Product.get_related(adinfo)
-	print "related_product", related_product
-	update_product_viewed_count(request, pk)
-	product_viewed_count = ProductStatistic.objects.filter(product=int(pk)).count()
-	ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto,'related_product':related_product,'product_viewed_count':product_viewed_count,'thumbnails':thumbnails}
-	return render_to_response('advertisement/ad_detail.html',ctx, context_instance=RequestContext(request))
-	# return TemplateResponse(request, 'advertisement/ad_detail.html', ctx)
+		large=str(adinfo.photos).split(',')
+		largephoto=large[0]
+		photos=[n for n in str(adinfo.photos).split(',')]
+		# photos = photos[::-1]
+		print "photos",photos
+		thumbnails=[n for n in str(adinfo.photos).split(',')]
+		# For reverse the list of data
+		# photos = photos[::-1]
+		# thumbnails=[n for n in str(adinfo.thumbnail).split(',')]
+		# print "thumbnails", thumbnails
+		# Comment For Future Reference
+		# results = SearchQuerySet().all()
+		# sqs = SearchQuerySet().filter(content=adinfo.title)
+		# print "sqs",sqs
+		# sqsresults = [ r.pk for r in sqs ]
+		# print "sqsresults", sqsresults
+		# recommendresults = Product.objects.exclude(pk=int(pk)).filter(pk__in=sqsresults)
+		# print "recommendresults", recommendresults
+		# for recommendresult in recommendresults:
+		#     print "searchresults:", recommendresult
+		if request.GET.get('ad') == "active":
+			adinfo=Product.objects.get(pk=int(pk))
+			adinfo.status_isactive = True
+			adinfo.save()
+		related_product=Product.get_related(adinfo)
+		print "related_product", related_product
+		update_product_viewed_count(request, pk)
+		product_viewed_count = ProductStatistic.objects.filter(product=int(pk)).count()
+		ctx={'adinfo':adinfo,'photos':photos,'largephoto':largephoto,'related_product':related_product,'product_viewed_count':product_viewed_count,'thumbnails':thumbnails}
+		return render_to_response('advertisement/ad_detail.html',ctx, context_instance=RequestContext(request))
+		# return TemplateResponse(request, 'advertisement/ad_detail.html', ctx)
+	except:
+		return render_to_response('404.html', context_instance=RequestContext(request))
 
 @pjax("pjax.html")
 def product_form(request, name=None, subname=None):
@@ -455,23 +458,21 @@ def get_user_products(request):
 	product = [productid.id for productid in product_id]
 	return JSONResponse(product)
 
-# /*  Auto Complete for Category based Brands */
 def autocomplete_product_search(request):
-  print "autocomplete_product_search"
-  from collections import OrderedDict
-  val = OrderedDict()
-  results = []
-  keyterm = request.GET.get('term')
-  if keyterm:
-	unsort_dict = {}
-	product_searchs = SearchQuerySet().filter(content=keyterm)
-	# print 'lead_keywords',lead_keywords
-	for product_search in product_searchs:
-	  print "product_search",product_search
-	  keyword_strip = product_search.title.strip()
-	  keyword_title = keyword_strip.title()
-	  unsort_dict[keyword_title] = {'id':product_search.id, 'label':keyword_title, 'value':keyword_title}
-	sorted_dic = OrderedDict(sorted(unsort_dict.iteritems(), key=lambda v: v[0]))
-	for k, v in sorted_dic.iteritems():
-	  results.append(v)
-  return HttpResponse(simplejson.dumps(results), mimetype='application/json')
+    if request.is_ajax():
+        q = request.GET.get('term', '')
+        # product_searchs = SearchQuerySet().filter(content__like=q)
+        product_searchs = Product.objects.filter(title__contains=q)
+        results = []
+        for product_search in product_searchs:
+            search_json = {}
+            search_json['id'] = product_search.id
+            search_json['label'] = product_search.title
+            search_json['value'] = product_search.title
+            results.append(search_json)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+

@@ -106,6 +106,7 @@
           if((e == null)||($.inArray(e.toLowerCase(), ['gif','png','jpg','jpeg']) == -1)){
              $('.photo_labelError').addClass('error_input_field'); 
              $('.photo_labelError').text('Invalid File Format. We allow only gif, png, jpg, jpeg').show();
+             $('.simpleFilePreview:last').append('<img class="simpleFilePreview_preview" style="display:none;">');
           }
           else{
             $('.photo_labelError').removeClass('error_input_field'); 
@@ -233,8 +234,7 @@
         // remove file when preview/icon is clicked
         .on('click', '.simpleFilePreview_preview', function() {
           var p = $(this).parents('.simpleFilePreview');
-
-          if (p.attr('data-sfpallowmultiple') == 1 && p.siblings('.simpleFilePreview').length) {
+          if (p.attr('data-sfpallowmultiple') == 1 && p.siblings('.simpleFilePreview').length && !p.parents('#upload_photos_div').children().hasClass('error_input_field')) {
           // if (p.attr('data-sfpallowmultiple') == 1 && p.siblings('.simpleFilePreview').length && !p.parents('.simpleFilePreview_multiUI').siblings().hasClass('error_input_field')) {
             if (p.hasClass('simpleFilePreview_existing')) {
               p.parent().append("<input type='hidden' id='"+p.attr('id')+"_remove' name='removeFiles[]' value='"+p.attr('data-sfprid')+"' />");
